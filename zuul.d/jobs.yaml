@@ -1,0 +1,42 @@
+---
+- semaphore:
+    name: sf-infra
+    max: 1
+
+- job:
+    name: sf-infra-base
+    abstract: true
+    allowed-projects:
+      - software-factory/sf-infra
+    semaphore: sf-infra
+    nodeset:
+      # All infra playbook run from the bridge
+      nodes: []
+
+- job:
+    name: sf-infra-create-bridge
+    parent: sf-infra-base
+    description: Deploy the bridge
+    run: playbooks/create-bridge.yaml
+    files:
+      - ^playbooks/create-bridge.yaml$
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+    nodeset:
+      # This special job needs to run from a container
+      nodes:
+        - name: container
+          label: runc-centos-7
+
+- project:
+    check:
+      jobs:
+        - linters:
+            vars:
+              linters:
+                - flake8
+                - yamllint
+    gate:
+      jobs:
+        - sf-infra-create-bridge

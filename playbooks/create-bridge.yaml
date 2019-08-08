@@ -1,0 +1,49 @@
+---
+# This is the bootstrap playbook, run it once to create the bridge
+- hosts: container
+  tasks:
+    - name: Create config directory
+      file:
+        path: "~/.config/openstack"
+        recurse: true
+        state: directory
+
+    - name: Download sf-infra public key
+      get_url:
+        url: "https://softwarefactory-project.io/zuul/api/tenant/local/project-ssh-key/software-factory/sf-infra.pub"
+        dest: "~/infra.pub"
+        mode: "0440"
+      register: _infra_key
+
+    - name: Copy the clouds.yaml
+      copy:
+        content: "{{ cloud.yamlFile }}"
+        dest: "~/.config/openstack/clouds.yaml"
+        mode: "0600"
+
+    - name: Ensure sf-infra key pair exists
+      os_keypair:
+        cloud: "vexxhost-rdo"
+        auth:
+          project_name: "infra-sf"
+        state: "present"
+        name: "sf-infra-key"
+        public_key_file: "{{ _infra_key.dest }}"
+
+    - name: Create the bridge
+      os_server:
+        cloud: "vexxhost-rdo"
+        auth:
+          project_name: "infra-sf"
+        state: "present"
+        name: "bridge.softwarefactory-project.io"
+        image: "fedora-30"
+        key_name: "sf-infra-key"
+        flavor: "v1-standard-2"
+        network: public
+        security_groups: default
+        boot_from_volume: yes
+        volume_size: 20
+
+    - name: Remove the clouds
+      shell: "shred ~/.config/openstack/clouds.yaml"
