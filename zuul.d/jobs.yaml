@@ -29,6 +29,15 @@
         - name: container
           label: runc-centos-7
 
+- job:
+    name: sf-infra-configure-hosts
+    parent: sf-infra-base
+    description: Configure the hosts
+    run: playbooks/configure-hosts.yaml
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+
 - project:
     check:
       jobs:
@@ -40,3 +49,4 @@
     gate:
       jobs:
         - sf-infra-create-bridge
+        - sf-infra-configure-hosts

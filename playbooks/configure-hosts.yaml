@@ -1,0 +1,83 @@
+---
+# This is the main playbook that trampoline on the bridge to run the site.yaml
+- hosts: localhost
+  vars:
+    bridge_name: bridge.softwarefactory-project.io
+    bridge_ip: 38.102.83.42
+    bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFTwCz4Z1F2g5asCvSJGSAuhb3lIno0XUkJcQWd+eMRT"
+  tasks:
+    - add_host:
+        name: "{{ bridge_name }}"
+        ansible_python_interpreter: python3
+        ansible_host: "{{ bridge_ip }}"
+        ansible_user: fedora
+        groups: bridge
+
+    - known_hosts:
+        name: "{{ bridge_name }}"
+        key: "{{ bridge_key }}"
+
+- hosts: bridge
+  vars:
+    bridge_packages:
+      - ansible
+      - openstacksdk
+      - vim-enhanced
+      - emacs
+      - tmux
+      - wget
+  tasks:
+    - block:
+        - name: Synchronize src repos to workspace directory.
+          synchronize:
+            dest: "~/src/"
+            src: "{{ zuul.executor.src_root }}/"
+          no_log: true
+
+        - name: Create config directory
+          file:
+            path: "~/.config/openstack"
+            recurse: true
+            state: directory
+
+        - name: Copy the clouds.yaml
+          copy:
+            content: "{{ cloud.yamlFile }}"
+            dest: "~/.config/openstack/clouds.yaml"
+            mode: "0400"
+
+        - name: Symlink ansible configuration file
+          file:
+            src: "~/{{ zuul.project.src_dir }}/ansible/ansible.cfg"
+            dest: ~/.ansible.cfg
+            state: link
+
+        - name: Ensure packages are installed
+          become: yes
+          package:
+            name: "{{ bridge_packages }}"
+            state: present
+
+        - name: Run configuration playbook
+          args:
+            chdir: "~/{{ zuul.project.src_dir }}"
+          command: "ansible-playbook -v playbooks/site.yaml"
+
+      # always:
+      #   - name: Ensure ara-report directory exists on executor
+      #     delegate_to: localhost
+      #     file:
+      #       path: "{{ zuul.executor.log_root }}/bridge/ara-report"
+      #       state: directory
+      #       recurse: true
+
+      #   - name: Synchronize bridge directory back to zuul
+      #     synchronize:
+      #       src: "~/.ara/ansible.sqlite"
+      #       dest: "{{ zuul.executor.log_root }}/bridge/ara-report/ansible.sqlite"
+      #       mode: pull
+
+      #   - name: Delete ara ansible.sqlite database
+      #     file:
+      #       path: ~/.ara/ansible.sqlite
+      #       state: absent
