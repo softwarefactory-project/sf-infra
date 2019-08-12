@@ -1,0 +1,7 @@
+# This playbook is running from the bridge (nested in zuul job)
+---
+- hosts: bridge
+  gather_facts: no
+  tasks:
+    - debug:
+        msg: "Creating tenant resources..."

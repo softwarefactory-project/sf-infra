@@ -44,6 +44,7 @@
             content: "{{ cloud.yamlFile }}"
             dest: "~/.config/openstack/clouds.yaml"
             mode: "0400"
+          when: cloud is defined
 
         - name: Symlink ansible configuration file
           file:
@@ -60,7 +61,7 @@
         - name: Run configuration playbook
           args:
             chdir: "~/{{ zuul.project.src_dir }}"
-          command: "ansible-playbook -v playbooks/site.yaml"
+          command: "ansible-playbook -v playbooks/{{ sf_infra_play_name }}.yaml"
 
       # always:
       #   - name: Ensure ara-report directory exists on executor

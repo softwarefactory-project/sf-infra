@@ -30,10 +30,41 @@
           label: runc-centos-7
 
 - job:
+    name: sf-infra-configure-tenants
+    parent: sf-infra-base
+    description: Create the tenant resources such as network and secgroup
+    dependencies:
+      - name: sf-infra-create-bridge
+        soft: true
+    files:
+      - ^playbooks/configure-tenants.yaml$
+    run: playbooks/configure-hosts.yaml
+    vars:
+      sf_infra_play_name: configure-tenants
+
+- job:
+    name: sf-infra-create-hosts
+    parent: sf-infra-base
+    description: Create the hosts
+    dependencies:
+      - name: sf-infra-configure-tenants
+        soft: true
+    files:
+      - ^playbooks/create-hosts.yaml$
+    run: playbooks/configure-hosts.yaml
+    vars:
+      sf_infra_play_name: create-hosts
+
+- job:
     name: sf-infra-configure-hosts
     parent: sf-infra-base
     description: Configure the hosts
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
     run: playbooks/configure-hosts.yaml
+    vars:
+      sf_infra_play_name: site
     secrets:
       - name: cloud
         secret: vexxhost-cloud
@@ -49,4 +80,6 @@
     gate:
       jobs:
         - sf-infra-create-bridge
+        - sf-infra-create-hosts
+        - sf-infra-configure-tenants
         - sf-infra-configure-hosts
