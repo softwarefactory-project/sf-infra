@@ -1,0 +1,36 @@
+- name: Setup admin group
+  group:
+    name: "{{ admin_group }}"
+    state: "present"
+
+- name: Setup additional groups
+  group:
+    name: "{{ item }}"
+    state: "present"
+  loop: "{{ groups }}"
+
+- name: Setup users
+  user:
+    name: "{{ item.value.name }}"
+    append: "yes"
+    groups: "{{ item.value.groups }}"
+    state: "{{ item.value.state | default('present') }}"
+  with_dict: "{{ users }}"
+
+- name: Setup authorized keys for users
+  authorized_key:
+    user: "{{ item.0.key }}"
+    key: "{{ item.1 }}"
+  when: item.0.value.state | default('present') != 'absent'
+  loop: "{{ q('subelements', q('dict', users), 'value.ssh_keys') }}"
+
+- name: Setup passwordless sudo for admin users
+  lineinfile:
+    dest: "/etc/sudoers.d/91-admin"
+    create: "yes"
+    mode: "0440"
+    owner: "root"
+    group: "root"
+    regexp: "^%{{ admin_group }}"
+    line: "%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"

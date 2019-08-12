@@ -1,5 +1,4 @@
 ---
-- hosts: localhost
-  tasks:
-    - debug:
-        msg: "Hello bridge"
+- hosts: bridge
+  roles:
+    - bridge-accounts

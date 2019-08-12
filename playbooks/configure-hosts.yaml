@@ -21,7 +21,7 @@
   vars:
     bridge_packages:
       - ansible
-      - openstacksdk
+      - python3-openstacksdk
       - vim-enhanced
       - emacs
       - tmux
