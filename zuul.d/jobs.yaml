@@ -38,6 +38,9 @@
         soft: true
     files:
       - ^playbooks/configure-tenants.yaml$
+      - ^playbooks/vars/.*
+      - ^tasks/configure-tenant.yaml$
+      - ^roles/manage-networking/.*
     run: playbooks/configure-hosts.yaml
     vars:
       sf_infra_play_name: configure-tenants

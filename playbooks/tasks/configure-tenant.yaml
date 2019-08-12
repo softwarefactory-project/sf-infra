@@ -1,0 +1,13 @@
+- module_defaults:
+    group/os:
+      auth:
+        project_name: "{{ tenant }}"
+  block:
+    - name: Include tenant configuration
+      include_vars:
+        file: "{{ tenant }}.yaml"
+        name: tenant_config
+
+    - name: Configure tenant networks
+      include_role:
+        name: manage-networking

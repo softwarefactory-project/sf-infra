@@ -1,0 +1,34 @@
+- name: Create networks
+  os_network:
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+  loop: "{{ tenant_config.networks }}"
+
+- name: Create subnets
+  os_subnet:
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+    network_name: "{{ item.network_name }}"
+    cidr: "{{ item.cidr }}"
+    dns_nameservers: "{{ item.dns_nameservers }}"
+  loop: "{{ tenant_config.subnets }}"
+
+- name: Create routers
+  os_router:
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+    network: "{{ item.network }}"
+    interfaces: "{{ item.interfaces }}"
+  loop: "{{ tenant_config.routers }}"
+
+- name: Create security groups
+  os_security_group:
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+  loop: "{{ tenant_config.security_groups }}"
+
+- name: Create security group rules
+  include_tasks: security_group_rule.yaml
+  loop: "{{ tenant_config.security_groups }}"
+  loop_control:
+    loop_var: security_group

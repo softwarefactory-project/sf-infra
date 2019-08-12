@@ -2,6 +2,14 @@
 ---
 - hosts: bridge
   gather_facts: no
+  module_defaults:
+    group/os:
+      cloud: vexxhost-rdo
+  vars:
+    tenants:
+      - infra-rdo
   tasks:
-    - debug:
-        msg: "Creating tenant resources..."
+    - include_tasks: tasks/configure-tenant.yaml
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant
