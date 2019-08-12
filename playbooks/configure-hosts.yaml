@@ -23,7 +23,6 @@
       - ansible
       - python3-openstacksdk
       - vim-enhanced
-      - emacs
       - tmux
       - wget
   tasks:
