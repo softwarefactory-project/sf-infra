@@ -7,7 +7,7 @@
   group:
     name: "{{ item }}"
     state: "present"
-  loop: "{{ groups }}"
+  loop: "{{ bridge_groups }}"
 
 - name: Setup users
   user:
@@ -15,14 +15,14 @@
     append: "yes"
     groups: "{{ item.value.groups }}"
     state: "{{ item.value.state | default('present') }}"
-  with_dict: "{{ users }}"
+  with_dict: "{{ bridge_users }}"
 
 - name: Setup authorized keys for users
   authorized_key:
     user: "{{ item.0.key }}"
     key: "{{ item.1 }}"
   when: item.0.value.state | default('present') != 'absent'
-  loop: "{{ q('subelements', q('dict', users), 'value.ssh_keys') }}"
+  loop: "{{ q('subelements', q('dict', bridge_users), 'value.ssh_keys') }}"
 
 - name: Setup passwordless sudo for admin users
   lineinfile:

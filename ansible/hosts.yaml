@@ -5,3 +5,8 @@ all:
       ansible_host: 38.102.83.42
       ansible_user: fedora
       ansible_connection: local
+
+  children:
+    bridge:
+      hosts:
+        bridge.softwarefactory-project.io:

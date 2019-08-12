@@ -1,6 +1,6 @@
 admin_group: "sf-admin"
-groups: []
-users:
+bridge_groups: []
+bridge_users:
   dmsimard:
     name: "dmsimard"
     groups:
