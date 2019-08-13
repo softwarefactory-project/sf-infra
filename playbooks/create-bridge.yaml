@@ -41,7 +41,9 @@
         key_name: "sf-infra-key"
         flavor: "v1-standard-2"
         network: public
-        security_groups: default
+        security_groups:
+          - common
+          - zuul-console
         boot_from_volume: yes
         volume_size: 20
 
