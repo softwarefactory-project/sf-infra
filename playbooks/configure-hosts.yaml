@@ -27,6 +27,9 @@
       - wget
   tasks:
     - block:
+        - name: Start zuul_console daemon.
+          zuul_console:
+
         - name: Synchronize src repos to workspace directory.
           synchronize:
             dest: "~/src/"
