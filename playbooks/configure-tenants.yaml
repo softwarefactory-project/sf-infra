@@ -8,6 +8,7 @@
   vars:
     tenants:
       - infra-rdo
+      - infra-sf
   tasks:
     - include_tasks: tasks/configure-tenant.yaml
       loop: "{{ tenants }}"

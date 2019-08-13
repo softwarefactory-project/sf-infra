@@ -1,0 +1,14 @@
+networks: []
+subnets: []
+routers: []
+
+security_groups:
+  - name: common
+    rules:
+      - port: 22
+      - port: -1
+        protocol: icmp
+
+  - name: zuul-console
+    rules:
+      - port: 19885
