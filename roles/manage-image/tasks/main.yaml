@@ -3,8 +3,8 @@
     image: "{{ image.name }}"
 
 - when: openstack_image is none or
-        (openstack_image.checksum is defined and
-        openstack_image.checksum != image.checksum)
+        (openstack_image.owner_specified.openstack.sha256 is defined and
+        openstack_image.owner_specified.openstack.sha256 != image.checksum)
   block:
     - name: Ensure image cache directory exists
       file:
@@ -15,7 +15,7 @@
       get_url:
         url: "{{ image.url }}"
         dest: "{{ tenant_config.image_cache_dir }}"
-        checksum: "md5:{{ image.checksum }}"
+        checksum: "sha256:{{ image.checksum }}"
       register: image_download
 
     - name: Upload image

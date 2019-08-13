@@ -43,11 +43,8 @@ images:
     container_format: bare
     disk_format: qcow2
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1905.qcow2
-    # Note (dmsimard)
-    # OpenStack glance provides a md5sum ("checkum") and sha512sum ("os_hash_value")
-    # of the images but the CentOS images checksums are provided as sha256.
-    # The following checksum is md5 and was retrieved manually.
-    checksum: "ec8c38b1656ded3e03a6dc0938e201f1"
+    # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
+    checksum: b376afdc0150601f15e53516327d9832216e01a300fecfc302066e36e2ac2b39
 
 keypairs:
   - name: sf-infra-key
