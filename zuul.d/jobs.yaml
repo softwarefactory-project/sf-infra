@@ -41,6 +41,7 @@
       - ^playbooks/vars/.*
       - ^tasks/configure-tenant.yaml$
       - ^roles/manage-networking/.*
+      - ^roles/manage-image/.*
     run: playbooks/configure-hosts.yaml
     vars:
       sf_infra_play_name: configure-tenants
