@@ -39,12 +39,12 @@ security_groups:
 
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
-  - name: centos-7-1905
+  - name: centos-7-1907
     container_format: bare
     disk_format: qcow2
-    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1905.qcow2
+    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
     # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
-    checksum: b376afdc0150601f15e53516327d9832216e01a300fecfc302066e36e2ac2b39
+    checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
 
 keypairs:
   - name: sf-infra-key
