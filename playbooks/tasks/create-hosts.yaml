@@ -1,0 +1,31 @@
+- module_defaults:
+    group/os:
+      auth:
+        project_name: "{{ tenant }}"
+  block:
+    - name: Include tenant configuration
+      include_vars:
+        file: "{{ tenant }}.yaml"
+        name: tenant_config
+
+    - name: Create servers
+      os_server:
+        state: "{{ item.state | default('present') }}"
+        name: "{{ item.name }}"
+        image: "{{ item.image }}"
+        flavor: "{{ item.flavor }}"
+        key_name: "{{ item.key_name }}"
+        network: "{{ item.network | default(None) }}"
+        auto_ip: "{{ item.floating_ip | default('no') }}"
+        security_groups: "{{ item.security_groups | default('default') }}"
+        boot_from_volume: "{{ item.boot_from_volume | default('no') }}"
+        volume_size: "{{ item.volume_size | default(0) }}"
+      loop: "{{ tenant_config.servers }}"
+      loop_control:
+        label: "{{ item.name }}"
+      register: _servers
+
+    - name: Print inventory information
+      debug:
+        msg: "{{ item.openstack.name }}: {{ item.openstack.public_v4 }}"
+      loop: "{{ _servers.results }}"

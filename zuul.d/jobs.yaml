@@ -55,6 +55,8 @@
         soft: true
     files:
       - ^playbooks/create-hosts.yaml$
+      - ^playbooks/vars/.*
+      - ^playbooks/tasks/create-hosts.yaml$
     run: playbooks/configure-hosts.yaml
     vars:
       sf_infra_play_name: create-hosts
