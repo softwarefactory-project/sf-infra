@@ -36,3 +36,15 @@ security_groups:
       - port: 8081
       - port: 8082
         protocol: udp
+
+image_cache_dir: "{{ ansible_user_dir }}/image_cache"
+images:
+  - name: centos-7-1905
+    container_format: bare
+    disk_format: qcow2
+    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1905.qcow2
+    # Note (dmsimard)
+    # OpenStack glance provides a md5sum ("checkum") and sha512sum ("os_hash_value")
+    # of the images but the CentOS images checksums are provided as sha256.
+    # The following checksum is md5 and was retrieved manually.
+    checksum: "ec8c38b1656ded3e03a6dc0938e201f1"

@@ -12,3 +12,6 @@ security_groups:
   - name: zuul-console
     rules:
       - port: 19885
+
+image_cache_dir: "{{ ansible_user_dir }}/image_cache"
+images: []
