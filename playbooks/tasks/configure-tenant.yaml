@@ -8,6 +8,13 @@
         file: "{{ tenant }}.yaml"
         name: tenant_config
 
+    - name: Provision keypairs
+      os_keypair:
+        state: "{{ item.state | default('present') }}"
+        name: "{{ item.name }}"
+        public_key: "{{ item.public_key }}"
+      loop: "{{ tenant_config.keypairs }}"
+
     - name: Configure tenant networks
       include_role:
         name: manage-networking
