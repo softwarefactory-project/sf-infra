@@ -53,6 +53,4 @@
         dest: /root/site.pp
 
     - name: Apply puppet manifest
-      puppet:
-        logdest: all
-        manifest: /root/site.pp
+      command: puppet apply /root/site.pp

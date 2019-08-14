@@ -8,8 +8,9 @@ all:
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_host: 38.102.83.237
       ansible_user: centos
+      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
   children:
-    afs-mirrors:
+    afs-mirror:
       hosts:
         mirror.regionone.vexxhost.rdoproject.org:
     bridge:
