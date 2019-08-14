@@ -45,4 +45,14 @@ keypairs:
     public_key: >-
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
 
-servers: []
+servers:
+  - name: logreduce-mqtt-01.softwarefactory-project.io
+    key_name: sf-infra-key
+    image: fedora-30-1.2
+    flavor: v1-standard-2
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+    boot_from_volume: yes
+    volume_size: 80
