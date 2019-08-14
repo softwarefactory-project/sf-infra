@@ -4,3 +4,7 @@
   gather_facts: no
   roles:
     - bridge-accounts
+
+- hosts: afs-mirror
+  roles:
+    - afs-mirror

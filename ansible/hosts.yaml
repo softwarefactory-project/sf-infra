@@ -5,8 +5,13 @@ all:
       ansible_host: 38.102.83.42
       ansible_user: fedora
       ansible_connection: local
-
+    mirror.regionone.vexxhost.rdoproject.org:
+      ansible_host: 38.102.83.237
+      ansible_user: centos
   children:
+    afs-mirrors:
+      hosts:
+        mirror.regionone.vexxhost.rdoproject.org:
     bridge:
       hosts:
         bridge.softwarefactory-project.io:

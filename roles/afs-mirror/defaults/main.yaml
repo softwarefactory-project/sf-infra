@@ -1,0 +1,8 @@
+afs_mirror_packages:
+  - git
+  - puppet
+afs_puppet_modules:
+  - puppet-httpd
+  - puppet-kerberos
+  - puppet-logrotate
+  - puppet-openafs
