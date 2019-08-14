@@ -1,6 +1,24 @@
-networks: []
-subnets: []
-routers: []
+networks:
+  - name: private-network
+    external_network: public
+    port_security_enabled: false
+
+subnets:
+  - name: private-subnet
+    network_name: private-network
+    cidr: 192.168.242.0/24
+    gateway_ip: 192.168.242.1
+    dns_nameservers:
+       - 1.1.1.1
+       - 8.8.8.8
+
+routers:
+  - name: default-router
+    network: public
+    interfaces:
+      - net: private-network
+        subnet: private-subnet
+        portip: 192.168.242.1
 
 security_groups:
   - name: common
@@ -14,7 +32,13 @@ security_groups:
       - port: 19885
 
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
-images: []
+images:
+  - name: fedora-30-1.2
+    container_format: bare
+    disk_format: qcow2
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
+    # Via https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-30-1.2-x86_64-CHECKSUM
+    checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
 
 keypairs:
   - name: sf-infra-key
