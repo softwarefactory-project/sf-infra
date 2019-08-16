@@ -3,6 +3,7 @@
   gather_facts: yes
   roles:
     - bridge-accounts
+    - node-exporter
     - prometheus
     - ara_api
 
