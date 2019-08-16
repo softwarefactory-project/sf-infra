@@ -1,6 +1,5 @@
 ---
 - hosts: bridge
-  become: yes
   gather_facts: no
   roles:
     - bridge-accounts
