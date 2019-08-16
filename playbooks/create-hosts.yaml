@@ -1,13 +1,14 @@
 # This playbook is running from the bridge (nested in zuul job)
 ---
 - hosts: bridge
-  gather_facts: no
+  gather_facts: yes
   module_defaults:
     group/os:
       cloud: vexxhost-rdo
   vars:
     tenants:
       - infra-rdo
+      - infra-sf
   tasks:
     - include_tasks: tasks/create-hosts.yaml
       loop: "{{ tenants }}"
