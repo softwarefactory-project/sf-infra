@@ -25,6 +25,7 @@
       - vim-enhanced
       - tmux
       - wget
+      - podman
   tasks:
     - block:
         - name: Start zuul_console daemon.

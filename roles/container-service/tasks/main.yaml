@@ -1,0 +1,57 @@
+# This task ensure a container service is running
+---
+- name: Check if container exists
+  command: "podman container exists {{ pod_name }}"
+  register: _container_exists
+  failed_when: _container_exists.rc not in [0, 1]
+  changed_when: false
+
+# This is not indepotent, manually delete the pod to force recreation
+- name: Create container if needed
+  command: "podman create --name {{ pod_name }} {{ pod_param }}"
+  when: _container_exists.rc == 1
+
+- name: Install service file
+  copy:
+    content: |
+      [Unit]
+      Description={{ pod_name }} service
+      After=syslog.target network.target
+
+      [Service]
+      Type=simple
+      SyslogIdentifier={{ pod_name }}
+      {# '-a' attach the container stdout to syslog #}
+      ExecStart=/usr/bin/podman start -a {{ pod_name }}
+      {# '-t' enable smooth timeout #}
+      ExecStop=-/usr/bin/podman stop -t 10 {{ pod_name }}
+      Restart=always
+      RestartSec=3s
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: "/etc/systemd/system/{{ pod_name }}.service"
+  register: _container_service
+
+- name: Enable the service
+  systemd:
+    name: "{{ pod_name }}"
+    daemon-reload: "{% if _container_service is changed %}yes{% else %}no{% endif %}"
+    state: started
+    enabled: yes
+
+- name: Restart the service if needed
+  service:
+    name: "{{ pod_name }}"
+    state: restarted
+  when:
+    - pod_config is changed
+    # Do not restart the service if we just started
+    - _container_exists.rc == 0
+
+- name: Ensure service is active
+  command: "systemctl is-active {{ pod_name }}"
+  register: _container_active
+  until: _container_active.rc == 0
+  retries: 60
+  delay: 1

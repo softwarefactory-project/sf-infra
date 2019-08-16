@@ -1,0 +1,20 @@
+---
+- name: Create host directories
+  file:
+    path: /etc/prometheus
+    state: directory
+
+- name: Create configuration file
+  copy:
+    content: |
+      ---
+
+    dest: /etc/prometheus/prometheus.yml
+  register: _prom_config
+
+- include_role:
+    name: container-service
+  vars:
+    pod_name: prometheus
+    pod_param: -p 9090:9090 -v /etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml quay.io/prometheus/prometheus
+    pod_config: "{{ _prom_config }}"
