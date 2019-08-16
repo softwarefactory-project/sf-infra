@@ -12,6 +12,7 @@ all:
       ara_api_wsgi_bind: "127.0.0.1:8000"
       ara_api_allowed_hosts:
         - localhost
+        - 127.0.0.1
         - bridge.softwarefactory-project.io
       # TODO: Automate user creation and enable this
       # ara_api_write_login_required: true
