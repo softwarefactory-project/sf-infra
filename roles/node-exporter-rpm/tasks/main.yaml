@@ -1,0 +1,12 @@
+---
+- block:
+    - name: Install copr
+      yum:
+        name: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-x86_64/00935314-golang-github-prometheus-node_exporter/golang-github-prometheus-node_exporter-0.18.1-6.el7.x86_64.rpm
+
+    - name: Start the service
+      service:
+        name: node_exporter
+        state: started
+        enabled: true
+  become: yes

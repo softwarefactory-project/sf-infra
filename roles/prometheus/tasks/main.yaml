@@ -30,6 +30,7 @@
             static_configs:
               - targets:
                   - bridge.softwarefactory-project.io:9100
+                  - mirror.regionone.vexxhost.rdoproject.org:9100
     - dest: rules
       content: |
         groups:

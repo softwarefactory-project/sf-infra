@@ -16,3 +16,4 @@
 - hosts: afs-mirror
   roles:
     - afs-mirror
+    - node-exporter-rpm
