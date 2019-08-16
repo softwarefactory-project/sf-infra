@@ -1,9 +1,10 @@
 ---
 - hosts: bridge
-  gather_facts: no
+  gather_facts: yes
   roles:
     - bridge-accounts
     - prometheus
+    - ara_api
 
 - hosts: afs-mirror
   roles:

@@ -62,6 +62,12 @@
             name: "{{ bridge_packages }}"
             state: present
 
+        # This needs to be done so the roles are installed prior to running the ansible-playbook command.
+        - name: Prepare git repository for ara
+          git:
+            repo: "{{ ara_api_source | default('https://github.com/ansible-community/ara') }}"
+            dest: "{{ ara_api_source_checkout | default('~/src/github.com/ansible-community/ara') }}"
+
         - name: Run configuration playbook
           args:
             chdir: "~/{{ zuul.project.src_dir }}"
