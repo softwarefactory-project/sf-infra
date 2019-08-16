@@ -69,6 +69,9 @@
             dest: "{{ ara_api_source_checkout | default('~/src/github.com/ansible-community/ara') }}"
 
         - name: Run configuration playbook
+          # TODO: Figure out a better way
+          environment:
+            PYTHONPATH: ~/.ara/virtualenv/lib/python3.7/site-packages
           args:
             chdir: "~/{{ zuul.project.src_dir }}"
           command: "ansible-playbook -v playbooks/{{ sf_infra_play_name }}.yaml"
