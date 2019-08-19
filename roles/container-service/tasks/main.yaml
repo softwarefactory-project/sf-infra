@@ -57,6 +57,8 @@
 - name: Ensure service is active
   command: "systemctl is-active {{ pod_name }}"
   register: _container_active
-  until: _container_active.rc == 0
+  until:
+    - _container_active.rc == 0
+    - "'active' in _container_active.stdout"
   retries: 60
   delay: 1
