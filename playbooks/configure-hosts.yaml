@@ -18,6 +18,7 @@
         key: "{{ bridge_key }}"
 
 - hosts: bridge
+  gather_facts: yes
   vars:
     bridge_packages:
       - ansible
@@ -71,7 +72,7 @@
         - name: Run configuration playbook
           # TODO: Figure out a better way
           environment:
-            PYTHONPATH: ~/.ara/virtualenv/lib/python3.7/site-packages
+            PYTHONPATH: "{{ ansible_user_dir }}/.ara/virtualenv/lib/python3.7/site-packages"
           args:
             chdir: "~/{{ zuul.project.src_dir }}"
           command: "ansible-playbook -v playbooks/{{ sf_infra_play_name }}.yaml"
