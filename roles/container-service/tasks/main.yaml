@@ -19,6 +19,8 @@
           [Unit]
           Description={{ pod_name }} service
           After=syslog.target network.target
+          StartLimitInterval=20
+          StartLimitBurst=5
 
           [Service]
           Type=simple
