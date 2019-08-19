@@ -4,6 +4,7 @@
   roles:
     - bridge-accounts
     - node-exporter
+    - alert-manager
     - prometheus
     - ara_api
 
