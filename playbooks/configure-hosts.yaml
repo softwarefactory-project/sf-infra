@@ -27,6 +27,7 @@
       - tmux
       - wget
       - podman
+      - postfix
   tasks:
     - block:
         - name: Start zuul_console daemon.

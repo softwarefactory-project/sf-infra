@@ -1,0 +1,35 @@
+- name: Set mailname
+  become: yes
+  copy:
+    dest: /etc/mailname
+    content: "bridge.softwarefactory-project.io"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Manage main.cf
+  become: yes
+  copy:
+    content: |
+      smtpd_banner = $myhostname ESMTP $mail_name
+      biff = no
+      append_dot_mydomain = no
+      myhostname = bridge.softwarefactory-project.io
+      mydomain = softwarefactory-project.io
+      mydestination = $myhostname, localhost
+      myorigin = bridge.softwarefactory-project.io
+      mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 10.88.0.1/16
+      mailbox_size_limit = 0
+      recipient_delimiter = +
+      inet_interfaces = loopback-only
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start service
+  become: yes
+  service:
+    name: postfix
+    enabled: "yes"
+    state: started

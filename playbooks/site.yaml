@@ -1,8 +1,13 @@
 ---
 - hosts: bridge
   gather_facts: yes
+  pre_tasks:
+    - name: Ensure hostname is correct
+      hostname:
+        name: bridge.softwarefactory-project.io
   roles:
     - bridge-accounts
+    - postfix
     - node-exporter
     - alert-manager
     - prometheus
