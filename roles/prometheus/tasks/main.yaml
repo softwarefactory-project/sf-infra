@@ -22,7 +22,7 @@
           alertmanagers:
             - static_configs:
                 - targets:
-                    - bridge.softwarefactory-project.io:9093
+                    - localhost:9093
         rule_files:
           - rules.yml
         scrape_configs:
