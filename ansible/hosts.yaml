@@ -21,6 +21,9 @@ all:
       ansible_host: 38.102.83.237
       ansible_user: centos
       afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
+    logreduce-mqtt01.softwarefactory-project.io:
+      ansible_host: 192.168.242.141
+      ansible_user: fedora
   children:
     afs-mirror:
       hosts:
@@ -28,3 +31,6 @@ all:
     bridge:
       hosts:
         bridge.softwarefactory-project.io:
+    logreduce-mqtt:
+      hosts:
+        logreduce-mqtt01.softwarefactory-project.io:
