@@ -51,7 +51,7 @@ servers:
     image: fedora-30-1.2
     flavor: v1-standard-2
     network: private-network
-    floating_ip: yes
+    floating_ip: no
     security_groups:
       - common
     boot_from_volume: yes

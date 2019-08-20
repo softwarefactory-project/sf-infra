@@ -40,7 +40,9 @@
         image: "fedora-30"
         key_name: "sf-infra-key"
         flavor: "v1-standard-2"
-        network: public
+        nics:
+          - net-name=public
+          - net-name=private-network
         security_groups:
           - common
           - zuul-console
