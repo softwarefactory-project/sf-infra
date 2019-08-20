@@ -9,6 +9,7 @@
     tenants:
       - infra-rdo
       - infra-sf
+      - nodepool-tripleo
   tasks:
     - include_tasks: tasks/configure-tenant.yaml
       loop: "{{ tenants }}"
