@@ -1,0 +1,38 @@
+---
+- block:
+    - name: Configure dnsmasq
+      copy:
+        content: "{{ item.content }}"
+        dest: "{{ item.dest }}"
+      register: _dnsmasq_config
+      loop:
+        - content: |
+            [main]
+            dns=dnsmasq
+
+          dest: /etc/NetworkManager/conf.d/00-use-dnsmasq.conf
+
+        - content: |
+            listen-address=127.0.0.1,{{ podman_gw_ip }}
+            addn-hosts=/etc/hosts
+            cache-size=1000
+            resolv-file=/etc/resolv.conf
+
+          dest: /etc/NetworkManager/dnsmasq.d/00-add-hosts.conf
+
+        - content: |
+            127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+            ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+            {% for host in hostvars %}
+            {{ hostvars[host].ansible_host }} {{ host }}
+            {% endfor %}
+
+          dest: /etc/hosts
+
+    - name: Restart NetworkManager if needed
+      service:
+        name: NetworkManager
+        state: restarted
+      when: _dnsmasq_config is changed
+  become: yes

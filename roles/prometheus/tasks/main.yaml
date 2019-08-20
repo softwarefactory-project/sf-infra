@@ -45,5 +45,5 @@
     name: container-service
   vars:
     pod_name: prometheus
-    pod_param: -p 9090:9090 -v /etc/prometheus/:/etc/prometheus/ quay.io/prometheus/prometheus
+    pod_param: "-p 9090:9090 --dns {{ podman_gw_ip }} -v /etc/prometheus/:/etc/prometheus/ quay.io/prometheus/prometheus"
     pod_config: "{{ _prom_config }}"

@@ -7,6 +7,7 @@
         name: bridge.softwarefactory-project.io
   roles:
     - bridge-accounts
+    - dnsmasq
     - postfix
     - node-exporter
     - alert-manager
