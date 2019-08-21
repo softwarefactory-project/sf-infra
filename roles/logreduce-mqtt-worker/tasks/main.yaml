@@ -1,0 +1,97 @@
+---
+- name: Install logreduce requirements
+  become: yes
+  package:
+    name:
+      - python3-setuptools
+      - python3-pbr
+      - python3-aiohttp
+      - python3-requests
+      - python3-scikit-learn
+      - python3-pyyaml
+      - python3-paho-mqtt
+      - git
+      - rsync
+
+- name: Fetch logreduce
+  git:
+    repo: https://softwarefactory-project.io/r/logreduce
+    dest: "{{ ansible_env.HOME }}/logreduce"
+
+- name: Install logreduce
+  become: yes
+  command: python3 setup.py install
+  args:
+    chdir: "{{ ansible_env.HOME }}/logreduce"
+
+- name: Add user
+  become: yes
+  user:
+    name: logreduce
+    home: /var/lib/logreduce
+
+- name: Create state directory
+  become: yes
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner|default('logreduce') }}"
+    mode: "{{ item.mode|default('0755') }}"
+    state: directory
+  loop:
+    - path: /var/lib/logreduce
+    - path: /var/lib/logreduce/.ssh
+      mode: "0700"
+    - path: /var/log/logreduce
+    - path: /etc/logreduce
+      owner: root
+
+- name: Install user key
+  become: yes
+  copy:
+    content: "{{ logreduce_key }}"
+    dest: "/var/lib/logreduce/.ssh/id_rsa"
+    owner: logreduce
+    mode: 0400
+
+- name: Install configuration
+  become: yes
+  copy:
+    src: logreduce.yaml
+    dest: /etc/logreduce/logreduce.yaml
+  register: _config
+
+- name: Install service
+  become: yes
+  copy:
+    content: |
+      [Unit]
+      Description=Logreduce MQTT Service
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=logreduce
+      SyslogIdentifier=logreduce-mqtt
+      ExecStart=/usr/bin/logreduce-mqtt -c /etc/logreduce/config.yaml
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/logreduce-mqtt.service
+  register: _service
+
+- name: Enable the service
+  become: yes
+  systemd:
+    name: logreduce-mqtt
+    daemon-reload: "{% if _service is changed %}yes{% else %}no{% endif %}"
+    state: started
+    enabled: yes
+
+- name: Restart the service if needed
+  become: yes
+  service:
+    name: "{{ pod_name }}"
+    state: restarted
+  when:
+    - _config is changed
+    - _service is not changed
