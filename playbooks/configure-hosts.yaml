@@ -53,6 +53,13 @@
             mode: "0400"
           when: cloud is defined
 
+        - name: Copy the vault password
+          copy:
+            content: "{{ vault.secret }}"
+            dest: "~/.ansible_vault"
+            mode: "0400"
+          when: vault is defined
+
         - name: Symlink ansible configuration file
           file:
             src: "~/{{ zuul.project.src_dir }}/ansible/ansible.cfg"
