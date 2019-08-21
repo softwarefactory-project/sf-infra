@@ -3,6 +3,8 @@ all:
   hosts:
     bridge.softwarefactory-project.io:
       ansible_host: 38.102.83.42
+      bridge_private_ip: 192.168.242.251
+      bridge_public_ip: 38.102.83.42
       ansible_user: fedora
       ansible_connection: local
       podman_gw_ip: 10.88.0.1
