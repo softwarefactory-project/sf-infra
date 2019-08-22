@@ -35,7 +35,6 @@ security_groups:
       - port: 8080
       - port: 8081
       - port: 8082
-        protocol: udp
   - name: monitoring
     rules:
       - port: 9100
