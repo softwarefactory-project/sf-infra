@@ -1,8 +1,26 @@
-networks: []
+networks:
+  - name: private
+    external_network: public
+    port_security_enabled: true
 
-subnets: []
+subnets:
+  - name: private_subnet
+    network_name: private
+    cidr: 192.168.100.0/22
+    gateway_ip: 192.168.100.1
+    allocation_pool_start: 192.168.100.10
+    allocation_pool_end: 192.168.103.254
+    dns_nameservers:
+       - 1.1.1.1
+       - 8.8.8.8
 
-routers: []
+routers:
+  - name: private_router
+    network: public
+    interfaces:
+      - net: private
+        subnet: private_subnet
+        portip: 192.168.100.1
 
 security_groups:
   - name: default
