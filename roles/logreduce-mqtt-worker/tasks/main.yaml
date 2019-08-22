@@ -72,7 +72,7 @@
       Type=simple
       User=logreduce
       SyslogIdentifier=logreduce-mqtt
-      ExecStart=/usr/bin/logreduce-mqtt -c /etc/logreduce/config.yaml
+      ExecStart=/usr/local/bin/logreduce-mqtt -c /etc/logreduce/logreduce.yaml
 
       [Install]
       WantedBy=multi-user.target
