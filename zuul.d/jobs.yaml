@@ -74,6 +74,8 @@
     secrets:
       - name: cloud
         secret: vexxhost-cloud
+      - name: vault
+        secret: ansible-vault
 
 - project:
     check:
