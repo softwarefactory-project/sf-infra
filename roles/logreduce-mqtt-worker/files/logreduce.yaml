@@ -49,45 +49,74 @@ mqtt:
   log_dest: uploader@logs.rdoproject.org:/var/www/html/review.rdoproject.org
   rsync: True
 filters:
+  # '\' needs to be escaped twice because of YAML pre-processing
+  # To test the regexp, use this snippet:
+  # import sys, re, yaml
+  # re.compile(r'|'.join(yaml.safe_load(open('logreduce.yaml'))['filters']['exclude_lines'])).match(sys.argv[1])
   exclude_lines:
-    - "^mistral.* ssh: .*ansible-.* \\[mux\\]$"
+    # Zuul console log message
+    - "^[0-9:\\. -]+.* \\| primary \\| ZUUL_.*=.*$"
+    # podman ps list
+    - "^[0-9 ]*[a-zA-Z0-9]+\\s+[0-9]+\\s+[0-9]+\\s+[0-9\\.]+\\s+[0-9].*$"
+    # podman pid user pr
+    - "^\\s+[0-9]+\\s+[a-z]+\\s+[0-9]+$"
+    # netstat
+    - "^unix\\s+2\\s+.*STREAM\\s+LISTENING"
     # neutron dhcp interface
     - "^tap[^ ]*$"
     # keepalived
-    - "^ *MAC = [a-z0-9:]{17}$"
+    - "^\\s*MAC = [a-z0-9:]{17}$"
     # cinder-volumes ids
-    - "^ *id = \"[a-zA-Z0-9\\-]{38}\"$"
+    - "^\\s*id = \"[a-zA-Z0-9\\-]{38}\"$"
     # Docker id
     - "^ID. [^ ]+$"
+    # Layer dumps
+    - "^    .layers.: .$|^            .mediaType.: .application/vnd.docker.image.rootfs.diff.tar.gzip., $|^            .digest.: .sha256:.*$"
     # Deployment ids
-    - "^ *[a-zA-Z0-9]{25}$"
+    - "^\\s*[a-zA-Z0-9]{25}$"
     # Galera ids
-    - "^ *[a-z0-9]{8},[0-9]$"
+    - "^\\s*[a-z0-9]{8},[0-9]$"
     # pcsd log
     - "^[a-z0-9:]{45}$"
     - "^[a-z0-9:]{54}$"
     # auth token
     - "^OS_AUTH_TOKEN="
-    - ".*OS_PASSWORD=[a-zA-Z0-9]+$"
+    - "^password="
+    - ".*OS_PASSWORD=[a-zA-Z0-9]+\\\"?,?$"
     # docker stats
-    - "^[a-z0-9]{12} *[0-9\\.]+% *[0-9\\.]+ *[a-zA-Z]*B / [0-9\\.]+ [a-zA-Z]*B *[0-9\\.]+%"
+    - "^[a-z0-9]{12} .*[0-9\\.]+ *[a-zA-Z]*B / [0-9\\.]+ *[a-zA-Z]*B .* [0-9]+$"
     # kola id
     - "^\\+\\+ echo [a-zA-Z0-9]{20}$"
     # ironic system log base64 encoded
     - "^.* DEBUG .* Agent command log.collect_system_logs for node .* returned result .u'system_logs'. u'"
-    # memcache
-    - "^>[0-9]+ sending key [a-z0-9]{40}"
+    # memcache stdout
+    - "^>[0-9]+ sending key [^ ]+$"
+    - "^[^ ]+>[0-9]+ sending key"
+    - "^[^ ]+$"
     # cloud init ips
-    - "^\\^[+*?-] .* [0-9]+ +[0-9]+ +[0-9]+ .*s$"
+    - "^.*\\^[+*?-].*\\s+[0-9]+\\s+[0-9]+\\s+[0-9]+\\s+.*\\+\\/\\-\\s+[0-9]+[mun]s$"
+    # IPA base64
+    - "^[^ ]+=$"
+    # IPA cookies
+    - "^.*[Cc]ookie.*ipa_session="
+    - "^[0-9]+.sig-ipa.ooo.test"
+    - "^ipa\\.ooo\\.test\\."
   exclude_files:
     - "deployment-hieradata.j2.yaml"
     - "tempest.html"
     - "rabbitmq.config"
     - "influxdb_data"
+    - "haproxy-stats.txt"
     - "named.keytab"
+    - "yum.log"
   exclude_paths:
+    - "group_vars/Compute"
+    - "group_vars/Controller"
+    - "group_vars/Undercloud"
     - "logs/quickstart_collect_logs.log"
     - "etc/openstack-dashboard/local_settings"
+    - "etc/iscsi/initiatorname.iscsi"
+    - "var/log/extra/podman/podman_allinfo.log"
     - "etc/ipa/"
     - "home/zuul/undercloud-install-"
     - "var/log/pki/pki-ca-spawn"
