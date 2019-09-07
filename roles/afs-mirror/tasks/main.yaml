@@ -34,14 +34,14 @@
     - name: Clone required puppet modules
       git:
         repo: "https://opendev.org/opendev/{{ item }}"
-        dest: "/tmp/{{ item }}"
+        dest: "/usr/src/{{ item }}"
         force: yes
       loop: "{{ afs_puppet_modules }}"
 
     - name: Build and install puppet modules
-      shell: "puppet module build && puppet module install /tmp/{{ item }}/pkg/*.tar.gz"
+      shell: "puppet module build && puppet module install /usr/src/{{ item }}/pkg/*.tar.gz"
       args:
-        chdir: "/tmp/{{ item }}"
+        chdir: "/usr/src/{{ item }}"
       loop: "{{ afs_puppet_modules }}"
 
     - name: Install other dependencies

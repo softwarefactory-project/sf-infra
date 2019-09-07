@@ -20,6 +20,7 @@
         content: "{{ cloud.yamlFile }}"
         dest: "~/.config/openstack/clouds.yaml"
         mode: "0600"
+      no_log: yes
 
     - name: Ensure sf-infra key pair exists
       os_keypair:
@@ -30,24 +31,25 @@
         name: "sf-infra-key"
         public_key_file: "{{ _infra_key.dest }}"
 
-    - name: Create the bridge
-      os_server:
-        cloud: "vexxhost-rdo"
-        auth:
-          project_name: "infra-sf"
-        state: "present"
-        name: "bridge.softwarefactory-project.io"
-        image: "fedora-30"
-        key_name: "sf-infra-key"
-        flavor: "v1-standard-2"
-        nics:
-          - net-name=public
-          - net-name=private-network
-        security_groups:
-          - common
-          - zuul-console
-        boot_from_volume: yes
-        volume_size: 20
+    # TODO: figure out why this disconnect the bridge
+    # - name: Create the bridge
+    #   os_server:
+    #     cloud: "vexxhost-rdo"
+    #     auth:
+    #       project_name: "infra-sf"
+    #     state: "present"
+    #     name: "bridge.softwarefactory-project.io"
+    #     image: "fedora-30"
+    #     key_name: "sf-infra-key"
+    #     flavor: "v1-standard-2"
+    #     nics:
+    #       - net-name=public
+    #       - net-name=private-network
+    #     security_groups:
+    #       - common
+    #       - zuul-console
+    #     boot_from_volume: yes
+    #     volume_size: 20
 
     - name: Remove the clouds
       shell: "shred ~/.config/openstack/clouds.yaml"

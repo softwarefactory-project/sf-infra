@@ -51,6 +51,7 @@
             content: "{{ cloud.yamlFile }}"
             dest: "~/.config/openstack/clouds.yaml"
             mode: "0400"
+          no_log: yes
           when: cloud is defined
 
         - name: Copy the vault password
@@ -58,6 +59,7 @@
             content: "{{ vault.secret }}"
             dest: "~/.ansible_vault"
             mode: "0400"
+          no_log: yes
           when: vault is defined
 
         - name: Symlink ansible configuration file

@@ -90,7 +90,7 @@
 - name: Restart the service if needed
   become: yes
   service:
-    name: "{{ pod_name }}"
+    name: "logreduce-mqtt"
     state: restarted
   when:
     - _config is changed
