@@ -2,8 +2,13 @@
 - name: Create host directories
   become: yes
   file:
-    path: /etc/alertmanager
+    path: "{{ item.path }}"
     state: directory
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /etc/alertmanager
+    - path: /var/lib/alertmanager
+      mode: "0777"
 
 - name: Create configuration file
   become: yes
@@ -12,7 +17,8 @@
       ---
       global:
         resolve_timeout: 5m
-        smtp_smarthost: 'bridge.softwarefactory-project.io'
+        smtp_require_tls: false
+        smtp_smarthost: 'bridge.softwarefactory-project.io:25'
         smtp_from: 'prometheus@bridge.softwarefactory-project.io'
       route:
         group_by: [Alertname]
@@ -30,5 +36,9 @@
     name: container-service
   vars:
     pod_name: alertmanager
-    pod_param: --network host -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml quay.io/prometheus/alertmanager
+    pod_param: >
+      --network host
+      -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      -v /var/lib/alertmanager:/alertmanager:Z
+      quay.io/prometheus/alertmanager
     pod_config: "{{ _am_config }}"
