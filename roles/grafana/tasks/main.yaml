@@ -1,0 +1,34 @@
+---
+#- name: Create host directories
+#  become: yes
+#  file:
+#    path: /etc/alertmanager
+#    state: directory
+#
+#- name: Create configuration file
+#  become: yes
+#  copy:
+#    content: |
+#      ---
+#      global:
+#        resolve_timeout: 5m
+#        smtp_smarthost: 'bridge.softwarefactory-project.io'
+#        smtp_from: 'prometheus@bridge.softwarefactory-project.io'
+#      route:
+#        group_by: [Alertname]
+#        receiver: softwarefactory-operations-team
+#
+#      receivers:
+#        - name: softwarefactory-operations-team
+#          email_configs:
+#            - to: softwarefactory-operations-team@redhat.com
+#
+#    dest: /etc/alertmanager/alertmanager.yml
+#  register: _am_config
+
+- include_role:
+    name: container-service
+  vars:
+    pod_name: grafana
+    pod_param: --network host -p 3000:3000 grafana/grafana
+    #pod_config: "{{ _am_config }}"

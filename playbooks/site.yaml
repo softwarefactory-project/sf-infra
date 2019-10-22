@@ -6,6 +6,7 @@
       hostname:
         name: bridge.softwarefactory-project.io
   roles:
+    - grafana
     - bridge-accounts
     - dnsmasq
     - postfix

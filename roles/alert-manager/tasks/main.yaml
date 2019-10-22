@@ -30,5 +30,5 @@
     name: container-service
   vars:
     pod_name: alertmanager
-    pod_param: --network container:prometheus -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml quay.io/prometheus/alertmanager
+    pod_param: --network host -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml quay.io/prometheus/alertmanager
     pod_config: "{{ _am_config }}"
