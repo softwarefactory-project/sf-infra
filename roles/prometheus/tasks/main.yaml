@@ -2,8 +2,13 @@
 - name: Create host directories
   become: yes
   file:
-    path: /etc/prometheus
+    path: "{{ item.path }}"
     state: directory
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /etc/prometheus
+    - path: /var/lib/prometheus
+      mode: "0777"
 
 - name: Create configuration file
   become: yes
@@ -40,11 +45,26 @@
               - alert: InstanceDown
                 expr: up{job="node"} == 0
                 for: 10m
+              - alert: WillRunOutOfDiskInThreeDays
+                # Over 1 day, if the slope becomes negative in 3 days, then emit an alarm
+                expr: predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0
+                for: 1h
+              - alert: WillRunOutOfMemoryInThreeDays
+                expr: predict_linear(node_memory_MemAvailable_bytes{job="node"}[1d], 3 * 24 * 3600) < 0
+                for: 1h
+
   register: _prom_config
 
 - include_role:
     name: container-service
   vars:
     pod_name: prometheus
-    pod_param: "--network host -v /etc/prometheus/:/etc/prometheus/ quay.io/prometheus/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api"
+    pod_param: >
+      --network host
+      -v /etc/prometheus/:/etc/prometheus/:Z
+      -v /var/lib/prometheus:/prometheus:Z
+      quay.io/prometheus/prometheus
+      --config.file=/etc/prometheus/prometheus.yml
+      --web.enable-lifecycle
+      --web.enable-admin-api
     pod_config: "{{ _prom_config }}"
