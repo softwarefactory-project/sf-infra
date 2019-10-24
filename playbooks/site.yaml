@@ -23,4 +23,4 @@
 - hosts: logreduce-mqtt
   roles:
     - node-exporter
-#    - logreduce-mqtt-worker
+    - logreduce-mqtt-worker
