@@ -1,0 +1,54 @@
+---
+- name: "Install journald-exporter"
+  become: yes
+  block:
+    - name: Copy the exporter
+      copy:
+        src: exporter.py
+        dest: /usr/local/bin/exporter
+        mode: "0755"
+      register: _exporter_tool
+
+    - name: Setup configuration directory
+      file:
+        path: /etc/journald-exporter
+        state: directory
+
+    - name: Setup the systemd unit
+      copy:
+        content: |
+          [Unit]
+          Description=Journald exporter service
+          After=syslog.target network.target
+
+          [Service]
+          Type=simple
+          SyslogIdentifier=journald-exporter
+          ExecStart=/usr/local/bin/exporter --config /etc/journald-exporter
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/journald-exporter.service
+      register: _exporter_service
+
+    - name: Install dependencies
+      package:
+        name:
+          - python3-prometheus_client
+          - python3-systemd
+
+    - name: Enable the service
+      systemd:
+        name: "journald-exporter"
+        daemon-reload: "{% if _exporter_service is changed %}yes{% else %}no{% endif %}"
+        state: started
+        enabled: yes
+
+- name: Restart the service if needed
+  service:
+    name: "journald-exporter"
+    state: restarted
+  when:
+    - _exporter_tool is changed
+    # Do not restart if service is new
+    - _exporter_service is not changed

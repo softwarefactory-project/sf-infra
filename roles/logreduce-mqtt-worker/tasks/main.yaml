@@ -18,11 +18,12 @@
     repo: https://softwarefactory-project.io/r/logreduce
     dest: "{{ ansible_env.HOME }}/logreduce"
 
-- name: Install logreduce
-  become: yes
-  command: python3 setup.py install
-  args:
-    chdir: "{{ ansible_env.HOME }}/logreduce"
+# Uncomment when https://softwarefactory-project.io/r/16880 merged
+#- name: Install logreduce
+#  become: yes
+#  command: python3 setup.py install
+#  args:
+#    chdir: "{{ ansible_env.HOME }}/logreduce"
 
 - name: Add user
   become: yes
@@ -59,6 +60,20 @@
     src: logreduce.yaml
     dest: /etc/logreduce/logreduce.yaml
   register: _config
+
+- name: Install journald exporter
+  vars:
+    metrics:
+      - ["^logreduce-mqtt.service$",
+         ".*logreduce.MQTTWorker. Processing build ",
+         "logreduce_build_total"]
+      - ["^logreduce-mqtt.service$",
+         ".*logreduce.MQTTWorker: Running rsync ",
+         "logreduce_report_total"]
+  copy:
+    content: "{{ metrics | to_json }}"
+    dest: /etc/journald-exporter/logreduce-mqtt.json
+  become: yes
 
 - name: Install service
   become: yes
