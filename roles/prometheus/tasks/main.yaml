@@ -38,6 +38,10 @@
                   - mirror.regionone.vexxhost.rdoproject.org:9100
                   - logreduce-mqtt01.softwarefactory-project.io:9100
                   - backup.rdoproject.org:9100
+          - job_name: journal
+            static_configs:
+              - targets:
+                  - logreduce-mqtt01.softwarefactory-project.io:9101
 
     # Some doc:
     #   Check alert status: curl -g 'http://localhost:9090/api/v1/alerts' | python -mjson.tool
