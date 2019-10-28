@@ -31,6 +31,10 @@ security_groups:
       - port: 19885
   - name: private-monitoring
     rules:
+      # Custom metrics
+      - port: 9101
+        remote_ip_prefix: "{{ bridge_private_ip }}/32"
+      # Node exporter
       - port: 9100
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
 
