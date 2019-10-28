@@ -7,6 +7,7 @@ all:
       bridge_public_ip: 38.102.83.42
       ansible_user: fedora
       ansible_connection: local
+      ansible_python_interpreter: python3
       podman_gw_ip: 10.88.0.1
       ara_api_source: https://github.com/ansible-community/ara
       ara_api_source_checkout: ~/src/github.com/ansible-community/ara
@@ -26,6 +27,7 @@ all:
     logreduce-mqtt01.softwarefactory-project.io:
       ansible_host: 192.168.242.141
       ansible_user: fedora
+      ansible_python_interpreter: python3
     backup.rdoproject.org:
       ansible_host: backup.rdoproject.org
       ansible_user: centos
