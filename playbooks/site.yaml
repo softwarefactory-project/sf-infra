@@ -15,6 +15,10 @@
     - prometheus
     - ara_api
 
+- hosts: backup
+  roles:
+    - node-exporter-rpm
+
 - hosts: afs-mirror
   roles:
     - afs-mirror

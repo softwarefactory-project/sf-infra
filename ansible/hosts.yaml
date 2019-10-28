@@ -26,6 +26,10 @@ all:
     logreduce-mqtt01.softwarefactory-project.io:
       ansible_host: 192.168.242.141
       ansible_user: fedora
+    backup.rdoproject.org:
+      ansible_host: backup.rdoproject.org
+      ansible_user: centos
+      ansible_port: 3300
   children:
     afs-mirror:
       hosts:
@@ -33,6 +37,9 @@ all:
     bridge:
       hosts:
         bridge.softwarefactory-project.io:
+    backup:
+      hosts:
+        backup.rdoproject.org:
     logreduce-mqtt:
       hosts:
         logreduce-mqtt01.softwarefactory-project.io:
