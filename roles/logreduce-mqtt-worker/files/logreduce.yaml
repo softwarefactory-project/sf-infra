@@ -48,6 +48,7 @@ mqtt:
   model_dest: uploader@logs.rdoproject.org:/var/www/html/review.rdoproject.org/classifiers
   log_dest: uploader@logs.rdoproject.org:/var/www/html/review.rdoproject.org
   rsync: True
+  only_model: True
 filters:
   # '\' needs to be escaped twice because of YAML pre-processing
   # To test the regexp, use this snippet:
