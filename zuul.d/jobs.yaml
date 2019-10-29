@@ -81,10 +81,10 @@
     check:
       jobs:
         - linters:
+            nodeset: fedora-latest-pod
             vars:
               linters:
-                # Uncomment once linters job use python3 flake8
-                # - flake8
+                - flake8
                 - yamllint
     gate:
       jobs:
