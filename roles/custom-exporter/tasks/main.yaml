@@ -45,6 +45,7 @@
         enabled: yes
 
 - name: Restart the service if needed
+  become: yes
   service:
     name: "journald-exporter"
     state: restarted

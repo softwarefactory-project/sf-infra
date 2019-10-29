@@ -63,7 +63,7 @@ class CustomEvent:
     def __post_init__(self) -> None:
         self.unit_re = re.compile(self.unit)
         self.message_re = re.compile(self.message)
-        self.counter = Counter(self.metric, self.message)
+        self.counter = Counter(self.metric, self.message, ['unit'])
 
     def process(self, unit, message) -> None:
         if self.unit_re.match(unit) and self.message_re.match(message):
