@@ -93,6 +93,8 @@ def config_mtime(config_dir: str) -> float:
 
 
 def process_event(custom_events, unit, pid, comm, message):
+    if not unit or not message:
+        return
     if TRACE_COOKIE in message:
         traceback.labels(unit).inc()
     if "segfault" in message:
