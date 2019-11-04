@@ -31,6 +31,7 @@
         rule_files:
           - rules.yml
           - rules-http.yml
+          - rules-backup.yml
         scrape_configs:
           - job_name: node
             static_configs:
@@ -93,6 +94,20 @@
               - alert: SSLCertExpiringSoon
                 expr: probe_ssl_earliest_cert_expiry{job="blackbox"} - time() < 86400 * 7
                 for: 10m
+
+    - dest: rules-backup
+      content: !unsafe |
+        groups:
+          - name: backup.rules
+            rules:
+              - alert: BackupTooOld
+                # Time since last backup is more than one day
+                expr: (time() - bup_last_backup{job="node"}) > 86400
+                labels:
+                  severity: warning
+                  lasttime: '{{ $value | humanizeTimestamp }}'
+                annotations:
+                  summary: 'Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}'
 
   register: _prom_config
 

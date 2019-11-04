@@ -1,0 +1,8 @@
+---
+rdo_backup_locations:
+  - dir: /var/lib/backup_lists_rdo/bup
+    domain: lists.rdoproject.org
+    month_subdir: 0
+  - dir: /var/lib/backup_review_rdo/bup
+    domain: review.rdoproject.org
+    month_subdir: 1

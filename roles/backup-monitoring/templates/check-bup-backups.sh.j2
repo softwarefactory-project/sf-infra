@@ -1,0 +1,18 @@
+#!/bin/bash
+
+COLLECTOR_DIR=/var/lib/node_exporter/textfile_collector
+BASE_DIRS=({% for loc in rdo_backup_locations -%} "{{ loc.dir }}" {% endfor -%})
+BASE_DOMAINS=({% for loc in rdo_backup_locations -%} "{{ loc.domain }}" {% endfor -%})
+MONTH_SUBDIRS=({% for loc in rdo_backup_locations -%} "{{ loc.month_subdir }}" {% endfor -%})
+
+{%raw %}
+rm -f ${COLLECTOR_DIR}/bup_backup.prom.$$
+
+len=${#BASE_DIRS[@]}
+for (( i=0; i<$len; i++ )); do
+    timestamp=$(/usr/local/bin/get-bup-backup-age.sh ${BASE_DIRS[$i]} ${BASE_DOMAINS[$i]} ${MONTH_SUBDIRS[$i]})
+    echo "bup_last_backup{dir=\"${BASE_DIRS[$i]}\"} $timestamp" >> ${COLLECTOR_DIR}/bup_backup.prom.$$
+done
+
+mv ${COLLECTOR_DIR}/bup_backup.prom.$$ ${COLLECTOR_DIR}/bup_backup.prom
+{% endraw %}

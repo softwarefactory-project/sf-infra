@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Copy Molecule logs
+      synchronize:
+        src: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/.tox/molecule/log/"
+        dest: "{{ zuul.executor.log_root }}/log"
+        mode: pull
+        verify_host: true
+

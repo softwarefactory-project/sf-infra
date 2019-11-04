@@ -1,0 +1,33 @@
+---
+- become: true
+  block:
+    - name: Deploy get-bup-backup-age.sh
+      copy:
+        src: get-bup-backup-age.sh
+        dest: /usr/local/bin/get-bup-backup-age.sh
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Deploy check-bup-backups.sh
+      template:
+        src: check-bup-backups.sh.j2
+        dest: /usr/local/bin/check-bup-backups.sh
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Ensure cronie is installed
+      package:
+        name:
+          - cronie
+        state: present
+
+    - name: Create cron job
+      cron:
+        name: check-bup-backups
+        user: root
+        minute: "*/15"
+        hour: "*"
+        day: "*"
+        job: '/usr/local/bin/check-bup-backups.sh'

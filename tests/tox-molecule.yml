@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - name: Run tox -emolecule
+      changed_when: true
+      shell:
+        cmd: |
+          tox -emolecule
+        chdir: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"

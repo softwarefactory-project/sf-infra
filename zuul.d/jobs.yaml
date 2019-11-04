@@ -77,6 +77,21 @@
       - name: vault
         secret: ansible-vault
 
+- job:
+    name: sf-infra-molecule
+    parent: sf-infra-base
+    description: Use molecule to test Ansible roles
+    pre-run: tests/pre-tox-molecule.yml
+    run: tests/tox-molecule.yml
+    post-run: tests/post-tox-molecule.yml
+    nodeset:
+      nodes:
+        - name: primary
+          label: cloud-fedora-30
+    files:
+      - ^roles/.*
+      - ^tox.ini$
+
 - project:
     check:
       jobs:
@@ -86,6 +101,7 @@
               linters:
                 - flake8
                 - yamllint
+        - sf-infra-molecule
     gate:
       jobs:
         - sf-infra-create-bridge
