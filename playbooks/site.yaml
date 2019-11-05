@@ -81,3 +81,8 @@
             immediate: yes
             state: enabled
       become: yes
+
+- hosts: trunk.rdoproject.org
+  roles:
+    - node-exporter-rpm
+    - rdotrunk-checks

@@ -1,0 +1,33 @@
+---
+- become: true
+  block:
+    - name: Deploy get-dlrn-status-date.sh
+      copy:
+        src: get-dlrn-status-date.sh
+        dest: /usr/local/bin/get-dlrn-status-date.sh
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Deploy check-dlrn-dates.sh
+      template:
+        src: check-dlrn-dates.sh.j2
+        dest: /usr/local/bin/check-dlrn-dates.sh
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Ensure cronie is installed
+      package:
+        name:
+          - cronie
+        state: present
+
+    - name: Create cron job
+      cron:
+        name: check-dlrn-dates
+        user: root
+        minute: "*/30"
+        hour: "*"
+        day: "*"
+        job: '/usr/local/bin/check-dlrn-dates.sh'
