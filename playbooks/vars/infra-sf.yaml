@@ -46,6 +46,12 @@ images:
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
     # Via https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-30-1.2-x86_64-CHECKSUM
     checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
+  - name: centos-7-1907
+    container_format: bare
+    disk_format: qcow2
+    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
+    # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
+    checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
 
 keypairs:
   - name: sf-infra-key
@@ -59,6 +65,19 @@ servers:
     flavor: v1-standard-2
     network: private-network
     floating_ip: no
+    security_groups:
+      - common
+      - private-monitoring
+    boot_from_volume: yes
+    volume_size: 80
+
+  - name: prometheus.monitoring.softwarefactory-project.io
+    key_name: sf-infra-key
+    image: centos-7-1907
+    # 2 CPUs, 8 GB RAM
+    flavor: v1-standard-2
+    network: private-network
+    floating_ip: yes
     security_groups:
       - common
       - private-monitoring
