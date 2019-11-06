@@ -80,6 +80,22 @@
             repo: "{{ ara_api_source | default('https://github.com/ansible-community/ara') }}"
             dest: "{{ ara_api_source_checkout | default('~/src/github.com/ansible-community/ara') }}"
 
+        # Perform one shot actions
+        - name: Check for updated actions
+          shell: git diff-tree --no-commit-id --name-only -r HEAD | grep '^actions/.*yaml$' | sort
+          args:
+            chdir: "~/{{ zuul.project.src_dir }}"
+          register: _actions_files
+
+        - name: Execute actions
+          # TODO: Figure out a better way
+          environment:
+            PYTHONPATH: "{{ ansible_user_dir }}/.ara/virtualenv/lib/python3.7/site-packages"
+          args:
+            chdir: "~/{{ zuul.project.src_dir }}"
+          command: "ansible-playbook -v {{ item }}"
+          loop: "{{ _actions_files.stdout_lines }}"
+
         - name: Run configuration playbook
           # TODO: Figure out a better way
           environment:
