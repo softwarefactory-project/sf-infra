@@ -37,6 +37,11 @@ security_groups:
       # Node exporter
       - port: 9100
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
+  - name: public-monitoric
+    rules:
+      # Public access to prometheus and grafana
+      - port: 9090
+      - port: 9030
 
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
@@ -80,6 +85,6 @@ servers:
     floating_ip: yes
     security_groups:
       - common
-      - private-monitoring
+      - public-monitoring
     boot_from_volume: yes
     volume_size: 80
