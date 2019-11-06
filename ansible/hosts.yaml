@@ -32,6 +32,12 @@ all:
       ansible_host: backup.rdoproject.org
       ansible_user: centos
       ansible_port: 3300
+    prometheus.monitoring.softwarefactory-project.io:
+      ansible_host: 38.102.83.250
+      ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIC0b7onx8EXjqKxHHU5N6tgtPZq18LTw7DWIYBjPBIFr
+      ansible_python_interpreter: python2
+      podman_gw_ip: 10.88.0.1
   children:
     afs-mirror:
       hosts:
@@ -45,3 +51,6 @@ all:
     logreduce-mqtt:
       hosts:
         logreduce-mqtt01.softwarefactory-project.io:
+    prometheus:
+      hosts:
+        prometheus.monitoring.softwarefactory-project.io:

@@ -1,5 +1,18 @@
 ---
 - block:
+    - name: Make sure NetworkManager and dnsmasq are installed
+      package:
+        name:
+          - NetworkManager
+          - dnsmasq
+        state: present
+
+    - name: Make sure NetworkManager service is enabled
+      service:
+        name: NetworkManager
+        enabled: yes
+        state: started
+
     - name: Configure dnsmasq
       copy:
         content: "{{ item.content }}"

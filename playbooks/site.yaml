@@ -29,3 +29,17 @@
     - node-exporter
     - custom-exporter
     - logreduce-mqtt-worker
+
+- hosts: prometheus
+  pre_tasks:
+    - name: Install requirements
+      package:
+        name:
+          - podman
+          - dnsmasq
+      become: yes
+  roles:
+    - dnsmasq
+    - node-exporter
+    - alert-manager
+    - prometheus
