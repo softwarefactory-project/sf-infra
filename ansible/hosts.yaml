@@ -9,6 +9,8 @@ all:
       ansible_connection: local
       ansible_python_interpreter: python3
       podman_gw_ip: 10.88.0.1
+      prometheus_public_ip: 38.102.83.250
+      prometheus_private_ip: 192.168.242.246
       ara_api_source: https://github.com/ansible-community/ara
       ara_api_source_checkout: ~/src/github.com/ansible-community/ara
       ara_api_fqdn: bridge.softwarefactory-project.io
