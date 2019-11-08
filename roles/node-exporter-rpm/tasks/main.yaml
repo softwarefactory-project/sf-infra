@@ -4,6 +4,15 @@
       yum:
         name: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-x86_64/00935314-golang-github-prometheus-node_exporter/golang-github-prometheus-node_exporter-0.18.1-6.el7.x86_64.rpm
 
+    - name: Add systemd monitoring if required
+      lineinfile:
+        path: /etc/sysconfig/node_exporter
+        regexp: '^OPTIONS='
+        line: "OPTIONS=\"--collector.textfile.directory /var/lib/node_exporter/textfile_collector --collector.systemd --collector.systemd.unit-whitelist='{{ prometheus_monitored_services | join('|') }}'\""
+      when: prometheus_monitored_services is defined
+      notify:
+        - Restart node-exporter
+
     - name: Start the service
       service:
         name: node_exporter
