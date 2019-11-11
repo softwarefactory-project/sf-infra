@@ -39,6 +39,7 @@
     - dnsmasq
     - grafana
     - node-exporter
+    - blackbox-exporter
     - prometheus
 
 - hosts: dlrn
