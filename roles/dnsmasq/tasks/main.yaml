@@ -34,8 +34,8 @@
           dest: /etc/NetworkManager/dnsmasq.d/00-add-hosts.conf
 
         - content: |
-            127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 {{ ansible_fqdn }} {{ ansible_hostname }}
-            ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6 {{ ansible_fqdn }} {{ ansible_hostname }}
+            127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 {{ inventory_hostname }} {{ ansible_hostname }}
+            ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6 {{ inventory_hostname }} {{ ansible_hostname }}
 
             {% for host in hostvars %}
             {{ hostvars[host].ansible_host }} {{ host }}

@@ -31,7 +31,7 @@ all:
       ansible_user: fedora
       ansible_python_interpreter: python3
     backup.rdoproject.org:
-      ansible_host: backup.rdoproject.org
+      ansible_host: 54.82.121.165
       ansible_user: centos
       ansible_port: 3300
     prometheus.monitoring.softwarefactory-project.io:

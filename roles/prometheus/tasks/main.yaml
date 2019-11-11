@@ -38,8 +38,7 @@
                   - mirror.regionone.vexxhost.rdoproject.org:9100
                   - logreduce-mqtt01.softwarefactory-project.io:9100
                   - backup.rdoproject.org:9100
-                  # Using the rdoproject.org DNS because the sf.io entry is currently invalid
-                  - prometheus.monitoring.rdoproject.org:9100
+                  - prometheus.monitoring.softwarefactory-project.io:9100
           - job_name: journal
             static_configs:
               - targets:
