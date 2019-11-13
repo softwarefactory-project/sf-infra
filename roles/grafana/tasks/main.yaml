@@ -1,34 +1,32 @@
 ---
-#- name: Create host directories
-#  become: yes
-#  file:
-#    path: /etc/alertmanager
-#    state: directory
-#
-#- name: Create configuration file
-#  become: yes
-#  copy:
-#    content: |
-#      ---
-#      global:
-#        resolve_timeout: 5m
-#        smtp_smarthost: 'bridge.softwarefactory-project.io'
-#        smtp_from: 'prometheus@bridge.softwarefactory-project.io'
-#      route:
-#        group_by: [Alertname]
-#        receiver: softwarefactory-operations-team
-#
-#      receivers:
-#        - name: softwarefactory-operations-team
-#          email_configs:
-#            - to: softwarefactory-operations-team@redhat.com
-#
-#    dest: /etc/alertmanager/alertmanager.yml
-#  register: _am_config
+- name: Create host directories
+  become: yes
+  file:
+    path: '{{ item }}'
+    state: directory
+    recurse: yes
+  loop:
+    - /etc/grafana/provisioning/datasources
+    - /etc/grafana/provisioning/dashboards
+
+- name: Install config files
+  become: yes
+  copy:
+    src: '{{ item.name }}'
+    dest: '/etc/{{ item.path }}/{{ item.name }}'
+  loop:
+    - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
+    - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'datasource_prometheus.yml', path: 'grafana/provisioning/datasources' }
+    - { name: 'grafana.ini', path: 'grafana'}
+  register: _grafana_config
 
 - include_role:
     name: container-service
   vars:
     pod_name: grafana
-    pod_param: --network host -p 3000:3000 grafana/grafana
-    #pod_config: "{{ _am_config }}"
+    pod_param: >
+      --network host
+      -v /etc/grafana:/etc/grafana
+      grafana/grafana
+    pod_config: "{{ _grafana_config }}"

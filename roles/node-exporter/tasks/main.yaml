@@ -3,4 +3,12 @@
     name: container-service
   vars:
     pod_name: node-exporter
-    pod_param: --net=host --pid=host -v /:/host:ro,rslave quay.io/prometheus/node-exporter --path.rootfs=/host
+    pod_param: >
+      --net=host
+      --pid=host
+      -v /:/host:ro,rslave
+      quay.io/prometheus/node-exporter
+      --path.rootfs=/host
+      --collector.netstat.fields=(.*)
+      --collector.vmstat.fields=(.*)
+      --collector.interrupts

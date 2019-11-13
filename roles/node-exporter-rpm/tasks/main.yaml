@@ -8,7 +8,7 @@
       lineinfile:
         path: /etc/sysconfig/node_exporter
         regexp: '^OPTIONS='
-        line: "OPTIONS=\"--collector.textfile.directory /var/lib/node_exporter/textfile_collector --collector.systemd --collector.systemd.unit-whitelist='{{ prometheus_monitored_services | join('|') }}'\""
+        line: "OPTIONS=\"--collector.textfile.directory /var/lib/node_exporter/textfile_collector --collector.systemd --collector.systemd.unit-whitelist='{{ prometheus_monitored_services | join('|') }}' --collector.netstat.fields=(.*) --collector.vmstat.fields=(.*)  --collector.interrupts\""
       when: prometheus_monitored_services is defined
       notify:
         - Restart node-exporter
