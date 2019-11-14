@@ -15,5 +15,6 @@ Then most of the work is done with the configure-hosts job that use a static inv
 
 * Add it to the right playbooks/vars/ file, e.g. playbooks/vars/infra-sf.yaml servers list
 * Commit, git-review and wait for the gate job to finish to collect it's public ip
+* Gather it's ed25519 ssh public key by running `ssh-keyscan -t ed25519 host-ip`
 * Add the server to the inventory (ansible/hosts.yaml) and to the site.yaml
 * Commit and git-review

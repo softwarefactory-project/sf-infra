@@ -43,3 +43,7 @@
     - node-exporter
     - alert-manager
     - prometheus
+
+- hosts: dlrn
+  roles:
+    - node-exporter-rpm

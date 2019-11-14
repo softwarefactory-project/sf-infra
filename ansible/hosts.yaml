@@ -40,6 +40,16 @@ all:
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIC0b7onx8EXjqKxHHU5N6tgtPZq18LTw7DWIYBjPBIFr
       ansible_python_interpreter: python2
       podman_gw_ip: 10.88.0.1
+    rpm-packaging-ci.rdoproject.org:
+      ansible_host: 38.102.83.95
+      ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAICp4AHiyY5+ogaVcXxPkdh6lLdkyLgX/uSWSiPzIASSn
+      ansible_python_interpreter: python2
+    fedora-rpm-packaging-ci.rdoproject.org:
+      ansible_host: 38.102.83.130
+      ansible_user: fedora
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMEVECvciqLnJPkX22ybEPZKzNqUuoMYL7EZlIZXDasT
+      ansible_python_interpreter: python3
   children:
     afs-mirror:
       hosts:
@@ -56,3 +66,7 @@ all:
     prometheus:
       hosts:
         prometheus.monitoring.softwarefactory-project.io:
+    dlrn:
+      hosts:
+        rpm-packaging-ci.rdoproject.org:
+        fedora-rpm-packaging-ci.rdoproject.org:
