@@ -75,7 +75,4 @@
       -v /etc/prometheus/:/etc/prometheus/:Z
       -v /var/lib/prometheus:/prometheus:Z
       quay.io/prometheus/prometheus
-      --config.file=/etc/prometheus/prometheus.yml
-      --web.enable-lifecycle
-      --web.enable-admin-api
     pod_config: "{{ _prom_config }}"

@@ -1,0 +1,10 @@
+apiVersion: 1
+datasources:
+-  access: 'proxy'
+   editable: true
+   isDefault: true
+   name: 'prometheus'
+   orgId: 1
+   type: 'prometheus'
+   url: 'http://prometheus.monitoring.softwarefactory-project.io:9090'
+   version: 1
