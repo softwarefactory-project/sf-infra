@@ -7,14 +7,9 @@
         name: bridge.softwarefactory-project.io
       become: yes
   roles:
-    - grafana
     - bridge-accounts
-    - dnsmasq
     - postfix
     - node-exporter
-    - alert-manager
-    - prometheus
-    - ara_api
 
 - hosts: backup
   roles:
