@@ -5,6 +5,7 @@
     - name: Ensure hostname is correct
       hostname:
         name: bridge.softwarefactory-project.io
+      become: yes
   roles:
     - grafana
     - bridge-accounts
