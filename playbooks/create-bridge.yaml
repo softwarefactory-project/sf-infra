@@ -46,6 +46,7 @@
         security_groups:
           - common
           - zuul-console
+          - monitoring
         boot_from_volume: yes
         volume_size: 20
 
