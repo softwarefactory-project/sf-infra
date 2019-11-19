@@ -35,9 +35,10 @@
           - dnsmasq
       become: yes
   roles:
-    - dnsmasq
-    - node-exporter
     - alert-manager
+    - dnsmasq
+    - grafana
+    - node-exporter
     - prometheus
 
 - hosts: dlrn
