@@ -1,0 +1,7 @@
+---
+- include_role:
+    name: container-service
+  vars:
+    pod_name: blackbox-exporter
+    pod_param: --net=host quay.io/prometheus/blackbox-exporter
+
