@@ -1,4 +1,13 @@
 ---
+- name: Create directory for textfile exporter
+  file:
+    path: /var/lib/node_exporter/textfile_collector
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+  become: yes
+
 - include_role:
     name: container-service
   vars:
@@ -7,8 +16,10 @@
       --net=host
       --pid=host
       -v /:/host:ro,rslave
+      -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
       quay.io/prometheus/node-exporter
       --path.rootfs=/host
       --collector.netstat.fields=(.*)
       --collector.vmstat.fields=(.*)
       --collector.interrupts
+      --collector.textfile.directory /var/lib/node_exporter/textfile_collector
