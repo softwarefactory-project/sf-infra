@@ -2,6 +2,13 @@
 web_monitor_list:
   - https://softwarefactory-project.io
   - https://softwarefactory-project.io/analytics/elasticsearch/
+
+  # Zuuls
+  - https://softwarefactory-project.io/zuul/api/info
+  - https://review.rdoproject.org/zuul/api/info
+  - https://ovirt.softwarefactory-project.io/zuul/api/info
+  - https://ansible.softwarefactory-project.io/zuul/api/info
+
   - https://www.softwarefactory-project.io
   - https://centos.logs.rdoproject.org
   - https://console.registry.rdoproject.org

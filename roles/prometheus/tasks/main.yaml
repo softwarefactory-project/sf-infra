@@ -47,6 +47,7 @@
               - targets:
                   - logreduce-mqtt01.softwarefactory-project.io:9101
           - job_name: 'blackbox'
+            scrape_interval: 5m
             metrics_path: /probe
             params:
               module: [http_2xx]
