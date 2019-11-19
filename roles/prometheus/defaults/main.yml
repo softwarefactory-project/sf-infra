@@ -1,6 +1,8 @@
 ---
 web_monitor_list:
   - https://softwarefactory-project.io
+  - https://softwarefactory-project.io/analytics/elasticsearch/
+  - https://www.softwarefactory-project.io
   - https://centos.logs.rdoproject.org
   - https://console.registry.rdoproject.org
   - https://images.rdoproject.org
