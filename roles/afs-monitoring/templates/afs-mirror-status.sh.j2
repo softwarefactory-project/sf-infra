@@ -1,0 +1,16 @@
+#!/bin/bash
+
+COLLECTOR_DIR=/var/lib/node_exporter/textfile_collector
+AFS_PAIRS=({% for pair in afs_mirror_metrics -%} "{{ pair.name }}^{{ pair.url }}"{% endfor -%})
+
+{% raw %}
+rm -f ${COLLECTOR_DIR}/afs_status.prom.$$
+for PAIR in ${AFS_PAIRS[@]}; do
+    TARGET=$(echo $PAIR | awk -F^ '{print $1}')
+    URL=$(echo $PAIR | awk -F^ '{print $2}')
+    TIMESTAMP=$(/usr/local/bin/get-afs-mirror-state.sh ${URL})
+    echo "afs_mirror_sync_time{target=\"${TARGET}\"} $TIMESTAMP" >> ${COLLECTOR_DIR}/afs_status.prom.$$
+done
+
+mv ${COLLECTOR_DIR}/afs_status.prom.$$ ${COLLECTOR_DIR}/afs_status.prom
+{% endraw %}

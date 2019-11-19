@@ -38,6 +38,7 @@
   roles:
     - afs-mirror
     - node-exporter-rpm
+    - afs-monitoring
 
 - hosts: logreduce-mqtt
   roles:

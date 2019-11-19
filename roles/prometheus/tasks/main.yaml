@@ -33,6 +33,7 @@
           - rules-http.yml
           - rules-backup.yml
           - rules-dlrn.yml
+          - rules-afs.yml
         scrape_configs:
           - job_name: node
             static_configs:
@@ -111,20 +112,33 @@
                 annotations:
                   summary: 'Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}'
 
+    - dest: rules-afs
+      content: !unsafe |
+        groups:
+          - name: afs.rules
+            rules:
+              - alert: AFSTooOld
+                # Time since last mirror is more than one day
+                expr: (time() - afs_mirror_sync_time{job="node"}) > 86400
+                labels:
+                  severity: warning
+                  lasttime: '{{ $value | humanizeTimestamp }}'
+                annotations:
+                  summary: 'Last AFS mirror sync for {{ $labels.target }} dates back to {{ $value | humanizeTimestamp }}'
+
     - dest: rules-dlrn
       content: !unsafe |
         groups:
           - name: dlrn.rules
             rules:
-                  - alert: RDOTrunkRepoTooOld
-                    # Time since last build is more than one day
-                    expr: (time() - dlrn_last_build{job="node"}) > 86400
-                    labels:
-                      severity: warning
-                      lasttime: '{{ $value | humanizeTimestamp }}'
-                    annotations:
-                      summary: 'Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}'
-
+              - alert: RDOTrunkRepoTooOld
+                # Time since last build is more than one day
+                expr: (time() - dlrn_last_build{job="node"}) > 86400
+                labels:
+                  severity: warning
+                  lasttime: '{{ $value | humanizeTimestamp }}'
+                annotations:
+                  summary: 'Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}'
   register: _prom_config
 
 - include_role:
