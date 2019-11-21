@@ -3,6 +3,7 @@ all:
   hosts:
     bridge.softwarefactory-project.io:
       ansible_host: 38.102.83.244
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIG+w4PGQtn2VpFwEpww7uYaVcubHMvKCiM1uj6NOwx9X
       bridge_private_ip: 192.168.242.251
       bridge_public_ip: 38.102.83.244
       ansible_user: fedora
@@ -25,15 +26,18 @@ all:
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_host: 38.102.83.237
       ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIPKuXA3qpzWHjSE3p+aTF/vMrJ/FuhH5nhtFUiYkjWop
       afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
     logreduce-mqtt01.softwarefactory-project.io:
       ansible_host: 192.168.242.141
       ansible_user: fedora
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMSaFvKdKOH2kOVpP1/6ZJjAQe2lZs2jxseZlN8x/iWg
       ansible_python_interpreter: python3
     backup.rdoproject.org:
       ansible_host: 54.82.121.165
       ansible_user: centos
       ansible_port: 3300
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIAJRPWXXyMvh9KZNSaMm2lm+xhe/eGncCPcy9gPQkc39
     prometheus.monitoring.softwarefactory-project.io:
       ansible_host: 38.102.83.250
       ansible_user: centos

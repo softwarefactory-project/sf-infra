@@ -6,6 +6,24 @@
       hostname:
         name: bridge.softwarefactory-project.io
       become: yes
+
+    - name: Populate user ssh_known_hosts file when ansible port is not defined
+      # syntax: hostname,ip key
+      known_hosts:
+        path: "~/.ssh/known_hosts"
+        name: "{{ item }}"
+        key: "{{ item }},{{ hostvars[item]['ansible_host'] }} ssh-ed25519 {{ hostvars[item]['ansible_ssh_host_key_ed25519_public'] }}"
+      when: hostvars[item]['ansible_port'] is not defined
+      loop: "{{ groups['all'] }}"
+
+    - name: Populate user ssh_known_hosts file when ansible port is defined
+      # syntax: [hostname]:port,[ip]:port key
+      known_hosts:
+        path: "~/.ssh/known_hosts"
+        name: "[{{ item }}]:{{ hostvars[item]['ansible_port'] }}"
+        key: "[{{ item }}]:{{ hostvars[item]['ansible_port'] }},[{{ hostvars[item]['ansible_host'] }}]:{{ hostvars[item]['ansible_port'] }} ssh-ed25519 {{ hostvars[item]['ansible_ssh_host_key_ed25519_public'] }}"
+      when: hostvars[item]['ansible_port'] is defined
+      loop: "{{ groups['all'] }}"
   roles:
     - bridge-accounts
     - postfix
