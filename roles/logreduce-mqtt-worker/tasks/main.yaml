@@ -18,12 +18,11 @@
     repo: https://softwarefactory-project.io/r/logreduce
     dest: "{{ ansible_env.HOME }}/logreduce"
 
-# Uncomment when https://softwarefactory-project.io/r/16880 merged
-#- name: Install logreduce
-#  become: yes
-#  command: python3 setup.py install
-#  args:
-#    chdir: "{{ ansible_env.HOME }}/logreduce"
+- name: Install logreduce
+  become: yes
+  command: python3 setup.py install
+  args:
+    chdir: "{{ ansible_env.HOME }}/logreduce"
 
 - name: Add user
   become: yes
