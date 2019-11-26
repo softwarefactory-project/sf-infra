@@ -10,6 +10,7 @@
       - infra-rdo
       - infra-sf
       - nodepool-tripleo
+      - nodepool-sf
   tasks:
     - include_tasks: tasks/configure-tenant.yaml
       loop: "{{ tenants }}"
