@@ -44,6 +44,20 @@ security_groups:
   - name: rdo-trunk
     rules:
       - port: 3300
+  - name: registry
+    rules:
+      - port: 53
+      - port: 2379
+      - port: 2380
+      - port: 4001
+      - port: 5000
+      - port: 8443
+      - port: 9090
+      - port: 10250
+      - port: 4789
+        protocol: udp
+      - port: 8053
+        protocol: udp
 
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
@@ -107,3 +121,17 @@ servers:
       - rdo-trunk
     boot_from_volume: yes
     volume_size: 100
+  - name: registry-vexxhost.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-7-1907
+    # 8 CPUs, 16 GB RAM
+    flavor: v1-standard-8
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+      - monitoring
+      - registry
+    boot_from_volume: yes
+    volume_size: 200
