@@ -9,6 +9,7 @@
     tenants:
       - infra-rdo
       - infra-sf
+      - nodepool-sf
   tasks:
     - include_tasks: tasks/create-hosts.yaml
       loop: "{{ tenants }}"
