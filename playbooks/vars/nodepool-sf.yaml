@@ -51,7 +51,7 @@ servers:
     key_name: sf-infra-key
     image: CentOS-7-x86_64-GenericCloud
     flavor: ci.m1.large
-    network: private-network
+    network: private
     floating_ip: yes
     boot_from_volume: no
 
@@ -59,7 +59,7 @@ servers:
     key_name: sf-infra-key
     image: CentOS-7-x86_64-GenericCloud
     flavor: ci.m1.small
-    network: private-network
+    network: private
     floating_ip: yes
     boot_from_volume: no
 
@@ -67,7 +67,7 @@ servers:
     key_name: sf-infra-key
     image: CentOS-7-x86_64-GenericCloud
     flavor: ci.m1.small
-    network: private-network
+    network: private
     floating_ip: yes
     boot_from_volume: no
 
@@ -75,6 +75,6 @@ servers:
     key_name: sf-infra-key
     image: CentOS-7-x86_64-GenericCloud
     flavor: ci.m1.small
-    network: private-network
+    network: private
     floating_ip: yes
     boot_from_volume: no
