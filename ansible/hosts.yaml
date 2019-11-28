@@ -54,6 +54,11 @@ all:
       ansible_user: fedora
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMEVECvciqLnJPkX22ybEPZKzNqUuoMYL7EZlIZXDasT
       ansible_python_interpreter: python3
+    registry-vexxhost.rdoproject.org:
+      ansible_host: 38.102.83.107
+      ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIF5Q/Fcv93zMgcryc31EhvG9WZgfedrT1S+Mmafu+Enj
+      ansible_python_interpreter: python2
   children:
     afs-mirror:
       hosts:
@@ -74,3 +79,6 @@ all:
       hosts:
         rpm-packaging-ci.rdoproject.org:
         fedora-rpm-packaging-ci.rdoproject.org:
+    registry:
+      hosts:
+        registry-vexxhost.rdoproject.org:
