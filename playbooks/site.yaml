@@ -63,3 +63,20 @@
 - hosts: dlrn
   roles:
     - node-exporter-rpm
+  tasks:
+    - block:
+        - name: Ensure firewalld is installed
+          package:
+            name: firewalld
+        - name: Ensure firewalld service is running
+          service:
+            name: firewalld
+            state: started
+            enabled: yes
+        - name: Enable port 9100 on firewall, it can be disabled by puppet-dlrn
+          firewalld:
+            port: 9100/tcp
+            permanent: yes
+            immediate: yes
+            state: enabled
+      become: yes
