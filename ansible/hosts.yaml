@@ -54,6 +54,10 @@ all:
       ansible_user: fedora
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMEVECvciqLnJPkX22ybEPZKzNqUuoMYL7EZlIZXDasT
       ansible_python_interpreter: python3
+    trunk-centos8.rdoproject.org:
+      ansible_host: 38.102.83.175
+      ansible_user: cloud-user
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIGIe8icD3c4AR/bhR4paDWeslxkghdCrZZ2Q56L9jDt6
     registry-vexxhost.rdoproject.org:
       ansible_host: 38.102.83.107
       ansible_user: centos
@@ -79,6 +83,7 @@ all:
       hosts:
         rpm-packaging-ci.rdoproject.org:
         fedora-rpm-packaging-ci.rdoproject.org:
+        trunk-centos8.rdoproject.org:
     registry:
       hosts:
         registry-vexxhost.rdoproject.org:

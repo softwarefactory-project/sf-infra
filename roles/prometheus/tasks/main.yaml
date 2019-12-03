@@ -42,6 +42,7 @@
                   - prometheus.monitoring.softwarefactory-project.io:9100
                   - rpm-packaging-ci.rdoproject.org:9100
                   - fedora-rpm-packaging-ci.rdoproject.org:9100
+                  - trunk-centos8.rdoproject.org:9100
           - job_name: journal
             static_configs:
               - targets:
