@@ -73,6 +73,12 @@ images:
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
     # Via https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-30-1.2-x86_64-CHECKSUM
     checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
+  - name: centos-8.0-1905
+    container_format: bare
+    disk_format: qcow2
+    # This is a temporary URL, there is no official CentOS 8 qcow2 image, and the previous Koji-based URLs are no longer available
+    url: https://jpena.fedorapeople.org/CentOS-8-GenericCloud-8.0.1905-22.x86_64.qcow2
+    checksum: c86c119665866695a700a4ab523c774c64ed7e0dd9e6e89f5f032e0f03148a47
 
 keypairs:
   - name: sf-infra-key
@@ -135,3 +141,17 @@ servers:
       - registry
     boot_from_volume: yes
     volume_size: 200
+  - name: trunk-centos8.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-8.0-1905
+    # 4 CPUs, 16 GB RAM
+    flavor: v1-standard-4
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+      - monitoring
+      - rdo-trunk
+    boot_from_volume: yes
+    volume_size: 512
