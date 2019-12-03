@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    ansible_port: 3000
+  tasks:
+    - name: Pre-install sshd
+      package:
+        name: openssh-server
+  roles:
+    - role: custom-ssh-port

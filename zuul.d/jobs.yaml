@@ -110,6 +110,7 @@
       - ^roles/elasticsearch/.*$
       - ^roles/repoxplorer/.*$
       - ^roles/repoxplorer-gateway/.*$
+      - ^roles/custom-ssh-port/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 
