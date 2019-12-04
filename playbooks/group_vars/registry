@@ -1,0 +1,73 @@
+---
+openshift_docker_selinux_enabled: false
+#openshift_docker_insecure_registries: 172.30.0.0/16
+openshift_disable_check: memory_availability,package_version
+debug_level: 2
+
+# This is deployed on an OpenStack cloud which defaults eth0 mtu to 1450
+# The node mtu must be 50 less than eth0
+# https://docs.openshift.com/container-platform/3.5/admin_guide/sdn_troubleshooting.html#builds-on-a-virtual-network-are-failing
+openshift_node_sdn_mtu: 1400
+
+# Version and deployment type
+openshift_deployment_type: origin
+deployment_subtype: registry
+openshift_release: 3.11
+# The dash prefix is on purpose, the matching is weird, see https://github.com/openshift/openshift-ansible/issues/8191
+# openshift_pkg_version: -3.7.2-1.el7.git.0.cd74924
+# openshift_image_tag: v3.7.0
+# openshift_repos_enable_testing: true
+
+# OpenShift persistent registry volume and claim on local filesystem
+openshift_hosted_registry_storage_kind: hostpath
+openshift_hosted_registry_storage_access_modes:
+  - "ReadWriteOnce"
+openshift_hosted_registry_storage_volume_name: registry
+openshift_hosted_registry_storage_volume_size: 8Gi
+openshift_hosted_registry_storage_hostpath_path: /openshift_volumes/registry
+
+openshift_hosted_registry_persistent_volume_claims:
+- name: registry-claim
+  capacity: 50Gi
+  access_modes:
+    - ReadWriteOnce
+
+# Block device on which docker will set up /var/lib/docker through the
+# container-runtime role
+container_runtime_docker_storage_type: overlay2
+container_runtime_docker_storage_setup_device: /dev/vdb
+
+# Identity: GitHub oauth
+# Application name: "OpenShift Docker Registry Console"
+# Application home page: "https://registry-vexxhost.rdoproject.org:8443/"
+# Application description: "OpenShift Docker Registry Console"
+# Application callback URL: "https://registry-vexxhost.rdoproject.org:8443/oauth2callback/github"
+
+# Endpoint DNS and SSL
+openshift_master_cluster_public_hostname: registry-vexxhost.rdoproject.org
+openshift_master_default_subdomain: apps.registry-vexxhost.rdoproject.org
+openshift_master_overwrite_named_certificates: true
+openshift_master_named_certificates:
+  - certfile: /etc/letsencrypt/live/registry-vexxhost.rdoproject.org/registry-vexxhost.rdoproject.org-fullchain.pem
+    keyfile: /etc/letsencrypt/live/registry-vexxhost.rdoproject.org/registry-vexxhost.rdoproject.org-privkey.pem
+    names:
+      - registry-vexxhost.rdoproject.org
+
+# Allows the registry and its web console to be scheduled on the single host.
+openshift_hosted_infra_selector: ""
+
+# Note: using passthrough termination because reencrypt does not work
+# https://github.com/openshift/origin/issues/14249
+openshift_hosted_registry_routehost: trunk.registry-vexxhost.rdoproject.org
+openshift_hosted_registry_routetermination: reencrypt
+openshift_hosted_registry_routecertificates:
+  certfile: "/etc/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-cert.pem"
+  keyfile: "/etc/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-privkey.pem"
+  cafile: "/etc/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-chain.pem"
+
+openshift_hosted_registry_console_routehost: console.registry-vexxhost.rdoproject.org
+openshift_hosted_registry_console_routetermination: reencrypt
+openshift_hosted_registry_console_routecertificates:
+  certfile: "/etc/letsencrypt/live/console.registry-vexxhost.rdoproject.org/console.registry-vexxhost.rdoproject.org-cert.pem"
+  keyfile: "/etc/letsencrypt/live/console.registry-vexxhost.rdoproject.org/console.registry-vexxhost.rdoproject.org-privkey.pem"
+  cafile: "/etc/letsencrypt/live/console.registry-vexxhost.rdoproject.org/console.registry-vexxhost.rdoproject.org-chain.pem"

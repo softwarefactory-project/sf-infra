@@ -69,6 +69,8 @@
       - name: sf-infra-create-hosts
         soft: true
     run: playbooks/configure-hosts.yaml
+    required-projects:
+      - review.rdoproject.org/rdo-infra/rdo-infra-playbooks
     vars:
       sf_infra_play_name: site
     secrets:
