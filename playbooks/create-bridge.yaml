@@ -47,6 +47,7 @@
           - common
           - zuul-console
           - monitoring
+          - prometheus-mail
         boot_from_volume: yes
         volume_size: 20
 
