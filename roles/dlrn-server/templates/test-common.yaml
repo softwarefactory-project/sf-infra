@@ -1,0 +1,33 @@
+---
+enable_worker_cronjobs: &enable_cron false
+enable_purge_cronjobs: &enable_purge false
+disable_worker_email: &disable_email true
+
+dlrn::web::web_domain: '{{ inventory_hostname }}'
+dlrn::web::enable_api: true
+dlrn::web::api_workers: ['centos8-master-uc']
+dlrn::web::cert_mail: undef
+
+dlrn::workers:
+  centos8-master-uc:
+    distro: 'centos8'
+    target: 'centos8-master-uc'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '2'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
+    release: 'ussuri-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos8'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+#    use_components: true

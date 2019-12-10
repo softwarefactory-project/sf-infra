@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    dlrn_server_type: primary
+    dlrn_enable_https: false
+    dlrn_host: test
+  roles:
+    - role: dlrn-server

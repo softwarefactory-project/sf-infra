@@ -1,0 +1,6 @@
+[puppet-temporary-repo]
+name=CentOS-7 - OpenStack train
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=cloud-openstack-train
+gpgcheck=0
+enabled=0
+exclude=sip,PyQt4
