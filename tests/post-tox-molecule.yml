@@ -8,3 +8,10 @@
         mode: pull
         verify_host: true
 
+    - name: Set molecule report as artifact
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: Molecule report
+                url: log/reports.html

@@ -93,6 +93,7 @@
     files:
       - ^roles/.*
       - ^tox.ini$
+      - ^tests/.*molecule.yml$
 
 - project:
     check:
