@@ -87,3 +87,9 @@
   roles:
     - node-exporter-rpm
     - rdotrunk-checks
+
+- hosts: trunk-centos8.rdoproject.org
+  vars_files:
+    - vars/dlrn.yaml
+  roles:
+    - dlrn-server

@@ -84,3 +84,24 @@
       # The puppet module execution is not perfectly idempotent,
       # so we need this to keep molecule happy
       changed_when: false
+
+    - name: Create directories for MySQL SSL client certs
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - /etc/mysql
+        - /etc/mysql/ssl
+
+    - name: Deploy client-cert.pem
+      copy:
+        content: "{{ client_cert }}"
+        dest: /etc/mysql/ssl/client-cert.pem
+        mode: '0644'
+
+    - name: Deploy client-key.pem
+      copy:
+        content: "{{ client_key }}"
+        dest: /etc/mysql/ssl/client-key.pem
+        mode: '0644'

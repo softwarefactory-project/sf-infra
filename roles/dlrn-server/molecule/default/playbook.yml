@@ -5,5 +5,8 @@
     dlrn_server_type: primary
     dlrn_enable_https: false
     dlrn_host: test
+    client_cert: 'blabla'
+    client_key: 'foobar'
+    dlrn_db_password: 'password'
   roles:
     - role: dlrn-server

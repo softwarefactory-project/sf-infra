@@ -58,6 +58,9 @@ all:
       ansible_host: 38.102.83.175
       ansible_user: cloud-user
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIGIe8icD3c4AR/bhR4paDWeslxkghdCrZZ2Q56L9jDt6
+      dlrn_server_type: primary
+      dlrn_enable_https: true
+      dlrn_host: trunk-centos8
     registry-vexxhost.rdoproject.org:
       ansible_host: 38.102.83.107
       ansible_user: centos
