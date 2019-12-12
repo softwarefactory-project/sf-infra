@@ -55,6 +55,11 @@ security_groups:
       - port: 9090
       - port: 3000
 
+  - name: prometheus-mail
+    rules:
+      - port: 25
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
   - name: fedora-30-1.2
