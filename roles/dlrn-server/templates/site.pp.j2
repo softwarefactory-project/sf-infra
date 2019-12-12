@@ -1,0 +1,5 @@
+class { 'dlrn':
+  sshd_port    => {{ ansible_port | default(22)}},
+  server_type  => "{{ dlrn_server_type }}",
+  enable_https => "{{ dlrn_enable_https }}",
+}
