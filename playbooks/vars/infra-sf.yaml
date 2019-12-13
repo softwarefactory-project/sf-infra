@@ -60,6 +60,11 @@ security_groups:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 
+  - name: web
+    rules:
+      - port: 80
+      - port: 443
+
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
   - name: fedora-31-1.9
@@ -109,5 +114,19 @@ servers:
     security_groups:
       - common
       - public-monitoring
+    boot_from_volume: yes
+    volume_size: 80
+
+  # Central API server for ARA
+  - name: ara.softwarefactory-project.io
+    key_name: sf-infra-key
+    image: fedora-31-1.9
+    # 2 CPUs, 8 GB RAM
+    flavor: v1-standard-2
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
     boot_from_volume: yes
     volume_size: 80
