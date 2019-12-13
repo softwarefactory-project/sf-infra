@@ -1,6 +1,11 @@
 ---
 all:
   hosts:
+    ara.softwarefactory-project.io:
+      ansible_host: 38.102.83.124
+      ansible_user: fedora
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMwSHHFgI7niP76GO9MkbvKUFG1ODhfvaFgHN7MuJGuM
+      ansible_python_interpreter: python3
     bridge.softwarefactory-project.io:
       ansible_host: 38.102.83.244
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIG+w4PGQtn2VpFwEpww7uYaVcubHMvKCiM1uj6NOwx9X
@@ -75,6 +80,9 @@ all:
     afs-mirror:
       hosts:
         mirror.regionone.vexxhost.rdoproject.org:
+    ara:
+      hosts:
+        ara.softwarefactory-project.io:
     bridge:
       hosts:
         bridge.softwarefactory-project.io:
