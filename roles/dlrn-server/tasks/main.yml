@@ -107,3 +107,8 @@
         dest: /etc/mysql/ssl/client-key.pem
         mode: '0644'
       when: client_key is defined
+
+    - name: Create DLRN admin users
+      include_role:
+        name: base
+        tasks_from: users.yml
