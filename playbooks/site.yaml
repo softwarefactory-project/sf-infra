@@ -93,3 +93,8 @@
     - vars/dlrn.yaml
   roles:
     - dlrn-server
+
+- hosts: registry
+  become: yes
+  roles:
+    - registry-host-preparation
