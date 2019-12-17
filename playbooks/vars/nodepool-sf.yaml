@@ -46,6 +46,8 @@ images:
     # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
     checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
 
+volumes: []
+
 servers:
   - name: install-server.preprod.softwarefactory-project.io
     key_name: sf-infra-key

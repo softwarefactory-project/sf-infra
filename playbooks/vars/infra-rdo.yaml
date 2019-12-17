@@ -85,6 +85,11 @@ keypairs:
     public_key: >-
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
 
+# Additional non-root volumes that should exist before servers are created in order to be attached
+volumes:
+  - display_name: registry-data
+    size: 1024
+
 servers:
   - name: mirror.regionone.vexxhost.rdoproject.org
     key_name: sf-infra-key
@@ -141,6 +146,8 @@ servers:
       - registry
     boot_from_volume: yes
     volume_size: 200
+    volumes:
+      - registry-data
   - name: trunk-centos8.rdoproject.org
     key_name: sf-infra-key
     image: centos-8.0-1905
