@@ -15,8 +15,7 @@ dlrn::workers:
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
-    #NOTE(jpena) change to *enable_cron once the bootstrap is finished
-    enable_cron: false
+    enable_cron: *enable_cron
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
@@ -25,7 +24,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-master-uc:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos8-masteruc:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
