@@ -1,0 +1,9 @@
+---
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+    - name: Run configuration playbook
+      args:
+        chdir: "~/{{ zuul.project.src_dir }}"
+      command: ansible-playbook -vv playbooks/rdo-registry.yaml
+      environment:
+        ANSIBLE_CONFIG: ansible/ansible-registry.cfg

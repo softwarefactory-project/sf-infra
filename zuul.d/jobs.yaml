@@ -100,6 +100,29 @@
         secret: ansible-vault
 
 - job:
+    name: sf-infra-configure-registry
+    parent: sf-infra-base
+    description: Configure the registry host
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
+    run: playbooks/zuul/configure-registry-host.yaml
+    required-projects:
+      - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      # NOTE(dpawlik) rdo-3.11 branch include cockpit patch.
+      # Official branch is: release-3.11
+      - name: github.com/rdo-infra/openshift-ansible
+        override-checkout: rdo-3.11-dns-mismatch-updated
+    files:
+      - ^playbooks/rdo-registry.yaml$
+      - ^playbooks/host_vars/registry-vexxhost.rdoproject.org.yml$
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+      - name: vault
+        secret: ansible-vault
+
+- job:
     name: sf-infra-molecule
     parent: sf-infra-base
     description: Use molecule to test Ansible roles
@@ -151,3 +174,4 @@
         - sf-infra-create-hosts
         - sf-infra-configure-tenants
         - sf-infra-configure-hosts
+        - sf-infra-configure-registry

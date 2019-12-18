@@ -52,7 +52,14 @@ let instances =
         }
       , Instance::{
         , name = "registry-vexxhost"
-        , groups = [ Infra.Group.registry ]
+        , groups =
+          [ Infra.Group.registry
+          , Infra.Group.etcd
+          , Infra.Group.masters
+          , Infra.Group.nodes
+          , Infra.Group.openshift
+          , Infra.Group.installer
+          ]
         , connection =
             OS.CentOS.`7.0`.connection // { ansible_become = Some True }
         , server = Infra.Server::{
@@ -64,9 +71,14 @@ let instances =
           }
         , volumes =
           [ Infra.Volume::{
+            , display_name = "registry-docker"
+            , size = 100
+            , device = "/dev/vdb"
+            }
+          , Infra.Volume::{
             , display_name = "registry-data"
             , size = 1024
-            , device = "/dev/vdb"
+            , device = "/dev/vdc"
             }
           ]
         }

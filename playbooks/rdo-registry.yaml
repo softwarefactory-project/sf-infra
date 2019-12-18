@@ -1,0 +1,46 @@
+- name: Prepare the RDO openshift-registry for installation
+  hosts: registry
+  pre_tasks:
+      # Otherwise suffixed by .novalocal
+      # NOTE(dpawlik) Here we can use also hostname role, but
+      # it will also apply changes in /etc/hosts, which will be
+      # also added via openshift-ansible.
+      - name: Ensure hostname is correct
+        hostname:
+          name: registry-vexxhost.rdoproject.org
+  roles:
+    # Provided by rdo-infra-playbooks
+    - registry-host-preparation
+  post_tasks:
+    - name: Ensure dedicated volume for images is formatted
+      filesystem:
+        dev: /dev/vdc
+        fstype: xfs
+
+    - name: Ensure /openshift_volumes is mounted on the dedicated volume
+      mount:
+        path: /openshift_volumes
+        src: /dev/vdc
+        fstype: xfs
+        state: mounted
+
+  tasks:
+    - name: include vars
+      include_vars:
+        file: host_vars/registry-vexxhost.rdoproject.org.yml
+
+- name: Prepare NetworkManager for openshift
+  import_playbook: "{{ '~/src/github.com/rdo-infra/openshift-ansible/playbooks/openshift-node/network_manager.yml' | expanduser }}"
+
+- name: Install pre-requisites for openshift
+  import_playbook: "{{ '~/src/github.com/rdo-infra/openshift-ansible/playbooks/prerequisites.yml' | expanduser }}"
+
+- name: Run openshift-ansible deployment
+  import_playbook: "{{ '~/src/github.com/rdo-infra/openshift-ansible/playbooks/deploy_cluster.yml' | expanduser }}"
+
+- name: Set up registry resources
+  hosts: registry
+  roles:
+    # Provided by rdo-infra-playbooks
+    - registry-project-creation
+    - registry-image-pruning

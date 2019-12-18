@@ -263,6 +263,10 @@ volumes:
     server: centos8-rpm-packaging-ci.rdoproject.org
     size: 8
   - device: /dev/vdb
+    display_name: registry-docker
+    server: registry-vexxhost.rdoproject.org
+    size: 100
+  - device: /dev/vdc
     display_name: registry-data
     server: registry-vexxhost.rdoproject.org
     size: 1024
