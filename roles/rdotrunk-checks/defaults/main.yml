@@ -1,7 +1,6 @@
 ---
 rdo_trunk_workers:
   - centos-master-uc
-  - centos-master
   - centos-train
   - centos-stein
   - centos-rocky
@@ -10,8 +9,9 @@ rdo_trunk_workers:
   - rhel8-master
   - rhel8-train
   - fedora-master
+  - centos8-master-uc
+  - centos8-train
 
 rdo_trunk_symlinks:
   - current
-  - current-passed-ci
   - consistent
