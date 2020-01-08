@@ -104,8 +104,8 @@
           - name: backup.rules
             rules:
               - alert: BackupTooOld
-                # Time since last backup is more than one day
-                expr: (time() - bup_last_backup{job="node"}) > 86400
+                # Time since last backup is more than three days
+                expr: bup_last_backup{job="node"} < (time() - 259200)
                 labels:
                   severity: warning
                   lasttime: '{{ $value | humanizeTimestamp }}'
@@ -119,7 +119,7 @@
             rules:
               - alert: AFSTooOld
                 # Time since last mirror is more than one day
-                expr: (time() - afs_mirror_sync_time{job="node"}) > 86400
+                expr: afs_mirror_sync_time{job="node"} < (time() - 86400)
                 labels:
                   severity: warning
                   lasttime: '{{ $value | humanizeTimestamp }}'
@@ -133,7 +133,7 @@
             rules:
               - alert: RDOTrunkRepoTooOld
                 # Time since last build is more than one day
-                expr: (time() - dlrn_last_build{job="node"}) > 86400
+                expr: dlrn_last_build{job="node"} < (time() - 86400)
                 labels:
                   severity: warning
                   lasttime: '{{ $value | humanizeTimestamp }}'
