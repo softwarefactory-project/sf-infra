@@ -28,6 +28,8 @@
     owner: root
     group: root
     mode: 0644
+  notify:
+    - Restart postfix
 
 - name: Start service
   become: yes
