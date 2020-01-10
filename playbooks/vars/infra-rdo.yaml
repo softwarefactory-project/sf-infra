@@ -91,6 +91,10 @@ volumes:
     size: 1024
     server: registry-vexxhost.rdoproject.org
     device: /dev/vdb
+  - display_name: centos8-rpm-packaging-swap
+    size: 8
+    server: centos8-rpm-packaging-ci.rdoproject.org
+    device: /dev/vdb
 
 servers:
   - name: mirror.regionone.vexxhost.rdoproject.org
@@ -106,6 +110,22 @@ servers:
       - monitoring
     boot_from_volume: yes
     volume_size: 200
+  - name: centos8-rpm-packaging-ci.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-8.0-1905
+    # 2 CPUs, 8 GB RAM
+    flavor: v1-standard-2
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+      - monitoring
+      - rdo-trunk
+    boot_from_volume: yes
+    volume_size: 100
+    volumes:
+      - centos8-rpm-packaging-swap
   - name: rpm-packaging-ci.rdoproject.org
     key_name: sf-infra-key
     image: centos-7-1907
