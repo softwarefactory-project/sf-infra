@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    swap_device: /tmp/testswap
+  pre_tasks:
+    - name: Check if the swap file exists
+      stat:
+        path: /tmp/testswap
+      register: stat_result
+
+    - name: Pre-create swap file
+      command: dd if=/dev/zero of=/tmp/testswap bs=1M count=256
+      when: not stat_result.stat.exists
+
+    - name: Set permissions on swap file
+      file:
+        path: /tmp/testswap
+        mode: '0600'
+  roles:
+    - role: swap
