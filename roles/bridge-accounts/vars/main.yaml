@@ -49,3 +49,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCkmduBxZ3v2zNrO4kOnL5nVvn2p9ONhqJtX5BLGCMpcGScEN2dXWTAsuZrSovLHUvlkLWjOTd03qyEfCCiswxzva3yDgnEhBUp6czJdke0yDP8051lA0HrZ61/wcwCA7Sje6gt0YCofK/p1kAzAU0PHOnGARKfjRd0Sk0fLA5Voaw1YOJS9l3nJY8YfzsgRrgHp4zFW2FRcYaSv1crcNORh4W28vXwbEiW8xoSwsHIH2kws56seYaUpV2kVWpeopY0jMYzVUhdT149XfZq1e10ARlx1Ph6Uq2efqBCZqkCADpz/254/j6XhAg0/i7KLTCxALGlUf7J7sA2duqbm0cO1tpU01bpZhU6/GC6QIgg9EduvD+K9pXB+T3zlxbuqoSXI+fLp8ARjytMeIRCQjlP3w6BelOMGNFRxsyJGDrhR7BaMpAQs7l8YxCr7h9XggYvMQFMm5lUKvcLbpalTg9JIDr2dG1BBIZonwZEbOFlRmS1qm7nr+sadlOYC5ckzv/lf5Q4Q3QU1lKIsgFkBOamg7IHlFeSn/0LFUiJXFC+ymXdCGE7JY5gYBAVxw/+B2K8nb7O6FES+MM9YYcxyFVMzy7bpOqpX8ONIAhyCufUW/KlfkGMf3aA8srXf0bl+kJeOXHY/wDxPpQuDb8aHZzR7EuEk4jYyyVfEzHMuqta8w== zcaplovi@redhat.com"
+  dpawlik:
+    name: "dpawlik"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsne3wzhPRzlzaOK1a2IeMAd9w2sMFsE6Q45g3q/j6q dpawlik@redhat.com"
