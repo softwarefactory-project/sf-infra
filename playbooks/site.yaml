@@ -94,6 +94,6 @@
   roles:
     - dlrn-server
 
-- hosts: centos8-rpm-packaging.rdoproject.org
+- hosts: centos8-rpm-packaging-ci.rdoproject.org
   roles:
     - swap
