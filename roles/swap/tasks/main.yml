@@ -1,0 +1,23 @@
+---
+- name: Configure swap
+  become: yes
+  block:
+    - name: Format swap
+      filesystem:
+        fstype: swap
+        dev: "{{ swap_device }}"
+
+    - name: Add swap to fstab
+      mount:
+        fstype: swap
+        path: swap
+        src: "{{ swap_device }}"
+        state: present
+        opts: defaults
+      register: swap_fstab
+
+    - name: Activate swap
+      command: swapon -a
+      when:
+        - swap_fstab.changed
+        - ansible_connection != 'podman'

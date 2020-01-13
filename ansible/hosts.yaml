@@ -66,6 +66,14 @@ all:
       dlrn_server_type: primary
       dlrn_enable_https: true
       dlrn_host: trunk-centos8
+    centos8-rpm-packaging-ci.rdoproject.org:
+      ansible_host: 38.102.83.53
+      ansible_user: cloud-user
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIOHFyCnGZIAqq+36gH3j6SMswD+OaJ/Wk/zaZIrqUAJX
+      swap_device: /dev/vdb
+      dlrn_server_type: primary
+      dlrn_enable_https: true
+      dlrn_host: centos8-rpm-packaging-ci
     registry-vexxhost.rdoproject.org:
       ansible_host: 38.102.83.107
       ansible_user: centos
