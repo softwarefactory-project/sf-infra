@@ -99,9 +99,11 @@
         content: "{{ client_cert }}"
         dest: /etc/mysql/ssl/client-cert.pem
         mode: '0644'
+      when: client_cert is defined
 
     - name: Deploy client-key.pem
       copy:
         content: "{{ client_key }}"
         dest: /etc/mysql/ssl/client-key.pem
         mode: '0644'
+      when: client_key is defined
