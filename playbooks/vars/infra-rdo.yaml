@@ -184,3 +184,26 @@ servers:
       - rdo-trunk
     boot_from_volume: yes
     volume_size: 512
+
+  # New control plane
+  - name: install-server.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-7-1907
+    flavor: v1-standard-1
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+    boot_from_volume: yes
+    volume_size: 40
+
+  - name: logs.tripleo.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-7-1907
+    flavor: v1-standard-2
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+    boot_from_volume: no
