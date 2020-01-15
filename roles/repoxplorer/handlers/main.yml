@@ -1,0 +1,9 @@
+---
+- name: Restart repoxplorer
+  become: true
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - repoxplorer
+    - repoxplorer-webui

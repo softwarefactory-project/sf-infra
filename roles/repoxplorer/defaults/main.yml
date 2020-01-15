@@ -1,0 +1,11 @@
+---
+elasticsearch_host: 'localhost'
+elasticsearch_port: 9200
+elasticsearch_index: 'repoxplorer'
+indexer_loop_delay: 60
+indexer_skip_projects: []
+index_custom_html:
+users_endpoint: false
+admin_token: 'admin_token'
+# Absolute path to a helper. If not set or None use the default provided helper
+git_credential_helper_path: None
