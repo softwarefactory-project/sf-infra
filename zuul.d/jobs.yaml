@@ -96,6 +96,7 @@
       - ^roles/swap/.*$
       - ^roles/dlrn-server/.*$
       - ^roles/afs-monitoring/.*$
+      - ^roles/elasticsearch/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 

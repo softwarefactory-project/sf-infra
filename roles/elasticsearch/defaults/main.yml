@@ -1,0 +1,4 @@
+---
+xms: 256m
+xmx: 2g
+max_clause_count: 100240
