@@ -79,6 +79,12 @@ images:
     # This is a temporary URL, there is no official CentOS 8 qcow2 image, and the previous Koji-based URLs are no longer available
     url: https://jpena.fedorapeople.org/CentOS-8-GenericCloud-8.0.1905-22.x86_64.qcow2
     checksum: c86c119665866695a700a4ab523c774c64ed7e0dd9e6e89f5f032e0f03148a47
+  - name: centos-8.1-1911
+    container_format: bare
+    disk_format: qcow2
+    url: https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2
+    # Via https://cloud.centos.org/centos/8/x86_64/images/CHECKSUM
+    checksum: e2cf1081645b1089f574918fb808b32d247169ec4ec1a13bca9e14a74df6530e
 
 keypairs:
   - name: sf-infra-key
