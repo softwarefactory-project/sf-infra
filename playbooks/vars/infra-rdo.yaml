@@ -101,6 +101,10 @@ volumes:
     size: 8
     server: centos8-rpm-packaging-ci.rdoproject.org
     device: /dev/vdb
+  - display_name: logs-data
+    size: 1500
+    server: logs.rdoproject.org
+    device: /dev/vdb
 
 servers:
   - name: mirror.regionone.vexxhost.rdoproject.org
@@ -203,7 +207,7 @@ servers:
     boot_from_volume: yes
     volume_size: 40
 
-  - name: logs.tripleo.rdoproject.org
+  - name: logs.rdoproject.org
     key_name: sf-infra-key
     image: centos-7-1907
     flavor: v1-standard-2
@@ -213,3 +217,5 @@ servers:
       - common
       - web
     boot_from_volume: no
+    volumes:
+      - logs-data
