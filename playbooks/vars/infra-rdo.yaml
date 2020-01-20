@@ -105,6 +105,10 @@ volumes:
     size: 1500
     server: logs.rdoproject.org
     device: /dev/vdb
+  - display_name: images-data
+    size: 500
+    server: images-vexxhost.rdoproject.org
+    device: /dev/vdb
 
 servers:
   - name: mirror.regionone.vexxhost.rdoproject.org
@@ -219,3 +223,17 @@ servers:
     boot_from_volume: no
     volumes:
       - logs-data
+
+  - name: images-vexxhost.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-8.1-1911
+    flavor: v1-standard-1
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+    boot_from_volume: yes
+    volume_size: 50
+    volumes:
+      - images-data
