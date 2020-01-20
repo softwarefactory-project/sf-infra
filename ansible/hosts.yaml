@@ -109,6 +109,7 @@ all:
         fedora-rpm-packaging-ci.rdoproject.org:
         trunk-centos8.rdoproject.org:
         trunk.rdoproject.org:
+        centos8-rpm-packaging-ci.rdoproject.org:
     registry:
       hosts:
         registry-vexxhost.rdoproject.org:
