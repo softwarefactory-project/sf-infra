@@ -1,5 +1,6 @@
 device: 'vdb'
 mountpoint: '/mnt'
 filesystem: 'xfs'
+part_number: 1
 owner: root
 group: root

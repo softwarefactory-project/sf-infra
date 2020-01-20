@@ -6,7 +6,7 @@
 
 - name: Define partition
   set_fact:
-    number: '{{ part_number | default("1")'
+    number: '{{ part_number | default("1") }}'
     partition: '{{ device }}{{ part_number }}'
 
 - name: Install parted
