@@ -1,0 +1,44 @@
+- name: Get hdd status
+  setup:
+    gather_subset:
+      - hardware
+  register: _hardware
+
+- name: Define partition
+  set_fact:
+    number: '{{ part_number | default("1")'
+    partition: '{{ device }}{{ part_number }}'
+
+- name: Install parted
+  package:
+    name: parted
+  become: true
+
+- name: Create and mount extra volume
+  block:
+    - name: Create partition
+      parted:
+        device: '/dev/{{ device }}'
+        number: 1
+        state: present
+
+    - name: Format partition
+      filesystem:
+        fstype: '{{ filesystem | default("xfs") }}'
+        dev: '/dev/{{ partition }}'
+
+    - name: Create mountpoint
+      file:
+        path: '{{ mountpoint }}'
+        owner: '{{ owner | default("root") }}'
+        group: '{{ group | default("root") }}'
+        state: directory
+
+    - name: Mount partition
+      mount:
+        fstype: '{{ filesystem | default("xfs") }}'
+        src: '/dev/{{ partition }}'
+        path: '{{ mountpoint }}'
+        state: mounted
+  when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
+  become: true

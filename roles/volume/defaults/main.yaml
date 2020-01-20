@@ -1,0 +1,5 @@
+device: 'vdb'
+mountpoint: '/mnt'
+filesystem: 'xfs'
+owner: root
+group: root

@@ -98,3 +98,10 @@
   roles:
     - swap
     - dlrn-server
+
+- hosts: logs.rdoproject.org
+  vars:
+    device: 'vdb'
+    mountpoint: '/var/www/logs'
+  roles:
+    - volume
