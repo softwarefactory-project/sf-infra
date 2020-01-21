@@ -89,6 +89,10 @@ all:
       ansible_user: centos
       ansible_port: 3300
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIGG7x6SN4AohxWr8uxSH8z6qbaCNjppzKWaPhprEDwxD
+    images-vexxhost.rdoproject.org:
+      ansible_host: 38.102.83.152
+      ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIDP/pMwChhjC9Um6sHcVhr2fk7Aw/o20J9i7+WeoE8Lw
   children:
     afs-mirror:
       hosts:
