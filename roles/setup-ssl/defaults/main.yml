@@ -1,0 +1,6 @@
+---
+ssl_cert_options:
+  cert1:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "testmachine.rdoproject.org"
+    webroot: "/var/www/html"

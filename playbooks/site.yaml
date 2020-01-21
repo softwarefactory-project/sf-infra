@@ -105,3 +105,18 @@
     mountpoint: '/var/www/logs'
   roles:
     - volume
+
+- hosts: images-vexxhost.rdoproject.org
+  vars:
+    device: 'vdb'
+    mountpoint: '/var/www/html/images'
+    ssl_cert_options:
+      cert1:
+        email: "softwarefactory-operations-team@redhat.com"
+        domain: "images-vexxhost.rdoproject.org"
+        webroot: "/var/www/html"
+  roles:
+    - volume
+    - node-exporter-rpm
+    - setup-ssl
+    - { role: image-server, become: true }
