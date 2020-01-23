@@ -11,7 +11,7 @@ dlrn::web::cert_mail: 'jpena@redhat.com'
 dlrn::workers:
   centos8-master:
     distro: 'centos8'
-    target: 'centos8-master'
+    target: 'centos8'
     distgit_branch: 'master'
     distro_branch: 'master'
     disable_email: *disable_email
