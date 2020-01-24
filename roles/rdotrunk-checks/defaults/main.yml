@@ -8,7 +8,6 @@ rdo_trunk_workers:
   - centos-pike
   - rhel8-master
   - rhel8-train
-  - fedora-master
   - centos8-master-uc
   - centos8-train
 
