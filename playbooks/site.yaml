@@ -93,8 +93,7 @@
     - vars/dlrn.yaml
   roles:
     - swap
-# NOTE(jpena): we will enable the dlrn-server in a follow-up patch
-#    - dlrn-server
+    - dlrn-server
 
 - hosts: trunk-centos8.rdoproject.org
   vars_files:
