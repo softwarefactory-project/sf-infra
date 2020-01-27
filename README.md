@@ -18,3 +18,9 @@ Then most of the work is done with the configure-hosts job that use a static inv
 * Gather it's ed25519 ssh public key by running `ssh-keyscan -t ed25519 host-ip`
 * Add the server to the inventory (ansible/hosts.yaml) and to the site.yaml
 * Commit and git-review
+
+
+# To update playbook vars
+
+The variable are now declared using dhall. Run `make` to update the yaml files.
+Have a look to doc/dhall-onboarding/README.md to get started with dhall

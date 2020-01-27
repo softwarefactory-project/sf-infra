@@ -1,25 +1,35 @@
+# this file is managed by dhall
+image_cache_dir: "{{ ansible_user_dir }}/image_cache"
+images:
+  - checksum: e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0
+    container_format: bare
+    disk_format: qcow2
+    name: fedora-31-1.9
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2
+  - checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
+    container_format: bare
+    disk_format: qcow2
+    name: fedora-30-1.2
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
+  - checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
+    container_format: bare
+    disk_format: qcow2
+    name: centos-7-1907
+    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
+keypairs:
+  - name: sf-infra-key
+    public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7"
 networks:
-  - name: private-network
-    external_network: public
+  - external_network: public
+    name: private-network
     port_security_enabled: false
-
-subnets:
-  - name: private-subnet
-    network_name: private-network
-    cidr: 192.168.242.0/24
-    gateway_ip: 192.168.242.1
-    dns_nameservers:
-       - 1.1.1.1
-       - 8.8.8.8
-
 routers:
-  - name: default-router
-    network: public
-    interfaces:
+  - interfaces:
       - net: private-network
+        portip: "192.168.242.1"
         subnet: private-subnet
-        portip: 192.168.242.1
-
+    name: default-router
+    network: public
 security_groups:
   - name: common
     rules:
@@ -31,104 +41,71 @@ security_groups:
       - port: 19885
   - name: private-monitoring
     rules:
-      # Custom metrics
       - port: 9101
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
       - port: 9101
         remote_ip_prefix: "{{ prometheus_private_ip }}/32"
-      # Node exporter
       - port: 9100
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
       - port: 9100
         remote_ip_prefix: "{{ prometheus_private_ip }}/32"
-
   - name: monitoring
-    # This security group needs to be added to the hosts under monitoring
     rules:
-      # Node exporter and custom metrics
       - port: 9100
       - port: 9101
-
   - name: public-monitoring
     rules:
-      # Public access to prometheus and grafana
       - port: 9090
       - port: 3000
-
   - name: prometheus-mail
     rules:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-
   - name: web
     rules:
       - port: 80
       - port: 443
-
-image_cache_dir: "{{ ansible_user_dir }}/image_cache"
-images:
-  - name: fedora-31-1.9
-    container_format: bare
-    disk_format: qcow2
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2
-    # Via https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-31-1.9-x86_64-CHECKSUM
-    checksum: e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0
-  - name: fedora-30-1.2
-    container_format: bare
-    disk_format: qcow2
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
-    # Via https://mirror.csclub.uwaterloo.ca/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-30-1.2-x86_64-CHECKSUM
-    checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
-  - name: centos-7-1907
-    container_format: bare
-    disk_format: qcow2
-    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
-    # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
-    checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
-
-keypairs:
-  - name: sf-infra-key
-    public_key: >-
-      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
-
-volumes: []
-
 servers:
-  - name: logreduce-mqtt-01.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: fedora-30-1.2
+  - boot_from_volume: yes
     flavor: v1-standard-2
-    network: private-network
     floating_ip: no
+    image: fedora-30-1.2
+    key_name: sf-infra-key
+    name: logreduce-mqtt-01.softwarefactory-project.io
+    network: private-network
     security_groups:
       - common
       - private-monitoring
-    boot_from_volume: yes
     volume_size: 80
-
-  - name: prometheus.monitoring.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: centos-7-1907
-    # 2 CPUs, 8 GB RAM
+  - boot_from_volume: yes
     flavor: v1-standard-2
-    network: private-network
     floating_ip: yes
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: prometheus.monitoring.softwarefactory-project.io
+    network: private-network
     security_groups:
       - common
       - public-monitoring
-    boot_from_volume: yes
     volume_size: 80
-
-  # Central API server for ARA
-  - name: ara.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: fedora-31-1.9
-    # 2 CPUs, 8 GB RAM
+  - boot_from_volume: yes
     flavor: v1-standard-2
-    network: private-network
     floating_ip: yes
+    image: fedora-31-1.9
+    key_name: sf-infra-key
+    name: ara.softwarefactory-project.io
+    network: private-network
     security_groups:
       - common
+      - private-monitoring
       - web
-    boot_from_volume: yes
     volume_size: 80
+subnets:
+  - cidr: 192.168.242.0/24
+    dns_nameservers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    gateway_ip: "192.168.242.1"
+    name: private-subnet
+    network_name: private-network
+volumes: []
