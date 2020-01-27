@@ -109,6 +109,10 @@ volumes:
     size: 500
     server: images-vexxhost.rdoproject.org
     device: /dev/vdb
+  - display_name: trunk-centos7-swap
+    size: 8
+    server: trunk-centos7.rdoproject.org
+    device: /dev/vdb
 
 servers:
   - name: mirror.regionone.vexxhost.rdoproject.org
@@ -187,6 +191,20 @@ servers:
   - name: trunk-centos8.rdoproject.org
     key_name: sf-infra-key
     image: centos-8.0-1905
+    # 4 CPUs, 16 GB RAM
+    flavor: v1-standard-4
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+      - monitoring
+      - rdo-trunk
+    boot_from_volume: yes
+    volume_size: 512
+  - name: trunk-centos7.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-7-1907
     # 4 CPUs, 16 GB RAM
     flavor: v1-standard-4
     network: private-network
