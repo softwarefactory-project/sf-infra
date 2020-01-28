@@ -14,14 +14,36 @@
     name: parted
   become: true
 
+- name: Create partition
+  parted:
+    device: '/dev/{{ device }}'
+    number: 1
+    state: present
+  become: true
+  when:
+    - not (lvm | bool)
+    - partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
+
+- name: Create volume group
+  block:
+    - name: Create a volume group
+      lvg:
+        vg: '{{ vg_name }}'
+        pvs: '/dev/{{ device }}'
+        pesize: 32
+    - name: Create a logical volume
+      lvol:
+        vg: '{{ vg_name }}'
+        lv: '{{ lv_name }}'
+        size: 100%VG
+    - name: Define partition
+      set_fact:
+        partition: 'mapper/{{ vg_name }}-{{ lv_name }}'
+  become: true
+  when: lvm | bool
+
 - name: Create and mount extra volume
   block:
-    - name: Create partition
-      parted:
-        device: '/dev/{{ device }}'
-        number: 1
-        state: present
-
     - name: Format partition
       filesystem:
         fstype: '{{ filesystem | default("xfs") }}'

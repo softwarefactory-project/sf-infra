@@ -106,12 +106,15 @@
     - swap
     - dlrn-server
 
-# - hosts: logserver.rdoproject.org
-#   vars:
-#     device: 'vdb'
-#     mountpoint: '/var/www/logs'
-#   roles:
-#     - volume
+- hosts: logserver.rdoproject.org
+  vars:
+    device: 'vdb'
+    mountpoint: '/var/www/logs'
+    lvm: True
+    vg_name: 'vglog'
+    lv_name: 'log'
+  roles:
+    - volume
 
 - hosts: images-vexxhost.rdoproject.org
   vars:
