@@ -101,10 +101,10 @@ volumes:
     size: 8
     server: centos8-rpm-packaging-ci.rdoproject.org
     device: /dev/vdb
-#  - display_name: logs-data
-#    size: 1500
-#    server: logs.rdoproject.org
-#    device: /dev/vdb
+  - display_name: logs-data
+    size: 1000
+    server: logserver.rdoproject.org
+    device: /dev/vdb
   - display_name: images-data
     size: 500
     server: images-vexxhost.rdoproject.org
@@ -240,8 +240,8 @@ servers:
       - web
     boot_from_volume: yes
     volume_size: 10
-#    volumes:
-#      - logs-data
+    volumes:
+      - logs-data
 
   - name: images-vexxhost.rdoproject.org
     key_name: sf-infra-key
