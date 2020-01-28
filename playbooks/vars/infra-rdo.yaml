@@ -251,6 +251,7 @@ servers:
     security_groups:
       - common
       - web
+      - monitoring
     boot_from_volume: yes
     volume_size: 50
     volumes:
