@@ -49,6 +49,7 @@
                   - trunk-centos8.rdoproject.org:9100
                   - trunk-centos7.rdoproject.org:9100
                   - trunk.rdoproject.org:9100
+                  - images-vexxhost.rdoproject.org:9100
           - job_name: journal
             static_configs:
               - targets:
