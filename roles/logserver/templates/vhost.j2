@@ -12,6 +12,8 @@
     RewriteEngine On
     DocumentRoot /var/www/logs
 
+    Header set Access-Control-Allow-Origin "*"
+
     SSLEngine on
     SSLCertificateFile {{ le_base_path }}/{{ fqdn }}/cert.pem
     SSLCertificateChainFile {{ le_base_path }}/{{ fqdn }}/fullchain.pem
