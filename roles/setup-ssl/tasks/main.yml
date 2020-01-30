@@ -15,6 +15,7 @@
 
 - name: Setup certbot
   become: true
+  when: certbot_install | default(true)
   block:
     - name: Install epel-release
       package:

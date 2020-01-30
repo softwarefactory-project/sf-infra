@@ -1,0 +1,11 @@
+---
+- name: check for tls cert
+  stat:
+    path: "/etc/letsencrypt/pem/{{ fqdn }}.pem"
+  register: _tls_cert
+
+- name: setup vhost
+  template:
+    src: vhost.j2
+    dest: /etc/httpd/conf.d/logserver.vhost.conf
+  become: yes

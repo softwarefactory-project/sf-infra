@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName {{ fqdn }}
+    HostnameLookups On
+    RewriteEngine On
+    DocumentRoot /var/www/logs
+</VirtualHost>
+{% if _tls_cert.stat.exists %}
+
+<VirtualHost *:443>
+    ServerName {{ fqdn }}
+    HostnameLookups On
+    RewriteEngine On
+    DocumentRoot /var/www/logs
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/pem/{{ fqdn }}.pem
+    SSLCertificateChainFile /etc/letsencrypt/pem/lets-encrypt-x3-cross-signed.pem
+    SSLCertificateKeyFile /etc/letsencrypt/private/{{ fqdn }}.key
+</VirtualHost>
+{% endif %}

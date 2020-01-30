@@ -113,8 +113,18 @@
     lvm: True
     vg_name: 'vglog'
     lv_name: 'log'
+    certbot_install: false
+    certbot_plugin: "--apache"
+    fqdn: "logserver.rdoproject.org"
+    ssl_cert_options:
+      cert1:
+        email: "softwarefactory-operations-team@redhat.com"
+        domain: "logserver.rdoproject.org"
+        webroot: "/var/www/logs"
   roles:
     - volume
+    - logserver
+    - setup-ssl
 
 - hosts: images-vexxhost.rdoproject.org
   vars:

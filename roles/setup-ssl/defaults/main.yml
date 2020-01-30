@@ -4,3 +4,4 @@ ssl_cert_options:
     email: "softwarefactory-operations-team@redhat.com"
     domain: "testmachine.rdoproject.org"
     webroot: "/var/www/html"
+certbot_plugin: "--standalone"
