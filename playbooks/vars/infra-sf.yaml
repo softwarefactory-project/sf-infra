@@ -23,6 +23,9 @@ networks:
   - external_network: public
     name: private-network
     port_security_enabled: false
+  - external_network: public
+    name: oci-private-network
+    port_security_enabled: false
 routers:
   - interfaces:
       - net: private-network
@@ -30,12 +33,26 @@ routers:
         subnet: private-subnet
     name: default-router
     network: public
+  - interfaces:
+      - net: oci-private-network
+        portip: "192.168.254.1"
+        subnet: oci-private-subnet
+    name: oci-private-router
+    network: public
 security_groups:
   - name: common
     rules:
       - port: 22
       - port: -1
         protocol: icmp
+  - name: web
+    rules:
+      - port: 80
+      - port: 443
+  - name: monitoring
+    rules:
+      - port: 9100
+      - port: 9101
   - name: zuul-console
     rules:
       - port: 19885
@@ -49,10 +66,19 @@ security_groups:
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
       - port: 9100
         remote_ip_prefix: "{{ prometheus_private_ip }}/32"
-  - name: monitoring
+  - name: managesf
     rules:
-      - port: 9100
-      - port: 9101
+      - port: 1883
+      - port: 1884
+      - port: 29419
+      - port: 64738
+      - port: 64738
+        protocol: udp
+  - name: hypervisor-oci
+    rules:
+      - port: 19885
+      - port: 22022
+        port_range_max: 65535
   - name: public-monitoring
     rules:
       - port: 9090
@@ -61,10 +87,6 @@ security_groups:
     rules:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-  - name: web
-    rules:
-      - port: 80
-      - port: 443
 servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -113,6 +135,82 @@ servers:
       - private-monitoring
       - web
     volume_size: 500
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: elk.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+  - boot_from_volume: yes
+    flavor: v1-standard-4
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: managesf.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - web
+      - managesf
+    volume_size: 20
+    volumes:
+      - elk-data
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: nodepool-builder.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: oci01.softwarefactory-project.io
+    network: oci-private-network
+    security_groups:
+      - common
+      - hypervisor-oci
+    volumes:
+      - nodepool-builder-data
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zs.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+  - boot_from_volume: no
+    flavor: v1-standard-1
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze01.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+  - boot_from_volume: no
+    flavor: v1-standard-2
+    floating_ip: no
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm01.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:
@@ -121,4 +219,19 @@ subnets:
     gateway_ip: "192.168.242.1"
     name: private-subnet
     network_name: private-network
-volumes: []
+  - cidr: 192.168.254.0/24
+    dns_nameservers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    gateway_ip: "192.168.254.1"
+    name: oci-private-subnet
+    network_name: oci-private-network
+volumes:
+  - device: /dev/vdb
+    display_name: elk-data
+    server: elk.softwarefactory-project.io
+    size: 160
+  - device: /dev/vdb
+    display_name: nodepool-builder-data
+    server: nodepool-builder.softwarefactory-project.io
+    size: 10

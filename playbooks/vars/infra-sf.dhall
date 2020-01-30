@@ -2,24 +2,38 @@ let Package = ../../package.dhall
 
 let Rule = Package.Rule
 
+let Image = Package.Image
+
+let mkServers = Package.mkServers
+
+let mkNetwork = Package.mkNetwork
+
+let mkSubnet = Package.mkSubnet
+
+let mkRouter = Package.mkRouter
+
+let Flavors = Package.Flavors
+
 let Server = Package.Server
 
 let DefaultSecurityGroups = Package.DefaultSecurityGroups
 
-let Image = Package.Image
+let fqdn = "softwarefactory-project.io"
 
-let Flavors = Package.Flavors
+let sf_network = { name = "private", network_prefix = "192.168.242" }
 
-let external-network = "public"
-
-let cidr = "192.168.242.0/24"
-
-let gateway_ip = "192.168.242.1"
+let oci_network = { name = "oci-private", network_prefix = "192.168.254" }
 
 let security_groups =
       [ { name = "common"
         , rules =
           [ Rule::{ port = +22 }, Rule::{ port = -1, protocol = Some "icmp" } ]
+        }
+      , { name = "web"
+        , rules = [ Rule::{ port = +80 }, Rule::{ port = +443 } ]
+        }
+      , { name = "monitoring"
+        , rules = [ Rule::{ port = +9100 }, Rule::{ port = +9101 } ]
         }
       , { name = "zuul-console", rules = [ Rule::{ port = +19885 } ] }
       , { name = "private-monitoring"
@@ -42,8 +56,20 @@ let security_groups =
             }
           ]
         }
-      , { name = "monitoring"
-        , rules = [ Rule::{ port = +9100 }, Rule::{ port = +9101 } ]
+      , { name = "managesf"
+        , rules =
+          [ Rule::{ port = +1883 }
+          , Rule::{ port = +1884 }
+          , Rule::{ port = +29419 }
+          , Rule::{ port = +64738 }
+          , Rule::{ port = +64738, protocol = Some "udp" }
+          ]
+        }
+      , { name = "hypervisor-oci"
+        , rules =
+          [ Rule::{ port = +19885 }
+          , Rule::{ port = +22022, port_range_max = Some +65535 }
+          ]
         }
       , { name = "public-monitoring"
         , rules = [ Rule::{ port = +9090 }, Rule::{ port = +3000 } ]
@@ -55,9 +81,6 @@ let security_groups =
             , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
             }
           ]
-        }
-      , { name = "web"
-        , rules = [ Rule::{ port = +80 }, Rule::{ port = +443 } ]
         }
       ]
 
@@ -85,57 +108,92 @@ let images =
         }
       ]
 
-let servers =
-      [ Server::{
-        , name = "logreduce-mqtt-01"
-        , image = "fedora-30-1.2"
-        , boot_from_volume = "yes"
-        , volume_size = Some 80
+let mkExecutors = mkServers "ze" Flavors.`1cpu_4gig`
+
+let mkMergers = mkServers "zm" Flavors.`2cpus_8gig`
+
+let volumes =
+      [ { display_name = "elk-data"
+        , size = 160
+        , server = "elk" ++ "." ++ fqdn
+        , device = "/dev/vdb"
         }
-      , Server::{
-        , name = "prometheus.monitoring"
-        , floating_ip = "yes"
-        , boot_from_volume = "yes"
-        , volume_size = Some 80
-        , security_groups = [ "common", "public-monitoring", "web" ]
-        }
-      , Server::{
-        , name = "ara"
-        , floating_ip = "yes"
-        , image = "fedora-31-1.9"
-        , boot_from_volume = "yes"
-        , volume_size = Some 80
-        , security_groups = DefaultSecurityGroups # [ "web" ]
-        }
-      , Server::{
-        , name = "redhat-oss-git-stats"
-        , floating_ip = "yes"
-        , image = "fedora-31-1.9"
-        , boot_from_volume = "yes"
-        , volume_size = Some 500
-        , flavor = Flavors.`8cpus_32gig`
-        , security_groups = DefaultSecurityGroups # [ "web" ]
+      , { display_name = "nodepool-builder-data"
+        , size = 10
+        , server = "nodepool-builder" ++ "." ++ fqdn
+        , device = "/dev/vdb"
         }
       ]
 
-in  { servers = Package.setFqdn "softwarefactory-project.io" servers
-    , networks =
-      [ { name = "private-network"
-        , external_network = external-network
-        , port_security_enabled = False
-        }
+let servers =
+        [ Server::{
+          , name = "logreduce-mqtt-01"
+          , image = "fedora-30-1.2"
+          , boot_from_volume = "yes"
+          , volume_size = Some 80
+          }
+        , Server::{
+          , name = "prometheus.monitoring"
+          , floating_ip = "yes"
+          , boot_from_volume = "yes"
+          , volume_size = Some 80
+          , security_groups = [ "common", "public-monitoring", "web" ]
+          }
+        , Server::{
+          , name = "ara"
+          , floating_ip = "yes"
+          , image = "fedora-31-1.9"
+          , boot_from_volume = "yes"
+          , volume_size = Some 80
+          , security_groups = DefaultSecurityGroups # [ "web" ]
+          }
+        , Server::{
+          , name = "redhat-oss-git-stats"
+          , floating_ip = "yes"
+          , image = "fedora-31-1.9"
+          , boot_from_volume = "yes"
+          , volume_size = Some 500
+          , flavor = Flavors.`8cpus_32gig`
+          , security_groups = DefaultSecurityGroups # [ "web" ]
+          }
+        , Server::{ name = "elk" }
+        , Server::{
+          , name = "managesf"
+          , flavor = Flavors.`4cpus_16gig`
+          , boot_from_volume = "yes"
+          , volume_size = Some 20
+          , security_groups = [ "common", "web", "managesf" ]
+          , volumes = Some [ "elk-data" ]
+          }
+        , Server::{ name = "nodepool-builder" }
+        , Server::{
+          , name = "oci01"
+          , network = "oci-private-network"
+          , security_groups = [ "common", "hypervisor-oci" ]
+          , volumes = Some [ "nodepool-builder-data" ]
+          }
+        , Server::{ name = "zs" }
+        ]
+      # mkExecutors 1
+      # mkMergers 1
+
+let backward-compat-name = { name = "default-router" }
+
+in  { servers = Package.setFqdn fqdn servers
+    , networks = [ mkNetwork sf_network.name, mkNetwork oci_network.name ]
+    , subnets =
+      [ mkSubnet sf_network.name sf_network.network_prefix
+      , mkSubnet oci_network.name oci_network.network_prefix
       ]
-    , subnets = [ Package.Subnet::{ cidr = cidr, gateway_ip = gateway_ip } ]
     , routers =
-      [ { name = "default-router"
-        , network = external-network
-        , interfaces = [ Package.RouterInterface::{ portip = gateway_ip } ]
-        }
+      [     mkRouter sf_network.name sf_network.network_prefix
+        //  backward-compat-name
+      , mkRouter oci_network.name oci_network.network_prefix
       ]
     , keypairs =
       [ { name = "sf-infra-key", public_key = Package.sfInfraKeypair } ]
     , images = images
     , image_cache_dir = "{{ ansible_user_dir }}/image_cache"
-    , volumes = [] : List Text
+    , volumes = volumes
     , security_groups = security_groups
     }

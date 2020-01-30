@@ -16,25 +16,7 @@ let {- Generate sequence like unix seq command -} seq =
                 (\(index : IndexedType) -> index.index + 1)
                 indexed
 
-let Subnet =
-      { Type =
-          { name : Text
-          , cidr : Text
-          , dns_nameservers : List Text
-          , gateway_ip : Text
-          , network_name : Text
-          }
-      , default =
-          { name = "private-subnet"
-          , dns_nameservers = [ "1.1.1.1", "8.8.8.8" ]
-          , network_name = "private-network"
-          }
-      }
-
-let RouterInterface =
-      { Type = { net : Text, portip : Text, subnet : Text }
-      , default = { net = "private-network", subnet = Subnet.default.name }
-      }
+let external-network = "public"
 
 let Image =
       { Type =
@@ -52,9 +34,24 @@ let Rule =
           { port : Integer
           , protocol : Optional Text
           , remote_ip_prefix : Optional Text
+          , port_range_max : Optional Integer
           }
-      , default = { protocol = None Text, remote_ip_prefix = None Text }
+      , default =
+          { protocol = None Text
+          , remote_ip_prefix = None Text
+          , port_range_max = None Integer
+          }
       }
+
+let SecurityGroups =
+      [ { name = "common"
+        , rules =
+          [ Rule::{ port = +22 }, Rule::{ port = -1, protocol = Some "icmp" } ]
+        }
+      , { name = "web"
+        , rules = [ Rule::{ port = +80 }, Rule::{ port = +443 } ]
+        }
+      ]
 
 let DefaultSecurityGroups = [ "common", "private-monitoring" ]
 
@@ -76,20 +73,68 @@ let Server =
           , network : Text
           , security_groups : List Text
           , volume_size : Optional Natural
+          , volumes : Optional (List Text)
           }
       , default =
-          { boot_from_volume = "no"
-          , flavor = Flavors.`2cpus_8gig`
+          { flavor = Flavors.`2cpus_8gig`
           , floating_ip = "no"
           , image = "centos-7-1907"
           , key_name = "sf-infra-key"
           , network = "private-network"
           , security_groups = DefaultSecurityGroups
           , volume_size = None Natural
+          , boot_from_volume = "yes"
+          , volumes = None (List Text)
           }
       }
 
 let sfInfraKeypair = ./files/infra_key.pub as Text
+
+let mkNetwork =
+          \(name : Text)
+      ->  { name = name ++ "-network"
+          , external_network = external-network
+          , port_security_enabled = False
+          }
+
+let mkSubnet =
+          \(name : Text)
+      ->  \(network_prefix : Text)
+      ->  { name = name ++ "-subnet"
+          , cidr = network_prefix ++ ".0/24"
+          , gateway_ip = network_prefix ++ ".1"
+          , dns_nameservers = [ "1.1.1.1", "8.8.8.8" ]
+          , network_name = name ++ "-network"
+          }
+
+let mkRouter =
+          \(name : Text)
+      ->  \(network_prefix : Text)
+      ->  { name = name ++ "-router"
+          , network = external-network
+          , interfaces =
+            [ { net = name ++ "-network"
+              , subnet = name ++ "-subnet"
+              , portip = network_prefix ++ ".1"
+              }
+            ]
+          }
+
+let mkServers =
+          \(name : Text)
+      ->  \(flavor : Text)
+      ->  \(count : Natural)
+      ->  Prelude.List.map
+            Natural
+            Server.Type
+            (     \(idx : Natural)
+              ->  Server::{
+                  , name = "${name}0${Natural/show idx}"
+                  , flavor = flavor
+                  , boot_from_volume = "no"
+                  }
+            )
+            (seq count)
 
 let setFqdn =
           \(fqdn : Text)
@@ -103,12 +148,15 @@ let setFqdn =
 in  { Prelude = Prelude
     , Flavors = Flavors
     , Image = Image
+    , mkServers = mkServers
+    , mkSubnet = mkSubnet
+    , mkNetwork = mkNetwork
+    , mkRouter = mkRouter
     , sfInfraKeypair = sfInfraKeypair
-    , RouterInterface = RouterInterface
     , Rule = Rule
     , DefaultSecurityGroups = DefaultSecurityGroups
     , Server = Server
-    , Subnet = Subnet
     , seq = seq
+    , SecurityGroups = SecurityGroups
     , setFqdn = setFqdn
     }
