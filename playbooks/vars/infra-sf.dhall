@@ -107,6 +107,15 @@ let servers =
         , volume_size = Some 80
         , security_groups = DefaultSecurityGroups # [ "web" ]
         }
+      , Server::{
+        , name = "redhat-oss-git-stats"
+        , floating_ip = "yes"
+        , image = "fedora-31-1.9"
+        , boot_from_volume = "yes"
+        , volume_size = Some 500
+        , flavor = Flavors.`8cpus_32gig`
+        , security_groups = DefaultSecurityGroups # [ "web" ]
+        }
       ]
 
 in  { servers = Package.setFqdn "softwarefactory-project.io" servers
