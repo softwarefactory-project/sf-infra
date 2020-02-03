@@ -155,5 +155,6 @@
       -v /var/lib/prometheus:/prometheus:Z
       quay.io/prometheus/prometheus
       --web.external-url=https://prometheus.monitoring.softwarefactory-project.io/prometheus/
+      --web.route-prefix="prometheus"
       --config.file=/etc/prometheus/prometheus.yml
     pod_config: "{{ _prom_config }}"

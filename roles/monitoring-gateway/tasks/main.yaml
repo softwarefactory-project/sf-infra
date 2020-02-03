@@ -22,14 +22,17 @@
   become: yes
   copy:
     content: |
-      ProxyPass /prometheus http://localhost:9090/
-      ProxyPassReverse /prometheus http://localhost:9090/
+      ProxyPreserveHost On
+      ProxyRequests Off
+
+      ProxyPass        /prometheus http://localhost:9090/prometheus
+      ProxyPassReverse /prometheus http://localhost:9090/prometheus
 
       ProxyPass /grafana http://localhost:3000/
       ProxyPassReverse /grafana http://localhost:3000/
 
-      ProxyPass /alertmanager http://localhost:9093/
-      ProxyPassReverse /alertmanager http://localhost:9093/
+      ProxyPass        /alertmanager http://localhost:9093/alertmanager
+      ProxyPassReverse /alertmanager http://localhost:9093/alertmanager
 
     dest: /etc/httpd/conf.d/proxypass.conf
 
