@@ -97,7 +97,7 @@ let servers =
         , floating_ip = "yes"
         , boot_from_volume = "yes"
         , volume_size = Some 80
-        , security_groups = [ "common", "public-monitoring" ]
+        , security_groups = [ "common", "public-monitoring", "web" ]
         }
       , Server::{
         , name = "ara"
