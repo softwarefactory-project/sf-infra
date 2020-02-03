@@ -25,14 +25,27 @@
 
     - name: Install certbot from EPEL
       package:
-        name: "certbot"
+        name:
+          - certbot
         state: present
         enablerepo: epel
       when: ansible_distribution != "Fedora"
 
+    - name: Install python2-certbot-apache from EPEL on CentOS 7
+      package:
+        name:
+          - python2-certbot-apache
+        state: present
+        enablerepo: epel
+      when:
+        - ansible_distribution != "Fedora"
+        - ansible_distribution_major_version == "7"
+
     - name: Install certbot on Fedora
       package:
-        name: "certbot"
+        name:
+          - certbot
+          - python3-certbot-apache
         state: present
       when: ansible_distribution == "Fedora"
 

@@ -54,7 +54,16 @@
           - podman
           - dnsmasq
       become: yes
+  vars:
+    certbot_plugin: "--apache"
+    fqdn: "prometheus.monitoring.softwarefactory-project.io"
+    ssl_cert_options:
+      cert1:
+        email: "softwarefactory-operations-team@redhat.com"
+        domain: "prometheus.monitoring.softwarefactory-project.io"
+        webroot: "/var/www/html"
   roles:
+    - setup-ssl
     - alert-manager
     - dnsmasq
     - grafana
