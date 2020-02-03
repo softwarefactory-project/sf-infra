@@ -125,6 +125,7 @@
     - volume
     - logserver
     - setup-ssl
+    - node-exporter-rpm
 
 - hosts: images-vexxhost.rdoproject.org
   vars:
