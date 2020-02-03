@@ -226,6 +226,7 @@ servers:
     floating_ip: yes
     security_groups:
       - common
+      - monitoring
     boot_from_volume: yes
     volume_size: 40
 
@@ -237,6 +238,7 @@ servers:
     floating_ip: yes
     security_groups:
       - common
+      - monitoring
       - web
     boot_from_volume: yes
     volume_size: 10
