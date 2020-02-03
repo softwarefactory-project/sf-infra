@@ -1,7 +1,8 @@
 ---
 - name: check for tls cert
+  become: yes
   stat:
-    path: "/etc/letsencrypt/pem/{{ fqdn }}.pem"
+    path: "/etc/letsencrypt/live/{{ fqdn }}/cert.pem"
   register: _tls_cert
 
 - name: setup vhost

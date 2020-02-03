@@ -2,7 +2,7 @@
     ServerName {{ fqdn }}
     HostnameLookups On
     RewriteEngine On
-    DocumentRoot /var/www/logs
+    DocumentRoot /var/www/html
 </VirtualHost>
 {% if _tls_cert.stat.exists %}
 
@@ -10,7 +10,7 @@
     ServerName {{ fqdn }}
     HostnameLookups On
     RewriteEngine On
-    DocumentRoot /var/www/logs
+    DocumentRoot /var/www/html
 
     SSLEngine on
     SSLCertificateFile /etc/letsencrypt/live/{{ fqdn }}/cert.pem

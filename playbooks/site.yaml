@@ -64,6 +64,7 @@
         webroot: "/var/www/html"
   roles:
     - setup-ssl
+    - monitoring-gateway
     - alert-manager
     - dnsmasq
     - grafana

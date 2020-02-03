@@ -1,0 +1,28 @@
+---
+- name: check for tls cert
+  become: yes
+  stat:
+    path: "/etc/letsencrypt/live/{{ fqdn }}/cert.pem"
+  register: _tls_cert
+
+- name: setup vhost
+  template:
+    src: vhost.j2
+    dest: /etc/httpd/conf.d/monitoring.vhost.conf
+  become: yes
+
+- name: setup index
+  become: yes
+  copy:
+    content: |
+      <html>
+      <body>
+      Welcome
+      <ul>
+      <li><a href="/grafana">grafana</a></li>
+      <li><a href="/prometheus">prometheus</a></li>
+      <li><a href="/alertmanager">alerts</a></li>
+      </ul>
+      </body>
+      </html>
+    dest: /var/www/html/index.html
