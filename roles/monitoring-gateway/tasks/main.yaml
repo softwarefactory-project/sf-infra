@@ -28,8 +28,9 @@
       ProxyPass        /prometheus http://localhost:9090/prometheus
       ProxyPassReverse /prometheus http://localhost:9090/prometheus
 
-      ProxyPass /grafana http://localhost:3000/
-      ProxyPassReverse /grafana http://localhost:3000/
+      # trailing slash matter here, don't ask why
+      ProxyPass        /grafana/ http://localhost:3000/
+      ProxyPassReverse /grafana/ http://localhost:3000/
 
       ProxyPass        /alertmanager http://localhost:9093/alertmanager
       ProxyPassReverse /alertmanager http://localhost:9093/alertmanager
@@ -44,7 +45,7 @@
       <body>
       Welcome
       <ul>
-      <li><a href="/grafana">grafana</a></li>
+      <li><a href="/grafana/">grafana</a></li>
       <li><a href="/prometheus">prometheus</a></li>
       <li><a href="/alertmanager">alerts</a></li>
       </ul>
