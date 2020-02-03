@@ -5,11 +5,33 @@
     path: "/etc/letsencrypt/live/{{ fqdn }}/cert.pem"
   register: _tls_cert
 
+- name: enable httpd proxy
+  become: yes
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+
 - name: setup vhost
   template:
     src: vhost.j2
     dest: /etc/httpd/conf.d/monitoring.vhost.conf
   become: yes
+
+- name: setup proxypass
+  become: yes
+  copy:
+    content: |
+      ProxyPass /prometheus http://localhost:9090/
+      ProxyPassReverse /prometheus http://localhost:9090/
+
+      ProxyPass /grafana http://localhost:3000/
+      ProxyPassReverse /grafana http://localhost:3000/
+
+      ProxyPass /alertmanager http://localhost:9093/
+      ProxyPassReverse /alertmanager http://localhost:9093/
+
+    dest: /etc/httpd/conf.d/proxypass.conf
 
 - name: setup index
   become: yes
