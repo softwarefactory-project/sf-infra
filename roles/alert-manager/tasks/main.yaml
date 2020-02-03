@@ -41,4 +41,5 @@
       -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       -v /var/lib/alertmanager:/alertmanager:Z
       quay.io/prometheus/alertmanager
+      --web.external-url=https://prometheus.monitoring.softwarefactory-project.io/alertmanager/
     pod_config: "{{ _am_config }}"
