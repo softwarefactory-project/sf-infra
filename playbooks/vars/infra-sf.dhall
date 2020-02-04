@@ -16,8 +16,6 @@ let Flavors = Package.Flavors
 
 let Server = Package.Server
 
-let DefaultSecurityGroups = Package.DefaultSecurityGroups
-
 let fqdn = "softwarefactory-project.io"
 
 let sf_network = { name = "private", network_prefix = "192.168.242" }
@@ -25,64 +23,60 @@ let sf_network = { name = "private", network_prefix = "192.168.242" }
 let oci_network = { name = "oci-private", network_prefix = "192.168.254" }
 
 let security_groups =
-      [ { name = "common"
-        , rules =
-          [ Rule::{ port = +22 }, Rule::{ port = -1, protocol = Some "icmp" } ]
-        }
-      , { name = "web"
-        , rules = [ Rule::{ port = +80 }, Rule::{ port = +443 } ]
-        }
-      , { name = "monitoring"
-        , rules = [ Rule::{ port = +9100 }, Rule::{ port = +9101 } ]
-        }
-      , { name = "zuul-console", rules = [ Rule::{ port = +19885 } ] }
-      , { name = "private-monitoring"
-        , rules =
-          [ Rule::{
-            , port = +9101
-            , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
-            }
-          , Rule::{
-            , port = +9101
-            , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
-            }
-          , Rule::{
-            , port = +9100
-            , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
-            }
-          , Rule::{
-            , port = +9100
-            , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
-            }
-          ]
-        }
-      , { name = "managesf"
-        , rules =
-          [ Rule::{ port = +1883 }
-          , Rule::{ port = +1884 }
-          , Rule::{ port = +29419 }
-          , Rule::{ port = +64738 }
-          , Rule::{ port = +64738, protocol = Some "udp" }
-          ]
-        }
-      , { name = "hypervisor-oci"
-        , rules =
-          [ Rule::{ port = +19885 }
-          , Rule::{ port = +22022, port_range_max = Some +65535 }
-          ]
-        }
-      , { name = "public-monitoring"
-        , rules = [ Rule::{ port = +9090 }, Rule::{ port = +3000 } ]
-        }
-      , { name = "prometheus-mail"
-        , rules =
-          [ Rule::{
-            , port = +25
-            , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-            }
-          ]
-        }
-      ]
+        Package.SecurityGroups
+      # [ { name = "monitoring"
+          , rules = [ Rule::{ port = +9100 }, Rule::{ port = +9101 } ]
+          }
+        , { name = "zuul-console", rules = [ Rule::{ port = +19885 } ] }
+        , { name = "private-monitoring"
+          , rules =
+            [ Rule::{
+              , port = +9101
+              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
+              }
+            , Rule::{
+              , port = +9101
+              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
+              }
+            , Rule::{
+              , port = +9100
+              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
+              }
+            , Rule::{
+              , port = +9100
+              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
+              }
+            ]
+          }
+        , { name = "managesf"
+          , rules =
+            [ Rule::{ port = +1883 }
+            , Rule::{ port = +1884 }
+            , Rule::{ port = +29418 }
+            , Rule::{ port = +64738 }
+            , Rule::{ port = +64738, protocol = Some "udp" }
+            ]
+          }
+        , { name = "hypervisor-oci"
+          , rules =
+            [ Rule::{ port = +19885 }
+            , Rule::{ port = +22022, port_range_max = Some +65535 }
+            ]
+          }
+        , { name = "public-monitoring"
+          , rules = [ Rule::{ port = +9090 }, Rule::{ port = +3000 } ]
+          }
+        , { name = "prometheus-mail"
+          , rules =
+            [ Rule::{
+              , port = +25
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
+            ]
+          }
+        ]
+
+let DefaultSecurityGroups = [ "common", "private-monitoring" ]
 
 let images =
       [ Image::{

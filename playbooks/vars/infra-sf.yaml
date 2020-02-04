@@ -70,7 +70,7 @@ security_groups:
     rules:
       - port: 1883
       - port: 1884
-      - port: 29419
+      - port: 29418
       - port: 64738
       - port: 64738
         protocol: udp
