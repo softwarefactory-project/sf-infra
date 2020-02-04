@@ -63,6 +63,7 @@
         domain: "prometheus.monitoring.softwarefactory-project.io"
         webroot: "/var/www/html"
   roles:
+    - hostname
     - setup-ssl
     - monitoring-gateway
     - alert-manager
@@ -134,6 +135,7 @@
         domain: "logserver.rdoproject.org"
         webroot: "/var/www/logs"
   roles:
+    - hostname
     - volume
     - logserver
     - setup-ssl
@@ -149,6 +151,7 @@
         domain: "images-vexxhost.rdoproject.org"
         webroot: "/var/www/html"
   roles:
+    - hostname
     - volume
     - node-exporter-rpm
     - setup-ssl
