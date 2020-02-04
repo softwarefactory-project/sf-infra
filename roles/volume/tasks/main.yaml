@@ -52,8 +52,8 @@
     - name: Create mountpoint
       file:
         path: '{{ mountpoint }}'
-        owner: '{{ owner | default("root") }}'
-        group: '{{ group | default("root") }}'
+        owner: '{{ mount_owner | default("root") }}'
+        group: '{{ mount_group | default("root") }}'
         state: directory
 
     - name: Mount partition

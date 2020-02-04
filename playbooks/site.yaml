@@ -120,6 +120,8 @@
   vars:
     device: 'vdb'
     mountpoint: '/var/www/logs'
+    mount_owner: 'loguser'
+    mount_group: 'apache'
     lvm: True
     vg_name: 'vglog'
     lv_name: 'log'

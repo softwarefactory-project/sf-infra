@@ -10,3 +10,11 @@
     src: vhost.j2
     dest: /etc/httpd/conf.d/logserver.vhost.conf
   become: yes
+
+- name: Create logs directory
+  file:
+    path: /var/www/logs
+    state: directory
+    owner: loguser
+    group: apache
+    mode: 0755
