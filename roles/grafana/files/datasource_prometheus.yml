@@ -6,5 +6,5 @@ datasources:
    name: 'prometheus'
    orgId: 1
    type: 'prometheus'
-   url: 'http://prometheus.monitoring.softwarefactory-project.io:9090'
+   url: 'https://prometheus.monitoring.softwarefactory-project.io/prometheus'
    version: 1
