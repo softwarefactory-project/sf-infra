@@ -4,6 +4,12 @@
     max: 1
 
 - job:
+    name: dhall-diff
+    description: Ensure running make is indempotent
+    nodeset: fedora-latest-pod
+    run: playbooks/dhall-diff.yaml
+
+- job:
     name: sf-infra-base
     abstract: true
     allowed-projects:
@@ -109,6 +115,7 @@
               linters:
                 - flake8
                 - yamllint
+        - dhall-diff
         - sf-infra-molecule
     gate:
       jobs:
