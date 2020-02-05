@@ -101,6 +101,18 @@ servers:
       - private-monitoring
       - web
     volume_size: 80
+  - boot_from_volume: yes
+    flavor: v1-standard-8
+    floating_ip: yes
+    image: fedora-31-1.9
+    key_name: sf-infra-key
+    name: redhat-oss-git-stats.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+      - web
+    volume_size: 500
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:
