@@ -71,12 +71,12 @@
               - target_label: __address__
                 replacement: 127.0.0.1:9115  # Blackbox exporter
 
-    # Some doc:
-    #   Check alert status: curl -g 'http://localhost:9090/api/v1/alerts' | python -mjson.tool
-    #   Get metrics names: curl -g 'http://localhost:9090/api/v1/label/__name__/values' | tr ',' '\n'
-    #   Test expr: curl -g 'http://localhost:9090/api/v1/query' --data-urlencode 'query=predict_linear(node_filesystem_avail_bytes{job="node",mountpoint="/",instance="logreduce-mqtt01.softwarefactory-project.io:9100"}[1d], 365 * 24 * 3600)'
     - dest: rules
-      content: |
+      content: !unsafe |
+        # Some doc:
+        #   Check alert status: curl -g 'http://localhost:9090/prometheus/api/v1/alerts' | python -mjson.tool
+        #   Get metrics names: curl -g 'http://localhost:9090/prometheus/api/v1/label/__name__/values' | tr ',' '\n'
+        #   Test expr: curl -g 'http://localhost:9090/prometheus/api/v1/query' --data-urlencode 'query=predict_linear(node_filesystem_avail_bytes{job="node",mountpoint="/",instance="logreduce-mqtt01.softwarefactory-project.io:9100"}[1d], 365 * 24 * 3600)'
         groups:
           - name: node.rules
             rules:
@@ -84,12 +84,20 @@
                 expr: up{job="node"} == 0
                 for: 10m
               - alert: WillRunOutOfDiskInThreeDays
+                # When avail disk space is < 50% (to preven false alarm when server is warming up)
                 # Over 1 day, if the slope becomes negative in 3 days, then emit an alarm
-                expr: predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0
+                expr: (node_filesystem_avail_bytes{job="node"} * 100) / node_filesystem_size_bytes{job="node"} < 50) and (predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
                 for: 1h
+                annotations:
+                  summary: "Out of disk space (instance {{ $labels.instance }})"
+                  description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
               - alert: WillRunOutOfMemoryInThreeDays
-                expr: predict_linear(node_memory_MemAvailable_bytes{job="node"}[1d], 3 * 24 * 3600) < 0
+                expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 50) and (predict_linear(node_memory_MemAvailable_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
                 for: 1h
+                annotations:
+                  summary: "Out of memory (instance {{ $labels.instance }})"
+                  description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
 
     - dest: rules-http
       content: |
