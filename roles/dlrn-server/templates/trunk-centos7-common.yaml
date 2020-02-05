@@ -1,11 +1,9 @@
 ---
-#FIXME(jpena): change to true once the migration is done
-enable_worker_cronjobs: &enable_cron false
-enable_purge_cronjobs: &enable_purge false
+enable_worker_cronjobs: &enable_cron true
+enable_purge_cronjobs: &enable_purge true
 disable_worker_email: &disable_email true
 
-# FIXME(jpena): once the repo sync operation has been finished, and we have copied the SSL certs over, change to trunk-primary.rdoproject.org
-dlrn::web::web_domain: 'trunk-centos7.rdoproject.org'
+dlrn::web::web_domain: 'trunk-primary.rdoproject.org'
 dlrn::web::enable_api: true
 dlrn::web::api_workers: ['centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata']
 dlrn::web::cert_mail: 'jpena@redhat.com'
@@ -95,7 +93,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     enable_purge: *enable_purge
     cron_hour: '*'
-    cron_minute: '12,42'
+    cron_minute: [12, 42]
     purge_hour: '3'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos7-stein', '/var/www/html/stein/centos7']
