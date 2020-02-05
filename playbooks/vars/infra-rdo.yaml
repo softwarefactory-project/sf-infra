@@ -259,3 +259,16 @@ servers:
     volume_size: 50
     volumes:
       - images-data
+
+  - name: www.rdoproject.org
+    key_name: sf-infra-key
+    image: centos-8.1-1911
+    flavor: v1-standard-1
+    network: private-network
+    floating_ip: yes
+    security_groups:
+      - common
+      - web
+    boot_from_volume: yes
+    volume_size: 10
+
