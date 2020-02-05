@@ -55,3 +55,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsne3wzhPRzlzaOK1a2IeMAd9w2sMFsE6Q45g3q/j6q dpawlik@redhat.com"
+  duck:
+    name: "duck"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINkTw3tpP6CFVAFKCGucuJUluJbgaqBInH91e8HyK46U duck@Zushi"
