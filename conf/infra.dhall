@@ -79,6 +79,10 @@ in      { Prelude = Prelude
         , mkSubnet = mkSubnet
         , mkNetwork = mkNetwork
         , mkRouter = mkRouter
+        , setIp =
+                \(ip : Text)
+            ->  \(server : Server.Type)
+            ->  server // { auto_ip = None Bool, floating_ips = Some [ ip ] }
         , seq = seq
         , setFqdn = setFqdn
         , mapServerText = Prelude.List.map Server.Type Text

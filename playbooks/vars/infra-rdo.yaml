@@ -74,9 +74,9 @@ security_groups:
       - port: 8053
         protocol: udp
 servers:
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
@@ -87,9 +87,9 @@ servers:
       - web
       - monitoring
     volume_size: 200
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ip: yes
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: centos8-rpm-packaging-ci.rdoproject.org
@@ -102,9 +102,9 @@ servers:
     volume_size: 100
     volumes:
       - centos8-rpm-packaging-swap
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: ci.m1.large
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: rpm-packaging-ci.rdoproject.org
@@ -115,9 +115,9 @@ servers:
       - monitoring
       - rdo-trunk
     volume_size: 100
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: ci.m1.large
-    floating_ip: yes
     image: fedora-30-1.2
     key_name: sf-infra-key
     name: fedora-rpm-packaging-ci.rdoproject.org
@@ -128,9 +128,9 @@ servers:
       - monitoring
       - rdo-trunk
     volume_size: 100
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: registry-vexxhost.rdoproject.org
@@ -143,9 +143,9 @@ servers:
     volume_size: 200
     volumes:
       - registry-data
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ip: yes
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: trunk-centos8.rdoproject.org
@@ -156,9 +156,9 @@ servers:
       - monitoring
       - rdo-trunk
     volume_size: 512
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: trunk-centos7.rdoproject.org
@@ -169,9 +169,9 @@ servers:
       - monitoring
       - rdo-trunk
     volume_size: 512
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-1
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: install-server.rdoproject.org
@@ -180,9 +180,9 @@ servers:
       - common
       - monitoring
     volume_size: 40
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ip: yes
     image: centos-7-1907
     key_name: sf-infra-key
     name: logserver.rdoproject.org
@@ -194,9 +194,9 @@ servers:
     volume_size: 10
     volumes:
       - logs-data
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-1
-    floating_ip: yes
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: images-vexxhost.rdoproject.org
@@ -208,9 +208,9 @@ servers:
     volume_size: 50
     volumes:
       - images-data
-  - boot_from_volume: yes
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-1
-    floating_ip: yes
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: www.rdoproject.org

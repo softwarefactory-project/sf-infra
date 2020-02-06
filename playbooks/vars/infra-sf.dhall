@@ -114,14 +114,14 @@ let servers =
           }
         , Infra.Server::{
           , name = "prometheus.monitoring"
-          , floating_ip = "yes"
+          , auto_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
           , security_groups = [ "common", "public-monitoring", "web" ]
           }
         , Infra.Server::{
           , name = "ara"
-          , floating_ip = "yes"
+          , auto_ip = Some True
           , image = "fedora-31-1.9"
           , boot_from_volume = "yes"
           , volume_size = Some 80
@@ -129,7 +129,7 @@ let servers =
           }
         , Infra.Server::{
           , name = "redhat-oss-git-stats"
-          , floating_ip = "yes"
+          , auto_ip = Some True
           , image = "fedora-31-1.9"
           , boot_from_volume = "yes"
           , volume_size = Some 500
@@ -137,14 +137,16 @@ let servers =
           , security_groups = DefaultSecurityGroups # [ "web" ]
           }
         , Infra.Server::{ name = "elk" }
-        , Infra.Server::{
-          , name = "managesf"
-          , flavor = Infra.Flavors.`4cpus_16gig`
-          , boot_from_volume = "yes"
-          , volume_size = Some 20
-          , security_groups = [ "common", "web", "managesf" ]
-          , volumes = Some [ "elk-data" ]
-          }
+        , Infra.setIp
+            "38.102.83.76"
+            Infra.Server::{
+            , name = "managesf"
+            , flavor = Infra.Flavors.`4cpus_16gig`
+            , boot_from_volume = "yes"
+            , volume_size = Some 20
+            , security_groups = [ "common", "web", "managesf" ]
+            , volumes = Some [ "elk-data" ]
+            }
         , Infra.Server::{ name = "nodepool-builder" }
         , Infra.Server::{
           , name = "oci01"

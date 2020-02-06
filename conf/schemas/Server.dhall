@@ -2,7 +2,8 @@
     { name : Text
     , boot_from_volume : Text
     , flavor : Text
-    , floating_ip : Text
+    , auto_ip : Optional Bool
+    , floating_ips : Optional (List Text)
     , image : Text
     , key_name : Text
     , network : Text
@@ -12,7 +13,8 @@
     }
 , default =
     { flavor = (../defaults.dhall).Flavors.`2cpus_8gig`
-    , floating_ip = "no"
+    , auto_ip = Some False
+    , floating_ips = None (List Text)
     , image = "centos-7-1907"
     , key_name = "sf-infra-key"
     , network = "private-network"
