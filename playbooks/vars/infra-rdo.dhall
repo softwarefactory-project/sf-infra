@@ -1,18 +1,4 @@
-let Package = ../../conf/common.dhall
-
-let Flavors = Package.Flavors
-
-let Image = Package.Image
-
-let Rule = Package.Rule
-
-let Server = Package.Server
-
-let mkNetwork = Package.mkNetwork
-
-let mkRouter = Package.mkRouter
-
-let mkSubnet = Package.mkSubnet
+let Infra = ../../conf/infra.dhall
 
 let fqdn = "rdoproject.org"
 
@@ -21,66 +7,66 @@ let rdo_network = { name = "private", network_prefix = "192.168.240" }
 let backward-compat-name = { name = "default-router" }
 
 let security_groups =
-        Package.SecurityGroups
+        Infra.SecurityGroups
       # [ { name = "afs"
           , rules =
-            [ Rule::{ port = +8080 }
-            , Rule::{ port = +8081 }
-            , Rule::{ port = +8082 }
+            [ Infra.Rule::{ port = +8080 }
+            , Infra.Rule::{ port = +8081 }
+            , Infra.Rule::{ port = +8082 }
             ]
           }
         , { name = "monitoring"
           , rules =
-            [ Rule::{
+            [ Infra.Rule::{
               , port = +9100
               , remote_ip_prefix = Some "{{ bridge_public_ip }}/32"
               }
-            , Rule::{
+            , Infra.Rule::{
               , port = +9100
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
             ]
           }
-        , { name = "rdo-trunk", rules = [ Rule::{ port = +3300 } ] }
+        , { name = "rdo-trunk", rules = [ Infra.Rule::{ port = +3300 } ] }
         , { name = "registry"
           , rules =
-            [ Rule::{ port = +53 }
-            , Rule::{ port = +2379 }
-            , Rule::{ port = +2380 }
-            , Rule::{ port = +4001 }
-            , Rule::{ port = +5000 }
-            , Rule::{ port = +8443 }
-            , Rule::{ port = +9090 }
-            , Rule::{ port = +10250 }
-            , Rule::{ port = +4789, protocol = Some "udp" }
-            , Rule::{ port = +8053, protocol = Some "udp" }
+            [ Infra.Rule::{ port = +53 }
+            , Infra.Rule::{ port = +2379 }
+            , Infra.Rule::{ port = +2380 }
+            , Infra.Rule::{ port = +4001 }
+            , Infra.Rule::{ port = +5000 }
+            , Infra.Rule::{ port = +8443 }
+            , Infra.Rule::{ port = +9090 }
+            , Infra.Rule::{ port = +10250 }
+            , Infra.Rule::{ port = +4789, protocol = Some "udp" }
+            , Infra.Rule::{ port = +8053, protocol = Some "udp" }
             ]
           }
         ]
 
 let images =
-      [ Image::{
+      [ Infra.Image::{
         , name = "centos-7-1907"
         , url =
             "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2"
         , checksum =
             "520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512"
         }
-      , Image::{
+      , Infra.Image::{
         , name = "fedora-30-1.2"
         , url =
             "https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2"
         , checksum =
             "72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26"
         }
-      , Image::{
+      , Infra.Image::{
         , name = "centos-8.0-1905"
         , url =
             "https://jpena.fedorapeople.org/CentOS-8-GenericCloud-8.0.1905-22.x86_64.qcow2"
         , checksum =
             "c86c119665866695a700a4ab523c774c64ed7e0dd9e6e89f5f032e0f03148a47"
         }
-      , Image::{
+      , Infra.Image::{
         , name = "centos-8.1-1911"
         , url =
             "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
@@ -118,13 +104,13 @@ let volumes =
       ]
 
 let servers =
-      [ Server::{
+      [ Infra.Server::{
         , name = "mirror.regionone.vexxhost"
         , floating_ip = "yes"
         , security_groups = [ "afs", "common", "web", "monitoring" ]
         , volume_size = Some 200
         }
-      , Server::{
+      , Infra.Server::{
         , name = "centos8-rpm-packaging-ci"
         , image = "centos-8.0-1905"
         , floating_ip = "yes"
@@ -132,14 +118,14 @@ let servers =
         , volume_size = Some 100
         , volumes = Some [ "centos8-rpm-packaging-swap" ]
         }
-      , Server::{
+      , Infra.Server::{
         , name = "rpm-packaging-ci"
         , flavor = "ci.m1.large"
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 100
         }
-      , Server::{
+      , Infra.Server::{
         , name = "fedora-rpm-packaging-ci"
         , image = "fedora-30-1.2"
         , flavor = "ci.m1.large"
@@ -147,71 +133,71 @@ let servers =
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 100
         }
-      , Server::{
+      , Infra.Server::{
         , name = "registry-vexxhost"
-        , flavor = Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4cpus_16gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring", "registry" ]
         , volume_size = Some 200
         , volumes = Some [ "registry-data" ]
         }
-      , Server::{
+      , Infra.Server::{
         , name = "trunk-centos8"
         , image = "centos-8.0-1905"
-        , flavor = Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4cpus_16gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 512
         }
-      , Server::{
+      , Infra.Server::{
         , name = "trunk-centos7"
-        , flavor = Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4cpus_16gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 512
         }
-      , Server::{
+      , Infra.Server::{
         , name = "install-server"
-        , flavor = Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1cpu_4gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "monitoring" ]
         , volume_size = Some 40
         }
-      , Server::{
+      , Infra.Server::{
         , name = "logserver"
         , floating_ip = "yes"
         , security_groups = [ "common", "monitoring", "web" ]
         , volume_size = Some 10
         , volumes = Some [ "logs-data" ]
         }
-      , Server::{
+      , Infra.Server::{
         , name = "images-vexxhost"
         , image = "centos-8.1-1911"
-        , flavor = Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1cpu_4gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring" ]
         , volume_size = Some 50
         , volumes = Some [ "images-data" ]
         }
-      , Server::{
+      , Infra.Server::{
         , name = "www"
         , image = "centos-8.1-1911"
-        , flavor = Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1cpu_4gig`
         , floating_ip = "yes"
         , security_groups = [ "common", "web", "monitoring" ]
         , volume_size = Some 10
         }
       ]
 
-in  { servers = Package.setFqdn fqdn servers
-    , networks = [ mkNetwork rdo_network.name ]
-    , subnets = [ mkSubnet rdo_network.name rdo_network.network_prefix ]
+in  { servers = Infra.setFqdn fqdn servers
+    , networks = [ Infra.mkNetwork rdo_network.name ]
+    , subnets = [ Infra.mkSubnet rdo_network.name rdo_network.network_prefix ]
     , routers =
-      [     mkRouter rdo_network.name rdo_network.network_prefix
+      [     Infra.mkRouter rdo_network.name rdo_network.network_prefix
         //  backward-compat-name
       ]
     , keypairs =
-      [ { name = "sf-infra-key", public_key = Package.sfInfraKeypair } ]
+      [ { name = "sf-infra-key", public_key = Infra.sfInfraKeypair } ]
     , images = images
     , image_cache_dir = "{{ ansible_user_dir }}/image_cache"
     , volumes = volumes
