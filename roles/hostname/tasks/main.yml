@@ -2,11 +2,11 @@
 - name: Change hostname
   become: true
   hostname:
-    name: "{{ ansible_hostname }}"
+    name: "{{ inventory_hostname }}"
 
 - name: Ensure that correct hostname is set in hosts file
   become: true
   lineinfile:
     dest: '/etc/hosts'
-    regexp: "^{{ ansible_default_ipv4.address }}.+$"
-    line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
+    regexp: "^{{ inventory_hostname }}.+$"
+    line: "{{ ansible_host }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
