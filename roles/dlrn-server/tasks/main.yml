@@ -112,3 +112,6 @@
       include_role:
         name: base
         tasks_from: users.yml
+      vars:
+        rdo_admin_group: "{{ rdo_dlrn_admin_group }}"
+        rdo_admin_users: "{{ rdo_dlrn_admin_users }}"
