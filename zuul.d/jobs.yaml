@@ -15,6 +15,11 @@
     allowed-projects:
       - software-factory/sf-infra
     semaphore: sf-infra
+    irrelevant-files:
+      - "Makefile"
+      - "package.dhall"
+      - "playbooks/vars/.*.dhall"
+      - "conf/.*"
     nodeset:
       # All infra playbook run from the bridge
       nodes: []
@@ -119,6 +124,7 @@
         - sf-infra-molecule
     gate:
       jobs:
+        - dhall-diff
         - sf-infra-create-bridge
         - sf-infra-create-hosts
         - sf-infra-configure-tenants

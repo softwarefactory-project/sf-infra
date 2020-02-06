@@ -1,4 +1,4 @@
-let Package = ../../package.dhall
+let Package = ../../conf/common.dhall
 
 let Flavors = Package.Flavors
 
