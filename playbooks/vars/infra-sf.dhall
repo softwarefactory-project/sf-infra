@@ -105,6 +105,8 @@ let volumes =
         }
       ]
 
+let ips = { managesf = Infra.setIp "38.102.83.76" }
+
 let servers =
         [ Infra.Server::{
           , name = "logreduce-mqtt-01"
@@ -137,8 +139,7 @@ let servers =
           , security_groups = DefaultSecurityGroups # [ "web" ]
           }
         , Infra.Server::{ name = "elk" }
-        , Infra.setIp
-            "38.102.83.76"
+        , ips.managesf
             Infra.Server::{
             , name = "managesf"
             , flavor = Infra.Flavors.`4cpus_16gig`
