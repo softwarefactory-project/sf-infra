@@ -1,0 +1,6 @@
+---
+- git: https://github.com/rdo-infra/rdo-infra-playbooks
+  version: master
+  files:
+    - src: roles/rdo-infra/base
+      dst: molecule/default/roles/base

@@ -1,6 +1,6 @@
 ---
 dependency:
-  name: galaxy
+  name: gilt
 driver:
   name:  podman
 platforms:
