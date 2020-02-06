@@ -65,11 +65,11 @@ let mkServers =
             )
             (seq count)
 
+let mapServer = Prelude.List.map Server.Type Server.Type
+
 let setFqdn =
           \(fqdn : Text)
-      ->  Prelude.List.map
-            Server.Type
-            Server.Type
+      ->  mapServer
             (     \(server : Server.Type)
               ->  server // { name = server.name ++ "." ++ fqdn }
             )
@@ -81,6 +81,7 @@ in      { Prelude = Prelude
         , mkRouter = mkRouter
         , seq = seq
         , setFqdn = setFqdn
+        , mapServerText = Prelude.List.map Server.Type Text
         }
     //  ./schemas.dhall
     //  ./defaults.dhall
