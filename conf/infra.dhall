@@ -79,6 +79,15 @@ in      { Prelude = Prelude
         , mkSubnet = mkSubnet
         , mkNetwork = mkNetwork
         , mkRouter = mkRouter
+        , setSecurityGroups =
+                \(security-groups : List Text)
+            ->  mapServer
+                  (     \(server : Server.Type)
+                    ->      server
+                        //  { security_groups =
+                                security-groups # server.security_groups
+                            }
+                  )
         , setIp =
                 \(ip : Text)
             ->  \(server : Server.Type)

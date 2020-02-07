@@ -49,14 +49,10 @@ security_groups:
     rules:
       - port: 80
       - port: 443
-  - name: monitoring
-    rules:
-      - port: 9100
-      - port: 9101
   - name: zuul-console
     rules:
       - port: 19885
-  - name: private-monitoring
+  - name: monitoring
     rules:
       - port: 9101
         remote_ip_prefix: "{{ bridge_private_ip }}/32"
@@ -93,7 +89,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -104,6 +100,7 @@ servers:
     network: private-network
     security_groups:
       - common
+      - monitoring
       - web
     volume_size: 80
   - auto_ip: true
@@ -115,7 +112,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
       - web
     volume_size: 80
   - auto_ip: true
@@ -127,7 +124,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
       - web
     volume_size: 500
   - auto_ip: false
@@ -139,7 +136,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
@@ -150,6 +147,7 @@ servers:
     network: private-network
     security_groups:
       - common
+      - monitoring
       - web
       - managesf
     volume_size: 20
@@ -164,7 +162,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -174,6 +172,7 @@ servers:
     network: oci-private-network
     security_groups:
       - common
+      - monitoring
       - hypervisor-oci
     volumes:
       - nodepool-builder-data
@@ -186,7 +185,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -196,7 +195,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
       - web
   - auto_ip: false
     boot_from_volume: no
@@ -207,7 +206,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -217,7 +216,7 @@ servers:
     network: private-network
     security_groups:
       - common
-      - private-monitoring
+      - monitoring
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:

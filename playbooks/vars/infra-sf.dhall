@@ -2,18 +2,16 @@ let Infra = ../../conf/infra.dhall
 
 let fqdn = "softwarefactory-project.io"
 
+let default-security-groups = [ "common", "monitoring" ]
+
 let sf_network = { name = "private", network_prefix = "192.168.242" }
 
 let oci_network = { name = "oci-private", network_prefix = "192.168.254" }
 
 let security_groups =
         Infra.SecurityGroups
-      # [ { name = "monitoring"
-          , rules =
-            [ Infra.Rule::{ port = +9100 }, Infra.Rule::{ port = +9101 } ]
-          }
-        , { name = "zuul-console", rules = [ Infra.Rule::{ port = +19885 } ] }
-        , { name = "private-monitoring"
+      # [ { name = "zuul-console", rules = [ Infra.Rule::{ port = +19885 } ] }
+        , { name = "monitoring"
           , rules =
             [ Infra.Rule::{
               , port = +9101
@@ -57,8 +55,6 @@ let security_groups =
             ]
           }
         ]
-
-let DefaultSecurityGroups = [ "common", "private-monitoring" ]
 
 let images =
       [ Infra.Image::{
@@ -115,7 +111,7 @@ let servers =
           , auto_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups = [ "common", "web" ]
+          , security_groups = [ "web" ]
           }
         , Infra.Server::{
           , name = "ara"
@@ -123,7 +119,7 @@ let servers =
           , image = "fedora-31-1.9"
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups = DefaultSecurityGroups # [ "web" ]
+          , security_groups = [ "web" ]
           }
         , Infra.Server::{
           , name = "redhat-oss-git-stats"
@@ -132,7 +128,7 @@ let servers =
           , boot_from_volume = "yes"
           , volume_size = Some 500
           , flavor = Infra.Flavors.`8vcpus_32gb`
-          , security_groups = DefaultSecurityGroups # [ "web" ]
+          , security_groups = [ "web" ]
           }
         , Infra.Server::{ name = "elk" }
         , ips.managesf
@@ -141,14 +137,14 @@ let servers =
             , flavor = Infra.Flavors.`4vcpus_16gb`
             , boot_from_volume = "yes"
             , volume_size = Some 20
-            , security_groups = [ "common", "web", "managesf" ]
+            , security_groups = [ "web", "managesf" ]
             , volumes = Some [ "elk-data" ]
             }
         , Infra.Server::{ name = "nodepool-builder" }
         , Infra.Server::{
           , name = "oci01"
           , network = "oci-private-network"
-          , security_groups = [ "common", "hypervisor-oci" ]
+          , security_groups = [ "hypervisor-oci" ]
           , volumes = Some [ "nodepool-builder-data" ]
           }
         , Infra.Server::{ name = "zs" }
@@ -157,7 +153,7 @@ let servers =
           , image = "centos-7-1907"
           , boot_from_volume = "no"
           , flavor = Infra.Flavors.`4vcpus_8gb`
-          , security_groups = DefaultSecurityGroups # [ "web" ]
+          , security_groups = [ "web" ]
           }
         ]
       # mkExecutors 1
@@ -165,7 +161,10 @@ let servers =
 
 let backward-compat-name = { name = "default-router" }
 
-in  { servers = Infra.setFqdn fqdn servers
+in  { servers =
+        Infra.setSecurityGroups
+          default-security-groups
+          (Infra.setFqdn fqdn servers)
     , networks =
       [ Infra.mkNetwork sf_network.name, Infra.mkNetwork oci_network.name ]
     , subnets =
