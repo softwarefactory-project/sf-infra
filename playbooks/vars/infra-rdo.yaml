@@ -82,10 +82,10 @@ servers:
     name: mirror.regionone.vexxhost.rdoproject.org
     network: private-network
     security_groups:
-      - afs
       - common
-      - web
       - monitoring
+      - web
+      - afs
     volume_size: 200
   - auto_ip: true
     boot_from_volume: yes
@@ -96,8 +96,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - rdo-trunk
     volume_size: 100
     volumes:
@@ -111,8 +111,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - rdo-trunk
     volume_size: 100
   - auto_ip: true
@@ -124,8 +124,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - rdo-trunk
     volume_size: 100
   - auto_ip: true
@@ -137,8 +137,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - registry
     volume_size: 200
     volumes:
@@ -152,8 +152,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - rdo-trunk
     volume_size: 512
   - auto_ip: true
@@ -165,8 +165,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
       - rdo-trunk
     volume_size: 512
   - auto_ip: true
@@ -203,8 +203,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
     volume_size: 50
     volumes:
       - images-data
@@ -217,8 +217,8 @@ servers:
     network: private-network
     security_groups:
       - common
-      - web
       - monitoring
+      - web
     volume_size: 10
 subnets:
   - cidr: 192.168.240.0/24

@@ -3,5 +3,5 @@
 //  { SF =
         ./playbooks/vars/infra-sf.dhall sha256:1a74ab85ebdd94f931612461380e5b677fa0d3a96fccd2d3efc6845b73fc7aa3
     , RDO =
-        ./playbooks/vars/infra-rdo.dhall sha256:d2530fef6ff393869a83b968836c46e4aac9dc6cf740bfe16ea8317ce6eccd2f
+        ./playbooks/vars/infra-rdo.dhall sha256:bca74426d056552a4364992a84c13d93fb4bcee6ea2842fc70af77dbe2c86fa7
     }
