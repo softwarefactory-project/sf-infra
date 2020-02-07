@@ -156,6 +156,13 @@ let servers =
           , volumes = Some [ "nodepool-builder-data" ]
           }
         , Infra.Server::{ name = "zs" }
+        , Infra.Server::{
+          , name = "koji-vexxhost"
+          , image = "centos-7-1907"
+          , boot_from_volume = "no"
+          , flavor = Infra.Flavors.`4vcpus_8gb`
+          , security_groups = DefaultSecurityGroups # [ "web" ]
+          }
         ]
       # mkExecutors 1
       # mkMergers 1

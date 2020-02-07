@@ -197,6 +197,17 @@ servers:
     flavor: 4vcpus_8gb
     image: centos-7-1907
     key_name: sf-infra-key
+    name: koji-vexxhost.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - private-monitoring
+      - web
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
     network: private-network
     security_groups:
