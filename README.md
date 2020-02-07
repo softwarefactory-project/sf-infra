@@ -20,6 +20,13 @@ Then most of the work is done with the configure-hosts job that use a static inv
 * Commit and git-review
 
 
+# To add a vault secret
+
+From the bridge, fedora account:
+```
+ansible-vault encrypt_string --stdin-name var-name < file-var-value >> var-file.yaml
+```
+
 # To update playbook vars
 
 The variable are now declared using dhall. Run `make` to update the yaml files.
