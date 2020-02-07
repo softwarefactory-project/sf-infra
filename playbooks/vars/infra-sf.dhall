@@ -97,7 +97,10 @@ let volumes =
         }
       ]
 
-let ips = { managesf = Infra.setIp "38.102.83.76" }
+let ips =
+      { managesf = Infra.setIp "38.102.83.76"
+      , koji = Infra.setIp "38.102.83.102"
+      }
 
 let servers =
         [ Infra.Server::{
@@ -148,13 +151,15 @@ let servers =
           , volumes = Some [ "nodepool-builder-data" ]
           }
         , Infra.Server::{ name = "zs" }
-        , Infra.Server::{
-          , name = "koji-vexxhost"
-          , image = "centos-7-1907"
-          , boot_from_volume = "no"
-          , flavor = Infra.Flavors.`4vcpus_8gb`
-          , security_groups = [ "web" ]
-          }
+        , ips.koji
+            Infra.Server::{
+            , name = "koji-vexxhost"
+            , image = "centos-7-1907"
+            , boot_from_volume = "yes"
+            , volume_size = Some 80
+            , flavor = Infra.Flavors.`4vcpus_8gb`
+            , security_groups = [ "web" ]
+            }
         ]
       # mkExecutors 1
       # mkMergers 1

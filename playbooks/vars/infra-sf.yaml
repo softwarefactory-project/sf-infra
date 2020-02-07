@@ -186,9 +186,10 @@ servers:
     security_groups:
       - common
       - monitoring
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: yes
     flavor: 4vcpus_8gb
+    floating_ips:
+      - "38.102.83.102"
     image: centos-7-1907
     key_name: sf-infra-key
     name: koji-vexxhost.softwarefactory-project.io
@@ -197,6 +198,7 @@ servers:
       - common
       - monitoring
       - web
+    volume_size: 80
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
