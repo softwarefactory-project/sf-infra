@@ -48,10 +48,6 @@ let security_groups =
             , Infra.Rule::{ port = +22022, port_range_max = Some +65535 }
             ]
           }
-        , { name = "public-monitoring"
-          , rules =
-            [ Infra.Rule::{ port = +9090 }, Infra.Rule::{ port = +3000 } ]
-          }
         , { name = "prometheus-mail"
           , rules =
             [ Infra.Rule::{
@@ -119,7 +115,7 @@ let servers =
           , auto_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups = [ "common", "public-monitoring", "web" ]
+          , security_groups = [ "common", "web" ]
           }
         , Infra.Server::{
           , name = "ara"

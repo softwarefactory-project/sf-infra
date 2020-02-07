@@ -79,10 +79,6 @@ security_groups:
       - port: 19885
       - port: 22022
         port_range_max: 65535
-  - name: public-monitoring
-    rules:
-      - port: 9090
-      - port: 3000
   - name: prometheus-mail
     rules:
       - port: 25
@@ -108,7 +104,6 @@ servers:
     network: private-network
     security_groups:
       - common
-      - public-monitoring
       - web
     volume_size: 80
   - auto_ip: true
