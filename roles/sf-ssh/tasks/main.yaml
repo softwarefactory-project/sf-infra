@@ -1,0 +1,6 @@
+---
+- name: Authorize install-server ssh access
+  become: yes
+  authorized_key:
+    user: root
+    key: "{{ sf_ssh_pub_key }}"

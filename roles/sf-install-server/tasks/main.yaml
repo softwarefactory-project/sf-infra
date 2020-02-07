@@ -1,0 +1,7 @@
+---
+- name: Copy install-server ssh key
+  become: yes
+  copy:
+    content: "{{ sf_ssh_priv_key }}"
+    dest: /root/.ssh/id_rsa
+    mode: 0400
