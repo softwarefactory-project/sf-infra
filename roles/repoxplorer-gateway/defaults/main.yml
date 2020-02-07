@@ -1,0 +1,15 @@
+---
+repoxplorer_hostname: localhost
+repoxplorer_admin_token:
+service_public_hostname: repoxplorer.sftests.com
+github_client_id:
+github_client_secret:
+github_allowed_orgs:
+cauth_root_loglevel: 'DEBUG'
+cauth_loglevel: 'DEBUG'
+app_debug: true
+sso_cookie_timeout: 7776000
+login_page_msg: >
+  By login via Github, you'll authorize repoXplorer to read your
+  registered emails on Github. This helps repoXplorer to group
+  contributions you made with different emails together."

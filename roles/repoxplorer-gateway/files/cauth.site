@@ -1,0 +1,4 @@
+<IfModule mod_proxy.c>
+    ProxyPass /auth http://127.0.0.1:8888
+    ProxyPassReverse /auth http://127.0.0.1:8888
+</IfModule>

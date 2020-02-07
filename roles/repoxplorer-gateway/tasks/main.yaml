@@ -1,0 +1,175 @@
+---
+- name: Setup group
+  become: true
+  group:
+    name: cauth
+    state: present
+
+- name: Setup user
+  become: true
+  user:
+    name: cauth
+    append: true
+    groups: cauth
+    state: present
+
+- name: Install SF master repository
+  become: true
+  yum_repository:
+    name: sf-master
+    description: SF master repository
+    baseurl: https://softwarefactory-project.io/kojifiles/repos/sf-master-el7/
+    gpgcheck: false
+
+- name: Install requirements
+  become: true
+  package:
+    name:
+      - openssl
+      - mod_auth_pubtkt
+      - python3-cauth
+      - httpd
+    state: present
+  register: _packages
+
+- name: Ensure /var/lib/cauth/keys exists
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: cauth
+    group: apache
+    state: directory
+    mode: 0750
+  loop:
+    - /var/lib/cauth
+    - /var/lib/cauth/keys
+
+- name: Create cauth keypair (priv)
+  become: true
+  command: "{{ item }}"
+  args:
+    chdir: /var/lib/cauth/keys
+    creates: cauth.pem
+  loop:
+    - openssl genrsa -out cauth.pem 1024
+
+- name: Create cauth keypair (pub)
+  become: true
+  command: "{{ item }}"
+  args:
+    chdir: /var/lib/cauth/keys
+    creates: cauth.pem.pub
+  loop:
+    - openssl rsa -in cauth.pem -out cauth.pem.pub -pubout
+
+- name: Setup cauth.pem perms
+  become: true
+  file:
+    dest: "{{ item }}"
+    owner: cauth
+    group: apache
+    mode: 0440
+  notify:
+    - httpd reload
+    - cauth restart
+  loop:
+    - /var/lib/cauth/keys/cauth.pem.pub
+    - /var/lib/cauth/keys/cauth.pem
+
+- name: Install tkt apache module configuration
+  become: true
+  copy:
+    content: "LoadModule auth_pubtkt_module modules/mod_auth_pubtkt.so\n"
+    dest: /etc/httpd/conf.modules.d/00-tkt.conf
+    mode: 0444
+  notify: httpd reload
+
+- name: Install tkt apache pubtkt configuration
+  become: true
+  copy:
+    content: "TKTAuthPublicKey /var/lib/cauth/keys/cauth.pem.pub\n"
+    dest: /etc/httpd/conf.d/auth_pubtkt.conf
+    mode: 0444
+  notify: httpd reload
+
+- name: Setup perms
+  become: true
+  file:
+    path: "{{ item.path }}"
+    mode: "{{ item.mode|default('0770') }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: "{{ item.state|default('directory') }}"
+  loop:
+    - path: /etc/cauth
+      owner: root
+      group: cauth
+    - path: /etc/cauth/templates
+      owner: root
+      group: cauth
+
+- name: Generate random admin_token
+  set_fact:
+    repoxplorer_admin_token:
+      "{{ lookup('password', 'repoxplorer_admin_token.txt') }}"
+
+- name: Read github secret from filesystem
+  command: cat "{{ ansible_user_dir }}/github_secret.txt"
+  register: _cat_gs
+  changed_when: false
+
+- name: Set the github_client_secret fact
+  set_fact:
+    github_client_secret: "{{ _cat_gs.stdout | trim }}"
+
+- name: Install cauth config files
+  become: true
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.dest }}/{{ item.name }}"
+    mode: 0444
+    owner: cauth
+    group: cauth
+  notify: cauth restart
+  loop:
+    - name: config.py
+      dest: /etc/cauth
+    - name: login.html
+      dest: /etc/cauth/templates
+
+- name: Install cauth files
+  become: true
+  copy:
+    src: cauth.site
+    dest: /etc/httpd/conf.d/cauth.conf
+  notify: httpd reload
+
+- name: Install httpd vhosts
+  become: true
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.dest }}"
+  notify: httpd reload
+  loop:
+    - name: site.conf
+      dest: /etc/httpd/conf.d/site.conf
+    - name: site-le-ssl.conf
+      dest: /etc/httpd/conf.d/site-le-ssl.conf
+
+- name: Authorize httpd outbound connection (proxy)
+  command: /usr/sbin/setsebool -P httpd_can_network_connect 1
+  become: true
+  register: _setsebool
+  ignore_errors: true
+  changed_when: false
+
+- name: Enable the services
+  become: true
+  systemd:
+    name: "{{ item }}"
+    daemon-reload: "{% if _packages is changed %}true{% else %}false{% endif %}"
+    state: started
+    enabled: true
+  loop:
+    - httpd
+    - cauth

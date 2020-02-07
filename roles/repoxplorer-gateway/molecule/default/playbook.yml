@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  pre_tasks:
+    - name: Create fixture file
+      copy:
+        content: "secret"
+        dest: "{{ ansible_user_dir }}/github_secret.txt"
+  roles:
+    - role: repoxplorer-gateway

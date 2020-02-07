@@ -1,0 +1,10 @@
+---
+- name: cauth restart
+  service:
+    name: cauth
+    state: restarted
+
+- name: httpd reload
+  service:
+    name: httpd
+    state: reloaded
