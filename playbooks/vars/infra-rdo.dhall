@@ -135,7 +135,7 @@ let servers =
         }
       , Infra.Server::{
         , name = "registry-vexxhost"
-        , flavor = Infra.Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4vcpus_16gb`
         , auto_ip = Some True
         , security_groups = [ "common", "web", "monitoring", "registry" ]
         , volume_size = Some 200
@@ -144,21 +144,21 @@ let servers =
       , Infra.Server::{
         , name = "trunk-centos8"
         , image = "centos-8.0-1905"
-        , flavor = Infra.Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4vcpus_16gb`
         , auto_ip = Some True
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 512
         }
       , Infra.Server::{
         , name = "trunk-centos7"
-        , flavor = Infra.Flavors.`4cpus_16gig`
+        , flavor = Infra.Flavors.`4vcpus_16gb`
         , auto_ip = Some True
         , security_groups = [ "common", "web", "monitoring", "rdo-trunk" ]
         , volume_size = Some 512
         }
       , Infra.Server::{
         , name = "install-server"
-        , flavor = Infra.Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1vcpu_4gb`
         , auto_ip = Some True
         , security_groups = [ "common", "monitoring" ]
         , volume_size = Some 40
@@ -173,7 +173,7 @@ let servers =
       , Infra.Server::{
         , name = "images-vexxhost"
         , image = "centos-8.1-1911"
-        , flavor = Infra.Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1vcpu_4gb`
         , auto_ip = Some True
         , security_groups = [ "common", "web", "monitoring" ]
         , volume_size = Some 50
@@ -182,7 +182,7 @@ let servers =
       , Infra.Server::{
         , name = "www"
         , image = "centos-8.1-1911"
-        , flavor = Infra.Flavors.`1cpu_4gig`
+        , flavor = Infra.Flavors.`1vcpu_4gb`
         , auto_ip = Some True
         , security_groups = [ "common", "web", "monitoring" ]
         , volume_size = Some 10

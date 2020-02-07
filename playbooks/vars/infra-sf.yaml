@@ -194,7 +194,7 @@ servers:
       - private-monitoring
   - auto_ip: false
     boot_from_volume: no
-    flavor: v1-standard-1
+    flavor: 4vcpus_8gb
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
@@ -204,7 +204,7 @@ servers:
       - private-monitoring
   - auto_ip: false
     boot_from_volume: no
-    flavor: v1-standard-2
+    flavor: 1vcpu_1gb
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
@@ -235,4 +235,4 @@ volumes:
   - device: /dev/vdb
     display_name: nodepool-builder-data
     server: nodepool-builder.softwarefactory-project.io
-    size: 10
+    size: 1000

@@ -16,9 +16,13 @@
   ]
 , external-network = "public"
 , Flavors =
-    { `1cpu_4gig` = "v1-standard-1"
-    , `2cpus_8gig` = "v1-standard-2"
-    , `4cpus_16gig` = "v1-standard-4"
-    , `8cpus_32gig` = "v1-standard-8"
+    { `1vcpu_1gb` = "1vcpu_1gb"
+    , `1vcpu_2gb` = "1vcpu_2gb"
+    , `1vcpu_4gb` = "v1-standard-1"
+    , `2vcpus_8gb` = "v1-standard-2"
+    , `4vcpus_16gb` = "v1-standard-4"
+    , `4vcpus_8gb` = "4vcpus_8gb"
+    , `6vcpus_12gb` = "6vcpus_12gb"
+    , `8vcpus_32gb` = "v1-standard-8"
     }
 }

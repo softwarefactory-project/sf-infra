@@ -88,9 +88,9 @@ let images =
         }
       ]
 
-let mkExecutors = Infra.mkServers "ze" Infra.Flavors.`1cpu_4gig`
+let mkExecutors = Infra.mkServers "ze" Infra.Flavors.`4vcpus_8gb`
 
-let mkMergers = Infra.mkServers "zm" Infra.Flavors.`2cpus_8gig`
+let mkMergers = Infra.mkServers "zm" Infra.Flavors.`1vcpu_1gb`
 
 let volumes =
       [ { display_name = "elk-data"
@@ -99,7 +99,7 @@ let volumes =
         , device = "/dev/vdb"
         }
       , { display_name = "nodepool-builder-data"
-        , size = 10
+        , size = 1000
         , server = "nodepool-builder" ++ "." ++ fqdn
         , device = "/dev/vdb"
         }
@@ -135,14 +135,14 @@ let servers =
           , image = "fedora-31-1.9"
           , boot_from_volume = "yes"
           , volume_size = Some 500
-          , flavor = Infra.Flavors.`8cpus_32gig`
+          , flavor = Infra.Flavors.`8vcpus_32gb`
           , security_groups = DefaultSecurityGroups # [ "web" ]
           }
         , Infra.Server::{ name = "elk" }
         , ips.managesf
             Infra.Server::{
             , name = "managesf"
-            , flavor = Infra.Flavors.`4cpus_16gig`
+            , flavor = Infra.Flavors.`4vcpus_16gb`
             , boot_from_volume = "yes"
             , volume_size = Some 20
             , security_groups = [ "common", "web", "managesf" ]

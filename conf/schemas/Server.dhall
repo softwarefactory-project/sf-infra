@@ -12,7 +12,7 @@
     , volumes : Optional (List Text)
     }
 , default =
-    { flavor = (../defaults.dhall).Flavors.`2cpus_8gig`
+    { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
     , auto_ip = Some False
     , floating_ips = None (List Text)
     , image = "centos-7-1907"
