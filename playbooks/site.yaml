@@ -105,7 +105,9 @@
 
 - hosts: logserver.rdoproject.org
   vars:
-    device: 'vdb'
+    devices:
+      - /dev/vdb
+      - /dev/vdc
     mountpoint: '/var/www/logs'
     mount_owner: 'loguser'
     mount_group: 'apache'

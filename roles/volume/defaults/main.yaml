@@ -1,4 +1,6 @@
 device: 'vdb'
+devices:
+  - /dev/vdb
 mountpoint: '/mnt'
 filesystem: 'xfs'
 part_number: 1
