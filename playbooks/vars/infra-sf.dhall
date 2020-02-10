@@ -132,6 +132,7 @@ let servers =
           , volume_size = Some 500
           , flavor = Infra.Flavors.`8vcpus_32gb`
           , security_groups = [ "web" ]
+          , state = Some "absent"
           }
         , Infra.Server::{ name = "elk" }
         , ips.managesf
