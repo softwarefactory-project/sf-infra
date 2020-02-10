@@ -48,3 +48,4 @@
       debug:
         msg: "{{ item.openstack.name }}: {{ item.openstack.public_v4 }}"
       loop: "{{ _servers.results }}"
+      ignore_errors: true
