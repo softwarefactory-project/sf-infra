@@ -91,6 +91,11 @@ let volumes =
         , server = "logserver.rdoproject.org"
         , device = "/dev/vdb"
         }
+      , { display_name = "logs-data02"
+        , size = 1000
+        , server = "logserver.rdoproject.org"
+        , device = "/dev/vdc"
+        }
       , { display_name = "images-data"
         , size = 500
         , server = "images-vexxhost.rdoproject.org"
@@ -169,7 +174,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web" ]
           , volume_size = Some 10
-          , volumes = Some [ "logs-data" ]
+          , volumes = Some [ "logs-data", "logs-data02" ]
           }
         , Infra.Server::{
           , name = "images-vexxhost"

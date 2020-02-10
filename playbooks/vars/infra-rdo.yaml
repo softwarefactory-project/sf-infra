@@ -194,6 +194,7 @@ servers:
     volume_size: 10
     volumes:
       - logs-data
+      - logs-data02
   - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
@@ -239,6 +240,10 @@ volumes:
     size: 8
   - device: /dev/vdb
     display_name: logs-data
+    server: logserver.rdoproject.org
+    size: 1000
+  - device: /dev/vdc
+    display_name: logs-data02
     server: logserver.rdoproject.org
     size: 1000
   - device: /dev/vdb
