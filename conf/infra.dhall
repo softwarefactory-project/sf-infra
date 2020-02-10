@@ -17,6 +17,8 @@ let {- Generate sequence like unix seq command -} seq =
                 (\(index : IndexedType) -> index.index + 1)
                 indexed
 
+let seq-test = assert : seq 5 === [ 1, 2, 3, 4, 5 ]
+
 let mkNetwork =
           \(name : Text)
       ->  { name = name ++ "-network"
