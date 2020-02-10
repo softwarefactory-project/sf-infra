@@ -5,3 +5,25 @@
     content: "{{ sf_ssh_priv_key }}"
     dest: /root/.ssh/id_rsa
     mode: 0400
+  when: not sf_tenant
+
+- name: Install last stable repository of software factory
+  become: true
+  package:
+    name: https://softwarefactory-project.io/repos/sf-release-{{ sf_version }}.rpm
+
+# TODO: add support for speculative sf-config package install from sf-ci repos
+# - name: Install sfconfig package
+#   become: true
+#   package:
+#     name:
+#       - "{{ sf_config_package | default('sf-config') }}"
+#     state: present
+
+# Copy content arch.yaml
+# Template sfconfig.yaml using vault variable for secret
+# Copy github pem, clouds.yaml, ...
+
+# Indicate here how to restore a backup if needed
+
+# sf-config
