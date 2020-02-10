@@ -127,12 +127,11 @@ let servers =
         , Infra.Server::{
           , name = "redhat-oss-git-stats"
           , auto_ip = Some True
-          , image = "fedora-31-1.9"
+          , image = "centos-7-1907"
           , boot_from_volume = "yes"
           , volume_size = Some 500
           , flavor = Infra.Flavors.`8vcpus_32gb`
           , security_groups = [ "web" ]
-          , state = Some "absent"
           }
         , Infra.Server::{ name = "elk" }
         , ips.managesf
