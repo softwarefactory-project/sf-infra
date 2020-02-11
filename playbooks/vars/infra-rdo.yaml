@@ -73,6 +73,11 @@ security_groups:
         protocol: udp
       - port: 8053
         protocol: udp
+  - name: rcn-share
+    rules:
+      - port: 4433
+        protocol: tcp
+        remote_ip_prefix: 38.145.32.0/22
 servers:
   - auto_ip: true
     boot_from_volume: yes
@@ -206,6 +211,7 @@ servers:
       - common
       - monitoring
       - web
+      - rcn-share
     volume_size: 50
     volumes:
       - images-data

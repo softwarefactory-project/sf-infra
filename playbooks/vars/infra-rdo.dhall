@@ -42,6 +42,15 @@ let security_groups =
             , Infra.Rule::{ port = +8053, protocol = Some "udp" }
             ]
           }
+        , { name = "rcn-share"
+          , rules =
+            [ Infra.Rule::{
+              , port = +4433
+              , remote_ip_prefix = Some "38.145.32.0/22"
+              , protocol = Some "tcp"
+              }
+            ]
+          }
         ]
 
 let images =
@@ -181,7 +190,7 @@ let servers =
           , image = "centos-8.1-1911"
           , flavor = Infra.Flavors.`1vcpu_4gb`
           , auto_ip = Some True
-          , security_groups = [ "web" ]
+          , security_groups = [ "web", "rcn-share" ]
           , volume_size = Some 50
           , volumes = Some [ "images-data" ]
           }
