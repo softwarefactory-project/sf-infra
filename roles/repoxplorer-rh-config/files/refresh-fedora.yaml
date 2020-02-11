@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Fetch Fedora distgit archive and extract it
+      command: >
+        /home/centos/repoxplorer-rh-config/scripts/pagure-seed2repoxplorer.py
+        --refresh --yaml-path /usr/share/repoxplorer/db/fedora-distgit.yaml
+    - name: Refresh config
+      become: true
+      become_user: repoxplorer
+      command: repoxplorer-indexer --config /etc/repoxplorer/config.py --refresh-projects-index
