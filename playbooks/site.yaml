@@ -143,5 +143,4 @@
     - volume
     - node-exporter-rpm
     - setup-ssl
-# Disabled until https://review.rdoproject.org/r/24881
-#    - { role: image-server, become: true }
+    - { role: image-server, become: true }
