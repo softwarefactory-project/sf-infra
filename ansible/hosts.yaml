@@ -112,6 +112,9 @@ all:
       ansible_host: 38.102.83.152
       ansible_user: centos
       ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIDP/pMwChhjC9Um6sHcVhr2fk7Aw/o20J9i7+WeoE8Lw
+    redhat-oss-git-stats.softwarefactory-project.io:
+      ansible_host: 38.102.83.139
+      ansible_user: centos
   children:
     afs-mirror:
       hosts:

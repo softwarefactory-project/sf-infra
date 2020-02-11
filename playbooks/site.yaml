@@ -157,3 +157,27 @@
     - node-exporter-rpm
     - setup-ssl
     - {role: image-server, become: true}
+
+- hosts: redhat-oss-git-stats.softwarefactory-project.io
+  vars:
+    xmx: 24g
+    indexer_loop_delay: 60
+    index_custom_html: "<h2>This instance of <a href='https://github.com/morucci/repoxplorer'>repoXplorer</a> indexes git repositories Red Hat is known to contribute to. The configuration is stored in this <a href='https://github.com/repoxplorer-rh/config'>repository</a>. If you want to propose new repositories or groups then do not hesitate to open a PR or an issue to that repository. For any other requests related to that platform please contact <a href='mailto:fboucher@redhat.com'>fboucher@redhat.com</a>.</h2>"
+    indexer_skip_projects:
+      - 'Fedora Distgits'
+    users_endpoint: true
+    repoxplorer_hostname: localhost
+    service_public_hostname: redhat-oss-git-stats.softwarefactory-project.io
+    github_client_id: 103305a2ab307037b8a4
+    ssl_cert_options:
+      cert1:
+        email: "softwarefactory-operations-team@redhat.com"
+        domain: "redhat-oss-git-stats.softwarefactory-project.io"
+  roles:
+    - hostname
+    - elasticsearch
+    - repoxplorer
+    - repoxplorer-gateway
+    - repoxplorer-rh-config
+    - setup-ssl
+    - node-exporter-rpm

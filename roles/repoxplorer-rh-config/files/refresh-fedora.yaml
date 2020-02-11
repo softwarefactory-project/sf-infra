@@ -3,7 +3,7 @@
   tasks:
     - name: Fetch Fedora distgit archive and extract it
       command: >
-        /home/centos/repoxplorer-rh-config/scripts/pagure-seed2repoxplorer.py
+        python3 /home/centos/repoxplorer-rh-config/scripts/pagure-seed2repoxplorer.py
         --refresh --yaml-path /usr/share/repoxplorer/db/fedora-distgit.yaml
     - name: Refresh config
       become: true
