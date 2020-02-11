@@ -106,7 +106,7 @@ let volumes =
         , device = "/dev/vdc"
         }
       , { display_name = "images-data"
-        , size = 500
+        , size = 1000
         , server = "images-vexxhost.rdoproject.org"
         , device = "/dev/vdb"
         }

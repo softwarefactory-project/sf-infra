@@ -255,7 +255,7 @@ volumes:
   - device: /dev/vdb
     display_name: images-data
     server: images-vexxhost.rdoproject.org
-    size: 500
+    size: 1000
   - device: /dev/vdb
     display_name: trunk-centos7-swap
     server: trunk-centos7.rdoproject.org

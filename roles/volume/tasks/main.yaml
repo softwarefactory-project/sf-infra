@@ -26,6 +26,10 @@
 
 - name: Create volume group
   block:
+    - name: Ensure requirements are present
+      package:
+        name: lvm2
+
     - name: Create a volume group
       lvg:
         vg: '{{ vg_name }}'
