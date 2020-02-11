@@ -133,6 +133,15 @@ let servers =
           , flavor = Infra.Flavors.`8vcpus_32gb`
           , security_groups = [ "web" ]
           }
+        , Infra.setIp
+            "38.102.83.40"
+            Infra.Server::{ name = "fedora", volume_size = Some 40 }
+        , Infra.setIp
+            "38.102.83.159"
+            Infra.Server::{ name = "ovirt", volume_size = Some 40 }
+        , Infra.setIp
+            "38.102.83.251"
+            Infra.Server::{ name = "ovirt-staging", volume_size = Some 40 }
         , Infra.Server::{ name = "elk" }
         , ips.managesf
             Infra.Server::{
