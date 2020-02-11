@@ -20,6 +20,7 @@ let security_groups =
             [ Infra.Rule::{
               , port = +9100
               , remote_ip_prefix = Some "{{ bridge_public_ip }}/32"
+              , state = Some "absent"
               }
             , Infra.Rule::{
               , port = +9100

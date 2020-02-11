@@ -16,6 +16,12 @@ let security_groups =
             [ Infra.Rule::{
               , port = +9101
               , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
+              , state = Some "absent"
+              }
+            , Infra.Rule::{
+              , port = +9100
+              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
+              , state = Some "absent"
               }
             , Infra.Rule::{
               , port = +9101
@@ -23,11 +29,15 @@ let security_groups =
               }
             , Infra.Rule::{
               , port = +9100
-              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
+              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
               }
             , Infra.Rule::{
               , port = +9100
-              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
+            , Infra.Rule::{
+              , port = +9101
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
             ]
           }
