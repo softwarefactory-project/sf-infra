@@ -37,46 +37,8 @@ keypairs:
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
 
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
-images:
-  # Note (dmsimard): The name "CentOS-7-x86_64-GenericCloud" is expected/hardcoded in different TripleO places
-  - name: CentOS-7-x86_64-GenericCloud
-    container_format: bare
-    disk_format: qcow2
-    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
-    # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
-    checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
+images: []
 
 volumes: []
 
-servers:
-  - name: install-server.preprod.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: CentOS-7-x86_64-GenericCloud
-    flavor: ci.m1.large
-    network: private
-    floating_ip: yes
-    boot_from_volume: no
-
-  - name: k1s.preprod.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: CentOS-7-x86_64-GenericCloud
-    flavor: ci.m1.small
-    network: private
-    floating_ip: yes
-    boot_from_volume: no
-
-  - name: nl01.preprod.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: CentOS-7-x86_64-GenericCloud
-    flavor: ci.m1.small
-    network: private
-    floating_ip: yes
-    boot_from_volume: no
-
-  - name: nl02.preprod.softwarefactory-project.io
-    key_name: sf-infra-key
-    image: CentOS-7-x86_64-GenericCloud
-    flavor: ci.m1.small
-    network: private
-    floating_ip: yes
-    boot_from_volume: no
+servers: []
