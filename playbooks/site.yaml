@@ -181,3 +181,8 @@
     - repoxplorer-rh-config
     - setup-ssl
     - node-exporter-rpm
+
+- hosts: www.rdoproject.org
+  roles:
+    - hostname
+    - node-exporter-rpm
