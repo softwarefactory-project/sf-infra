@@ -24,21 +24,25 @@ let mkNetwork =
           , port_security_enabled = False
           }
 
-let mkSubnet =
-          \(name : Text)
+let mkSubnetWithMask =
+          \(mask : Text)
+      ->  \(name : Text)
       ->  \(network_prefix : Text)
       ->  { name = name ++ "-subnet"
-          , cidr = network_prefix ++ ".0/24"
+          , cidr = network_prefix ++ ".0/" ++ mask
           , gateway_ip = network_prefix ++ ".1"
           , dns_nameservers = [ "1.1.1.1", "8.8.8.8" ]
           , network_name = name ++ "-network"
           }
+
+let mkSubnet = mkSubnetWithMask "24"
 
 let mkRouter =
           \(name : Text)
       ->  \(network_prefix : Text)
       ->  { name = name ++ "-router"
           , network = (./defaults.dhall).external-network
+          , port_security_enabled = None Bool
           , interfaces =
             [ { net = name ++ "-network"
               , subnet = name ++ "-subnet"
@@ -76,6 +80,7 @@ let setFqdn =
 
 in      { Prelude = Prelude
         , mkServers = mkServers
+        , mkSubnetWithMask = mkSubnetWithMask
         , mkSubnet = mkSubnet
         , mkNetwork = mkNetwork
         , mkRouter = mkRouter
