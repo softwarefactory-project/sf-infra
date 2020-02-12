@@ -108,6 +108,7 @@
       - ^roles/dlrn-server/.*$
       - ^roles/afs-monitoring/.*$
       - ^roles/elasticsearch/.*$
+      - ^roles/repoxplorer/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 
