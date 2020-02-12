@@ -60,6 +60,11 @@ all:
       ansible_user: centos
       ansible_python_interpreter: python2
 
+    koji-vexxhost.softwarefactory-project.io:
+      ansible_host: 38.102.83.102
+      ansible_user: centos
+      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIF6JJ72T9da0uLxSFeBeFdSVZmdDcEhupGXYQLf58BIK
+
     rpm-packaging-ci.rdoproject.org:
       ansible_host: 38.102.83.95
       ansible_user: centos
