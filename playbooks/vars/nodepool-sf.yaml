@@ -1,44 +1,32 @@
+# this file is managed by dhall
+image_cache_dir: "{{ ansible_user_dir }}/image_cache"
+images: []
+keypairs: []
 networks:
-  - name: private
-    external_network: public
-    port_security_enabled: true
-
-subnets:
-  - name: private_subnet
-    network_name: private
-    cidr: 192.168.100.0/22
-    gateway_ip: 192.168.100.1
-    allocation_pool_start: 192.168.100.10
-    allocation_pool_end: 192.168.103.254
-    dns_nameservers:
-       - 1.1.1.1
-       - 8.8.8.8
-
+  - external_network: public
+    name: private-network
+    port_security_enabled: false
 routers:
-  - name: private_router
+  - interfaces:
+      - net: private-network
+        portip: "192.168.100.1"
+        subnet: private-subnet
+    name: private-router
     network: public
-    interfaces:
-      - net: private
-        subnet: private_subnet
-        portip: 192.168.100.1
-
 security_groups:
   - name: default
     rules:
       - port: 22
       - port: -1
         protocol: icmp
-        # zuul-console
       - port: 19885
-
-keypairs:
-  - name: sf-infra-key
-    public_key: >-
-      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
-
-image_cache_dir: "{{ ansible_user_dir }}/image_cache"
-images: []
-
-volumes: []
-
 servers: []
+subnets:
+  - cidr: 192.168.100.0/24
+    dns_nameservers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    gateway_ip: "192.168.100.1"
+    name: private-subnet
+    network_name: private-network
+volumes: []

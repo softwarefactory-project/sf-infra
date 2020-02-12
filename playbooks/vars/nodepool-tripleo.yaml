@@ -1,55 +1,16 @@
-networks:
-  - name: private
-    external_network: public
-    port_security_enabled: true
-
-subnets:
-  - name: private_subnet
-    network_name: private
-    cidr: 192.168.100.0/22
-    gateway_ip: 192.168.100.1
-    allocation_pool_start: 192.168.100.10
-    allocation_pool_end: 192.168.103.254
-    dns_nameservers:
-       - 1.1.1.1
-       - 8.8.8.8
-
-routers:
-  - name: private_router
-    network: public
-    interfaces:
-      - net: private
-        subnet: private_subnet
-        portip: 192.168.100.1
-
-security_groups:
-  - name: default
-    rules:
-      - port: 22
-      - port: -1
-        protocol: icmp
-        # zuul-console
-      - port: 19885
-
+# this file is managed by dhall
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
-  # Note (dmsimard): The name "CentOS-7-x86_64-GenericCloud" is expected/hardcoded in different TripleO places
-  - name: CentOS-7-x86_64-GenericCloud
+  - checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
     container_format: bare
     disk_format: qcow2
+    name: CentOS-7-x86_64-GenericCloud
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
-    # Via https://cloud.centos.org/centos/7/images/sha256sum.txt
-    checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
-  - name: ipxe-boot
+  - checksum: 5a6f067ec4a9da1f13ab00a8031570cd877edc250bd08a412c376e59aa646536
     container_format: bare
     disk_format: qcow2
+    name: ipxe-boot
     url: https://opendev.org/openstack/openstack-virtual-baremetal/raw/commit/b5b7791180b92644b680d738b383d1254f5a1e35/ipxe/ipxe-boot.qcow2
-    # Manual sha256sum
-    checksum: 5a6f067ec4a9da1f13ab00a8031570cd877edc250bd08a412c376e59aa646536
-  # TODO: bmc-template / bmc-base
-  # https://openstack-virtual-baremetal.readthedocs.io/en/latest/host-cloud/prepare.html
-  # https://opendev.org/openstack/tripleo-ci/src/branch/master/scripts/deploy-server.sh
-
 keypairs:
   - name: tripleo-ci-team
     public_key: |
@@ -63,7 +24,31 @@ keypairs:
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDhi/BqsZibuAPiUjJe7b3Dqe5nyI7BckOwfGwJYg436+bFQMoR/7RKmtPe+ISVQ04lwIriIPwKGaSHj5mbEe4LsCLZ5jAUHxvWfgHitqS5ln295zU7vp1z28o7e6LQNplgExyqQlxUPdOU48tmlz93F6szSYkNYvZnhzMn9syrajC74qPuKsmHTeYFLEcxesb7/u+BtxCk8WdjYTb//sk038NEtIsNhrGtAOV3WcDpXnA5mNMpUfeoQ4yiN9LqtreXr7Zeo587LV3T2QL+huAE0J7EuCzHAKk6TIzJqjLidg0SYwZZwfbxgviU66QLkeyzh9oiovwskelvOQCBFq3 sshnaidm@redhat.com
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCs/fvCoMm/bOLehNLGEhWnMZfJndO4rK2Q8OOrYOAGKpMT5xiWZsPgxGai4vieZ2HmdyXBB2DX5g1FjwGJUWuxPRYT5vAQlseOfyTLqhkHaSmuWcpH6HuP+KvxWO9epyXP8pl7uZLsbVEr5207ER4bYLIg2bk2LRQqxnysG3t4VqbAV0V+YKrkkwwErsHDbLJyz2sqtJielpKZOCF+vFnzrUR3dmORZ4bchBnmf67CFAJqPd1zSU9Hn0fWZ5nVxJMk1o/bxqwIZ6E7a9Yw5bJl3ziGP5WfcSfati4LKGWI503SNwSWLOuL03j2LaLO3GgLSVFUo9eGT6KhN3dogWeaWXDDFvx+O0RfdZFL0+mRFl2Rz83QsJGFBm1JW2H1/W0vUxtXmZhUXFagSt75zh2AQPoatsYgUOCpC4qFSVRXFyZR0a1Q5JnqmtFrYDuIoMovdfelgKEnJ5xBNhmGLpJlRmSIiv4tRNYUvaU4fKnt/yLTtZNT+D7zM4KMUzNy8pqEbUugAGGxMlCs1YfzwOL4+OHxrDX5A5TlvTnjNBHmBWXDQJncXTewjTf1+6oLkGKHMSd8UsGjYTLWX1JepFcHUj5+SF5arVKz/gThvQlelpPzXZgK9MNUSKfU9GHQ79T14Kng9Cfx/BcUYsZmFmCgzj2M1neFD7M3kOFQ8PV2ow== whayutin@redhat.com
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDd2gpOXfUi0v9Vn2bpzNnYeNRtsNDOKYl/25Oq8Jon45E1FR0K54pPacN0r9IhBDpraeJ7OjtBW4+f3YqK5WeOPb2ifOsz/bhAJ/IDxrXdz0O4jQrIkabl2te44KcqxV6Q6yV2n2VQuL/eZdlI/oP+QXwak/guPBz2j6u3t6dMARa2wYaWdRUKyieYgGv1Wa9mSL+hk+Yn9cEimcVGH2k+J6+EeYgPAqJEgYwVOeLiDhb7voO275sHAzHiEAfgjEq2qE62ltpi2gg89EVxl/mc+Ae7pEC59p6llV5A3WJu0MVJbI/PhgSmJVhKa82qQuRLdLV+01Od+SGbHbTjdkzH0PAaxedEF8AQxQdStXVdvqZylYVJ0Xtg8ryUdGBY8Fe6HMWqwBKvkQVlJBYiAgG7ZKwj95G/iINcttQ8q1xXf07tA3f4I+3XKXDEHlUkw7c0PA0Bf1mmBxaT9eDoQMu3Ko0Uh1RqSfDPMvY5lcq1Y6QeRTwm51gkLrYW4XCSKuLC2xGc9t1kDU9roa5ogZHKBtkhidRIHvg+oWv4fuQlAzTAAGjuWOi3SNHd9zePKSUjZqf+z52qTB4RhLOKe5KbNPHq+c5gLlcsveFwCIoFx4zD4sJVNu2GJGU59lZ2MirYWtgW9ta+cdDqm/Glpx077XfasO+VtfVZC7F0s51t+w== chkumar@redhat.com
-
-volumes: []
-
+networks:
+  - external_network: public
+    name: private-network
+    port_security_enabled: true
+routers:
+  - interfaces:
+      - net: private-network
+        portip: "192.168.100.1"
+        subnet: private-subnet
+    name: private-router
+    network: public
+security_groups:
+  - name: default
+    rules:
+      - port: 22
+      - port: -1
+        protocol: icmp
+      - port: 19885
 servers: []
+subnets:
+  - cidr: 192.168.100.0/22
+    dns_nameservers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    gateway_ip: "192.168.100.1"
+    name: private-subnet
+    network_name: private-network
+volumes: []
