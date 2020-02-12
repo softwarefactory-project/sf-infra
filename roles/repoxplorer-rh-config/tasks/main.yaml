@@ -1,0 +1,24 @@
+---
+- name: Copy some playbooks
+  copy:
+    src: files/{{ item }}
+    dest: "{{ ansible_user_dir }}/{{ item }}"
+  loop:
+    - refresh-fedora.yaml
+    - install-config.yaml
+
+- name: Setup cron
+  cron:
+    name: "{{ item.name }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    job: "{{ item.command }}"
+  loop:
+    - name: Run install-config playbook
+      command: /usr/bin/ansible-playbook /home/centos/install-config.yaml
+      minute: '*/30'
+      hour: '*'
+    - name: Run refresh-fedora playbook
+      command: /usr/bin/ansible-playbook /home/centos/refresh-fedora.yaml
+      minute: '0'
+      hour: '0'
