@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <br />
+        <div class="container">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title text-center">Login on repoXplorer</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>${message}</h5>
+                        <p class="text-center text-info"><b>{{ login_page_msg }}</b></p>
+                        <form method="post" action="/auth/login/" target="_top">
+                            <div class="form-group text-center">
+                                <input type="hidden" name="method" value="Github">
+                                <input type="hidden" name="back" value="${back}">
+                                <button type="submit" class="btn btn-default">Login via Github</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+ServerName {{ service_public_hostname }}
+
+SetOutputFilter DEFLATE
+
+RewriteEngine  on
+RewriteRule    "^/$"  "/index.html"  [R]
+
+<LocationMatch "/home.html">
+    Order Allow,Deny
+    Allow from all
+
+    AuthType mod_auth_pubtkt
+    TKTAuthFakeBasicAuth on
+    TKTAuthLoginURL /auth/login
+    TKTAuthDebug 1
+    require valid-user
+</LocationMatch>
+
+
+<Location "/">
+    RequestHeader unset X-Remote-User
+    <If "%{HTTP_COOKIE} =~ /auth_pubtkt=.*/">
+        AuthType mod_auth_pubtkt
+        TKTAuthLoginURL /auth/login
+        TKTAuthFakeBasicAuth on
+        TKTAuthDebug 1
+        require valid-user
+        RequestHeader set X-Remote-User %{REMOTE_USER}s
+    </If>
+</Location>
+
+<IfModule mod_proxy.c>
+    ProxyPass / http://0.0.0.0:20002/
+    ProxyPassReverse / http://0.0.0.0:200002/
+</IfModule>
+SSLCertificateFile /etc/letsencrypt/live/{{ service_public_hostname }}/cert.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/{{ service_public_hostname }}/privkey.pem
+Include /etc/letsencrypt/options-ssl-apache.conf
+SSLCertificateChainFile /etc/letsencrypt/live/{{ service_public_hostname }}/chain.pem
+</VirtualHost>
+</IfModule>
+

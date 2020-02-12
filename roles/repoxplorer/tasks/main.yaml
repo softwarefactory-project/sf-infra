@@ -16,6 +16,15 @@
     state: present
   register: _packages
 
+# Yes that's dirty !
+- name: Fix issue in repoxplorer auth module
+  become: true
+  replace:
+    regexp: ".*auth_header\\).*.split.*$"
+    replace: "                    auth_header).decode().split(':')[0]"
+    path: /usr/lib/python3.6/site-packages/repoxplorer/auth/__init__.py
+  notify: Restart repoxplorer
+
 - name: Create some runtime directories
   become: true
   file:
@@ -27,6 +36,10 @@
     - db
     - cache
     - git_store
+
+- name: Generate random admin_token
+  set_fact:
+    admin_token: "{{ lookup('password', 'repoxplorer_admin_token.txt') }}"
 
 - name: Install application config
   become: true

@@ -109,6 +109,7 @@
       - ^roles/afs-monitoring/.*$
       - ^roles/elasticsearch/.*$
       - ^roles/repoxplorer/.*$
+      - ^roles/repoxplorer-gateway/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 
