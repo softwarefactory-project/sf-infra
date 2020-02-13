@@ -1,0 +1,31 @@
+# this file is managed by dhall
+image_cache_dir: "{{ ansible_user_dir }}/image_cache"
+images: []
+keypairs: []
+networks:
+  - external_network: public
+    name: private-network
+    port_security_enabled: false
+routers:
+  - interfaces:
+      - net: private-network
+        portip: "192.168.1.1"
+        subnet: private-subnet
+    name: private-router
+    network: public
+security_groups:
+  - name: default
+    rules:
+      - port: 22
+      - port: -1
+        protocol: icmp
+servers: []
+subnets:
+  - cidr: 192.168.1.0/24
+    dns_nameservers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    gateway_ip: "192.168.1.1"
+    name: private-subnet
+    network_name: private-network
+volumes: []
