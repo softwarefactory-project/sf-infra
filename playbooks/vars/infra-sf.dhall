@@ -112,6 +112,13 @@ let ips =
       , koji = Infra.setIp "38.102.83.102"
       }
 
+let tenant-server =
+      Infra.Server::{
+      , name = "tenant"
+      , volume_size = Some 40
+      , security_groups = [ "web" ]
+      }
+
 let servers =
         [ Infra.Server::{
           , name = "logreduce-mqtt-01"
@@ -143,15 +150,11 @@ let servers =
           , flavor = Infra.Flavors.`8vcpus_32gb`
           , security_groups = [ "web" ]
           }
-        , Infra.setIp
-            "38.102.83.40"
-            Infra.Server::{ name = "fedora", volume_size = Some 40 }
-        , Infra.setIp
-            "38.102.83.159"
-            Infra.Server::{ name = "ovirt", volume_size = Some 40 }
+        , Infra.setIp "38.102.83.40" (tenant-server // { name = "fedora" })
+        , Infra.setIp "38.102.83.159" (tenant-server // { name = "ovirt" })
         , Infra.setIp
             "38.102.83.251"
-            Infra.Server::{ name = "ovirt-staging", volume_size = Some 40 }
+            (tenant-server // { name = "ovirt-staging" })
         , Infra.Server::{ name = "elk" }
         , ips.managesf
             Infra.Server::{

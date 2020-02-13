@@ -144,6 +144,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - web
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -156,6 +157,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - web
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -168,6 +170,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - web
     volume_size: 40
   - auto_ip: false
     boot_from_volume: yes
