@@ -107,11 +107,6 @@ let volumes =
         }
       ]
 
-let ips =
-      { managesf = Infra.setIp "38.102.83.76"
-      , koji = Infra.setIp "38.102.83.102"
-      }
-
 let tenant-server =
       Infra.Server::{
       , name = "tenant"
@@ -156,7 +151,8 @@ let servers =
             "38.102.83.251"
             (tenant-server // { name = "ovirt-staging" })
         , Infra.Server::{ name = "elk" }
-        , ips.managesf
+        , Infra.setIp
+            "38.102.83.76"
             Infra.Server::{
             , name = "managesf"
             , flavor = Infra.Flavors.`4vcpus_16gb`
@@ -173,7 +169,8 @@ let servers =
           , volumes = Some [ "nodepool-builder-data" ]
           }
         , Infra.Server::{ name = "zs" }
-        , ips.koji
+        , Infra.setIp
+            "38.102.83.102"
             Infra.Server::{
             , name = "koji-vexxhost"
             , image = "centos-7-1907"
