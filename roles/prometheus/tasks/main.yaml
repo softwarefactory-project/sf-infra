@@ -13,64 +13,12 @@
 - name: Create configuration file
   become: yes
   copy:
-    content: "{{ item.content }}"
+    src: "{{ item.src | default(omit) }}"
+    content: "{{ item.content | default(omit) }}"
     dest: "/etc/prometheus/{{ item.dest }}.yml"
   loop:
     - dest: prometheus
-      content: |
-        ---
-        global:
-          scrape_interval: 1m
-          scrape_timeout: 10s
-          evaluation_interval: 1m
-        alerting:
-          alertmanagers:
-            - path_prefix: /alertmanager
-              static_configs:
-                - targets:
-                    - localhost:9093
-        rule_files:
-          - rules.yml
-          - rules-http.yml
-          - rules-backup.yml
-          - rules-dlrn.yml
-          - rules-afs.yml
-        scrape_configs:
-          - job_name: node
-            static_configs:
-              - targets:
-                  - bridge.softwarefactory-project.io:9100
-                  - mirror.regionone.vexxhost.rdoproject.org:9100
-                  - logreduce-mqtt01.softwarefactory-project.io:9100
-                  - backup.rdoproject.org:9100
-                  - prometheus.monitoring.softwarefactory-project.io:9100
-                  - rpm-packaging-ci.rdoproject.org:9100
-                  - fedora-rpm-packaging-ci.rdoproject.org:9100
-                  - centos8-rpm-packaging-ci.rdoproject.org:9100
-                  - trunk-centos8.rdoproject.org:9100
-                  - trunk-centos7.rdoproject.org:9100
-                  - trunk.rdoproject.org:9100
-                  - images.rdoproject.org:9100
-                  - logserver.rdoproject.org:9100
-          - job_name: journal
-            static_configs:
-              - targets:
-                  - logreduce-mqtt01.softwarefactory-project.io:9101
-          - job_name: 'blackbox'
-            scrape_interval: 5m
-            metrics_path: /probe
-            params:
-              module: [http_2xx]
-            static_configs:
-              - targets: {{ web_monitor_list }}
-            relabel_configs:
-              - source_labels: [__address__]
-                target_label: __param_target
-              - source_labels: [__param_target]
-                target_label: instance
-              - target_label: __address__
-                replacement: 127.0.0.1:9115  # Blackbox exporter
-
+      src: prometheus.yaml
     - dest: rules
       content: !unsafe |
         # Some doc:
