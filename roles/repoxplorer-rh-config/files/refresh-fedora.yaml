@@ -4,7 +4,7 @@
     - name: Fetch Fedora distgit archive and extract it
       command: >
         python3 /home/centos/repoxplorer-rh-config/scripts/pagure-seed2repoxplorer.py
-        --refresh --yaml-path /usr/share/repoxplorer/db/fedora-distgit.yaml
+        --refresh --yaml-path /var/lib/repoxplorer/db/fedora-distgit.yaml
     - name: Refresh config
       become: true
       become_user: repoxplorer
