@@ -185,7 +185,8 @@ let servers =
 
 let backward-compat-name = { name = "default-router" }
 
-in  { servers =
+in  Infra.Tenant::{
+    , servers =
         Infra.setSecurityGroups
           default-security-groups
           (Infra.setFqdn fqdn servers)
@@ -203,7 +204,6 @@ in  { servers =
     , keypairs =
       [ { name = "sf-infra-key", public_key = Infra.sfInfraKeypair } ]
     , images = images
-    , image_cache_dir = "{{ ansible_user_dir }}/image_cache"
     , volumes = volumes
     , security_groups = security_groups
     }

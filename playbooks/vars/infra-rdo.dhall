@@ -205,7 +205,8 @@ let servers =
           }
         ]
 
-in  { servers = Infra.setFqdn fqdn servers
+in  Infra.Tenant::{
+    , servers = Infra.setFqdn fqdn servers
     , networks = [ Infra.mkNetwork rdo_network.name ]
     , subnets = [ Infra.mkSubnet rdo_network.name rdo_network.network_prefix ]
     , routers =
@@ -215,7 +216,6 @@ in  { servers = Infra.setFqdn fqdn servers
     , keypairs =
       [ { name = "sf-infra-key", public_key = Infra.sfInfraKeypair } ]
     , images = images
-    , image_cache_dir = "{{ ansible_user_dir }}/image_cache"
     , volumes = volumes
     , security_groups = security_groups
     }
