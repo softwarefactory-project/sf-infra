@@ -1,0 +1,81 @@
+- block:
+    - name: Common tasks for master and replica
+      include_tasks: common.yml
+
+    - name: Set log-bin in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: log-bin
+        allow_no_value: yes
+      notify:
+        - Restart mariadb
+
+    - name: Set server_id in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: server_id
+        value: '1'
+      notify:
+        - Restart mariadb
+
+    - name: Set log-basename in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: log-basename
+        value: master1
+      notify:
+        - Restart mariadb
+
+    - name: Ensure MariaDB is reloaded if needed
+      meta: flush_handlers
+
+    - name: Create replication user
+      mysql_user:
+        name: "{{ db_repl_user }}"
+        password: "{{ db_password }}"
+        priv: "*.*:REPLICATION SLAVE,REQUIRESSL"
+        state: present
+        host: "%"
+
+    - name: Fetch master status
+      mysql_info:
+        filter: master_status
+      register: master_status
+
+    - name: Store master status as fact
+      set_fact:
+        master_db: "{{ master_status }}"
+
+    - name: Ensure firewalld is installed
+      package:
+        name: firewalld
+
+    # NOTE(jpena): for some reason, this task works locally for me
+    #              but not on CI.
+    - name: Ensure firewalld service is running
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+      when:
+        - ansible_connection != 'podman'
+
+    - name: Give some time for firewalld to start
+      pause:
+        seconds: 5
+
+    # NOTE(jpena): for some reason, this task works locally for me
+    #              but not on CI.
+    - name: Enable port 3306 on firewall
+      firewalld:
+        port: 3306/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when:
+        - ansible_connection != 'podman'
+
+  become: yes

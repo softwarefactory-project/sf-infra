@@ -1,0 +1,62 @@
+- block:
+    - name: Common tasks for master and replica
+      include_tasks: common.yml
+
+    - name: Set master_db fact from db_master hostvars
+      set_fact:
+        master_db: "{{ hostvars[groups['db_master'][0]]['master_db'] }}"
+
+    - name: Set log-bin in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: log-bin
+        allow_no_value: yes
+      notify:
+        - Restart mariadb
+
+    - name: Set server_id in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: server_id
+        value: '2'
+      notify:
+        - Restart mariadb
+
+    - name: Set read-only in replication.cnf
+      ini_file:
+        path: /etc/my.cnf.d/replication.cnf
+        section: mariadb
+        option: read-only
+        value: 'on'
+      notify:
+        - Restart mariadb
+
+    - name: Ensure MariaDB is reloaded if needed
+      meta: flush_handlers
+
+    - name: Fetch replica status
+      mysql_replication:
+        mode: getslave
+      register: replica_status
+
+    - name: Stop replication for reconfiguration
+      mysql_replication:
+        mode: stopslave
+      when: replica_status.Is_Slave and replica_status.Slave_SQL_Running == "Yes"
+
+    - name: Configure replication
+      mysql_replication:
+        mode: changemaster
+        master_host: "{{ hostvars[groups['db_master'][0]]['ansible_host'] }}"
+        master_log_file: "{{ master_db['master_status']['File'] }}"
+        master_ssl: yes
+        master_user: "{{ db_repl_user }}"
+        master_password: "{{ db_password }}"
+        master_log_pos: "{{ master_db['master_status']['Position'] | int }}"
+
+    - name: Start replication
+      mysql_replication:
+        mode: startslave
+  become: yes

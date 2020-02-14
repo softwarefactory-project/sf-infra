@@ -1,0 +1,26 @@
+- name: test database is absent
+  mysql_db:
+    name: test
+    state: absent
+
+- name: anonymous users are absent
+  mysql_user:
+    name: ''
+    state: absent
+    host_all: yes
+
+# 'localhost' needs to be the last item for idempotency, see
+# http://ansible.cc/docs/modules.html#mysql-user
+- name: Change root user password on first run
+  mysql_user:
+    login_user: root
+    login_password: ''
+    name: root
+    password: "{{ db_password }}"
+    priv: '*.*:ALL,GRANT'
+    host: "{{ item }}"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
