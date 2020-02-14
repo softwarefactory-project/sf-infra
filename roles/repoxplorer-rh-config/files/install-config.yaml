@@ -8,7 +8,7 @@
     - name: Install projects config
       become: true
       command: >
-        rsync -av --delete /home/centos/repoxplorer-rh-config/repoxplorer-config/
+        rsync -av --exclude fedora-distgit.yaml --delete /home/centos/repoxplorer-rh-config/repoxplorer-config/
         /var/lib/repoxplorer/db/
     - name: Refresh config
       become: true
