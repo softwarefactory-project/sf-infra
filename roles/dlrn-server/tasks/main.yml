@@ -37,14 +37,24 @@
         repo: 'https://github.com/rdo-infra/puppet-dlrn'
         dest: '/root/puppet-dlrn'
         version: master
+        force: yes
       register: git_status
+
+    - name: Apply override files, if needed
+      copy:
+        src: "{{ item.value.source }}"
+        dest: "{{ item.key }}"
+      with_dict: "{{ dlrn_override_files }}"
+      when:
+        - dlrn_override_files is defined
+      register: overrides
 
     - name: Build puppet module
       shell:
         cmd: |
           puppet module build
         chdir: '/root/puppet-dlrn'
-      when: git_status.changed
+      when: git_status.changed or overrides.changed
 
     - name: Check if puppet module is already installed
       stat:
@@ -57,13 +67,13 @@
           puppet module uninstall --force jpena-dlrn
       when:
         - puppetmodule.stat.exists
-        - git_status.changed
+        - git_status.changed or overrides.changed
 
     - name: Install puppet module
       shell:
         cmd: |
           puppet module install /root/puppet-dlrn/pkg/*.tar.gz
-      when: git_status.changed
+      when: git_status.changed or overrides.changed
 
     - name: Configure hiera for Puppet
       copy:

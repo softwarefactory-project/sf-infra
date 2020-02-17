@@ -17,3 +17,9 @@ The role will use the following variables, defined in the inventory:
   `<dlrn_host>-common.yaml` in the `templates` directory, and use it for
   the Hiera file passed to Puppet. A sample test-common.yaml file is
   provided.
+* `dlrn_override_files` allows us to override some files from the puppet-dlrn
+  checkout. You need to specify the dictionary in the following format:
+
+        dlrn_override_files:
+            /root/puppet-dlrn/path/to/overriden_file:
+            source: local_override_file
