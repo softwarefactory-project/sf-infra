@@ -10,6 +10,7 @@
     , security_groups : List Text
     , volume_size : Optional Natural
     , state : Optional Text
+    , groups : Optional (List ../types/Group.dhall)
     }
 , default =
     { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
@@ -22,5 +23,6 @@
     , volume_size = None Natural
     , boot_from_volume = "yes"
     , state = None Text
+    , groups = None (List ../types/Group.dhall)
     }
 }

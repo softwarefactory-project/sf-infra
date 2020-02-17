@@ -117,9 +117,6 @@ all:
     ara:
       hosts:
         ara.softwarefactory-project.io:
-    bridge:
-      hosts:
-        bridge.softwarefactory-project.io:
     backup:
       hosts:
         backup.rdoproject.org:
@@ -134,9 +131,6 @@ all:
     logreduce-mqtt:
       hosts:
         logreduce-mqtt01.softwarefactory-project.io:
-    prometheus:
-      hosts:
-        prometheus.monitoring.softwarefactory-project.io:
     dlrn:
       hosts:
         rpm-packaging-ci.rdoproject.org:

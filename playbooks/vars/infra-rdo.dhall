@@ -126,6 +126,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "afs" ]
           , volume_size = Some 200
+          , groups = Some [ Infra.Group.afs-mirror ]
           }
         , Infra.Server::{
           , name = "centos8-rpm-packaging-ci"
@@ -133,6 +134,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 100
+          , groups = Some [ Infra.Group.dlrn ]
           }
         , Infra.Server::{
           , name = "rpm-packaging-ci"
@@ -140,6 +142,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 100
+          , groups = Some [ Infra.Group.dlrn ]
           }
         , Infra.Server::{
           , name = "fedora-rpm-packaging-ci"
@@ -148,6 +151,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 100
+          , groups = Some [ Infra.Group.dlrn ]
           }
         , Infra.Server::{
           , name = "registry-vexxhost"
@@ -155,6 +159,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "registry" ]
           , volume_size = Some 200
+          , groups = Some [ Infra.Group.registry ]
           }
         , Infra.Server::{
           , name = "trunk-centos8"
@@ -163,6 +168,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 512
+          , groups = Some [ Infra.Group.dlrn ]
           }
         , Infra.Server::{
           , name = "trunk-centos7"
@@ -170,6 +176,7 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 512
+          , groups = Some [ Infra.Group.dlrn ]
           }
         , Infra.Server::{
           , name = "install-server"

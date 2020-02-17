@@ -120,6 +120,7 @@ let servers =
           , image = "fedora-30-1.2"
           , boot_from_volume = "yes"
           , volume_size = Some 80
+          , groups = Some [ Infra.Group.logreduce-mqtt ]
           }
         , Infra.Server::{
           , name = "prometheus.monitoring"
@@ -135,6 +136,7 @@ let servers =
           , boot_from_volume = "yes"
           , volume_size = Some 80
           , security_groups = [ "web" ]
+          , groups = Some [ Infra.Group.ara ]
           }
         , Infra.Server::{
           , name = "redhat-oss-git-stats"
@@ -150,7 +152,7 @@ let servers =
         , Infra.setIp
             "38.102.83.251"
             (tenant-server // { name = "ovirt-staging" })
-        , Infra.Server::{ name = "elk01" }
+        , Infra.Server::{ name = "elk01", groups = Some [ Infra.Group.sf ] }
         , Infra.setIp
             "38.102.83.76"
             Infra.Server::{
@@ -159,6 +161,7 @@ let servers =
             , boot_from_volume = "yes"
             , volume_size = Some 20
             , security_groups = [ "web", "managesf" ]
+            , groups = Some [ Infra.Group.sf, Infra.Group.install-server-sf ]
             }
         , Infra.Server::{ name = "nodepool-builder" }
         , Infra.Server::{

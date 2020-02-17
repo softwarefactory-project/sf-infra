@@ -1,5 +1,5 @@
 ---
-- hosts: bridge
+- hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   pre_tasks:
     - name: Ensure hostname is correct
@@ -42,7 +42,7 @@
   roles:
     - sf-install-server
 
-- hosts: prometheus
+- hosts: prometheus.monitoring.softwarefactory-project.io
   pre_tasks:
     - name: Install requirements
       package:

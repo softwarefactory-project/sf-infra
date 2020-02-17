@@ -89,6 +89,8 @@ servers:
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
+    groups:
+      - logreduce-mqtt
     image: fedora-30-1.2
     key_name: sf-infra-key
     name: logreduce-mqtt-01.softwarefactory-project.io
@@ -112,6 +114,8 @@ servers:
   - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
+    groups:
+      - ara
     image: fedora-31-1.9
     key_name: sf-infra-key
     name: ara.softwarefactory-project.io
@@ -175,6 +179,8 @@ servers:
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
+    groups:
+      - sf
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk01.softwarefactory-project.io
@@ -186,6 +192,9 @@ servers:
     flavor: v1-standard-4
     floating_ips:
       - "38.102.83.76"
+    groups:
+      - sf
+      - install-server-sf
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.softwarefactory-project.io

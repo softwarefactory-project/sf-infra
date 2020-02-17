@@ -55,6 +55,64 @@ let mkRouter =
 
 let Server = ./schemas/Server.dhall
 
+let Group = ./types/Group.dhall
+
+let Groups = ./types/Groups.dhall
+
+let mkGroup =
+          \(servers : List Server.Type)
+      ->  let {- Convert list of server to their name dict
+              -} serverName =
+                Prelude.List.map
+                  Server.Type
+                  { mapKey : Text, mapValue : {} }
+                  (     \(server : Server.Type)
+                    ->  { mapKey = server.name, mapValue = {=} }
+                  )
+
+          let {- Check if a server is part of a group
+              -} filterServer =
+                    \(group : Groups.Type)
+                ->  \(server : Server.Type)
+                ->  merge
+                      { None = False
+                      , Some =
+                              \(groups : List Group)
+                          ->  Prelude.List.fold
+                                Group
+                                groups
+                                Bool
+                                (     \(group : Group)
+                                  ->  \(acc : Bool)
+                                  ->  acc || group@1.test group
+                                )
+                                False
+                      }
+                      server.groups
+
+          let {- Create a group value for a given groupType
+              -} mkGroup =
+                    \(group : Groups.Type)
+                ->  { mapKey = Groups.show group.value
+                    , mapValue =
+                        { hosts =
+                            serverName
+                              ( Prelude.List.filter
+                                  Server.Type
+                                  (filterServer group)
+                                  servers
+                              )
+                        }
+                    }
+
+          in  Prelude.List.map
+                Groups.Type
+                { mapKey : Text
+                , mapValue : { hosts : List { mapKey : Text, mapValue : {} } }
+                }
+                mkGroup
+                Groups.groups
+
 let mkServers =
           \(name : Text)
       ->  \(flavor : Text)
@@ -81,6 +139,7 @@ let setFqdn =
             )
 
 in      { Prelude = Prelude
+        , mkGroup = mkGroup
         , mkServers = mkServers
         , mkSubnetWithMask = mkSubnetWithMask
         , mkSubnet = mkSubnet
@@ -105,3 +164,4 @@ in      { Prelude = Prelude
         }
     //  ./schemas.dhall
     //  ./defaults.dhall
+    //  { Group = ./types/Group.dhall, Groups = ./types/Groups.dhall }
