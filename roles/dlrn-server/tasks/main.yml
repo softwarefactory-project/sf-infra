@@ -29,6 +29,7 @@
         name:
           - puppet
           - rubygem-multi_json
+          - 'leatherman < 1.10'
         enablerepo: "puppet-temporary-repo"
 
     - name: Clone puppet-dlrn

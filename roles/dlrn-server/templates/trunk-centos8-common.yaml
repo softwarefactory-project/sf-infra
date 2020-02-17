@@ -36,6 +36,37 @@ dlrn::workers:
     rsyncdest: 'centos8-master-uc@3.87.151.16:/home/centos8-master-uc/data/repos'
     rsyncport: '3300'
     use_components: true
+  centos8-master:
+    distro: 'centos8'
+    target: 'centos8'
+    distgit_branch: 'rpm-master-head'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    # FIXME(jpena): update once the bootstrap has finished
+    enable_cron: false
+    cron_env: '--head-only'
+    cron_hour: '*/4'
+    cron_minute: '5'
+    enable_purge: *enable_purge
+    purge_hour: '1'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-master-head']
+    release: 'ussuri'
+    baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-master:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-master-head'
+    rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
+    rsyncport: '3000'
+    use_components: true
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'
