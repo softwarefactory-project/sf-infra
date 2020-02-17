@@ -12,6 +12,7 @@ in  { show =
               , logreduce-mqtt = "logreduce-mqtt"
               , dlrn = "dlrn"
               , registry = "registry"
+              , rdocloud-data-fetcher = "rdocloud-data-fetcher"
               }
               group
     , groups =
@@ -27,6 +28,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -42,6 +44,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -57,6 +60,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -72,6 +76,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -87,6 +92,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -102,6 +108,7 @@ in  { show =
                   , logreduce-mqtt = True
                   , dlrn = False
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -117,6 +124,7 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = True
                   , registry = False
+                  , rdocloud-data-fetcher = False
                   }
                   group
         }
@@ -132,6 +140,23 @@ in  { show =
                   , logreduce-mqtt = False
                   , dlrn = False
                   , registry = True
+                  , rdocloud-data-fetcher = False
+                  }
+                  group
+        }
+      , { value = Group.rdocloud-data-fetcher
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , install-server-sf = False
+                  , sf = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = True
                   }
                   group
         }

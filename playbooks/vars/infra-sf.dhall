@@ -107,10 +107,12 @@ let volumes =
         }
       ]
 
-let tenant-server =
+let {- This is a template used by sf tenants instance
+    -} tenant-server =
       Infra.Server::(     { name = "tenant"
                           , volume_size = Some 40
                           , security_groups = [ "web" ]
+                          , groups = Some [ Infra.Group.rdocloud-data-fetcher ]
                           }
                       //  Infra.OS.CentOS.`7.0`
                     )
@@ -170,7 +172,10 @@ let servers =
           //  { name = "ovirt-staging" }
           //  Infra.setIp "38.102.83.251"
         , Infra.Server::(     { name = "elk01"
-                              , groups = Some [ Infra.Group.sf ]
+                              , groups = Some
+                                  [ Infra.Group.sf
+                                  , Infra.Group.rdocloud-data-fetcher
+                                  ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
@@ -182,12 +187,18 @@ let servers =
                               , groups = Some
                                   [ Infra.Group.sf
                                   , Infra.Group.install-server-sf
+                                  , Infra.Group.rdocloud-data-fetcher
                                   ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                           //  Infra.setIp "38.102.83.76"
                         )
-        , Infra.Server::({ name = "nodepool-builder" } // Infra.OS.CentOS.`7.0`)
+        , Infra.Server::(     { name = "nodepool-builder"
+                              , groups = Some
+                                  [ Infra.Group.rdocloud-data-fetcher ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
         , Infra.Server::(     { name = "oci01"
                               , network = "oci-private-network"
                               , security_groups = [ "hypervisor-oci" ]

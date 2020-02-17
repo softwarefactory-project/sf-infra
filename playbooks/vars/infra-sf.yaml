@@ -181,6 +181,8 @@ servers:
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.40"
+    groups:
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
@@ -199,6 +201,8 @@ servers:
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.159"
+    groups:
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
@@ -217,6 +221,8 @@ servers:
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.251"
+    groups:
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
@@ -236,6 +242,7 @@ servers:
     flavor: v1-standard-2
     groups:
       - sf
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
@@ -255,6 +262,7 @@ servers:
     groups:
       - sf
       - install-server-sf
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
@@ -273,6 +281,8 @@ servers:
     auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
+    groups:
+      - rdocloud-data-fetcher
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key

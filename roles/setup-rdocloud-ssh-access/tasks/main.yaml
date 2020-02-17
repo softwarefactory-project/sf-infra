@@ -1,0 +1,6 @@
+- name: Copy install-server ssh key
+  become: yes
+  copy:
+    content: "{{ rdocloud_master_key }}"
+    dest: /root/.ssh/rdo-cloud-master-key
+    mode: 0400

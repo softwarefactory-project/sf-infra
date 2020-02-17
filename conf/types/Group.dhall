@@ -6,4 +6,5 @@
 | logreduce-mqtt
 | dlrn
 | registry
+| rdocloud-data-fetcher
 >

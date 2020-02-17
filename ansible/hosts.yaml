@@ -24,6 +24,14 @@ all:
     logreduce-mqtt:
       hosts:
         logreduce-mqtt-01.softwarefactory-project.io: {}
+    rdocloud-data-fetcher:
+      hosts:
+        elk01.softwarefactory-project.io: {}
+        fedora.softwarefactory-project.io: {}
+        managesf.softwarefactory-project.io: {}
+        nodepool-builder.softwarefactory-project.io: {}
+        ovirt-staging.softwarefactory-project.io: {}
+        ovirt.softwarefactory-project.io: {}
     registry:
       hosts:
         registry-vexxhost.rdoproject.org: {}
