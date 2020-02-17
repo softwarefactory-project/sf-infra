@@ -4,30 +4,12 @@ all:
     ara.softwarefactory-project.io:
       ansible_host: 38.102.83.124
       ansible_user: fedora
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMwSHHFgI7niP76GO9MkbvKUFG1ODhfvaFgHN7MuJGuM
       ansible_python_interpreter: python3
     bridge.softwarefactory-project.io:
       ansible_host: 38.102.83.244
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIG+w4PGQtn2VpFwEpww7uYaVcubHMvKCiM1uj6NOwx9X
-      bridge_private_ip: 192.168.242.251
-      bridge_public_ip: 38.102.83.244
       ansible_user: fedora
       ansible_connection: local
       ansible_python_interpreter: python3
-      podman_gw_ip: 10.88.0.1
-      prometheus_public_ip: 38.102.83.250
-      prometheus_private_ip: 192.168.242.246
-      ara_api_source: https://github.com/ansible-community/ara
-      ara_api_source_checkout: ~/src/github.com/ansible-community/ara
-      ara_api_fqdn: bridge.softwarefactory-project.io
-      ara_api_wsgi_server: gunicorn
-      ara_api_wsgi_bind: "127.0.0.1:8000"
-      ara_api_allowed_hosts:
-        - localhost
-        - 127.0.0.1
-        - bridge.softwarefactory-project.io
-      # TODO: Automate user creation and enable this
-      # ara_api_write_login_required: true
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_host: 38.102.83.237
       ansible_user: centos
