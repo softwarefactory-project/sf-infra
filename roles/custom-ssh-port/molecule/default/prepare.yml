@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Install packages
+      package:
+        name:
+          - openssh-server
+          - libselinux-python
+          - policycoreutils-python
+
+    - name: Enable sshd
+      systemd:
+        name: sshd
+        daemon_reload: yes
+        enabled: yes
+        state: started
