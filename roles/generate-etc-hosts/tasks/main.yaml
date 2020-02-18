@@ -1,0 +1,14 @@
+- include_vars:
+    file: /etc/hosts.yaml
+
+- name: Create /etc/hosts
+  copy:
+    content: |
+      127.0.0.1   localhost bridge
+      ::1         localhost bridge
+
+      {% for host in inventory_hosts_ip %}
+      {{ host.ip }} {{ host.name }}
+      {% endfor %}
+    dest: /etc/hosts
+  become: yes

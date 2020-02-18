@@ -44,8 +44,7 @@
         device: "{{ item.device | default(omit) }}"
       loop: "{{ tenant_config.volumes }}"
 
-    - name: Print inventory information
-      debug:
-        msg: "{{ item.openstack.name }}: {{ item.openstack.public_v4 }}"
+    - name: Combine server ips fact
+      set_fact:
+        servers_ip: "{{ servers_ip + [{ 'name': item.openstack.name, 'ip': (item.openstack.public_v4 == '') | ternary(item.openstack.private_v4, item.openstack.public_v4) }] }}"
       loop: "{{ _servers.results }}"
-      ignore_errors: true

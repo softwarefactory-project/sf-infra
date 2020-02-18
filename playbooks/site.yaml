@@ -8,6 +8,7 @@
       become: yes
   roles:
     - bridge-accounts
+    - generate-etc-hosts
     - postfix
     - node-exporter
 
