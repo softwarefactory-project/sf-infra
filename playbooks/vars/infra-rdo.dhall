@@ -206,6 +206,16 @@ let servers =
           , security_groups = [ "web" ]
           , volume_size = Some 10
           }
+        , Infra.Server::{
+          , name = "backup"
+          , skip_os_server_task = True
+          , groups = Some [ Infra.Group.backup ]
+          }
+        , Infra.Server::{
+          , name = "trunk.rdoproject.org"
+          , skip_os_server_task = True
+          , groups = Some [ Infra.Group.dlrn ]
+          }
         ]
 
 in  Infra.Tenant::{

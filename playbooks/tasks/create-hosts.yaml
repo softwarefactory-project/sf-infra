@@ -48,4 +48,5 @@
     - name: Combine server ips fact
       set_fact:
         servers_ip: "{{ servers_ip + [{ 'name': item.openstack.name, 'ip': (item.openstack.public_v4 == '') | ternary(item.openstack.private_v4, item.openstack.public_v4) }] }}"
+      when: item.openstack is defined
       loop: "{{ _servers.results }}"

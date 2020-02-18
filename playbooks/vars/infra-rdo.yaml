@@ -244,6 +244,32 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 10
+  - auto_ip: false
+    boot_from_volume: yes
+    flavor: v1-standard-2
+    groups:
+      - backup
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: backup.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+    skip_os_server_task: true
+  - auto_ip: false
+    boot_from_volume: yes
+    flavor: v1-standard-2
+    groups:
+      - dlrn
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: trunk.rdoproject.org.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+    skip_os_server_task: true
 subnets:
   - cidr: 192.168.240.0/24
     dns_nameservers:
