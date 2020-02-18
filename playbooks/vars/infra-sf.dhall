@@ -108,78 +108,88 @@ let volumes =
       ]
 
 let tenant-server =
-      Infra.Server::{
-      , name = "tenant"
-      , volume_size = Some 40
-      , security_groups = [ "web" ]
-      }
+      Infra.Server::(     { name = "tenant"
+                          , volume_size = Some 40
+                          , security_groups = [ "web" ]
+                          }
+                      //  Infra.OS.CentOS.`7.0`
+                    )
 
 let servers =
-        [ Infra.Server::{
-          , name = "logreduce-mqtt-01"
-          , image = "fedora-30-1.2"
-          , boot_from_volume = "yes"
-          , volume_size = Some 80
-          , groups = Some [ Infra.Group.logreduce-mqtt ]
-          }
-        , Infra.Server::{
-          , name = "prometheus.monitoring"
-          , auto_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 80
-          , security_groups = [ "web" ]
-          }
-        , Infra.Server::{
-          , name = "ara"
-          , auto_ip = Some True
-          , image = "fedora-31-1.9"
-          , boot_from_volume = "yes"
-          , volume_size = Some 80
-          , security_groups = [ "web" ]
-          , groups = Some [ Infra.Group.ara ]
-          }
-        , Infra.Server::{
-          , name = "redhat-oss-git-stats"
-          , auto_ip = Some True
-          , image = "centos-7-1907"
-          , boot_from_volume = "yes"
-          , volume_size = Some 500
-          , flavor = Infra.Flavors.`8vcpus_32gb`
-          , security_groups = [ "web" ]
-          }
-        , Infra.setIp "38.102.83.40" (tenant-server // { name = "fedora" })
-        , Infra.setIp "38.102.83.159" (tenant-server // { name = "ovirt" })
-        , Infra.setIp
-            "38.102.83.251"
-            (tenant-server // { name = "ovirt-staging" })
-        , Infra.Server::{ name = "elk01", groups = Some [ Infra.Group.sf ] }
-        , Infra.setIp
-            "38.102.83.76"
-            Infra.Server::{
-            , name = "managesf"
-            , flavor = Infra.Flavors.`4vcpus_16gb`
-            , boot_from_volume = "yes"
-            , volume_size = Some 20
-            , security_groups = [ "web", "managesf" ]
-            , groups = Some [ Infra.Group.sf, Infra.Group.install-server-sf ]
-            }
-        , Infra.Server::{ name = "nodepool-builder" }
-        , Infra.Server::{
-          , name = "oci01"
-          , network = "oci-private-network"
-          , security_groups = [ "hypervisor-oci" ]
-          }
-        , Infra.Server::{ name = "zs" }
-        , Infra.setIp
-            "38.102.83.102"
-            Infra.Server::{
-            , name = "koji-vexxhost"
-            , image = "centos-7-1907"
-            , boot_from_volume = "yes"
-            , volume_size = Some 80
-            , flavor = Infra.Flavors.`4vcpus_8gb`
-            , security_groups = [ "web" ]
-            }
+        [ Infra.Server::(     { name = "logreduce-mqtt-01"
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 80
+                              , groups = Some [ Infra.Group.logreduce-mqtt ]
+                              }
+                          //  Infra.OS.Fedora.`30`
+                        )
+        , Infra.Server::(     { name = "prometheus.monitoring"
+                              , auto_ip = Some True
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 80
+                              , security_groups = [ "web" ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "ara"
+                              , auto_ip = Some True
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 80
+                              , security_groups = [ "web" ]
+                              , groups = Some [ Infra.Group.ara ]
+                              }
+                          //  Infra.OS.Fedora.`31`
+                        )
+        , Infra.Server::(     { name = "redhat-oss-git-stats"
+                              , auto_ip = Some True
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 500
+                              , flavor = Infra.Flavors.`8vcpus_32gb`
+                              , security_groups = [ "web" ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , tenant-server // { name = "fedora" } // Infra.setIp "38.102.83.40"
+        , tenant-server // { name = "ovirt" } // Infra.setIp "38.102.83.159"
+        ,     tenant-server
+          //  { name = "ovirt-staging" }
+          //  Infra.setIp "38.102.83.251"
+        , Infra.Server::(     { name = "elk01"
+                              , groups = Some [ Infra.Group.sf ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "managesf"
+                              , flavor = Infra.Flavors.`4vcpus_16gb`
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 20
+                              , security_groups = [ "web", "managesf" ]
+                              , groups = Some
+                                  [ Infra.Group.sf
+                                  , Infra.Group.install-server-sf
+                                  ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                          //  Infra.setIp "38.102.83.76"
+                        )
+        , Infra.Server::({ name = "nodepool-builder" } // Infra.OS.CentOS.`7.0`)
+        , Infra.Server::(     { name = "oci01"
+                              , network = "oci-private-network"
+                              , security_groups = [ "hypervisor-oci" ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::({ name = "zs" } // Infra.OS.CentOS.`7.0`)
+        , Infra.Server::(     { name = "koji-vexxhost"
+                              , image = "centos-7-1907"
+                              , boot_from_volume = "yes"
+                              , volume_size = Some 80
+                              , flavor = Infra.Flavors.`4vcpus_8gb`
+                              , security_groups = [ "web" ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                          //  Infra.setIp "38.102.83.102"
+                        )
         ]
       # mkExecutors 1
       # mkMergers 1

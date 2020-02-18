@@ -25,4 +25,23 @@
     , `6vcpus_12gb` = "6vcpus_12gb"
     , `8vcpus_32gb` = "v1-standard-8"
     }
+, OS =
+    let Py2 = { ansible_python_interpreter = "python2" }
+
+    let Py3 = { ansible_python_interpreter = "python3" }
+
+    in  { CentOS =
+            let CentOS = { ansible_user = "centos" }
+
+            in  { `7.0` = CentOS // Py2 // { image = "centos-7-1907" }
+                , `8.0` = CentOS // Py3 // { image = "centos-8.0-1905" }
+                , `8.1` = CentOS // Py3 // { image = "centos-8.1-1911" }
+                }
+        , Fedora =
+            let Fedora = Py3 // { ansible_user = "fedora" }
+
+            in  { `30` = Fedora // { image = "fedora-30-1.2" }
+                , `31` = Fedora // { image = "fedora-31-1.9" }
+                }
+        }
 }

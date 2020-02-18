@@ -113,6 +113,22 @@ let mkGroup =
                 mkGroup
                 Groups.groups
 
+let mkHost =
+      Prelude.List.map
+        Server.Type
+        { mapKey : Text, mapValue : List { mapKey : Text, mapValue : Text } }
+        (     \(server : Server.Type)
+          ->  { mapKey = server.name
+              , mapValue =
+                  toMap
+                    { ansible_user = server.ansible_user
+                    , ansible_python_interpreter =
+                        server.ansible_python_interpreter
+                    , ansible_port = Natural/show server.ansible_port
+                    }
+              }
+        )
+
 let mkServers =
           \(name : Text)
       ->  \(flavor : Text)
@@ -121,11 +137,12 @@ let mkServers =
             Natural
             Server.Type
             (     \(idx : Natural)
-              ->  Server::{
-                  , name = "${name}0${Natural/show idx}"
-                  , flavor = flavor
-                  , boot_from_volume = "no"
-                  }
+              ->  Server::(     { name = "${name}0${Natural/show idx}"
+                                , flavor = flavor
+                                , boot_from_volume = "no"
+                                }
+                            //  (./defaults.dhall).OS.CentOS.`7.0`
+                          )
             )
             (seq count)
 
@@ -140,6 +157,7 @@ let setFqdn =
 
 in      { Prelude = Prelude
         , mkGroup = mkGroup
+        , mkHost = mkHost
         , mkServers = mkServers
         , mkSubnetWithMask = mkSubnetWithMask
         , mkSubnet = mkSubnet
@@ -155,9 +173,7 @@ in      { Prelude = Prelude
                             }
                   )
         , setIp =
-                \(ip : Text)
-            ->  \(server : Server.Type)
-            ->  server // { auto_ip = None Bool, floating_ips = Some [ ip ] }
+            \(ip : Text) -> { auto_ip = None Bool, floating_ips = Some [ ip ] }
         , seq = seq
         , setFqdn = setFqdn
         , mapServerText = Prelude.List.map Server.Type Text

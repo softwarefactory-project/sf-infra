@@ -12,12 +12,14 @@
     , state : Optional Text
     , groups : Optional (List ../types/Group.dhall)
     , skip_os_server_task : Bool
+    , ansible_user : Text
+    , ansible_port : Natural
+    , ansible_python_interpreter : Text
     }
 , default =
     { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
     , auto_ip = Some False
     , floating_ips = None (List Text)
-    , image = "centos-7-1907"
     , key_name = "sf-infra-key"
     , network = "private-network"
     , security_groups = [] : List Text
@@ -26,5 +28,6 @@
     , state = None Text
     , groups = None (List ../types/Group.dhall)
     , skip_os_server_task = False
+    , ansible_port = 22
     }
 }

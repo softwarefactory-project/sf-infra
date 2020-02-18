@@ -80,7 +80,10 @@ security_groups:
         protocol: tcp
         remote_ip_prefix: 38.145.32.0/22
 servers:
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -96,7 +99,10 @@ servers:
       - afs
     skip_os_server_task: false
     volume_size: 200
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -112,7 +118,10 @@ servers:
       - rdo-trunk
     skip_os_server_task: false
     volume_size: 100
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: ci.m1.large
     groups:
@@ -128,7 +137,10 @@ servers:
       - rdo-trunk
     skip_os_server_task: false
     volume_size: 100
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: fedora
+    auto_ip: true
     boot_from_volume: yes
     flavor: ci.m1.large
     groups:
@@ -144,7 +156,10 @@ servers:
       - rdo-trunk
     skip_os_server_task: false
     volume_size: 100
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
     groups:
@@ -160,7 +175,10 @@ servers:
       - registry
     skip_os_server_task: false
     volume_size: 200
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
     groups:
@@ -176,7 +194,10 @@ servers:
       - rdo-trunk
     skip_os_server_task: false
     volume_size: 512
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
     groups:
@@ -192,7 +213,10 @@ servers:
       - rdo-trunk
     skip_os_server_task: false
     volume_size: 512
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
     image: centos-7-1907
@@ -204,7 +228,10 @@ servers:
       - monitoring
     skip_os_server_task: false
     volume_size: 40
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
@@ -217,7 +244,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 10
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
     image: centos-8.1-1911
@@ -231,7 +261,10 @@ servers:
       - rcn-share
     skip_os_server_task: false
     volume_size: 50
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
     image: centos-8.1-1911
@@ -244,7 +277,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 10
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -257,7 +293,10 @@ servers:
       - common
       - monitoring
     skip_os_server_task: true
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:

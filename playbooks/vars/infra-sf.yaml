@@ -86,7 +86,10 @@ security_groups:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 servers:
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: fedora
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -100,7 +103,10 @@ servers:
       - monitoring
     skip_os_server_task: false
     volume_size: 80
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
@@ -113,7 +119,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 80
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python3
+    ansible_user: fedora
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -128,7 +137,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 80
-  - auto_ip: true
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-8
     image: centos-7-1907
@@ -141,7 +153,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 500
-  - boot_from_volume: yes
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.40"
@@ -155,7 +170,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 40
-  - boot_from_volume: yes
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.159"
@@ -169,7 +187,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 40
-  - boot_from_volume: yes
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.251"
@@ -183,7 +204,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 40
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
@@ -196,7 +220,10 @@ servers:
       - common
       - monitoring
     skip_os_server_task: false
-  - boot_from_volume: yes
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
       - "38.102.83.76"
@@ -214,7 +241,10 @@ servers:
       - managesf
     skip_os_server_task: false
     volume_size: 20
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
@@ -225,7 +255,10 @@ servers:
       - common
       - monitoring
     skip_os_server_task: false
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
@@ -237,7 +270,10 @@ servers:
       - monitoring
       - hypervisor-oci
     skip_os_server_task: false
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
@@ -248,7 +284,10 @@ servers:
       - common
       - monitoring
     skip_os_server_task: false
-  - boot_from_volume: yes
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    boot_from_volume: yes
     flavor: 4vcpus_8gb
     floating_ips:
       - "38.102.83.102"
@@ -262,7 +301,10 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 80
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
     image: centos-7-1907
@@ -273,7 +315,10 @@ servers:
       - common
       - monitoring
     skip_os_server_task: false
-  - auto_ip: false
+  - ansible_port: 22
+    ansible_python_interpreter: python2
+    ansible_user: centos
+    auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
     image: centos-7-1907

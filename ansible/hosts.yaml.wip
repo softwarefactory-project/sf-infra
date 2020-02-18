@@ -31,3 +31,116 @@ all:
       hosts:
         elk01.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
+  hosts:
+    ara.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: fedora
+    backup.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    centos8-rpm-packaging-ci.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: centos
+    elk01.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    fedora-rpm-packaging-ci.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: fedora
+    fedora.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    images-vexxhost.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: centos
+    install-server.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    koji-vexxhost.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    logreduce-mqtt-01.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: fedora
+    logserver.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    managesf.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    mirror.regionone.vexxhost.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    nodepool-builder.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    oci01.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ovirt-staging.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ovirt.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    prometheus.monitoring.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    redhat-oss-git-stats.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    registry-vexxhost.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    rpm-packaging-ci.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    trunk-centos7.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    trunk-centos8.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: centos
+    trunk.rdoproject.org.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    www.rdoproject.org:
+      ansible_port: "22"
+      ansible_python_interpreter: python3
+      ansible_user: centos
+    ze01.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    zm01.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    zs.softwarefactory-project.io:
+      ansible_port: "22"
+      ansible_python_interpreter: python2
+      ansible_user: centos

@@ -121,101 +121,109 @@ let volumes =
 let servers =
       Infra.setSecurityGroups
         [ "common", "monitoring" ]
-        [ Infra.Server::{
-          , name = "mirror.regionone.vexxhost"
-          , auto_ip = Some True
-          , security_groups = [ "web", "afs" ]
-          , volume_size = Some 200
-          , groups = Some [ Infra.Group.afs-mirror ]
-          }
-        , Infra.Server::{
-          , name = "centos8-rpm-packaging-ci"
-          , image = "centos-8.0-1905"
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 100
-          , groups = Some [ Infra.Group.dlrn ]
-          }
-        , Infra.Server::{
-          , name = "rpm-packaging-ci"
-          , flavor = "ci.m1.large"
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 100
-          , groups = Some [ Infra.Group.dlrn ]
-          }
-        , Infra.Server::{
-          , name = "fedora-rpm-packaging-ci"
-          , image = "fedora-30-1.2"
-          , flavor = "ci.m1.large"
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 100
-          , groups = Some [ Infra.Group.dlrn ]
-          }
-        , Infra.Server::{
-          , name = "registry-vexxhost"
-          , flavor = Infra.Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "registry" ]
-          , volume_size = Some 200
-          , groups = Some [ Infra.Group.registry ]
-          }
-        , Infra.Server::{
-          , name = "trunk-centos8"
-          , image = "centos-8.0-1905"
-          , flavor = Infra.Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 512
-          , groups = Some [ Infra.Group.dlrn ]
-          }
-        , Infra.Server::{
-          , name = "trunk-centos7"
-          , flavor = Infra.Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 512
-          , groups = Some [ Infra.Group.dlrn ]
-          }
-        , Infra.Server::{
-          , name = "install-server"
-          , flavor = Infra.Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , volume_size = Some 40
-          }
-        , Infra.Server::{
-          , name = "logserver"
-          , auto_ip = Some True
-          , security_groups = [ "web" ]
-          , volume_size = Some 10
-          }
-        , Infra.Server::{
-          , name = "images-vexxhost"
-          , image = "centos-8.1-1911"
-          , flavor = Infra.Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "rcn-share" ]
-          , volume_size = Some 50
-          }
-        , Infra.Server::{
-          , name = "www"
-          , image = "centos-8.1-1911"
-          , flavor = Infra.Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , security_groups = [ "web" ]
-          , volume_size = Some 10
-          }
-        , Infra.Server::{
-          , name = "backup"
-          , skip_os_server_task = True
-          , groups = Some [ Infra.Group.backup ]
-          }
-        , Infra.Server::{
-          , name = "trunk.rdoproject.org"
-          , skip_os_server_task = True
-          , groups = Some [ Infra.Group.dlrn ]
-          }
+        [ Infra.Server::(     { name = "mirror.regionone.vexxhost"
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "afs" ]
+                              , volume_size = Some 200
+                              , groups = Some [ Infra.Group.afs-mirror ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "centos8-rpm-packaging-ci"
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rdo-trunk" ]
+                              , volume_size = Some 100
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.CentOS.`8.0`
+                        )
+        , Infra.Server::(     { name = "rpm-packaging-ci"
+                              , flavor = "ci.m1.large"
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rdo-trunk" ]
+                              , volume_size = Some 100
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "fedora-rpm-packaging-ci"
+                              , flavor = "ci.m1.large"
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rdo-trunk" ]
+                              , volume_size = Some 100
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.Fedora.`30`
+                        )
+        , Infra.Server::(     { name = "registry-vexxhost"
+                              , flavor = Infra.Flavors.`4vcpus_16gb`
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "registry" ]
+                              , volume_size = Some 200
+                              , groups = Some [ Infra.Group.registry ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "trunk-centos8"
+                              , flavor = Infra.Flavors.`4vcpus_16gb`
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rdo-trunk" ]
+                              , volume_size = Some 512
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.CentOS.`8.0`
+                        )
+        , Infra.Server::(     { name = "trunk-centos7"
+                              , flavor = Infra.Flavors.`4vcpus_16gb`
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rdo-trunk" ]
+                              , volume_size = Some 512
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "install-server"
+                              , flavor = Infra.Flavors.`1vcpu_4gb`
+                              , auto_ip = Some True
+                              , volume_size = Some 40
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "logserver"
+                              , auto_ip = Some True
+                              , security_groups = [ "web" ]
+                              , volume_size = Some 10
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "images-vexxhost"
+                              , flavor = Infra.Flavors.`1vcpu_4gb`
+                              , auto_ip = Some True
+                              , security_groups = [ "web", "rcn-share" ]
+                              , volume_size = Some 50
+                              }
+                          //  Infra.OS.CentOS.`8.1`
+                        )
+        , Infra.Server::(     { name = "www"
+                              , flavor = Infra.Flavors.`1vcpu_4gb`
+                              , auto_ip = Some True
+                              , security_groups = [ "web" ]
+                              , volume_size = Some 10
+                              }
+                          //  Infra.OS.CentOS.`8.1`
+                        )
+        , Infra.Server::(     { name = "backup"
+                              , skip_os_server_task = True
+                              , groups = Some [ Infra.Group.backup ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
+        , Infra.Server::(     { name = "trunk.rdoproject.org"
+                              , skip_os_server_task = True
+                              , groups = Some [ Infra.Group.dlrn ]
+                              }
+                          //  Infra.OS.CentOS.`7.0`
+                        )
         ]
 
 in  Infra.Tenant::{
