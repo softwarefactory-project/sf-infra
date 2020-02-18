@@ -14,7 +14,7 @@ let tenant-instance =
       , groups = [ Infra.Group.rdocloud-data-fetcher ]
       , connection = OS.CentOS.`7.0`.connection
       , server = Infra.Server::{
-        , image = OS.CentOS.`7.0`.image
+        , image = OS.CentOS.`7.0`.image.name
         , volume_size = Some 40
         , security_groups = [ "web" ]
         }
@@ -46,7 +46,7 @@ let instances =
           , groups = [ Infra.Group.logreduce-mqtt ]
           , connection = OS.Fedora.`30`.connection
           , server = Infra.Server::{
-            , image = OS.Fedora.`30`.image
+            , image = OS.Fedora.`30`.image.name
             , boot_from_volume = "yes"
             , volume_size = Some 80
             }
@@ -55,7 +55,7 @@ let instances =
           , name = "prometheus.monitoring"
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{
-            , image = OS.CentOS.`7.0`.image
+            , image = OS.CentOS.`7.0`.image.name
             , auto_ip = Some True
             , boot_from_volume = "yes"
             , volume_size = Some 80
@@ -67,7 +67,7 @@ let instances =
           , groups = [ Infra.Group.ara ]
           , connection = OS.Fedora.`31`.connection
           , server = Infra.Server::{
-            , image = OS.Fedora.`31`.image
+            , image = OS.Fedora.`31`.image.name
             , auto_ip = Some True
             , boot_from_volume = "yes"
             , volume_size = Some 80
@@ -78,7 +78,7 @@ let instances =
           , name = "redhat-oss-git-stats"
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{
-            , image = OS.CentOS.`7.0`.image
+            , image = OS.CentOS.`7.0`.image.name
             , auto_ip = Some True
             , boot_from_volume = "yes"
             , volume_size = Some 500
@@ -92,7 +92,7 @@ let instances =
           , name = "elk01"
           , groups = [ Infra.Group.sf, Infra.Group.rdocloud-data-fetcher ]
           , connection = OS.CentOS.`7.0`.connection
-          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image }
+          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
           , volumes =
             [ Infra.Volume::{
               , display_name = "elk-data"
@@ -112,7 +112,7 @@ let instances =
           , connection = OS.CentOS.`7.0`.connection
           , server =
                   Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image
+                  , image = OS.CentOS.`7.0`.image.name
                   , flavor = Some Flavors.`4vcpus_16gb`
                   , boot_from_volume = "yes"
                   , volume_size = Some 20
@@ -124,7 +124,7 @@ let instances =
           , name = "nodepool-builder"
           , groups = [ Infra.Group.rdocloud-data-fetcher ]
           , connection = OS.CentOS.`7.0`.connection
-          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image }
+          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
           , volumes =
             [ Infra.Volume::{
               , display_name = "nodepool-builder-data"
@@ -137,7 +137,7 @@ let instances =
           , name = "oci01"
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{
-            , image = OS.CentOS.`7.0`.image
+            , image = OS.CentOS.`7.0`.image.name
             , network = "oci-private-network"
             , security_groups = [ "hypervisor-oci" ]
             }
@@ -145,14 +145,14 @@ let instances =
         , Instance::{
           , name = "zs"
           , connection = OS.CentOS.`7.0`.connection
-          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image }
+          , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
           }
         , Instance::{
           , name = "koji"
           , connection = OS.CentOS.`7.0`.connection
           , server =
                   Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image
+                  , image = OS.CentOS.`7.0`.image.name
                   , boot_from_volume = "yes"
                   , volume_size = Some 80
                   , flavor = Some Flavors.`4vcpus_8gb`
@@ -174,7 +174,7 @@ let mkServers =
                   , name = "${name}0${Natural/show idx}"
                   , connection = OS.CentOS.`7.0`.connection
                   , server = Infra.Server::{
-                    , image = OS.CentOS.`7.0`.image
+                    , image = OS.CentOS.`7.0`.image.name
                     , flavor = Some flavor
                     , boot_from_volume = "no"
                     }
