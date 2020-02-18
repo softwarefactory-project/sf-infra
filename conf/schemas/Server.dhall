@@ -9,7 +9,6 @@
     , network : Text
     , security_groups : List Text
     , volume_size : Optional Natural
-    , volumes : Optional (List Text)
     , state : Optional Text
     }
 , default =
@@ -22,7 +21,6 @@
     , security_groups = [] : List Text
     , volume_size = None Natural
     , boot_from_volume = "yes"
-    , volumes = None (List Text)
     , state = None Text
     }
 }
