@@ -177,7 +177,7 @@ servers:
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
-    name: elk.softwarefactory-project.io
+    name: elk01.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -196,8 +196,6 @@ servers:
       - web
       - managesf
     volume_size: 20
-    volumes:
-      - elk-data
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -219,8 +217,6 @@ servers:
       - common
       - monitoring
       - hypervisor-oci
-    volumes:
-      - nodepool-builder-data
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -282,7 +278,7 @@ subnets:
 volumes:
   - device: /dev/vdb
     display_name: elk-data
-    server: elk.softwarefactory-project.io
+    server: elk01.softwarefactory-project.io
     size: 160
   - device: /dev/vdb
     display_name: nodepool-builder-data

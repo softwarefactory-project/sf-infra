@@ -133,7 +133,6 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 100
-          , volumes = Some [ "centos8-rpm-packaging-swap" ]
           }
         , Infra.Server::{
           , name = "rpm-packaging-ci"
@@ -156,7 +155,6 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "registry" ]
           , volume_size = Some 200
-          , volumes = Some [ "registry-data" ]
           }
         , Infra.Server::{
           , name = "trunk-centos8"
@@ -184,7 +182,6 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web" ]
           , volume_size = Some 10
-          , volumes = Some [ "logs-data", "logs-data02" ]
           }
         , Infra.Server::{
           , name = "images-vexxhost"
@@ -193,7 +190,6 @@ let servers =
           , auto_ip = Some True
           , security_groups = [ "web", "rcn-share" ]
           , volume_size = Some 50
-          , volumes = Some [ "images-data" ]
           }
         , Infra.Server::{
           , name = "www"

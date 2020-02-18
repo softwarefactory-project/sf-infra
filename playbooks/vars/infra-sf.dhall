@@ -97,7 +97,7 @@ let mkMergers = Infra.mkServers "zm" Infra.Flavors.`1vcpu_1gb`
 let volumes =
       [ { display_name = "elk-data"
         , size = 160
-        , server = "elk" ++ "." ++ fqdn
+        , server = "elk01" ++ "." ++ fqdn
         , device = "/dev/vdb"
         }
       , { display_name = "nodepool-builder-data"
@@ -150,7 +150,7 @@ let servers =
         , Infra.setIp
             "38.102.83.251"
             (tenant-server // { name = "ovirt-staging" })
-        , Infra.Server::{ name = "elk" }
+        , Infra.Server::{ name = "elk01" }
         , Infra.setIp
             "38.102.83.76"
             Infra.Server::{
@@ -159,14 +159,12 @@ let servers =
             , boot_from_volume = "yes"
             , volume_size = Some 20
             , security_groups = [ "web", "managesf" ]
-            , volumes = Some [ "elk-data" ]
             }
         , Infra.Server::{ name = "nodepool-builder" }
         , Infra.Server::{
           , name = "oci01"
           , network = "oci-private-network"
           , security_groups = [ "hypervisor-oci" ]
-          , volumes = Some [ "nodepool-builder-data" ]
           }
         , Infra.Server::{ name = "zs" }
         , Infra.setIp
