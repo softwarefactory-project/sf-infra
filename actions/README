@@ -9,7 +9,7 @@ For example, to perform an one time action on the bridge:
 
 ```console
 $ cat << EOF > do-x-bridge.yaml
-- hosts: bridge
+- hosts: bridge.softwarefactory-project.io
   tasks:
     - name: Remove incorrect known host
       command: sed -i 42d .ssh/known_host

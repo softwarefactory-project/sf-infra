@@ -21,6 +21,7 @@
         security_groups: "{{ item.security_groups | default('default') }}"
         boot_from_volume: "{{ item.boot_from_volume | default('no') }}"
         volume_size: "{{ item.volume_size | default(0) }}"
+      when: not item.skip_os_server_task
       loop: "{{ tenant_config.servers }}"
       loop_control:
         label: "{{ item.name }}"

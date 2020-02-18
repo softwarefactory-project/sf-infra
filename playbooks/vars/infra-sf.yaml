@@ -98,6 +98,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -110,6 +111,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -124,6 +126,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -136,6 +139,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 500
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -149,6 +153,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -162,6 +167,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -175,6 +181,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 40
   - auto_ip: false
     boot_from_volume: yes
@@ -188,6 +195,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
@@ -204,6 +212,7 @@ servers:
       - monitoring
       - web
       - managesf
+    skip_os_server_task: false
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
@@ -215,6 +224,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -226,6 +236,7 @@ servers:
       - common
       - monitoring
       - hypervisor-oci
+    skip_os_server_task: false
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -236,6 +247,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
   - boot_from_volume: yes
     flavor: 4vcpus_8gb
     floating_ips:
@@ -248,6 +260,7 @@ servers:
       - common
       - monitoring
       - web
+    skip_os_server_task: false
     volume_size: 80
   - auto_ip: false
     boot_from_volume: no
@@ -259,6 +272,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -269,6 +283,7 @@ servers:
     security_groups:
       - common
       - monitoring
+    skip_os_server_task: false
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:

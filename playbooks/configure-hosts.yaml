@@ -17,7 +17,7 @@
         name: "{{ bridge_name }}"
         key: "{{ bridge_key }}"
 
-- hosts: bridge
+- hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   vars:
     bridge_packages:

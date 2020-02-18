@@ -1,6 +1,6 @@
 # This playbook is running from the bridge (nested in zuul job)
 ---
-- hosts: bridge
+- hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   module_defaults:
     group/os:

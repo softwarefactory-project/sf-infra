@@ -11,6 +11,7 @@
     , volume_size : Optional Natural
     , state : Optional Text
     , groups : Optional (List ../types/Group.dhall)
+    , skip_os_server_task : Bool
     }
 , default =
     { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
@@ -24,5 +25,6 @@
     , boot_from_volume = "yes"
     , state = None Text
     , groups = None (List ../types/Group.dhall)
+    , skip_os_server_task = False
     }
 }
