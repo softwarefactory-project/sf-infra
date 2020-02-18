@@ -30,12 +30,23 @@
 
     let Py3 = { ansible_python_interpreter = "python3" }
 
+    let PyAuto = { ansible_python_interpreter = "auto" }
+
     in  { CentOS =
             let CentOS = { ansible_user = "centos" }
 
             in  { `7.0` = CentOS // Py2 // { image = "centos-7-1907" }
-                , `8.0` = CentOS // Py3 // { image = "centos-8.0-1905" }
-                , `8.1` = CentOS // Py3 // { image = "centos-8.1-1911" }
+                , `8.0` =
+                        CentOS
+                    //  PyAuto
+                    //  { ansible_user =
+                            let comment =
+                                  "For some reason, this image uses a cloud-user"
+
+                            in  "cloud-user"
+                        , image = "centos-8.0-1905"
+                        }
+                , `8.1` = CentOS // PyAuto // { image = "centos-8.1-1911" }
                 }
         , Fedora =
             let Fedora = Py3 // { ansible_user = "fedora" }

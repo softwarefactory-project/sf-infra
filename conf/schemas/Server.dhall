@@ -15,6 +15,7 @@
     , ansible_user : Text
     , ansible_port : Natural
     , ansible_python_interpreter : Text
+    , host_vars : List { mapKey : Text, mapValue : ../types/StrOrInt.dhall }
     }
 , default =
     { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
@@ -29,5 +30,7 @@
     , groups = None (List ../types/Group.dhall)
     , skip_os_server_task = False
     , ansible_port = 22
+    , host_vars =
+        [] : List { mapKey : Text, mapValue : ../types/StrOrInt.dhall }
     }
 }

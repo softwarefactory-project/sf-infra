@@ -116,7 +116,17 @@ let tenant-server =
                     )
 
 let servers =
-        [ Infra.Server::(     { name = "logreduce-mqtt-01"
+        [ Infra.Server::(     { name = "bridge"
+                              , skip_os_server_task = True
+                              , host_vars =
+                                  toMap
+                                    { ansible_connection =
+                                        Infra.StrOrInt.str "local"
+                                    }
+                              }
+                          //  Infra.OS.Fedora.`30`
+                        )
+        , Infra.Server::(     { name = "logreduce-mqtt-01"
                               , boot_from_volume = "yes"
                               , volume_size = Some 80
                               , groups = Some [ Infra.Group.logreduce-mqtt ]
@@ -128,6 +138,11 @@ let servers =
                               , boot_from_volume = "yes"
                               , volume_size = Some 80
                               , security_groups = [ "web" ]
+                              , host_vars =
+                                  toMap
+                                    { podman_gw_ip =
+                                        Infra.StrOrInt.str "10.88.0.1"
+                                    }
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )

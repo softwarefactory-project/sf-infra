@@ -11,13 +11,17 @@ There are a few jobs:
 The idea is to have openstacksdk tasks in jobs that are running only when needed.
 Then most of the work is done with the configure-hosts job that use a static inventory.
 
-# To create a new hosts (2 changes):
+# To create a new hosts:
 
-* Add it to the right playbooks/vars/ file, e.g. playbooks/vars/infra-sf.yaml servers list
-* Commit, git-review and wait for the gate job to finish to collect it's public ip
-* Add the server to the inventory (ansible/hosts.yaml) and to the site.yaml
-* Commit and git-review
+In the infra vars, for example `playbooks/vars/infra-rdo.dhall`:
 
+* Add a new entry in the server list
+* Add an optional entry in the volumes list to manage extra data
+* Run `make` to update the yaml files.
+
+To manage the configuration, use an existing group such as `monitoring` and/or add an entry in the `playbooks/site.yaml`
+
+Use git-review to submit the change and let the CI create and run the playbook.
 
 # To add a vault secret
 

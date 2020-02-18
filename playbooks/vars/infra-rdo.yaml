@@ -88,6 +88,8 @@ servers:
     flavor: v1-standard-2
     groups:
       - afs-mirror
+    host_vars:
+      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
     image: centos-7-1907
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
@@ -100,13 +102,14 @@ servers:
     skip_os_server_task: false
     volume_size: 200
   - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: centos
+    ansible_python_interpreter: auto
+    ansible_user: cloud-user
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
     groups:
       - dlrn
+    host_vars: {}
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: centos8-rpm-packaging-ci.rdoproject.org
@@ -126,6 +129,7 @@ servers:
     flavor: ci.m1.large
     groups:
       - dlrn
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: rpm-packaging-ci.rdoproject.org
@@ -145,6 +149,7 @@ servers:
     flavor: ci.m1.large
     groups:
       - dlrn
+    host_vars: {}
     image: fedora-30-1.2
     key_name: sf-infra-key
     name: fedora-rpm-packaging-ci.rdoproject.org
@@ -164,6 +169,7 @@ servers:
     flavor: v1-standard-4
     groups:
       - registry
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: registry-vexxhost.rdoproject.org
@@ -176,13 +182,14 @@ servers:
     skip_os_server_task: false
     volume_size: 200
   - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: centos
+    ansible_python_interpreter: auto
+    ansible_user: cloud-user
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
     groups:
       - dlrn
+    host_vars: {}
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: trunk-centos8.rdoproject.org
@@ -202,6 +209,7 @@ servers:
     flavor: v1-standard-4
     groups:
       - dlrn
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: trunk-centos7.rdoproject.org
@@ -219,6 +227,7 @@ servers:
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: install-server.rdoproject.org
@@ -234,6 +243,7 @@ servers:
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: logserver.rdoproject.org
@@ -245,11 +255,12 @@ servers:
     skip_os_server_task: false
     volume_size: 10
   - ansible_port: 22
-    ansible_python_interpreter: python3
+    ansible_python_interpreter: auto
     ansible_user: centos
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
+    host_vars: {}
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: images-vexxhost.rdoproject.org
@@ -262,11 +273,12 @@ servers:
     skip_os_server_task: false
     volume_size: 50
   - ansible_port: 22
-    ansible_python_interpreter: python3
+    ansible_python_interpreter: auto
     ansible_user: centos
     auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
+    host_vars: {}
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: www.rdoproject.org
@@ -277,7 +289,7 @@ servers:
       - web
     skip_os_server_task: false
     volume_size: 10
-  - ansible_port: 22
+  - ansible_port: 3300
     ansible_python_interpreter: python2
     ansible_user: centos
     auto_ip: false
@@ -285,6 +297,7 @@ servers:
     flavor: v1-standard-2
     groups:
       - backup
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: backup.rdoproject.org
@@ -293,7 +306,7 @@ servers:
       - common
       - monitoring
     skip_os_server_task: true
-  - ansible_port: 22
+  - ansible_port: 3300
     ansible_python_interpreter: python2
     ansible_user: centos
     auto_ip: false
@@ -301,6 +314,7 @@ servers:
     flavor: v1-standard-2
     groups:
       - dlrn
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: trunk.rdoproject.org

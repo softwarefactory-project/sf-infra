@@ -113,19 +113,24 @@ let mkGroup =
                 mkGroup
                 Groups.groups
 
+let StrOrInt = ./types/StrOrInt.dhall
+
 let mkHost =
       Prelude.List.map
         Server.Type
-        { mapKey : Text, mapValue : List { mapKey : Text, mapValue : Text } }
+        { mapKey : Text
+        , mapValue : List { mapKey : Text, mapValue : StrOrInt }
+        }
         (     \(server : Server.Type)
           ->  { mapKey = server.name
               , mapValue =
-                  toMap
-                    { ansible_user = server.ansible_user
-                    , ansible_python_interpreter =
-                        server.ansible_python_interpreter
-                    , ansible_port = Natural/show server.ansible_port
-                    }
+                    server.host_vars
+                  # toMap
+                      { ansible_user = StrOrInt.str server.ansible_user
+                      , ansible_python_interpreter =
+                          StrOrInt.str server.ansible_python_interpreter
+                      , ansible_port = StrOrInt.int server.ansible_port
+                      }
               }
         )
 
@@ -177,6 +182,7 @@ in      { Prelude = Prelude
         , seq = seq
         , setFqdn = setFqdn
         , mapServerText = Prelude.List.map Server.Type Text
+        , StrOrInt = StrOrInt
         }
     //  ./schemas.dhall
     //  ./defaults.dhall

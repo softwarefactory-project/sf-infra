@@ -1,0 +1,7 @@
+swap_device: /dev/vdb
+dlrn_server_type: primary
+dlrn_enable_https: true
+dlrn_host: centos8-rpm-packaging-ci
+dlrn_override_files:
+  /root/puppet-dlrn/files/centos8-master-dlrn-deps.repo:
+      source: centos8-master-rpm-packaging-dlrn-deps.repo

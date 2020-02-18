@@ -126,6 +126,12 @@ let servers =
                               , security_groups = [ "web", "afs" ]
                               , volume_size = Some 200
                               , groups = Some [ Infra.Group.afs-mirror ]
+                              , host_vars =
+                                  toMap
+                                    { afs_mirror_fqdn =
+                                        Infra.StrOrInt.str
+                                          "mirror.regionone.vexxhost.rdoproject.org"
+                                    }
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
@@ -214,12 +220,14 @@ let servers =
                         )
         , Infra.Server::(     { name = "backup"
                               , skip_os_server_task = True
+                              , ansible_port = 3300
                               , groups = Some [ Infra.Group.backup ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
         , Infra.Server::(     { name = "trunk"
                               , skip_os_server_task = True
+                              , ansible_port = 3300
                               , groups = Some [ Infra.Group.dlrn ]
                               }
                           //  Infra.OS.CentOS.`7.0`

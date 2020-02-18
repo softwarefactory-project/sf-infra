@@ -1,138 +1,153 @@
----
+# this file is managed by dhall
 all:
   children:
     afs-mirror:
       hosts:
-        mirror.regionone.vexxhost.rdoproject.org:
+        mirror.regionone.vexxhost.rdoproject.org: {}
     ara:
       hosts:
-        ara.softwarefactory-project.io:
+        ara.softwarefactory-project.io: {}
     backup:
       hosts:
-        backup.rdoproject.org:
-    install-server-sf:
-      hosts:
-        managesf.softwarefactory-project.io:
-    sf:
-      hosts:
-        managesf.softwarefactory-project.io:
-        elk.softwarefactory-project.io:
-    logreduce-mqtt:
-      hosts:
-        logreduce-mqtt01.softwarefactory-project.io:
+        backup.rdoproject.org: {}
     dlrn:
       hosts:
-        rpm-packaging-ci.rdoproject.org:
-        fedora-rpm-packaging-ci.rdoproject.org:
-        trunk-centos8.rdoproject.org:
-        trunk-centos7.rdoproject.org:
-        trunk.rdoproject.org:
-        centos8-rpm-packaging-ci.rdoproject.org:
+        centos8-rpm-packaging-ci.rdoproject.org: {}
+        fedora-rpm-packaging-ci.rdoproject.org: {}
+        rpm-packaging-ci.rdoproject.org: {}
+        trunk-centos7.rdoproject.org: {}
+        trunk-centos8.rdoproject.org: {}
+        trunk.rdoproject.org: {}
+    install-server-sf:
+      hosts:
+        managesf.softwarefactory-project.io: {}
+    logreduce-mqtt:
+      hosts:
+        logreduce-mqtt-01.softwarefactory-project.io: {}
     registry:
       hosts:
-        registry-vexxhost.rdoproject.org:
+        registry-vexxhost.rdoproject.org: {}
+    sf:
+      hosts:
+        elk01.softwarefactory-project.io: {}
+        managesf.softwarefactory-project.io: {}
   hosts:
     ara.softwarefactory-project.io:
-      ansible_host: 38.102.83.124
-      ansible_user: fedora
+      ansible_port: 22
       ansible_python_interpreter: python3
+      ansible_user: fedora
     backup.rdoproject.org:
-      ansible_host: 54.82.121.165
-      ansible_user: centos
       ansible_port: 3300
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIAJRPWXXyMvh9KZNSaMm2lm+xhe/eGncCPcy9gPQkc39
+      ansible_python_interpreter: python2
+      ansible_user: centos
     bridge.softwarefactory-project.io:
-      ansible_host: 38.102.83.244
-      ansible_user: fedora
       ansible_connection: local
+      ansible_port: 22
       ansible_python_interpreter: python3
+      ansible_user: fedora
     centos8-rpm-packaging-ci.rdoproject.org:
-      ansible_host: 38.102.83.53
+      ansible_port: 22
+      ansible_python_interpreter: auto
       ansible_user: cloud-user
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIOHFyCnGZIAqq+36gH3j6SMswD+OaJ/Wk/zaZIrqUAJX
-      swap_device: /dev/vdb
-      dlrn_server_type: primary
-      dlrn_enable_https: true
-      dlrn_host: centos8-rpm-packaging-ci
-      dlrn_override_files:
-        /root/puppet-dlrn/files/centos8-master-dlrn-deps.repo:
-            source: centos8-master-rpm-packaging-dlrn-deps.repo
-    elk.softwarefactory-project.io:
-      ansible_host: 192.168.242.144
-      ansible_user: centos
+    elk01.softwarefactory-project.io:
+      ansible_port: 22
       ansible_python_interpreter: python2
+      ansible_user: centos
     fedora-rpm-packaging-ci.rdoproject.org:
-      ansible_host: 38.102.83.130
-      ansible_user: fedora
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMEVECvciqLnJPkX22ybEPZKzNqUuoMYL7EZlIZXDasT
+      ansible_port: 22
       ansible_python_interpreter: python3
+      ansible_user: fedora
+    fedora.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     images-vexxhost.rdoproject.org:
-      ansible_host: 38.102.83.152
+      ansible_port: 22
+      ansible_python_interpreter: auto
       ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIDP/pMwChhjC9Um6sHcVhr2fk7Aw/o20J9i7+WeoE8Lw
+    install-server.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     koji-vexxhost.softwarefactory-project.io:
-      ansible_host: 38.102.83.102
+      ansible_port: 22
+      ansible_python_interpreter: python2
       ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIF6JJ72T9da0uLxSFeBeFdSVZmdDcEhupGXYQLf58BIK
-    logreduce-mqtt01.softwarefactory-project.io:
-      ansible_host: 192.168.242.141
-      ansible_user: fedora
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIMSaFvKdKOH2kOVpP1/6ZJjAQe2lZs2jxseZlN8x/iWg
+    logreduce-mqtt-01.softwarefactory-project.io:
+      ansible_port: 22
       ansible_python_interpreter: python3
-    managesf.softwarefactory-project.io:
-      ansible_host: 38.102.83.76
-      ansible_user: centos
-      ansible_python_interpreter: python2
-    mirror.regionone.vexxhost.rdoproject.org:
-      ansible_host: 38.102.83.237
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIPKuXA3qpzWHjSE3p+aTF/vMrJ/FuhH5nhtFUiYkjWop
-      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
-    prometheus.monitoring.softwarefactory-project.io:
-      ansible_host: 38.102.83.250
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIC0b7onx8EXjqKxHHU5N6tgtPZq18LTw7DWIYBjPBIFr
-      ansible_python_interpreter: python2
-      podman_gw_ip: 10.88.0.1
+      ansible_user: fedora
     logserver.rdoproject.org:
-      ansible_host: 38.102.83.90
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIBdj2q+6M2735dDDnJd4mZSE6LY+4TTLaNKyQMWP7TFv
+      ansible_port: 22
       ansible_python_interpreter: python2
+      ansible_user: centos
+    managesf.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    mirror.regionone.vexxhost.rdoproject.org:
+      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    nodepool-builder.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    oci01.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ovirt-staging.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ovirt.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    prometheus.monitoring.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+      podman_gw_ip: "10.88.0.1"
     redhat-oss-git-stats.softwarefactory-project.io:
-      ansible_host: 38.102.83.139
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    registry-vexxhost.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
       ansible_user: centos
     rpm-packaging-ci.rdoproject.org:
-      ansible_host: 38.102.83.95
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAICp4AHiyY5+ogaVcXxPkdh6lLdkyLgX/uSWSiPzIASSn
+      ansible_port: 22
       ansible_python_interpreter: python2
-    trunk.rdoproject.org:
-      ansible_host: trunk.rdoproject.org
       ansible_user: centos
-      ansible_port: 3300
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIGG7x6SN4AohxWr8uxSH8z6qbaCNjppzKWaPhprEDwxD
     trunk-centos7.rdoproject.org:
-      ansible_host: 38.102.83.226
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIHYxSG94i0imAEFemqci7oApWJ5/kErU7IwcDV37fdPr
-      dlrn_server_type: primary
-      dlrn_enable_https: true
-      dlrn_host: trunk-centos7
-      swap_device: /dev/vdb
-    trunk-centos8.rdoproject.org:
-      ansible_host: 38.102.83.175
-      ansible_user: cloud-user
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIGIe8icD3c4AR/bhR4paDWeslxkghdCrZZ2Q56L9jDt6
-      dlrn_server_type: primary
-      dlrn_enable_https: true
-      dlrn_host: trunk-centos8
-    registry-vexxhost.rdoproject.org:
-      ansible_host: 38.102.83.107
-      ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIF5Q/Fcv93zMgcryc31EhvG9WZgfedrT1S+Mmafu+Enj
+      ansible_port: 22
       ansible_python_interpreter: python2
-    www.rdoproject.org:
-      ansible_host: 38.102.83.227
       ansible_user: centos
-      ansible_ssh_host_key_ed25519_public: AAAAC3NzaC1lZDI1NTE5AAAAIHdkJcNz9qKTln6xbTWepCPP0HX7hadnInMz3BD7wldQ
+    trunk-centos8.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    trunk.rdoproject.org:
+      ansible_port: 3300
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    www.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: centos
+    ze01.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    zm01.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    zs.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
