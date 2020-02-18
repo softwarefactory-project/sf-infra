@@ -103,7 +103,7 @@ Host logserver.rdoproject.org
     User centos
     Port 22
 
-Host images-vexxhost.rdoproject.org
+Host images.rdoproject.org
     User centos
     Port 22
 

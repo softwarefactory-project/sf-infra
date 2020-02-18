@@ -69,7 +69,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    images-vexxhost.rdoproject.org:
+    images.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
