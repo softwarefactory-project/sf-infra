@@ -5,6 +5,7 @@ all: dhall-schemas dhall-format
 	@sh -c "echo '# this file is managed by dhall'; dhall-to-yaml --explain --file playbooks/vars/nodepool-tripleo.dhall" > playbooks/vars/nodepool-tripleo.yaml
 	@sh -c "echo '# this file is managed by dhall'; dhall-to-yaml --explain --file playbooks/vars/nodepool-rdo.dhall" > playbooks/vars/nodepool-rdo.yaml
 	@sh -c "echo '# this file is managed by dhall'; dhall-to-yaml --explain --file ansible/hosts.dhall" > ansible/hosts.yaml
+	@dhall to-directory-tree --output . <<< ./conf/tree.dhall
 
 # dhall-schemas generate the schemas.dhall file from the schemas directory content
 dhall-schemas:

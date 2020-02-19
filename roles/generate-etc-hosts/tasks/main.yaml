@@ -12,3 +12,16 @@
       {% endfor %}
     dest: /etc/hosts
   become: yes
+
+- name: Setup ssh config
+  become: yes
+  copy:
+    src: sshconfig
+    mode: 0400
+    owner: "{{ item.owner }}"
+    dest: "{{ item.home }}/.ssh/config"
+  loop:
+    - home: /home/fedora
+      owner: fedora
+    - home: /root
+      owner: root
