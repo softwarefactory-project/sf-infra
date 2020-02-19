@@ -10,22 +10,22 @@
     - bridge-accounts
     - generate-etc-hosts
     - postfix
+
+- hosts: all
+  roles:
     - node-exporter
 
 - hosts: backup
   roles:
-    - node-exporter-rpm
     - backup-monitoring
 
 - hosts: afs-mirror
   roles:
     - afs-mirror
-    - node-exporter-rpm
     - afs-monitoring
 
 - hosts: logreduce-mqtt
   roles:
-    - node-exporter
     - custom-exporter
     - logreduce-mqtt-worker
 
@@ -38,7 +38,6 @@
   vars:
     sf_ssh_pub_key: "{{ install_server_sf_pub }}"
   roles:
-    - node-exporter-rpm
     - sf-ssh
 
 - hosts: install-server-sf
@@ -70,13 +69,10 @@
     - alert-manager
     - dnsmasq
     - grafana
-    - node-exporter
     - blackbox-exporter
     - prometheus
 
 - hosts: dlrn
-  roles:
-    - node-exporter-rpm
   tasks:
     - block:
         - name: Ensure firewalld is installed
@@ -97,7 +93,6 @@
 
 - hosts: trunk.rdoproject.org
   roles:
-    - node-exporter-rpm
     - rdotrunk-checks
 
 - hosts: trunk-centos7.rdoproject.org
@@ -142,7 +137,6 @@
     - volume
     - logserver
     - setup-ssl
-    - node-exporter-rpm
 
 - hosts: images.rdoproject.org
   vars:
@@ -164,7 +158,6 @@
   roles:
     - hostname
     - volume
-    - node-exporter-rpm
     - setup-ssl
     - {role: image-server, become: true}
 
@@ -190,13 +183,7 @@
     - repoxplorer-gateway
     - repoxplorer-rh-config
     - setup-ssl
-    - node-exporter-rpm
 
 - hosts: www.rdoproject.org
   roles:
     - hostname
-    - node-exporter-rpm
-
-- hosts: koji.softwarefactory-project.io
-  roles:
-    - node-exporter-rpm
