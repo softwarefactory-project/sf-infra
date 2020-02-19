@@ -97,6 +97,7 @@
     pre-run: tests/pre-tox-molecule.yml
     run: tests/tox-molecule.yml
     post-run: tests/post-tox-molecule.yml
+    timeout: 3600
     nodeset:
       nodes:
         - name: primary
@@ -111,6 +112,7 @@
       - ^roles/repoxplorer/.*$
       - ^roles/repoxplorer-gateway/.*$
       - ^roles/custom-ssh-port/.*$
+      - ^roles/mariadb-replicated/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 

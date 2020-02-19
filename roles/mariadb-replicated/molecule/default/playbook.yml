@@ -1,0 +1,214 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    db_repl_user: dlrn_repl
+    db_password: "password"
+    db_ssl_certs:
+      # All these certificates are self-signed, and generated just for the tests
+      ca-cert:
+        filename: "ca-cert.pem"
+        contents: |
+            -----BEGIN CERTIFICATE-----
+            MIIDqzCCApOgAwIBAgIUMDuWPplDRwdFXuZmzd3U3KMKiWYwDQYJKoZIhvcNAQEL
+            BQAwZDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAk5DMRAwDgYDVQQHDAdSYWxlaWdo
+            MQwwCgYDVQQKDANSRE8xDDAKBgNVBAsMA1JETzEaMBgGA1UEAwwRY2EucmRvcHJv
+            amVjdC5vcmcwIBcNMjAwMjE0MTYzMjMwWhgPMzAxOTA2MTcxNjMyMzBaMGQxCzAJ
+            BgNVBAYTAlVTMQswCQYDVQQIDAJOQzEQMA4GA1UEBwwHUmFsZWlnaDEMMAoGA1UE
+            CgwDUkRPMQwwCgYDVQQLDANSRE8xGjAYBgNVBAMMEWNhLnJkb3Byb2plY3Qub3Jn
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp459uGR1PtZROaOUCsd6
+            UJ9r53HNWlvID7IDlcsJpaJKRDHYMbSdqhZdlFJkYV5B+uAz6fjTtXVM3e+HZ0m9
+            uFluj4WcLqosb/IT8uWgKxmpa3eB3/xMpZMi1sR3Sj114eqvn7jm+iZzqRN40Vhg
+            ISYaOOzN3nqipTZg+X9tz26gCJAMkklV70fKybZZBg4wJA/q5veHKlpnMgkv+S9V
+            MfqJ6FR/YCaoMtkSlPf4p6oKAcwJfeLmwwxoNeASOOc5hsKPagRHYbrF47pm+k/d
+            MSRJSxWpyGZWeUaqElx4sXs/kGuo/t6xRKSMn9ZWC/md/ydNPvJT16bzCR0gu7J4
+            fQIDAQABo1MwUTAdBgNVHQ4EFgQU771FBjJOEkr2RXHTxaq4D+RMPbUwHwYDVR0j
+            BBgwFoAU771FBjJOEkr2RXHTxaq4D+RMPbUwDwYDVR0TAQH/BAUwAwEB/zANBgkq
+            hkiG9w0BAQsFAAOCAQEASNeMuiANKqz1O77Q6/P2fUE2LrpwUPsPFU/cgWd+CsGd
+            xnjGlK61lrSEAf46v1EJHefzvTFba6F/v3Jo1iXoUTpgvhUdOd2uubifns2M8NBQ
+            ciKPlVOcsnNRoEBTSfwZuAGXoAw8M5+FDQWzhDMjQPKIXb9ZmvFlVEkl1EP6T3w+
+            LE0fEeC+/119QKEQijjEkGt4dtfs/zzuRwGa9FXHzWRicXU7A3wrzQTQQNqhmcZc
+            uezzI6YRYoefQDdFqjc6hZHWiDPycioY2RGVcdPkHWgiGb7ew6i+5BhcZkyc8e1U
+            BnnOGK1MLBTIjNDjjDbziHxyUIyw7k2yPT/0zsP3ZQ==
+            -----END CERTIFICATE-----
+      ca-key:
+        filename: "ca-key.pem"
+        contents: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEogIBAAKCAQEAp459uGR1PtZROaOUCsd6UJ9r53HNWlvID7IDlcsJpaJKRDHY
+            MbSdqhZdlFJkYV5B+uAz6fjTtXVM3e+HZ0m9uFluj4WcLqosb/IT8uWgKxmpa3eB
+            3/xMpZMi1sR3Sj114eqvn7jm+iZzqRN40VhgISYaOOzN3nqipTZg+X9tz26gCJAM
+            kklV70fKybZZBg4wJA/q5veHKlpnMgkv+S9VMfqJ6FR/YCaoMtkSlPf4p6oKAcwJ
+            feLmwwxoNeASOOc5hsKPagRHYbrF47pm+k/dMSRJSxWpyGZWeUaqElx4sXs/kGuo
+            /t6xRKSMn9ZWC/md/ydNPvJT16bzCR0gu7J4fQIDAQABAoIBAEx4/SomN1i5ihLL
+            dKrCxjF7wUy9pOLDlviK35YDN+DvxAOB2FE/ROI3GPiz7fp+gZCVuTvlBAMCiVWV
+            l+/tOPilYI+ChHjL1EI3cyFd6g8hxDA3OABZb0X2dGUe/+7TRDUa3pMAWfL7j7gw
+            Gek5843NjRREB+WthQPwYKwem6ia8JH0WwaM9r5Dz1vOSORgfOwEiQj14gYZbSO5
+            zvEPLc6b2X33K1LM52vDKm+tY8LKxTgooDwlu0yw71EodbCuvTbj7U7maUrf/pL+
+            eLG81aIGsEasn7NzCv4v0C/3V8EYZqYS8hUmDnYDWEQrCjDmNwmxFksR5Tg6v4om
+            IaeZdgECgYEA2L4s7pj2d3TXqgudd11EE0F/nPRgLOjJCkdPDeOOYr4CJ9LOQYsA
+            749L5qD5ePNPbK+9ym7XYMpdgRyT3K+N7wPwhKz6dPtOWvOO7AagRNcoubhpvywM
+            3DTDtOKx79YR6CyQD4GiT6YWJax/dl4RT54wmLENgPrXSszP4shJwYECgYEAxeer
+            5pDHa1PGBJZwagUTMXbkGj144jYsHHfpiMGOKW1xYICWntZi7DvU8YYnKFgT61wN
+            tloqS/K9z9xwQoBz3eU6O/GrGc/HaQVnVYgHnlFwNIFH9LWbxzv4uy1TOIv8NhWB
+            k9tUTDjSA4CZNZeiWQJud7evOfoboot9Z1N0PP0CgYBN9CBO9F742eJTO3g4HShF
+            0LHoLpCEtnjQJJOPSD/GzdYSoqQiOK9uedhvq4fuc3wmeBLHwxPdsQruS+v2XIGs
+            7HrODTTLbDNjTOQjicKM3+G64lPOOTaq4KNe5IXg39py6cwqd5J8GR0wEZmKZgzN
+            2PRbhpp3wEA8m+tNAoJcgQKBgGQpca4a3mMqnhDaVwDBmsoxIxdIv3K1+jNaWT7W
+            v22mL3io/BJd7OklCwxGWnEnysUW7PW6wqd3rquSJNrzijDnAEcwc+l3aLR1gKwg
+            UcLF8uUP/WwTskjuyF9rfDAlYTu6PL+phQuiwl/1aRVfrlIgUeqTc8MDG5Nzx79Q
+            1Ia9AoGANg284gwRF6FKygPtKwFHqfQbMUEB5+Fbn+hvDvFOYoBoWPj/G4/yRc2X
+            Bb7lZ7gSlZGgJ1yP2fHX7l73Aii0hKafE8jTj5ruW/VUrY6FFwbfrVJrtaND+ABu
+            HxhFkfkiBeNTlIvXcSqjcrM9tfoURcxowpWNU/9SHzpzop3MUb4=
+            -----END RSA PRIVATE KEY-----
+      client-cert:
+        filename: "client-cert.pem"
+        contents: |
+            -----BEGIN CERTIFICATE-----
+            MIIDRjCCAi4CAQEwDQYJKoZIhvcNAQELBQAwZDELMAkGA1UEBhMCVVMxCzAJBgNV
+            BAgMAk5DMRAwDgYDVQQHDAdSYWxlaWdoMQwwCgYDVQQKDANSRE8xDDAKBgNVBAsM
+            A1JETzEaMBgGA1UEAwwRY2EucmRvcHJvamVjdC5vcmcwIBcNMjAwMjE0MTYzMzMz
+            WhgPMzAxOTA2MTcxNjMzMzNaMGwxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOQzEQ
+            MA4GA1UEBwwHUmFsZWlnaDEMMAoGA1UECgwDUkRPMQwwCgYDVQQLDANSRE8xIjAg
+            BgNVBAMMGWRiLXJlcGxpY2EucmRvcHJvamVjdC5vcmcwggEiMA0GCSqGSIb3DQEB
+            AQUAA4IBDwAwggEKAoIBAQDwqv2vQ3TnZiOC4ZczEiAkTNzln5CFWHXnYS1Pd0JY
+            wBMUeA5Qi4bTw4B+Bq7FHVxcI7brJ79O4DZjyq1mzTsrYTguuFDzBK0CK5JbjnA6
+            5wyPvM3DW7OZISTccACGWgGWyEOON0ORKewAYlW37nNI1tO8FiwmCDbsirhJ4T7W
+            jaFQQVBQkvmFOOBSF75ObtdI9Man94hCez7SQk0lDGyBmW3jow5MpnD2GuJ0jJT0
+            1PFRKMDlWBsy/GdxtQXZ7N7zdUhbYFRzSDvKCrYTLMwwmMlrLHIU+VlfIKB5E/ed
+            6nu23bf4jO721SfvyFokZ4p9HZXmDjkdS5PAzv1Dd5nxAgMBAAEwDQYJKoZIhvcN
+            AQELBQADggEBAA97yqvsl6iKam4nugtSf6+YWbSqdY09kVUunVAzdQm/UPStR/Lc
+            7G2kd98zWW27mizvYmeE9Fyzlw2hxhkFmCkGLsLxgjbwNMmr/uNvOayDjIzKYv9I
+            BQ6GEVnqxQhfn/E5LEjPRRJ9QTO45woTykD4EzKjmAdXY3TfASlg0yv5mgwTsKBz
+            Oz/hhO4DS5c8GC+00G8KGq338bRRMAVMcRf966NwuoWhKyDfg8uccP5D0pE6obn8
+            /VcOagZLFk4DOlRFHkJpUQBbgnLFLKcv6OS2bPNFud6aLiR4pExo1lgraC7tz1p3
+            Efgenr1L/4F8fN4CWtYZcTGupAA/JE3RqRs=
+            -----END CERTIFICATE-----
+      client-key:
+        filename: "client-key.pem"
+        contents: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpgIBAAKCAQEA8Kr9r0N052YjguGXMxIgJEzc5Z+QhVh152EtT3dCWMATFHgO
+            UIuG08OAfgauxR1cXCO26ye/TuA2Y8qtZs07K2E4LrhQ8wStAiuSW45wOucMj7zN
+            w1uzmSEk3HAAhloBlshDjjdDkSnsAGJVt+5zSNbTvBYsJgg27Iq4SeE+1o2hUEFQ
+            UJL5hTjgUhe+Tm7XSPTGp/eIQns+0kJNJQxsgZlt46MOTKZw9hridIyU9NTxUSjA
+            5VgbMvxncbUF2eze83VIW2BUc0g7ygq2EyzMMJjJayxyFPlZXyCgeRP3nep7tt23
+            +Izu9tUn78haJGeKfR2V5g45HUuTwM79Q3eZ8QIDAQABAoIBAQCAxGxRbv1IpgyQ
+            BZW5nJQX+Awky/gucIM9FnCA2SVliPdsd0Ppco3kFfFU/Mxb6Pa20eEX9r9UO4C+
+            af3XSC3FaxH9ZV7id/j9dUSsugxwZ5j/+xv4z8LLRsGLNF4DhHrfKy2CFS2QqOZ9
+            2h9U9z81lMPbGd3rR2/jpeEunlbZwgn4URBjA+8bf3o1SERvT0tAwJBInifwHe6T
+            Vk78bKO6OQhFRQ5nGGvDuaQIsPj+kEJ6qvjaBtOH8DsHvBuDitoABUFJXPyqFuDz
+            pIWZForaV12yzzeI9Y0/tnI7Q3GtkREJUH6/ocmlywlpPys55X/NNyWY7VWUyyVs
+            aoZQM9gBAoGBAP+Hs+zUO5laUaYmkqBCUjPZpVLZjoQfP2m5wpn6eGsG+vR7olKI
+            IQp0nmLoMaR3VlzYK/PtlrvqTCz8EVsmccVFPw1ivzF7lNo946TZIHIdpuM3noZh
+            XY9qZnIg7iRZqIW8qmMiiTGph02UrA+8EvvAol2owp2/3fmpI9ktT69xAoGBAPEc
+            SpivfsMeVZvr0zGDnpR3zW0YeQ8harKxVUXiOS8B38LT1Qxd2E75eIdFHzqjyPAE
+            VypOvvG8/Z+j+7vRCfFAAWhIRWU8WHFhAlfGymeh3qHfYomKwqYuM2j2x8Nbt32o
+            mK3795inxutfL/hPdW9YX8cSAKWIr9q8fXg2/lKBAoGBANXxcZStUUUhWNFK5GLn
+            hFnDNWc7ndZDL12+2Q8Apce+bWk7BnohXcCaSW44SDASdq1/lLVDzHuDPMpBNeri
+            Mklfo936Omgct1FOlgWUgVTqPKtrCwAqDyKfjCysI5cttipa/zHHXaTF8vHis3jt
+            F9vOumK+hEt9tEVu9wPDqz8RAoGBAL1Jw7qpFHCkkPsvIgeeWFIg19LNQsVBK94L
+            4HFT0Cb6Zqwy1/C0gExICHrSJllIGklsbu4VEk0AXXEGMWxbCV4wLKqtCmYXASxJ
+            x6gXtfG0H++fS2HF4VjLrqq6C0xw5dYuFWeKB/D9zuocObHM19pJXDASDxXmAIFO
+            N4a4TeOBAoGBANxXNtcOCz1hU3R4KN6obJeI0Ch7mY+Uw06fa5mLW3E/kaCbvTlV
+            eCxR3z4LeJqFe3nz0eupKvlOg1SUiG2oEEb3kzigHxYC4BBmmO0YzL4dwyIjrdhs
+            ofq6SBW5YsSZJqcX59TlNL8sUFjJxeMLTZBxNEYKqFhMRUxThvwDcCZ2
+            -----END RSA PRIVATE KEY-----
+      client-req:
+        filename: "client-req.pem"
+        contents: |
+            -----BEGIN CERTIFICATE REQUEST-----
+            MIICsTCCAZkCAQAwbDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAk5DMRAwDgYDVQQH
+            DAdSYWxlaWdoMQwwCgYDVQQKDANSRE8xDDAKBgNVBAsMA1JETzEiMCAGA1UEAwwZ
+            ZGItcmVwbGljYS5yZG9wcm9qZWN0Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEP
+            ADCCAQoCggEBAPCq/a9DdOdmI4LhlzMSICRM3OWfkIVYdedhLU93QljAExR4DlCL
+            htPDgH4GrsUdXFwjtusnv07gNmPKrWbNOythOC64UPMErQIrkluOcDrnDI+8zcNb
+            s5khJNxwAIZaAZbIQ443Q5Ep7ABiVbfuc0jW07wWLCYINuyKuEnhPtaNoVBBUFCS
+            +YU44FIXvk5u10j0xqf3iEJ7PtJCTSUMbIGZbeOjDkymcPYa4nSMlPTU8VEowOVY
+            GzL8Z3G1Bdns3vN1SFtgVHNIO8oKthMszDCYyWsschT5WV8goHkT953qe7bdt/iM
+            7vbVJ+/IWiRnin0dleYOOR1Lk8DO/UN3mfECAwEAAaAAMA0GCSqGSIb3DQEBCwUA
+            A4IBAQAY/cZReR8H3OdDwRwIapskxgGy1OceTUvLHJp5hec9MoGwyRiN5KsLjlKg
+            mdUVmKaj7R42p8YCZuShz4S6JgJ9TLro5ghvvMU6x3GBVuT4V2Tq9jqN2Wh3FvW7
+            8xRMA0r6fBM4eaF6fT7Hij+XA4Dcb8pdLri0sAzKsZPRHZcshCFGpmFfNRiF5/k4
+            uWKdpTjwQor+E+Ie62CkIVF/3V6uPDg+9N4rOGJ14XdaQSDAArqCDRjC8av6Ux59
+            d5i8TKq9fN6CA9+1DKglsqG9aLVzlJF1fSrXUQXxrzcSm0D/FbTrzyhFtOJNGKMz
+            bmq3+HVPU7W3biHhTXjIgOVxto8e
+            -----END CERTIFICATE REQUEST-----
+      server-cert:
+        filename: "server-cert.pem"
+        contents: |
+            -----BEGIN CERTIFICATE-----
+            MIIDPjCCAiYCAQEwDQYJKoZIhvcNAQELBQAwZDELMAkGA1UEBhMCVVMxCzAJBgNV
+            BAgMAk5DMRAwDgYDVQQHDAdSYWxlaWdoMQwwCgYDVQQKDANSRE8xDDAKBgNVBAsM
+            A1JETzEaMBgGA1UEAwwRY2EucmRvcHJvamVjdC5vcmcwIBcNMjAwMjE0MTYzMzAz
+            WhgPMzAxOTA2MTcxNjMzMDNaMGQxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOQzEQ
+            MA4GA1UEBwwHUmFsZWlnaDEMMAoGA1UECgwDUkRPMQwwCgYDVQQLDANSRE8xGjAY
+            BgNVBAMMEWRiLnJkb3Byb2plY3Qub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+            MIIBCgKCAQEAqULEvmNSoksIR9WtVUZrd8LF2H07PsZDjumGmG1FmBdb4eV1Qn0Z
+            a6jSbXGHHlPc7Drb6Y+LdIeNCGlk+8C0gayH0bq74iaqgNDD6nwEUrTYz1pvrfr4
+            FwKgerwKbuxYaoSlhnxUBioRTHFst6x3Y7bXQCpUvpsXSOkQNahpWUabcyZsFVgA
+            x4+OAup+tAn6YcHtjAm8LR5V0z3uO8Xh3eCdQ6itPHCY5mqt3zw3JLpCysm40UQb
+            5ET9zHqwzgAmBBK7RuAfed4oFshhR4RgMShtP8DY5B0wpXENGUC4+ffAerAcjKRT
+            l2oyidMi1Y9YuQ6kavMoZ8ZMJ3M/gxqhXQIDAQABMA0GCSqGSIb3DQEBCwUAA4IB
+            AQCmhS42cy6HdmZEys8AkSa7mFwT70P2pf92Mu940VoQF6v28mulLoETXuzb2wBJ
+            w4+qNJPprXlBk8cM6jwbyMohOVLRy+T78tFntMVA4XkNkNXbwgNOcml8ea2Nveaj
+            vyvwCYuP86l5l14hA92mpHhM4+FH73NyWHIdL9iscTzQQHnXw2Jjxo56QYKVBE+Y
+            gfloCznCKR/epm0XXxsVr3g0Vx+gPD+kyO+dGiIAniiSTE5B1dkq01NnHDZAuggI
+            QijPcLVsQUao5b/GaBW+klSoQXwAb5lM5KevuuUyj4Qf8hG10IcceV+55c37VSM5
+            QjS8CaQ0q5dgW5keEEWsiQY4
+            -----END CERTIFICATE-----
+      server-key:
+        filename: "server-key.pem"
+        contents: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEowIBAAKCAQEAqULEvmNSoksIR9WtVUZrd8LF2H07PsZDjumGmG1FmBdb4eV1
+            Qn0Za6jSbXGHHlPc7Drb6Y+LdIeNCGlk+8C0gayH0bq74iaqgNDD6nwEUrTYz1pv
+            rfr4FwKgerwKbuxYaoSlhnxUBioRTHFst6x3Y7bXQCpUvpsXSOkQNahpWUabcyZs
+            FVgAx4+OAup+tAn6YcHtjAm8LR5V0z3uO8Xh3eCdQ6itPHCY5mqt3zw3JLpCysm4
+            0UQb5ET9zHqwzgAmBBK7RuAfed4oFshhR4RgMShtP8DY5B0wpXENGUC4+ffAerAc
+            jKRTl2oyidMi1Y9YuQ6kavMoZ8ZMJ3M/gxqhXQIDAQABAoIBAF1HS4+0wvRnr0+P
+            RW/qWA1vDINrOHw23UJkFeXoymKv9NYAE2gp8xlut1DTMOiYxPZ21XzYu7zjeui4
+            1IsdPxz7jPobE7HlJy/IXT/bSrKdsaJML6HM3m4n53LcME/C9lL1eRcta0zeYBwl
+            oglzBXSxbdyRt5Q3elSXBHTds/kbV9248XVYqAmTat1GbGrDbcPbJKjh5SURN0fC
+            HIy4R2l0vqbMfR/4Ef6rfXHoG92HpsgFiGmswLiBINqm0qW/8xwPCXdjLA/lqc3Z
+            hPTBfiTiLwuKKxKpOFCaNDRJfK/ITpzDJi0PP1pgNWTjPP4wrz22/OZVZcfmKN3G
+            7N13TKECgYEA0TBbo7VpBHGXDOzCAjBQs/W9MDUdke4IXV+CC4FpnjJePND/CUMy
+            KsaJQe56sxunErX4/nJ1UdEXHomW52A2gkBAmlIsU999XMdsyVk9GgFWJiXCAWDx
+            eAkVaYCHdDU3sdTaUpe2bPbvNRK5mKjIQ4gyrF1+BBTHrqoWnFxerWkCgYEAzyMU
+            2D/+bYmunXK4Iq+g3CmgCvJaXPY9NvgWNsIfgSHtu2JRCkXFveVEDSfpUSGnGXyh
+            1Im9M3c22aRaZYS0zUBZpFSQYx/TxZ8o/jsjaMJ/7AHv4bTMpiIn55FXEhRvNTTY
+            hnvgS8MfekOoOTnfIvs+UZgMcXC6v6BV/cFhcdUCgYEAusm6WiDHaB9haDoUNk4c
+            EcTwrJYRFFf+ghmhDlL9EzQYb6eSwxuMNSPYNdYTG9EqSwvQDKv5VBgm066531pK
+            8d0bknCjgjUCRJER82xKoejlmuSGKiL9GljKFM2epcZLN/A/DhbH3t5T1AknTkgP
+            ojWAQeateklvz+eyjuXv6FkCgYBns+2csrVDy/mjFCtCGmHTt/dLY7h/8DwHiD8+
+            3QN+2Ci4dumR1grBHsZqO8AhAVMyfGZdDTSvTpEkd5dWWhFW7U+z6S58ohOZTizs
+            01jP+wimdPXPL4CB8HnAAtDv2VEv9ywscFqEM8VPpg3T0Lh5QAYcPZ6FMOYeSDyl
+            FasenQKBgF9rx0xKaDHb21bQGxO91Yhi0JE3Ed+Yw/PzP73KMMmUjs4IbQuclJlr
+            4UsH/z/FugZANf42CVj+TO4q9AYj0glqnUY0KUaxoNtYppaPzlnN6J9cswqLKDE+
+            4Gwaio7NyCv4+C9MVe/yLK/WNs1t/Hg2Wh9Z2yWut+i1zl4QB1Q9
+            -----END RSA PRIVATE KEY-----
+      server-req:
+        filename: "server-req.pem"
+        contents: |
+            -----BEGIN CERTIFICATE REQUEST-----
+            MIICqTCCAZECAQAwZDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAk5DMRAwDgYDVQQH
+            DAdSYWxlaWdoMQwwCgYDVQQKDANSRE8xDDAKBgNVBAsMA1JETzEaMBgGA1UEAwwR
+            ZGIucmRvcHJvamVjdC5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+            AQCpQsS+Y1KiSwhH1a1VRmt3wsXYfTs+xkOO6YaYbUWYF1vh5XVCfRlrqNJtcYce
+            U9zsOtvpj4t0h40IaWT7wLSBrIfRurviJqqA0MPqfARStNjPWm+t+vgXAqB6vApu
+            7FhqhKWGfFQGKhFMcWy3rHdjttdAKlS+mxdI6RA1qGlZRptzJmwVWADHj44C6n60
+            Cfphwe2MCbwtHlXTPe47xeHd4J1DqK08cJjmaq3fPDckukLKybjRRBvkRP3MerDO
+            ACYEErtG4B953igWyGFHhGAxKG0/wNjkHTClcQ0ZQLj598B6sByMpFOXajKJ0yLV
+            j1i5DqRq8yhnxkwncz+DGqFdAgMBAAGgADANBgkqhkiG9w0BAQsFAAOCAQEAeEKQ
+            2yDrrL8BPyXk+01/qe5uoRHPBSqmlWVLJubS9BeO1Fl1Yqb1qLBP7ACAAS886m8H
+            C5OAX8Ue5BIXlhIKWJKJ1iToCX4EUaV2FFj/twqtAocZTnWHiS62+rpWL7L8EEsz
+            PDqNQgCHkj2eDvoBUfz0pGdCJSCMAAQSesK759IM2z58pH+vLMOonj+gCxSRVVu0
+            lBoBOj5bEjwAabGDyONiJDKpe1T9k1Clm39seD9Qf/fqrmGamTcR8nwVPkkGg/QW
+            zR9Ph7V8LJ6iabCORrlMs6v8XU/Qz9bJkHychmyVEdOET9fBto/XzCM9gIZRiD+A
+            JTHDzw+H0azQcSaLkg==
+            -----END CERTIFICATE REQUEST-----
+  tasks:
+    - name: "Include mariadb-replicated"
+      include_role:
+        name: "mariadb-replicated"
+        tasks_from: master.yml

@@ -1,0 +1,124 @@
+- name: Install required packages (CentOS 8)
+  package:
+    name:
+      - mariadb-server
+      - python3-PyMySQL
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '8'
+
+- name: Install required packages (CentOS 7) - part 1
+  package:
+    name:
+      - centos-release-openstack-train
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '7'
+
+- name: Install required packages (CentOS 7) - part 2
+  package:
+    name:
+      - mariadb-server
+      - python2-PyMySQL
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '7'
+
+- name: start mariadb
+  service:
+    name: mariadb
+    enabled: yes
+    state: started
+
+- name: Secure MariaDB installation
+  include_tasks: secure-mariadb.yml
+
+- name: Deploy my.cnf
+  template:
+    src: my.cnf.j2
+    dest: /root/.my.cnf
+    mode: '0600'
+
+- name: Create directories for MariaDB SSL certs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - /etc/mysql
+    - /etc/mysql/ssl
+
+- name: Deploy certificates
+  copy:
+    dest: "/etc/mysql/ssl/{{ item.value.filename }}"
+    content: "{{ item.value.contents }}"
+  no_log: yes
+  with_dict: "{{ db_ssl_certs }}"
+  notify:
+    - Restart mariadb
+
+- name: Add ssl option to ssl.cnf
+  ini_file:
+    path: /etc/my.cnf.d/ssl.cnf
+    section: mysqld
+    option: ssl
+    allow_no_value: yes
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-ca option to ssl.cnf
+  ini_file:
+    path: /etc/my.cnf.d/ssl.cnf
+    section: mysqld
+    option: ssl-ca
+    value: /etc/mysql/ssl/ca-cert.pem
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-cert option to ssl.cnf
+  ini_file:
+    path: /etc/my.cnf.d/ssl.cnf
+    section: mysqld
+    option: ssl-cert
+    value: /etc/mysql/ssl/server-cert.pem
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-key option to ssl.cnf
+  ini_file:
+    path: /etc/my.cnf.d/ssl.cnf
+    section: mysqld
+    option: ssl-key
+    value: /etc/mysql/ssl/server-key.pem
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-ca option to mysql-clients.conf
+  ini_file:
+    path: /etc/my.cnf.d/mysql-clients.conf
+    section: mysqld
+    option: ssl-ca
+    value: /etc/mysql/ssl/ca-cert.pem
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-cert option to mysql-clients.conf
+  ini_file:
+    path: /etc/my.cnf.d/ mysql-clients.conf
+    section: mysqld
+    option: ssl-cert
+    value: /etc/mysql/ssl/server-cert.pem
+  notify:
+    - Restart mariadb
+
+- name: Add ssl-key option to  mysql-clients.conf
+  ini_file:
+    path: /etc/my.cnf.d/mysql-clients.conf
+    section: mysqld
+    option: ssl-key
+    value: /etc/mysql/ssl/server-key.pem
+  notify:
+    - Restart mariadb
+
+- name: Ensure MariaDB is reloaded if needed
+  meta: flush_handlers
