@@ -1,5 +1,7 @@
 {- A dhall package that contains all the configuration -}
-    ./conf/infra.dhall
-//  { SF = ./playbooks/vars/infra-sf.dhall
-    , RDO = ./playbooks/vars/infra-rdo.dhall
-    }
+let SF = ./playbooks/vars/infra-sf.dhall
+
+let RDO = ./playbooks/vars/infra-rdo.dhall
+
+in      ./conf/infra.dhall
+    //  { SF = SF, RDO = RDO, servers = SF.servers # RDO.servers }

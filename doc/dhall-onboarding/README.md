@@ -22,6 +22,9 @@ In sf-infra, we use:
 
   dhall-to-yaml --file playbooks/vars/infra-sf.dhall
 
+* Get the list of server:
+
+   dhall text <<< 'let Infra = ./package.dhall in Infra.Prelude.Text.concatSep "\n" (Infra.mapServerText (\(s : Infra.Server.Type) -> s.name) Infra.servers)'
 
 Interesting dhall command arguments:
 
