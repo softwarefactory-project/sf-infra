@@ -1,4 +1,4 @@
-# this file is managed by dhall
+# This file is managed by dhall.
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
   - checksum: e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0

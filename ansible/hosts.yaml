@@ -1,4 +1,4 @@
-# this file is managed by dhall
+# This file is managed by dhall.
 all:
   children:
     afs-mirror:
