@@ -303,7 +303,7 @@ servers:
       - dlrn
     image: centos-7-1907
     key_name: sf-infra-key
-    name: trunk.rdoproject.org.rdoproject.org
+    name: trunk.rdoproject.org
     network: private-network
     security_groups:
       - common

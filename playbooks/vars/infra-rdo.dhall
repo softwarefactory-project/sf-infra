@@ -218,7 +218,7 @@ let servers =
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
-        , Infra.Server::(     { name = "trunk.rdoproject.org"
+        , Infra.Server::(     { name = "trunk"
                               , skip_os_server_task = True
                               , groups = Some [ Infra.Group.dlrn ]
                               }

@@ -17,7 +17,7 @@ all:
         rpm-packaging-ci.rdoproject.org: {}
         trunk-centos7.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
-        trunk.rdoproject.org.rdoproject.org: {}
+        trunk.rdoproject.org: {}
     install-server-sf:
       hosts:
         managesf.softwarefactory-project.io: {}
@@ -124,7 +124,7 @@ all:
       ansible_port: "22"
       ansible_python_interpreter: python3
       ansible_user: centos
-    trunk.rdoproject.org.rdoproject.org:
+    trunk.rdoproject.org:
       ansible_port: "22"
       ansible_python_interpreter: python2
       ansible_user: centos
