@@ -206,7 +206,7 @@ let servers =
                           //  Infra.OS.CentOS.`7.0`
                         )
         , Infra.Server::({ name = "zs" } // Infra.OS.CentOS.`7.0`)
-        , Infra.Server::(     { name = "koji-vexxhost"
+        , Infra.Server::(     { name = "koji"
                               , image = "centos-7-1907"
                               , boot_from_volume = "yes"
                               , volume_size = Some 80
