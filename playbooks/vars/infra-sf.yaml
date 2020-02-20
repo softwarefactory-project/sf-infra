@@ -86,30 +86,9 @@ security_groups:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 servers:
-  - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: fedora
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
-    host_vars: {}
-    image: fedora-30-1.2
-    key_name: sf-infra-key
-    name: bridge.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-    skip_os_server_task: true
-  - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: fedora
-    auto_ip: false
-    boot_from_volume: yes
-    flavor: v1-standard-2
-    groups:
-      - logreduce-mqtt
-    host_vars: {}
     image: fedora-30-1.2
     key_name: sf-infra-key
     name: logreduce-mqtt-01.softwarefactory-project.io
@@ -117,15 +96,10 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
     volume_size: 80
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: prometheus.monitoring.softwarefactory-project.io
@@ -134,17 +108,10 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 80
-  - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: fedora
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
-    groups:
-      - ara
-    host_vars: {}
     image: fedora-31-1.9
     key_name: sf-infra-key
     name: ara.softwarefactory-project.io
@@ -153,15 +120,10 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 80
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-8
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: redhat-oss-git-stats.softwarefactory-project.io
@@ -170,18 +132,11 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 500
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.40"
-    groups:
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: fedora.softwarefactory-project.io
@@ -190,18 +145,11 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 40
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.159"
-    groups:
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: ovirt.softwarefactory-project.io
@@ -210,18 +158,11 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 40
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - "38.102.83.251"
-    groups:
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: ovirt-staging.softwarefactory-project.io
@@ -230,18 +171,10 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 40
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
-    groups:
-      - sf
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk01.softwarefactory-project.io
@@ -249,19 +182,10 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
       - "38.102.83.76"
-    groups:
-      - sf
-      - install-server-sf
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.softwarefactory-project.io
@@ -271,17 +195,10 @@ servers:
       - monitoring
       - web
       - managesf
-    skip_os_server_task: false
     volume_size: 20
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
-    groups:
-      - rdocloud-data-fetcher
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: nodepool-builder.softwarefactory-project.io
@@ -289,14 +206,9 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: oci01.softwarefactory-project.io
@@ -305,14 +217,9 @@ servers:
       - common
       - monitoring
       - hypervisor-oci
-    skip_os_server_task: false
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: zs.softwarefactory-project.io
@@ -320,15 +227,10 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: 4vcpus_8gb
     floating_ips:
       - "38.102.83.102"
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: koji.softwarefactory-project.io
@@ -337,15 +239,10 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 80
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
@@ -353,14 +250,9 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
+  - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
@@ -368,7 +260,6 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:

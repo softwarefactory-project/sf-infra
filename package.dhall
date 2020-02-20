@@ -1,7 +1,12 @@
-{- A dhall package that contains all the configuration -}
-let SF = ./playbooks/vars/infra-sf.dhall
+{- A package that mix the conf and vars directory.
 
-let RDO = ./playbooks/vars/infra-rdo.dhall
+This enables usage such as:
 
-in      ./conf/infra.dhall
-    //  { SF = SF, RDO = RDO, servers = SF.servers # RDO.servers }
+# Get the list of all the managed hostnames:
+$ dhall <<< 'let Infra = ./package.dhall in Infra.mapServerText (\(s : Infra.Server.Type) -> s.name) Infra.servers'
+[ "bridge.softwarefactory-project.io"
+, "prometheus.monitoring.softwarefactory-project.io"
+...
+]
+-}
+./conf/package.dhall // ./vars/package.dhall

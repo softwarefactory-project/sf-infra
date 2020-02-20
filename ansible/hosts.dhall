@@ -1,5 +1,7 @@
-let Infra = ../package.dhall
+let Infra = ../conf/package.dhall
 
-let servers = Infra.SF.servers # Infra.RDO.servers
+let instances = ../vars/instances.dhall
 
-in  { all = { hosts = Infra.mkHost servers, children = Infra.mkGroup servers } }
+in  { all =
+        { hosts = Infra.mkHost instances, children = Infra.mkGroup instances }
+    }

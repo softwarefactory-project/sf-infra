@@ -80,15 +80,9 @@ security_groups:
         protocol: tcp
         remote_ip_prefix: 38.145.32.0/22
 servers:
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
-    groups:
-      - afs-mirror
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
@@ -98,17 +92,10 @@ servers:
       - monitoring
       - web
       - afs
-    skip_os_server_task: false
     volume_size: 200
-  - ansible_port: 22
-    ansible_python_interpreter: auto
-    ansible_user: cloud-user
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
-    groups:
-      - dlrn
-    host_vars: {}
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: centos8-rpm-packaging-ci.rdoproject.org
@@ -118,17 +105,10 @@ servers:
       - monitoring
       - web
       - rdo-trunk
-    skip_os_server_task: false
     volume_size: 100
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: ci.m1.large
-    groups:
-      - dlrn
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: rpm-packaging-ci.rdoproject.org
@@ -138,17 +118,10 @@ servers:
       - monitoring
       - web
       - rdo-trunk
-    skip_os_server_task: false
     volume_size: 100
-  - ansible_port: 22
-    ansible_python_interpreter: python3
-    ansible_user: fedora
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: ci.m1.large
-    groups:
-      - dlrn
-    host_vars: {}
     image: fedora-30-1.2
     key_name: sf-infra-key
     name: fedora-rpm-packaging-ci.rdoproject.org
@@ -158,17 +131,10 @@ servers:
       - monitoring
       - web
       - rdo-trunk
-    skip_os_server_task: false
     volume_size: 100
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
-    groups:
-      - registry
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: registry-vexxhost.rdoproject.org
@@ -178,17 +144,10 @@ servers:
       - monitoring
       - web
       - registry
-    skip_os_server_task: false
     volume_size: 200
-  - ansible_port: 22
-    ansible_python_interpreter: auto
-    ansible_user: cloud-user
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
-    groups:
-      - dlrn
-    host_vars: {}
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: trunk-centos8.rdoproject.org
@@ -198,17 +157,10 @@ servers:
       - monitoring
       - web
       - rdo-trunk
-    skip_os_server_task: false
     volume_size: 512
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-4
-    groups:
-      - dlrn
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: trunk-centos7.rdoproject.org
@@ -218,15 +170,10 @@ servers:
       - monitoring
       - web
       - rdo-trunk
-    skip_os_server_task: false
     volume_size: 512
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: install-server.rdoproject.org
@@ -234,15 +181,10 @@ servers:
     security_groups:
       - common
       - monitoring
-    skip_os_server_task: false
     volume_size: 40
-  - ansible_port: 22
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
-    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: logserver.rdoproject.org
@@ -251,15 +193,10 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 10
-  - ansible_port: 22
-    ansible_python_interpreter: auto
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
-    host_vars: {}
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: images.rdoproject.org
@@ -269,15 +206,10 @@ servers:
       - monitoring
       - web
       - rcn-share
-    skip_os_server_task: false
     volume_size: 50
-  - ansible_port: 22
-    ansible_python_interpreter: auto
-    ansible_user: centos
-    auto_ip: true
+  - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-1
-    host_vars: {}
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: www.rdoproject.org
@@ -286,42 +218,7 @@ servers:
       - common
       - monitoring
       - web
-    skip_os_server_task: false
     volume_size: 10
-  - ansible_port: 3300
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
-    boot_from_volume: yes
-    flavor: v1-standard-2
-    groups:
-      - backup
-    host_vars: {}
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: backup.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-    skip_os_server_task: true
-  - ansible_port: 3300
-    ansible_python_interpreter: python2
-    ansible_user: centos
-    auto_ip: false
-    boot_from_volume: yes
-    flavor: v1-standard-2
-    groups:
-      - dlrn
-    host_vars: {}
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: trunk.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-    skip_os_server_task: true
 subnets:
   - cidr: 192.168.240.0/24
     dns_nameservers:
@@ -332,12 +229,16 @@ subnets:
     network_name: private-network
 volumes:
   - device: /dev/vdb
+    display_name: centos8-rpm-packaging-swap
+    server: centos8-rpm-packaging-ci.rdoproject.org
+    size: 8
+  - device: /dev/vdb
     display_name: registry-data
     server: registry-vexxhost.rdoproject.org
     size: 1024
   - device: /dev/vdb
-    display_name: centos8-rpm-packaging-swap
-    server: centos8-rpm-packaging-ci.rdoproject.org
+    display_name: trunk-centos7-swap
+    server: trunk-centos7.rdoproject.org
     size: 8
   - device: /dev/vdb
     display_name: logs-data
@@ -351,7 +252,3 @@ volumes:
     display_name: images-data
     server: images.rdoproject.org
     size: 1000
-  - device: /dev/vdb
-    display_name: trunk-centos7-swap
-    server: trunk-centos7.rdoproject.org
-    size: 8

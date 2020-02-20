@@ -1,7 +1,8 @@
+{- The os_server task attribute -}
 { Type =
     { name : Text
     , boot_from_volume : Text
-    , flavor : Text
+    , flavor : Optional Text
     , auto_ip : Optional Bool
     , floating_ips : Optional (List Text)
     , image : Text
@@ -10,15 +11,10 @@
     , security_groups : List Text
     , volume_size : Optional Natural
     , state : Optional Text
-    , groups : Optional (List ../types/Group.dhall)
-    , skip_os_server_task : Bool
-    , ansible_user : Text
-    , ansible_port : Natural
-    , ansible_python_interpreter : Text
-    , host_vars : List { mapKey : Text, mapValue : ../types/StrOrInt.dhall }
     }
 , default =
-    { flavor = (../defaults.dhall).Flavors.`2vcpus_8gb`
+    { flavor = let todo = "remove that default" in Some "v1-standard-2"
+    , name = ""
     , auto_ip = Some False
     , floating_ips = None (List Text)
     , key_name = "sf-infra-key"
@@ -27,10 +23,5 @@
     , volume_size = None Natural
     , boot_from_volume = "yes"
     , state = None Text
-    , groups = None (List ../types/Group.dhall)
-    , skip_os_server_task = False
-    , ansible_port = 22
-    , host_vars =
-        [] : List { mapKey : Text, mapValue : ../types/StrOrInt.dhall }
     }
 }

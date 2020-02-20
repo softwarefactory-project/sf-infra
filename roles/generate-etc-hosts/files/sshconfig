@@ -1,7 +1,59 @@
-# This file is managed by dhall.
+# This file is managed by the ./vars/directory-tree.dhall file.
 Host *
     ControlMaster auto
-    ControlPath /run/user/1000/ssh/%r@%h:%p
+    ControlPath /run/user/1000/%r@%h:%p
+
+Host mirror.regionone.vexxhost.rdoproject.org
+    User centos
+    Port 22
+
+Host centos8-rpm-packaging-ci.rdoproject.org
+    User cloud-user
+    Port 22
+
+Host rpm-packaging-ci.rdoproject.org
+    User centos
+    Port 22
+
+Host fedora-rpm-packaging-ci.rdoproject.org
+    User fedora
+    Port 22
+
+Host registry-vexxhost.rdoproject.org
+    User centos
+    Port 22
+
+Host trunk-centos8.rdoproject.org
+    User cloud-user
+    Port 22
+
+Host trunk-centos7.rdoproject.org
+    User centos
+    Port 22
+
+Host install-server.rdoproject.org
+    User centos
+    Port 22
+
+Host logserver.rdoproject.org
+    User centos
+    Port 22
+
+Host images.rdoproject.org
+    User centos
+    Port 22
+
+Host www.rdoproject.org
+    User centos
+    Port 22
+
+Host backup.rdoproject.org
+    User centos
+    Port 3300
+
+Host trunk.rdoproject.org
+    User centos
+    Port 3300
 
 Host bridge.softwarefactory-project.io
     User fedora
@@ -66,56 +118,4 @@ Host ze01.softwarefactory-project.io
 Host zm01.softwarefactory-project.io
     User centos
     Port 22
-
-Host mirror.regionone.vexxhost.rdoproject.org
-    User centos
-    Port 22
-
-Host centos8-rpm-packaging-ci.rdoproject.org
-    User cloud-user
-    Port 22
-
-Host rpm-packaging-ci.rdoproject.org
-    User centos
-    Port 22
-
-Host fedora-rpm-packaging-ci.rdoproject.org
-    User fedora
-    Port 22
-
-Host registry-vexxhost.rdoproject.org
-    User centos
-    Port 22
-
-Host trunk-centos8.rdoproject.org
-    User cloud-user
-    Port 22
-
-Host trunk-centos7.rdoproject.org
-    User centos
-    Port 22
-
-Host install-server.rdoproject.org
-    User centos
-    Port 22
-
-Host logserver.rdoproject.org
-    User centos
-    Port 22
-
-Host images.rdoproject.org
-    User centos
-    Port 22
-
-Host www.rdoproject.org
-    User centos
-    Port 22
-
-Host backup.rdoproject.org
-    User centos
-    Port 3300
-
-Host trunk.rdoproject.org
-    User centos
-    Port 3300
 

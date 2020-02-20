@@ -1,35 +1,69 @@
-# Get started with dhall
+Get started with dhall
+======================
 
 Install the toolchain (this package works with f30):
-  https://copr-be.cloud.fedoraproject.org/results/tdecacqu/dhall/fedora-rawhide-x86_64/01192146-dhall/dhall-1.29.0-1.fc32.x86_64.rpm
+  https://download.copr.fedorainfracloud.org/results/tdecacqu/dhall/fedora-rawhide-x86_64/01246620-dhall/dhall-1.30.0-1.fc33.x86_64.rpm
 
 Read the `Getting Started` tutorial (skip the install section):
   https://docs.dhall-lang.org/tutorials/Getting-started_Generate-JSON-or-YAML.html
 
+
+# Syntax cheatsheet
+
+Here is a recap of the operator used in sf-infra:
+
+* // : non-recursively merges record values
+
+```console
+$ dhall <<< '{ name = "website" } // { image = "CentOS" }'
+{ image = "CentOS", name = "website" }
+```
+
+* #  : append list (see below for comments)
+
+```console
+$ dhall <<< '[ { name = "website" } ] # [ { name = "backup" } ]'
+[ { name = "website" }, { name = "backup" } ]
+```
+
+* ++ : append text
+
+```console
+$ dhall <<< '"Hello " ++ "Dhall!"'
+"Hello Dhall!"
+```
+
+* -- : comment   (or {- comment -})
+
+Note: comments are only valid at the begining of a file, or right after a `let`
+
+```dhall
+-- Top level comment are ok
+
+let {- this is local comment -} var = 42
+
+in var
+```
+
 # Usage
 
-In sf-infra, we use:
+Here are some examples command line usage:
 
-* To run a quick test:
+* Run a quick test:
 
   dhall <<< "let package = ./package.dhall in package.seq 10"
 
-* To evaluate a file:
+* Evaluate a file:
 
   dhall --file $path
 
-* To render playbooks vars:
+* Render yaml vars:
 
   dhall-to-yaml --file playbooks/vars/infra-sf.dhall
 
-* Get the list of server:
+* Explain errors using the `--explain` command arguments:
 
-   dhall text <<< 'let Infra = ./package.dhall in Infra.Prelude.Text.concatSep "\n" (Infra.mapServerText (\(s : Infra.Server.Type) -> s.name) Infra.servers)'
-
-Interesting dhall command arguments:
-
-  --explain  : add documentation when evaluation fails
-
+  dhall --explain <<< '[ True, 1 ]'
 
 
 # FAQ

@@ -15,9 +15,10 @@
 """This script creates the syntaxic sugar related to the group sum type.
 """
 
+import sys
+
 # Groups is the list of group as str
-groups = list(map(str.strip, open(__file__.replace(
-    "scripts/gen_groups.py", "types/Group.dhall")).read().strip(
+groups = list(map(str.strip, open(sys.argv[1]).read().strip(
     )[1:-1].split('|')))
 
 print("\n".join([

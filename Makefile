@@ -6,17 +6,16 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  ansible/hosts.yaml
 
 all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
-	@dhall to-directory-tree --output . <<< ./conf/tree.dhall
+	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.yaml: %.dhall
 	@sh -c "echo '# This file is managed by dhall.'; dhall-to-yaml --explain --file $<" > $@
 
-# dhall-schemas generate the schemas.dhall file from the schemas directory content
+# dhall-schemas generate the package files from diretory content
 dhall-schemas:
-	@python3 conf/scripts/gen_groups.py > conf/types/Groups.dhall
-	@python3 -c 'import os; print("{ " + \
-	" , ".join(map(lambda x: x.replace(".dhall", "") + " = ./schemas/" + x, sorted(os.listdir("conf/schemas")))) + \
-	" }")' > conf/schemas.dhall
+	@python3 conf/scripts/gen_groups.py  conf/types/Group.dhall > conf/types/Groups.dhall
+	@python3 conf/scripts/gen_package.py conf/schemas > conf/schemas.dhall
+	@python3 conf/scripts/gen_list.py vars/*/instances.dhall > vars/instances.dhall
 
 dhall-format:
 	@find . -name "*.dhall" -exec dhall --ascii format --inplace {} \;

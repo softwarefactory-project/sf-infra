@@ -11,13 +11,14 @@ There are a few jobs:
 The idea is to have openstacksdk tasks in jobs that are running only when needed.
 Then most of the work is done with the configure-hosts job that use a static inventory.
 
-# To create a new hosts:
+# To modify the openstack resources managed by sf-infra:
 
-In the infra vars, for example `playbooks/vars/infra-rdo.dhall`:
+Edit the files in the top-level vars directory, for example:
 
-* Add a new entry in the server list
-* Add an optional entry in the volumes list to manage extra data
-* Run `make` to update the yaml files.
+* Modifies instances to vars/infra-rdo/instances.dhall
+* Update network configuration in vars/*/networking.dhall
+
+Then run `make` to update the yaml files.
 
 To manage the configuration, use an existing group such as `monitoring` and/or add an entry in the `playbooks/site.yaml`
 
