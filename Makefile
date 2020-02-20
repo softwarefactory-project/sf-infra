@@ -1,4 +1,5 @@
 MANAGED = playbooks/vars/infra-sf.yaml \
+	  playbooks/vars/infra-rdo.yaml \
 	  playbooks/vars/nodepool-sf.yaml \
 	  playbooks/vars/nodepool-tripleo.yaml \
 	  playbooks/vars/nodepool-rdo.yaml \
