@@ -53,7 +53,7 @@
       - ^tasks/configure-tenant.yaml$
       - ^roles/manage-networking/.*
       - ^roles/manage-image/.*
-    run: playbooks/configure-hosts.yaml
+    run: playbooks/zuul/configure-hosts.yaml
     vars:
       sf_infra_play_name: configure-tenants
 
@@ -68,7 +68,7 @@
       - ^playbooks/create-hosts.yaml$
       - ^playbooks/vars/.*
       - ^playbooks/tasks/create-hosts.yaml$
-    run: playbooks/configure-hosts.yaml
+    run: playbooks/zuul/configure-hosts.yaml
     vars:
       sf_infra_play_name: create-hosts
 
@@ -79,7 +79,7 @@
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
-    run: playbooks/configure-hosts.yaml
+    run: playbooks/zuul/configure-hosts.yaml
     required-projects:
       - review.rdoproject.org/rdo-infra/rdo-infra-playbooks
     vars:

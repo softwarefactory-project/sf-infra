@@ -126,11 +126,6 @@ let servers =
                               , security_groups = [ "web", "afs" ]
                               , volume_size = Some 200
                               , groups = Some [ Infra.Group.afs-mirror ]
-                              , host_vars = toMap
-                                  { afs_mirror_fqdn =
-                                      Infra.StrOrInt.str
-                                        "mirror.regionone.vexxhost.rdoproject.org"
-                                  }
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )

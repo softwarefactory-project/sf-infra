@@ -49,7 +49,6 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     bridge.softwarefactory-project.io:
-      ansible_connection: local
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
@@ -94,7 +93,6 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     mirror.regionone.vexxhost.rdoproject.org:
-      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
@@ -118,7 +116,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-      podman_gw_ip: "10.88.0.1"
     redhat-oss-git-stats.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2

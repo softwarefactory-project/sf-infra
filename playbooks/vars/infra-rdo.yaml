@@ -88,8 +88,7 @@ servers:
     flavor: v1-standard-2
     groups:
       - afs-mirror
-    host_vars:
-      afs_mirror_fqdn: mirror.regionone.vexxhost.rdoproject.org
+    host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org

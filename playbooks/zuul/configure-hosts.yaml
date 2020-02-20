@@ -11,6 +11,7 @@
         ansible_python_interpreter: python3
         ansible_host: "{{ bridge_ip }}"
         ansible_user: fedora
+        ansible_connection: ssh
         groups: bridge
 
     - known_hosts:
