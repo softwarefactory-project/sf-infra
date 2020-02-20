@@ -67,3 +67,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDD8aivX74oe3JCjNA9LHSBXfnZzbuzibJmK57xWQGMRanKgjPeBZja3OQ+p+1LF2YINflpR2/ZvtiTxCcdzBIQvebTBOcZFawgIsg5ML4Jv/Sdpu7U473oJAjkGcWncXn8+1JOUmCHQWcLD3CZ1yrLD1AG4j4qknpZz31lAsmyJVDE/kE4JAPJVzrumSfm5oBebhkLlr6kFXguIC+5NMtmP4RLC1+naf6LxTVLnFH6BENQnyerM5a/6t+KyPuHc5MQ3HtVZ4d7SYOa0tf5ybfC6edlGW9FA+vkekF9phZ2ub59gKWnD1evKzR6CFnW1igNzK0Fu7zKrmXrBDYmGDJ/ ykarel@yatinkarel"
+  amoralej:
+    name: "amoralej"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzSWK0/apjniWnXflcSQE+XNFDc4bWvgWnhhXj++Woc9/O7w/TrPh+3GPh7YUaNX01DVB6YgXevGTN3qm1abrKDDhlUKfuI3HTACnrd8eZQhcoyJ/SQUspbnrbQXFDU9QEmPcvZqHXtkt0Y0ihfN04Y3ba1iYkHfysFqxMvJiwYzdOcV8JD5kULkvd5hXYRxj/rSHl1k83XwKwL6adtabhgzSrsxYhCJ0LzecGN+3l3vZvhkfzV6m8YgGFMS9UpXsLzk1rbwKr8zVnj4sTgk817kGqnyrEkbCYFfiOduDnkvTSY34bJ3+LW7dsgwOiKi9KyIFt9YqVYqnIR5xovMF1 amoralej@key"
