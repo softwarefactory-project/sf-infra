@@ -197,6 +197,6 @@
     - hostname
     - node-exporter-rpm
 
-- hosts: koji-vexxhost.softwarefactory-project.io
+- hosts: koji.softwarefactory-project.io
   roles:
     - node-exporter-rpm

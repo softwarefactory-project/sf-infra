@@ -333,7 +333,7 @@ servers:
     host_vars: {}
     image: centos-7-1907
     key_name: sf-infra-key
-    name: koji-vexxhost.softwarefactory-project.io
+    name: koji.softwarefactory-project.io
     network: private-network
     security_groups:
       - common

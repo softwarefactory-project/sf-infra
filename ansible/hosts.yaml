@@ -77,7 +77,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    koji-vexxhost.softwarefactory-project.io:
+    koji.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

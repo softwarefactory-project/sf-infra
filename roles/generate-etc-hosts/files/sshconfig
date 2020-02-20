@@ -55,7 +55,7 @@ Host zs.softwarefactory-project.io
     User centos
     Port 22
 
-Host koji-vexxhost.softwarefactory-project.io
+Host koji.softwarefactory-project.io
     User centos
     Port 22
 
