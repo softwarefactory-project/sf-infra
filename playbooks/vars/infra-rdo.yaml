@@ -263,7 +263,7 @@ servers:
     host_vars: {}
     image: centos-8.1-1911
     key_name: sf-infra-key
-    name: images-vexxhost.rdoproject.org
+    name: images.rdoproject.org
     network: private-network
     security_groups:
       - common
@@ -350,7 +350,7 @@ volumes:
     size: 1000
   - device: /dev/vdb
     display_name: images-data
-    server: images-vexxhost.rdoproject.org
+    server: images.rdoproject.org
     size: 1000
   - device: /dev/vdb
     display_name: trunk-centos7-swap

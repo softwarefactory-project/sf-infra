@@ -144,7 +144,7 @@
     - setup-ssl
     - node-exporter-rpm
 
-- hosts: images-vexxhost.rdoproject.org
+- hosts: images.rdoproject.org
   vars:
     lvm: True
     vg_name: 'vgimage'

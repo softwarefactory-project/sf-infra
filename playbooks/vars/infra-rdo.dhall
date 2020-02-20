@@ -108,7 +108,7 @@ let volumes =
         }
       , { display_name = "images-data"
         , size = 1000
-        , server = "images-vexxhost.rdoproject.org"
+        , server = "images.rdoproject.org"
         , device = "/dev/vdb"
         }
       , { display_name = "trunk-centos7-swap"
@@ -202,7 +202,7 @@ let servers =
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
-        , Infra.Server::(     { name = "images-vexxhost"
+        , Infra.Server::(     { name = "images"
                               , flavor = Infra.Flavors.`1vcpu_4gb`
                               , auto_ip = Some True
                               , security_groups = [ "web", "rcn-share" ]
