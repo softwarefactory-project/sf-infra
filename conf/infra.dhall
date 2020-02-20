@@ -94,15 +94,13 @@ let mkGroup =
               -} mkGroup =
                     \(group : Groups.Type)
                 ->  { mapKey = Groups.show group.value
-                    , mapValue =
-                        { hosts =
-                            serverName
-                              ( Prelude.List.filter
-                                  Server.Type
-                                  (filterServer group)
-                                  servers
-                              )
-                        }
+                    , mapValue.hosts =
+                        serverName
+                          ( Prelude.List.filter
+                              Server.Type
+                              (filterServer group)
+                              servers
+                          )
                     }
 
           in  Prelude.List.map

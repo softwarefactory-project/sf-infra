@@ -26,6 +26,4 @@ let header =
       # This file is managed by dhall.
       ''
 
-in  { roles =
-        { generate-etc-hosts = { files = { sshconfig = header ++ sshconfig } } }
-    }
+in  { roles.generate-etc-hosts.files.sshconfig = header ++ sshconfig }

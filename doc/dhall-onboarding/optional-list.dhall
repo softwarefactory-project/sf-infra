@@ -57,7 +57,7 @@ To create an empty Optional list of text, you need to use parenthesis too:
 
 let Server =
       { Type = { name : Text, volumes : Optional List Text }
-      , default = { volumes = [] : None List Text }
+      , default.volumes = [] : None List Text
       }
 
 in  Server::{ name = "test" }

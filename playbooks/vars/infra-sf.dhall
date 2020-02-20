@@ -120,11 +120,10 @@ let {- This is a template used by sf tenants instance
 let servers =
         [ Infra.Server::(     { name = "bridge"
                               , skip_os_server_task = True
-                              , host_vars =
-                                  toMap
-                                    { ansible_connection =
-                                        Infra.StrOrInt.str "local"
-                                    }
+                              , host_vars = toMap
+                                  { ansible_connection =
+                                      Infra.StrOrInt.str "local"
+                                  }
                               }
                           //  Infra.OS.Fedora.`30`
                         )
@@ -140,11 +139,10 @@ let servers =
                               , boot_from_volume = "yes"
                               , volume_size = Some 80
                               , security_groups = [ "web" ]
-                              , host_vars =
-                                  toMap
-                                    { podman_gw_ip =
-                                        Infra.StrOrInt.str "10.88.0.1"
-                                    }
+                              , host_vars = toMap
+                                  { podman_gw_ip =
+                                      Infra.StrOrInt.str "10.88.0.1"
+                                  }
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
@@ -173,9 +171,9 @@ let servers =
           //  Infra.setIp "38.102.83.251"
         , Infra.Server::(     { name = "elk01"
                               , groups = Some
-                                  [ Infra.Group.sf
-                                  , Infra.Group.rdocloud-data-fetcher
-                                  ]
+                                [ Infra.Group.sf
+                                , Infra.Group.rdocloud-data-fetcher
+                                ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
@@ -185,17 +183,17 @@ let servers =
                               , volume_size = Some 20
                               , security_groups = [ "web", "managesf" ]
                               , groups = Some
-                                  [ Infra.Group.sf
-                                  , Infra.Group.install-server-sf
-                                  , Infra.Group.rdocloud-data-fetcher
-                                  ]
+                                [ Infra.Group.sf
+                                , Infra.Group.install-server-sf
+                                , Infra.Group.rdocloud-data-fetcher
+                                ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                           //  Infra.setIp "38.102.83.76"
                         )
         , Infra.Server::(     { name = "nodepool-builder"
                               , groups = Some
-                                  [ Infra.Group.rdocloud-data-fetcher ]
+                                [ Infra.Group.rdocloud-data-fetcher ]
                               }
                           //  Infra.OS.CentOS.`7.0`
                         )
