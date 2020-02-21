@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , groups = [ Infra.Group.rdocloud-data-fetcher ]
+      , groups = [ Infra.Group.rdocloud-data-fetcher, Infra.Group.sf ]
       , connection = OS.CentOS.`7.0`.connection
       , server = Infra.Server::{
         , image = OS.CentOS.`7.0`.image.name
@@ -122,7 +122,7 @@ let instances =
           }
         , Instance::{
           , name = "nodepool-builder"
-          , groups = [ Infra.Group.rdocloud-data-fetcher ]
+          , groups = [ Infra.Group.sf, Infra.Group.rdocloud-data-fetcher ]
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
           , volumes =
@@ -135,6 +135,7 @@ let instances =
           }
         , Instance::{
           , name = "oci01"
+          , groups = [ Infra.Group.sf ]
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{
             , image = OS.CentOS.`7.0`.image.name
@@ -144,6 +145,7 @@ let instances =
           }
         , Instance::{
           , name = "zs"
+          , groups = [ Infra.Group.sf ]
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
           }
@@ -172,6 +174,7 @@ let mkServers =
             (     \(idx : Natural)
               ->  Instance::{
                   , name = "${name}0${Natural/show idx}"
+                  , groups = [ Infra.Group.sf ]
                   , connection = OS.CentOS.`7.0`.connection
                   , server = Infra.Server::{
                     , image = OS.CentOS.`7.0`.image.name

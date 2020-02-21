@@ -38,7 +38,15 @@ all:
     sf:
       hosts:
         elk01.softwarefactory-project.io: {}
+        fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
+        nodepool-builder.softwarefactory-project.io: {}
+        oci01.softwarefactory-project.io: {}
+        ovirt-staging.softwarefactory-project.io: {}
+        ovirt.softwarefactory-project.io: {}
+        ze01.softwarefactory-project.io: {}
+        zm01.softwarefactory-project.io: {}
+        zs.softwarefactory-project.io: {}
   hosts:
     ara.softwarefactory-project.io:
       ansible_port: 22
