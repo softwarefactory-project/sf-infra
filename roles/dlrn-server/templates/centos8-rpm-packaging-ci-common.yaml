@@ -1,5 +1,5 @@
 ---
-enable_worker_cronjobs: &enable_cron false
+enable_worker_cronjobs: &enable_cron true
 enable_purge_cronjobs: &enable_purge true
 disable_worker_email: &disable_email true
 
@@ -36,7 +36,8 @@ dlrn::workers:
     distgit_branch: 'stable/train'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: *enable_cron
+    # FIXME(jpena): Change to *enable_cron once the bootstrap is done
+    enable_cron: false
     enable_purge: *enable_purge
     cron_hour: '*/4'
     cron_minute: '35'
