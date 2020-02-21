@@ -86,7 +86,7 @@
               - alert: WillRunOutOfDiskInThreeDays
                 # When avail disk space is < 50% (to preven false alarm when server is warming up)
                 # Over 1 day, if the slope becomes negative in 3 days, then emit an alarm
-                expr: (node_filesystem_avail_bytes{job="node"} * 100) / node_filesystem_size_bytes{job="node"} < 50) and (predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
+                expr: ((node_filesystem_avail_bytes{job="node"} * 100) / node_filesystem_size_bytes{job="node"} < 50) and (predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
                 for: 1h
                 annotations:
                   summary: "Out of disk space (instance {{ $labels.instance }})"
