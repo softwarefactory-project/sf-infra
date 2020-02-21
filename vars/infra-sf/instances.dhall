@@ -137,11 +137,13 @@ let instances =
           , name = "oci01"
           , groups = [ Infra.Group.sf ]
           , connection = OS.CentOS.`7.0`.connection
-          , server = Infra.Server::{
-            , image = OS.CentOS.`7.0`.image.name
-            , network = "oci-private-network"
-            , security_groups = [ "hypervisor-oci" ]
-            }
+          , server =
+                  Infra.Server::{
+                  , image = OS.CentOS.`7.0`.image.name
+                  , network = "oci-private-network"
+                  , security_groups = [ "hypervisor-oci" ]
+                  }
+              //  Infra.setIp "38.102.83.245"
           }
         , Instance::{
           , name = "zs"
@@ -189,7 +191,7 @@ let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 
 let mkMergers = mkServers "zm" Flavors.`1vcpu_1gb`
 
-let zuuls = mkExecutors 1 # mkMergers 1
+let zuuls = mkExecutors 7 # mkMergers 8
 
 let default-security-groups = [ "common", "monitoring" ]
 

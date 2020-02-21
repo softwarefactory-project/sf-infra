@@ -44,7 +44,20 @@ scrape_configs:
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
+          - ze02.softwarefactory-project.io:9100
+          - ze03.softwarefactory-project.io:9100
+          - ze04.softwarefactory-project.io:9100
+          - ze05.softwarefactory-project.io:9100
+          - ze06.softwarefactory-project.io:9100
+          - ze07.softwarefactory-project.io:9100
           - zm01.softwarefactory-project.io:9100
+          - zm02.softwarefactory-project.io:9100
+          - zm03.softwarefactory-project.io:9100
+          - zm04.softwarefactory-project.io:9100
+          - zm05.softwarefactory-project.io:9100
+          - zm06.softwarefactory-project.io:9100
+          - zm07.softwarefactory-project.io:9100
+          - zm08.softwarefactory-project.io:9100
   - job_name: journal
     static_configs:
       - targets:
