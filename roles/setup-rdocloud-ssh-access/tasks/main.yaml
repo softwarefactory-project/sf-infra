@@ -4,3 +4,24 @@
     content: "{{ rdocloud_master_key }}"
     dest: /root/.ssh/rdo-cloud-master-key
     mode: 0400
+
+- name: Setup software-factory sync script
+  become: yes
+  copy:
+    content: |
+      #!/bin/bash -ex
+      HOST=$1
+      RSYNC="rsync -e "ssh -i /root/.ssh/rdo-cloud-master-key" -aHxvi --numeric-ids --xattrs"
+      test -z "${HOST}" && exit 1
+      echo "[+] retrieve ssh key, update bridge known host if that changes"
+      time $RSYNC ${HOST}:/etc/ssh/ /etc/ssh/
+      echo "[+] retrieve backup and logs"
+      time $RSYNC ${HOST}:/var/www/logs /var/www/logs
+      time $RSYNC ${HOST}:/var/lib/software-factory/backup/ /var/lib/software-factory/backup/
+      echo "[+] Install procedure:"
+      echo "yum install -y https://softwarefactory-project.io/repos/sf-release-3.4.rpm"
+      echo "# Use sf-config from master to avoid monit and ssh key setup"
+      echo "yum install -y https://softwarefactory-project.io/logs/87/17487/2/check/sf-rpm-build/7ff3a64/buildset/sf-config-3.5.0.14.g113d804-3.el7.noarch.rpm"
+
+    dest: /usr/local/bin/sync-sf.sh
+    mode: 0755
