@@ -1,4 +1,5 @@
-let web_monitor_list =
+let {- Move url definition to the Instance schemas, like that if the instance is removed, the url is removed from the monitoring
+    -} web_monitor_list =
       [ "https://softwarefactory-project.io"
       , "https://softwarefactory-project.io/analytics/elasticsearch/"
       , "https://softwarefactory-project.io/zuul/api/info"
@@ -19,6 +20,13 @@ let web_monitor_list =
       , "https://trunk.rdoproject.org"
       , "https://trunk.registry.rdoproject.org"
       ]
+
+let host_list =
+      let Infra = env:DHALL_INFRA
+
+      in  Infra.mapServerText
+            (\(server : Infra.Server.Type) -> server.name ++ ":9100")
+            Infra.servers
 
 let RelabelConfig =
       { Type =
@@ -70,24 +78,7 @@ in  { global =
     , scrape_configs =
       [ ScrapeConfig::{
         , job_name = "node"
-        , static_configs =
-          [ { targets =
-              [ "bridge.softwarefactory-project.io:9100"
-              , "mirror.regionone.vexxhost.rdoproject.org:9100"
-              , "logreduce-mqtt01.softwarefactory-project.io:9100"
-              , "backup.rdoproject.org:9100"
-              , "prometheus.monitoring.softwarefactory-project.io:9100"
-              , "rpm-packaging-ci.rdoproject.org:9100"
-              , "fedora-rpm-packaging-ci.rdoproject.org:9100"
-              , "centos8-rpm-packaging-ci.rdoproject.org:9100"
-              , "trunk-centos8.rdoproject.org:9100"
-              , "trunk-centos7.rdoproject.org:9100"
-              , "trunk.rdoproject.org:9100"
-              , "images-vexxhost.rdoproject.org:9100"
-              , "logserver.rdoproject.org:9100"
-              ]
-            }
-          ]
+        , static_configs = [ { targets = host_list } ]
         }
       , ScrapeConfig::{
         , job_name = "journal"

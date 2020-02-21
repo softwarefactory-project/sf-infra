@@ -10,7 +10,7 @@ all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.yaml: %.dhall
-	@sh -c "echo '# This file is managed by dhall.'; dhall-to-yaml --explain --file $<" > $@
+	@sh -c "echo '# This file is managed by dhall.'; env DHALL_INFRA=$$(pwd)/package.dhall dhall-to-yaml --explain --file $<" > $@
 
 # dhall-schemas generate the package files from diretory content
 dhall-schemas:

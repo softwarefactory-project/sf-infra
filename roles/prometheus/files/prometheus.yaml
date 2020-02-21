@@ -19,19 +19,32 @@ scrape_configs:
   - job_name: node
     static_configs:
       - targets:
-          - bridge.softwarefactory-project.io:9100
           - mirror.regionone.vexxhost.rdoproject.org:9100
-          - logreduce-mqtt01.softwarefactory-project.io:9100
-          - backup.rdoproject.org:9100
-          - prometheus.monitoring.softwarefactory-project.io:9100
+          - centos8-rpm-packaging-ci.rdoproject.org:9100
           - rpm-packaging-ci.rdoproject.org:9100
           - fedora-rpm-packaging-ci.rdoproject.org:9100
-          - centos8-rpm-packaging-ci.rdoproject.org:9100
+          - registry-vexxhost.rdoproject.org:9100
           - trunk-centos8.rdoproject.org:9100
           - trunk-centos7.rdoproject.org:9100
-          - trunk.rdoproject.org:9100
-          - images-vexxhost.rdoproject.org:9100
+          - install-server.rdoproject.org:9100
           - logserver.rdoproject.org:9100
+          - images.rdoproject.org:9100
+          - www.rdoproject.org:9100
+          - logreduce-mqtt-01.softwarefactory-project.io:9100
+          - prometheus.monitoring.softwarefactory-project.io:9100
+          - ara.softwarefactory-project.io:9100
+          - redhat-oss-git-stats.softwarefactory-project.io:9100
+          - fedora.softwarefactory-project.io:9100
+          - ovirt.softwarefactory-project.io:9100
+          - ovirt-staging.softwarefactory-project.io:9100
+          - elk01.softwarefactory-project.io:9100
+          - managesf.softwarefactory-project.io:9100
+          - nodepool-builder.softwarefactory-project.io:9100
+          - oci01.softwarefactory-project.io:9100
+          - zs.softwarefactory-project.io:9100
+          - koji.softwarefactory-project.io:9100
+          - ze01.softwarefactory-project.io:9100
+          - zm01.softwarefactory-project.io:9100
   - job_name: journal
     static_configs:
       - targets:
