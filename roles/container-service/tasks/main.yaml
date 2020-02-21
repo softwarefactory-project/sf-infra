@@ -2,6 +2,10 @@
 ---
 - become: yes
   block:
+    - name: Ensure podman is installed
+      package:
+        name: podman
+
     - name: Check if container exists
       command: "podman container exists {{ pod_name }}"
       register: _container_exists
