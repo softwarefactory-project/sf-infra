@@ -83,7 +83,8 @@ in  { global =
       , ScrapeConfig::{
         , job_name = "journal"
         , static_configs =
-          [ { targets = [ "logreduce-mqtt01.softwarefactory-project.io:9101" ] }
+          [ { targets = [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
+            }
           ]
         }
       , ScrapeConfig::{
