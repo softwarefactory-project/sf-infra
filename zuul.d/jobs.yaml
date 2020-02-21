@@ -10,6 +10,14 @@
     run: playbooks/dhall-diff.yaml
 
 - job:
+    name: prometheus-lint
+    description: Lint prometheus configuration
+    nodeset: fedora-latest-pod
+    files:
+      - "roles/prometheus/files/prometheus.yaml"
+    run: playbooks/prometheus-lint.yaml
+
+- job:
     name: sf-infra-base
     abstract: true
     allowed-projects:
@@ -126,6 +134,7 @@
                 - flake8
                 - yamllint
         - dhall-diff
+        - prometheus-lint
         - sf-infra-molecule
     gate:
       jobs:

@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - name: Grab prometheus
+      become: yes
+      shell:
+        curl -L https://github.com/prometheus/prometheus/releases/download/v2.5.0/prometheus-2.5.0.linux-amd64.tar.gz | tar xzf - -C /usr/local/bin --strip-components=1
+
+    - name: Run promtool
+      command: /usr/local/bin/promtool check config roles/prometheus/files/prometheus.yaml
+      args:
+        chdir: "{{ zuul.project.src_dir }}"

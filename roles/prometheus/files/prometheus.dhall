@@ -30,12 +30,12 @@ let host_list =
 
 let RelabelConfig =
       { Type =
-          { source_labels : Optional Text
+          { source_labels : Optional (List Text)
           , target_label : Optional Text
           , replacement : Optional Text
           }
       , default =
-          { source_labels = None Text
+          { source_labels = None (List Text)
           , target_label = None Text
           , replacement = None Text
           }
@@ -47,13 +47,13 @@ let ScrapeConfig =
           , static_configs : List { targets : List Text }
           , scrape_interval : Optional Text
           , metrics_path : Optional Text
-          , params : Optional { module : Text }
+          , params : Optional { module : List Text }
           , relabel_configs : Optional (List RelabelConfig.Type)
           }
       , default =
           { scrape_interval = None Text
           , metrics_path = None Text
-          , params = None { module : Text }
+          , params = None { module : List Text }
           , relabel_configs = None (List RelabelConfig.Type)
           }
       }
@@ -91,14 +91,14 @@ in  { global =
         , static_configs = [ { targets = web_monitor_list } ]
         , scrape_interval = Some "5m"
         , metrics_path = Some "/probe"
-        , params = Some { module = "[http_2xx]" }
+        , params = Some { module = [ "http_2xx" ] }
         , relabel_configs = Some
           [ RelabelConfig::{
-            , source_labels = Some "[__address__]"
+            , source_labels = Some [ "__address__" ]
             , target_label = Some "__param_target"
             }
           , RelabelConfig::{
-            , source_labels = Some "[__param_target]"
+            , source_labels = Some [ "__param_target" ]
             , target_label = Some "instance"
             }
           , RelabelConfig::{
