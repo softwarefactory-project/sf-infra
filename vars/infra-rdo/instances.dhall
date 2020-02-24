@@ -142,6 +142,11 @@ let instances =
             , size = 1000
             , device = "/dev/vdc"
             }
+          , Infra.Volume::{
+            , display_name = "logs-data03"
+            , size = 1000
+            , device = "/dev/vdd"
+            }
           ]
         }
       , Instance::{
