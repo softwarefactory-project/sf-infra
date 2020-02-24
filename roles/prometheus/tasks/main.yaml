@@ -13,93 +13,15 @@
 - name: Create configuration file
   become: yes
   copy:
-    src: "{{ item.src | default(omit) }}"
-    content: "{{ item.content | default(omit) }}"
-    dest: "/etc/prometheus/{{ item.dest }}.yml"
+    src: "{{ item }}.yaml"
+    dest: "/etc/prometheus/{{ item }}.yaml"
   loop:
-    - dest: prometheus
-      src: prometheus.yaml
-    - dest: rules
-      content: !unsafe |
-        # Some doc:
-        #   Check alert status: curl -g 'http://localhost:9090/prometheus/api/v1/alerts' | python -mjson.tool
-        #   Get metrics names: curl -g 'http://localhost:9090/prometheus/api/v1/label/__name__/values' | tr ',' '\n'
-        #   Test expr: curl -g 'http://localhost:9090/prometheus/api/v1/query' --data-urlencode 'query=predict_linear(node_filesystem_avail_bytes{job="node",mountpoint="/",instance="managesf.softwarefactory-project.io:9100"}[1d], 365 * 24 * 3600)'
-        groups:
-          - name: node.rules
-            rules:
-              - alert: InstanceDown
-                expr: up{job="node"} == 0
-                for: 10m
-              - alert: WillRunOutOfDiskInThreeDays
-                # When avail disk space is < 50% (to preven false alarm when server is warming up)
-                # Over 1 day, if the slope becomes negative in 3 days, then emit an alarm
-                expr: ((node_filesystem_avail_bytes{job="node"} * 100) / node_filesystem_size_bytes{job="node"} < 50) and (predict_linear(node_filesystem_avail_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
-                for: 1h
-                annotations:
-                  summary: "Out of disk space (instance {{ $labels.instance }})"
-                  description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
-
-              - alert: WillRunOutOfMemoryInThreeDays
-                expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 50) and (predict_linear(node_memory_MemAvailable_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
-                for: 1h
-                annotations:
-                  summary: "Out of memory (instance {{ $labels.instance }})"
-                  description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
-
-    - dest: rules-http
-      content: |
-        groups:
-          - name: blackbox.rules
-            rules:
-              - alert: WebDown
-                expr: probe_success{job="blackbox"} == 0
-                for: 10m
-              - alert: SSLCertExpiringSoon
-                expr: probe_ssl_earliest_cert_expiry{job="blackbox"} - time() < 86400 * 7
-                for: 10m
-
-    - dest: rules-backup
-      content: !unsafe |
-        groups:
-          - name: backup.rules
-            rules:
-              - alert: BackupTooOld
-                # Time since last backup is more than three days
-                expr: bup_last_backup{job="node"} < (time() - 259200)
-                labels:
-                  severity: warning
-                  lasttime: '{{ $value | humanizeTimestamp }}'
-                annotations:
-                  summary: 'Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}'
-
-    - dest: rules-afs
-      content: !unsafe |
-        groups:
-          - name: afs.rules
-            rules:
-              - alert: AFSTooOld
-                # Time since last mirror is more than one day
-                expr: afs_mirror_sync_time{job="node"} < (time() - 86400)
-                labels:
-                  severity: warning
-                  lasttime: '{{ $value | humanizeTimestamp }}'
-                annotations:
-                  summary: 'Last AFS mirror sync for {{ $labels.target }} dates back to {{ $value | humanizeTimestamp }}'
-
-    - dest: rules-dlrn
-      content: !unsafe |
-        groups:
-          - name: dlrn.rules
-            rules:
-              - alert: RDOTrunkRepoTooOld
-                # Time since last build is more than one day
-                expr: dlrn_last_build{job="node"} < (time() - 86400)
-                labels:
-                  severity: warning
-                  lasttime: '{{ $value | humanizeTimestamp }}'
-                annotations:
-                  summary: 'Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}'
+    - "prometheus"
+    - "rules"
+    - "rules-http"
+    - "rules-backup"
+    - "rules-afs"
+    - "rules-dlrn"
   register: _prom_config
 
 - include_role:
@@ -113,5 +35,5 @@
       quay.io/prometheus/prometheus
       --web.external-url=https://prometheus.monitoring.softwarefactory-project.io/prometheus/
       --web.route-prefix="prometheus"
-      --config.file=/etc/prometheus/prometheus.yml
+      --config.file=/etc/prometheus/prometheus.yaml
     pod_config: "{{ _prom_config }}"
