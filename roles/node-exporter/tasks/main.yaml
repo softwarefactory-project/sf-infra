@@ -1,10 +1,17 @@
 ---
+- name: Ensure node_exporter user exists
+  become: yes
+  user:
+    name: node_exporter
+    shell: /sbin/nologing
+    home: /var/lib/node_exporter
+
 - name: Create directory for textfile exporter
   file:
     path: /var/lib/node_exporter/textfile_collector
     state: directory
     recurse: yes
-    owner: root
+    owner: node_exporter
     group: root
   become: yes
 
