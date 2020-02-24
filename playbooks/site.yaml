@@ -118,6 +118,7 @@
     devices:
       - /dev/vdb
       - /dev/vdc
+      - /dev/vdd
     mountpoint: '/var/www/logs'
     mount_owner: 'loguser'
     mount_group: 'apache'

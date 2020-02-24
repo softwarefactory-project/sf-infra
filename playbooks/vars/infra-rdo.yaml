@@ -248,6 +248,10 @@ volumes:
     display_name: logs-data02
     server: logserver.rdoproject.org
     size: 1000
+  - device: /dev/vdd
+    display_name: logs-data03
+    server: logserver.rdoproject.org
+    size: 1000
   - device: /dev/vdb
     display_name: images-data
     server: images.rdoproject.org
