@@ -1,4 +1,7 @@
-let {- Move url definition to the Instance schemas, like that if the instance is removed, the url is removed from the monitoring
+let Prometheus = ./binding.dhall
+
+let {- TODO: Move urls to the Instance schemas, like that if the instance is removed,
+       the url are also removed from the monitoring
     -} web_monitor_list =
       [ "https://softwarefactory-project.io"
       , "https://softwarefactory-project.io/analytics/elasticsearch/"
@@ -28,81 +31,60 @@ let host_list =
             (\(server : Infra.Server.Type) -> server.name ++ ":9100")
             Infra.servers
 
-let RelabelConfig =
-      { Type =
-          { source_labels : Optional (List Text)
-          , target_label : Optional Text
-          , replacement : Optional Text
-          }
-      , default =
-          { source_labels = None (List Text)
-          , target_label = None Text
-          , replacement = None Text
-          }
+in  Prometheus.Config::{
+    , global = Some Prometheus.Global::{
+      , scrape_interval = Some "1m"
+      , scrape_timeout = Some "10s"
+      , evaluation_interval = Some "1m"
       }
-
-let ScrapeConfig =
-      { Type =
-          { job_name : Text
-          , static_configs : List { targets : List Text }
-          , scrape_interval : Optional Text
-          , metrics_path : Optional Text
-          , params : Optional { module : List Text }
-          , relabel_configs : Optional (List RelabelConfig.Type)
+    , alerting = Some Prometheus.Alerting::{
+      , alertmanagers = Some
+        [ Prometheus.Alertmanager::{
+          , path_prefix = Some "/alertmanager"
+          , static_configs = Some
+            [ Prometheus.StaticConfig::{ targets = Some [ "localhost:9093" ] } ]
           }
-      , default =
-          { scrape_interval = None Text
-          , metrics_path = None Text
-          , params = None { module : List Text }
-          , relabel_configs = None (List RelabelConfig.Type)
-          }
+        ]
       }
-
-in  { global =
-        { scrape_interval = "1m"
-        , scrape_timeout = "10s"
-        , evaluation_interval = "1m"
-        }
-    , alerting.alertmanagers =
-      [ { path_prefix = "/alertmanager"
-        , static_configs = [ { targets = [ "localhost:9093" ] } ]
-        }
-      ]
-    , rule_files =
+    , rule_files = Some
       [ "rules.yaml"
       , "rules-http.yaml"
       , "rules-backup.yaml"
       , "rules-dlrn.yaml"
       , "rules-afs.yaml"
       ]
-    , scrape_configs =
-      [ ScrapeConfig::{
-        , job_name = "node"
-        , static_configs = [ { targets = host_list } ]
+    , scrape_configs = Some
+      [ Prometheus.ScrapeConfig::{
+        , job_name = Some "node"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{ targets = Some host_list } ]
         }
-      , ScrapeConfig::{
-        , job_name = "journal"
-        , static_configs =
-          [ { targets = [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
+      , Prometheus.ScrapeConfig::{
+        , job_name = Some "journal"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{
+            , targets = Some
+              [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
             }
           ]
         }
-      , ScrapeConfig::{
-        , job_name = "blackbox"
-        , static_configs = [ { targets = web_monitor_list } ]
+      , Prometheus.ScrapeConfig::{
+        , job_name = Some "blackbox"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{ targets = Some web_monitor_list } ]
         , scrape_interval = Some "5m"
         , metrics_path = Some "/probe"
-        , params = Some { module = [ "http_2xx" ] }
+        , params = Some Prometheus.Params::{ module = Some [ "http_2xx" ] }
         , relabel_configs = Some
-          [ RelabelConfig::{
+          [ Prometheus.RelabelConfig::{
             , source_labels = Some [ "__address__" ]
             , target_label = Some "__param_target"
             }
-          , RelabelConfig::{
+          , Prometheus.RelabelConfig::{
             , source_labels = Some [ "__param_target" ]
             , target_label = Some "instance"
             }
-          , RelabelConfig::{
+          , Prometheus.RelabelConfig::{
             , target_label = Some "__address__"
             , replacement =
                 let note = "# Blackbox exporter" in Some "127.0.0.1:9115"
