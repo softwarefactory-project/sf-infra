@@ -10,7 +10,8 @@ global:
   scrape_interval: 1m
   scrape_timeout: 10s
 rule_files:
-  - rules.yaml
+  - rules-node.yaml
+  - rules-node_proxy.yaml
   - rules-http.yaml
   - rules-backup.yaml
   - rules-dlrn.yaml

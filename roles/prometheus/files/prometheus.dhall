@@ -45,7 +45,8 @@ in  Prometheus.Config::{
         ]
       }
     , rule_files = Some
-      [ "rules.yaml"
+      [ "rules-node.yaml"
+      , "rules-node_proxy.yaml"
       , "rules-http.yaml"
       , "rules-backup.yaml"
       , "rules-dlrn.yaml"
