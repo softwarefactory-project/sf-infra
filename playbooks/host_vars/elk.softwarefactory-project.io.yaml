@@ -1,0 +1,3 @@
+bind_mounts:
+  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch'}
+  - {source: '/mnt/influxdb', dest: '/var/lib/influxdb'}

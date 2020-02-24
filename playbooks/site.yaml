@@ -188,3 +188,7 @@
 - hosts: www.rdoproject.org
   roles:
     - hostname
+
+- hosts: elk.softwarefactory-project.io:nodepool-builder.softwarefactory-project.io
+  roles:
+    - volume

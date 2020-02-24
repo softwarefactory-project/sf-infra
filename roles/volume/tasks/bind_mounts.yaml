@@ -1,0 +1,24 @@
+- name: Create source directories
+  file:
+    path: '{{ item.source }}'
+    owner: '{{ mount_owner | default("root") }}'
+    group: '{{ mount_group | default("root") }}'
+    state: directory
+  loop: "{{ bind_mounts }}"
+
+- name: Create destination directories
+  file:
+    path: '{{ item.dest }}'
+    owner: '{{ mount_owner | default("root") }}'
+    group: '{{ mount_group | default("root") }}'
+    state: directory
+  loop: "{{ bind_mounts }}"
+
+- name: Mount and bind volumes
+  mount:
+    path: '{{ item.dest }}'
+    src: '{{ item.source }}'
+    opts: bind
+    state: mounted
+    fstype: none
+  loop: "{{ bind_mounts }}"

@@ -9,3 +9,4 @@ group: root
 lvm: false
 vg_name: ''
 lv_name: ''
+bind_mounts: []

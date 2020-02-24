@@ -66,6 +66,11 @@
         src: '/dev/{{ partition }}'
         path: '{{ mountpoint }}'
         state: mounted
+
+    - name: Bind mount partitions
+      include_tasks: bind_mounts.yaml
+      when: bind_mounts != []
+
   when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
   become: true
 
