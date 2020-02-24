@@ -1,0 +1,11 @@
+groups:
+  - name: afs.rules
+    rules:
+      - alert: AFSTooOld
+        # Time since last mirror is more than one day
+        expr: afs_mirror_sync_time{job="node"} < (time() - 86400)
+        labels:
+          severity: warning
+          lasttime: '{{ $value | humanizeTimestamp }}'
+        annotations:
+          summary: 'Last AFS mirror sync for {{ $labels.target }} dates back to {{ $value | humanizeTimestamp }}'

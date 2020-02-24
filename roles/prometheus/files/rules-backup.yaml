@@ -1,0 +1,11 @@
+groups:
+  - name: backup.rules
+    rules:
+      - alert: BackupTooOld
+        # Time since last backup is more than three days
+        expr: bup_last_backup{job="node"} < (time() - 259200)
+        labels:
+          severity: warning
+          lasttime: '{{ $value | humanizeTimestamp }}'
+        annotations:
+          summary: 'Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}'

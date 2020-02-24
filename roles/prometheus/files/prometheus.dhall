@@ -69,11 +69,11 @@ in  { global =
         }
       ]
     , rule_files =
-      [ "rules.yml"
-      , "rules-http.yml"
-      , "rules-backup.yml"
-      , "rules-dlrn.yml"
-      , "rules-afs.yml"
+      [ "rules.yaml"
+      , "rules-http.yaml"
+      , "rules-backup.yaml"
+      , "rules-dlrn.yaml"
+      , "rules-afs.yaml"
       ]
     , scrape_configs =
       [ ScrapeConfig::{
