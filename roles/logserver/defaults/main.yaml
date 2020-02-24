@@ -1,1 +1,2 @@
 le_base_path: /etc/letsencrypt/live
+logs_expiry: 31

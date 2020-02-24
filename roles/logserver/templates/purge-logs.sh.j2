@@ -1,0 +1,8 @@
+#!/bin/bash
+
+RETENTION_DAYS="{{ logs_expiry }}"
+
+[ ! -d /var/www/logs ] && exit 0
+
+find /var/www/logs -xtype f -mtime +$RETENTION_DAYS -delete
+find /var/www/logs -type d -empty -delete
