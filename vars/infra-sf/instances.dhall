@@ -89,7 +89,7 @@ let instances =
         ]
       # tenant-instances
       # [ Instance::{
-          , name = "elk01"
+          , name = "elk"
           , groups = [ Infra.Group.sf, Infra.Group.rdocloud-data-fetcher ]
           , connection = OS.CentOS.`7.0`.connection
           , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
@@ -97,7 +97,7 @@ let instances =
             [ Infra.Volume::{
               , display_name = "elk-data"
               , size = 160
-              , server = "elk01" ++ "." ++ fqdn
+              , server = "elk" ++ "." ++ fqdn
               , device = "/dev/vdb"
               }
             ]
