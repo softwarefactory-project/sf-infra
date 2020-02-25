@@ -206,9 +206,10 @@ servers:
     security_groups:
       - common
       - monitoring
-  - auto_ip: false
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ips:
+      - "38.102.83.245"
     image: centos-7-1907
     key_name: sf-infra-key
     name: oci01.softwarefactory-project.io
@@ -252,10 +253,140 @@ servers:
       - monitoring
   - auto_ip: false
     boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze02.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze03.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze04.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze05.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze06.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 4vcpus_8gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ze07.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
     flavor: 1vcpu_1gb
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm02.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm03.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm04.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm05.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm06.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm07.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+  - auto_ip: false
+    boot_from_volume: no
+    flavor: 1vcpu_1gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zm08.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
