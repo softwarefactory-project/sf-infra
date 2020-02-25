@@ -47,6 +47,10 @@ Host www.rdoproject.org
     User centos
     Port 22
 
+Host dlrn-db.rdoproject.org
+    User centos
+    Port 22
+
 Host backup.rdoproject.org
     User centos
     Port 3300

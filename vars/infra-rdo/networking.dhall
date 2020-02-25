@@ -52,6 +52,35 @@ let security_groups =
               }
             ]
           }
+        , { name = "dlrn-db"
+          , rules =
+            [ Infra.Rule::{
+              , port = +3306
+              , protocol = Some "tcp"
+              , remote_ip_prefix = Some "54.82.121.165/32"
+              }
+            , Infra.Rule::{
+              , port = +3306
+              , protocol = Some "tcp"
+              , remote_ip_prefix = Some "3.87.151.16/32"
+              }
+            , Infra.Rule::{
+              , port = +3306
+              , protocol = Some "tcp"
+              , remote_ip_prefix = Some "38.102.83.226/32"
+              }
+            , Infra.Rule::{
+              , port = +3306
+              , protocol = Some "tcp"
+              , remote_ip_prefix = Some "38.102.83.175/32"
+              }
+            , Infra.Rule::{
+              , port = +3306
+              , protocol = Some "tcp"
+              , remote_ip_prefix = Some "66.187.233.202/32"
+              }
+            ]
+          }
         ]
 
 in  { networks = [ Infra.mkNetwork "public" rdo_network.name ]

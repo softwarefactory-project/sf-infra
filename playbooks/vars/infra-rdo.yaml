@@ -79,6 +79,23 @@ security_groups:
       - port: 4433
         protocol: tcp
         remote_ip_prefix: 38.145.32.0/22
+  - name: dlrn-db
+    rules:
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: 54.82.121.165/32
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: 3.87.151.16/32
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: 38.102.83.226/32
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: 38.102.83.175/32
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: 66.187.233.202/32
 servers:
   - auto_ip: true
     boot_from_volume: yes
@@ -219,6 +236,18 @@ servers:
       - monitoring
       - web
     volume_size: 10
+  - auto_ip: true
+    boot_from_volume: yes
+    flavor: v1-standard-2
+    image: centos-8.1-1911
+    key_name: sf-infra-key
+    name: dlrn-db.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - dlrn-db
+    volume_size: 60
 subnets:
   - cidr: 192.168.240.0/24
     dns_nameservers:

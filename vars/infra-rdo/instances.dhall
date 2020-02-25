@@ -178,6 +178,17 @@ let instances =
           , volume_size = Some 10
           }
         }
+      , Instance::{
+        , name = "dlrn-db"
+        , connection = OS.CentOS.`8.1`.connection
+        , server = Infra.Server::{
+          , image = OS.CentOS.`8.1`.image.name
+          , flavor = Some Flavors.`2vcpus_8gb`
+          , auto_ip = Some True
+          , security_groups = [ "dlrn-db" ]
+          , volume_size = Some 60
+          }
+        }
       ]
 
 let AwsServer =
