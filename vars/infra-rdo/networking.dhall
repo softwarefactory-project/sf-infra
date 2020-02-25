@@ -54,7 +54,26 @@ let security_groups =
           }
         , { name = "dlrn-db"
           , rules =
-              let dlrn-db-user =
+              let IP = Text
+
+              let Rule = Infra.Rule.Type
+
+              let {- This function takes an IP as an input and returns a Rule
+                  -} dlrn-db-access-rule =
+                        \(ip : IP)
+                    ->  Infra.Rule::{
+                        , port = +3306
+                        , protocol = Some "tcp"
+                        , remote_ip_prefix = Some "${ip}/32"
+                        }
+
+              let {- This is a function transformer,
+                      it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
+                  -} text-to-rule-map =
+                    Infra.Prelude.List.map IP Rule
+
+              let {- The list of IP that can access the dlrn-db
+                  -} dlrn-db-user =
                     [ "54.82.121.165"
                     , "3.87.151.16"
                     , "38.102.83.226"
@@ -62,17 +81,7 @@ let security_groups =
                     , "66.187.233.202"
                     ]
 
-              in  Infra.Prelude.List.map
-                    Text
-                    Infra.Rule.Type
-                    (     \(ip : Text)
-                      ->  Infra.Rule::{
-                          , port = +3306
-                          , protocol = Some "tcp"
-                          , remote_ip_prefix = Some "${ip}/32"
-                          }
-                    )
-                    dlrn-db-user
+              in  text-to-rule-map dlrn-db-access-rule dlrn-db-user
           }
         ]
 
