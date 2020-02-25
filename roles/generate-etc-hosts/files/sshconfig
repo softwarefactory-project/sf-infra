@@ -87,7 +87,7 @@ Host ovirt-staging.softwarefactory-project.io
     User centos
     Port 22
 
-Host elk01.softwarefactory-project.io
+Host elk.softwarefactory-project.io
     User centos
     Port 22
 

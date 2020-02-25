@@ -37,7 +37,7 @@ scrape_configs:
           - fedora.softwarefactory-project.io:9100
           - ovirt.softwarefactory-project.io:9100
           - ovirt-staging.softwarefactory-project.io:9100
-          - elk01.softwarefactory-project.io:9100
+          - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100
           - oci01.softwarefactory-project.io:9100
