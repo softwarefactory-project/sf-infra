@@ -54,32 +54,25 @@ let security_groups =
           }
         , { name = "dlrn-db"
           , rules =
-            [ Infra.Rule::{
-              , port = +3306
-              , protocol = Some "tcp"
-              , remote_ip_prefix = Some "54.82.121.165/32"
-              }
-            , Infra.Rule::{
-              , port = +3306
-              , protocol = Some "tcp"
-              , remote_ip_prefix = Some "3.87.151.16/32"
-              }
-            , Infra.Rule::{
-              , port = +3306
-              , protocol = Some "tcp"
-              , remote_ip_prefix = Some "38.102.83.226/32"
-              }
-            , Infra.Rule::{
-              , port = +3306
-              , protocol = Some "tcp"
-              , remote_ip_prefix = Some "38.102.83.175/32"
-              }
-            , Infra.Rule::{
-              , port = +3306
-              , protocol = Some "tcp"
-              , remote_ip_prefix = Some "66.187.233.202/32"
-              }
-            ]
+              let dlrn-db-user =
+                    [ "54.82.121.165"
+                    , "3.87.151.16"
+                    , "38.102.83.226"
+                    , "38.102.83.175"
+                    , "66.187.233.202"
+                    ]
+
+              in  Infra.Prelude.List.map
+                    Text
+                    Infra.Rule.Type
+                    (     \(ip : Text)
+                      ->  Infra.Rule::{
+                          , port = +3306
+                          , protocol = Some "tcp"
+                          , remote_ip_prefix = Some "${ip}/32"
+                          }
+                    )
+                    dlrn-db-user
           }
         ]
 
