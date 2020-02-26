@@ -51,18 +51,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "fedora-rpm-packaging-ci"
-        , groups = [ Infra.Group.dlrn ]
-        , connection = OS.Fedora.`30`.connection
-        , server = Infra.Server::{
-          , image = OS.Fedora.`30`.image.name
-          , flavor = Some "ci.m1.large"
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
-          , volume_size = Some 100
-          }
-        }
-      , Instance::{
         , name = "registry-vexxhost"
         , groups = [ Infra.Group.registry ]
         , connection = OS.CentOS.`7.0`.connection

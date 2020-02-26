@@ -15,10 +15,6 @@ Host rpm-packaging-ci.rdoproject.org
     User centos
     Port 22
 
-Host fedora-rpm-packaging-ci.rdoproject.org
-    User fedora
-    Port 22
-
 Host registry-vexxhost.rdoproject.org
     User centos
     Port 22
