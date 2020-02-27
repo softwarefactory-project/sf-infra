@@ -192,3 +192,13 @@
 - hosts: elk.softwarefactory-project.io:nodepool-builder.softwarefactory-project.io
   roles:
     - volume
+
+- hosts: dlrn-db.rdoproject.org
+  vars_files:
+    - vars/dlrn-db.yaml
+  roles:
+    - hostname
+  tasks:
+    - include_role:
+        name: mariadb-replicated
+        tasks_from: master.yml
