@@ -3,5 +3,8 @@ let Infra = ../conf/package.dhall
 let instances = ../vars/instances.dhall
 
 in  { all =
-        { hosts = Infra.mkHost instances, children = Infra.mkGroup instances }
+        { hosts = Infra.mkHost instances
+        , children =
+            Infra.mkGroup instances ([] : List ../conf/types/GroupOfGroup.dhall)
+        }
     }
