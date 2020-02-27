@@ -1,1 +1,10 @@
 db_repl_user: dlrn_repl
+firewall_rules:
+    - port: '3306/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled
+    - port: '9100/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled

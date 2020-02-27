@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    firewall_rules:
+        - port: '3306/tcp'
+          permanent: yes
+          immediate: yes
+          state: enabled
+        - port: '9100/tcp'
+  tasks:
+    - name: "Include firewalld"
+      include_role:
+        name: "firewalld"

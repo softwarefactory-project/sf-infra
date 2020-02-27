@@ -73,23 +73,8 @@
     - prometheus
 
 - hosts: dlrn
-  tasks:
-    - block:
-        - name: Ensure firewalld is installed
-          package:
-            name: firewalld
-        - name: Ensure firewalld service is running
-          service:
-            name: firewalld
-            state: started
-            enabled: yes
-        - name: Enable port 9100 on firewall, it can be disabled by puppet-dlrn
-          firewalld:
-            port: 9100/tcp
-            permanent: yes
-            immediate: yes
-            state: enabled
-      become: yes
+  roles:
+    - firewalld
 
 - hosts: trunk.rdoproject.org
   roles:
@@ -198,6 +183,7 @@
     - vars/dlrn-db.yaml
   roles:
     - hostname
+    - firewalld
   tasks:
     - include_role:
         name: mariadb-replicated

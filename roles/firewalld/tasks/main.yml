@@ -1,0 +1,17 @@
+- block:
+    - name: Ensure firewalld is installed
+      package:
+        name: firewalld
+    - name: Ensure firewalld service is running
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+    - name: Enable ports on firewall
+      firewalld:
+        port: "{{ item.port }}"
+        permanent: "{{ item.permanent | default('yes') }}"
+        immediate: "{{ item.immediate | default('yes') }}"
+        state: "{{ item.state | default('enabled') }}"
+      with_items: "{{ firewall_rules }}"
+  become: yes

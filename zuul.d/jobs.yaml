@@ -122,6 +122,7 @@
       - ^roles/repoxplorer-gateway/.*$
       - ^roles/custom-ssh-port/.*$
       - ^roles/mariadb-replicated/.*$
+      - ^roles/firewalld/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 
