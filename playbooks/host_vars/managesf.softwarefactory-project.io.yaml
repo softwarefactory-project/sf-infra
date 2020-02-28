@@ -1,0 +1,1 @@
+sf_ssh_priv_key: "{{ install_server_sf_key }}"
