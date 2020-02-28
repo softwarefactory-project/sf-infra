@@ -1,0 +1,15 @@
+lvm: True
+vg_name: 'vgimage'
+lv_name: 'image'
+devices:
+  - /dev/vdb
+mountpoint: '/var/www/html/images'
+ssl_cert_options:
+  cert1:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "images-vexxhost.rdoproject.org"
+    webroot: "/var/www/html"
+  cert2:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "images.rdoproject.org"
+    webroot: "/var/www/html"

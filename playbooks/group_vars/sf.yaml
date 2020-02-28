@@ -1,0 +1,1 @@
+sf_ssh_pub_key: "{{ install_server_sf_pub }}"

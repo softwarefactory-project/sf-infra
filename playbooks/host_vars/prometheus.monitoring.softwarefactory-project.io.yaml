@@ -1,1 +1,8 @@
 podman_gw_ip: "10.88.0.1"
+certbot_plugin: "--apache"
+fqdn: "prometheus.monitoring.softwarefactory-project.io"
+ssl_cert_options:
+  cert1:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "prometheus.monitoring.softwarefactory-project.io"
+    webroot: "/var/www/html"
