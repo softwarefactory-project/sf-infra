@@ -48,34 +48,4 @@
     - name: Store master status as fact
       set_fact:
         master_db: "{{ master_status }}"
-
-    - name: Ensure firewalld is installed
-      package:
-        name: firewalld
-
-    # NOTE(jpena): for some reason, this task works locally for me
-    #              but not on CI.
-    - name: Ensure firewalld service is running
-      service:
-        name: firewalld
-        state: started
-        enabled: yes
-      when:
-        - ansible_connection != 'podman'
-
-    - name: Give some time for firewalld to start
-      pause:
-        seconds: 5
-
-    # NOTE(jpena): for some reason, this task works locally for me
-    #              but not on CI.
-    - name: Enable port 3306 on firewall
-      firewalld:
-        port: 3306/tcp
-        permanent: yes
-        immediate: yes
-        state: enabled
-      when:
-        - ansible_connection != 'podman'
-
   become: yes
