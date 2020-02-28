@@ -140,6 +140,12 @@
         - sf-infra-molecule
     gate:
       jobs:
+        - linters:
+            nodeset: fedora-latest-pod
+            vars:
+              linters:
+                - flake8
+                - yamllint
         - dhall-diff
         - sf-infra-create-bridge
         - sf-infra-create-hosts
