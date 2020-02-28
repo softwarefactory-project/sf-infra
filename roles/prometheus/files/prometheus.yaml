@@ -43,6 +43,7 @@ scrape_configs:
           - fedora.softwarefactory-project.io:9100
           - ovirt.softwarefactory-project.io:9100
           - ovirt-staging.softwarefactory-project.io:9100
+          - ansible.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
           - ze02.softwarefactory-project.io:9100
           - ze03.softwarefactory-project.io:9100

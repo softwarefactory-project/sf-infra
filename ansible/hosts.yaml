@@ -25,6 +25,7 @@ all:
         logreduce-mqtt-01.softwarefactory-project.io: {}
     rdocloud-data-fetcher:
       hosts:
+        ansible.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -36,6 +37,7 @@ all:
         registry-vexxhost.rdoproject.org: {}
     sf:
       hosts:
+        ansible.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -60,6 +62,10 @@ all:
         zm08.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
   hosts:
+    ansible.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     ara.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3

@@ -111,6 +111,10 @@ Host ovirt-staging.softwarefactory-project.io
     User centos
     Port 22
 
+Host ansible.softwarefactory-project.io
+    User centos
+    Port 22
+
 Host ze01.softwarefactory-project.io
     User centos
     Port 22

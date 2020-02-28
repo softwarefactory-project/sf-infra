@@ -33,6 +33,10 @@ let tenant-instances =
         //  { name = "ovirt-staging"
             , server = tenant-instance.server // Infra.setIp "38.102.83.251"
             }
+      ,     tenant-instance
+        //  { name = "ansible"
+            , server = tenant-instance.server // Infra.setIp "38.102.83.19"
+            }
       ]
 
 let instances =
