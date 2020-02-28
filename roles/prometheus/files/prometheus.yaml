@@ -34,15 +34,15 @@ scrape_configs:
           - prometheus.monitoring.softwarefactory-project.io:9100
           - ara.softwarefactory-project.io:9100
           - redhat-oss-git-stats.softwarefactory-project.io:9100
-          - fedora.softwarefactory-project.io:9100
-          - ovirt.softwarefactory-project.io:9100
-          - ovirt-staging.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100
           - oci01.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
+          - fedora.softwarefactory-project.io:9100
+          - ovirt.softwarefactory-project.io:9100
+          - ovirt-staging.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
           - ze02.softwarefactory-project.io:9100
           - ze03.softwarefactory-project.io:9100

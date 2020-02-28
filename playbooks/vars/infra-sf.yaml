@@ -133,45 +133,6 @@ servers:
       - monitoring
       - web
     volume_size: 500
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ips:
-      - "38.102.83.40"
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: fedora.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-    volume_size: 40
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ips:
-      - "38.102.83.159"
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: ovirt.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-    volume_size: 40
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ips:
-      - "38.102.83.251"
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: ovirt-staging.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-    volume_size: 40
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -241,6 +202,45 @@ servers:
       - monitoring
       - web
     volume_size: 80
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ips:
+      - "38.102.83.40"
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: fedora.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+    volume_size: 40
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ips:
+      - "38.102.83.159"
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ovirt.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+    volume_size: 40
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ips:
+      - "38.102.83.251"
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: ovirt-staging.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+    volume_size: 40
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb

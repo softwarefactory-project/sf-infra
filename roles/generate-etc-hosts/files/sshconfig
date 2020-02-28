@@ -75,18 +75,6 @@ Host redhat-oss-git-stats.softwarefactory-project.io
     User centos
     Port 22
 
-Host fedora.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host ovirt.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host ovirt-staging.softwarefactory-project.io
-    User centos
-    Port 22
-
 Host elk.softwarefactory-project.io
     User centos
     Port 22
@@ -108,6 +96,18 @@ Host zs.softwarefactory-project.io
     Port 22
 
 Host koji.softwarefactory-project.io
+    User centos
+    Port 22
+
+Host fedora.softwarefactory-project.io
+    User centos
+    Port 22
+
+Host ovirt.softwarefactory-project.io
+    User centos
+    Port 22
+
+Host ovirt-staging.softwarefactory-project.io
     User centos
     Port 22
 
