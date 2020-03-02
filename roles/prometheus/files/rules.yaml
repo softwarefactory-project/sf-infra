@@ -19,7 +19,7 @@ groups:
 
       - alert: WillRunOutOfMemoryInThreeDays
         expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 50) and (predict_linear(node_memory_MemAvailable_bytes{job="node"}[1d], 3 * 24 * 3600) < 0)
-        for: 1h
+        for: 12h
         annotations:
           summary: "Out of memory (instance {{ $labels.instance }})"
           description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
