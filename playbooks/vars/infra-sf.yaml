@@ -253,6 +253,7 @@ servers:
       - common
       - monitoring
       - web
+    state: present
     volume_size: 40
   - auto_ip: false
     boot_from_volume: no
