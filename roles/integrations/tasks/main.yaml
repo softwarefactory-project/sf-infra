@@ -1,0 +1,25 @@
+---
+- name: Install SF master repository
+  become: true
+  yum_repository:
+    name: sf-master
+    description: SF master repository
+    baseurl: "{{ sf_repo }}"
+    gpgcheck: false
+
+- name: Install firehooks
+  become: true
+  package:
+    name:
+      - firehooks
+    state: present
+  register: _packages
+
+- name: Install config
+  become: true
+  template:
+    src: default.yaml.j2
+    dest: /etc/firehooks/default.yaml
+    owner: firehooks
+    group: firehooks
+  notify: Restart firehooks
