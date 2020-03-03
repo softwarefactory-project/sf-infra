@@ -1,0 +1,134 @@
+description: The softwarefactory-project.io architecture
+inventory:
+- name: managesf
+  roles:
+  - install-server
+  - log-classify
+  - mysql
+  - gateway
+  - managesf
+  - etherpad
+  - lodgeit
+  - gitweb
+  - gerrit
+  - gerritbot
+  - murmur
+  - kibana
+  - cauth
+  - repoxplorer
+  - firehose
+  - grafana
+  - zookeeper
+  - cgit
+
+- name: elk
+  ip: 192.168.242.144
+  roles:
+  - logserver
+  - elasticsearch
+  - logstash
+  - influxdb
+  - job-logs-gearman-client
+  - job-logs-gearman-worker
+  - hound
+
+- name: nodepool-builder
+  ip: 192.168.242.73
+  roles:
+  - nodepool-builder
+
+- name: zs
+  ip: 192.168.242.66
+  roles:
+  - zuul-scheduler
+  - zuul-web
+  - nodepool-launcher
+
+# executors
+- name: ze01
+  ip: 192.168.242.36
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.68
+  name: ze02
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.90
+  name: ze03
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.58
+  name: ze04
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.173
+  name: ze05
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.47
+  name: ze06
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.136
+  name: ze07
+  roles:
+  - zuul-executor
+
+- ip: 192.168.242.169
+  name: zm01
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.119
+  name: zm02
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.48
+  name: zm03
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.22
+  name: zm04
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.181
+  name: zm05
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.238
+  name: zm06
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.75
+  name: zm07
+  roles:
+  - zuul-merger
+
+- ip: 192.168.242.172
+  name: zm08
+  roles:
+  - zuul-merger
+
+- ip: 38.102.83.245
+  max-servers: 24
+  name: oci01
+  remote: true
+  roles:
+  - hypervisor-runc
+
+- ip: 38.102.83.186
+  name: k1s01
+  remote: true
+  roles:
+  - hypervisor-k1s

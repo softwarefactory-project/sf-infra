@@ -12,18 +12,22 @@
   package:
     name: https://softwarefactory-project.io/repos/sf-release-{{ sf_version }}.rpm
 
-# TODO: add support for speculative sf-config package install from sf-ci repos
-# - name: Install sfconfig package
-#   become: true
-#   package:
-#     name:
-#       - "{{ sf_config_package | default('sf-config') }}"
-#     state: present
+- name: Install sfconfig package
+  become: true
+  package:
+    name: https://softwarefactory-project.io/logs/85/17685/3/check/sf-rpm-build/8d1d2d6/buildset/sf-config-3.5.0.14.gef78449-3.el7.noarch.rpm
 
-# Copy content arch.yaml
-# Template sfconfig.yaml using vault variable for secret
-# Copy github pem, clouds.yaml, ...
+- name: Copy the arch.yaml
+  become: true
+  copy:
+    src: "arch-{{ ansible_fqdn }}.yaml"
+    dest: /etc/software-factory/arch.yaml
 
-# Indicate here how to restore a backup if needed
+# good-to-have (or even glacier task):
+  # Copy content arch.yaml
+  # Template sfconfig.yaml using vault variable for secret
+  # Copy github pem, clouds.yaml, ...
 
-# sf-config
+  # Indicate here how to restore a backup if needed
+
+  # sf-config
