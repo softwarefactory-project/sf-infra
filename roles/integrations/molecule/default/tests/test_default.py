@@ -15,41 +15,41 @@ broker:
   port: 1883
 projects:
   - DLRN:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx
   - config:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx
   - software-factory:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx
   - repoxplorer:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx
   - logreduce:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx
   - rpms:
-    TaigaIO:
-      project: morucci-software-factory
-      auth:
-        user: sfbot0
-        password: xxxxx"""
+      TaigaIO:
+        project: morucci-software-factory
+        auth:
+          user: sfbot0
+          password: xxxxx"""
 
 
 def test_defaults_config(host):

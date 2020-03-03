@@ -7,10 +7,10 @@ projects:
 {% for x in taiga_projects %}
 {% for p in x.sf_projects %}
   - {{ p }}:
-    TaigaIO:
-      project: {{ x.project }}
-      auth:
-        user: {{ firehooks_credentials[x.credentials].user }}
-        password: {{ firehooks_credentials[x.credentials].password }}
+      TaigaIO:
+        project: {{ x.project }}
+        auth:
+          user: {{ firehooks_credentials[x.credentials].user }}
+          password: {{ firehooks_credentials[x.credentials].password }}
 {% endfor %}
 {% endfor %}
