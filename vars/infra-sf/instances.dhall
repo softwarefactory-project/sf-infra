@@ -153,6 +153,18 @@ let instances =
             //  Infra.setIp "38.102.83.245"
         }
       , Instance::{
+        , name = "k1s01"
+        , groups = [ Infra.Group.sf ]
+        , connection = OS.CentOS.`7.0`.connection
+        , server =
+                Infra.Server::{
+                , image = OS.CentOS.`7.0`.image.name
+                , network = "oci-private-network"
+                , security_groups = [ "hypervisor-oci" ]
+                }
+            //  Infra.setIp "38.102.83.186"
+        }
+      , Instance::{
         , name = "zs"
         , groups = [ Infra.Group.sf ]
         , connection = OS.CentOS.`7.0`.connection

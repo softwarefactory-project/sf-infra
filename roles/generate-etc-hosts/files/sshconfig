@@ -91,6 +91,10 @@ Host oci01.softwarefactory-project.io
     User centos
     Port 22
 
+Host k1s01.softwarefactory-project.io
+    User centos
+    Port 22
+
 Host zs.softwarefactory-project.io
     User centos
     Port 22
