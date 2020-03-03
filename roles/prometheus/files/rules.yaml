@@ -23,3 +23,10 @@ groups:
         annotations:
           summary: "Out of memory (instance {{ $labels.instance }})"
           description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+
+      - alert: InstanceOutOfMemory
+        expr: "node_memory_MemAvailable_bytes < (1024 * 1024 * 10)"
+        for: 30m
+        annotations:
+          summary: "Out of memory (instance {{ $labels.instance }})"
+          description: "Node only has {{ $value }} bytes of free mem available."
