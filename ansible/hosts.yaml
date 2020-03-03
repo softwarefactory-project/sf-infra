@@ -98,10 +98,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
-    install-server.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     koji.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -147,6 +143,10 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     registry-vexxhost.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    review.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

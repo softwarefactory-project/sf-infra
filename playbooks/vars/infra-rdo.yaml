@@ -180,7 +180,7 @@ servers:
     flavor: v1-standard-1
     image: centos-7-1907
     key_name: sf-infra-key
-    name: install-server.rdoproject.org
+    name: review.rdoproject.org
     network: private-network
     security_groups:
       - common

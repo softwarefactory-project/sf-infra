@@ -101,7 +101,7 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "install-server"
+        , name = "review"
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
