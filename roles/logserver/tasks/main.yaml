@@ -19,11 +19,17 @@
     group: apache
     mode: 0755
 
+- name: Remove old purge-logs script
+  become: yes
+  file:
+    path: /usr/local/bin/purge-logs.sh
+    state: absent
+
 - name: Install purge-logs script
   become: yes
-  template:
-    src: purge-logs.sh.j2
-    dest: /usr/local/bin/purge-logs.sh
+  copy:
+    src: purge-logs.py
+    dest: /usr/local/bin/purge-logs.py
     mode: 0755
 
 - name: Install crontab for purge-logs
@@ -31,6 +37,6 @@
   cron:
     name: purge-logs
     user: loguser
-    job: /usr/local/bin/purge-logs.sh
+    job: "/usr/local/bin/purge-logs.py --retention-days {{ logs_expiry }}"
     hour: 5
     minute: 0
