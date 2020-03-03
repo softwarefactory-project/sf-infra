@@ -171,6 +171,17 @@ let instances =
                 }
             //  Infra.setIp "38.102.83.102"
         }
+      , Instance::{
+        , name = "integrations"
+        , connection = OS.CentOS.`7.0`.connection
+        , server = Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , auto_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 20
+          , flavor = Some Flavors.`1vcpu_2gb`
+          }
+        }
       ]
 
 let mkServers =

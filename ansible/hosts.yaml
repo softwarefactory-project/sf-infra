@@ -98,6 +98,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
+    integrations.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     koji.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2

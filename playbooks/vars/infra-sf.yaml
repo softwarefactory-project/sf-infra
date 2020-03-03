@@ -202,6 +202,17 @@ servers:
       - monitoring
       - web
     volume_size: 80
+  - auto_ip: true
+    boot_from_volume: yes
+    flavor: 1vcpu_2gb
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: integrations.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+    volume_size: 20
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
