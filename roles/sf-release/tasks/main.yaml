@@ -1,0 +1,10 @@
+- name: Install sf-release
+  become: true
+  package:
+    name: https://softwarefactory-project.io/repos/sf-release-3.4.rpm
+
+- name: Ensure ip based repository url (drop that task after the migration and re-install sf-release)
+  become: true
+  copy:
+    src: sf-release.repo
+    dest: /etc/software-factory/sf-release.repo
