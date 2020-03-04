@@ -4,3 +4,6 @@
   authorized_key:
     user: root
     key: "{{ sf_ssh_pub_key }}"
+  # added to mitigate MODULE FAILURE when
+  # deploying keys on sf hosts
+  ignore_errors: true
