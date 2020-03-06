@@ -152,6 +152,7 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     registry-vexxhost.rdoproject.org:
+      ansible_become: true
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

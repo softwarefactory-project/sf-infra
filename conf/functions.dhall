@@ -65,7 +65,7 @@ let Group = ./types/Group.dhall
 
 let Groups = ./types/Groups.dhall
 
-let StrOrInt = < int : Natural | str : Text >
+let HostVarValue = < int : Natural | str : Text | bool : Bool >
 
 let mapServer = Prelude.List.map Server.Type Server.Type
 
@@ -75,17 +75,28 @@ let mkHost =
       Prelude.List.map
         Instance.Type
         { mapKey : Text
-        , mapValue : List { mapKey : Text, mapValue : StrOrInt }
+        , mapValue : List { mapKey : Text, mapValue : HostVarValue }
         }
         (     \(instance : Instance.Type)
           ->  { mapKey = instance.name
-              , mapValue = toMap
-                  { ansible_user = StrOrInt.str instance.connection.ansible_user
-                  , ansible_python_interpreter =
-                      StrOrInt.str
-                        instance.connection.ansible_python_interpreter
-                  , ansible_port = StrOrInt.int instance.connection.ansible_port
-                  }
+              , mapValue =
+                    toMap
+                      { ansible_user =
+                          HostVarValue.str instance.connection.ansible_user
+                      , ansible_python_interpreter =
+                          HostVarValue.str
+                            instance.connection.ansible_python_interpreter
+                      , ansible_port =
+                          HostVarValue.int instance.connection.ansible_port
+                      }
+                  # merge
+                      { None =
+                          [] : List { mapKey : Text, mapValue : HostVarValue }
+                      , Some =
+                              \(some : Bool)
+                          ->  toMap { ansible_become = HostVarValue.bool some }
+                      }
+                      instance.connection.ansible_become
               }
         )
 

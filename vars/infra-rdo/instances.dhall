@@ -53,7 +53,8 @@ let instances =
       , Instance::{
         , name = "registry-vexxhost"
         , groups = [ Infra.Group.registry ]
-        , connection = OS.CentOS.`7.0`.connection
+        , connection =
+            OS.CentOS.`7.0`.connection // { ansible_become = Some True }
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
