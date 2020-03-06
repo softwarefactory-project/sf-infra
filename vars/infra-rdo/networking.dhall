@@ -6,6 +6,26 @@ let rdo_network = { name = "private", network_prefix = "192.168.240" }
 
 let backward-compat-name = { name = "default-router" }
 
+let IP = Text
+
+let Rule = Infra.Rule.Type
+
+let {- This is a function transformer,
+       it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
+    -} text-to-rule-map =
+      Infra.Prelude.List.map IP Rule
+
+let {- This function takes a port Integer and it returns a function
+       that takes an IP as an input and returns a Rule
+    -} tcp-access-rule =
+          \(port : Integer)
+      ->  \(ip : IP)
+      ->  Infra.Rule::{
+          , port = port
+          , protocol = Some "tcp"
+          , remote_ip_prefix = Some ip
+          }
+
 let security_groups =
         Common.SecurityGroups
       # [ { name = "afs"
@@ -46,48 +66,20 @@ let security_groups =
           }
         , { name = "rcn-share"
           , rules =
-            [ Infra.Rule::{
-              , port = +4433
-              , remote_ip_prefix = Some "38.145.32.0/22"
-              , protocol = Some "tcp"
-              }
-            , Infra.Rule::{
-              , port = +4433
-              , remote_ip_prefix = Some "38.102.83.0/24"
-              , protocol = Some "tcp"
-              }
-            ]
+              text-to-rule-map
+                (tcp-access-rule +4433)
+                [ "38.145.32.0/22", "38.102.83.0/24" ]
           }
         , { name = "dlrn-db"
           , rules =
-              let IP = Text
-
-              let Rule = Infra.Rule.Type
-
-              let {- This function takes an IP as an input and returns a Rule
-                  -} dlrn-db-access-rule =
-                        \(ip : IP)
-                    ->  Infra.Rule::{
-                        , port = +3306
-                        , protocol = Some "tcp"
-                        , remote_ip_prefix = Some "${ip}/32"
-                        }
-
-              let {- This is a function transformer,
-                      it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
-                  -} text-to-rule-map =
-                    Infra.Prelude.List.map IP Rule
-
-              let {- The list of IP that can access the dlrn-db
-                  -} dlrn-db-user =
-                    [ "54.82.121.165"
-                    , "3.87.151.16"
-                    , "38.102.83.226"
-                    , "38.102.83.175"
-                    , "66.187.233.202"
-                    ]
-
-              in  text-to-rule-map dlrn-db-access-rule dlrn-db-user
+              text-to-rule-map
+                (tcp-access-rule +3306)
+                [ "54.82.121.165/32"
+                , "3.87.151.16/32"
+                , "38.102.83.226/32"
+                , "38.102.83.175/32"
+                , "66.187.233.202/32"
+                ]
           }
         ]
 
