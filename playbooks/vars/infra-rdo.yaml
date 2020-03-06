@@ -79,6 +79,9 @@ security_groups:
       - port: 4433
         protocol: tcp
         remote_ip_prefix: 38.145.32.0/22
+      - port: 4433
+        protocol: tcp
+        remote_ip_prefix: 38.102.83.0/24
   - name: dlrn-db
     rules:
       - port: 3306

@@ -50,6 +50,11 @@ let security_groups =
               , remote_ip_prefix = Some "38.145.32.0/22"
               , protocol = Some "tcp"
               }
+            , Infra.Rule::{
+              , port = +4433
+              , remote_ip_prefix = Some "38.102.83.0/24"
+              , protocol = Some "tcp"
+              }
             ]
           }
         , { name = "dlrn-db"
