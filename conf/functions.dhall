@@ -117,7 +117,7 @@ let mkGroup =
           let {- Create a group value for a given groupType
               -} mkGroup =
                     \(group : Groups.Type)
-                ->  { mapKey = Groups.show group.value
+                ->  { mapKey = group.value
                     , mapValue.hosts =
                         instanceName
                           ( Prelude.List.filter
@@ -129,7 +129,7 @@ let mkGroup =
 
           in  Prelude.List.map
                 Groups.Type
-                { mapKey : Text
+                { mapKey : Group
                 , mapValue : { hosts : List { mapKey : Text, mapValue : {} } }
                 }
                 mkGroup
