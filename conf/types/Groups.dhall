@@ -16,6 +16,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -33,6 +39,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -50,6 +62,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -67,6 +85,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -84,6 +108,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -101,6 +131,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -118,6 +154,12 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -135,6 +177,12 @@ in  { groups =
                   , dlrn = True
                   , registry = False
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -152,6 +200,12 @@ in  { groups =
                   , dlrn = False
                   , registry = True
                   , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
                   }
                   group
         }
@@ -169,6 +223,150 @@ in  { groups =
                   , dlrn = False
                   , registry = False
                   , rdocloud-data-fetcher = True
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.etcd
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = True
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.masters
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = True
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.nodes
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = True
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.openshift
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = True
+                  , installer = False
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.installer
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = True
+                  , OSEv3 = False
+                  }
+                  group
+        }
+      , { value = Group.OSEv3
+        , test =
+                \(group : Group)
+            ->  merge
+                  { afs-mirror = False
+                  , ara = False
+                  , backup = False
+                  , rdo = False
+                  , sf = False
+                  , install-server = False
+                  , logreduce-mqtt = False
+                  , dlrn = False
+                  , registry = False
+                  , rdocloud-data-fetcher = False
+                  , etcd = False
+                  , masters = False
+                  , nodes = False
+                  , openshift = False
+                  , installer = False
+                  , OSEv3 = True
                   }
                   group
         }

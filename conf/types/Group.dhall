@@ -8,4 +8,10 @@
 | dlrn
 | registry
 | rdocloud-data-fetcher
+| etcd
+| masters
+| nodes
+| openshift
+| installer
+| OSEv3
 >
