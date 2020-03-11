@@ -31,9 +31,9 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
-    gerrit_topic: 'rdo-FTBFS-master-head'
+#    gerrit_user: 'rdo-trunk'
+#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_topic: 'rdo-FTBFS-master-head'
     rsyncdest: 'centos-master@3.87.151.16:/home/centos-master/data/repos'
     rsyncport: '3300'
   centos-master-uc:
@@ -55,9 +55,9 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: true
     enable_brs_sync: true
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
-    gerrit_topic: 'rdo-FTBFS'
+#    gerrit_user: 'rdo-trunk'
+#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_topic: 'rdo-FTBFS'
     rsyncdest: 'centos-master-uc@3.87.151.16:/home/centos-master-uc/data/repos'
     rsyncport: '3300'
   centos-train:

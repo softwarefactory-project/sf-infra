@@ -42,8 +42,7 @@ dlrn::workers:
     distgit_branch: 'rpm-master-head'
     distro_branch: 'master'
     disable_email: *disable_email
-    # FIXME(jpena): update once the bootstrap has finished
-    enable_cron: false
+    enable_cron: *enable_cron
     cron_env: '--head-only'
     cron_hour: '*/4'
     cron_minute: '5'
@@ -61,9 +60,9 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
-    gerrit_topic: 'rdo-FTBFS-master-head'
+#    gerrit_user: 'rdo-trunk'
+#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_topic: 'rdo-FTBFS-master-head'
     rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
     rsyncport: '3300'
     use_components: true
