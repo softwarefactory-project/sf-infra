@@ -25,6 +25,7 @@
 
 - hosts: all
   roles:
+    - sf-infra-base
     - node-exporter
 
 - hosts: backup
