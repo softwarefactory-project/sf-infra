@@ -28,8 +28,8 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
+    enable_deps_sync: true
+    enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
     gerrit_email: 'javier.pena@redhat.com'
     gerrit_topic: 'rdo-FTBFS'
@@ -85,8 +85,8 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
+    enable_deps_sync: true
+    enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
     gerrit_email: 'javier.pena@redhat.com'
     gerrit_topic: 'rdo-FTBFS-train'
