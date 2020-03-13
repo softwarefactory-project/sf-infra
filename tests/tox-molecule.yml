@@ -5,5 +5,11 @@
       changed_when: true
       shell:
         cmd: |
-          tox -emolecule
+            CHANGED_ROLES=$(git diff --name-only --diff-filter=ACMDTR HEAD~1 |grep roles | while read line; do echo $line|awk -F/ {'print $1"/"$2'}; done | sort -u)
+            if [ -z "$CHANGED_ROLES" ]; then
+                TOX_PARAMS=""
+            else
+                TOX_PARAMS="$CHANGED_ROLES"
+            fi
+            tox -e molecule -- ${TOX_PARAMS}
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
