@@ -1,20 +1,20 @@
-[delorean-master-testing]
-name=dlrn-master-testing
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+[delorean-train-testing]
+name=dlrn-train-testing
+baseurl=https://trunk.rdoproject.org/centos8-train/deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
-[delorean-master-build-deps]
-name=dlrn-master-build-deps
-baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
+[delorean-train-build-deps]
+name=dlrn-train-build-deps
+baseurl=https://trunk.rdoproject.org/centos8-train/build-deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
 [advanced-virt]
 name=Advanced Virtualization
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/advvirt/8.1/
+baseurl=https://trunk.rdoproject.org/centos8/deps/advvirt/8.1/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
@@ -35,6 +35,6 @@ module_hotfixes=1
 
 [extra-deps]
 name=Extra dependencies
-baseurl=https://centos8-rpm-packaging-ci.rdoproject.org/repos/extra-deps/
+baseurl=https://centos8-rpm-packaging-ci.rdoproject.org/train/repos/extra-deps/
 gpgcheck=0
 enabled=1
