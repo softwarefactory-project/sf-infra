@@ -5,3 +5,5 @@ dlrn_host: centos8-rpm-packaging-ci
 dlrn_override_files:
   /root/puppet-dlrn/files/centos8-master-dlrn-deps.repo:
       source: centos8-master-rpm-packaging-dlrn-deps.repo
+  /root/puppet-dlrn/files/centos8-train-dlrn-deps.repo:
+      source: centos8-train-rpm-packaging-dlrn-deps.repo
