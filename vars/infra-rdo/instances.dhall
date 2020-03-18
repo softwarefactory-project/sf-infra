@@ -112,6 +112,21 @@ let instances =
           }
         }
       , Instance::{
+        , name = "elk"
+        , connection = OS.CentOS.`7.0`.connection
+        , server =
+                Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+            //  Infra.setIp "38.102.83.136"
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "elk-data"
+            , size = 160
+            , server = "elk" ++ "." ++ fqdn
+            , device = "/dev/vdb"
+            }
+          ]
+        }
+      , Instance::{
         , name = "logserver"
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{

@@ -87,6 +87,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
+    elk.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     elk.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2

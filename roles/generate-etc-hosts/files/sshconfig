@@ -31,6 +31,10 @@ Host review.rdoproject.org
     User centos
     Port 22
 
+Host elk.rdoproject.org
+    User centos
+    Port 22
+
 Host logserver.rdoproject.org
     User centos
     Port 22
