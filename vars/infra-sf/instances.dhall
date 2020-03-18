@@ -113,7 +113,7 @@ let instances =
         , name = "managesf"
         , groups =
           [ Infra.Group.sf
-          , Infra.Group.install-server-sf
+          , Infra.Group.install-server
           , Infra.Group.rdocloud-data-fetcher
           ]
         , connection = OS.CentOS.`7.0`.connection

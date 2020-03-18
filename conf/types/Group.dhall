@@ -1,8 +1,9 @@
 < afs-mirror
 | ara
 | backup
-| install-server-sf
+| rdo
 | sf
+| install-server
 | logreduce-mqtt
 | dlrn
 | registry

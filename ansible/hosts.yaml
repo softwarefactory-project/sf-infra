@@ -17,12 +17,18 @@ all:
         trunk-centos7.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
-    install-server-sf:
+    install-server:
       hosts:
         managesf.softwarefactory-project.io: {}
+        review.rdoproject.org: {}
     logreduce-mqtt:
       hosts:
         logreduce-mqtt-01.softwarefactory-project.io: {}
+    rdo:
+      hosts:
+        elk.rdoproject.org: {}
+        logserver.rdoproject.org: {}
+        review.rdoproject.org: {}
     rdocloud-data-fetcher:
       hosts:
         ansible.softwarefactory-project.io: {}

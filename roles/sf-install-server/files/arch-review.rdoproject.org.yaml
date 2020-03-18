@@ -1,0 +1,29 @@
+description: The rdoproject.org architecture
+inventory:
+  - name: review
+    roles:
+      - install-server
+      - mysql
+      - gateway
+      - cauth
+      - managesf
+      - gitweb
+      - gerrit
+      - gerritbot
+      - etherpad
+      - lodgeit
+      - logserver
+  - name: elk
+    ip: 38.102.83.136
+    roles:
+      - elasticsearch
+      - job-logs-gearman-client
+      - job-logs-gearman-worker
+      - logstash
+      - kibana
+      - influxdb
+      - grafana
+  - name: logs
+    ip: 38.102.83.90
+    roles:
+      - logserver

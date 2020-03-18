@@ -34,12 +34,12 @@
   roles:
     - setup-rdocloud-ssh-access
 
-- hosts: sf
+- hosts: sf:rdo
   roles:
     - sf-ssh
     - sf-release
 
-- hosts: install-server-sf
+- hosts: install-server
   roles:
     - sf-install-server
 

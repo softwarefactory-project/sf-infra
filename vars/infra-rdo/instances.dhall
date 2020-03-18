@@ -103,6 +103,7 @@ let instances =
         }
       , Instance::{
         , name = "review"
+        , groups = [ Infra.Group.rdo, Infra.Group.install-server ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -113,6 +114,7 @@ let instances =
         }
       , Instance::{
         , name = "elk"
+        , groups = [ Infra.Group.rdo ]
         , connection = OS.CentOS.`7.0`.connection
         , server =
                 Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
@@ -128,6 +130,7 @@ let instances =
         }
       , Instance::{
         , name = "logserver"
+        , groups = [ Infra.Group.rdo ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name

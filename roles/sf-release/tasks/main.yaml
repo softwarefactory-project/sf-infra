@@ -9,4 +9,4 @@
   become: true
   copy:
     src: sf-release.repo
-    dest: /etc/software-factory/sf-release.repo
+    dest: /etc/yum.repos.d/sf-release.repo
