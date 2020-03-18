@@ -1,6 +1,29 @@
 {- Global configuration defaults values -}
 let Infra = ../conf/package.dhall
 
+let {- The official flavor list that is running on the Infra Aggregate
+    This can be used for sf, rdo (not tripleo), dci and fedora jobs
+    -} InfraAggregateFlavor =
+      { `1vcpu_1gb` = "1vcpu_1gb"
+      , `1vcpu_2gb` = "1vcpu_2gb"
+      , `1vcpu_4gb` = "v1-standard-1"
+      , `2vcpus_8gb` = "v1-standard-2"
+      , `4vcpus_16gb` = "v1-standard-4"
+      , `4vcpus_8gb` = "4vcpus_8gb"
+      , `6vcpus_12gb` = "6vcpus_12gb"
+      , `8vcpus_32gb` = "v1-standard-8"
+      , `8vcpus_8gb` = "nodepool-infra"
+      }
+
+let {- The official flavor list that is running on the CI Aggregate
+    This is reserved for tripleo jobs
+    -} CIAggregateFlavor =
+      { `8vcpus_8gb` = "nodepool"
+      , `1vcpus_2gb` = "ci.m1.small"
+      , `2vcpus_4gb` = "ci.m1.medium"
+      , `4vcpus_8gb` = "ci.m1.large"
+      }
+
 in  { sfInfraKeypair = ./files/infra_key.pub as Text
     , SecurityGroups =
       [ { name = "common"
@@ -14,16 +37,8 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
         }
       ]
     , external-network = "public"
-    , Flavors =
-        { `1vcpu_1gb` = "1vcpu_1gb"
-        , `1vcpu_2gb` = "1vcpu_2gb"
-        , `1vcpu_4gb` = "v1-standard-1"
-        , `2vcpus_8gb` = "v1-standard-2"
-        , `4vcpus_16gb` = "v1-standard-4"
-        , `4vcpus_8gb` = "4vcpus_8gb"
-        , `6vcpus_12gb` = "6vcpus_12gb"
-        , `8vcpus_32gb` = "v1-standard-8"
-        }
+    , Flavors = InfraAggregateFlavor
+    , TripleOFlavors = CIAggregateFlavor
     , ExternalServer =
         { skip_os_server_task = True
         , server = Infra.Server::{ image = "unknown" }
