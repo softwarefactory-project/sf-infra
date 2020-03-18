@@ -118,7 +118,7 @@
   roles:
     - hostname
 
-- hosts: elk.softwarefactory-project.io:nodepool-builder.softwarefactory-project.io
+- hosts: elk.*:nodepool-builder.softwarefactory-project.io
   roles:
     - volume
 
