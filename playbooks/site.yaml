@@ -41,6 +41,7 @@
 
 - hosts: install-server
   roles:
+    - hostname
     - sf-install-server
 
 - hosts: integrations.softwarefactory-project.io
