@@ -115,6 +115,7 @@
         override-checkout: rdo-3.11-dns-mismatch-updated
     files:
       - ^playbooks/rdo-registry.yaml$
+      - ^playbooks/zuul/configure-registry-host.yaml$
       - ^playbooks/host_vars/registry-vexxhost.rdoproject.org.yml$
     secrets:
       - name: cloud
