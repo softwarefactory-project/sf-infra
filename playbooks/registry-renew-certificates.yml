@@ -1,0 +1,21 @@
+---
+- name: Renew registry SSL certificates
+  hosts: registry-vexxhost.rdoproject.org
+  vars:
+    registry_host: "{{ inventory_hostname }}"
+
+  roles:
+    - {role: registry-renew-certificates, become: true}
+
+  post_tasks:
+    # NOTE(dpawlik) Copy new certs to the bridge host, because
+    # it will be copied back using Openshift Ansible, when some patch set
+    # will trigger sf-infra-configure-registry job.
+    - name: Copy generated certs to the bridge host
+      synchronize:
+        src: /etc/letsencrypt/
+        dest: /home/fedora/letsencrypt
+        mode: pull
+        recursive: yes
+        archive: yes
+      become: true

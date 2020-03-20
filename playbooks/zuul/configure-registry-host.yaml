@@ -28,3 +28,12 @@
         ANSIBLE_CONFIG: ansible/ansible-registry.cfg
         # Provided by Zuul secret
         ARA_API_PASSWORD: "{{ ara_api.password }}"
+
+    - name: Create cron job for renewing certificate
+      cron:
+        name: Renew registry certificate
+        minute: "0"
+        hour: "4"
+        month: "*/1"
+        job: |
+          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra; ANSIBLE_CONFIG=ansible/ansible-registry.cfg; /usr/bin/ansible-playbook playbooks/registry-renew-certificates.yml -i ansible/hosts.yaml
