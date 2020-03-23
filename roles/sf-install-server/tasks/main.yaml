@@ -1,4 +1,10 @@
 ---
+- name: Authorized backup node to run backup
+  become: yes
+  authorized_key:
+    user: root
+    key: "{{ backup_pub_key }}"
+
 - name: Copy install-server ssh key
   become: yes
   copy:
