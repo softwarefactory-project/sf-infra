@@ -223,7 +223,7 @@ let mkMergers = mkServers "zm" Flavors.`1vcpu_1gb`
 
 let zuuls = mkExecutors 7 # mkMergers 8
 
-let default-security-groups = [ "common", "monitoring" ]
+let default-security-groups = [ "common", "monitoring", "internal" ]
 
 in  Infra.setSecurityGroups
       default-security-groups

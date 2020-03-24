@@ -41,15 +41,6 @@ let security_groups =
               }
             ]
           }
-        , { name = "managesf"
-          , rules =
-            [ Infra.Rule::{ port = +1883 }
-            , Infra.Rule::{ port = +1884 }
-            , Infra.Rule::{ port = +29418 }
-            , Infra.Rule::{ port = +64738 }
-            , Infra.Rule::{ port = +64738, protocol = Some "udp" }
-            ]
-          }
         , { name = "hypervisor-oci"
           , rules =
             [ Infra.Rule::{ port = +19885 }

@@ -35,6 +35,33 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
       , { name = "web"
         , rules = [ Infra.Rule::{ port = +80 }, Infra.Rule::{ port = +443 } ]
         }
+      , { name = "managesf"
+        , rules =
+          [ Infra.Rule::{ port = +1883 }
+          , Infra.Rule::{ port = +1884 }
+          , Infra.Rule::{ port = +29418 }
+          , Infra.Rule::{ port = +64738 }
+          , Infra.Rule::{ port = +64738, protocol = Some "udp" }
+          ]
+        }
+      , { name = "internal"
+        , rules =
+          [ Infra.Rule::{
+            , port = +1
+            , port_range_min = Some +1
+            , port_range_max = Some +65535
+            , protocol = Some "tcp"
+            , remote_ip_prefix = Some "192.168.0.0/16"
+            }
+          , Infra.Rule::{
+            , port = +1
+            , port_range_min = Some +1
+            , port_range_max = Some +65535
+            , protocol = Some "udp"
+            , remote_ip_prefix = Some "192.168.0.0/16"
+            }
+          ]
+        }
       ]
     , external-network = "public"
     , Flavors = InfraAggregateFlavor

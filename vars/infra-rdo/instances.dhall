@@ -122,6 +122,7 @@ let instances =
           , flavor = Some Flavors.`1vcpu_4gb`
           , auto_ip = Some True
           , volume_size = Some 40
+          , security_groups = [ "web", "managesf", "internal" ]
           }
         }
       , Instance::{
@@ -131,7 +132,7 @@ let instances =
         , server =
                 Infra.Server::{
                 , image = OS.CentOS.`7.0`.image.name
-                , security_groups = [ "elk" ]
+                , security_groups = [ "elk", "internal" ]
                 }
             //  Infra.setIp "38.102.83.136"
         , volumes =

@@ -49,6 +49,26 @@ security_groups:
     rules:
       - port: 80
       - port: 443
+  - name: managesf
+    rules:
+      - port: 1883
+      - port: 1884
+      - port: 29418
+      - port: 64738
+      - port: 64738
+        protocol: udp
+  - name: internal
+    rules:
+      - port: 1
+        port_range_max: 65535
+        port_range_min: 1
+        protocol: tcp
+        remote_ip_prefix: 192.168.0.0/16
+      - port: 1
+        port_range_max: 65535
+        port_range_min: 1
+        protocol: udp
+        remote_ip_prefix: 192.168.0.0/16
   - name: zuul-console
     rules:
       - port: 19885
@@ -68,14 +88,6 @@ security_groups:
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9101
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-  - name: managesf
-    rules:
-      - port: 1883
-      - port: 1884
-      - port: 29418
-      - port: 64738
-      - port: 64738
-        protocol: udp
   - name: hypervisor-oci
     rules:
       - port: 19885
@@ -96,6 +108,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -107,6 +120,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 80
   - auto_ip: true
@@ -119,6 +133,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 80
   - auto_ip: true
@@ -131,6 +146,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 500
   - auto_ip: false
@@ -143,6 +159,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
@@ -154,6 +171,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
       - managesf
     volume_size: 20
@@ -167,6 +185,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
@@ -178,6 +197,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - hypervisor-oci
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -190,6 +210,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - hypervisor-oci
   - auto_ip: false
     boot_from_volume: yes
@@ -201,6 +222,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - boot_from_volume: yes
     flavor: 4vcpus_8gb
     floating_ips:
@@ -212,6 +234,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 80
   - auto_ip: true
@@ -224,6 +247,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
     volume_size: 20
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -236,6 +260,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 40
   - boot_from_volume: yes
@@ -249,6 +274,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 40
   - boot_from_volume: yes
@@ -262,6 +288,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     volume_size: 40
   - boot_from_volume: yes
@@ -275,6 +302,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
       - web
     state: present
     volume_size: 40
@@ -288,6 +316,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -298,6 +327,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -308,6 +338,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -318,6 +349,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -328,6 +360,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -338,6 +371,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 4vcpus_8gb
@@ -348,6 +382,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -358,6 +393,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -368,6 +404,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -378,6 +415,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -388,6 +426,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -398,6 +437,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -408,6 +448,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -418,6 +459,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
   - auto_ip: false
     boot_from_volume: no
     flavor: 1vcpu_1gb
@@ -428,6 +470,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - internal
 subnets:
   - cidr: 192.168.242.0/24
     dns_nameservers:
