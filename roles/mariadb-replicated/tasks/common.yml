@@ -24,6 +24,19 @@
     - ansible_distribution == "CentOS"
     - ansible_distribution_major_version == '7'
 
+- name: Create systemd directory for limits.conf file
+  file:
+    path: /etc/systemd/system/mariadb.service.d
+    state: directory
+    mode: '0755'
+
+- name: Deploy limits.conf file for mariadb
+  copy:
+    dest: /etc/systemd/system/mariadb.service.d/limits.conf
+    src: limits.conf
+  notify:
+    - Restart mariadb
+
 - name: start mariadb
   service:
     name: mariadb
