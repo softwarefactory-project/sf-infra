@@ -26,7 +26,7 @@ dlrn::workers:
     release: 'ussuri'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-master:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: false
     fallback_to_master: true
     enable_deps_sync: false
@@ -50,7 +50,7 @@ dlrn::workers:
     release: 'ussuri-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-master-uc:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-master-uc:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     enable_deps_sync: true
@@ -74,7 +74,7 @@ dlrn::workers:
     release: 'train'
     baseurl: 'https://trunk.rdoproject.org/centos7-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-train:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     enable_deps_sync: true
@@ -100,7 +100,7 @@ dlrn::workers:
     release: 'stein'
     baseurl: 'https://trunk.rdoproject.org/centos7-stein'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-stein:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_stein?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-stein:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_stein?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     enable_deps_sync: true
@@ -126,7 +126,7 @@ dlrn::workers:
     release: 'rocky'
     baseurl: 'https://trunk.rdoproject.org/centos7-rocky'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-rocky:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_rocky?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-rocky:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_rocky?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
 # TODO(jpena): set to false once all rocky-rdo branches have been created, then cleanup rdoinfo
 # to ensure all packages are built
@@ -154,7 +154,7 @@ dlrn::workers:
     release: 'queens'
     baseurl: 'https://trunk.rdoproject.org/centos7-queens'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-queens:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_queens?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-queens:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_queens?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: false
     enable_deps_sync: true
@@ -180,7 +180,7 @@ dlrn::workers:
     release: 'pike'
     baseurl: 'https://trunk.rdoproject.org/centos7-pike'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-pike:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_pike?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-pike:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_pike?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: false
     enable_deps_sync: false
@@ -206,7 +206,7 @@ dlrn::workers:
     release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-ocata:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos_ocata?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos-ocata:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_ocata?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: false
     enable_deps_sync: false

@@ -24,7 +24,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-masteruc:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos8-masteruc:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
@@ -54,7 +54,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-master:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos8-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
@@ -81,7 +81,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos8-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-train:{{ dlrn_db_password }}@38.145.32.146/dlrn_centos8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos8-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
