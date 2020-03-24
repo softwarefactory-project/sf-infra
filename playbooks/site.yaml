@@ -42,7 +42,7 @@
 - hosts: install-server
   roles:
     - hostname
-    - sf-install-server
+#    - sf-install-server
 
 - hosts: integrations.softwarefactory-project.io
   roles:
