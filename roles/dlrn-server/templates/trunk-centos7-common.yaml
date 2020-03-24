@@ -82,7 +82,7 @@ dlrn::workers:
     rsyncdest: 'centos-train@3.87.151.16:/home/centos-train/data/repos'
     rsyncport: '3300'
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'rdo-trunk@rdoproject.org'
+    gerrit_email: 'javier.pena@redhat.com'
     gerrit_topic: 'rdo-FTBFS-train'
   centos-stein:
     distro: 'centos7'
