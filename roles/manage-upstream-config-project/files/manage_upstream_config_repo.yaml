@@ -1,0 +1,9 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Clone or update upstream project-config
+      git:
+        repo: https://opendev.org/openstack-infra/project-config
+        dest: /usr/share/project-config
+        force: yes

@@ -123,6 +123,10 @@
   roles:
     - volume
 
+- hosts: nodepool-builder.softwarefactory-project.io
+  roles:
+    - manage-upstream-config-project
+
 - hosts: dlrn-db.rdoproject.org
   vars_files:
     - vars/dlrn-db.yaml
