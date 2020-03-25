@@ -1,14 +1,14 @@
 description: The rdoproject.org architecture
 inventory:
-  - name: review
+  - name: managesf
     roles:
       - install-server
       - mysql
+      - gerrit
       - gateway
       - cauth
       - managesf
       - gitweb
-      - gerrit
       - gerritbot
       - etherpad
       - lodgeit
