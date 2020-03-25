@@ -36,25 +36,25 @@ container_runtime_docker_storage_type: overlay2
 container_runtime_docker_storage_setup_device: /dev/vdb
 
 ## Endpoint DNS and SSL
-openshift_master_cluster_hostname: internal.registry-vexxhost.rdoproject.org
-openshift_master_cluster_public_hostname: registry-vexxhost.rdoproject.org
-openshift_master_default_subdomain: apps.registry-vexxhost.rdoproject.org
-openshift_master_public_api_url: https://registry-vexxhost.rdoproject.org:8443
-openshift_master_api_url: https://internal.registry-vexxhost.rdoproject.org:8443
+openshift_master_cluster_hostname: internal.registry.rdoproject.org
+openshift_master_cluster_public_hostname: registry.rdoproject.org
+openshift_master_default_subdomain: apps.registry.rdoproject.org
+openshift_master_public_api_url: https://registry.rdoproject.org:8443
+openshift_master_api_url: https://internal.registry.rdoproject.org:8443
 openshift_master_overwrite_named_certificates: true
 openshift_master_named_certificates:
-  - certfile: "/home/fedora/letsencrypt/live/registry-vexxhost.rdoproject.org/registry-vexxhost.rdoproject.org-fullchain.pem"
-    keyfile: "/home/fedora/letsencrypt/live/registry-vexxhost.rdoproject.org/registry-vexxhost.rdoproject.org-privkey.pem"
-    cafile: "/home/fedora/letsencrypt/live/registry-vexxhost.rdoproject.org/registry-vexxhost.rdoproject.org-cert.pem"
+  - certfile: "/home/fedora/letsencrypt/live/registry.rdoproject.org/registry.rdoproject.org-fullchain.pem"
+    keyfile: "/home/fedora/letsencrypt/live/registry.rdoproject.org/registry.rdoproject.org-privkey.pem"
+    cafile: "/home/fedora/letsencrypt/live/registry.rdoproject.org/registry.rdoproject.org-cert.pem"
     names:
-      - registry-vexxhost.rdoproject.org
+      - registry.rdoproject.org
 # Allows the registry and its web console to be scheduled on the single host.
 openshift_hosted_infra_selector: ""
 # Note: using passthrough termination because reencrypt does not work
 # https://github.com/openshift/origin/issues/14249
-openshift_hosted_registry_routehost: trunk.registry-vexxhost.rdoproject.org
+openshift_hosted_registry_routehost: trunk.registry.rdoproject.org
 openshift_hosted_registry_routetermination: reencrypt
 openshift_hosted_registry_routecertificates:
-  certfile: "/home/fedora/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-fullchain.pem"
-  keyfile: "/home/fedora/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-privkey.pem"
-  cafile: "/home/fedora/letsencrypt/live/trunk.registry-vexxhost.rdoproject.org/trunk.registry-vexxhost.rdoproject.org-cert.pem"
+  certfile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-fullchain.pem"
+  keyfile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-privkey.pem"
+  cafile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-cert.pem"

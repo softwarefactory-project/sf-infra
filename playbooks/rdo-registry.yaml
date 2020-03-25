@@ -7,7 +7,7 @@
       # also added via openshift-ansible.
       - name: Ensure hostname is correct
         hostname:
-          name: registry-vexxhost.rdoproject.org
+          name: registry.rdoproject.org
   roles:
     # Provided by rdo-infra-playbooks
     - registry-host-preparation
@@ -27,7 +27,7 @@
   tasks:
     - name: include vars
       include_vars:
-        file: host_vars/registry-vexxhost.rdoproject.org.yml
+        file: host_vars/registry.rdoproject.org.yml
 
 - name: Prepare NetworkManager for openshift
   import_playbook: "{{ '~/src/github.com/rdo-infra/openshift-ansible/playbooks/openshift-node/network_manager.yml' | expanduser }}"

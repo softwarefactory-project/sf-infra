@@ -25,26 +25,26 @@ all:
         trunk.rdoproject.org: {}
     etcd:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     install-server:
       hosts:
         managesf.softwarefactory-project.io: {}
         review.rdoproject.org: {}
     installer:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     logreduce-mqtt:
       hosts:
         logreduce-mqtt-01.softwarefactory-project.io: {}
     masters:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     nodes:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     openshift:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     rdo:
       hosts:
         elk.rdoproject.org: {}
@@ -61,7 +61,7 @@ all:
         ovirt.softwarefactory-project.io: {}
     registry:
       hosts:
-        registry-vexxhost.rdoproject.org: {}
+        registry.rdoproject.org: {}
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -182,7 +182,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    registry-vexxhost.rdoproject.org:
+    registry.rdoproject.org:
       ansible_become: true
       ansible_port: 22
       ansible_python_interpreter: python2
