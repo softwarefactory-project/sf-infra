@@ -116,7 +116,7 @@
     files:
       - ^playbooks/rdo-registry.yaml$
       - ^playbooks/zuul/configure-registry-host.yaml$
-      - ^playbooks/host_vars/registry-vexxhost.rdoproject.org.yml$
+      - ^playbooks/host_vars/registry.rdoproject.org.yml$
     secrets:
       - name: cloud
         secret: vexxhost-cloud

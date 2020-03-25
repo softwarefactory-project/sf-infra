@@ -51,7 +51,7 @@ let instances =
           }
         }
       , Instance::{
-        , name = "registry-vexxhost"
+        , name = "registry"
         , groups =
           [ Infra.Group.registry
           , Infra.Group.etcd
