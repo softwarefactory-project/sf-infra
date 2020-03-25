@@ -129,7 +129,10 @@ let instances =
         , groups = [ Infra.Group.rdo ]
         , connection = OS.CentOS.`7.0`.connection
         , server =
-                Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+                Infra.Server::{
+                , image = OS.CentOS.`7.0`.image.name
+                , security_groups = [ "elk" ]
+                }
             //  Infra.setIp "38.102.83.136"
         , volumes =
           [ Infra.Volume::{

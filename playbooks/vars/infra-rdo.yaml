@@ -60,6 +60,9 @@ security_groups:
   - name: rdo-trunk
     rules:
       - port: 3300
+  - name: elk
+    rules:
+      - port: 4731
   - name: registry
     rules:
       - port: 53
@@ -200,6 +203,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - elk
   - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
