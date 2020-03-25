@@ -11,6 +11,7 @@ let {- The official flavor list that is running on the Infra Aggregate
       , `4vcpus_16gb` = "v1-standard-4"
       , `4vcpus_8gb` = "4vcpus_8gb"
       , `6vcpus_12gb` = "6vcpus_12gb"
+      , `8vcpu_16GB` = "8vcpu_16GB"
       , `8vcpus_32gb` = "v1-standard-8"
       , `8vcpus_8gb` = "nodepool-infra"
       }

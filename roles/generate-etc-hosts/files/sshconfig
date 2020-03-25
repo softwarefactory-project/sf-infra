@@ -91,11 +91,7 @@ Host nodepool-builder.softwarefactory-project.io
     User centos
     Port 22
 
-Host oci01.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host k1s01.softwarefactory-project.io
+Host k1s02.softwarefactory-project.io
     User centos
     Port 22
 

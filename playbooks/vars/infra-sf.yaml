@@ -187,25 +187,12 @@ servers:
       - monitoring
       - internal
   - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ips:
-      - "38.102.83.245"
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: oci01.softwarefactory-project.io
-    network: oci-private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - hypervisor-oci
-  - boot_from_volume: yes
-    flavor: v1-standard-2
+    flavor: 8vcpu_16GB
     floating_ips:
       - "38.102.83.186"
     image: centos-7-1907
     key_name: sf-infra-key
-    name: k1s01.softwarefactory-project.io
+    name: k1s02.softwarefactory-project.io
     network: oci-private-network
     security_groups:
       - common

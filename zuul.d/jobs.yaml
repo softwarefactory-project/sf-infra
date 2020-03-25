@@ -171,8 +171,18 @@
                 - flake8
                 - yamllint
         - dhall-diff
-        - sf-infra-create-bridge
-        - sf-infra-create-hosts
-        - sf-infra-configure-tenants
-        - sf-infra-configure-hosts
-        - sf-infra-configure-registry
+        - sf-infra-create-bridge:
+            dependencies:
+              - dhall-diff
+        - sf-infra-create-hosts:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-tenants:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-hosts:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-registry:
+            dependencies:
+              - dhall-diff
