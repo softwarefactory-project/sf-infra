@@ -27,7 +27,7 @@ Host trunk-centos7.rdoproject.org
     User centos
     Port 22
 
-Host review.rdoproject.org
+Host managesf.review.rdoproject.org
     User centos
     Port 22
 

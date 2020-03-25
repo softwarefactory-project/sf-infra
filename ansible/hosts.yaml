@@ -28,8 +28,8 @@ all:
         registry.rdoproject.org: {}
     install-server:
       hosts:
+        managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
-        review.rdoproject.org: {}
     installer:
       hosts:
         registry.rdoproject.org: {}
@@ -49,7 +49,7 @@ all:
       hosts:
         elk.rdoproject.org: {}
         logserver.rdoproject.org: {}
-        review.rdoproject.org: {}
+        managesf.review.rdoproject.org: {}
     rdocloud-data-fetcher:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -149,6 +149,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    managesf.review.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     managesf.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -179,10 +183,6 @@ all:
       ansible_user: centos
     registry.rdoproject.org:
       ansible_become: true
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    review.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

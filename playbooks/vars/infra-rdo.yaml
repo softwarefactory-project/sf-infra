@@ -206,7 +206,7 @@ servers:
     flavor: v1-standard-1
     image: centos-7-1907
     key_name: sf-infra-key
-    name: review.rdoproject.org
+    name: managesf.review.rdoproject.org
     network: private-network
     security_groups:
       - common

@@ -114,7 +114,7 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "review"
+        , name = "managesf.review"
         , groups = [ Infra.Group.rdo, Infra.Group.install-server ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
