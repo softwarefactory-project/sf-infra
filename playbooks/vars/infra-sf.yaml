@@ -201,6 +201,18 @@ servers:
       - hypervisor-oci
   - auto_ip: false
     boot_from_volume: yes
+    flavor: 4vcpus_8gb
+    image: fedora-31-1.9
+    key_name: sf-infra-key
+    name: k1s03.softwarefactory-project.io
+    network: oci-private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - hypervisor-oci
+  - auto_ip: false
+    boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
