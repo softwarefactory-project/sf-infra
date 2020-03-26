@@ -88,16 +88,16 @@ scrape_configs:
           - https://review.rdoproject.org/zuul/api/info
           - https://ovirt.softwarefactory-project.io/zuul/api/info
           - https://ansible.softwarefactory-project.io/zuul/api/info
+          - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
           - https://centos.logs.rdoproject.org
           - https://registry.rdoproject.org
           - https://images.rdoproject.org
           - https://lists.rdoproject.org
-          - https://logs.rdoproject.org
+          - https://logserver.rdoproject.org
           - http://mirror.regionone.rdo-cloud.rdoproject.org
           - http://mirror.regionone.vexxhost.rdoproject.org
           - https://www.rdoproject.org
           - https://review.rdoproject.org
-          - https://thirdparty.logs.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
