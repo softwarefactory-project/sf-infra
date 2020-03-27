@@ -91,7 +91,6 @@ scrape_configs:
           - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
           - https://centos.logs.rdoproject.org
-          - https://registry.rdoproject.org
           - https://images.rdoproject.org
           - https://lists.rdoproject.org
           - https://logserver.rdoproject.org
