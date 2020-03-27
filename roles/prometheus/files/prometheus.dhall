@@ -11,7 +11,6 @@ let {- TODO: Move urls to the Instance schemas, like that if the instance is rem
       , "https://ansible.softwarefactory-project.io/zuul/api/info"
       , "https://fedora.softwarefactory-project.io/zuul/api/info"
       , "https://www.softwarefactory-project.io"
-      , "https://centos.logs.rdoproject.org"
       , "https://images.rdoproject.org"
       , "https://lists.rdoproject.org"
       , "https://logserver.rdoproject.org"
