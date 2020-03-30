@@ -299,6 +299,10 @@ volumes:
     server: registry.rdoproject.org
     size: 1024
   - device: /dev/vdb
+    display_name: trunk-centos8-swap
+    server: trunk-centos8.rdoproject.org
+    size: 16
+  - device: /dev/vdb
     display_name: trunk-centos7-swap
     server: trunk-centos7.rdoproject.org
     size: 8

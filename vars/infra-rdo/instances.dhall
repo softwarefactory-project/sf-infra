@@ -93,6 +93,13 @@ let instances =
           , security_groups = [ "web", "rdo-trunk" ]
           , volume_size = Some 512
           }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "trunk-centos8-swap"
+            , size = 16
+            , device = "/dev/vdb"
+            }
+          ]
         }
       , Instance::{
         , name = "trunk-centos7"

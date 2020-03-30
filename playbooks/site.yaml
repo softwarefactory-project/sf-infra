@@ -85,6 +85,7 @@
   vars_files:
     - vars/dlrn.yaml
   roles:
+    - swap
     - dlrn-server
 
 - hosts: centos8-rpm-packaging-ci.rdoproject.org
