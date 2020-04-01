@@ -147,6 +147,7 @@
       - ^roles/custom-ssh-port/.*$
       - ^roles/mariadb-replicated/.*$
       - ^roles/firewalld/.*$
+      - ^roles/pushprox/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
 
