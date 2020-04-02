@@ -9,7 +9,7 @@ rdo_backup_locations:
 sf_backup_locations:
   - dir: /var/lib/sfbackup/bup
     domain: softwarefactory-project.io
-    month_subdir: 0
+    month_subdir: 1
   - dir: /var/lib/sfbackup/bup-koji
-    domain: softwarefactory-project.io
-    month_subdir: 0
+    domain: koji.softwarefactory-project.io
+    month_subdir: 1
