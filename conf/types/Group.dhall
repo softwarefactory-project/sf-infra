@@ -1,6 +1,7 @@
 < afs-mirror
 | ara
 | backup
+| ci-centos-org
 | rdo
 | sf
 | install-server

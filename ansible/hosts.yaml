@@ -16,6 +16,13 @@ all:
     backup:
       hosts:
         backup.rdoproject.org: {}
+    ci-centos-org:
+      hosts:
+        rdo-ci-cloudslave01.ci.centos.org: {}
+        rdo-ci-cloudslave02.ci.centos.org: {}
+        rdo-ci-cloudslave03.ci.centos.org: {}
+        rdo-ci-cloudslave04.ci.centos.org: {}
+        rdo-ci-cloudslave05.ci.centos.org: {}
     dlrn:
       hosts:
         centos8-rpm-packaging-ci.rdoproject.org: {}

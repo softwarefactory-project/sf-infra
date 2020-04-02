@@ -230,6 +230,7 @@ let mkCentosWorker =
               ->  Instance::(     { name =
                                       "rdo-ci-cloudslave0${Natural/show
                                                              idx}.ci.centos.org"
+                                  , groups = [ Infra.Group.ci-centos-org ]
                                   , connection = Infra.Connection::{
                                     , ansible_user = "jpena"
                                     , proxy_command = Some
