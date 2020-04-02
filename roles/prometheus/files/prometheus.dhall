@@ -22,6 +22,15 @@ let {- TODO: Move urls to the Instance schemas, like that if the instance is rem
       , "https://trunk.registry.rdoproject.org"
       ]
 
+let {- TODO: maybe move this to an Instance schema
+    -} ci_centos_list =
+      [ "rdo-ci-cloudslave01.ci.centos.org:9100"
+      , "rdo-ci-cloudslave02.ci.centos.org:9100"
+      , "rdo-ci-cloudslave03.ci.centos.org:9100"
+      , "rdo-ci-cloudslave04.ci.centos.org:9100"
+      , "rdo-ci-cloudslave05.ci.centos.org:9100"
+      ]
+
 let host_list =
       let Infra = env:DHALL_INFRA
 
@@ -57,6 +66,12 @@ in  Prometheus.Config::{
         , job_name = Some "node"
         , static_configs = Some
           [ Prometheus.StaticConfig::{ targets = Some host_list } ]
+        }
+      , Prometheus.ScrapeConfig::{
+        , job_name = Some "node_proxy"
+        , proxy_url = Some "http://127.0.0.1:8080"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{ targets = Some ci_centos_list } ]
         }
       , Prometheus.ScrapeConfig::{
         , job_name = Some "journal"
