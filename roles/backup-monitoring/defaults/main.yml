@@ -6,3 +6,10 @@ rdo_backup_locations:
   - dir: /var/lib/backup_review_rdo/bup
     domain: review.rdoproject.org
     month_subdir: 1
+sf_backup_locations:
+  - dir: /var/lib/sfbackup/bup
+    domain: softwarefactory-project.io
+    month_subdir: 0
+  - dir: /var/lib/sfbackup/bup-koji
+    domain: softwarefactory-project.io
+    month_subdir: 0
