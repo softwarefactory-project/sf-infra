@@ -221,6 +221,26 @@ let instances =
         }
       ]
 
+let mkCentosWorker =
+          \(count : Natural)
+      ->  Infra.Prelude.List.map
+            Natural
+            Instance.Type
+            (     \(idx : Natural)
+              ->  Instance::(     { name =
+                                      "rdo-ci-cloudslave0${Natural/show
+                                                             idx}.ci.centos.org"
+                                  , connection = Infra.Connection::{
+                                    , ansible_user = "jpena"
+                                    , proxy_command = Some
+                                        "ssh -q jpena@jump.ci.centos.org -W %h:%p"
+                                    }
+                                  }
+                              //  (../common.dhall).ExternalServer
+                            )
+            )
+            (Infra.seq count)
+
 let AwsServer =
           (../common.dhall).ExternalServer
       //  { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
@@ -234,6 +254,11 @@ let extra =
                   )
       ]
 
-in  Infra.setSecurityGroups
-      [ "common", "monitoring" ]
-      (Infra.setFqdn fqdn (instances # extra))
+let vexxhost-instances =
+      Infra.setSecurityGroups
+        [ "common", "monitoring" ]
+        (Infra.setFqdn fqdn (instances # extra))
+
+let centos-instances = mkCentosWorker 5
+
+in  vexxhost-instances # centos-instances

@@ -181,6 +181,31 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    rdo-ci-cloudslave01.ci.centos.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q jpena@jump.ci.centos.org -W %h:%p\""
+      ansible_user: jpena
+    rdo-ci-cloudslave02.ci.centos.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q jpena@jump.ci.centos.org -W %h:%p\""
+      ansible_user: jpena
+    rdo-ci-cloudslave03.ci.centos.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q jpena@jump.ci.centos.org -W %h:%p\""
+      ansible_user: jpena
+    rdo-ci-cloudslave04.ci.centos.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q jpena@jump.ci.centos.org -W %h:%p\""
+      ansible_user: jpena
+    rdo-ci-cloudslave05.ci.centos.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q jpena@jump.ci.centos.org -W %h:%p\""
+      ansible_user: jpena
     redhat-oss-git-stats.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
