@@ -17,7 +17,8 @@
     dest: "/etc/prometheus/{{ item }}.yaml"
   loop:
     - "prometheus"
-    - "rules"
+    - "rules-node"
+    - "rules-node_proxy"
     - "rules-http"
     - "rules-backup"
     - "rules-afs"
