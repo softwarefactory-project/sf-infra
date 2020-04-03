@@ -1,0 +1,11 @@
+- name: Restart pushprox-proxy
+  service:
+    name: pushprox-proxy
+    state: restarted
+  become: yes
+
+- name: Restart pushprox-client
+  service:
+    name: pushprox-client
+    state: restarted
+  become: yes

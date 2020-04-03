@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include pushprox for proxy"
+      include_role:
+        name: "pushprox"
+      vars:
+        pushprox_type: proxy
+        pushprox_proxy_listen: ":8080"
+
+    - name: "Include pushprox for client"
+      include_role:
+        name: "pushprox"
+      vars:
+        pushprox_type: client
+        pushprox_proxy_url: http://127.0.0.1:8080
