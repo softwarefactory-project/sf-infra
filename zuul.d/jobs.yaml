@@ -26,9 +26,7 @@
     semaphore: sf-infra
     irrelevant-files:
       - "Makefile"
-      - "package.dhall"
-      - "playbooks/vars/.*.dhall"
-      - "conf/.*"
+      - ".*.dhall"
     nodeset:
       # All infra playbook run from the bridge
       nodes: []

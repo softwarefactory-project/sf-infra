@@ -210,20 +210,18 @@ let setFqdn =
               ->  instance // { name = instance.name ++ "." ++ fqdn }
             )
 
-let IP = Text
-
 let Rule = ./schemas/Rule.dhall
 
 let {- This is a function transformer,
-       it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
+       it transforms a `Text -> Rule` function to a `List Text -> List Rule` function
     -} text-to-rule-map =
-      Prelude.List.map IP Rule.Type
+      Prelude.List.map Text Rule.Type
 
 let {- This function takes a port Integer and it returns a function
        that takes an IP as an input and returns a Rule
     -} tcp-access-rule =
           \(port : Integer)
-      ->  \(ip : IP)
+      ->  \(ip : Text)
       ->  Rule::{
           , port = port
           , protocol = Some "tcp"
