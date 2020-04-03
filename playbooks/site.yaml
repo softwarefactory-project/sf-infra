@@ -139,3 +139,7 @@
     - include_role:
         name: mariadb-replicated
         tasks_from: master.yml
+
+- hosts: ci-centos-org
+  roles:
+    - pushprox
