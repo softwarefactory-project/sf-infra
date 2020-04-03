@@ -6,26 +6,6 @@ let rdo_network = { name = "private", network_prefix = "192.168.240" }
 
 let backward-compat-name = { name = "default-router" }
 
-let IP = Text
-
-let Rule = Infra.Rule.Type
-
-let {- This is a function transformer,
-       it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
-    -} text-to-rule-map =
-      Infra.Prelude.List.map IP Rule
-
-let {- This function takes a port Integer and it returns a function
-       that takes an IP as an input and returns a Rule
-    -} tcp-access-rule =
-          \(port : Integer)
-      ->  \(ip : IP)
-      ->  Infra.Rule::{
-          , port = port
-          , protocol = Some "tcp"
-          , remote_ip_prefix = Some ip
-          }
-
 let security_groups =
         Common.SecurityGroups
       # [ { name = "afs"
@@ -66,14 +46,14 @@ let security_groups =
           }
         , { name = "rcn-share"
           , rules =
-              text-to-rule-map
-                (tcp-access-rule +4433)
+              Infra.text-to-rule-map
+                (Infra.tcp-access-rule +4433)
                 [ "38.145.32.0/22", "38.102.83.0/24" ]
           }
         , { name = "dlrn-db"
           , rules =
-              text-to-rule-map
-                (tcp-access-rule +3306)
+              Infra.text-to-rule-map
+                (Infra.tcp-access-rule +3306)
                 [ "54.82.121.165/32"
                 , "3.87.151.16/32"
                 , "38.102.83.226/32"
