@@ -55,6 +55,32 @@ let security_groups =
               }
             ]
           }
+        , { name = "pushprox-proxy"
+          , rules =
+              let IP = Text
+
+              let Rule = Infra.Rule.Type
+
+              let {- This function takes an IP as an input and returns a Rule
+                  -} pushprox-proxy-access-rule =
+                        \(ip : IP)
+                    ->  Infra.Rule::{
+                        , port = +8080
+                        , protocol = Some "tcp"
+                        , remote_ip_prefix = Some "${ip}/32"
+                        }
+
+              let {- This is a function transformer,
+                      it transforms a `IP -> Rule` function to a `List Ip -> List Rule` function
+                  -} text-to-rule-map =
+                    Infra.Prelude.List.map IP Rule
+
+              let {- The list of IP that can access the pushprox proxy
+                  -} pushproxy-clients =
+                    [ "8.43.84.199" ]
+
+              in  text-to-rule-map pushprox-proxy-access-rule pushproxy-clients
+          }
         ]
 
 in  { networks =

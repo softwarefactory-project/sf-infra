@@ -65,6 +65,7 @@
     - grafana
     - blackbox-exporter
     - prometheus
+    - pushprox
 
 - hosts: dlrn
   roles:

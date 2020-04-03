@@ -6,3 +6,5 @@ ssl_cert_options:
     email: "softwarefactory-operations-team@redhat.com"
     domain: "prometheus.monitoring.softwarefactory-project.io"
     webroot: "/var/www/html"
+pushprox_type: "proxy"
+pushprox_proxy_listen: ":8080"
