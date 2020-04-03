@@ -99,6 +99,19 @@ let mkHost =
                           ->  toMap { ansible_become = HostVarValue.bool some }
                       }
                       instance.connection.ansible_become
+                  # merge
+                      { None =
+                          [] : List { mapKey : Text, mapValue : HostVarValue }
+                      , Some =
+                              \(command : Text)
+                          ->  [ { mapKey = "ansible_ssh_common_args"
+                                , mapValue =
+                                    HostVarValue.str
+                                      "-o ProxyCommand=\"${command}\""
+                                }
+                              ]
+                      }
+                      instance.connection.proxy_command
               }
         )
 
