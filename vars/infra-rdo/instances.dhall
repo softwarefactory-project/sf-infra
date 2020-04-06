@@ -4,7 +4,7 @@ let fqdn = "rdoproject.org"
 
 let Instance = Infra.Instance
 
-let OS = (../common.dhall).OS
+let OS = Infra.OS
 
 let Flavors = (../common.dhall).Flavors
 
@@ -237,13 +237,13 @@ let mkCentosWorker =
                                         "ssh -q jpena@jump.ci.centos.org -W %h:%p"
                                     }
                                   }
-                              //  (../common.dhall).ExternalServer
+                              //  Infra.ExternalServer
                             )
             )
             (Infra.seq count)
 
 let AwsServer =
-          (../common.dhall).ExternalServer
+          Infra.ExternalServer
       //  { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
 
 let extra =

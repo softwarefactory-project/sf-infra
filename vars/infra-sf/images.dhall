@@ -1,5 +1,8 @@
-let OS = (../common.dhall).OS
+let Infra = ../../conf/package.dhall
 
 in  { images =
-      [ OS.Fedora.`31`.image, OS.Fedora.`30`.image, OS.CentOS.`7.0`.image ]
+      [ Infra.OS.Fedora.`31`.image
+      , Infra.OS.Fedora.`30`.image
+      , Infra.OS.CentOS.`7.0`.image
+      ]
     }
