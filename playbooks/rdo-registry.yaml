@@ -9,7 +9,7 @@
         hostname:
           name: registry.rdoproject.org
   roles:
-    # Provided by rdo-infra-playbooks
+    # Provided by rdo-infra-playbooks:
     - registry-host-preparation
   post_tasks:
     - name: Ensure dedicated volume for images is formatted
@@ -41,6 +41,6 @@
 - name: Set up registry resources
   hosts: registry
   roles:
-    # Provided by rdo-infra-playbooks
+    # Provided by rdo-infra-playbooks:
     - registry-project-creation
     - registry-image-pruning
