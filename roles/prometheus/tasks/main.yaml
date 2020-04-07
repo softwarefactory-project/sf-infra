@@ -23,6 +23,7 @@
     - "rules-backup"
     - "rules-afs"
     - "rules-dlrn"
+    - "rules-systemd"
   register: _prom_config
 
 - include_role:
