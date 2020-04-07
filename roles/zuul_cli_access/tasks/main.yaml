@@ -1,0 +1,32 @@
+- become: yes
+  block:
+    - name: Setup zuul_users group
+      group:
+        name: "{{ zuul_users_group }}"
+        state: "present"
+
+    - name: Setup users
+      user:
+        name: "{{ item.value.name }}"
+        append: "yes"
+        groups: "{{ item.value.groups }}"
+        state: "{{ item.value.state | default('present') }}"
+      with_dict: "{{ zuul_users }}"
+
+    - name: Setup authorized keys for users
+      authorized_key:
+        user: "{{ item.0.key }}"
+        key: "{{ item.1 }}"
+      when: item.0.value.state | default('present') != 'absent'
+      loop: "{{ q('subelements', q('dict', zuul_users), 'value.ssh_keys') }}"
+
+    - name: Setup passwordless zuul command for users
+      lineinfile:
+        dest: "/etc/sudoers.d/92-zuul-users"
+        create: "yes"
+        mode: "0440"
+        owner: "root"
+        group: "root"
+        regexp: "^%{{ zuul_users_group }}"
+        line: "%{{ zuul_users_group }} ALL=(ALL) NOPASSWD:/usr/bin/zuul"
+        validate: "/usr/sbin/visudo -cf %s"

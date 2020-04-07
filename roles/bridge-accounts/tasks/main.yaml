@@ -15,7 +15,7 @@
       user:
         name: "{{ item.value.name }}"
         append: "yes"
-        groups: "{{ item.value.groups }}"
+        groups: "{{ item.value.groups | default(omit) }}"
         state: "{{ item.value.state | default('present') }}"
       with_dict: "{{ bridge_users }}"
 

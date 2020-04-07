@@ -67,6 +67,10 @@
     - prometheus
     - pushprox
 
+- hosts: zs.softwarefactory-project.io
+  roles:
+    - zuul_cli_access
+
 - hosts: dlrn
   roles:
     - firewalld
@@ -105,7 +109,7 @@
   roles:
     - hostname
     - volume
-    - setup-ssl
+    # - setup-ssl
     - {role: image-server, become: true}
 
 - hosts: redhat-oss-git-stats.softwarefactory-project.io

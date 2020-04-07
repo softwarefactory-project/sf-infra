@@ -1,0 +1,8 @@
+zuul_users_group: "zuul_users"
+zuul_users:
+  weshay:
+    name: "weshay"
+    groups:
+      - "{{ zuul_users_group }}"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCs/fvCoMm/bOLehNLGEhWnMZfJndO4rK2Q8OOrYOAGKpMT5xiWZsPgxGai4vieZ2HmdyXBB2DX5g1FjwGJUWuxPRYT5vAQlseOfyTLqhkHaSmuWcpH6HuP+KvxWO9epyXP8pl7uZLsbVEr5207ER4bYLIg2bk2LRQqxnysG3t4VqbAV0V+YKrkkwwErsHDbLJyz2sqtJielpKZOCF+vFnzrUR3dmORZ4bchBnmf67CFAJqPd1zSU9Hn0fWZ5nVxJMk1o/bxqwIZ6E7a9Yw5bJl3ziGP5WfcSfati4LKGWI503SNwSWLOuL03j2LaLO3GgLSVFUo9eGT6KhN3dogWeaWXDDFvx+O0RfdZFL0+mRFl2Rz83QsJGFBm1JW2H1/W0vUxtXmZhUXFagSt75zh2AQPoatsYgUOCpC4qFSVRXFyZR0a1Q5JnqmtFrYDuIoMovdfelgKEnJ5xBNhmGLpJlRmSIiv4tRNYUvaU4fKnt/yLTtZNT+D7zM4KMUzNy8pqEbUugAGGxMlCs1YfzwOL4+OHxrDX5A5TlvTnjNBHmBWXDQJncXTewjTf1+6oLkGKHMSd8UsGjYTLWX1JepFcHUj5+SF5arVKz/gThvQlelpPzXZgK9MNUSKfU9GHQ79T14Kng9Cfx/BcUYsZmFmCgzj2M1neFD7M3kOFQ8PV2ow=="
