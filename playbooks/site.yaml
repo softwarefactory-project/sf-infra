@@ -109,7 +109,7 @@
   roles:
     - hostname
     - volume
-    # - setup-ssl
+    - setup-ssl
     - {role: image-server, become: true}
 
 - hosts: redhat-oss-git-stats.softwarefactory-project.io
