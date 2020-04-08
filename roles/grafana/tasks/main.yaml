@@ -17,6 +17,7 @@
   loop:
     - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
     - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'blackbox.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'datasource_prometheus.yml', path: 'grafana/provisioning/datasources' }
     - { name: 'grafana.ini', path: 'grafana'}
   register: _grafana_config

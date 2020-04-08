@@ -29,7 +29,10 @@ let security_groups =
             ]
           }
         , { name = "rdo-trunk", rules = [ Infra.Rule::{ port = +3300 } ] }
-        , { name = "elk", rules = [ Infra.Rule::{ port = +4731 } ] }
+        , { name = "elk"
+          , rules =
+            [ Infra.Rule::{ port = +4731 }, Infra.Rule::{ port = +9200 } ]
+          }
         , { name = "registry"
           , rules =
             [ Infra.Rule::{ port = +53 }

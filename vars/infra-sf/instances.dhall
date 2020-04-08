@@ -99,7 +99,10 @@ let instances =
         , name = "elk"
         , groups = [ Infra.Group.sf, Infra.Group.rdocloud-data-fetcher ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+        , server = Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , security_groups = [ "elk" ]
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
