@@ -4,7 +4,7 @@
     max: 1
 
 - job:
-    name: dhall-diff
+    name: dhall-diff-old
     description: Ensure running make is indempotent
     nodeset: fedora-latest-pod
     run: playbooks/dhall-diff.yaml
@@ -158,7 +158,7 @@
               linters:
                 - flake8
                 - yamllint
-        - dhall-diff
+        - dhall-diff-old
         - prometheus-lint
         - sf-infra-molecule
     gate:
@@ -169,19 +169,19 @@
               linters:
                 - flake8
                 - yamllint
-        - dhall-diff
+        - dhall-diff-old
         - sf-infra-create-bridge:
             dependencies:
-              - dhall-diff
+              - dhall-diff-old
         - sf-infra-create-hosts:
             dependencies:
-              - dhall-diff
+              - dhall-diff-old
         - sf-infra-configure-tenants:
             dependencies:
-              - dhall-diff
+              - dhall-diff-old
         - sf-infra-configure-hosts:
             dependencies:
-              - dhall-diff
+              - dhall-diff-old
         - sf-infra-configure-registry:
             dependencies:
-              - dhall-diff
+              - dhall-diff-old
