@@ -1,0 +1,40 @@
+[delorean-master-testing]
+name=dlrn-master-testing
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+enabled=1
+gpgcheck=0
+module_hotfixes=1
+
+[delorean-master-build-deps]
+name=dlrn-master-build-deps
+baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
+enabled=1
+gpgcheck=0
+module_hotfixes=1
+
+[advanced-virtualization]
+name=Advanced Virtualization mirror
+baseurl=http://mirror.centos.org/centos/8/virt/x86_64/advanced-virtualization/
+gpgcheck=0
+enabled=1
+module_hotfixes=1
+
+[messaging-rabbitmq]
+name=Messaging RabbitMQ
+baseurl=http://mirror.centos.org/centos/8/messaging/x86_64/rabbitmq-38
+gpgcheck=0
+enabled=1
+module_hotfixes=1
+
+[opstools]
+name=opstools
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/opstools/collectd/x86_64/
+gpgcheck=0
+enabled=1
+module_hotfixes=1
+
+[extra-deps]
+name=Extra dependencies
+baseurl=https://centos8-rpm-packaging-ci.rdoproject.org/ussuri/repos/extra-deps/
+gpgcheck=0
+enabled=1
