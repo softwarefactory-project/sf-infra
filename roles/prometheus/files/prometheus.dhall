@@ -6,7 +6,7 @@ let {- TODO: Move urls to the Instance schemas, like that if the instance is rem
       [ "https://softwarefactory-project.io"
       , "https://softwarefactory-project.io/analytics/elasticsearch/"
       , "https://softwarefactory-project.io/zuul/api/info"
-      , "http://elk.softwarefactory-project.io:9200"
+      , "https://softwarefactory-project.io/elasticsearch/"
       , "https://review.rdoproject.org/zuul/api/info"
       , "https://review.rdoproject.org/analytics/app/kibana"
       , "https://review.rdoproject.org"
