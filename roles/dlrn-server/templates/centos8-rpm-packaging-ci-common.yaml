@@ -30,6 +30,27 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+  centos8-ussuri:
+    distro: 'centos8'
+    target: 'centos8-ussuri'
+    distgit_branch: 'stable/ussuri'
+    distro_branch: 'stable/ussuri'
+    disable_email: *disable_email
+    enable_cron: false
+    enable_purge: false
+    cron_hour: '*/4'
+    cron_minute: '35'
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/ussuri/repos']
+    release: 'ussuri'
+    baseurl: 'https://centos8-rpm-packaging-ci.rdoproject.org/ussuri/repos/'
+    pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'

@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk-centos8.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos8-master-uc', 'centos8-train']
+dlrn::web::api_workers: ['centos8-master-uc', 'centos8-ussuri', 'centos8-train']
 dlrn::web::cert_mail: 'jpena@redhat.com'
 
 dlrn::workers:
@@ -66,6 +66,32 @@ dlrn::workers:
     rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
     rsyncport: '3300'
     use_components: true
+  centos8-ussuri:
+    distro: 'centos8'
+    target: 'centos8-ussuri'
+    distgit_branch: 'ussuri-rdo'
+    distro_branch: 'stable/ussuri'
+    disable_email: *disable_email
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-ussuri-bootstrap', '/var/www/html/ussuri/centos8-bootstrap']
+    release: 'ussuri'
+    baseurl: 'https://trunk.rdoproject.org/centos8-ussuri-bootstrap'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-ussuri:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_ussuri?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+#    gerrit_user: 'rdo-trunk'
+#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_topic: 'rdo-FTBFS-ussuri'
+    rsyncdest: 'centos8-ussuri@3.87.151.16:/home/centos8-ussuri/data/repos'
+    rsyncport: '3300'
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'

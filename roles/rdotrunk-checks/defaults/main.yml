@@ -9,6 +9,7 @@ rdo_trunk_workers:
   - rhel8-master
   - rhel8-train
   - centos8-master-uc
+  - centos8-ussuri
   - centos8-train
 
 rdo_trunk_symlinks:
