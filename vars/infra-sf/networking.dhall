@@ -61,6 +61,10 @@ let security_groups =
                 (Infra.tcp-access-rule +8080)
                 [ "8.43.84.199/32" ]
           }
+        , { name = "elk"
+          , rules =
+            [ Infra.Rule::{ port = +4731 }, Infra.Rule::{ port = +9200 } ]
+          }
         ]
 
 in  { networks =

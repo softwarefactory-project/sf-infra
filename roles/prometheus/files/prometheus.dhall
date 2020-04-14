@@ -6,7 +6,11 @@ let {- TODO: Move urls to the Instance schemas, like that if the instance is rem
       [ "https://softwarefactory-project.io"
       , "https://softwarefactory-project.io/analytics/elasticsearch/"
       , "https://softwarefactory-project.io/zuul/api/info"
+      , "https://elk.softwarefactory-project.io:9200"
       , "https://review.rdoproject.org/zuul/api/info"
+      , "https://review.rdoproject.org/analytics/app/kibana"
+      , "https://review.rdoproject.org"
+      , "https://elk.review.rdoproject.org:9200"
       , "https://ovirt.softwarefactory-project.io/zuul/api/info"
       , "https://ansible.softwarefactory-project.io/zuul/api/info"
       , "https://fedora.softwarefactory-project.io/zuul/api/info"
@@ -17,9 +21,9 @@ let {- TODO: Move urls to the Instance schemas, like that if the instance is rem
       , "http://mirror.regionone.rdo-cloud.rdoproject.org"
       , "http://mirror.regionone.vexxhost.rdoproject.org"
       , "https://www.rdoproject.org"
-      , "https://review.rdoproject.org"
       , "https://trunk.rdoproject.org"
       , "https://trunk.registry.rdoproject.org"
+      , "https://codesearch.rdoproject.org"
       ]
 
 let {- TODO: maybe move this to an Instance schema
