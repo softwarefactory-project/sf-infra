@@ -92,6 +92,7 @@ dlrn::workers:
 #    gerrit_topic: 'rdo-FTBFS-ussuri'
     rsyncdest: 'centos8-ussuri@3.87.151.16:/home/centos8-ussuri/data/repos'
     rsyncport: '3300'
+    use_components: true
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'
