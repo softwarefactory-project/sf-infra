@@ -77,7 +77,7 @@ dlrn::workers:
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-ussuri-bootstrap', '/var/www/html/ussuri/centos8-bootstrap']
-    release: 'ussuri'
+    release: 'ussuri-uc'
     baseurl: 'https://trunk.rdoproject.org/centos8-ussuri-bootstrap'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
