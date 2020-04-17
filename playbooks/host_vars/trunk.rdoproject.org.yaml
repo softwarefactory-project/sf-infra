@@ -1,0 +1,3 @@
+dlrn_server_type: passive
+dlrn_enable_https: true
+dlrn_host: trunk

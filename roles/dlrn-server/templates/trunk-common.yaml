@@ -1,0 +1,291 @@
+---
+enable_worker_cronjobs: &enable_cron false
+enable_purge_cronjobs: &enable_purge false
+disable_worker_email: &disable_email true
+
+dlrn::web::web_domain: 'trunk.rdoproject.org'
+dlrn::web::enable_api: true
+dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train']
+dlrn::web::cert_mail: 'jpena@redhat.com'
+
+dlrn::workers:
+  centos-train:
+    distro: 'centos7'
+    target: 'centos-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '47'
+    symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
+    release: 'train'
+    baseurl: 'https://trunk.rdoproject.org/centos7-train'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+#    rsyncdest: 'centos-train@54.81.116.189:/home/centos-train/data/repos'
+#    rsyncport: '3300'
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-train'
+  centos-stein:
+    distro: 'centos7'
+    target: 'centos-stein'
+    distgit_branch: 'stein-rdo'
+    distro_branch: 'stable/stein'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '37'
+    symlinks: ['/var/www/html/centos7-stein', '/var/www/html/stein/centos7']
+    release: 'stein'
+    baseurl: 'https://trunk.rdoproject.org/centos7-stein'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-stein:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_stein?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-stein'
+#    rsyncdest: 'centos-stein@54.81.116.189:/home/centos-stein/data/repos'
+#    rsyncport: '3300'
+  centos-rocky:
+    distro: 'centos7'
+    target: 'centos-rocky'
+    distgit_branch: 'rocky-rdo'
+    distro_branch: 'stable/rocky'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '4'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos7-rocky', '/var/www/html/rocky/centos7']
+    release: 'rocky'
+    baseurl: 'https://trunk.rdoproject.org/centos7-rocky'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-rocky:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_rocky?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+# TODO(jpena): set to false once all rocky-rdo branches have been created, then cleanup rdoinfo
+# to ensure all packages are built
+    fallback_to_master: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-rocky'
+    rsyncdest: 'centos-rocky@54.81.116.189:/home/centos-rocky/data/repos'
+    rsyncport: '3300'
+  centos-queens:
+    distro: 'centos7'
+    target: 'centos-queens'
+    distgit_branch: 'queens-rdo'
+    distro_branch: 'stable/queens'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '1'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos7-queens', '/var/www/html/queens/centos7']
+    release: 'queens'
+    baseurl: 'https://trunk.rdoproject.org/centos7-queens'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-queens:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_queens?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: false
+    enable_deps_sync: true
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-queens'
+#    rsyncdest: 'centos-queens@54.81.116.189:/home/centos-queens/data/repos'
+#    rsyncport: '3300'
+  centos-pike:
+    distro: 'centos7'
+    target: 'centos-pike'
+    distgit_branch: 'pike-rdo'
+    distro_branch: 'stable/pike'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '0'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
+    release: 'pike'
+    baseurl: 'https://trunk.rdoproject.org/centos7-pike'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-pike:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_pike?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: false
+    enable_deps_sync: false
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-pike'
+#    rsyncdest: 'centos-pike@54.81.116.189:/home/centos-pike/data/repos'
+#    rsyncport: '3300'
+  centos-ocata:
+    distro: 'centos7'
+    target: 'centos-ocata'
+    distgit_branch: 'ocata-rdo'
+    distro_branch: 'stable/ocata'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '2'
+    purge_minute: '37'
+    symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
+    release: 'ocata'
+    baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://centos-ocata:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_ocata?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: false
+    enable_deps_sync: false
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-ocata'
+#    rsyncdest: 'centos-ocata@54.81.116.189:/home/centos-ocata/data/repos'
+#    rsyncport: '3300'
+  rhel8-master:
+    distro: 'rhel8'
+    target: 'rhel8'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '7'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/rhel8-master']
+    release: 'victoria-uc'
+    baseurl: 'http://trunk.rdoproject.org/rhel8-master'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://rhel8-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_rhel8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+  rhel8-train:
+    distro: 'rhel8'
+    target: 'rhel8-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '7'
+    purge_minute: '29'
+    symlinks: ['/var/www/html/rhel8-train']
+    release: 'train'
+    baseurl: 'http://trunk.rdoproject.org/rhel8-train'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'mysql+pymysql://rhel8-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_rhel8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+  centos8-master-uc:
+    distro: 'centos8'
+    target: 'centos8-master-uc'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '2'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
+    release: 'victoria-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos8'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-masteruc:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    use_components: true
+  centos8-master:
+    distro: 'centos8'
+    target: 'centos8'
+    distgit_branch: 'rpm-master-head'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    cron_env: '--head-only'
+    cron_hour: '*/4'
+    cron_minute: '5'
+    enable_purge: *enable_purge
+    purge_hour: '1'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-master-head']
+    release: 'victoria'
+    baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    use_components: true
+  centos8-ussuri:
+    distro: 'centos8'
+    target: 'centos8-ussuri'
+    distgit_branch: 'ussuri-rdo'
+    distro_branch: 'stable/ussuri'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-ussuri', '/var/www/html/ussuri/centos8']
+# TODO: move to ussuri once the tags have been updated in rdo
+    release: 'ussuri'
+    baseurl: 'https://trunk.rdoproject.org/centos8-ussuri'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-ussuri:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_ussuri?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-ussuri'
+    use_components: true
+  centos8-train:
+    distro: 'centos8'
+    target: 'centos8-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
+    release: 'train'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
