@@ -19,6 +19,12 @@
     name: node-exporter-rpm
   when: ansible_distribution == "CentOS"
 
+- name: Adding service suffix for prometheus_monitored_services
+  set_fact:
+    prometheus_monitored_services: "{{ prometheus_monitored_services | product(['.service']) | map('join') | list }}"
+  when: prometheus_monitored_services is defined
+
+# NOTE(dpawlik) All systemd services should end with '.service'.
 - include_role:
     name: container-service
   when: ansible_distribution == "Fedora"
@@ -29,9 +35,12 @@
       --pid=host
       -v /:/host:ro,rslave
       -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
+      -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       quay.io/prometheus/node-exporter
       --path.rootfs=/host
       --collector.netstat.fields=(.*)
       --collector.vmstat.fields=(.*)
       --collector.interrupts
       --collector.textfile.directory /var/lib/node_exporter/textfile_collector
+      --collector.systemd
+      --collector.systemd.unit-whitelist='{{ prometheus_monitored_services | join('|') }}'
