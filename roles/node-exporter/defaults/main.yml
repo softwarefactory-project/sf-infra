@@ -3,13 +3,14 @@
 # should be automaticaly increased by the
 # roles that are enabled on the "current" server.
 prometheus_monitored_services:
+  - blackbox-exporter
   - elasticsearch
   - etherpad
   - fail2ban
   - gearman
   - gerrit
   - gerritbot
-  - grafana-server
+  - grafana
   - httpd
   - kibana
   - kojid
@@ -20,6 +21,8 @@ prometheus_monitored_services:
   - nodepool-builder
   - nodepool-launcher
   - postfix
+  - prometheus
+  - pushprox-proxy
   - zookeeper
   - zuul-executor
   - zuul-merger
