@@ -8,5 +8,6 @@
     client_cert: 'blabla'
     client_key: 'foobar'
     dlrn_db_password: 'password'
+    puppet_dlrn_path: "{{ lookup('env','MOLECULE_PUPPET_DLRN_PATH') }}"
   roles:
     - role: dlrn-server
