@@ -36,11 +36,11 @@ dlrn::workers:
     distgit_branch: 'stable/ussuri'
     distro_branch: 'stable/ussuri'
     disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
     cron_hour: '*/4'
-    cron_minute: '35'
-    purge_hour: '3'
+    cron_minute: '20'
+    purge_hour: '4'
     purge_minute: '7'
     symlinks: ['/var/www/html/ussuri/repos']
     release: 'ussuri'
