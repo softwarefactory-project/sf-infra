@@ -13,6 +13,7 @@ inventory:
       - etherpad
       - lodgeit
       - logserver
+      - cgit
   - name: elk
     ip: 38.102.83.136
     roles:
@@ -27,3 +28,4 @@ inventory:
     ip: 38.102.83.90
     roles:
       - logserver
+      - hound
