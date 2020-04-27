@@ -122,6 +122,8 @@
     pre-run: tests/pre-tox-molecule.yml
     run: tests/tox-molecule.yml
     post-run: tests/post-tox-molecule.yml
+    required-projects:
+      - name: review.rdoproject.org/rdo-infra/puppet-dlrn
     timeout: 3600
     nodeset:
       nodes:

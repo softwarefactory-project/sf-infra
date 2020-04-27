@@ -23,3 +23,5 @@ The role will use the following variables, defined in the inventory:
         dlrn_override_files:
             /root/puppet-dlrn/path/to/overriden_file:
             source: local_override_file
+* `puppet_dlrn_path` is used to fetch the puppet-dlrn code from a local
+  directory, instead of the official git repo.
