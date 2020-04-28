@@ -80,6 +80,9 @@ security_groups:
   - name: rdo-trunk
     rules:
       - port: 3300
+  - name: hound
+    rules:
+      - port: 6080
   - name: elk
     rules:
       - port: 4731
@@ -240,6 +243,7 @@ servers:
       - common
       - monitoring
       - web
+      - hound
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes

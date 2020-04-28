@@ -4,18 +4,17 @@ inventory:
     roles:
       - install-server
       - mysql
-      - gerrit
       - gateway
       - cauth
+      - gerrit
       - managesf
       - gitweb
       - gerritbot
       - etherpad
       - lodgeit
-      - logserver
       - cgit
   - name: elk
-    ip: 38.102.83.136
+    ip: 192.168.240.132
     roles:
       - elasticsearch
       - job-logs-gearman-client
@@ -24,8 +23,8 @@ inventory:
       - kibana
       - influxdb
       - grafana
-  - name: logs
-    ip: 38.102.83.90
+  - name: logserver
+    ip: 192.168.240.232
     roles:
       - logserver
       - hound
