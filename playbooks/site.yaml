@@ -11,6 +11,18 @@
     - generate-etc-hosts
     - postfix
 
+- hosts:
+    - zs.softwarefactory-project.io
+    - nodepool-builder.softwarefactory-project.io
+  tasks:
+    - name: Update nodepool using master version (drop task after upgrade to sf-3.5)
+      become: true
+      package:
+        name:
+          - http://koji.softwarefactory-project.io/kojifiles/packages/python3-google-auth-httplib2/0.0.3/1.el7/noarch/python3-google-auth-httplib2-0.0.3-1.el7.noarch.rpm
+          - http://koji.softwarefactory-project.io/kojifiles/packages/python3-google-api-python-client/1.7.11/1.el7/noarch/python3-google-api-python-client-1.7.11-1.el7.noarch.rpm
+          - http://koji.softwarefactory-project.io/kojifiles/packages/nodepool/3.12.0/1.el7/noarch/nodepool-3.12.0-1.el7.noarch.rpm
+
 - hosts: all
   roles:
     - node-exporter
