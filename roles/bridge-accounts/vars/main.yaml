@@ -45,10 +45,9 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOACTrxPG0N4m3ltLzeY2MMEDvRLN5utvWD78dtfvKSMsyPfpPjlmCjMFGIWeHmrl8iOZyUnu7triCKjljvDedwTFOQ1VN/KF53/sjLqZDUPE8IC8G2V5R7jnAmKmQNSrtsauZ+yOQdV9C0hff7RI5euPGYowunKXX5OOmx6zZ0abNs5pMYAS0XwsFYf2V5op4bb+sJVJQkTYu1Ezy643FH2gRubpFTC8B2LqQjzeoBougSbwRFhFMYG/0WskH/ITPXJUlUrsqwFZRhx6uLQUoFGtnE3mMHQT0365PAZYl2RfWTrfLUEvJD2BN0I3UrsfOFH0QGsCWkKlVn3vqc1otF+6hgNzhCmGNNylfjBotXy5R8DGvItj1wsnnfgYpfL3p8lhdBz6Kbntdd6Nz0BAJ0JNf24DdrFh5MEclNS55s4OwImLaWLvTfZ32RF/OvJ/sd4z8Km+bnWtfp0NfNGs+s/Kdz7KuH8VfgrsURBVoQpipQOYDck0He0JTt2DeIuIP8f36dBzjAwBUqsrkSsWDPTzYhQKoQ8ZPRba2lNgSmzQf/VLsgdp00i3On8SmGAxf9Ib/O+/RbKFhwwN5Y71DiiOvjc6UrYNHCnl+6gpGbpvpez37Qo7OZFPI2+nBQmDfpfgodpB6wQqec0d7qB0VeZYwwLJ5c7upqjq2Nz5t1w=="
   zcaplovi:
     name: "zcaplovi"
-    groups:
-      - "{{ admin_group }}"
+    state: "absent"
     ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCkmduBxZ3v2zNrO4kOnL5nVvn2p9ONhqJtX5BLGCMpcGScEN2dXWTAsuZrSovLHUvlkLWjOTd03qyEfCCiswxzva3yDgnEhBUp6czJdke0yDP8051lA0HrZ61/wcwCA7Sje6gt0YCofK/p1kAzAU0PHOnGARKfjRd0Sk0fLA5Voaw1YOJS9l3nJY8YfzsgRrgHp4zFW2FRcYaSv1crcNORh4W28vXwbEiW8xoSwsHIH2kws56seYaUpV2kVWpeopY0jMYzVUhdT149XfZq1e10ARlx1Ph6Uq2efqBCZqkCADpz/254/j6XhAg0/i7KLTCxALGlUf7J7sA2duqbm0cO1tpU01bpZhU6/GC6QIgg9EduvD+K9pXB+T3zlxbuqoSXI+fLp8ARjytMeIRCQjlP3w6BelOMGNFRxsyJGDrhR7BaMpAQs7l8YxCr7h9XggYvMQFMm5lUKvcLbpalTg9JIDr2dG1BBIZonwZEbOFlRmS1qm7nr+sadlOYC5ckzv/lf5Q4Q3QU1lKIsgFkBOamg7IHlFeSn/0LFUiJXFC+ymXdCGE7JY5gYBAVxw/+B2K8nb7O6FES+MM9YYcxyFVMzy7bpOqpX8ONIAhyCufUW/KlfkGMf3aA8srXf0bl+kJeOXHY/wDxPpQuDb8aHZzR7EuEk4jYyyVfEzHMuqta8w== zcaplovi@redhat.com"
+      - "none"
   dpawlik:
     name: "dpawlik"
     groups:
