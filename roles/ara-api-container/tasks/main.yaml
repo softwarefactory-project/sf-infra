@@ -1,0 +1,94 @@
+- name: Create data directories
+  file:
+    path: "{{ ara_api_container_volume }}/logs"
+    state: directory
+    recurse: yes
+    mode: 0750
+
+# TODO: Instead of using the same approach as the ara_api role, it could be
+#       possible to pass only a subset of the settings by nesting them under
+#       an environment key other than 'default'
+- name: Reconcile configuration
+  vars:
+    reconciled_configuration:
+      ALLOWED_HOSTS: "{{ ara_api_allowed_hosts }}"
+      BASE_DIR: "{{ ara_api_base_dir }}"
+      CORS_ORIGIN_ALLOW_ALL: "{{ ara_api_cors_origin_allow_all }}"
+      CORS_ORIGIN_WHITELIST: "{{ ara_api_cors_origin_whitelist }}"
+      CORS_ORIGIN_REGEX_WHITELIST: "{{ ara_api_cors_origin_regex_whitelist }}"
+      DATABASE_ENGINE: "{{ ara_api_database_engine }}"
+      DATABASE_NAME: "{{ ara_api_database_name }}"
+      DATABASE_USER: "{{ ara_api_database_user }}"
+      DATABASE_PASSWORD: "{{ ara_api_database_password }}"
+      DATABASE_HOST: "{{ ara_api_database_host }}"
+      DATABASE_PORT: "{{ ara_api_database_port }}"
+      DATABASE_CONN_MAX_AGE: "{{ ara_api_database_conn_max_age }}"
+      DEBUG: "{{ ara_api_debug }}"
+      DISTRIBUTED_SQLITE: "{{ ara_api_distributed_sqlite }}"
+      DISTRIBUTED_SQLITE_PREFIX: "{{ ara_api_distributed_sqlite_prefix }}"
+      DISTRIBUTED_SQLITE_ROOT: "{{ ara_api_distributed_sqlite_root }}"
+      LOGGING: "{{ ara_api_logging }}"
+      LOG_LEVEL: "{{ ara_api_log_level }}"
+      SECRET_KEY: "{{ ara_api_secret_key }}"
+      READ_LOGIN_REQUIRED: "{{ ara_api_read_login_required }}"
+      WRITE_LOGIN_REQUIRED: "{{ ara_api_write_login_required }}"
+      PAGE_SIZE: "{{ ara_api_page_size }}"
+      TIME_ZONE: "{{ ara_api_time_zone }}"
+  set_fact:
+    ara_api_configuration: "{'{{ ara_api_env }}': {{ reconciled_configuration }} }"
+  no_log: yes
+
+- name: Set up the ARA API configuration file
+  copy:
+    content: |
+      ---
+      # Managed by the ara-api Ansible role
+      {{ ara_api_configuration | to_nice_yaml(indent=2) }}
+    dest: "{{ ara_api_container_volume }}/settings.yaml"
+    mode: 0640
+  register: _ara_config
+  no_log: yes
+
+# API server will be exposed on port 8000
+- name: Configure and start an ara-api container
+  include_role:
+    name: container-service
+  vars:
+    pod_name: ara-api-server
+    pod_param: >
+      --network host
+      -v {{ ara_api_container_volume }}:/opt/ara:Z
+      {{ ara_api_container_image }}
+    pod_config: "{{ _ara_config }}"
+
+# TODO: It could make sense to use the monitoring-gateway role for this but it
+#       doesn't currently work out of the box because relative URLs are from
+#       the root, not from /ara.
+#       https://github.com/ansible-community/ara/issues/121 has a workaround for
+#       nginx but not for apache yet.
+- become: yes
+  block:
+    - name: Install nginx for reverse proxy and SSL termination
+      package:
+        name: nginx
+        state: present
+
+    - name: Enable proxy for selinux
+      seboolean:
+        name: httpd_can_network_connect
+        state: yes
+        persistent: yes
+
+    - name: Configure vhost
+      template:
+        src: vhost.conf.j2
+        dest: /etc/nginx/conf.d/ara-api.conf
+      notify:
+        - restart nginx
+
+    - name: Enable and start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      register: ara_nginx_enabled
