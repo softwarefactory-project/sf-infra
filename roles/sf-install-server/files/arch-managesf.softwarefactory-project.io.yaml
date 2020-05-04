@@ -127,12 +127,6 @@ inventory:
   roles:
   - hypervisor-runc
 
-- ip: 38.145.33.6
-  name: k1s01
-  remote: true
-  roles:
-  - hypervisor-k1s
-
 - ip: 38.102.83.186
   name: k1s02
   remote: true
