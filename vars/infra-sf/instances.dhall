@@ -157,16 +157,6 @@ let instances =
             //  Infra.setIp "38.102.83.186"
         }
       , Instance::{
-        , name = "k1s03"
-        , connection = OS.Fedora.`31`.connection
-        , server = Infra.Server::{
-          , image = OS.Fedora.`31`.image.name
-          , network = "oci-private-network"
-          , security_groups = [ "hypervisor-oci" ]
-          , flavor = Some Flavors.`4vcpus_8gb`
-          }
-        }
-      , Instance::{
         , name = "zs"
         , groups = [ Infra.Group.sf ]
         , connection = OS.CentOS.`7.0`.connection
