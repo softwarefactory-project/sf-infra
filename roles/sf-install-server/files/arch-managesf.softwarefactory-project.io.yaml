@@ -120,13 +120,6 @@ inventory:
   roles:
   - zuul-merger
 
-- ip: 38.102.83.245
-  max-servers: 24
-  name: oci01
-  remote: true
-  roles:
-  - hypervisor-runc
-
 - ip: 38.102.83.186
   name: k1s02
   remote: true
