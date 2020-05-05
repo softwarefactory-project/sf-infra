@@ -39,7 +39,7 @@
       loop: "{{ afs_puppet_modules }}"
 
     - name: Build and install puppet modules
-      shell: "puppet module build && puppet module install /usr/src/{{ item }}/pkg/*.tar.gz"
+      shell: "puppet module build && puppet module install -f /usr/src/{{ item }}/pkg/*.tar.gz"
       args:
         chdir: "/usr/src/{{ item }}"
       loop: "{{ afs_puppet_modules }}"
