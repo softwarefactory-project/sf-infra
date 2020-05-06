@@ -1,0 +1,12 @@
+---
+groups:
+  - name: NodepoolDibImages
+    rules:
+      - alert: DibImageOutdated
+        expr: time() - nodepool_dib_image_last_build > 86400
+        for: 2h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nodepool DIB image {{ $labels.image }} is older than 1 day!"
+          description: "{{ $labels.image }} dib img was not done by nodepool-builder since 24h!"

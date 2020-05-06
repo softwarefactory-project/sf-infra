@@ -64,6 +64,7 @@ in  Prometheus.Config::{
       , "rules-dlrn.yaml"
       , "rules-afs.yaml"
       , "rules-systemd.yaml"
+      , "rules-nodepool.yaml"
       ]
     , scrape_configs = Some
       [ Prometheus.ScrapeConfig::{

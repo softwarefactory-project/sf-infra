@@ -17,6 +17,7 @@ rule_files:
   - rules-dlrn.yaml
   - rules-afs.yaml
   - rules-systemd.yaml
+  - rules-nodepool.yaml
 scrape_configs:
   - job_name: node
     static_configs:
