@@ -17,6 +17,7 @@
     abstract: true
     allowed-projects:
       - software-factory/sf-infra
+      - review.rdoproject.org/rdo-infra/puppet-dlrn
     semaphore: sf-infra
     irrelevant-files:
       - "Makefile"
@@ -124,7 +125,8 @@
     post-run: tests/post-tox-molecule.yml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/puppet-dlrn
-    timeout: 3600
+      - name: software-factory/sf-infra
+    timeout: 7200
     nodeset:
       nodes:
         - name: primary
