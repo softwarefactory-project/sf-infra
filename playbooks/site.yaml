@@ -159,3 +159,9 @@
 - hosts: ci-centos-org
   roles:
     - pushprox
+
+- name: Deploy and configure ARA API server
+  hosts: ara.softwarefactory-project.io
+  roles:
+    - setup-ssl
+    - ara-api-container
