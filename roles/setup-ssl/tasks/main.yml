@@ -61,6 +61,13 @@
         state: present
       when: ansible_distribution == "Fedora"
 
+# cronie, which provides crontab, might not be installed by default
+- name: Ensure cronie is installed for crontab configuration
+  become: true
+  package:
+    name: cronie
+    state: present
+
 - name: Generate lets encrypt SSLs
   include_tasks: ssl_create_cert.yml
   with_dict: "{{ ssl_cert_options }}"
