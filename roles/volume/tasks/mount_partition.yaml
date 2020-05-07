@@ -1,0 +1,13 @@
+- name: Create mountpoint
+  file:
+    path: '{{ mountpoint }}'
+    owner: '{{ mount_owner | default("root") }}'
+    group: '{{ mount_group | default("root") }}'
+    state: directory
+
+- name: Mount partition
+  mount:
+    fstype: '{{ filesystem | default("xfs") }}'
+    src: '/dev/{{ partition }}'
+    path: '{{ mountpoint }}'
+    state: mounted
