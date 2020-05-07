@@ -63,6 +63,7 @@ in  Prometheus.Config::{
       , "rules-backup.yaml"
       , "rules-dlrn.yaml"
       , "rules-afs.yaml"
+      , "rules-systemd.yaml"
       ]
     , scrape_configs = Some
       [ Prometheus.ScrapeConfig::{
