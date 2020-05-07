@@ -23,6 +23,7 @@
   vars:
     bridge_packages:
       - ansible
+      - ara
       - dnsmasq
       - python3-openstacksdk
       - vim-enhanced
@@ -82,16 +83,17 @@
             chdir: "~/{{ zuul.project.src_dir }}"
           register: _actions_files
 
-        - name: Execute actions
-          # TODO: Figure out a better way
-          environment:
-            PYTHONPATH: "{{ ansible_user_dir }}/.ara/virtualenv/lib/python3.7/site-packages"
-          args:
-            chdir: "~/{{ zuul.project.src_dir }}"
-          command: "ansible-playbook -v {{ item }}"
-          loop: "{{ _actions_files.stdout_lines }}"
+        - environment:
+            # Provided by Zuul secret
+            ARA_API_PASSWORD: "{{ ara_api.password }}"
+          block:
+            - name: Execute actions
+              args:
+                chdir: "~/{{ zuul.project.src_dir }}"
+              command: "ansible-playbook -v {{ item }}"
+              loop: "{{ _actions_files.stdout_lines }}"
 
-        - name: Run configuration playbook
-          args:
-            chdir: "~/{{ zuul.project.src_dir }}"
-          command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"
+            - name: Run configuration playbook
+              args:
+                chdir: "~/{{ zuul.project.src_dir }}"
+              command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"

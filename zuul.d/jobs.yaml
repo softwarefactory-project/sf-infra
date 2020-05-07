@@ -57,6 +57,9 @@
     run: playbooks/zuul/configure-hosts.yaml
     vars:
       sf_infra_play_name: configure-tenants
+    secrets:
+      - name: ara_api
+        secret: bridge_ara_api
 
 - job:
     name: sf-infra-create-hosts
@@ -72,6 +75,9 @@
     run: playbooks/zuul/configure-hosts.yaml
     vars:
       sf_infra_play_name: create-hosts
+    secrets:
+      - name: ara_api
+        secret: bridge_ara_api
 
 - job:
     name: sf-infra-configure-hosts
@@ -90,6 +96,8 @@
         secret: vexxhost-cloud
       - name: vault
         secret: ansible-vault
+      - name: ara_api
+        secret: bridge_ara_api
 
 - job:
     name: sf-infra-configure-registry
@@ -114,6 +122,8 @@
         secret: vexxhost-cloud
       - name: vault
         secret: ansible-vault
+      - name: ara_api
+        secret: bridge_ara_api
 
 - job:
     name: sf-infra-molecule
