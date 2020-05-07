@@ -155,7 +155,7 @@
                 - flake8
                 - yamllint
         - dhall-diff:
-            nodeset: fedora-latest-pod
+            nodeset: haskell-latest-pod
         - prometheus-lint
         - sf-infra-molecule
     gate:
@@ -167,7 +167,7 @@
                 - flake8
                 - yamllint
         - dhall-diff:
-            nodeset: fedora-latest-pod
+            nodeset: haskell-latest-pod
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff
