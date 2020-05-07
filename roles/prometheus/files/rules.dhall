@@ -39,7 +39,7 @@ in      \(job-name : Text)
                           "predict_linear(node_filesystem_avail_bytes{job=\"${job-name}\"}[1d], 3 * 24 * 3600)"
 
                     in  Some "(${usage} < 50) and (${prediction} < 0)"
-                , for = Some "1h"
+                , for = Some "12h"
                 , annotations = Some Prometheus.Annotations::{
                   , summary =
                       "Out of disk space (instance {{ \$labels.instance }})"
