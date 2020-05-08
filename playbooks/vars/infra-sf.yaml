@@ -493,3 +493,7 @@ volumes:
     display_name: nodepool-builder-data
     server: nodepool-builder.softwarefactory-project.io
     size: 1000
+  - device: /dev/vdc
+    display_name: nodepool-builder-data-2
+    server: nodepool-builder.softwarefactory-project.io
+    size: 160

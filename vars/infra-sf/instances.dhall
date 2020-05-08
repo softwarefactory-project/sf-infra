@@ -141,6 +141,11 @@ let instances =
             , size = 1000
             , device = "/dev/vdb"
             }
+          , Infra.Volume::{
+            , display_name = "nodepool-builder-data-2"
+            , size = 160
+            , device = "/dev/vdc"
+            }
           ]
         }
       , Instance::{
