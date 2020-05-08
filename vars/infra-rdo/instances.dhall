@@ -145,7 +145,7 @@ let instances =
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
-            , size = 160
+            , size = 1000
             , server = "elk" ++ "." ++ fqdn
             , device = "/dev/vdb"
             }
