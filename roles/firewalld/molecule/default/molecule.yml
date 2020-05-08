@@ -3,8 +3,6 @@ dependency:
   name: galaxy
 driver:
   name: podman
-lint:
-  name: yamllint
 platforms:
   - name: instance
     # NOTE(jpena): when updating the test machine to Fedora 31, we will need
