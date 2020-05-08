@@ -4,14 +4,3 @@ bridge_public_ip: 38.102.83.244
 podman_gw_ip: 10.88.0.1
 prometheus_public_ip: 38.102.83.250
 prometheus_private_ip: 192.168.242.246
-ara_api_source: https://github.com/ansible-community/ara
-ara_api_source_checkout: ~/src/github.com/ansible-community/ara
-ara_api_fqdn: bridge.softwarefactory-project.io
-ara_api_wsgi_server: gunicorn
-ara_api_wsgi_bind: "127.0.0.1:8000"
-ara_api_allowed_hosts:
-  - localhost
-  - 127.0.0.1
-  - bridge.softwarefactory-project.io
-# TODO: Automate user creation and enable this
-# ara_api_write_login_required: true
