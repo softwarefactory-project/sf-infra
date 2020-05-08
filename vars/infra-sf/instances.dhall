@@ -137,14 +137,9 @@ let instances =
         , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =
           [ Infra.Volume::{
-            , display_name = "nodepool-builder-data"
-            , size = 1000
-            , device = "/dev/vdb"
-            }
-          , Infra.Volume::{
             , display_name = "nodepool-builder-data-2"
-            , size = 160
-            , device = "/dev/vdc"
+            , size = 200
+            , device = "/dev/vdb"
             }
           ]
         }
