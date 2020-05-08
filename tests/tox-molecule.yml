@@ -5,7 +5,12 @@
       changed_when: true
       shell:
         cmd: |
-            CHANGED_ROLES=$(git diff --name-only --diff-filter=ACMDTR HEAD~1 |grep roles | while read line; do echo $line|awk -F/ {'print $1"/"$2'}; done | sort -u)
+            ROLE_TO_TEST="{{ role_to_test | default('') }}"
+            if [ -z "$ROLE_TO_TEST" ]; then
+                CHANGED_ROLES=$(git diff --name-only --diff-filter=ACMDTR HEAD~1 |grep roles | while read line; do echo $line|awk -F/ {'print $1"/"$2'}; done | sort -u)
+            else
+                CHANGED_ROLES=${ROLE_TO_TEST}
+            fi
             if [ -z "$CHANGED_ROLES" ]; then
                 TOX_PARAMS=""
             else
