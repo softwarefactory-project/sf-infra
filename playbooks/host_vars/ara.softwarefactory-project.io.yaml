@@ -11,8 +11,9 @@ ssl_cert_options:
 ara_api_allowed_hosts:
   - "{{ ara_api_fqdn }}"
 
-# Don't allow unauthenticated writes
+# Don't allow unauthenticated reads or writes
 ara_api_write_login_required: true
+ara_api_read_login_required: true
 
 # Secret key required by the django backend
 ara_api_secret_key: !vault |
