@@ -18,7 +18,6 @@
     allowed-projects:
       - software-factory/sf-infra
       - review.rdoproject.org/rdo-infra/puppet-dlrn
-    semaphore: sf-infra
     irrelevant-files:
       - "Makefile"
       - ".*.dhall"
@@ -30,6 +29,7 @@
     name: sf-infra-create-bridge
     parent: sf-infra-base
     description: Deploy the bridge
+    semaphore: sf-infra
     run: playbooks/create-bridge.yaml
     files:
       - ^playbooks/create-bridge.yaml$
@@ -46,6 +46,7 @@
     name: sf-infra-configure-tenants
     parent: sf-infra-base
     description: Create the tenant resources such as network and secgroup
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-create-bridge
         soft: true
@@ -63,6 +64,7 @@
     name: sf-infra-create-hosts
     parent: sf-infra-base
     description: Create the hosts
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-configure-tenants
         soft: true
@@ -78,6 +80,7 @@
     name: sf-infra-configure-hosts
     parent: sf-infra-base
     description: Configure the hosts
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
@@ -96,6 +99,7 @@
     name: sf-infra-configure-registry
     parent: sf-infra-base
     description: Configure the registry host
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
