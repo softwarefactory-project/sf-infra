@@ -39,6 +39,7 @@
       register: copy_status
       when:
         - puppet_dlrn_path is defined
+        - puppet_dlrn_path | length > 0
 
     - name: Clone puppet-dlrn
       git:
@@ -48,7 +49,7 @@
         force: yes
       register: git_status
       when:
-        - puppet_dlrn_path is not defined
+        - (puppet_dlrn_path is not defined) or puppet_dlrn_path | length == 0
 
     - name: Apply override files, if needed
       copy:
