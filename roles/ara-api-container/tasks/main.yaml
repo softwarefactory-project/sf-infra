@@ -61,6 +61,16 @@
       {{ ara_api_container_image }}
     pod_config: "{{ _ara_config }}"
 
+# Podman runs the container from root
+- name: Configure a cron for automatically pruning the database
+  become: yes
+  cron:
+    name: ARA automatic database pruning
+    minute: 0
+    hour: 0
+    user: root
+    job: podman exec -it ara-api-server ara-manage prune --days 31 --confirm
+
 # TODO: It could make sense to use the monitoring-gateway role for this but it
 #       doesn't currently work out of the box because relative URLs are from
 #       the root, not from /ara.
