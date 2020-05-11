@@ -314,7 +314,7 @@ volumes:
   - device: /dev/vdb
     display_name: elk-data
     server: elk.rdoproject.org
-    size: 160
+    size: 1000
   - device: /dev/vdb
     display_name: logs-data
     server: logserver.rdoproject.org
