@@ -1,0 +1,16 @@
+- job:
+    name: sf-infra-base-haskell
+    nodeset:
+      nodes:
+        - name: container
+          label: pod-haskell-f31
+    run: playbooks/test-haskell.yaml
+    abstract: true
+
+- job:
+    name: sf-infra-test-udp-multiplexer
+    parent: sf-infra-base-haskell
+    vars:
+      infra_script: roles/udp-multiplexer/files/udp-multiplexer.hs
+    files:
+      - roles/udp-multiplexer/files/udp-multiplexer.hs

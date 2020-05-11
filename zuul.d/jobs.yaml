@@ -166,6 +166,7 @@
 - project:
     check:
       jobs:
+        - sf-infra-test-udp-multiplexer
         - linters:
             nodeset: fedora-latest-pod
             vars:

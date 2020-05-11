@@ -1,0 +1,45 @@
+- name: Setup script requirements
+  package:
+    name:
+      - ghc-network-devel
+      - ghc-bytestring-devel
+      - ghc
+  become: yes
+
+- name: Copy the source
+  copy:
+    src: udp-multiplexer.hs
+    dest: /usr/local/src/udp-multiplexer.hs
+  register: _src
+
+- name: Setup script
+  become: true
+  command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -o /usr/local/bin/udp-multiplexer /usr/local/src/udp-multiplexer.hs
+  when: _src is changed
+
+- name: Setup service
+  become: true
+  copy:
+    content: |
+      [Unit]
+      Description=UDP Multiplexer service
+      After=syslogp.target network.target
+
+      [Service]
+      Type=simple
+      SyslogIdentifier=udp-multiplexer
+      ExecStart=/usr/local/bin/udp-multiplexer {{ udp_mp_listen_port }} {{ udp_mp_dest1 }} {{ udp_mp_dest2 }}
+      Restart=always
+      RestartSec=3s
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/udp-multiplexer.service
+
+- name: Start service
+  become: true
+  systemd:
+    name: udp-multiplexer
+    daemon-reload: true
+    state: started
+    enabled: true
