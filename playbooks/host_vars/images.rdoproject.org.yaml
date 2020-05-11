@@ -8,8 +8,8 @@ ssl_cert_options:
   cert1:
     email: "softwarefactory-operations-team@redhat.com"
     domain: "images-vexxhost.rdoproject.org"
-    webroot: "/var/www/html"
+    webroot: "/var/www/html/images"
   cert2:
     email: "softwarefactory-operations-team@redhat.com"
     domain: "images.rdoproject.org"
-    webroot: "/var/www/html"
+    webroot: "/var/www/html/images"
