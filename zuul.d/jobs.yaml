@@ -92,7 +92,8 @@
         soft: true
     run: playbooks/zuul/configure-hosts.yaml
     required-projects:
-      - review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      - name: software-factory/sf-infra
     vars:
       sf_infra_play_name: site
     secrets:
@@ -114,6 +115,7 @@
     run: playbooks/zuul/configure-registry-host.yaml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      - name: software-factory/sf-infra
       # NOTE(dpawlik) rdo-3.11 branch include cockpit patch.
       # Official branch is: release-3.11
       - name: github.com/rdo-infra/openshift-ansible
