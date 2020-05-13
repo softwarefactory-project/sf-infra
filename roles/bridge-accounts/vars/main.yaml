@@ -3,6 +3,7 @@ bridge_groups: []
 bridge_users:
   dmsimard:
     name: "dmsimard"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
