@@ -170,8 +170,8 @@ dlrn::workers:
     distgit_branch: 'pike-rdo'
     distro_branch: 'stable/pike'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     cron_hour: '*/2'
     cron_minute: '37'
     purge_hour: '0'
@@ -196,8 +196,8 @@ dlrn::workers:
     distgit_branch: 'ocata-rdo'
     distro_branch: 'stable/ocata'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     cron_hour: '*/2'
     cron_minute: '27'
     purge_hour: '2'
