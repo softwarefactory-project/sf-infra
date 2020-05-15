@@ -23,6 +23,8 @@ prometheus_monitored_services:
   - postfix
   - prometheus
   - pushprox-proxy
+  - statsd_exporter
+  - udp-multiplexer
   - zookeeper
   - zuul-executor
   - zuul-merger
