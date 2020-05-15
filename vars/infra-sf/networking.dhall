@@ -39,6 +39,11 @@ let security_groups =
               , port = +9101
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +9102
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
+            , Infra.Rule::{ port = +9125, protocol = Some "udp" }
             ]
           }
         , { name = "hypervisor-oci"

@@ -78,6 +78,7 @@
     - blackbox-exporter
     - prometheus
     - pushprox
+    - statsd-exporter
 
 - hosts: zs.softwarefactory-project.io
   roles:

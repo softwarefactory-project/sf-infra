@@ -1,0 +1,6 @@
+mappings:
+  - match: nodepool.dib_image_build.*.status.last_build
+    name: nodepool_dib_image_last_build
+    help: Time when the last DIB image was built
+    labels:
+      image: "$1"

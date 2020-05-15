@@ -1,0 +1,68 @@
+---
+#   Copyright Red Hat, Inc. All Rights Reserved.
+#
+#   Licensed under the Apache License, Version 2.0 (the "License"); you may
+#   not use this file except in compliance with the License. You may obtain
+#   a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#   WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#   License for the specific language governing permissions and limitations
+#   under the License.
+#
+
+- name: Copy statsd mapping file
+  copy:
+    src: statsd_mapping.yml
+    dest: "{{ map_config_file_path }}"
+    mode: '0644'
+  become: true
+  notify:
+    - restart statsd-exporter
+
+- when:
+    - ansible_distribution == "CentOS"
+  block:
+    - name: Install statsd_exporter from copr centos 7
+      yum:
+        name: https://download.copr.fedorainfracloud.org/results/danpawlik/statsd_exporter/epel-7-x86_64/01360590-golang-github-prometheus-statsd_exporter/statsd_exporter-0.15.0-3.el7.x86_64.rpm
+      when: ansible_distribution_major_version == '7'
+
+    - name: Install statsd_exporter from copr centos 8
+      yum:
+        name: https://download.copr.fedorainfracloud.org/results/danpawlik/statsd_exporter/epel-8-x86_64/01360590-golang-github-prometheus-statsd_exporter/statsd_exporter-0.15.0-3.el8.x86_64.rpm
+      when: ansible_distribution_major_version == '8'
+
+    - name: Add parameters to statsd_exporter
+      lineinfile:
+        path: /etc/sysconfig/statsd_exporter
+        regexp: '^OPTIONS='
+        line: 'OPTIONS="--web.listen-address=:{{ listen_address }} --statsd.listen-udp=:{{ listen_udp_port }} --statsd.listen-tcp=:{{ listen_tcp_port }} --statsd.mapping-config={{ map_config_file_path }}"'
+        create: yes
+      notify:
+        - restart statsd-exporter
+
+    - name: Start the service
+      service:
+        name: node_exporter
+        state: started
+        enabled: true
+  become: yes
+
+- when: ansible_distribution == "Fedora"
+  include_role:
+    name: container-service
+  vars:
+    pod_name: statsd_exporter
+    pod_param: >
+      --net=host
+      --pid=host
+      -v /etc/prometheus/statsd_mapping.yml:/tmp/statsd_mapping.yml
+      -p {{ listen_address }}:9102
+      -p {{ listen_udp_port }}:9125
+      -p {{ listen_tcp_port }}:9125
+      prom/statsd-exporter
+      --statsd.mapping-config=/tmp/statsd_mapping.yml
