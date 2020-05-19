@@ -36,4 +36,4 @@
         hour: "4"
         month: "*/1"
         job: |
-          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra; ANSIBLE_CONFIG=ansible/ansible-registry.cfg; /usr/bin/ansible-playbook playbooks/registry-renew-certificates.yml -i ansible/hosts.yaml
+          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra; ANSIBLE_CONFIG=ansible/ansible-registry.cfg; /usr/bin/ansible-playbook playbooks/registry-renew-certificates.yml -i ansible/hosts.yaml | systemd-cat -t registry-ssl-renew -p info
