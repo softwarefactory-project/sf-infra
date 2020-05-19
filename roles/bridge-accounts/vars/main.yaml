@@ -1,5 +1,8 @@
 admin_group: "sf-admin"
 bridge_groups: []
+bridge_extra_ssh_keys:
+  # puppet-infra project key, from https://softwarefactory-project.io/zuul/api/tenant/rdoproject.org/project-ssh-key/rdo-infra/puppet-dlrn.pub
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCsQJ0c9GRdEHTMefwV70kuxoYgX8wkBOOxE6DYtsgwEYcg+A/9qn0FXOI8nj1ikLKBd9Tdr0IFA/xEnmDB3f7appVPOxU93XTb+h5qphtcYSXQRzr0JoZUMLG4gkjfPjSJDHJxrl68FkolcQ4Tub2xK8H9z9hvGopvEv+9T+Cn9/Oj2XUKBKAZlzoCi1AlPiaT3BDBW5AWj9/IhNMD0s0EHU6QRI3g05Y7FFXXwbLMzp71PRDrsnj3v4ocuJbSReN491cJr7P0C5hyJobG/6TF60JxRWbq8Ty3MXyowUcnHND9kBcmdZLmLcv9G0uTrKFrCZH0/cUutXkxAolh+vpz"
 bridge_users:
   dmsimard:
     name: "dmsimard"

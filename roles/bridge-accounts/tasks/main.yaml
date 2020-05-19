@@ -36,3 +36,10 @@
         regexp: "^%{{ admin_group }}"
         line: "%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL"
         validate: "/usr/sbin/visudo -cf %s"
+
+    - name: Setup extra authorized_keys for the fedora account
+      authorized_key:
+        user: fedora
+        key: "{{ item }}"
+      with_items: "{{ bridge_extra_ssh_keys }}"
+      when: bridge_extra_ssh_keys is defined
