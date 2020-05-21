@@ -1,34 +1,35 @@
-[delorean-master-testing]
-name=dlrn-master-testing
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+[delorean-ussuri-testing]
+name=dlrn-ussuri-testing
+baseurl=https://trunk.rdoproject.org/centos8-ussuri/deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
-[delorean-master-build-deps]
-name=dlrn-master-build-deps
-baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
+[delorean-ussuri-build-deps]
+name=dlrn-ussuri-build-deps
+baseurl=https://trunk.rdoproject.org/centos8-ussuri/build-deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
 [advanced-virtualization]
 name=Advanced Virtualization mirror
-baseurl=http://mirror.centos.org/centos/8/virt/x86_64/advanced-virtualization/
+baseurl=http://mirror.centos.org/centos/8/virt/$basearch/advanced-virtualization/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
 
-[messaging-rabbitmq]
+[centos-rabbitmq-38]
 name=Messaging RabbitMQ
-baseurl=http://mirror.centos.org/centos/8/messaging/x86_64/rabbitmq-38
+baseurl=http://mirror.centos.org/centos/8/messaging/$basearch/rabbitmq-38
 gpgcheck=0
 enabled=1
 module_hotfixes=1
+skip_if_unavailable=1
 
-[opstools]
+[centos-opstools]
 name=opstools
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/opstools/collectd/x86_64/
+baseurl=http://mirror.centos.org/centos/8/opstools/$basearch/collectd-5/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
