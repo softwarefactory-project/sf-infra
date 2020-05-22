@@ -18,6 +18,7 @@
     allowed-projects:
       - software-factory/sf-infra
       - review.rdoproject.org/rdo-infra/puppet-dlrn
+      - review.rdoproject.org/rdo-infra/rdo-infra-playbooks
     irrelevant-files:
       - "Makefile"
       - ".*.dhall"

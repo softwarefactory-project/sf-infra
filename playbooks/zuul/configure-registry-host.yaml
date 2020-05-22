@@ -22,7 +22,7 @@
   tasks:
     - name: Run configuration playbook
       args:
-        chdir: "~/{{ zuul.project.src_dir }}"
+        chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
       command: ansible-playbook -vv playbooks/rdo-registry.yaml
       environment:
         ANSIBLE_CONFIG: ansible/ansible-registry.cfg
