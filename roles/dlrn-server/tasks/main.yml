@@ -102,7 +102,7 @@
         dest: /root/site.pp
 
     - name: Apply puppet manifest
-      command: puppet apply /root/site.pp
+      command: puppet apply --logdest /root/puppet-apply.log /root/site.pp
       # The puppet module execution is not perfectly idempotent,
       # so we need this to keep molecule happy
       changed_when: false
