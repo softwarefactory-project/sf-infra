@@ -15,6 +15,7 @@
 
 import Control.Exception (SomeException, handle)
 import Control.Monad (forever, forM)
+import Data.Monoid ((<>))
 import Network.Socket hiding (recv)
 import Data.ByteString.Internal (ByteString)
 import Network.Socket.ByteString (recv, sendAll)

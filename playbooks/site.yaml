@@ -71,6 +71,7 @@
   roles:
     - hostname
     - setup-ssl
+    - udp-multiplexer
     - monitoring-gateway
     - alert-manager
     - dnsmasq

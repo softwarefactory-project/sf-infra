@@ -3,7 +3,7 @@
     nodeset:
       nodes:
         - name: container
-          label: pod-haskell-f31
+          label: pod-haskell-epel7
     run: playbooks/test-haskell.yaml
     abstract: true
 

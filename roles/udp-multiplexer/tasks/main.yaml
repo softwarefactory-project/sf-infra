@@ -1,21 +1,34 @@
-- name: Setup script requirements
-  package:
-    name:
-      - ghc-network-devel
-      - ghc-bytestring-devel
-      - ghc
-  become: yes
+- name: Create udp-multiplexer directory
+  become: true
+  file:
+    path: /opt/udp-multiplexer
+    state: directory
+    mode: '0755'
 
 - name: Copy the source
+  become: true
   copy:
     src: udp-multiplexer.hs
-    dest: /usr/local/src/udp-multiplexer.hs
+    dest: /opt/udp-multiplexer/udp-multiplexer.hs
   register: _src
 
 - name: Setup script
   become: true
-  command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -o /usr/local/bin/udp-multiplexer /usr/local/src/udp-multiplexer.hs
+  vars:
+    build_image: quay.io/software-factory/haskell-epel7
+    build_command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -o /opt/udp-multiplexer/udp-multiplexer /opt/udp-multiplexer/udp-multiplexer.hs
+  command: >
+    podman run -it --rm
+      --volume /opt/udp-multiplexer:/opt/udp-multiplexer:Z
+      {{ build_image }} {{ build_command }}
   when: _src is changed
+
+- name: Create a symbolic link to udp-multiplexer bin
+  become: true
+  file:
+    src: /opt/udp-multiplexer/udp-multiplexer
+    dest: /usr/local/bin/udp-multiplexer
+    state: link
 
 - name: Setup service
   become: true
