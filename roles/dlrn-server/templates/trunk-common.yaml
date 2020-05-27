@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train']
+dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train', 'centos8-train-components']
 dlrn::web::cert_mail: 'jpena@redhat.com'
 
 dlrn::workers:
@@ -289,3 +289,28 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+  centos8-train-components:
+    distro: 'centos8'
+    target: 'centos8-train-components'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-train-components', '/var/www/html/train-components/centos8']
+    release: 'train'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train-components'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://c8-train-compone:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train_components?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+#    gerrit_user: 'rdo-trunk'
+#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_topic: 'rdo-FTBFS-train'
+    use_components: true
