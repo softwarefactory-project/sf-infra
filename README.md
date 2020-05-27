@@ -1,6 +1,63 @@
 Operational Playbook for softwarefactory-project.io
 ===================================================
 
+# Inventory
+
+This project manages:
+
+* mirror.regionone.vexxhost.rdoproject.org
+* centos8-rpm-packaging-ci.rdoproject.org
+* rpm-packaging-ci.rdoproject.org
+* registry.rdoproject.org
+* trunk-centos8.rdoproject.org
+* trunk-centos7.rdoproject.org
+* managesf.review.rdoproject.org
+* elk.rdoproject.org
+* logserver.rdoproject.org
+* images.rdoproject.org
+* www.rdoproject.org
+* dlrn-db.rdoproject.org
+* backup.rdoproject.org
+* trunk.rdoproject.org
+* rdo-ci-cloudslave01.ci.centos.org
+* rdo-ci-cloudslave02.ci.centos.org
+* rdo-ci-cloudslave03.ci.centos.org
+* rdo-ci-cloudslave04.ci.centos.org
+* rdo-ci-cloudslave05.ci.centos.org
+* bridge.softwarefactory-project.io
+* logreduce-mqtt-01.softwarefactory-project.io
+* prometheus.monitoring.softwarefactory-project.io
+* ara.softwarefactory-project.io
+* redhat-oss-git-stats.softwarefactory-project.io
+* elk.softwarefactory-project.io
+* managesf.softwarefactory-project.io
+* nodepool-builder.softwarefactory-project.io
+* k1s02.softwarefactory-project.io
+* zs.softwarefactory-project.io
+* koji.softwarefactory-project.io
+* integrations.softwarefactory-project.io
+* fedora.softwarefactory-project.io
+* ovirt.softwarefactory-project.io
+* ovirt-staging.softwarefactory-project.io
+* ansible.softwarefactory-project.io
+* ze01.softwarefactory-project.io
+* ze02.softwarefactory-project.io
+* ze03.softwarefactory-project.io
+* ze04.softwarefactory-project.io
+* ze05.softwarefactory-project.io
+* ze06.softwarefactory-project.io
+* ze07.softwarefactory-project.io
+* zm01.softwarefactory-project.io
+* zm02.softwarefactory-project.io
+* zm03.softwarefactory-project.io
+* zm04.softwarefactory-project.io
+* zm05.softwarefactory-project.io
+* zm06.softwarefactory-project.io
+* zm07.softwarefactory-project.io
+* zm08.softwarefactory-project.io
+
+# Jobs
+
 There are a few jobs:
 
 * sf-infra-create-bridge creates the bridge, and it is the only one running inside a container
