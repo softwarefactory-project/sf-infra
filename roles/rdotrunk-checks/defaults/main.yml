@@ -11,6 +11,7 @@ rdo_trunk_workers:
   - centos8-master-uc
   - centos8-ussuri
   - centos8-train
+  - centos8-train-components
 
 rdo_trunk_symlinks:
   - current
