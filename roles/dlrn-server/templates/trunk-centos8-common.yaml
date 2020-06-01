@@ -125,8 +125,8 @@ dlrn::workers:
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-train-components', '/var/www/html/train-components/centos8']
@@ -140,9 +140,9 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
-#    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'javier.pena@redhat.com'
-#    gerrit_topic: 'rdo-FTBFS-train'
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-train-components'
     rsyncdest: 'centos8-train-components@3.87.151.16:/home/centos8-train-components/data/repos'
     rsyncport: '3300'
     use_components: true
