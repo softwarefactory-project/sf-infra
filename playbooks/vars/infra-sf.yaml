@@ -92,6 +92,8 @@ security_groups:
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9125
         protocol: udp
+      - port: 7000
+        protocol: udp
   - name: hypervisor-oci
     rules:
       - port: 19885

@@ -44,6 +44,7 @@ let security_groups =
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
             , Infra.Rule::{ port = +9125, protocol = Some "udp" }
+            , Infra.Rule::{ port = +7000, protocol = Some "udp" }
             ]
           }
         , { name = "hypervisor-oci"
