@@ -67,9 +67,10 @@ let security_groups =
           }
         ]
 
-in  { networks = [ Infra.mkNetwork "public" rdo_network.name ]
-    , subnets = [ Infra.mkSubnet rdo_network.name rdo_network.network_prefix ]
-    , routers =
+in  { networks = Some [ Infra.mkNetwork "public" rdo_network.name ]
+    , subnets = Some
+      [ Infra.mkSubnet rdo_network.name rdo_network.network_prefix ]
+    , routers = Some
       [     Infra.mkRouter "public" rdo_network.name rdo_network.network_prefix
         //  backward-compat-name
       ]

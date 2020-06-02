@@ -9,7 +9,7 @@ in  { security_groups =
           ]
         }
       ]
-    , networks = [ Infra.mkNetwork "public" "private" ]
-    , routers = [ Infra.mkRouter "public" "private" "192.168.100" ]
-    , subnets = [ Infra.mkSubnet "private" "192.168.100" ]
+    , networks = Some [ Infra.mkNetwork "public" "private" ]
+    , routers = Some [ Infra.mkRouter "public" "private" "192.168.100" ]
+    , subnets = Some [ Infra.mkSubnet "private" "192.168.100" ]
     }

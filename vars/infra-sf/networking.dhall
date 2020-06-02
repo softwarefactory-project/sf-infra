@@ -73,15 +73,15 @@ let security_groups =
           }
         ]
 
-in  { networks =
+in  { networks = Some
       [ Infra.mkNetwork Common.external-network sf_network.name
       , Infra.mkNetwork Common.external-network oci_network.name
       ]
-    , subnets =
+    , subnets = Some
       [ Infra.mkSubnet sf_network.name sf_network.network_prefix
       , Infra.mkSubnet oci_network.name oci_network.network_prefix
       ]
-    , routers =
+    , routers = Some
       [     Infra.mkRouter
               Common.external-network
               sf_network.name
