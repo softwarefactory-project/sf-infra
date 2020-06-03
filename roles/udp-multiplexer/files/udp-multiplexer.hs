@@ -53,15 +53,20 @@ client i p = do
   connect sock (addrAddress serveraddr)
   return sock
 
+parseArgs :: [String] -> Either String (Int, [Endpoint])
+parseArgs arguments =
+  case arguments of
+    [listenPort, dest1Host, dest1Port, dest2Host, dest2Port] ->
+      Right ((read listenPort),
+             [ (dest1Host, (read dest1Port))
+             , (dest2Host, (read dest2Port))
+             ])
+    ["--help"] -> Left "usage: listen-port [dest-host dest-port]"
+    _ -> Left "Not enough arguments"
+
 main :: IO ()
 main = do
   arguments <- getArgs
-  case arguments of
-    [listenPort, dest1Host, dest1Port, dest2Host, dest2Port] ->
-      runUDPServerForever
-        (read listenPort)
-        [ (dest1Host, (read dest1Port))
-        , (dest2Host, (read dest2Port))
-        ]
-    ["--help"] -> print "usage: listen-port [dest-host dest-port]"
-    _ -> print "Not enough arguments"
+  case parseArgs arguments of
+    Left errMessage -> putStrLn errMessage
+    Right args -> uncurry runUDPServerForever args
