@@ -167,6 +167,7 @@
     check:
       jobs:
         - sf-infra-test-udp-multiplexer
+        - sf-infra-test-custom-exporter
         - linters:
             nodeset: fedora-latest-pod
             vars:
@@ -179,6 +180,8 @@
         - sf-infra-molecule
     gate:
       jobs:
+        - sf-infra-test-udp-multiplexer
+        - sf-infra-test-custom-exporter
         - linters:
             nodeset: fedora-latest-pod
             vars:

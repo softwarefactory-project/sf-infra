@@ -21,12 +21,14 @@ import select
 import json
 import re
 import os
+import time
+import threading
 from functools import reduce
 
-from typing import List
+from typing import Any, Callable, List
 # Need python3-systemd and python3-prometheus_client
-from systemd import journal as systemd_journal
-from prometheus_client import start_http_server, Counter
+from systemd import journal as systemd_journal  # type: ignore
+from prometheus_client import start_http_server, Counter  # type: ignore
 
 
 traceback = Counter('traceback_total', 'Number of tracebacks', ['unit'])
@@ -34,15 +36,16 @@ segfault = Counter('segfault_total', 'Number of segfault', ['unit'])
 TRACE_COOKIE = 'Traceback (most recent call last):'
 
 
-def usage():
+def usage() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--port", help="Prometheus target port",
                    type=int, default=9101)
-    p.add_argument("--config", help="Custom event configuration directory")
+    p.add_argument("--journald", help="Activate journald collector")
     return p.parse_args()
 
 
-def start_prometheus_endpoint(port):
+def start_prometheus_endpoint(port: int) -> None:
+    """ This starts the prometheus http server thread and returns. """
     # From https://github.com/prometheus/client_python/issues/414
     from prometheus_client import REGISTRY, PROCESS_COLLECTOR, \
         PLATFORM_COLLECTOR
@@ -56,6 +59,7 @@ def start_prometheus_endpoint(port):
 
 @dataclasses.dataclass
 class CustomEvent:
+    """ A structure used by the journald exporter. """
     unit: str
     message: str
     metric: str
@@ -65,19 +69,22 @@ class CustomEvent:
         self.message_re = re.compile(self.message)
         self.counter = Counter(self.metric, self.message, ['unit'])
 
-    def process(self, unit, message) -> None:
+    def process(self, unit: str, message: str) -> None:
         if self.unit_re.match(unit) and self.message_re.match(message):
             self.counter.labels(unit).inc()
 
 
 def config_files(config_dir: str) -> List[str]:
-    return map(lambda x: os.path.join(config_dir, x),
-               filter(lambda x: x.endswith(".json"),
-                      os.listdir(config_dir)))
+    """ Return the list of absolute path of journald configurations. """
+    return list(map(lambda x: os.path.join(config_dir, x),
+                    filter(lambda x: x.endswith(".json"),
+                           os.listdir(config_dir)
+                           if os.path.isdir(config_dir)
+                           else [])))
 
 
 def load_config(config_dir: str) -> List[CustomEvent]:
-    # read bottom-up :)
+    """ Loads the journald configuration files and return a list of events. """
     return [CustomEvent(*config) for config in
             reduce(lambda a, b: a + b,
                    map(json.load,
@@ -86,13 +93,19 @@ def load_config(config_dir: str) -> List[CustomEvent]:
 
 
 def config_mtime(config_dir: str) -> float:
-    # Return maximum mtime of configurations
+    """ Return maximum mtime of configurations. """
     return reduce(max,
                   map(lambda x: os.stat(x).st_mtime,
                       config_files(config_dir)))
 
 
-def process_event(custom_events, unit, pid, comm, message):
+def process_event(
+        custom_events: List[CustomEvent],
+        unit: str,
+        pid: str,
+        comm: str,
+        message: str) -> None:
+    """ Process a journald event and update the metrics. """
     if not unit or not message:
         return
     if TRACE_COOKIE in message:
@@ -103,11 +116,37 @@ def process_event(custom_events, unit, pid, comm, message):
         custom_event.process(unit, message)
 
 
-def main():
+def thread_start(
+        target: Callable[[Any], None], args: List[str]) -> threading.Thread:
+    """ Helper function to start a thread. """
+    thread = threading.Thread(target=target, args=args)
+    thread.start()
+    return thread
+
+
+def thread_is_dead(thread: threading.Thread) -> bool:
+    """ Return true if a thread is dead. """
+    return not thread.is_alive()
+
+
+def main() -> None:
     args = usage()
     start_prometheus_endpoint(args.port)
-    custom_events = load_config(args.config) if args.config else []
-    last_update = config_mtime(args.config) if args.config else 0.0
+    threads = []
+    if args.journald:
+        threads.append(thread_start(main_journald, [args.journald]))
+    while True:
+        if any(map(thread_is_dead, threads)):
+            print("A thread died!")
+            break
+        time.sleep(1)
+    exit(1)
+
+
+def main_journald(config: str) -> None:
+    """ The journald exporter. """
+    custom_events = load_config(config) if config else []
+    last_update = config_mtime(config) if config else 0.0
     journal = systemd_journal.Reader()
     journal.log_level(systemd_journal.LOG_INFO)
     journal.this_boot()
@@ -122,10 +161,10 @@ def main():
         try:
             if journal.process() != systemd_journal.APPEND:
                 continue
-            if last_update and last_update < config_mtime(args.config):
-                print("Reloading configuration")
-                custom_events = load_config(args.config)
-                last_update = config_mtime(args.config)
+            if last_update and last_update < config_mtime(config):
+                print("Reloading journald configuration")
+                custom_events = load_config(config)
+                last_update = config_mtime(config)
             for event in journal:
                 unit = event.get('_SYSTEMD_UNIT')
                 pid = event.get('_PID')
