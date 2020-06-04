@@ -74,26 +74,32 @@ security_groups:
       - port: 19885
   - name: monitoring
     rules:
-      - port: 9101
-        remote_ip_prefix: "{{ bridge_private_ip }}/32"
-        state: absent
       - port: 9100
-        remote_ip_prefix: "{{ bridge_private_ip }}/32"
-        state: absent
+        protocol: tcp
+        remote_ip_prefix: "{{ prometheus_private_ip }}/32"
       - port: 9101
+        protocol: tcp
+        remote_ip_prefix: "{{ prometheus_private_ip }}/32"
+      - port: 9102
+        protocol: tcp
         remote_ip_prefix: "{{ prometheus_private_ip }}/32"
       - port: 9100
-        remote_ip_prefix: "{{ prometheus_private_ip }}/32"
-      - port: 9100
+        protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9101
+        protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9102
+        protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+  - name: prometheus
+    rules:
       - port: 9125
         protocol: udp
+        remote_ip_prefix: 38.102.83.114/32
       - port: 7000
         protocol: udp
+        remote_ip_prefix: 38.102.83.114/32
   - name: hypervisor-oci
     rules:
       - port: 19885
@@ -138,6 +144,7 @@ servers:
       - internal
       - web
       - pushprox-proxy
+      - prometheus
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes

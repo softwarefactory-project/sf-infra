@@ -68,7 +68,7 @@ let instances =
           , auto_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups = [ "web", "pushprox-proxy" ]
+          , security_groups = [ "web", "pushprox-proxy", "prometheus" ]
           }
         }
       , Instance::{
