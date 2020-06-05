@@ -41,8 +41,12 @@ def usage() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--port", help="Prometheus target port",
                    type=int, default=9101)
-    p.add_argument("--journald", help="Activate journald collector")
-    p.add_argument("--zuul", help="Activate zuul collector")
+    p.add_argument(
+        "--journald", action="store_true", help="Activate journald collector")
+    p.add_argument(
+        "--journald-config", metavar="DIR", help="Add custom event metrics")
+    p.add_argument(
+        "--zuul", metavar="URL", help="Activate zuul collector")
     return p.parse_args()
 
 
@@ -80,9 +84,7 @@ def config_files(config_dir: str) -> List[str]:
     """ Return the list of absolute path of journald configurations. """
     return list(map(lambda x: os.path.join(config_dir, x),
                     filter(lambda x: x.endswith(".json"),
-                           os.listdir(config_dir)
-                           if os.path.isdir(config_dir)
-                           else [])))
+                           os.listdir(config_dir))))
 
 
 def load_config(config_dir: str) -> List[CustomEvent]:
@@ -135,10 +137,13 @@ def main() -> None:
     args = usage()
     start_prometheus_endpoint(args.port)
     threads = []
-    if args.journald:
-        threads.append(thread_start(main_journald, [args.journald]))
+    if args.journald or args.journald_config:
+        threads.append(thread_start(main_journald, [args.journald_config]))
     if args.zuul:
         threads.append(thread_start(main_zuul, [args.zuul]))
+    if not threads:
+        print("No collector configured!")
+        exit(1)
     while True:
         if any(map(thread_is_dead, threads)):
             print("A thread died!")
