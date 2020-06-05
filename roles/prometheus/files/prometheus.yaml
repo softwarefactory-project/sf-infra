@@ -114,3 +114,8 @@ scrape_configs:
           - https://www.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
+  - job_name: statsd_exporter
+    scrape_interval: 5m
+    static_configs:
+      - targets:
+          - localhost:9102

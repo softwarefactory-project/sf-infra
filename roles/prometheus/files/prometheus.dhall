@@ -110,5 +110,11 @@ in  Prometheus.Config::{
             }
           ]
         }
+      , Prometheus.ScrapeConfig::{
+        , job_name = Some "statsd_exporter"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{ targets = Some [ "localhost:9102" ] } ]
+        , scrape_interval = Some "5m"
+        }
       ]
     }
