@@ -1,11 +1,17 @@
 - name: Create networks
   os_network:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
   loop: "{{ tenant_config.networks }}"
 
 - name: Create subnets
   os_subnet:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     network_name: "{{ item.network_name }}"
@@ -17,6 +23,9 @@
 
 - name: Create routers
   os_router:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     network: "{{ item.network }}"
@@ -25,6 +34,9 @@
 
 - name: Create security groups
   os_security_group:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
   loop: "{{ tenant_config.security_groups }}"
