@@ -24,7 +24,7 @@
           [Service]
           Type=simple
           SyslogIdentifier=journald-exporter
-          ExecStart=/usr/local/bin/exporter --config /etc/journald-exporter
+          ExecStart=/usr/local/bin/exporter --journald /etc/journald-exporter
 
           [Install]
           WantedBy=multi-user.target

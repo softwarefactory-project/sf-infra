@@ -1,0 +1,16 @@
+- job:
+    name: sf-infra-base-python
+    nodeset:
+      nodes:
+        - name: container
+          label: pod-python-f32
+    run: playbooks/test-python.yaml
+    abstract: true
+
+- job:
+    name: sf-infra-test-custom-exporter
+    parent: sf-infra-base-python
+    vars:
+      infra_script: roles/custom-exporter/files/exporter.py
+    files:
+      - roles/custom-exporter/files/exporter.py
