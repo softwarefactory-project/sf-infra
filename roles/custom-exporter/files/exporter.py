@@ -157,6 +157,10 @@ def main_zuul(api: str) -> None:
         "zuul_blocked_change_total",
         "Number of zuul changes blocked in queue",
         ['tenant'])
+    oldest_metric = Gauge(
+        "zuul_oldest_change_age",
+        "The age in second of the oldest change",
+        ['tenant'])
     tenants = list(map(
         lambda tenant: (tenant, urllib.parse.urljoin(
             api.rstrip('/') + '/', "tenant/" + tenant + "/status")),
@@ -165,10 +169,13 @@ def main_zuul(api: str) -> None:
         for tenant, tenant_status_url in tenants:
             tenant_status = zuul_stats_client.get_zuul_status(
                 tenant_status_url)
-            blocked = zuul_stats_client.find_long_running_jobs(
-                tenant_status, 60 * 60 * 4 * 1000  # 4 hours in ms
+            changes = zuul_stats_client.get_changes_age(tenant_status)
+            blocked = zuul_stats_client.filter_long_running_jobs(
+                changes, 60 * 60 * 4 * 1000  # 4 hours in ms
             )
             blocked_metric.labels(tenant).set(len(blocked))
+            oldest = zuul_stats_client.get_max_age(changes)
+            oldest_metric.labels(tenant).set(oldest / 1000)
             time.sleep(1)
         time.sleep(60)
 
