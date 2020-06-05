@@ -24,7 +24,7 @@
           [Service]
           Type=simple
           SyslogIdentifier=journald-exporter
-          ExecStart=/usr/local/bin/exporter --journald /etc/journald-exporter
+          ExecStart=/usr/local/bin/exporter --journald /etc/journald-exporter --zuul {{ zuul_api_url }}
 
           [Install]
           WantedBy=multi-user.target
@@ -35,7 +35,13 @@
       package:
         name:
           - python3-prometheus_client
+          - python3-cliff
+          - python3-pbr
           - python3-systemd
+
+    - name: Install zuul_stats_client
+      pip:
+        name: zuul_stats_client
 
     - name: Enable the service
       systemd:

@@ -23,13 +23,14 @@ import re
 import os
 import time
 import threading
+import urllib.parse
 from functools import reduce
 
 from typing import Any, Callable, List
 # Need python3-systemd and python3-prometheus_client
 from systemd import journal as systemd_journal  # type: ignore
-from prometheus_client import start_http_server, Counter  # type: ignore
-
+from prometheus_client import start_http_server, Counter, Gauge  # type: ignore
+from zuul_stats_client import utils as zuul_stats_client  # type: ignore
 
 traceback = Counter('traceback_total', 'Number of tracebacks', ['unit'])
 segfault = Counter('segfault_total', 'Number of segfault', ['unit'])
@@ -41,6 +42,7 @@ def usage() -> argparse.Namespace:
     p.add_argument("--port", help="Prometheus target port",
                    type=int, default=9101)
     p.add_argument("--journald", help="Activate journald collector")
+    p.add_argument("--zuul", help="Activate zuul collector")
     return p.parse_args()
 
 
@@ -135,12 +137,35 @@ def main() -> None:
     threads = []
     if args.journald:
         threads.append(thread_start(main_journald, [args.journald]))
+    if args.zuul:
+        threads.append(thread_start(main_zuul, [args.zuul]))
     while True:
         if any(map(thread_is_dead, threads)):
             print("A thread died!")
             break
         time.sleep(1)
     exit(1)
+
+
+def main_zuul(api: str) -> None:
+    blocked_metric = Gauge(
+        "zuul_blocked_change_total",
+        "Number of zuul changes blocked in queue",
+        ['tenant'])
+    tenants = list(map(
+        lambda tenant: (tenant, urllib.parse.urljoin(
+            api.rstrip('/') + '/', "tenant/" + tenant + "/status")),
+        zuul_stats_client.get_zuul_tenants(api)))
+    while True:
+        for tenant, tenant_status_url in tenants:
+            tenant_status = zuul_stats_client.get_zuul_status(
+                tenant_status_url)
+            blocked = zuul_stats_client.find_long_running_jobs(
+                tenant_status, 60 * 60 * 4 * 1000  # 4 hours in ms
+            )
+            blocked_metric.labels(tenant).set(len(blocked))
+            time.sleep(1)
+        time.sleep(60)
 
 
 def main_journald(config: str) -> None:
