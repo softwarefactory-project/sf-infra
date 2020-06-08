@@ -5,7 +5,7 @@
       project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
-  loop: "{{ tenant_config.networks }}"
+  loop: "{{ tenant_config.networks | default([]) }}"
 
 - name: Create subnets
   os_subnet:
@@ -19,7 +19,7 @@
     dns_nameservers: "{{ item.dns_nameservers }}"
     allocation_pool_start: "{{ item.allocation_pool_start|default(omit) }}"
     allocation_pool_end: "{{ item.allocation_pool_end|default(omit) }}"
-  loop: "{{ tenant_config.subnets }}"
+  loop: "{{ tenant_config.subnets | default([]) }}"
 
 - name: Create routers
   os_router:
@@ -30,7 +30,7 @@
     name: "{{ item.name }}"
     network: "{{ item.network }}"
     interfaces: "{{ item.interfaces }}"
-  loop: "{{ tenant_config.routers }}"
+  loop: "{{ tenant_config.routers | default([]) }}"
 
 - name: Create security groups
   os_security_group:
@@ -39,10 +39,10 @@
       project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
-  loop: "{{ tenant_config.security_groups }}"
+  loop: "{{ tenant_config.security_groups | default([]) }}"
 
 - name: Create security group rules
   include_tasks: security_group_rule.yaml
-  loop: "{{ tenant_config.security_groups }}"
+  loop: "{{ tenant_config.security_groups | default([]) }}"
   loop_control:
     loop_var: security_group

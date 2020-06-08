@@ -1,6 +1,6 @@
 - name: Include tenant configuration
   include_vars:
-    file: "{{ cloud.tenant }}.yaml"
+    file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
 - name: Provision keypairs

@@ -1,6 +1,6 @@
 - name: Include tenant configuration
   include_vars:
-    file: "{{ cloud.tenant }}.yaml"
+    file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
 - name: Create servers
@@ -51,5 +51,5 @@
 - name: Combine server ips fact
   set_fact:
     servers_ip: "{{ servers_ip + [{ 'name': item.openstack.name, 'ip': (item.openstack.public_v4 == '') | ternary(item.openstack.private_v4, item.openstack.public_v4) }] }}"
-  when: item.openstack is defined
+  when: item.openstack is defined and servers_ip is defined
   loop: "{{ _servers.results }}"
