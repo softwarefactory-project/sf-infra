@@ -7,7 +7,7 @@
   os_server:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     image: "{{ item.image }}"
@@ -28,7 +28,7 @@
   os_volume:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     display_name: "{{ item.display_name }}"
     size: "{{ item.size }}"
@@ -41,7 +41,7 @@
   os_server_volume:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     volume: "{{ item.display_name }}"
     server: "{{ item.server }}"

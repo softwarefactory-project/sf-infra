@@ -2,7 +2,7 @@
   os_image_facts:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     image: "{{ image.name }}"
 
 - when: openstack_image is none or
@@ -25,7 +25,7 @@
       os_image:
         cloud: "{{ cloud.name }}"
         auth:
-          project_name: "{{ cloud.tenant }}"
+          project_name: "{{ cloud.tenant | default(omit) }}"
         name: "{{ image.name }}"
         state: present
         container_format: "{{ image.container_format }}"

@@ -2,7 +2,7 @@
   os_network:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
   loop: "{{ tenant_config.networks }}"
@@ -11,7 +11,7 @@
   os_subnet:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     network_name: "{{ item.network_name }}"
@@ -25,7 +25,7 @@
   os_router:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     network: "{{ item.network }}"
@@ -36,7 +36,7 @@
   os_security_group:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
   loop: "{{ tenant_config.security_groups }}"

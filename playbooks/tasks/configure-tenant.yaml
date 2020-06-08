@@ -7,7 +7,7 @@
   os_keypair:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     public_key: "{{ item.public_key }}"

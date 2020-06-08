@@ -2,7 +2,7 @@
   os_security_group_rule:
     cloud: "{{ cloud.name }}"
     auth:
-      project_name: "{{ cloud.tenant }}"
+      project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     security_group: "{{ security_group.name }}"
     protocol: "{{ item.protocol | default('tcp') }}"
