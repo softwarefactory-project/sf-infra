@@ -1,27 +1,25 @@
-- module_defaults:
-    group/os:
-      auth:
-        project_name: "{{ tenant }}"
-  block:
-    - name: Include tenant configuration
-      include_vars:
-        file: "{{ tenant }}.yaml"
-        name: tenant_config
+- name: Include tenant configuration
+  include_vars:
+    file: "{{ cloud.tenant }}.yaml"
+    name: tenant_config
 
-    - name: Provision keypairs
-      os_keypair:
-        state: "{{ item.state | default('present') }}"
-        name: "{{ item.name }}"
-        public_key: "{{ item.public_key }}"
-      loop: "{{ tenant_config.keypairs }}"
+- name: Provision keypairs
+  os_keypair:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
+    state: "{{ item.state | default('present') }}"
+    name: "{{ item.name }}"
+    public_key: "{{ item.public_key }}"
+  loop: "{{ tenant_config.keypairs }}"
 
-    - name: Configure tenant networks
-      include_role:
-        name: manage-networking
+- name: Configure tenant networks
+  include_role:
+    name: manage-networking
 
-    - name: Configure images
-      include_role:
-        name: manage-image
-      loop: "{{ tenant_config.images }}"
-      loop_control:
-        loop_var: image
+- name: Configure images
+  include_role:
+    name: manage-image
+  loop: "{{ tenant_config.images }}"
+  loop_control:
+    loop_var: image

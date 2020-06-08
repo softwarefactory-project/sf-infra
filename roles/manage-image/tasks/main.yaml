@@ -1,5 +1,8 @@
 - name: Verify if image exists
   os_image_facts:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant }}"
     image: "{{ image.name }}"
 
 - when: openstack_image is none or
@@ -20,6 +23,9 @@
 
     - name: Upload image
       os_image:
+        cloud: "{{ cloud.name }}"
+        auth:
+          project_name: "{{ cloud.tenant }}"
         name: "{{ image.name }}"
         state: present
         container_format: "{{ image.container_format }}"

@@ -2,22 +2,19 @@
 ---
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
-  module_defaults:
-    group/os:
-      cloud: vexxhost-rdo
   vars:
-    tenants:
-      - infra-rdo
-      - infra-sf
-      - nodepool-sf
+    clouds:
+      - {name: 'vexxhost-rdo', tenant: 'infra-rdo'}
+      - {name: 'vexxhost-rdo', tenant: 'infra-sf'}
+      - {name: 'vexxhost-rdo', tenant: 'nodepool-sf'}
   tasks:
     - set_fact:
         servers_ip: []
 
     - include_tasks: tasks/create-hosts.yaml
-      loop: "{{ tenants }}"
+      loop: "{{ clouds }}"
       loop_control:
-        loop_var: tenant
+        loop_var: cloud
 
     - name: Show servers ip
       debug:
