@@ -25,6 +25,7 @@
     - "rules-dlrn"
     - "rules-systemd"
     - "rules-nodepool"
+    - "rules-zuul"
   register: _prom_config
 
 - include_role:
