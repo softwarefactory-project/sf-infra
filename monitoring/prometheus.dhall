@@ -9,19 +9,7 @@ let Infra = env:DHALL_INFRA
 let {- TODO: Move urls to the Instance objects, like that if the instance is removed,
        the url are also removed from the monitoring
     -} web_monitor_list =
-      [ "https://softwarefactory-project.io"
-      , "https://softwarefactory-project.io/analytics/elasticsearch/"
-      , "https://softwarefactory-project.io/zuul/api/info"
-      , "https://softwarefactory-project.io/elasticsearch/"
-      , "https://review.rdoproject.org/zuul/api/info"
-      , "https://review.rdoproject.org/analytics/app/kibana"
-      , "https://review.rdoproject.org"
-      , "http://elk.review.rdoproject.org:9200"
-      , "https://ovirt.softwarefactory-project.io/zuul/api/info"
-      , "https://ansible.softwarefactory-project.io/zuul/api/info"
-      , "https://fedora.softwarefactory-project.io/zuul/api/info"
-      , "https://www.softwarefactory-project.io"
-      , "https://images.rdoproject.org"
+      [ "https://images.rdoproject.org"
       , "https://lists.rdoproject.org"
       , "https://logserver.rdoproject.org"
       , "http://mirror.regionone.rdo-cloud.rdoproject.org"
@@ -29,6 +17,18 @@ let {- TODO: Move urls to the Instance objects, like that if the instance is rem
       , "https://www.rdoproject.org"
       , "https://trunk.rdoproject.org"
       , "https://trunk.registry.rdoproject.org"
+      , "https://review.rdoproject.org/zuul/api/info"
+      , "https://review.rdoproject.org/analytics/app/kibana"
+      , "https://review.rdoproject.org"
+      , "http://elk.review.rdoproject.org:9200"
+      , "https://softwarefactory-project.io"
+      , "https://softwarefactory-project.io/analytics/elasticsearch/"
+      , "https://softwarefactory-project.io/zuul/api/info"
+      , "https://softwarefactory-project.io/elasticsearch/"
+      , "https://ovirt.softwarefactory-project.io/zuul/api/info"
+      , "https://ansible.softwarefactory-project.io/zuul/api/info"
+      , "https://fedora.softwarefactory-project.io/zuul/api/info"
+      , "https://www.softwarefactory-project.io"
       ]
 
 let {- TODO: maybe move this to an Instance schema
@@ -51,12 +51,12 @@ in  PrometheusConfig
       , "rules-systemd.yaml"
       , "rules-nodepool.yaml"
       ]
-      [     ScrapeConfigs.static "node_proxy" ci_centos_list
+      [ ScrapeConfigs.blackbox web_monitor_list
+      ,     ScrapeConfigs.static "node_proxy" ci_centos_list
         //  { proxy_url = Some "http://127.0.0.1:8080" }
       , ScrapeConfigs.static
           "journal"
           [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
-      , ScrapeConfigs.blackbox web_monitor_list
       ,     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]
         //  { scrape_interval = Some "5m" }
       ]
