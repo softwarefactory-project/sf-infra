@@ -81,14 +81,6 @@ scrape_configs:
     scrape_interval: 5m
     static_configs:
       - targets:
-          - https://images.rdoproject.org
-          - https://lists.rdoproject.org
-          - https://logserver.rdoproject.org
-          - http://mirror.regionone.rdo-cloud.rdoproject.org
-          - http://mirror.regionone.vexxhost.rdoproject.org
-          - https://www.rdoproject.org
-          - https://trunk.rdoproject.org
-          - https://trunk.registry.rdoproject.org
           - https://review.rdoproject.org/zuul/api/info
           - https://review.rdoproject.org/analytics/app/kibana
           - https://review.rdoproject.org
@@ -101,6 +93,14 @@ scrape_configs:
           - https://ansible.softwarefactory-project.io/zuul/api/info
           - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
+          - https://images.rdoproject.org
+          - https://lists.rdoproject.org
+          - https://logserver.rdoproject.org
+          - http://mirror.regionone.rdo-cloud.rdoproject.org
+          - http://mirror.regionone.vexxhost.rdoproject.org
+          - https://www.rdoproject.org
+          - https://trunk.rdoproject.org
+          - https://trunk.registry.rdoproject.org
   - job_name: node_proxy
     proxy_url: http://127.0.0.1:8080
     static_configs:

@@ -114,6 +114,26 @@ let instances =
         }
       , Instance::{
         , name = "managesf"
+        , urls =
+            let note = "TODO: move urls to relevant instance"
+
+            in  [ "https://softwarefactory-project.io"
+                , "https://softwarefactory-project.io/analytics/elasticsearch/"
+                , "https://softwarefactory-project.io/zuul/api/info"
+                , "https://softwarefactory-project.io/elasticsearch/"
+                , "https://ovirt.softwarefactory-project.io/zuul/api/info"
+                , "https://ansible.softwarefactory-project.io/zuul/api/info"
+                , "https://fedora.softwarefactory-project.io/zuul/api/info"
+                , "https://www.softwarefactory-project.io"
+                , "https://images.rdoproject.org"
+                , "https://lists.rdoproject.org"
+                , "https://logserver.rdoproject.org"
+                , "http://mirror.regionone.rdo-cloud.rdoproject.org"
+                , "http://mirror.regionone.vexxhost.rdoproject.org"
+                , "https://www.rdoproject.org"
+                , "https://trunk.rdoproject.org"
+                , "https://trunk.registry.rdoproject.org"
+                ]
         , groups =
           [ Infra.Group.sf
           , Infra.Group.install-server

@@ -3,26 +3,48 @@ let Prometheus = ./binding.dhall
 
 let Infra = ../conf/package.dhall
 
+let {- Return an empty list if the len is 0
+    -} optional-scrape =
+          \(len : Natural)
+      ->  \(scrape : List Prometheus.ScrapeConfig.Type)
+      ->        if Natural/isZero len
+
+          then  [] : List Prometheus.ScrapeConfig.Type
+
+          else  scrape
+
 in      \(instances : List Infra.Instance.Type)
     ->  \(rules : List Text)
     ->  \(targets : List Prometheus.ScrapeConfig.Type)
-    ->  let node-target =
-                    if Natural/isZero
-                         (List/length Infra.Instance.Type instances)
+    ->  let node-scrape =
+              let node-list =
+                    Infra.Prelude.List.map
+                      Infra.Server.Type
+                      Text
+                      (\(server : Infra.Server.Type) -> "${server.name}:9100")
+                      (Infra.getServers instances)
 
-              then  [] : List Prometheus.ScrapeConfig.Type
+              in  [ (./scrape-configs.dhall).static "node" node-list ]
 
-              else  [ (./scrape-configs.dhall).static
-                        "node"
-                        ( Infra.Prelude.List.map
-                            Infra.Server.Type
-                            Text
-                            (     \(server : Infra.Server.Type)
-                              ->  "${server.name}:9100"
-                            )
-                            (Infra.getServers instances)
-                        )
-                    ]
+        let web-list =
+              Infra.Prelude.List.concat
+                Text
+                ( Infra.Prelude.List.map
+                    Infra.Instance.Type
+                    (List Text)
+                    (\(instance : Infra.Instance.Type) -> instance.urls)
+                    instances
+                )
+
+        let url-target =
+              optional-scrape
+                (List/length Text web-list)
+                [ (./scrape-configs.dhall).blackbox web-list ]
+
+        let node-target =
+              optional-scrape
+                (List/length Infra.Instance.Type instances)
+                node-scrape
 
         in  Prometheus.Config::{
             , global = Some Prometheus.Global::{
@@ -43,5 +65,5 @@ in      \(instances : List Infra.Instance.Type)
                 ]
               }
             , rule_files = Some rules
-            , scrape_configs = Some (node-target # targets)
+            , scrape_configs = Some (node-target # url-target # targets)
             }
