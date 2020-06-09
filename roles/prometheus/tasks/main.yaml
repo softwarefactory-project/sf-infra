@@ -12,20 +12,9 @@
 
 - name: Create configuration file
   become: yes
-  copy:
-    src: "{{ item }}.yaml"
-    dest: "/etc/prometheus/{{ item }}.yaml"
-  loop:
-    - "prometheus"
-    - "rules-node"
-    - "rules-node_proxy"
-    - "rules-http"
-    - "rules-backup"
-    - "rules-afs"
-    - "rules-dlrn"
-    - "rules-systemd"
-    - "rules-nodepool"
-    - "rules-zuul"
+  synchronize:
+    src: "{{ prometheus_configuration_dir }}/"
+    dest: "/etc/prometheus/"
   register: _prom_config
 
 - include_role:
@@ -37,7 +26,7 @@
       -v /etc/prometheus/:/etc/prometheus/:Z
       -v /var/lib/prometheus:/prometheus:Z
       quay.io/prometheus/prometheus
-      --web.external-url=https://prometheus.monitoring.softwarefactory-project.io/prometheus/
+      --web.external-url={{ prometheus_public_url }}
       --web.route-prefix="prometheus"
       --config.file=/etc/prometheus/prometheus.yaml
     pod_config: "{{ _prom_config }}"

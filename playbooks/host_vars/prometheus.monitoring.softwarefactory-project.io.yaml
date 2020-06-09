@@ -8,3 +8,5 @@ ssl_cert_options:
     webroot: "/var/www/html"
 pushprox_type: "proxy"
 pushprox_proxy_listen: ":8080"
+prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
+prometheus_public_url: "https://prometheus.monitoring.softwarefactory-project.io/prometheus/"

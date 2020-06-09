@@ -3,9 +3,9 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/vars/nodepool-sf.yaml \
 	  playbooks/vars/nodepool-tripleo.yaml \
 	  playbooks/vars/nodepool-rdo.yaml \
-	  roles/prometheus/files/prometheus.yaml \
-	  roles/prometheus/files/rules-node.yaml \
-	  roles/prometheus/files/rules-node_proxy.yaml \
+	  monitoring/prometheus.yaml \
+	  monitoring/rules-node.yaml \
+	  monitoring/rules-node_proxy.yaml \
 	  ansible/hosts.yaml
 
 all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
