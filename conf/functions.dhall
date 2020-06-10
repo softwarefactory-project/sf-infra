@@ -219,18 +219,28 @@ let {- This is a function transformer,
 
 let {- This function takes a port Integer and it returns a function
        that takes an IP as an input and returns a Rule
-    -} tcp-access-rule =
-          \(port : Integer)
+    -} access-rule =
+          \(proto : Text)
+      ->  \(port : Integer)
       ->  \(ip : Text)
       ->  Rule::{
           , port = port
-          , protocol = Some "tcp"
+          , protocol = Some proto
           , remote_ip_prefix = Some ip
           }
+
+let tcp-access-rule = access-rule "tcp"
+
+let udp-access-rule = access-rule "udp"
 
 in  { Prelude = Prelude
     , text-to-rule-map = text-to-rule-map
     , tcp-access-rule = tcp-access-rule
+    , udp-access-rule = udp-access-rule
+    , tcp-ports-rule =
+        \(ip : Text) -> \(port : Integer) -> tcp-access-rule port ip
+    , udp-ports-rule =
+        \(ip : Text) -> \(port : Integer) -> udp-access-rule port ip
     , getServers =
             \(instances : List Instance.Type)
         ->  Prelude.List.map

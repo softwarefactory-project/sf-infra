@@ -8,45 +8,48 @@ let oci_network = { name = "oci-private", network_prefix = "192.168.254" }
 
 let backward-compat-name = { name = "default-router" }
 
+let monitoring-rules =
+      let ports-that-prometheus-connect-to = [ +9100, +9101, +9102 ]
+
+      let private-monitoring-rules =
+            Infra.Prelude.List.map
+              Integer
+              Infra.Rule.Type
+              (Infra.tcp-ports-rule "{{ prometheus_private_ip }}/32")
+              ports-that-prometheus-connect-to
+
+      let public-monitoring-rules =
+            Infra.Prelude.List.map
+              Infra.Rule.Type
+              Infra.Rule.Type
+              (     \(rule : Infra.Rule.Type)
+                ->      rule
+                    //  { remote_ip_prefix = Some
+                            "{{ prometheus_public_ip }}/32"
+                        }
+              )
+              private-monitoring-rules
+
+      in  private-monitoring-rules # public-monitoring-rules
+
+let prometheus-rules =
+      let statsd-exporter = +9125
+
+      let udp-multiplexer = +7000
+
+      let metric-emiter = "38.102.83.114/32"
+
+      in  Infra.Prelude.List.map
+            Integer
+            Infra.Rule.Type
+            (Infra.udp-ports-rule metric-emiter)
+            [ statsd-exporter, udp-multiplexer ]
+
 let security_groups =
         Common.SecurityGroups
       # [ { name = "zuul-console", rules = [ Infra.Rule::{ port = +19885 } ] }
-        , { name = "monitoring"
-          , rules =
-            [ Infra.Rule::{
-              , port = +9101
-              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
-              , state = Some "absent"
-              }
-            , Infra.Rule::{
-              , port = +9100
-              , remote_ip_prefix = Some "{{ bridge_private_ip }}/32"
-              , state = Some "absent"
-              }
-            , Infra.Rule::{
-              , port = +9101
-              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +9100
-              , remote_ip_prefix = Some "{{ prometheus_private_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +9100
-              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +9101
-              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +9102
-              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-              }
-            , Infra.Rule::{ port = +9125, protocol = Some "udp" }
-            , Infra.Rule::{ port = +7000, protocol = Some "udp" }
-            ]
-          }
+        , { name = "monitoring", rules = monitoring-rules }
+        , { name = "prometheus", rules = prometheus-rules }
         , { name = "hypervisor-oci"
           , rules =
             [ Infra.Rule::{ port = +19885 }
