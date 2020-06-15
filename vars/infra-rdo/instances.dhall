@@ -122,6 +122,14 @@ let instances =
         }
       , Instance::{
         , name = "managesf.review"
+        , urls =
+            let note = "TODO: move urls to relevant instance"
+
+            in  [ "https://review.rdoproject.org/zuul/api/info"
+                , "https://review.rdoproject.org/analytics/app/kibana"
+                , "https://review.rdoproject.org"
+                , "http://elk.review.rdoproject.org:9200"
+                ]
         , groups = [ Infra.Group.rdo, Infra.Group.install-server ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{

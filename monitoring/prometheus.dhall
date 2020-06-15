@@ -6,31 +6,6 @@ let ScrapeConfigs = ./scrape-configs.dhall
 
 let Infra = env:DHALL_INFRA
 
-let {- TODO: Move urls to the Instance objects, like that if the instance is removed,
-       the url are also removed from the monitoring
-    -} web_monitor_list =
-      [ "https://images.rdoproject.org"
-      , "https://lists.rdoproject.org"
-      , "https://logserver.rdoproject.org"
-      , "http://mirror.regionone.rdo-cloud.rdoproject.org"
-      , "http://mirror.regionone.vexxhost.rdoproject.org"
-      , "https://www.rdoproject.org"
-      , "https://trunk.rdoproject.org"
-      , "https://trunk.registry.rdoproject.org"
-      , "https://review.rdoproject.org/zuul/api/info"
-      , "https://review.rdoproject.org/analytics/app/kibana"
-      , "https://review.rdoproject.org"
-      , "http://elk.review.rdoproject.org:9200"
-      , "https://softwarefactory-project.io"
-      , "https://softwarefactory-project.io/analytics/elasticsearch/"
-      , "https://softwarefactory-project.io/zuul/api/info"
-      , "https://softwarefactory-project.io/elasticsearch/"
-      , "https://ovirt.softwarefactory-project.io/zuul/api/info"
-      , "https://ansible.softwarefactory-project.io/zuul/api/info"
-      , "https://fedora.softwarefactory-project.io/zuul/api/info"
-      , "https://www.softwarefactory-project.io"
-      ]
-
 let {- TODO: maybe move this to an Instance schema
     -} ci_centos_list =
       [ "rdo-ci-cloudslave01.ci.centos.org:9100"
@@ -52,8 +27,7 @@ in  PrometheusConfig
       , "rules-nodepool.yaml"
       , "rules-zuul.yaml"
       ]
-      [ ScrapeConfigs.blackbox web_monitor_list
-      ,     ScrapeConfigs.static "node_proxy" ci_centos_list
+      [     ScrapeConfigs.static "node_proxy" ci_centos_list
         //  { proxy_url = Some "http://127.0.0.1:8080" }
       , ScrapeConfigs.static
           "journal"
