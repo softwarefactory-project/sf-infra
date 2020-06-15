@@ -65,19 +65,6 @@ scrape_configs:
           - zm06.softwarefactory-project.io:9100
           - zm07.softwarefactory-project.io:9100
           - zm08.softwarefactory-project.io:9100
-  - job_name: node_proxy
-    proxy_url: http://127.0.0.1:8080
-    static_configs:
-      - targets:
-          - rdo-ci-cloudslave01.ci.centos.org:9100
-          - rdo-ci-cloudslave02.ci.centos.org:9100
-          - rdo-ci-cloudslave03.ci.centos.org:9100
-          - rdo-ci-cloudslave04.ci.centos.org:9100
-          - rdo-ci-cloudslave05.ci.centos.org:9100
-  - job_name: journal
-    static_configs:
-      - targets:
-          - logreduce-mqtt-01.softwarefactory-project.io:9101
   - job_name: blackbox
     metrics_path: /probe
     params:
@@ -95,18 +82,6 @@ scrape_configs:
     scrape_interval: 5m
     static_configs:
       - targets:
-          - https://softwarefactory-project.io
-          - https://softwarefactory-project.io/analytics/elasticsearch/
-          - https://softwarefactory-project.io/zuul/api/info
-          - https://softwarefactory-project.io/elasticsearch/
-          - https://review.rdoproject.org/zuul/api/info
-          - https://review.rdoproject.org/analytics/app/kibana
-          - https://review.rdoproject.org
-          - http://elk.review.rdoproject.org:9200
-          - https://ovirt.softwarefactory-project.io/zuul/api/info
-          - https://ansible.softwarefactory-project.io/zuul/api/info
-          - https://fedora.softwarefactory-project.io/zuul/api/info
-          - https://www.softwarefactory-project.io
           - https://images.rdoproject.org
           - https://lists.rdoproject.org
           - https://logserver.rdoproject.org
@@ -115,6 +90,31 @@ scrape_configs:
           - https://www.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
+          - https://review.rdoproject.org/zuul/api/info
+          - https://review.rdoproject.org/analytics/app/kibana
+          - https://review.rdoproject.org
+          - http://elk.review.rdoproject.org:9200
+          - https://softwarefactory-project.io
+          - https://softwarefactory-project.io/analytics/elasticsearch/
+          - https://softwarefactory-project.io/zuul/api/info
+          - https://softwarefactory-project.io/elasticsearch/
+          - https://ovirt.softwarefactory-project.io/zuul/api/info
+          - https://ansible.softwarefactory-project.io/zuul/api/info
+          - https://fedora.softwarefactory-project.io/zuul/api/info
+          - https://www.softwarefactory-project.io
+  - job_name: node_proxy
+    proxy_url: http://127.0.0.1:8080
+    static_configs:
+      - targets:
+          - rdo-ci-cloudslave01.ci.centos.org:9100
+          - rdo-ci-cloudslave02.ci.centos.org:9100
+          - rdo-ci-cloudslave03.ci.centos.org:9100
+          - rdo-ci-cloudslave04.ci.centos.org:9100
+          - rdo-ci-cloudslave05.ci.centos.org:9100
+  - job_name: journal
+    static_configs:
+      - targets:
+          - logreduce-mqtt-01.softwarefactory-project.io:9101
   - job_name: statsd_exporter
     scrape_interval: 5m
     static_configs:
