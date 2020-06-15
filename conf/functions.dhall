@@ -73,6 +73,8 @@ let mapServer = Prelude.List.map Server.Type Server.Type
 
 let mapInstance = Prelude.List.map Instance.Type Instance.Type
 
+let emptyVars = [] : List { mapKey : Text, mapValue : HostVarValue }
+
 let mkHost =
       Prelude.List.map
         Instance.Type
@@ -92,26 +94,30 @@ let mkHost =
                           HostVarValue.int instance.connection.ansible_port
                       }
                   # merge
-                      { None =
-                          [] : List { mapKey : Text, mapValue : HostVarValue }
+                      { None = emptyVars
                       , Some =
                               \(some : Bool)
                           ->  toMap { ansible_become = HostVarValue.bool some }
                       }
                       instance.connection.ansible_become
                   # merge
-                      { None =
-                          [] : List { mapKey : Text, mapValue : HostVarValue }
+                      { None = emptyVars
                       , Some =
                               \(command : Text)
-                          ->  [ { mapKey = "ansible_ssh_common_args"
-                                , mapValue =
+                          ->  toMap
+                                { ansible_ssh_common_args =
                                     HostVarValue.str
                                       "-o ProxyCommand=\"${command}\""
                                 }
-                              ]
                       }
                       instance.connection.proxy_command
+                  # merge
+                      { None = emptyVars
+                      , Some =
+                              \(ip-addr : Text)
+                          ->  toMap { ansible_host = HostVarValue.str ip-addr }
+                      }
+                      instance.connection.ansible_host
               }
         )
 
