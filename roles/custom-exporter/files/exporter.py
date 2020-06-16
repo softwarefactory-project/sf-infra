@@ -171,7 +171,7 @@ def main_zuul(api: str) -> None:
                 tenant_status_url)
             changes = zuul_stats_client.get_changes_age(tenant_status)
             blocked = zuul_stats_client.filter_long_running_jobs(
-                changes, 60 * 60 * 4 * 1000  # 4 hours in ms
+                changes, 60 * 60 * 8 * 1000  # 8 hours in ms
             )
             blocked_metric.labels(tenant).set(len(blocked))
             oldest = zuul_stats_client.get_max_age(changes)
