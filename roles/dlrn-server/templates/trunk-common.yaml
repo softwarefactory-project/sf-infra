@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train', 'centos8-train-components']
+dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
 dlrn::web::cert_mail: 'jpena@redhat.com'
 
 dlrn::workers:
@@ -268,9 +268,9 @@ dlrn::workers:
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ussuri'
     use_components: true
-  centos8-train:
+  centos8-train-old:
     distro: 'centos8'
-    target: 'centos8-train'
+    target: 'centos8-train-old'
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
@@ -290,9 +290,9 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
-  centos8-train-components:
+  centos8-train:
     distro: 'centos8'
-    target: 'centos8-train-components'
+    target: 'centos8-train'
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
