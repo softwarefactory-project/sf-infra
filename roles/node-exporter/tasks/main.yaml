@@ -17,7 +17,7 @@
 
 - include_role:
     name: node-exporter-rpm
-  when: ansible_distribution == "CentOS"
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
 
 - name: Adding service suffix for prometheus_monitored_services
   set_fact:
