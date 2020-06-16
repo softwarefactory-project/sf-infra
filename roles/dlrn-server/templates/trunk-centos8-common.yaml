@@ -99,13 +99,14 @@ dlrn::workers:
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    # Change the following two options once the configuration is tested to work as expected
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
+    symlinks: ['/var/www/html/centos8-train-old']
     release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos8-train'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train-old'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'mysql+pymysql://centos8-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
@@ -125,13 +126,14 @@ dlrn::workers:
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    # Change the following two options once the configuration is tested to work as expected
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos8-train-components', '/var/www/html/train-components/centos8']
+    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
     release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos8-train-components'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'mysql+pymysql://c8-train-compone:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train_components?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
