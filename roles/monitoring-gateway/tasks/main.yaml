@@ -1,4 +1,9 @@
 ---
+- name: Ensure packages
+  package:
+    name: httpd
+  become: yes
+
 - name: check for tls cert
   become: yes
   stat:
@@ -17,6 +22,7 @@
     src: vhost.j2
     dest: /etc/httpd/conf.d/monitoring.vhost.conf
   become: yes
+  register: _vhost_config
 
 - name: setup proxypass
   become: yes
@@ -52,3 +58,11 @@
       </body>
       </html>
     dest: /var/www/html/index.html
+
+
+- name: start httpd
+  systemd:
+    state: "{% if _vhost_config.changed %}restarted{% else %}started{% endif %}"
+    name: httpd
+    enabled: yes
+  become: yes
