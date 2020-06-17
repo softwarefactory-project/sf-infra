@@ -1,6 +1,6 @@
 ---
 - name: Renew registry SSL certificates
-  hosts: registry-vexxhost.rdoproject.org
+  hosts: registry.rdoproject.org
   vars:
     registry_host: "{{ inventory_hostname }}"
 
