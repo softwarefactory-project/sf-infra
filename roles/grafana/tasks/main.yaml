@@ -18,9 +18,17 @@
     - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
     - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'blackbox.json', path: 'grafana/provisioning/dashboards' }
+  register: _grafana_config
+
+- name: Install config templates
+  become: yes
+  template:
+    src: '{{ item.name }}.j2'
+    dest: '/etc/{{ item.path }}/{{ item.name }}'
+  loop:
     - { name: 'datasource_prometheus.yml', path: 'grafana/provisioning/datasources' }
     - { name: 'grafana.ini', path: 'grafana'}
-  register: _grafana_config
+  register: _grafana_template
 
 - include_role:
     name: container-service
@@ -31,3 +39,4 @@
       -v /etc/grafana:/etc/grafana
       grafana/grafana
     pod_config: "{{ _grafana_config }}"
+    pod_template: "{{ _grafana_template }}"

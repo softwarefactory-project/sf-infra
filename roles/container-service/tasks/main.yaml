@@ -53,8 +53,7 @@
         name: "{{ pod_name }}"
         state: restarted
       when:
-        - pod_config is defined
-        - pod_config is changed
+        - (pod_config is defined and pod_config is changed) or (pod_template is defined and pod_template is changed)
         # Do not restart the service if we just started
         - _container_exists.rc == 0
 

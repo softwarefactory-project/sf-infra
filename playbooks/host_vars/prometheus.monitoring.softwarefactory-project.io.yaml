@@ -9,4 +9,5 @@ ssl_cert_options:
 pushprox_type: "proxy"
 pushprox_proxy_listen: ":8080"
 prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
-prometheus_public_url: "https://prometheus.monitoring.softwarefactory-project.io/prometheus/"
+prometheus_public_url: "https://prometheus.monitoring.softwarefactory-project.io/prometheus"
+grafana_server_root_url: "https://prometheus.monitoring.softwarefactory-project.io/grafana/"
