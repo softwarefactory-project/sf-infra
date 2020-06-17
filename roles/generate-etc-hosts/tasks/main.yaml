@@ -4,8 +4,8 @@
 - name: Create /etc/hosts
   copy:
     content: |
-      127.0.0.1   localhost bridge
-      ::1         localhost bridge
+      127.0.0.1   localhost {{ ansible_hostname }}
+      ::1         localhost {{ ansible_hostname }}
 
       {% for host in inventory_hosts_ip %}
       {{ host.ip }} {{ host.name }}
@@ -25,3 +25,4 @@
       owner: fedora
     - home: /root
       owner: root
+  when: manage_ssh_config
