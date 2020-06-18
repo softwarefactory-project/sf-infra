@@ -4,3 +4,176 @@ mappings:
     help: Time when the last DIB image was built
     labels:
       image: "$1"
+
+  # NOTE: taken from https://opendev.org/zuul/nodepool/src/branch/master/contrib/statsd_exporter/statsd-mapping.yaml
+  - match: nodepool.provider.*.max_servers
+    name: nodepool_provider_max_servers
+    help: Value of max_servers of a provider in Nodepool.
+    labels:
+      provider: "$1"
+
+  - match: nodepool.provider.*.request_handler
+    name: nodepool_provider_request_handler
+    help: Timer of request_handler runs
+    labels:
+      provider: "$1"
+
+  - match: nodepool.provider.*.nodes.*
+    name: nodepool_nodes_by_provider
+    help: Nodes by provider and state
+    labels:
+      provider: "$1"
+      state: "$2"
+
+  - match: nodepool.label.*.nodes.*
+    name: nodepool_nodes_by_label
+    help: Nodes by label and state
+    labels:
+      label: "$1"
+      state: "$2"
+
+  - match: nodepool.nodes.*
+    name: nodepool_nodes
+    help: Nodes by state
+    labels:
+      state: "$1"
+
+  # type: timer, counter
+  - match: nodepool.task.*.*
+    name: nodepool_task
+    match_metric_type: counter
+    help: Nodepool task timings
+    labels:
+      provider: "$1"
+      task: "$2"
+
+  - match: nodepool.task.*.*
+    name: nodepool_task_timer
+    match_metric_type: timer
+    help: Nodepool task timings
+    labels:
+      provider: "$1"
+      task: "$2"
+
+  # type: timer, counter
+  - match: nodepool\.launch\.provider\.([^.]+)\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_provider_az
+    match_type: regex
+    match_metric_type: counter
+    help: Nodepool launch statistics by provider and AZ
+    labels:
+      provider: "$1"
+      az: "$2"
+      result: "$3"
+
+  - match: nodepool\.launch\.provider\.([^.]+)\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_provider_az_timer
+    match_type: regex
+    match_metric_type: timer
+    help: Nodepool launch statistics by provider and AZ
+    labels:
+      provider: "$1"
+      az: "$2"
+      result: "$3"
+
+  # type: timer, counter
+  - match: nodepool\.launch\.provider\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_provider
+    match_type: regex
+    match_metric_type: counter
+    help: Nodepool launch statistics by provider
+    labels:
+      provider: "$1"
+      result: "$2"
+
+  - match: nodepool\.launch\.provider\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_provider_timer
+    help: Nodepool launch statistics by provider
+    match_type: regex
+    match_metric_type: timer
+    timer_type: histogram
+    buckets: [20, 30, 40, 50, 60, 70, 80, 90, 120, 150, 180, 300, 600, 900]
+    labels:
+      provider: "$1"
+      result: "$2"
+
+  # type: timer, counter
+  - match: nodepool\.launch\.requestor\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_requestor
+    match_type: regex
+    match_metric_type: counter
+    help: Nodepool launch statistics by requestor
+    labels:
+      requestor: "$1"
+      result: "$2"
+
+  - match: nodepool\.launch\.requestor\.([^.]+)\.(ready|error\..+)$
+    name: nodepool_launch_by_requestor_timer
+    match_type: regex
+    match_metric_type: timer
+    help: Nodepool launch statistics by requestor
+    labels:
+      requestor: "$1"
+      result: "$2"
+
+  # type: timer, counter
+  - match: nodepool\.launch\.(ready|error\..+)$
+    name: nodepool_launch
+    match_type: regex
+    match_metric_type: counter
+    help: Nodepool launch statistics
+    labels:
+      result: "$1"
+
+  - match: nodepool\.launch\.(ready|error\..+)$
+    name: nodepool_launch_timer
+    match_type: regex
+    match_metric_type: timer
+    help: Nodepool launch statistics
+    labels:
+      result: "$1"
+
+  # type timer, counter
+  - match: nodepool.image_update.*.*
+    name: nodepool_image_update
+    match_metric_type: counter
+    help: Nodepool image update statistics
+    labels:
+      image: "$1"
+      provider: "$2"
+
+  - match: nodepool.image_update.*.*
+    name: nodepool_image_update_timer
+    match_metric_type: timer
+    help: Nodepool image update statistics
+    labels:
+      image: "$1"
+      provider: "$2"
+
+  - match: nodepool.dib_image_build.*.*.rc
+    name: nodepool_dib_image_build_result_code
+    help: Result code of the DIB run
+    labels:
+      image: "$1"
+      ext: "$2"
+
+  - match: nodepool.dib_image_build.*.*.size
+    name: nodepool_dib_image_build_size
+    help: Size of the built image
+    labels:
+      image: "$1"
+      ext: "$2"
+
+  - match: nodepool.dib_image_build.*.*.duration
+    name: nodepool_dib_image_build_duration
+    help: Duration of the DIB run
+    labels:
+      image: "$1"
+      ext: "$2"
+
+  # Drop all non-matching metrics to avoid spamming prometheus with
+  # eventually unmatched metrics.
+  - match: .
+    match_type: regex
+    action: drop
+    name: "dropped"
