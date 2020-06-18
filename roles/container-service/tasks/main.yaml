@@ -13,8 +13,18 @@
       changed_when: false
 
     # This is not indepotent, manually delete the pod to force recreation
+    - name: Write a recreation script
+      copy:
+        content: |
+          #!/bin/sh
+          # re-run this if the container is removed
+          podman create --name {{ pod_name }} {{ pod_param }}
+        dest: "/usr/local/bin/podman-{{ pod_name }}.sh"
+        mode: 0755
+        owner: root
+
     - name: Create container if needed
-      command: "podman create --name {{ pod_name }} {{ pod_param }}"
+      command: "/usr/local/bin/podman-{{ pod_name }}.sh"
       when: _container_exists.rc == 1
 
     - name: Install service file
