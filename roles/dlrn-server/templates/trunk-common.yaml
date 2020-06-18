@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
+dlrn::web::api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
 dlrn::web::cert_mail: 'jpena@redhat.com'
 
 dlrn::workers:
@@ -106,54 +106,6 @@ dlrn::workers:
     gerrit_email: 'javier.pena@redhat.com'
     gerrit_topic: 'rdo-FTBFS-queens'
 #    rsyncdest: 'centos-queens@54.81.116.189:/home/centos-queens/data/repos'
-#    rsyncport: '3300'
-  centos-pike:
-    distro: 'centos7'
-    target: 'centos-pike'
-    distgit_branch: 'pike-rdo'
-    distro_branch: 'stable/pike'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    purge_hour: '0'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
-    release: 'pike'
-    baseurl: 'https://trunk.rdoproject.org/centos7-pike'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-pike:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_pike?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: false
-    enable_deps_sync: false
-    enable_brs_sync: false
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
-    gerrit_topic: 'rdo-FTBFS-pike'
-#    rsyncdest: 'centos-pike@54.81.116.189:/home/centos-pike/data/repos'
-#    rsyncport: '3300'
-  centos-ocata:
-    distro: 'centos7'
-    target: 'centos-ocata'
-    distgit_branch: 'ocata-rdo'
-    distro_branch: 'stable/ocata'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    purge_hour: '2'
-    purge_minute: '37'
-    symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
-    release: 'ocata'
-    baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-ocata:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_ocata?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: false
-    enable_deps_sync: false
-    enable_brs_sync: false
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
-    gerrit_topic: 'rdo-FTBFS-ocata'
-#    rsyncdest: 'centos-ocata@54.81.116.189:/home/centos-ocata/data/repos'
 #    rsyncport: '3300'
   rhel8-master:
     distro: 'rhel8'
