@@ -1,0 +1,9 @@
+firewall_rules:
+    - port: '9100/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled
+    - port: '9101/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled

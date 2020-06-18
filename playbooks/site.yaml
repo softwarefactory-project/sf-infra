@@ -40,6 +40,7 @@
   roles:
     - custom-exporter
     - logreduce-mqtt-worker
+    - firewalld
 
 # Temporary group until the migration is completed
 - hosts: rdocloud-data-fetcher
