@@ -1,4 +1,5 @@
 podman_gw_ip: "10.88.0.1"
+podman_network: "10.88.0.0/16"
 certbot_plugin: "--apache"
 fqdn: "prometheus.monitoring.softwarefactory-project.io"
 ssl_cert_options:
@@ -10,4 +11,5 @@ pushprox_type: "proxy"
 pushprox_proxy_listen: ":8080"
 prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
 prometheus_public_url: "https://prometheus.monitoring.softwarefactory-project.io/prometheus"
+prometheus_public_ip: "38.102.83.250/32"
 grafana_server_root_url: "https://prometheus.monitoring.softwarefactory-project.io/grafana/"

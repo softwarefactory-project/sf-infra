@@ -9,7 +9,6 @@
   roles:
     - bridge-accounts
     - generate-etc-hosts
-    - postfix
 
 - hosts:
     - zs.softwarefactory-project.io
