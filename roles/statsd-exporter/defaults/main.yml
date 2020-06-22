@@ -18,4 +18,3 @@ listen_address: '9102'
 listen_udp_port: '9125'
 listen_tcp_port: '9125'
 map_config_file_path: '/etc/prometheus/statsd_mapping.yml'
-statsd_host: prometheus.monitoring.softwarefactory-project.io

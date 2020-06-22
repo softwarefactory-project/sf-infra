@@ -14,4 +14,3 @@ RPM deployed from a Copr repository.
                      "" disables it. Defaults to 9125.
 * `map-config-file-path`: Path to the metric mapping configuration.
                           Defaults to /etc/prometheus/statsd_mapping.yml.
-* `statsd_host`: Host on which statsd_exporter is running

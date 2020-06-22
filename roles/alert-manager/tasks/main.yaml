@@ -18,8 +18,8 @@
       global:
         resolve_timeout: 5m
         smtp_require_tls: false
-        smtp_smarthost: 'bridge.softwarefactory-project.io:25'
-        smtp_from: 'prometheus@bridge.softwarefactory-project.io'
+        smtp_smarthost: '{{ smtp_host }}:25'
+        smtp_from: 'prometheus@{{ monitoring_host }}'
       route:
         group_by: [Alertname]
         receiver: softwarefactory-operations-team
@@ -41,7 +41,7 @@
       -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       -v /var/lib/alertmanager:/alertmanager:Z
       quay.io/prometheus/alertmanager
-      --web.external-url=https://prometheus.monitoring.softwarefactory-project.io/alertmanager/
+      --web.external-url={{ monitoring_endpoint_url }}/alertmanager/
       --web.route-prefix="alertmanager"
       --config.file=/etc/alertmanager/alertmanager.yml
     pod_config: "{{ _am_config }}"

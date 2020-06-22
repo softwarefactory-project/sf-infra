@@ -183,3 +183,7 @@ install_server_rdo_key: !vault |
           64363061343665623731383366623766616639396439653464373332643461663730343938323132
           35666265353236353132666538393633626435626635333938323436653664666337633539316233
           39643633353662653738
+smtp_host: 'bridge.softwarefactory-project.io'
+smtp_domain: 'softwarefactory-project.io'
+monitoring_host: 'prometheus.monitoring.softwarefactory-project.io'
+monitoring_endpoint_url: 'https://{{ monitoring_host }}'

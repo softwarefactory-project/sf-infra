@@ -1,3 +1,6 @@
 udp_mp_listen_port: 7000
-udp_mp_dest1: prometheus.monitoring.softwarefactory-project.io 9125
-udp_mp_dest2: elk.softwarefactory-project.io 8125
+udp_mp_dests:
+  - hostname: elk.example.com
+    port: 8125
+  - hostname: prometheus.example.com
+    port: 9125
