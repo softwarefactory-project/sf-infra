@@ -10,3 +10,41 @@ groups:
         annotations:
           summary: "Nodepool DIB image {{ $labels.image }} is older than 1 day!"
           description: "{{ $labels.image }} dib img was not done by nodepool-builder since 24h!"
+
+  - name: NodepoolLauncher
+    rules:
+      - alert: NodepoolNodeFailLabel
+        expr: nodepool_nodes_by_label{state="failed"} >= 3
+        for: 2h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nodepool with label is in failed state {{ $labels.label }}"
+          description: "Can not start jobs using label {{ $labels.label }}"
+
+      - alert: NodepoolNodeFailProvider
+        expr: nodepool_nodes_by_provider{state="failed"} >= 3
+        for: 2h
+        labels:
+          severity: warning
+        annotations:
+          summary: "There are over 3 node failures for provider {{ $labels.provider }}"
+          description: "Provider {{ $labels.provider }} may have a problem on running CI jobs"
+
+      - alert: NodepoolNodeHoldProvider
+        expr: nodepool_nodes_by_provider{state="hold"} > 3
+        for: 2h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Provider {{ $labels.provider }} may have over 3 instances in hold state"
+          description: "Counting if provider {{ $labels.provider }} have over 3 vms in hold state"
+
+      - alert: NodepoolNodeDeletingProvider
+        expr: nodepool_nodes_by_provider{state="deleting"} > 1
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Provider {{ $labels.provider }} may have a problem on deleting instances"
+          description: "Provider {{ $labels.provider }} is abnormally slow at deleting instances"
