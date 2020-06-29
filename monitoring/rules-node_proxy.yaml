@@ -4,13 +4,13 @@ groups:
     rules:
       - alert: InstanceDown
         expr: "up{job=\"node_proxy\"} == 0"
-        for: 10m
+        for: "10m"
       - alert: WillRunOutOfDiskInThreeDays
         annotations:
           description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
           summary: "Out of disk space (instance {{ $labels.instance }})"
         expr: "(node_filesystem_avail_bytes{job=\"node_proxy\"} * 100 / node_filesystem_size_bytes{job=\"node_proxy\"} < 50) and (predict_linear(node_filesystem_avail_bytes{job=\"node_proxy\"}[1d], 3 * 24 * 3600) < 0)"
-        for: 12h
+        for: "12h"
       - alert: WillRunOutOfMemoryInThreeDays
         annotations:
           description: |
@@ -19,11 +19,11 @@ groups:
               LABELS: {{ $labels }}
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job=\"node_proxy\"}[1d], 3 * 24 * 3600) < 0)"
-        for: 12h
+        for: "12h"
       - alert: InstanceOutOfMemory
         annotations:
           description: |
             Node only has {{ $value }} bytes of free mem available.
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "node_memory_MemAvailable_bytes < (1024 * 1024 * 10)"
-        for: 30m
+        for: "30m"

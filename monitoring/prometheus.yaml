@@ -6,9 +6,9 @@ alerting:
         - targets:
             - localhost:9093
 global:
-  evaluation_interval: 1m
-  scrape_interval: 1m
-  scrape_timeout: 10s
+  evaluation_interval: "1m"
+  scrape_interval: "1m"
+  scrape_timeout: "10s"
 rule_files:
   - rules-node.yaml
   - rules-node_proxy.yaml
@@ -72,14 +72,14 @@ scrape_configs:
         - http_2xx
     relabel_configs:
       - source_labels:
-          - __address__
-        target_label: __param_target
+          - "__address__"
+        target_label: "__param_target"
       - source_labels:
-          - __param_target
+          - "__param_target"
         target_label: instance
-      - replacement: 127.0.0.1:9115
-        target_label: __address__
-    scrape_interval: 5m
+      - replacement: "127.0.0.1:9115"
+        target_label: "__address__"
+    scrape_interval: "5m"
     static_configs:
       - targets:
           - https://review.rdoproject.org/zuul/api/info
@@ -116,7 +116,7 @@ scrape_configs:
       - targets:
           - logreduce-mqtt-01.softwarefactory-project.io:9101
   - job_name: statsd_exporter
-    scrape_interval: 5m
+    scrape_interval: "5m"
     static_configs:
       - targets:
           - localhost:9102

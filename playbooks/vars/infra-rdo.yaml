@@ -1,12 +1,12 @@
 # This file is managed by dhall.
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
-  - checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
+  - checksum: "520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512"
     container_format: bare
     disk_format: qcow2
     name: centos-7-1907
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
-  - checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
+  - checksum: "72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26"
     container_format: bare
     disk_format: qcow2
     name: fedora-30-1.2
@@ -31,7 +31,7 @@ networks:
 routers:
   - interfaces:
       - net: private-network
-        portip: "192.168.240.1"
+        portip: '192.168.240.1'
         subnet: private-subnet
     name: default-router
     network: public
@@ -59,12 +59,12 @@ security_groups:
         port_range_max: 65535
         port_range_min: 1
         protocol: tcp
-        remote_ip_prefix: 192.168.0.0/16
+        remote_ip_prefix: "192.168.0.0/16"
       - port: 1
         port_range_max: 65535
         port_range_min: 1
         protocol: udp
-        remote_ip_prefix: 192.168.0.0/16
+        remote_ip_prefix: "192.168.0.0/16"
   - name: afs
     rules:
       - port: 8080
@@ -105,27 +105,27 @@ security_groups:
     rules:
       - port: 4433
         protocol: tcp
-        remote_ip_prefix: 38.145.32.0/22
+        remote_ip_prefix: "38.145.32.0/22"
       - port: 4433
         protocol: tcp
-        remote_ip_prefix: 38.102.83.0/24
+        remote_ip_prefix: "38.102.83.0/24"
   - name: dlrn-db
     rules:
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: 54.82.121.165/32
+        remote_ip_prefix: "54.82.121.165/32"
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: 3.87.151.16/32
+        remote_ip_prefix: "3.87.151.16/32"
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: 38.102.83.226/32
+        remote_ip_prefix: "38.102.83.226/32"
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: 38.102.83.175/32
+        remote_ip_prefix: "38.102.83.175/32"
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: 66.187.233.202/32
+        remote_ip_prefix: "66.187.233.202/32"
 servers:
   - auto_ip: true
     boot_from_volume: yes
@@ -222,7 +222,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
-      - "38.102.83.136"
+      - '38.102.83.136'
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk.rdoproject.org
@@ -283,11 +283,11 @@ servers:
       - dlrn-db
     volume_size: 60
 subnets:
-  - cidr: 192.168.240.0/24
+  - cidr: "192.168.240.0/24"
     dns_nameservers:
-      - "1.1.1.1"
-      - "8.8.8.8"
-    gateway_ip: "192.168.240.1"
+      - '1.1.1.1'
+      - '8.8.8.8'
+    gateway_ip: '192.168.240.1'
     name: private-subnet
     network_name: private-network
 volumes:

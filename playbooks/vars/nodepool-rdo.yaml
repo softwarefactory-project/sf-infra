@@ -9,7 +9,7 @@ networks:
 routers:
   - interfaces:
       - net: private-network
-        portip: "192.168.1.1"
+        portip: '192.168.1.1'
         subnet: private-subnet
     name: private-router
     network: public
@@ -21,11 +21,11 @@ security_groups:
         protocol: icmp
 servers: []
 subnets:
-  - cidr: 192.168.1.0/24
+  - cidr: "192.168.1.0/24"
     dns_nameservers:
-      - "1.1.1.1"
-      - "8.8.8.8"
-    gateway_ip: "192.168.1.1"
+      - '1.1.1.1'
+      - '8.8.8.8'
+    gateway_ip: '192.168.1.1'
     name: private-subnet
     network_name: private-network
 volumes: []

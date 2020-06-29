@@ -11,7 +11,8 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
-%.yaml: %.dhall
+.FORCE:
+%.yaml: %.dhall .FORCE
 	@sh -c "echo '# This file is managed by dhall.'; env DHALL_INFRA=$$(pwd)/package.dhall dhall-to-yaml --explain --file $<" > $@
 
 # dhall-schemas generate the package files from diretory content

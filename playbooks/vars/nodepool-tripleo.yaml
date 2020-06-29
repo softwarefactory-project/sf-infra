@@ -1,12 +1,12 @@
 # This file is managed by dhall.
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
-  - checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
+  - checksum: "520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512"
     container_format: bare
     disk_format: qcow2
     name: CentOS-7-x86_64-GenericCloud
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
-  - checksum: 5a6f067ec4a9da1f13ab00a8031570cd877edc250bd08a412c376e59aa646536
+  - checksum: "5a6f067ec4a9da1f13ab00a8031570cd877edc250bd08a412c376e59aa646536"
     container_format: bare
     disk_format: qcow2
     name: ipxe-boot

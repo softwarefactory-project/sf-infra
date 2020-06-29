@@ -6,12 +6,12 @@ images:
     disk_format: qcow2
     name: fedora-31-1.9
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2
-  - checksum: 72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26
+  - checksum: "72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26"
     container_format: bare
     disk_format: qcow2
     name: fedora-30-1.2
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
-  - checksum: 520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512
+  - checksum: "520d01c2f2e1ed24cb2f15a4325aa30773930a2961b5484a68cf11b4a415c512"
     container_format: bare
     disk_format: qcow2
     name: centos-7-1907
@@ -29,13 +29,13 @@ networks:
 routers:
   - interfaces:
       - net: private-network
-        portip: "192.168.242.1"
+        portip: '192.168.242.1'
         subnet: private-subnet
     name: default-router
     network: public
   - interfaces:
       - net: oci-private-network
-        portip: "192.168.254.1"
+        portip: '192.168.254.1'
         subnet: oci-private-subnet
     name: oci-private-router
     network: public
@@ -63,12 +63,12 @@ security_groups:
         port_range_max: 65535
         port_range_min: 1
         protocol: tcp
-        remote_ip_prefix: 192.168.0.0/16
+        remote_ip_prefix: "192.168.0.0/16"
       - port: 1
         port_range_max: 65535
         port_range_min: 1
         protocol: udp
-        remote_ip_prefix: 192.168.0.0/16
+        remote_ip_prefix: "192.168.0.0/16"
   - name: zuul-console
     rules:
       - port: 19885
@@ -96,10 +96,10 @@ security_groups:
     rules:
       - port: 9125
         protocol: udp
-        remote_ip_prefix: 38.102.83.114/32
+        remote_ip_prefix: "38.102.83.114/32"
       - port: 7000
         protocol: udp
-        remote_ip_prefix: 38.102.83.114/32
+        remote_ip_prefix: "38.102.83.114/32"
   - name: hypervisor-oci
     rules:
       - port: 19885
@@ -113,7 +113,7 @@ security_groups:
     rules:
       - port: 8080
         protocol: tcp
-        remote_ip_prefix: 8.43.84.199/32
+        remote_ip_prefix: "8.43.84.199/32"
   - name: elk
     rules:
       - port: 4731
@@ -187,7 +187,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
-      - "38.102.83.76"
+      - '38.102.83.76'
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.softwarefactory-project.io
@@ -211,9 +211,9 @@ servers:
       - monitoring
       - internal
   - boot_from_volume: yes
-    flavor: 8vcpu_16GB
+    flavor: "8vcpu_16GB"
     floating_ips:
-      - "38.102.83.186"
+      - '38.102.83.186'
     image: centos-7-1907
     key_name: sf-infra-key
     name: k1s02.softwarefactory-project.io
@@ -235,9 +235,9 @@ servers:
       - monitoring
       - internal
   - boot_from_volume: yes
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     floating_ips:
-      - "38.102.83.102"
+      - '38.102.83.102'
     image: centos-7-1907
     key_name: sf-infra-key
     name: koji.softwarefactory-project.io
@@ -250,7 +250,7 @@ servers:
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
-    flavor: 1vcpu_2gb
+    flavor: "1vcpu_2gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: integrations.softwarefactory-project.io
@@ -263,7 +263,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
-      - "38.102.83.40"
+      - '38.102.83.40'
     image: centos-7-1907
     key_name: sf-infra-key
     name: fedora.softwarefactory-project.io
@@ -277,7 +277,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
-      - "38.102.83.159"
+      - '38.102.83.159'
     image: centos-7-1907
     key_name: sf-infra-key
     name: ovirt.softwarefactory-project.io
@@ -291,7 +291,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
-      - "38.102.83.251"
+      - '38.102.83.251'
     image: centos-7-1907
     key_name: sf-infra-key
     name: ovirt-staging.softwarefactory-project.io
@@ -305,7 +305,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
-      - "38.102.83.19"
+      - '38.102.83.19'
     image: centos-7-1907
     key_name: sf-infra-key
     name: ansible.softwarefactory-project.io
@@ -319,7 +319,7 @@ servers:
     volume_size: 40
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
@@ -330,7 +330,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze02.softwarefactory-project.io
@@ -341,7 +341,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze03.softwarefactory-project.io
@@ -352,7 +352,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze04.softwarefactory-project.io
@@ -363,7 +363,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze05.softwarefactory-project.io
@@ -374,7 +374,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze06.softwarefactory-project.io
@@ -385,7 +385,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 4vcpus_8gb
+    flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: ze07.softwarefactory-project.io
@@ -396,7 +396,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
@@ -407,7 +407,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm02.softwarefactory-project.io
@@ -418,7 +418,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm03.softwarefactory-project.io
@@ -429,7 +429,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm04.softwarefactory-project.io
@@ -440,7 +440,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm05.softwarefactory-project.io
@@ -451,7 +451,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm06.softwarefactory-project.io
@@ -462,7 +462,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm07.softwarefactory-project.io
@@ -473,7 +473,7 @@ servers:
       - internal
   - auto_ip: false
     boot_from_volume: no
-    flavor: 1vcpu_1gb
+    flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm08.softwarefactory-project.io
@@ -483,18 +483,18 @@ servers:
       - monitoring
       - internal
 subnets:
-  - cidr: 192.168.242.0/24
+  - cidr: "192.168.242.0/24"
     dns_nameservers:
-      - "1.1.1.1"
-      - "8.8.8.8"
-    gateway_ip: "192.168.242.1"
+      - '1.1.1.1'
+      - '8.8.8.8'
+    gateway_ip: '192.168.242.1'
     name: private-subnet
     network_name: private-network
-  - cidr: 192.168.254.0/24
+  - cidr: "192.168.254.0/24"
     dns_nameservers:
-      - "1.1.1.1"
-      - "8.8.8.8"
-    gateway_ip: "192.168.254.1"
+      - '1.1.1.1'
+      - '8.8.8.8'
+    gateway_ip: '192.168.254.1'
     name: oci-private-subnet
     network_name: oci-private-network
 volumes:
