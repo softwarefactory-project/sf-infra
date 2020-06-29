@@ -13,15 +13,15 @@
     , state : Optional Text
     }
 , default =
-    { flavor = let todo = "remove that default" in Some "v1-standard-2"
-    , name = ""
-    , auto_ip = Some False
-    , floating_ips = None (List Text)
-    , key_name = "sf-infra-key"
-    , network = "private-network"
-    , security_groups = [] : List Text
-    , volume_size = None Natural
-    , boot_from_volume = "yes"
-    , state = None Text
-    }
+  { flavor = let todo = "remove that default" in Some "v1-standard-2"
+  , name = ""
+  , auto_ip = Some False
+  , floating_ips = None (List Text)
+  , key_name = "sf-infra-key"
+  , network = "private-network"
+  , security_groups = [] : List Text
+  , volume_size = None Natural
+  , boot_from_volume = "yes"
+  , state = None Text
+  }
 }

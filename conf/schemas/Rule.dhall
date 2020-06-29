@@ -8,10 +8,10 @@
     , state : Optional Text
     }
 , default =
-    { protocol = None Text
-    , remote_ip_prefix = None Text
-    , port_range_max = None Integer
-    , port_range_min = None Integer
-    , state = None Text
-    }
+  { protocol = None Text
+  , remote_ip_prefix = None Text
+  , port_range_max = None Integer
+  , port_range_min = None Integer
+  , state = None Text
+  }
 }

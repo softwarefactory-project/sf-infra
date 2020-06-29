@@ -25,4 +25,4 @@ let {- Note (dmsimard): The name "CentOS-7-x86_64-GenericCloud" is expected/hard
         }
       ]
 
-in  { images = images }
+in  { images }

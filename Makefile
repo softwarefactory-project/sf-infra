@@ -23,6 +23,6 @@ dhall-schemas:
 dhall-format:
 	@find . -name "*.dhall" -exec dhall --ascii format --inplace {} \;
 
-DHALL_PACKAGE = https://download.copr.fedorainfracloud.org/results/tdecacqu/dhall/fedora-rawhide-x86_64/01246620-dhall/dhall-1.30.0-1.fc33.x86_64.rpm
+DHALL_PACKAGE = https://copr-be.cloud.fedoraproject.org/results/tdecacqu/dhall/fedora-rawhide-x86_64/01513235-dhall/dhall-1.33.1-1.fc33.x86_64.rpm
 dhall-version-check:
-	@sh -c 'test -z "$$(dhall --version | grep ^1.2)" || (echo -e "You need dhall version > 1.29, please update by running:\n sudo dnf install -y $(DHALL_PACKAGE)"; exit 1)'
+	@sh -c 'test 103299 -lt $$(dhall --version | sed "s/\./0/g") || (echo -e "You need dhall version > 1.33.0, please update by running:\n sudo dnf install -y $(DHALL_PACKAGE)"; exit 1)'

@@ -18,9 +18,9 @@ instances.
     , urls : List Text
     }
 , default =
-    { groups = [] : List ../types/Group.dhall
-    , volumes = [] : List (./Volume.dhall).Type
-    , skip_os_server_task = False
-    , urls = [] : List Text
-    }
+  { groups = [] : List ../types/Group.dhall
+  , volumes = [] : List (./Volume.dhall).Type
+  , skip_os_server_task = False
+  , urls = [] : List Text
+  }
 }

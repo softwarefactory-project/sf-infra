@@ -175,8 +175,11 @@
               linters:
                 - flake8
                 - yamllint
-        - dhall-diff:
-            nodeset: haskell-latest-pod
+        - dhall-diff: &dhall-nodeset
+            nodeset:
+              nodes:
+                - name: container
+                  label: pod-dhall-1-33
         - prometheus-lint
         - sf-infra-molecule
     gate:
@@ -189,8 +192,7 @@
               linters:
                 - flake8
                 - yamllint
-        - dhall-diff:
-            nodeset: haskell-latest-pod
+        - dhall-diff: *dhall-nodeset
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff

@@ -7,10 +7,10 @@
     , proxy_command : Optional Text
     }
 , default =
-    { ansible_port = 22
-    , ansible_host = None Text
-    , ansible_python_interpreter = "auto"
-    , ansible_become = None Bool
-    , proxy_command = None Text
-    }
+  { ansible_port = 22
+  , ansible_host = None Text
+  , ansible_python_interpreter = "auto"
+  , ansible_become = None Bool
+  , proxy_command = None Text
+  }
 }

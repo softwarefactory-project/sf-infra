@@ -230,25 +230,25 @@ let instances =
       ]
 
 let mkCentosWorker =
-          \(count : Natural)
-      ->  Infra.Prelude.List.map
-            Natural
-            Instance.Type
-            (     \(idx : Natural)
-              ->  Instance::(     { name =
-                                      "rdo-ci-cloudslave0${Natural/show
-                                                             idx}.ci.centos.org"
-                                  , groups = [ Infra.Group.ci-centos-org ]
-                                  , connection = Infra.Connection::{
-                                    , ansible_user = "jpena"
-                                    , proxy_command = Some
-                                        "ssh -q jpena@jump.ci.centos.org -W %h:%p"
-                                    }
-                                  }
-                              //  Infra.ExternalServer
-                            )
-            )
-            (Infra.seq count)
+      \(count : Natural) ->
+        Infra.Prelude.List.map
+          Natural
+          Instance.Type
+          ( \(idx : Natural) ->
+              Instance::(     { name =
+                                  "rdo-ci-cloudslave0${Natural/show
+                                                         idx}.ci.centos.org"
+                              , groups = [ Infra.Group.ci-centos-org ]
+                              , connection = Infra.Connection::{
+                                , ansible_user = "jpena"
+                                , proxy_command = Some
+                                    "ssh -q jpena@jump.ci.centos.org -W %h:%p"
+                                }
+                              }
+                          //  Infra.ExternalServer
+                        )
+          )
+          (Infra.seq count)
 
 let AwsServer =
           Infra.ExternalServer

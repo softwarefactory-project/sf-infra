@@ -22,11 +22,10 @@ let monitoring-rules =
             Infra.Prelude.List.map
               Infra.Rule.Type
               Infra.Rule.Type
-              (     \(rule : Infra.Rule.Type)
-                ->      rule
-                    //  { remote_ip_prefix = Some
-                            "{{ prometheus_public_ip }}/32"
-                        }
+              ( \(rule : Infra.Rule.Type) ->
+                      rule
+                  //  { remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+                      }
               )
               private-monitoring-rules
 
@@ -95,7 +94,7 @@ in  { networks = Some
           oci_network.name
           oci_network.network_prefix
       ]
-    , security_groups = security_groups
+    , security_groups
     , keypairs =
       [ { name = "sf-infra-key", public_key = Common.sfInfraKeypair } ]
     }

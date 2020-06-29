@@ -2,21 +2,21 @@ let Infra = ../package.dhall
 
 let sshconfig =
       let mkConn =
-                \(instance : Infra.Instance.Type)
-            ->  let optional-proxy =
-                      merge
-                        { None = ""
-                        , Some =
-                            \(command : Text) -> "    ProxyCommand " ++ command
-                        }
-                        instance.connection.proxy_command
+            \(instance : Infra.Instance.Type) ->
+              let optional-proxy =
+                    merge
+                      { None = ""
+                      , Some =
+                          \(command : Text) -> "    ProxyCommand " ++ command
+                      }
+                      instance.connection.proxy_command
 
-                in  ''
-                    Host ${instance.name}
-                        User ${instance.connection.ansible_user}
-                        Port ${Natural/show instance.connection.ansible_port}
-                    ${optional-proxy}
-                    ''
+              in  ''
+                  Host ${instance.name}
+                      User ${instance.connection.ansible_user}
+                      Port ${Natural/show instance.connection.ansible_port}
+                  ${optional-proxy}
+                  ''
 
       in      ''
               Host *

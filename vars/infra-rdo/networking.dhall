@@ -74,7 +74,7 @@ in  { networks = Some [ Infra.mkNetwork "public" rdo_network.name ]
       [     Infra.mkRouter "public" rdo_network.name rdo_network.network_prefix
         //  backward-compat-name
       ]
-    , security_groups = security_groups
+    , security_groups
     , keypairs =
       [ { name = "sf-infra-key", public_key = Common.sfInfraKeypair } ]
     }

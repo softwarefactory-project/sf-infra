@@ -209,25 +209,25 @@ let instances =
       ]
 
 let mkServers =
-          \(name : Text)
-      ->  \(flavor : Text)
-      ->  \(count : Natural)
-      ->  Infra.Prelude.List.map
-            Natural
-            Instance.Type
-            (     \(idx : Natural)
-              ->  Instance::{
-                  , name = "${name}0${Natural/show idx}"
-                  , groups = [ Infra.Group.sf ]
-                  , connection = OS.CentOS.`7.0`.connection
-                  , server = Infra.Server::{
-                    , image = OS.CentOS.`7.0`.image.name
-                    , flavor = Some flavor
-                    , boot_from_volume = "no"
-                    }
-                  }
-            )
-            (Infra.seq count)
+      \(name : Text) ->
+      \(flavor : Text) ->
+      \(count : Natural) ->
+        Infra.Prelude.List.map
+          Natural
+          Instance.Type
+          ( \(idx : Natural) ->
+              Instance::{
+              , name = "${name}0${Natural/show idx}"
+              , groups = [ Infra.Group.sf ]
+              , connection = OS.CentOS.`7.0`.connection
+              , server = Infra.Server::{
+                , image = OS.CentOS.`7.0`.image.name
+                , flavor = Some flavor
+                , boot_from_volume = "no"
+                }
+              }
+          )
+          (Infra.seq count)
 
 let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 

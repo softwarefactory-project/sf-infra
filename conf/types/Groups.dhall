@@ -4,411 +4,411 @@ let Group = ./Group.dhall
 in  { groups =
       [ { value = Group.afs-mirror
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = True
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = True
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.ara
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = True
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = True
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.backup
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = True
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = True
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.ci-centos-org
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = True
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = True
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.rdo
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = True
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = True
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.sf
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = True
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = True
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.install-server
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = True
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = True
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.logreduce-mqtt
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = True
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = True
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.dlrn
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = True
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = True
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.registry
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = True
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = True
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.rdocloud-data-fetcher
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = True
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = True
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.etcd
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = True
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = True
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.masters
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = True
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = True
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.nodes
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = True
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = True
+                , openshift = False
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.openshift
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = True
-                  , installer = False
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = True
+                , installer = False
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.installer
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = True
-                  , OSEv3 = False
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = True
+                , OSEv3 = False
+                }
+                group
         }
       , { value = Group.OSEv3
         , test =
-                \(group : Group)
-            ->  merge
-                  { afs-mirror = False
-                  , ara = False
-                  , backup = False
-                  , ci-centos-org = False
-                  , rdo = False
-                  , sf = False
-                  , install-server = False
-                  , logreduce-mqtt = False
-                  , dlrn = False
-                  , registry = False
-                  , rdocloud-data-fetcher = False
-                  , etcd = False
-                  , masters = False
-                  , nodes = False
-                  , openshift = False
-                  , installer = False
-                  , OSEv3 = True
-                  }
-                  group
+            \(group : Group) ->
+              merge
+                { afs-mirror = False
+                , ara = False
+                , backup = False
+                , ci-centos-org = False
+                , rdo = False
+                , sf = False
+                , install-server = False
+                , logreduce-mqtt = False
+                , dlrn = False
+                , registry = False
+                , rdocloud-data-fetcher = False
+                , etcd = False
+                , masters = False
+                , nodes = False
+                , openshift = False
+                , installer = False
+                , OSEv3 = True
+                }
+                group
         }
       ]
     , Type = { value : Group, test : forall (group : Group) -> Bool }
