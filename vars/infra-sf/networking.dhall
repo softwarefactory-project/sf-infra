@@ -80,8 +80,14 @@ in  { networks = Some
       , Infra.mkNetwork Common.external-network oci_network.name
       ]
     , subnets = Some
-      [ Infra.mkSubnet sf_network.name sf_network.network_prefix
-      , Infra.mkSubnet oci_network.name oci_network.network_prefix
+      [ Infra.mkSubnet
+          sf_network.name
+          sf_network.network_prefix
+          Common.dns-servernames
+      , Infra.mkSubnet
+          oci_network.name
+          oci_network.network_prefix
+          Common.dns-servernames
       ]
     , routers = Some
       [     Infra.mkRouter

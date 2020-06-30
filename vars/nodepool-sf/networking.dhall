@@ -1,5 +1,7 @@
 let Infra = ../../conf/package.dhall
 
+let Common = ../common.dhall
+
 in  { security_groups =
       [ { name = "default"
         , rules =
@@ -11,5 +13,6 @@ in  { security_groups =
       ]
     , networks = Some [ Infra.mkNetwork "public" "private" ]
     , routers = Some [ Infra.mkRouter "public" "private" "192.168.100" ]
-    , subnets = Some [ Infra.mkSubnet "private" "192.168.100" ]
+    , subnets = Some
+      [ Infra.mkSubnet "private" "192.168.100" Common.dns-servernames ]
     }

@@ -64,6 +64,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
           ]
         }
       ]
+    , dns-servernames = [ "1.1.1.1", "8.8.8.8" ]
     , external-network = "public"
     , Flavors = InfraAggregateFlavor
     , TripleOFlavors = CIAggregateFlavor

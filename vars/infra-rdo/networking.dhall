@@ -69,7 +69,11 @@ let security_groups =
 
 in  { networks = Some [ Infra.mkNetwork "public" rdo_network.name ]
     , subnets = Some
-      [ Infra.mkSubnet rdo_network.name rdo_network.network_prefix ]
+      [ Infra.mkSubnet
+          rdo_network.name
+          rdo_network.network_prefix
+          Common.dns-servernames
+      ]
     , routers = Some
       [     Infra.mkRouter "public" rdo_network.name rdo_network.network_prefix
         //  backward-compat-name
