@@ -76,6 +76,12 @@
             name: "{{ bridge_packages }}"
             state: present
 
+        - name: Fetch galaxy Roles
+          command: ansible-galaxy install --force-with-deps -r requirements.yml
+          args:
+            chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+          when: fetch_galaxy_role | default(False) | bool
+
         # Perform one shot actions
         - name: Check for updated actions
           shell: git diff-tree --no-commit-id --name-only -r HEAD | grep '^actions/.*yaml$' | sort

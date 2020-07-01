@@ -51,6 +51,10 @@ Host www.rdoproject.org
     User centos
     Port 22
 
+Host rdo-web-builder.rdoproject.org
+    User centos
+    Port 22
+
 Host dlrn-db.rdoproject.org
     User centos
     Port 22
@@ -87,6 +91,10 @@ Host rdo-ci-cloudslave05.ci.centos.org
     User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
+Host rdo-web-builder.int.osci.io
+    User root
+    Port 22
+    ProxyCommand ssh -q tenant@soeru.osci.io -W %h:%p
 Host bridge.softwarefactory-project.io
     User fedora
     Port 22

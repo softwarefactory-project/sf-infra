@@ -1,3 +1,5 @@
+let Prelude = ../../Infra/Prelude.dhall
+
 let Infra = ../../Infra/package.dhall
 
 let fqdn = "rdoproject.org"
@@ -215,6 +217,18 @@ let instances =
           , security_groups = [ "web" ]
           , volume_size = Some 10
           }
+        , urls = [ "https://www.rdoproject.org/" ]
+        }
+      , Instance::{
+        , name = "rdo-web-builder"
+        , connection = OS.CentOS.`7.0`.connection
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , flavor = Some Flavors.`1vcpu_4gb`
+          , auto_ip = Some True
+          , security_groups = [ "web" ]
+          , volume_size = Some 10
+          }
         }
       , Instance::{
         , name = "dlrn-db"
@@ -264,4 +278,21 @@ let vexxhost-instances =
 
 let centos-instances = mkCentosWorker 5
 
-in  vexxhost-instances # centos-instances
+let ospo-internal-vhosts = [ "rdo-web-builder.int.osci.io" ]
+
+let defaultOSPOInternalInstance =
+      Instance::{
+      , name = "default"
+      , groups = [ "osci_zone", "osci_internal_zone" ]
+      , connection = Infra.Connection::{
+        , ansible_user = "root"
+        , proxy_command = Some "ssh -q tenant@soeru.osci.io -W %h:%p"
+        }
+      }
+
+let ospo-instances =
+      Instance.textMap
+        (Instance.setName defaultOSPOInternalInstance)
+        ospo-internal-vhosts
+
+in  vexxhost-instances # centos-instances # ospo-instances

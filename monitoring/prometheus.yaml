@@ -37,6 +37,7 @@ scrape_configs:
           - logserver.rdoproject.org:9100
           - images.rdoproject.org:9100
           - www.rdoproject.org:9100
+          - rdo-web-builder.rdoproject.org:9100
           - dlrn-db.rdoproject.org:9100
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100
@@ -94,6 +95,7 @@ scrape_configs:
           - https://review.rdoproject.org/analytics/app/kibana
           - https://review.rdoproject.org
           - "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
+          - https://www.rdoproject.org/
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/analytics/api/licensing/info
           - https://softwarefactory-project.io/zuul/api/info

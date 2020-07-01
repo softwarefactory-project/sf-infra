@@ -2,6 +2,8 @@
 # FIXME(dpawlik): the list of monitored components
 # should be automaticaly increased by the
 # roles that are enabled on the "current" server.
+# Duck: you can use prometheus_monitored_services_extra to add services
+#       to the base ones (which should be stripped down on day)
 prometheus_monitored_services:
   - blackbox-exporter
   - elasticsearch

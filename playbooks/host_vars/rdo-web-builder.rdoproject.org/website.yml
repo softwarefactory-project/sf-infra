@@ -1,0 +1,6 @@
+---
+website_name: rdo_web
+website_repo_url: https://github.com/redhat-openstack/website.git
+rsync_server: www.rdoproject.org
+rsync_user: "{{ hostvars['www.rdoproject.org']['websync_user'] }}"
+rsync_location: "{{ hostvars['www.rdoproject.org']['websync_path'] }}"

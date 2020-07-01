@@ -98,6 +98,7 @@
     timeout: 3600
     vars:
       sf_infra_play_name: site
+      fetch_galaxy_role: True
     secrets:
       - name: cloud
         secret: vexxhost-cloud

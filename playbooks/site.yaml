@@ -23,9 +23,12 @@
           - http://koji.softwarefactory-project.io/kojifiles/packages/python3-google-api-python-client/1.7.11/1.el7/noarch/python3-google-api-python-client-1.7.11-1.el7.noarch.rpm
           - http://koji.softwarefactory-project.io/kojifiles/packages/nodepool/3.12.0/1.el7/noarch/nodepool-3.12.0-1.el7.noarch.rpm
 
-- hosts: all
+- hosts: all:!osci_zone
   roles:
     - sf-infra-base
+
+- hosts: all
+  roles:
     - node-exporter
 
 - hosts: backup
@@ -141,6 +144,43 @@
 - hosts: www.rdoproject.org
   roles:
     - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: vhosts
+        apply:
+          become: yes
+
+# after www.rdoproject.org
+- hosts: rdo-web-builder.rdoproject.org
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    # NOTE(jpena): We will be able to remove this task once the DNS entry
+    # for www.rdoproject.org has been changed
+    - name: Set IP for www.rdoproject.org in /etc/hosts
+      become: yes
+      lineinfile:
+        dest: '/etc/hosts'
+        regexp: ".+www.rdoproject.org.+$"
+        line: "38.102.83.227 www.rdoproject.org"
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: builders
+        apply:
+          become: yes
 
 - hosts: elk.*:nodepool-builder.softwarefactory-project.io
   roles:

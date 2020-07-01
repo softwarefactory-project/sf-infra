@@ -1,1 +1,5 @@
 /build/
+roles/web_builder
+roles/msmtp
+roles/httpd
+roles/dashboards

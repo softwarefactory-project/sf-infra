@@ -1,0 +1,10 @@
+---
+- src: git+https://gitlab.com/osci/ansible-role-web_builder.git
+  name: web_builder
+- src: git+https://gitlab.com/osas/ansible-role-msmtp.git
+  name: msmtp
+- src: git+https://gitlab.com/osas/ansible-role-ah-httpd.git
+  name: httpd
+- src: git+https://github.com/rdo-infra/ansible-role-rdo_dashboards.git
+  name: dashboards
+

@@ -17,6 +17,7 @@ This project manages:
 * logserver.rdoproject.org
 * images.rdoproject.org
 * www.rdoproject.org
+* rdo-web-builder.rdoproject.org
 * dlrn-db.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
@@ -26,6 +27,7 @@ This project manages:
 * rdo-ci-cloudslave03.ci.centos.org
 * rdo-ci-cloudslave04.ci.centos.org
 * rdo-ci-cloudslave05.ci.centos.org
+* rdo-web-builder.int.osci.io
 * bridge.softwarefactory-project.io
 * lambda.softwarefactory-project.io
 * logreduce-mqtt-01.softwarefactory-project.io

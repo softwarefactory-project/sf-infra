@@ -1,0 +1,10 @@
+---
+osci:
+  dns:
+    - 8.43.85.229
+    - 8.43.85.230
+  ntp:
+    - ntp1.osci.io
+    - ntp2.osci.io
+  mail_forwarder: mx1.osci.io
+

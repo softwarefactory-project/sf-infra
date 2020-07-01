@@ -1,0 +1,7 @@
+---
+# This file is not part of OSPO/OSCI exported parameters
+#
+# disabled on RDO hosts which are using OpenStack security groups instead,
+# thus need to be reenabled
+manage_firewall: True
+
