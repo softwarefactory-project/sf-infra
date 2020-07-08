@@ -39,12 +39,3 @@ groups:
         annotations:
           summary: "Provider {{ $labels.provider }} may have over 3 instances in hold state"
           description: "Counting if provider {{ $labels.provider }} have over 3 vms in hold state"
-
-      - alert: NodepoolNodeDeletingProvider
-        expr: nodepool_nodes_by_provider{state="deleting"} > 1
-        for: 15m
-        labels:
-          severity: warning
-        annotations:
-          summary: "Provider {{ $labels.provider }} may have a problem on deleting instances"
-          description: "Provider {{ $labels.provider }} is abnormally slow at deleting instances"
