@@ -1,5 +1,5 @@
 ---
-- name: Renew registry SSL certificates
+- name: Renew Letsencrypt SSL certificates
   hosts: registry.rdoproject.org
   vars:
     registry_host: "{{ inventory_hostname }}"
@@ -19,3 +19,15 @@
         recursive: yes
         archive: yes
       become: true
+
+- name: Redeploy All certificates
+  hosts: registry.rdoproject.org
+  vars:
+    registry_host: "{{ inventory_hostname }}"
+  tasks:
+    - name: include vars
+      include_vars:
+        file: host_vars/registry.rdoproject.org.yml
+
+- name: Run Openshift Ansible redeploy-certificates
+  import_playbook: "{{ '~/src/github.com/rdo-infra/openshift-ansible/playbooks/redeploy-certificates.yml' | expanduser }}"
