@@ -291,6 +291,7 @@ in  { Prelude
     , setIp =
         \(ip : Text) -> { auto_ip = None Bool, floating_ips = Some [ ip ] }
     , seq
+    , map = Prelude.List.map
     , setFqdn
     , mapServerText = Prelude.List.map Server.Type Text
     }
