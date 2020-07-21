@@ -8,6 +8,7 @@
           immediate: yes
           state: enabled
         - port: '9100/tcp'
+        - rich_rule: 'rule family=ipv4 source address=192.168.2.2 port port=4012 protocol=tcp accept'
   tasks:
     - name: "Include firewalld"
       include_role:

@@ -71,6 +71,7 @@
       become: yes
   roles:
     - hostname
+    - firewalld
     - setup-ssl
     - udp-multiplexer
     - monitoring-gateway
