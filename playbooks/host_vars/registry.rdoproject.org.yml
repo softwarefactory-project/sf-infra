@@ -58,3 +58,13 @@ openshift_hosted_registry_routecertificates:
   certfile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-fullchain.pem"
   keyfile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-privkey.pem"
   cafile: "/home/fedora/letsencrypt/live/trunk.registry.rdoproject.org/trunk.registry.rdoproject.org-cert.pem"
+
+
+# For SSL cert checking
+openshift_certificate_expiry_warning_days: 30
+openshift_certificate_expiry_generate_html_report: yes
+openshift_certificate_expiry_save_json_results: yes
+openshift_certificate_expiry_show_all: yes
+timestamp: "{{ lookup('pipe', 'date +%Y%m%d-%H:%M') }}"
+openshift_certificate_expiry_html_report_path: "/home/fedora/registry-certcheck/{{ timestamp }}-cert-expiry-report.html"
+openshift_certificate_expiry_json_results_path: "/home/fedora/registry-certcheck/{{ timestamp }}-cert-expiry-report.json"
