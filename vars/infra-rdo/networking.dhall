@@ -32,7 +32,12 @@ let security_groups =
         , { name = "hound", rules = [ Infra.Rule::{ port = +6080 } ] }
         , { name = "elk"
           , rules =
-            [ Infra.Rule::{ port = +4731 }, Infra.Rule::{ port = +9200 } ]
+            [ Infra.Rule::{ port = +4731 }
+            , Infra.Rule::{
+              , port = +9200
+              , remote_ip_prefix = Some "${rdo_network.network_prefix}.0/24"
+              }
+            ]
           }
         , { name = "registry"
           , rules =
