@@ -102,6 +102,7 @@ scrape_configs:
           - https://www.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
+          - elk.softwarefactory-project.io:9200
   - job_name: node_proxy
     proxy_url: http://127.0.0.1:8080
     static_configs:

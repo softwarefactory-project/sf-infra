@@ -88,6 +88,8 @@ security_groups:
       - port: 4731
       - port: 9200
         remote_ip_prefix: "192.168.240.0/24"
+      - port: 9200
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: registry
     rules:
       - port: 53

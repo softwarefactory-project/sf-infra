@@ -133,6 +133,7 @@ let instances =
                 , "https://www.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
+                , "elk.softwarefactory-project.io:9200"
                 ]
         , groups =
           [ Infra.Group.sf
