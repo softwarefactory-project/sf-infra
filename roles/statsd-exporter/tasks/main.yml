@@ -47,7 +47,7 @@
 
     - name: Start the service
       service:
-        name: node_exporter
+        name: statsd_exporter
         state: started
         enabled: true
   become: yes
