@@ -19,3 +19,9 @@ The role will use the following variable, defined in the inventory:
               permanent: yes (optional)
               immediate: yes (optional)
               state: enabled (optional)
+            - rich_rule: rule family=ipv4 source address=192.168.2.2 port port=4012 protocol=tcp accept
+              permanent: yes (optional)
+              immediate: yes (optional)
+              state: enabled (optional)
+
+  You can specify either a port or a rich rule.

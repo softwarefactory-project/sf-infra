@@ -9,7 +9,8 @@
         enabled: yes
     - name: Enable ports on firewall
       firewalld:
-        port: "{{ item.port }}"
+        port: "{{ item.port | default(omit) }}"
+        rich_rule: "{{ item.rich_rule | default(omit) }}"
         permanent: "{{ item.permanent | default('yes') }}"
         immediate: "{{ item.immediate | default('yes') }}"
         state: "{{ item.state | default('enabled') }}"
