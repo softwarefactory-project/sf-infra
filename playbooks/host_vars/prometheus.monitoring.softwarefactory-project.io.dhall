@@ -1,64 +1,30 @@
+let Infra = ../../conf/package.dhall
+
+let Common = ../../vars/common.dhall
+
+let security_group_rules =
+        Common.web-rules
+      # ../../vars/infra-sf/rules/prometheus.dhall
+      # ../../vars/infra-sf/rules/push-prox.dhall
+      # ../../vars/infra-sf/rules/prometheus-statsd.dhall
+
 let firewall_rules =
-      [ { immediate = "yes"
-        , permanent = "yes"
-        , port = Some "80/tcp"
-        , rich_rule = None Text
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = Some "443/tcp"
-        , rich_rule = None Text
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = Some "9100/tcp"
-        , rich_rule = None Text
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = Some "9101/tcp"
-        , rich_rule = None Text
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = None Text
-        , rich_rule = Some
-            "rule family=ipv4 source address=8.43.84.199/32 port port=8080 protocol=tcp accept"
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = None Text
-        , rich_rule = Some
-            "rule family=ipv4 source address=8.43.83.114/32 port port=7000 protocol=udp accept"
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = None Text
-        , rich_rule = Some
-            "rule family=ipv4 source address=8.43.83.114/32 port port=9125 protocol=udp accept"
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = None Text
-        , rich_rule = Some
-            "rule family=ipv4 source address=192.168.242.246/32 port port=9102 protocol=tcp accept"
-        , state = "enabled"
-        }
-      , { immediate = "yes"
-        , permanent = "yes"
-        , port = None Text
-        , rich_rule = Some
-            "rule family=ipv4 source address=38.102.83.250/32 port port=9102 protocol=tcp accept"
-        , state = "enabled"
-        }
-      ]
+        Infra.securityGroupRulesToFirewallRules security_group_rules
+      # [ { immediate = "yes"
+          , permanent = "yes"
+          , port = None Text
+          , rich_rule = Some
+              "rule family=ipv4 source address=192.168.242.246/32 port port=9102 protocol=tcp accept"
+          , state = "enabled"
+          }
+        , { immediate = "yes"
+          , permanent = "yes"
+          , port = None Text
+          , rich_rule = Some
+              "rule family=ipv4 source address=38.102.83.250/32 port port=9102 protocol=tcp accept"
+          , state = "enabled"
+          }
+        ]
 
 in  { certbot_plugin = "--apache"
     , firewall_rules
