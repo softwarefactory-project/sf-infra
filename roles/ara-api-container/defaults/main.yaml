@@ -2,7 +2,7 @@
 # Image to deploy
 # Defaults to distribution-latest which is running from Fedora 32 distribution packages
 # See https://hub.docker.com/r/recordsansible/ara-api for other tags
-ara_api_container_image: "docker.io/recordsansible/ara-api:distribution-latest"
+ara_api_container_image: "docker.io/recordsansible/ara-api:fedora32-distribution-latest"
 
 # Directory where the container data (settings, logs, sqlite) is persisted on the host
 ara_api_container_volume: "{{ ansible_user_dir }}/.ara/server"
