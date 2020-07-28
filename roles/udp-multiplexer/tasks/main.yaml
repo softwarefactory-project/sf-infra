@@ -42,6 +42,7 @@
       Type=simple
       SyslogIdentifier=udp-multiplexer
       ExecStart=/usr/local/bin/udp-multiplexer {{ udp_mp_listen_port }} {% for dest in udp_mp_dests %} {{ dest.hostname }} {{ dest.port }} {% endfor %}
+
       Restart=always
       RestartSec=3s
 
