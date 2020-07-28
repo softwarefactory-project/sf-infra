@@ -25,7 +25,10 @@ let {- The official flavor list that is running on the CI Aggregate
       , `4vcpus_8gb` = "ci.m1.large"
       }
 
+let web-rules = [ Infra.Rule::{ port = +80 }, Infra.Rule::{ port = +443 } ]
+
 in  { sfInfraKeypair = ./files/infra_key.pub as Text
+    , web-rules
     , SecurityGroups =
       [ { name = "common"
         , rules =
@@ -33,9 +36,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
           , Infra.Rule::{ port = -1, protocol = Some "icmp" }
           ]
         }
-      , { name = "web"
-        , rules = [ Infra.Rule::{ port = +80 }, Infra.Rule::{ port = +443 } ]
-        }
+      , { name = "web", rules = web-rules }
       , { name = "managesf"
         , rules =
           [ Infra.Rule::{ port = +1883 }

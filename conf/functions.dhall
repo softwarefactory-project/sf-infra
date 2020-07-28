@@ -217,6 +217,37 @@ let setFqdn =
 
 let Rule = ./schemas/Rule.dhall
 
+let Firewall = ./schemas/Firewall.dhall
+
+let securityGroupRuleToFirewallRule
+    : Rule.Type -> Firewall.Type
+    = \(rule : Rule.Type) ->
+        let proto =
+              merge
+                { None = "tcp", Some = \(proto : Text) -> proto }
+                rule.protocol
+
+        let port = Integer/clamp rule.port
+
+        in  merge
+              { None = Firewall::{ port = Some "${Natural/show port}/${proto}" }
+              , Some =
+                  \(address : Text) ->
+                    Firewall::{
+                    , rich_rule = Some
+                        (     "rule family=ipv4 "
+                          ++  "source address=${address} "
+                          ++  "port port=${Natural/show port} "
+                          ++  "protocol=${proto} accept"
+                        )
+                    }
+              }
+              rule.remote_ip_prefix
+
+let securityGroupRulesToFirewallRules
+    : List Rule.Type -> List Firewall.Type
+    = Prelude.List.map Rule.Type Firewall.Type securityGroupRuleToFirewallRule
+
 let {- This is a function transformer,
        it transforms a `Text -> Rule` function to a `List Text -> List Rule` function
     -} text-to-rule-map =
@@ -294,4 +325,5 @@ in  { Prelude
     , map = Prelude.List.map
     , setFqdn
     , mapServerText = Prelude.List.map Server.Type Text
+    , securityGroupRulesToFirewallRules
     }
