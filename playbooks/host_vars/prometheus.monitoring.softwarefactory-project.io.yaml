@@ -1,56 +1,57 @@
-podman_gw_ip: "10.88.0.1"
-podman_network: "10.88.0.0/16"
+# This file is managed by dhall.
 certbot_plugin: "--apache"
-fqdn: "prometheus.monitoring.softwarefactory-project.io"
-ssl_cert_options:
-  cert1:
-    email: "softwarefactory-operations-team@redhat.com"
-    domain: "{{ fqdn }}"
-    webroot: "/var/www/html"
-pushprox_type: "proxy"
-pushprox_proxy_listen: ":8080"
+firewall_rules:
+  - immediate: yes
+    permanent: yes
+    port: "80/tcp"
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    port: "443/tcp"
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    port: "9100/tcp"
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    port: "9101/tcp"
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=8.43.84.199/32 port port=8080 protocol=tcp accept
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=8.43.83.114/32 port port=7000 protocol=udp accept
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=8.43.83.114/32 port port=9125 protocol=udp accept
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=192.168.242.246/32 port port=9102 protocol=tcp accept
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=38.102.83.250/32 port port=9102 protocol=tcp accept
+    state: enabled
+fqdn: prometheus.monitoring.softwarefactory-project.io
+grafana_server_root_url: "https://{{ fqdn }}/grafana/"
+podman_gw_ip: '10.88.0.1'
+podman_network: "10.88.0.0/16"
 prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
 prometheus_public_url: "https://{{ fqdn }}/prometheus"
-grafana_server_root_url: "https://{{ fqdn }}/grafana/"
+pushprox_proxy_listen: ":8080"
+pushprox_type: proxy
+ssl_cert_options:
+  cert1:
+    domain: "{{ fqdn }}"
+    email: "softwarefactory-operations-team@redhat.com"
+    webroot: /var/www/html
 udp_mp_dests:
-  - hostname: '{{ fqdn }}'
+  - hostname: "{{ fqdn }}"
     port: 9125
   - hostname: elk.softwarefactory-project.io
     port: 8125
-firewall_rules:
-  - port: '80/tcp'
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - port: '443/tcp'
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - port: '9100/tcp'
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - port: '9101/tcp'
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - rich_rule: rule family=ipv4 source address=8.43.84.199/32 port port=8080 protocol=tcp accept
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - rich_rule: rule family=ipv4 source address=8.43.83.114/32 port port=7000 protocol=udp accept
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - rich_rule: rule family=ipv4 source address=8.43.83.114/32 port port=9125 protocol=udp accept
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - rich_rule: rule family=ipv4 source address=192.168.242.246/32 port port=9102 protocol=tcp accept
-    permanent: yes
-    immediate: yes
-    state: enabled
-  - rich_rule: rule family=ipv4 source address=38.102.83.250/32 port port=9102 protocol=tcp accept
-    permanent: yes
-    immediate: yes
-    state: enabled

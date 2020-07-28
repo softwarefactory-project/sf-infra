@@ -6,6 +6,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/prometheus.yaml \
 	  monitoring/rules-node.yaml \
 	  monitoring/rules-node_proxy.yaml \
+	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  ansible/hosts.yaml
 
 all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
