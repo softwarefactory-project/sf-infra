@@ -1,5 +1,7 @@
 # This file is managed by dhall.
 certbot_plugin: "--apache"
+container_images:
+  prometheus: "quay.io/prometheus/prometheus@sha256:788260ebd13613456c168d2eed8290f119f2b6301af2507ff65908d979c66c17"
 firewall_rules:
   - immediate: yes
     permanent: yes

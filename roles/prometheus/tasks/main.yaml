@@ -25,7 +25,7 @@
       --network host
       -v /etc/prometheus/:/etc/prometheus/:Z
       -v /var/lib/prometheus:/prometheus:Z
-      quay.io/prometheus/prometheus
+      {{ container_images['prometheus'] | default('quay.io/prometheus/prometheus:latest') }}
       --web.external-url="{{ prometheus_public_url }}/"
       --web.route-prefix="prometheus"
       --config.file=/etc/prometheus/prometheus.yaml
