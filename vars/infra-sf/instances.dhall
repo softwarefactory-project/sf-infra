@@ -130,7 +130,6 @@ let instances =
                 , "https://logserver.rdoproject.org"
                 , "http://mirror.regionone.rdo-cloud.rdoproject.org"
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
-                , "https://www.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
                 , "elk.softwarefactory-project.io:9200"
