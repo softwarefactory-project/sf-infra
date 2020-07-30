@@ -57,6 +57,10 @@
     - hostname
 #    - sf-install-server
 
+- hosts: managesf.softwarefactory-project.io
+  roles:
+    - acme-tiny
+
 - hosts: integrations.softwarefactory-project.io
   roles:
     - integrations

@@ -7,14 +7,23 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-node.yaml \
 	  monitoring/rules-node_proxy.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
+	  roles/acme-tiny/tasks/main.yaml \
+	  roles/acme-tiny/defaults/main.yaml \
 	  ansible/hosts.yaml
 
-all: dhall-version-check dhall-schemas dhall-format $(MANAGED)
+ANSIDHALL = roles/acme-tiny/tasks/main.yaml
+
+all: dhall-version-check dhall-schemas dhall-format $(MANAGED) prettify-generated-ansible
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 .FORCE:
 %.yaml: %.dhall .FORCE
 	@sh -c "echo '# This file is managed by dhall.'; env DHALL_INFRA=$$(pwd)/package.dhall dhall-to-yaml --explain --file $<" > $@
+
+prettify-generated-ansible:
+	@python3 conf/scripts/yaml-prettifier.py roles/acme-tiny/tasks/main.yaml
+	@dhall to-directory-tree --output roles/acme-tiny/templates <<< "(./roles/acme-tiny/role.dhall).Templates"
+	@dhall text > roles/acme-tiny/README.md                     <<< "(./roles/acme-tiny/role.dhall).README"
 
 # dhall-schemas generate the package files from diretory content
 dhall-schemas:
