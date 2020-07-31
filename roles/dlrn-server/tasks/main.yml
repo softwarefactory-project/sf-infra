@@ -27,7 +27,7 @@
     - name: Install puppet from temporary repo
       yum:
         name:
-          - puppet
+          - 'puppet < 6.0'
           - rubygem-multi_json
           - 'leatherman < 1.10'
         enablerepo: "puppet-temporary-repo"
