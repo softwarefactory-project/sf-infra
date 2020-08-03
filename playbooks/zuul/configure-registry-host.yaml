@@ -20,6 +20,12 @@
 
 - hosts: bridge.softwarefactory-project.io
   tasks:
+    - name: Synchronize src repos to workspace directory.
+      synchronize:
+        dest: "~/src/"
+        src: "{{ zuul.executor.src_root }}/"
+      no_log: true
+
     - name: Run configuration playbook
       args:
         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
