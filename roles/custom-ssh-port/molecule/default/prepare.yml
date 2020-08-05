@@ -6,8 +6,8 @@
       package:
         name:
           - openssh-server
-          - libselinux-python
-          - policycoreutils-python
+          - python3-libselinux
+          - python3-policycoreutils
 
     - name: Enable sshd
       systemd:

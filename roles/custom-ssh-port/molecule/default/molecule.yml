@@ -5,10 +5,7 @@ driver:
   name: podman
 platforms:
   - name: instance
-    image: centos/systemd
-    privileged: True
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
+    image: centos:8
     command: "/usr/sbin/init"
 provisioner:
   name: ansible

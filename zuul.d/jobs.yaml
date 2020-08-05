@@ -147,7 +147,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: cloud-fedora-30
+          label: cloud-fedora-32
     files:
       - ^roles/rdotrunk-checks/.*$
       - ^roles/backup-monitoring/.*$
@@ -163,6 +163,7 @@
       - ^roles/pushprox/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
+      - ^zuul.d/jobs.yaml$
 
 - project:
     check:

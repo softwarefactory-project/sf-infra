@@ -5,16 +5,8 @@ driver:
   name: podman
 platforms:
   - name: instance
-    # NOTE(jpena): when updating the test machine to Fedora 31, we will need
-    # to change the image and command to these ones. It seems to be related
-    # to compatibility between systemd releases.
-    #image: centos:8
-    #command: "/sbin/init"
-    image: centos/systemd
-    privileged: True
-    volume_mounts:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-    command: "/usr/sbin/init"
+    image: centos:8
+    command: "/sbin/init"
 provisioner:
   name: ansible
   lint:
