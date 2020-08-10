@@ -8,6 +8,11 @@ let security_group_rules =
       # ../../vars/infra-sf/rules/push-prox.dhall
       # ../../vars/infra-sf/rules/prometheus-statsd.dhall
 
+let container_images =
+      { prometheus =
+          "quay.io/prometheus/prometheus@sha256:788260ebd13613456c168d2eed8290f119f2b6301af2507ff65908d979c66c17"
+      }
+
 let firewall_rules =
         Infra.securityGroupRulesToFirewallRules security_group_rules
       # [ { immediate = "yes"
@@ -46,4 +51,5 @@ in  { certbot_plugin = "--apache"
       [ { hostname = "{{ fqdn }}", port = 9125 }
       , { hostname = "elk.softwarefactory-project.io", port = 8125 }
       ]
+    , container_images
     }

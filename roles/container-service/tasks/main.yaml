@@ -22,10 +22,25 @@
         dest: "/usr/local/bin/podman-{{ pod_name }}.sh"
         mode: 0755
         owner: root
+      register: _recreation_script
+
+    - name: Check if service container should be recreated
+      block:
+        - name: Stop the service before recreation
+          service:
+            name: "{{ pod_name }}"
+            state: stopped
+
+        - name: Delete the old container
+          command: |
+            podman rm {{ pod_name }}
+      when:
+        - _container_exists.rc == 0
+        - _recreation_script.changed
 
     - name: Create container if needed
       command: "/usr/local/bin/podman-{{ pod_name }}.sh"
-      when: _container_exists.rc == 1
+      when: _container_exists.rc == 1 or _recreation_script.changed
 
     - name: Install service file
       copy:
@@ -64,8 +79,7 @@
         state: restarted
       when:
         - (pod_config is defined and pod_config is changed) or (pod_template is defined and pod_template is changed)
-        # Do not restart the service if we just started
-        - _container_exists.rc == 0
+        - _container_exists.rc == 0 or _recreation_script.changed
 
 - name: Ensure service is active
   command: "systemctl is-active {{ pod_name }}"
