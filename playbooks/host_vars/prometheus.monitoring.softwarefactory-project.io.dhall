@@ -9,8 +9,17 @@ let security_group_rules =
       # ../../vars/infra-sf/rules/prometheus-statsd.dhall
 
 let container_images =
+    --- NOTE: node_exporter container image is set in group_vars/all
       { prometheus =
           "quay.io/prometheus/prometheus@sha256:788260ebd13613456c168d2eed8290f119f2b6301af2507ff65908d979c66c17"
+      , blackbox =
+          "quay.io/prometheus/blackbox-exporter@sha256:1d8a5c9ff17e2493a39e4aea706b4ea0c8302ae0dc2aa8b0e9188c5919c9bd9c"
+      , alertmanager =
+          "quay.io/prometheus/alertmanager@sha256:24a5204b418e8fa0214cfb628486749003b039c279c56b5bddb5b10cd100d926"
+      , grafana =
+          "docker.io/grafana/grafana@sha256:e86bb674b2c275aae203e6a958c6fad1cb515eb1c1e80c820f4179fc0eb8ea4b"
+      , statsd_exporter =
+          "quay.io/prometheus/statsd-exporter@sha256:44beed7ad8383328effa0cee14987769dd8137685b75e3297dacbfc5bea103c4"
       }
 
 let firewall_rules =

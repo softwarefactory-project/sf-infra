@@ -37,6 +37,6 @@
     pod_param: >
       --network host
       -v /etc/grafana:/etc/grafana
-      grafana/grafana
+      {{ container_images['grafana'] | default('docker.io/grafana/grafana:latest') }}
     pod_config: "{{ _grafana_config }}"
     pod_template: "{{ _grafana_template }}"

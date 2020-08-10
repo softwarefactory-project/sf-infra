@@ -40,7 +40,7 @@
       --network host
       -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
       -v /var/lib/alertmanager:/alertmanager:Z
-      quay.io/prometheus/alertmanager
+      {{ container_images['alertmanager'] | default('quay.io/prometheus/alertmanager:latest') }}
       --web.external-url={{ monitoring_endpoint_url }}/alertmanager/
       --web.route-prefix="alertmanager"
       --config.file=/etc/alertmanager/alertmanager.yml

@@ -64,5 +64,5 @@
       -p {{ listen_address }}:9102
       -p {{ listen_udp_port }}:9125
       -p {{ listen_tcp_port }}:9125
-      prom/statsd-exporter
+      {{ container_images['statsd_exporter'] | default('quay.io/prometheus/statsd-exporter:latest') }}
       --statsd.mapping-config=/tmp/statsd_mapping.yml

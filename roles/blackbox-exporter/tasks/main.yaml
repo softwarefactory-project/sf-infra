@@ -3,5 +3,7 @@
     name: container-service
   vars:
     pod_name: blackbox-exporter
-    pod_param: --net=host quay.io/prometheus/blackbox-exporter
+    pod_param: >
+      --net=host
+      {{ container_images['blackbox'] | default('quay.io/prometheus/black-box:latest') }}
 

@@ -189,3 +189,6 @@ monitoring_host: 'prometheus.monitoring.softwarefactory-project.io'
 monitoring_endpoint_url: 'https://{{ monitoring_host }}'
 inventory_public_dns:
   - www.rdoproject.org
+
+container_images:
+  node_exporter: "quay.io/prometheus/node-exporter@sha256:cf66a6bbd573fd819ea09c72e21b528e9252d58d01ae13564a29749de1e48e0f"

@@ -36,10 +36,10 @@
       -v /:/host:ro,rslave
       -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
       -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
-      quay.io/prometheus/node-exporter
+      {{ container_images['node_exporter'] | default('quay.io/prometheus/node-exporter:latest') }}
       --path.rootfs=/host
-      --collector.netstat.fields=(.*)
-      --collector.vmstat.fields=(.*)
+      --collector.netstat.fields='(.*)'
+      --collector.vmstat.fields='(.*)'
       --collector.interrupts
       --collector.textfile.directory /var/lib/node_exporter/textfile_collector
       --collector.systemd
