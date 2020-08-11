@@ -132,6 +132,7 @@ let instances =
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
+                , "https://ara.softwarefactory-project.io"
                 , "elk.softwarefactory-project.io:9200"
                 ]
         , groups =

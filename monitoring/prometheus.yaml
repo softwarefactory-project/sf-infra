@@ -101,6 +101,7 @@ scrape_configs:
           - http://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
+          - https://ara.softwarefactory-project.io
           - elk.softwarefactory-project.io:9200
   - job_name: node_proxy
     proxy_url: http://127.0.0.1:8080
