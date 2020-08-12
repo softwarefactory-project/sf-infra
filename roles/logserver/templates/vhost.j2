@@ -3,6 +3,11 @@
     HostnameLookups On
     RewriteEngine On
     DocumentRoot /var/www/logs
+
+    <LocationMatch "/.*/ara-report(?!/ansible.sqlite)/>
+        ProxyPassMatch    http://localhost:20003
+        ProxyPassReverse  http://localhost:20003
+    </LocationMatch>
 </VirtualHost>
 {% if _tls_cert.stat.exists %}
 
@@ -11,6 +16,11 @@
     HostnameLookups On
     RewriteEngine On
     DocumentRoot /var/www/logs
+
+    <LocationMatch "/.*/ara-report(?!/ansible.sqlite)/>
+        ProxyPassMatch    http://localhost:20003
+        ProxyPassReverse  http://localhost:20003
+    </LocationMatch>
 
     Header set Access-Control-Allow-Origin "*"
 
