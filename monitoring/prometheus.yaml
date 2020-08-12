@@ -87,7 +87,7 @@ scrape_configs:
           - https://review.rdoproject.org
           - http://elk.review.rdoproject.org:9200
           - https://softwarefactory-project.io
-          - https://softwarefactory-project.io/analytics/elasticsearch/
+          - https://softwarefactory-project.io/analytics/api/licensing/info
           - https://softwarefactory-project.io/zuul/api/info
           - https://softwarefactory-project.io/elasticsearch/
           - https://ovirt.softwarefactory-project.io/zuul/api/info
@@ -101,7 +101,6 @@ scrape_configs:
           - http://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
-          - https://ara.softwarefactory-project.io
           - elk.softwarefactory-project.io:9200
   - job_name: node_proxy
     proxy_url: http://127.0.0.1:8080
