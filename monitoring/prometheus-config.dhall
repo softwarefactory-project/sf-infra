@@ -39,6 +39,21 @@ in  \(instances : List Infra.Instance.Type) ->
               (List/length Text web-list)
               [ (./scrape-configs.dhall).blackbox web-list ]
 
+      let auth-web-list =
+            Infra.Prelude.List.concat
+              Text
+              ( Infra.Prelude.List.map
+                  Infra.Instance.Type
+                  (List Text)
+                  (\(instance : Infra.Instance.Type) -> instance.auth_urls)
+                  instances
+              )
+
+      let auth-url-target =
+            optional-scrape
+              (List/length Text auth-web-list)
+              [ (./scrape-configs.dhall).blackbox-auth auth-web-list ]
+
       let node-target =
             optional-scrape
               (List/length Infra.Instance.Type instances)
@@ -63,5 +78,6 @@ in  \(instances : List Infra.Instance.Type) ->
               ]
             }
           , rule_files = Some rules
-          , scrape_configs = Some (node-target # url-target # targets)
+          , scrape_configs = Some
+              (node-target # url-target # auth-url-target # targets)
           }

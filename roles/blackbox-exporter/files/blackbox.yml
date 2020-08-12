@@ -1,0 +1,40 @@
+---
+# Default configuration: https://github.com/prometheus/blackbox_exporter/blob/master/blackbox.yml
+# Some probles added base on https://github.com/prometheus/blackbox_exporter/blob/master/CONFIGURATION.md
+# and https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
+modules:
+  http_4xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+      valid_status_codes: [401, 403]
+      method: GET
+      no_follow_redirects: false
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+      valid_status_codes: [200]
+      no_follow_redirects: false
+      preferred_ip_protocol: "ip4"
+  https_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      method: GET
+      fail_if_ssl: false
+      fail_if_not_ssl: true
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+      valid_status_codes: [200]
+      no_follow_redirects: false
+  tcp_connect:
+    prober: tcp
+  ssh_banner:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: "^SSH-2.0-"
+  icmp:
+    prober: icmp

@@ -73,6 +73,7 @@ let instances =
         }
       , Instance::{
         , name = "ara"
+        , auth_urls = [ "https://ara.softwarefactory-project.io" ]
         , groups = [ Infra.Group.ara ]
         , connection = OS.Fedora.`31`.connection
         , server = Infra.Server::{

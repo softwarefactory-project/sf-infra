@@ -102,6 +102,24 @@ scrape_configs:
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
           - elk.softwarefactory-project.io:9200
+  - job_name: blackbox-auth
+    metrics_path: /probe
+    params:
+      module:
+        - http_4xx
+    relabel_configs:
+      - source_labels:
+          - "__address__"
+        target_label: "__param_target"
+      - source_labels:
+          - "__param_target"
+        target_label: instance
+      - replacement: "127.0.0.1:9115"
+        target_label: "__address__"
+    scrape_interval: "5m"
+    static_configs:
+      - targets:
+          - https://ara.softwarefactory-project.io
   - job_name: node_proxy
     proxy_url: http://127.0.0.1:8080
     static_configs:
