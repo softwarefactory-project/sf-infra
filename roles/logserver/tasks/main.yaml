@@ -19,6 +19,13 @@
     group: apache
     mode: 0755
 
+- name: Setup index.html
+  become: yes
+  copy:
+    content: |
+      <html><head><title>Logserver</title></head><body>Welcome to {{ fqdn }} logserver</body></html>
+    dest: /var/www/logs/index.html
+
 - name: Remove old purge-logs script
   become: yes
   file:
