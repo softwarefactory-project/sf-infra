@@ -1,0 +1,21 @@
+---
+- git: https://github.com/rdo-infra/rdo-infra-playbooks
+  version: master
+  files:
+    - src: roles/rdo-infra/base
+      dst: molecule/default/roles/base
+- git: https://github.com/rdo-infra/ansible-role-dlrn
+  version: master
+  files:
+    - src: roles/dlrn/defaults
+      dst: molecule/default/roles/dlrn/defaults
+    - src: roles/dlrn/files
+      dst: molecule/default/roles/dlrn/files
+    - src: roles/dlrn/handlers
+      dst: molecule/default/roles/dlrn/handlers
+    - src: roles/dlrn/tasks
+      dst: molecule/default/roles/dlrn/tasks
+    - src: roles/dlrn/templates
+      dst: molecule/default/roles/dlrn/templates
+    - src: roles/dlrn/vars
+      dst: molecule/default/roles/dlrn/vars

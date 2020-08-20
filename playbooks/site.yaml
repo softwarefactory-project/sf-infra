@@ -116,7 +116,7 @@
 - hosts: centos8-rpm-packaging-ci.rdoproject.org
   roles:
     - swap
-    - dlrn-server
+    - dlrn-server-new
 
 - hosts: logserver.rdoproject.org
   roles:

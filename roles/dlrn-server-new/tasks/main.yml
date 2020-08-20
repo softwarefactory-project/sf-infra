@@ -1,0 +1,50 @@
+---
+- name: Configure service
+  become: yes
+  block:
+    - name: Deploy DLRN
+      include_role:
+        name: dlrn
+      vars:
+        enable_https: "{{ dlrn_enable_https }}"
+        sshd_port: "{{ dlrn_sshd_port | default(22) }}"
+
+    - name: Apply override files, if needed
+      copy:
+        src: "{{ item.value.source }}"
+        dest: "{{ item.key }}"
+      with_dict: "{{ dlrn_override_files }}"
+      when:
+        - dlrn_override_files is defined
+      register: overrides
+
+    - name: Create directories for MySQL SSL client certs
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - /etc/mysql
+        - /etc/mysql/ssl
+
+    - name: Deploy client-cert.pem
+      copy:
+        content: "{{ client_cert }}"
+        dest: /etc/mysql/ssl/client-cert.pem
+        mode: '0644'
+      when: client_cert is defined
+
+    - name: Deploy client-key.pem
+      copy:
+        content: "{{ client_key }}"
+        dest: /etc/mysql/ssl/client-key.pem
+        mode: '0644'
+      when: client_key is defined
+
+    - name: Create DLRN admin users
+      include_role:
+        name: base
+        tasks_from: users.yml
+      vars:
+        rdo_admin_group: "{{ rdo_dlrn_admin_group }}"
+        rdo_admin_users: "{{ rdo_dlrn_admin_users }}"
