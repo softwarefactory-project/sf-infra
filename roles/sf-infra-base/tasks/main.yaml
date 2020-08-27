@@ -1,0 +1,5 @@
+- name: Install, configure and start services
+  include_tasks: configure_service.yaml
+  loop: "{{ packages }}"
+  loop_control:
+    loop_var: package

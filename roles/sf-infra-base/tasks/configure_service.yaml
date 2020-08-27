@@ -1,0 +1,21 @@
+- name: Install package
+  package:
+    name: "{{ package.name }}"
+    state: latest
+  become: yes
+
+- name: Configure service with template
+  template:
+    src: "{{ package.config_template }}.j2"
+    dest: "{{ package.dest }}"
+  register: _config
+  when: package.config_template is defined
+  become: yes
+
+- name: Manage service
+  systemd:
+    state: "{%- if _config.changed -%} restarted {%- else -%} started {%- endif -%}"
+    name: "{{ package.service }}"
+    enabled: yes
+  when: package.service is defined
+  become: yes

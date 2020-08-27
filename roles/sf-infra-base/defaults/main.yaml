@@ -1,0 +1,3 @@
+ntp_server: "0.centos.pool.ntp.org"
+packages:
+  - {name: "chrony", service: "chronyd", config_template: "chrony.conf", dest: "/etc/chrony.conf" }
