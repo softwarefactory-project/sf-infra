@@ -134,6 +134,7 @@ let instances =
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
                 , "elk.softwarefactory-project.io:9200"
+                , "https://rdo.vexxhost.ca"
                 ]
         , groups =
           [ Infra.Group.sf
