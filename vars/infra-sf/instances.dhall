@@ -118,6 +118,9 @@ let instances =
         , urls =
             let note = "TODO: move urls to relevant instance"
 
+            let validate =
+                  "curl -o /dev/null -s -w '%{http_code}' URL should return 200"
+
             in  [ "https://softwarefactory-project.io"
                 , "https://softwarefactory-project.io/analytics/api/licensing/info"
                 , "https://softwarefactory-project.io/zuul/api/info"
@@ -133,8 +136,8 @@ let instances =
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
-                , "elk.softwarefactory-project.io:9200"
-                , "https://rdo.vexxhost.ca"
+                , "http://elk.softwarefactory-project.io:9200"
+                , "https://rdo.vexxhost.ca/auth/login/?next=/"
                 ]
         , groups =
           [ Infra.Group.sf
