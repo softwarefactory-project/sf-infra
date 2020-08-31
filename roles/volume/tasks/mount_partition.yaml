@@ -4,6 +4,7 @@
     owner: '{{ mount_owner | default("root") }}'
     group: '{{ mount_group | default("root") }}'
     state: directory
+  become: true
 
 - name: Mount partition
   mount:
@@ -11,3 +12,4 @@
     src: '/dev/{{ partition }}'
     path: '{{ mountpoint }}'
     state: mounted
+  become: true
