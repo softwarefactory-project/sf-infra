@@ -1,0 +1,23 @@
+cache_root: /var/cache/httpd/proxy
+www_user: apache
+www_group: apache
+apache_packages:
+    - httpd
+    - mod_ssl
+apache_name: httpd
+apache_conf_dir: /etc/httpd/conf.d
+apache_selinux_ports:
+    - 8080
+    - 4443
+    - 8081
+    - 4444
+    - 8082
+    - 4445
+    - 8083
+    - 4446
+    - 8084
+    - 4447
+selinux_required_packages:
+  - policycoreutils-python
+  - libselinux-python
+

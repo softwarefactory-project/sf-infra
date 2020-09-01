@@ -1,0 +1,114 @@
+- name: Get OS specific package variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - vars
+
+- name: Check AFS mounted
+  stat:
+    path: "/afs/openstack.org/mirror"
+  register: afs_mirror
+- name: Sanity check AFS
+  assert:
+    that:
+      - afs_mirror.stat.exists
+
+- name: Install apache packages
+  package:
+    name: '{{ apache_packages }}'
+    state: present
+
+- name: Apache webroot
+  file:
+    path: '{{ www_base }}'
+    state: directory
+    owner: root
+    group: root
+
+- name: Apache www root
+  file:
+    path: '{{ www_root }}'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: AFS content symlinks
+  file:
+    src: '{{ mirror_root }}/{{ item }}'
+    dest: '{{ www_root }}/{{ item }}'
+    state: link
+    owner: root
+    group: root
+    follow: false
+  with_items:
+    - apt-puppetlabs
+    - centos
+    - ceph-deb-hammer
+    - ceph-deb-jewel
+    - ceph-deb-luminous
+    - ceph-deb-mimic
+    - ceph-deb-nautilus
+    - deb-docker
+    - debian
+    - debian-security
+    - debian-openstack
+    - epel
+    - fedora
+    - logs
+    - opensuse
+    - ubuntu
+    - ubuntu-ports
+    - ubuntu-cloud-archive
+    - wheel
+    - yum-puppetlabs
+
+- name: Install robots.txt
+  copy:
+    src: robots.txt
+    dest: '{{ www_root }}'
+    owner: root
+    group: root
+    mode: 0444
+
+- name: Apache proxy cache
+  file:
+    path: '{{ cache_root }}'
+    owner: '{{ www_user }}'
+    group: '{{ www_user }}'
+    mode: 0755
+    state: directory
+
+- name: Set mirror servername and alias
+  set_fact:
+    apache_server_name: '{{ inventory_hostname }}'
+    # Strip the numeric host value (like mirror01.region.provider.o.o
+    # becomes mirror.region...)  for the serveralias
+    apache_server_alias: '{{ inventory_hostname | regex_replace("^mirror\d\d\.", "mirror.") }}'
+
+- name: Copy apache tuning
+  copy:
+    src: apache-connection-tuning
+    dest: "{{ apache_conf_dir }}/connection-tuning.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+
+- name: Include OS specific tasks
+  include_tasks: "{{ item }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+  loop: "{{ query('first_found', params, errors='ignore') }}"
+
+# Clean apache cache once an hour, keep size down to 70GiB.
+- name: Proxy cleanup cron job
+  cron:
+    name: Apache cache cleanup
+    state: present
+    job: /usr/bin/flock -n /var/run/htcacheclean.lock /usr/bin/htcacheclean -n -p {{ cache_root }} -t -l 70200M > /dev/null
+    minute: '0'
+    hour: '*'

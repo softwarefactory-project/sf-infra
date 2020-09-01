@@ -1,0 +1,46 @@
+- name: Workaround for missing macro definition in CentOS 7
+  copy:
+    content: 'LoadModule macro_module modules/mod_macro.so'
+    dest: /etc/httpd/conf.modules.d/00-macro.conf
+  when:
+    - ansible_os_family == "RedHat"
+    - ansible_distribution_major_version | int == 7
+
+- name: Create mirror virtual host
+  template:
+    src: mirror.vhost.j2
+    dest: /etc/httpd/conf.d/mirror.conf
+  notify: restart apache
+
+- name: Install required SELinux binaries
+  package:
+    name: "{{ selinux_required_packages }}"
+    state: present
+
+- name: Enable ports
+  seport:
+    ports: "{{ port }}"
+    proto: tcp
+    setype: http_cache_port_t
+    state: present
+  loop:  "{{ apache_selinux_ports }}"
+  loop_control:
+    loop_var: port
+
+- name: Remove configuration for default welcome page
+  file:
+    path: /etc/httpd/conf.d/welcome.conf
+    state: absent
+  notify: restart apache
+
+- name: Allow apache to serve nfs_t files
+  seboolean:
+    name: httpd_use_nfs
+    state: yes
+    persistent: yes
+
+- name: Allow apache to act as a proxy
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes

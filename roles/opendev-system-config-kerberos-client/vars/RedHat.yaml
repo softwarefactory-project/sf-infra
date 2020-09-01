@@ -1,0 +1,2 @@
+kerberos_client_packages:
+  - krb5-workstation

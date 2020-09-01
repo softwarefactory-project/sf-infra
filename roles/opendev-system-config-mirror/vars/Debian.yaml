@@ -1,0 +1,10 @@
+cache_root: /var/cache/apache2/proxy
+www_user: www-data
+www_group: www-data
+apache_packages:
+    - apache2
+    - apache2-utils
+apache_name: apache2
+apache_conf_dir: /etc/apache2/conf-enabled
+apache_selinux_ports: None
+selinux_required_packages: None

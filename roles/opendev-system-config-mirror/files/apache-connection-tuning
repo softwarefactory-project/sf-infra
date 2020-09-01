@@ -1,0 +1,14 @@
+# worker MPM
+# MaxConnectionsPerChild: maximum number of requests a server process serves
+#
+# We've noticed that our mirrors occasionally have stale workers. This leads
+# to ssl certs not being refreshed properly after reload and we've also seen
+# ssl connections to round robin backend services have trouble. Restarting
+# the workers so that they load up new info seems to fix this. Try and force
+# that to happen regularly with a connections limit per worker.
+<IfModule mpm_worker_module>
+    MaxConnectionsPerChild 8192
+</IfModule>
+<IfModule mpm_event_module>
+    MaxConnectionsPerChild 8192
+</IfModule>

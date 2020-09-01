@@ -1,0 +1,7 @@
+cache_root: None
+www_user: None
+www_group: None
+apache_packages: None
+apache_name: None
+apache_selinux_ports: None
+selinux_required_packages: None
