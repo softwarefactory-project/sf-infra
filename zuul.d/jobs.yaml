@@ -147,7 +147,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: cloud-fedora-32
+          label: rdo-centos-8
     files:
       - ^roles/rdotrunk-checks/.*$
       - ^roles/backup-monitoring/.*$

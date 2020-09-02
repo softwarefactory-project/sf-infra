@@ -5,5 +5,20 @@
       package:
         name:
           - podman
-          - python3-tox
+          - epel-release
+      become: yes
+
+    - name: Install tox
+      yum:
+        name: python3-tox
+        enablerepo: epel
+      become: yes
+
+    - name: Set required SELinux booleans on host
+      seboolean:
+        name: "{{ item }}"
+        state: yes
+        persistent: yes
+      with_items:
+        - container_manage_cgroup
       become: yes
