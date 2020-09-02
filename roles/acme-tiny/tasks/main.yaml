@@ -1,0 +1,116 @@
+# This file is managed by dhall.
+
+- name: Install acme-tiny
+  become: true
+  package:
+    name: acme-tiny
+    state: present
+
+- name: "Ensure directory {{ acme_keys_dir }} exists"
+  become: true
+  file:
+    mode: '0755'
+    owner: root
+    path: "{{ acme_keys_dir }}"
+    state: directory
+
+- name: "Ensure directory {{ acme_certs_dir }} exists"
+  become: true
+  file:
+    mode: '0755'
+    owner: root
+    path: "{{ acme_certs_dir }}"
+    state: directory
+
+- name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/account.key"
+  become: true
+  shell:
+    cmd: "openssl genrsa 4096 > {{ acme_keys_dir }}/account.key"
+    creates: "{{ acme_keys_dir }}/account.key"
+
+- name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/{{ item.domain }}.key"
+  become: true
+  loop: "{{ acme_domains }}"
+  shell:
+    cmd: "openssl genrsa 4096 > {{ acme_keys_dir }}/{{ item.domain }}.key"
+    creates: "{{ acme_keys_dir }}/{{ item.domain }}.key"
+
+- name: "Run openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj \"/CN={{ item.domain }}\" for: {{ acme_keys_dir }}/{{ item.domain }}.csr"
+  become: true
+  loop: "{{ acme_domains }}"
+  shell:
+    cmd: "openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj \"/CN={{ item.domain }}\" > {{ acme_keys_dir }}/{{ item.domain }}.csr"
+    creates: "{{ acme_keys_dir }}/{{ item.domain }}.csr"
+
+- name: "Ensure directory {{ acme_challenges_dir }}/{{ item.domain }} exists"
+  become: true
+  loop: "{{ acme_domains }}"
+  file:
+    mode: '0755'
+    owner: root
+    path: "{{ acme_challenges_dir }}/{{ item.domain }}"
+    state: directory
+
+- name: "Ensure directory {{ item.vhost_root }} exists"
+  become: true
+  loop: "{{ acme_domains }}"
+  file:
+    mode: '0755'
+    owner: "{{ acme_vhost_owner }}"
+    path: "{{ item.vhost_root }}"
+    state: directory
+
+- name: Check if cert exists
+  become: true
+  loop: "{{ acme_domains }}"
+  register: "_cert_files"
+  stat:
+    path: "{{ acme_certs_dir }}/{{ item.domain }}.pem"
+
+- name: Install vhost configuration
+  become: true
+  loop: "{{ acme_domains }}"
+  register: "_vhost_conf"
+  template:
+    dest: "/etc/httpd/conf.d/{{ item.domain }}.conf"
+    src: vhost.conf
+
+- name: Reload apache
+  when: "_vhost_conf is changed"
+  become: true
+  service:
+    name: httpd
+    state: reloaded
+
+- name: Setup acme-tiny refresh script /usr/local/bin/acme-tiny-refresh.sh
+  become: true
+  template:
+    dest: /usr/local/bin/acme-tiny-refresh.sh
+    mode: '0755'
+    src: acme-tiny-refresh.sh
+
+- name: Run the acme-tiny script
+  become: true
+  command: /usr/local/bin/acme-tiny-refresh.sh no-reload
+
+- name: Check if cert exists
+  become: true
+  loop: "{{ acme_domains }}"
+  register: "_cert_files"
+  stat:
+    path: "{{ acme_certs_dir }}/{{ item.domain }}.pem"
+
+- name: Install vhost configuration
+  become: true
+  loop: "{{ acme_domains }}"
+  register: "_vhost_conf"
+  template:
+    dest: "/etc/httpd/conf.d/{{ item.domain }}.conf"
+    src: vhost.conf
+
+- name: Reload apache
+  when: "_vhost_conf is changed"
+  become: true
+  service:
+    name: httpd
+    state: reloaded

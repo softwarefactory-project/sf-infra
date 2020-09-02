@@ -1,1 +1,5 @@
 sf_ssh_priv_key: "{{ install_server_sf_key }}"
+acme_vhost_owner: "pagesuser"
+acme_domains:
+  - domain: docs.softwarefactory-project.io
+    vhost_root: /var/www/pages/docs.softwarefactory-project.io/

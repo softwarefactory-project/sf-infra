@@ -1,0 +1,6 @@
+# This file is managed by dhall.
+acme_certs_dir: /etc/letsencrypt/pem
+acme_challenges_dir: /var/www/challenges
+acme_domains: []
+acme_keys_dir: /var/lib/software-factory/bootstrap-data/acme-tiny
+acme_vhost_owner: root
