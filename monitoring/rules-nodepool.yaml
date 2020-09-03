@@ -3,39 +3,61 @@ groups:
   - name: NodepoolDibImages
     rules:
       - alert: DibImageOutdated
-        expr: time() - nodepool_dib_image_last_build > 86400
-        for: 2h
+        expr: time() - nodepool_dib_image_status_last_build > 86400
         labels:
           severity: warning
         annotations:
           summary: "Nodepool DIB image {{ $labels.image }} is older than 1 day!"
-          description: "{{ $labels.image }} dib img was not done by nodepool-builder since 24h!"
+
+      - alert: DibImageBuildFailed
+        expr: nodepool_dib_image_status_rc != 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "DIB image {{ $labels.image }} build failed"
 
   - name: NodepoolLauncher
     rules:
-      - alert: NodepoolNodeFailLabel
-        expr: nodepool_nodes_by_label{state="failed"} >= 3
-        for: 2h
+      - alert: NodepoolNodes
+        expr: nodepool_nodes{state="failed"} > 0
         labels:
           severity: warning
         annotations:
-          summary: "Nodepool with label is in failed state {{ $labels.label }}"
-          description: "Can not start jobs using label {{ $labels.label }}"
+          summary: "Nodepool failed to spawn instance"
 
-      - alert: NodepoolNodeFailProvider
-        expr: nodepool_nodes_by_provider{state="failed"} >= 3
-        for: 2h
+      - alert: NodepoolNodesByLabel
+        expr: nodepool_nodes_by_label{state="failed"} > 0
         labels:
           severity: warning
         annotations:
-          summary: "There are over 3 node failures for provider {{ $labels.provider }}"
-          description: "Provider {{ $labels.provider }} may have a problem on running CI jobs"
+          summary: "Nodepool failed to spawn instance with label {{ $labels.label }}"
 
-      - alert: NodepoolNodeHoldProvider
-        expr: nodepool_nodes_by_provider{state="hold"} > 3
-        for: 2h
+      - alert: NodepoolNodesByProvider
+        expr: nodepool_nodes_by_provider{state="failed"} > 0
         labels:
           severity: warning
         annotations:
-          summary: "Provider {{ $labels.provider }} may have over 3 instances in hold state"
-          description: "Counting if provider {{ $labels.provider }} have over 3 vms in hold state"
+          summary: "Nodepool failed to spawn instance on provider {{ $labels.provider }}"
+
+
+      - alert: NodepoolLaunchByProvider
+        expr: increase(nodepool_launch_by_provider{result!="ready"}[1m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nodepool failed to spawn instance with label {{ $labels.label }} on {{ $labels.provider }}"
+
+      # This alert could match instances started by nodepool to ensure min-ready or instances required by zuul-scheduler
+      - alert: NodepoolLaunchByRequestor
+        expr: increase(nodepool_launch_by_requestor{result!="ready"}[1m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nodepool failed to launch instance for requestor {{ $labels.requestor }}"
+
+      - alert: NodepoolLaunch
+        expr: increase(nodepool_launch{result!="ready"}[1m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Nodepool failed to launch instance with error {{ $labels.result }}"
