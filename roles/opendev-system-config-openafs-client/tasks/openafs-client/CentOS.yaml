@@ -1,0 +1,63 @@
+# EPEL is required for dkms to build the openafs kernel modules
+# make is required for the %post section of the dkms module installation
+- name: Preinstall EPEL and make
+  package:
+    name:
+      - epel-release
+      - make
+    state: present
+  become: yes
+
+- name: Create cache directory
+  file:
+    path: /var/cache/openafs
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+    setype: afs_cache_t  # important! hard-to-debug failures without
+  become: yes
+
+# Note there is no official AFS builds for CentOS.  This uses a
+# repository built by the project-config-build-openafs-centos job, see
+#  https://opendev.org/cgit/openstack/openstack-zuul-jobs/tree/zuul.d/jobs.yaml
+
+- name: Add AFS repo
+  yum_repository:
+    name: openafs
+    description: OpenStack AFS repo
+    baseurl: '{{ openafs_client_yum_repo_url }}'
+    gpgcheck: '{{ openafs_client_yum_repo_gpg_check }}'
+  become: yes
+
+- name: Install kernel modules CentOS 7
+  yum:
+    name:
+      - kernel-devel
+      - dkms
+      - gcc
+      - dkms-openafs
+    enablerepo: epel  # dkms
+    state: present
+  become: yes
+  when: ansible_distribution_version is version('8', '<')
+
+- name: Install kernel modules CentOS 8
+  dnf:
+    name:
+      - kernel-devel
+      - dkms
+      - gcc
+      - dkms-openafs
+    enablerepo: epel  # dkms
+    state: present
+  become: yes
+  when: ansible_distribution_version is version('8', '>=')
+
+- name: Install client
+  yum:
+    name:
+      - openafs-krb5
+      - openafs-client
+    state: present
+  become: yes

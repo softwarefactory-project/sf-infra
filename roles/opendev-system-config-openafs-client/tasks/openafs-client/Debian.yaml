@@ -1,0 +1,39 @@
+# Bionic and Focal versions both shipped unstable ~pre versions of
+# openafs clients; we thus have stable versions in a PPA.  We use this
+# everywhere but our legacy Xenial x86 hosts (Debian stable has 1.8
+# inbuilt so we are good there).
+# https://bugs.launchpad.net/ubuntu/+source/openafs/+bug/1832690
+- name: Install openstackci openafs PPA
+  apt_repository:
+    repo: 'ppa:openstack-ci-core/openafs'
+  when:
+    - ansible_distribution == 'Ubuntu' and not
+      ( ansible_distribution_version is version('16.04', '==') and
+        ansible_architecture == 'x86_64' )
+  become: yes
+
+- name: Install kernel headers dependency
+  package:
+    name:
+      - linux-headers-{{ ansible_kernel }}
+    state: present
+  become: yes
+
+# NOTE(ianw) : Need to do this first and separately so that the
+# modules are ready for the openafs-client package to start.  Avoid
+# recommends because that drags in the client, which can't start
+# without the modules which are building in this step (we do it next)
+- name: Install openafs kernel modules
+  apt:
+    name: openafs-modules-dkms
+    state: latest
+    install_recommends: no
+  become: yes
+
+- name: Install client packages
+  package:
+    name:
+      - openafs-client
+      - openafs-krb5
+    state: latest
+  become: yes

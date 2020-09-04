@@ -1,0 +1,593 @@
+NameVirtualHost *:80
+NameVirtualHost *:443
+
+# Dedicated port for proxy caching, as not to affect afs mirrors.
+Listen 8080
+NameVirtualHost *:8080
+Listen 4443
+NameVirtualHost *:4443
+
+Listen 8081
+NameVirtualHost *:8081
+Listen 4444
+NameVirtualHost *:4444
+
+Listen 8082
+NameVirtualHost *:8082
+Listen 4445
+NameVirtualHost *:4445
+
+Listen 8083
+NameVirtualHost *:8083
+Listen 4446
+NameVirtualHost *:4446
+
+Listen 8084
+NameVirtualHost *:8084
+Listen 4447
+NameVirtualHost *:4447
+
+{% raw %}
+LogFormat "%h %l %u [%{%F %T}t.%{msec_frac}t] \"%r\" %>s %b %{cache-status}e \"%{Referer}i\" \"%{User-agent}i\"" combined-cache
+ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ referer\ %{Referer}i"
+{% endraw %}
+
+<Macro BaseMirror $port>
+
+    DocumentRoot /var/www/mirror
+    <Directory /var/www/mirror>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+        Satisfy any
+        <IfVersion >= 2.4>
+            Require all granted
+        </IfVersion>
+    </Directory>
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    CacheStoreExpired On
+    # Pip sets Cache-Control: max-age=0 on requests for pypi index pages.
+    # This means we don't use the cache for those requests. This setting
+    # should force the proxy to ignore cache-control on the request side
+    # but we should still cache things based on the cache-control responses
+    # from the backed servers.
+    CacheIgnoreCacheControl On
+
+    # Added Aug 2017 in an attempt to avoid occasional 502 errors (around
+    # 0.05% of requests) of the type:
+    #
+    #  End of file found: ... AH01102: error reading status line from remote server ...
+    #
+    # Per [1]:
+    #
+    #  This avoids the "proxy: error reading status line from remote
+    #  server" error message caused by the race condition that the backend
+    #  server closed the pooled connection after the connection check by the
+    #  proxy and before data sent by the proxy reached the backend.
+    #
+    # [1] https://httpd.apache.org/docs/2.4/mod/mod_proxy_http.html
+    SetEnv proxy-initial-not-pooled 1
+
+    RewriteEngine On
+    # pypi
+    CacheEnable disk  "/pypi"
+    ProxyPass "/pypi/" "https://pypi.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/pypi/" "https://pypi.org/
+
+    # files.pythonhosted.org
+    CacheEnable disk  "/pypifiles"
+    ProxyPass "/pypifiles/" "https://files.pythonhosted.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/pypifiles/" "https://files.pythonhosted.org/"
+
+    # Rewrite the locations of the actual files
+    <Location /pypi>
+      SetOutputFilter INFLATE;SUBSTITUTE;DEFLATE
+      Substitute "s|https://files.pythonhosted.org/|/pypifiles/|ni"
+    </Location>
+
+    # Wheel URL's are:
+    # /wheel/{distro}-{distro-version}/a/a/a-etc.whl
+    # /wheel/{distro}-{distro-version}/a/abcd/abcd-etc.whl
+    # /wheel/{distro}-{distro-version}/a/abcde/abcde-etc.whl
+    RewriteCond %{REQUEST_URI} ^/wheel/([^/]+)/([^/])([^/]*)
+    RewriteCond %{DOCUMENT_ROOT}/wheel/$1/$2/$2$3 -d
+    RewriteRule ^/wheel/([^/]+)/([^/])([^/]*)(/.*)?$ /wheel/$1/$2/$2$3$4 [L]
+
+    # Special cases for openstack.nose_plugin & backports.*
+    RewriteCond %{REQUEST_URI} ^/wheel/
+    RewriteRule ^(.*)/openstack-nose-plugin(.*)$ $1/openstack.nose_plugin$2
+    RewriteCond %{REQUEST_URI} ^/wheel/
+    RewriteRule ^(.*)/backports-(.*)$ $1/backports.$2
+
+    # Try again but replacing -'s with .'s
+    RewriteCond %{REQUEST_URI} ^/wheel/
+    RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI} !-f
+    RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI} !-d
+    RewriteRule (.*)-(.*) $1.$2 [N]
+
+    ErrorLog /var/log/{{ apache_name }}/mirror_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/mirror_$port_access.log combined-cache
+    ServerSignature Off
+
+    AddType text/plain .log .log.1
+
+</Macro>
+
+<Macro SSLConfig>
+    SSLEngine On
+    SSLCertificateFile      /etc/letsencrypt-certs/{{ apache_server_name }}/{{ apache_server_name }}.cer
+    SSLCertificateKeyFile   /etc/letsencrypt-certs/{{ apache_server_name }}/{{ apache_server_name }}.key
+    SSLCertificateChainFile /etc/letsencrypt-certs/{{ apache_server_name }}/ca.cer
+    SSLProtocol All -SSLv2 -SSLv3
+    # Note: this list should ensure ciphers that provide forward secrecy
+    SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:!AES256:!aNULL:!eNULL:!MD5:!DSS:!PSK:!SRP
+    SSLHonorCipherOrder on
+</Macro>
+
+<VirtualHost *:80>
+    ServerName {{ apache_server_name }}
+    ServerAlias {{ apache_server_alias }}
+
+    Use BaseMirror 80
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName {{ apache_server_name }}
+    ServerAlias {{ apache_server_alias }}
+
+    Use SSLConfig
+    Use BaseMirror 443
+</VirtualHost>
+
+<Macro ProxyMirror $port>
+    # Disable directory listing by default.
+    <Directory />
+      Order Deny,Allow
+      Deny from all
+      Options None
+      AllowOverride None
+    </Directory>
+
+    ErrorLog /var/log/{{ apache_name }}/proxy_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/proxy_$port_access.log combined-cache
+    ServerSignature Off
+
+    # Let upstreams decide on encoded slash handling.
+    # The default is 'Off' which returns 404 for URLs with encoded slashes,
+    # i.e. '%2f' instead of '/'.
+    AllowEncodedSlashes NoDecode
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    CacheStoreExpired On
+
+    # Added Aug 2017 in an attempt to avoid occasional 502 errors (around
+    # 0.05% of requests) of the type:
+    #
+    #  End of file found: ... AH01102: error reading status line from remote server ...
+    #
+    # Per [1]:
+    #
+    #  This avoids the "proxy: error reading status line from remote
+    #  server" error message caused by the race condition that the backend
+    #  server closed the pooled connection after the connection check by the
+    #  proxy and before data sent by the proxy reached the backend.
+    #
+    # [1] https://httpd.apache.org/docs/2.4/mod/mod_proxy_http.html
+    SetEnv proxy-initial-not-pooled 1
+
+    # Per site caching reverse proxy rules
+    # Only cache specific backends, rely on afs cache otherwise.
+
+    # buildlogs.centos.org (302 redirects to buildlogs.cdn.centos.org)
+    CacheEnable disk  "/buildlogs.centos"
+    ProxyPass "/buildlogs.centos/" "https://buildlogs.centos.org/" ttl=120 disablereuse=On retry=0
+    ProxyPassReverse "/buildlogs.centos/" "https://buildlogs.centos.org/"
+
+    # buildlogs.cdn.centos.org
+    CacheEnable disk  "/buildlogs.cdn.centos"
+    ProxyPass "/buildlogs.cdn.centos/" "https://buildlogs.cdn.centos.org/" ttl=120 disablereuse=On retry=0
+    ProxyPassReverse "/buildlogs.cdn.centos/" "https://buildlogs.cdn.centos.org/"
+
+    # rdo
+    CacheEnable disk  "/rdo"
+    ProxyPass "/rdo/" "https://trunk.rdoproject.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/rdo/" "https://trunk.rdoproject.org/"
+
+    # cbs.centos.org
+    CacheEnable disk  "/cbs.centos"
+    ProxyPass "/cbs.centos/" "https://cbs.centos.org/repos/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/cbs.centos/" "https://cbs.centos.org/repos/"
+
+    # pypi
+    CacheEnable disk  "/pypi"
+    ProxyPass "/pypi/" "https://pypi.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/pypi/" "https://pypi.org/
+
+    # files.pythonhosted.org
+    CacheEnable disk  "/pypifiles"
+    ProxyPass "/pypifiles/" "https://files.pythonhosted.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/pypifiles/" "https://files.pythonhosted.org/"
+
+    # Rewrite the locations of the actual files
+    <Location /pypi>
+      SetOutputFilter INFLATE;SUBSTITUTE;DEFLATE
+      Substitute "s|https://files.pythonhosted.org/|/pypifiles/|ni"
+    </Location>
+
+    # images.linuxcontainers.org
+    CacheEnable disk "/images.linuxcontainers"
+    ProxyPass "/images.linuxcontainers/" "http://us.images.linuxcontainers.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/images.linuxcontainers/" "http://us.images.linuxcontainers.org/"
+
+    # registry.npmjs.org
+    CacheEnable disk  "/registry.npmjs"
+    ProxyPass "/registry.npmjs/" "https://registry.npmjs.org/" ttl=120 keepalive=On retry=0 nocanon
+    ProxyPassReverse "/registry.npmjs/" "https://registry.npmjs.org/"
+
+    # api.rubygems.org
+    CacheEnable disk  "/api.rubygems"
+    ProxyPass "/api.rubygems/" "https://api.rubygems.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/api.rubygems/" "https://api.rubygems.org/"
+
+    # rubygems.org
+    CacheEnable disk  "/rubygems"
+    ProxyPass "/rubygems/" "https://rubygems.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/rubygems/" "https://rubygems.org/"
+
+    # opendaylight
+    CacheEnable disk "/opendaylight"
+    ProxyPass "/opendaylight/" "https://nexus.opendaylight.org/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/opendaylight/" "https://nexus.opendaylight.org/"
+
+    # elastico
+    CacheEnable disk "/elastic"
+    ProxyPass "/elastic/" "https://packages.elastic.co/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/elastic/" "https://packages.elastic.co/"
+
+    # grafana
+    CacheEnable disk "/grafana"
+    ProxyPass "/grafana" "https://packagecloud.io/grafana/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/grafana/" "https://packagecloud.io/grafana/"
+
+    # OracleLinux
+    CacheEnable disk "/oraclelinux"
+    ProxyPass "/oraclelinux/" "http://yum.oracle.com/repo/OracleLinux/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/oraclelinux/" "http://yum.oracle.com/repo/OracleLinux/"
+
+    # Percona
+    CacheEnable disk "/percona"
+    ProxyPass "/percona/" "https://repo.percona.com/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/percona/" "https://repo.percona.com/"
+
+    # MariaDB
+    CacheEnable disk "/MariaDB"
+    ProxyPass "/MariaDB/" "https://downloads.mariadb.com/MariaDB/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/MariaDB/" "https://downloads.mariadb.com/MariaDB/"
+
+    # Docker
+    CacheEnable disk "/docker"
+    ProxyPass "/docker/" "https://download.docker.com/linux/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/docker/" "https://download.docker.com/linux/"
+
+    # Alpine
+    CacheEnable disk "/alpine"
+    ProxyPass "/alpine/" "http://dl-cdn.alpinelinux.org/alpine/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/alpine/" "http://dl-cdn.alpinelinux.org/alpine/"
+
+    # LXC (copr)
+    CacheEnable disk "/copr-lxc2"
+    ProxyPass "/copr-lxc2/" "https://copr-be.cloud.fedoraproject.org/results/thm/lxc2.0/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/copr-lxc2/" "https://copr-be.cloud.fedoraproject.org/results/thm/lxc2.0/"
+
+    CacheEnable disk "/copr-lxc3"
+    ProxyPass "/copr-lxc3/" "https://copr-be.cloud.fedoraproject.org/results/thm/lxc3.0/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/copr-lxc3/" "https://copr-be.cloud.fedoraproject.org/results/thm/lxc3.0/"
+</Macro>
+
+<VirtualHost *:8080>
+    ServerName {{ apache_server_name }}:8080
+    ServerAlias {{ apache_server_alias }}:8080
+
+    Use ProxyMirror 8080
+</VirtualHost>
+
+<VirtualHost *:4443>
+    ServerName {{ apache_server_name }}:4443
+    ServerAlias {{ apache_server_alias }}:4443
+
+    Use SSLConfig
+    Use ProxyMirror 4443
+</VirtualHost>
+
+# Docker registry v1 proxy.
+<Macro Dockerv1Mirror $port>
+    # Disable directory listing by default.
+    <Directory />
+      Order Deny,Allow
+      Deny from all
+      Options None
+      AllowOverride None
+    </Directory>
+
+    ErrorLog /var/log/{{ apache_name }}/proxy_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/proxy_$port_access.log combined-cache
+    ServerSignature Off
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    # Ignore expire headers as the urls use sha256 hashes.
+    CacheIgnoreQueryString On
+    # NOTE(pabelanger): In the case of docker, if neither an expiry date nor
+    # last-modified date are provided default expire to 1 day. This is up from
+    # 1 hour.
+    CacheDefaultExpire 86400
+    CacheStoreExpired On
+
+    # registry-1.docker.io
+    CacheEnable disk  "/registry-1.docker"
+    ProxyPass "/registry-1.docker/" "https://registry-1.docker.io/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/registry-1.docker/" "https://registry-1.docker.io/"
+
+    # dseasb33srnrn.cloudfront.net
+    CacheEnable disk "/cloudfront"
+    ProxyPass "/cloudfront/" "https://dseasb33srnrn.cloudfront.net/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/cloudfront/" "https://dseasb33srnrn.cloudfront.net/"
+
+    # production.cloudflare.docker.com
+    CacheEnable disk "/cloudflare"
+    ProxyPass "/cloudflare/" "https://production.cloudflare.docker.com/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/cloudflare/" "https://production.cloudflare.docker.com/"
+</Macro>
+
+<VirtualHost *:8081>
+    ServerName {{ apache_server_name }}:8081
+    ServerAlias {{ apache_server_alias }}:8081
+
+    Use Dockerv1Mirror 8081
+</VirtualHost>
+
+<VirtualHost *:4444>
+    ServerName {{ apache_server_name }}:4444
+    ServerAlias {{ apache_server_alias }}:4444
+
+    Use SSLConfig
+    Use Dockerv1Mirror 4444
+</VirtualHost>
+
+# Docker registry v2 proxy.
+<Macro Dockerv2Mirror $port>
+    # Disable directory listing by default.
+    <Directory />
+      Order Deny,Allow
+      Deny from all
+      Options None
+      AllowOverride None
+    </Directory>
+
+    ErrorLog /var/log/{{ apache_name }}/proxy_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/proxy_$port_access.log combined-cache
+    ServerSignature Off
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    # Ignore expire headers as the urls use sha256 hashes.
+    CacheIgnoreQueryString On
+    # NOTE(pabelanger): In the case of docker, if neither an expiry date nor
+    # last-modified date are provided default expire to 1 day. This is up from
+    # 1 hour.
+    CacheDefaultExpire 86400
+    CacheStoreExpired On
+
+    # dseasb33srnrn.cloudfront.net
+    CacheEnable disk "/cloudfront"
+    ProxyPass "/cloudfront/" "https://dseasb33srnrn.cloudfront.net/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/cloudfront/" "https://dseasb33srnrn.cloudfront.net/"
+
+    # production.cloudflare.docker.com
+    CacheEnable disk "/cloudflare"
+    ProxyPass "/cloudflare/" "https://production.cloudflare.docker.com/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/cloudflare/" "https://production.cloudflare.docker.com/"
+
+    # NOTE(corvus): Ensure this stanza is last since it's the most
+    # greedy match.
+    CacheEnable disk  "/"
+    ProxyPass "/" "https://registry-1.docker.io/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/" "https://registry-1.docker.io/"
+</Macro>
+
+<VirtualHost *:8082>
+    ServerName {{ apache_server_name }}:8082
+    ServerAlias {{ apache_server_alias }}:8082
+
+    Use Dockerv2Mirror 8082
+</VirtualHost>
+
+<VirtualHost *:4445>
+    ServerName {{ apache_server_name }}:4445
+    ServerAlias {{ apache_server_alias }}:4445
+
+    Use SSLConfig
+    Use Dockerv2Mirror 4445
+</VirtualHost>
+
+# Redhat registry proxy.
+<Macro RHRegistryMirror $port>
+    # Disable directory listing by default.
+    <Directory />
+      Order Deny,Allow
+      Deny from all
+      Options None
+      AllowOverride None
+    </Directory>
+
+    ErrorLog /var/log/{{ apache_name }}/proxy_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/proxy_$port_access.log combined-cache
+    ServerSignature Off
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    # Ignore expire headers as the urls use sha256 hashes.
+    CacheIgnoreQueryString On
+    CacheDefaultExpire 86400
+    CacheStoreExpired On
+
+    # e14353.d.akamaiedge.net
+    CacheEnable disk "/e14353.d.akamaiedge"
+    ProxyPass "/e14353.d.akamaiedge/" "https://e14353.d.akamaiedge.net/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/e14353.d.akamaiedge/" "https://e14353.d.akamaiedge.net/"
+
+    # edgekey.net
+    CacheEnable disk "/redhat.com.edgekey"
+    ProxyPass "/redhat.com.edgekey/" "https://registry.access.redhat.com.edgekey.net/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/redhat.com.edgekey/" "https://registry.access.redhat.com.edgekey.net/"
+
+    # registry.access.redhat.com
+    CacheEnable disk "/"
+    ProxyPass "/" "https://registry.access.redhat.com/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/" "https://registry.access.redhat.com/"
+</Macro>
+
+<VirtualHost *:8083>
+    ServerName {{ apache_server_name }}:8083
+    ServerAlias {{ apache_server_alias }}:8083
+
+    Use RHRegistryMirror 8083
+</VirtualHost>
+
+<VirtualHost *:4446>
+    ServerName {{ apache_server_name }}:4446
+    ServerAlias {{ apache_server_alias }}:4446
+
+    Use SSLConfig
+    Use RHRegistryMirror 4446
+</VirtualHost>
+
+# Quay registry proxy.
+<Macro QuayRegistryMirror $port>
+
+    # Disable directory listing by default.
+    <Directory />
+      Order Deny,Allow
+      Deny from all
+      Options None
+      AllowOverride None
+    </Directory>
+
+    ErrorLog /var/log/{{ apache_name }}/proxy_$port_error.log
+    LogLevel warn
+    CustomLog /var/log/{{ apache_name }}/proxy_$port_access.log combined-cache
+    ServerSignature Off
+
+    # Caching reverse proxy for things that don't make sense in AFS
+    #
+    # General cache rules
+    CacheRoot "{{ cache_root }}"
+    CacheDirLevels 5
+    CacheDirLength 2
+    # SSL support
+    SSLProxyEngine on
+    # Prevent thundering herds.
+    CacheLock on
+    CacheLockPath "/tmp/mod_cache-lock"
+    CacheLockMaxAge 5
+    # 5GiB
+    CacheMaxFileSize 5368709120
+    # Ignore expire headers as the urls use sha256 hashes.
+    CacheIgnoreQueryString On
+    CacheDefaultExpire 86400
+    CacheStoreExpired On
+
+    # iah50.r.cloudfront.net
+    CacheEnable disk "/iah50.r.cloudfront.net"
+    ProxyPass "/iah50.r.cloudfront.net/" "https://iah50.r.cloudfront.net/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/iah50.r.cloudfront.net/" "https://iah50.r.cloudfront.net/"
+
+    # quay.io
+    CacheEnable disk "/"
+    ProxyPass "/" "https://quay.io/" ttl=120 keepalive=On retry=0
+    ProxyPassReverse "/" "https://quay.io/"
+</Macro>
+
+<VirtualHost *:8084>
+    ServerName {{ apache_server_name }}:8084
+    ServerAlias {{ apache_server_alias }}:8084
+
+    Use QuayRegistryMirror 8084
+</VirtualHost>
+
+<VirtualHost *:4447>
+    ServerName {{ apache_server_name }}:4447
+    ServerAlias {{ apache_server_alias }}:4447
+
+    Use SSLConfig
+    Use QuayRegistryMirror 4447
+</VirtualHost>

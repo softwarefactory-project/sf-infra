@@ -1,0 +1,3 @@
+openafs_client_config_path: '/usr/vice/etc'
+openafs_client_yum_repo_url: https://tarballs.opendev.org/openstack/openstack-zuul-jobs/openafs/centos{{ ansible_distribution_major_version}}/RPMS/{{ ansible_architecture }}
+openafs_client_yum_repo_gpg_check: no

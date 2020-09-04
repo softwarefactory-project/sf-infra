@@ -1,0 +1,18 @@
+afs_mirror_packages:
+  - make
+afs_client_cache_size: 50000000
+afs_ssl_cert_dir: /etc/letsencrypt-certs
+# When using letsencrypt, it should point to /etc/letsencrypt/live/<hostname>/cert.pem
+afs_ssl_cert: /etc/pki/tls/certs/localhost.crt
+# When using letsencrypt, it should point to /etc/letsencrypt/live/<hostname>/privkey.pem
+afs_ssl_private_key: /etc/pki/tls/private/localhost.key
+# When using letsencrypt, it should point to /etc/letsencrypt/live/<hostname>/fullchain.pem
+afs_ssl_cacert: /etc/pki/tls/certs/localhost.crt
+distro_lookup_path:
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename | default('') }}.{{ ansible_facts.architecture }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename | default('') }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.distribution_major_version | default('') }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.architecture }}.yaml"
+  - "{{ ansible_facts.distribution }}.yaml"
+  - "{{ ansible_facts.os_family }}.yaml"
+  - default.yaml

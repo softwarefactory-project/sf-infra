@@ -1,0 +1,57 @@
+- name: Rewrite module
+  apache2_module:
+    state: present
+    name: rewrite
+
+- name: Substitute module
+  apache2_module:
+    state: present
+    name: substitute
+
+- name: Cache module
+  apache2_module:
+    state: present
+    name: cache
+
+- name: Cache disk module
+  apache2_module:
+    state: present
+    name: cache_disk
+
+- name: Proxy module
+  apache2_module:
+    state: present
+    name: proxy
+
+- name: HTTP Proxy module
+  apache2_module:
+    state: present
+    name: proxy_http
+
+- name: Apache macro module
+  apache2_module:
+    state: present
+    name: macro
+
+- name: Apache 2 ssl module
+  apache2_module:
+    state: present
+    name: ssl
+
+- name: Create mirror virtual host
+  template:
+    src: mirror.vhost.j2
+    dest: /etc/apache2/sites-available/mirror.conf
+
+- name: Make sure default site disabled
+  command: a2dissite 000-default.conf
+  args:
+    removes: /etc/apache2/sites-enabled/000-default.conf
+
+- name: Enable mirror virtual host
+  command: a2ensite mirror
+  args:
+    creates: /etc/apache2/sites-enabled/mirror.conf
+  notify:
+    - restart apache
+
