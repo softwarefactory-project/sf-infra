@@ -109,14 +109,14 @@
     - vars/dlrn.yaml
   roles:
     - swap
-    - dlrn-server
+    - dlrn-server-new
 
 - hosts: trunk-centos8.rdoproject.org
   vars_files:
     - vars/dlrn.yaml
   roles:
     - swap
-    - dlrn-server
+    - dlrn-server-new
 
 - hosts: centos8-rpm-packaging-ci.rdoproject.org
   roles:
