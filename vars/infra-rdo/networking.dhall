@@ -13,6 +13,13 @@ let security_groups =
             [ Infra.Rule::{ port = +8080 }
             , Infra.Rule::{ port = +8081 }
             , Infra.Rule::{ port = +8082 }
+            , Infra.Rule::{ port = +8083 }
+            , Infra.Rule::{ port = +8084 }
+            , Infra.Rule::{ port = +4443 }
+            , Infra.Rule::{ port = +4444 }
+            , Infra.Rule::{ port = +4445 }
+            , Infra.Rule::{ port = +4446 }
+            , Infra.Rule::{ port = +4447 }
             ]
           }
         , { name = "monitoring"
