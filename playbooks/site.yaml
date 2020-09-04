@@ -102,30 +102,30 @@
     - vars/dlrn.yaml
   roles:
     - rdotrunk-checks
-    - dlrn-server-new
+    - dlrn-server
 
 - hosts: trunk-centos7.rdoproject.org
   vars_files:
     - vars/dlrn.yaml
   roles:
     - swap
-    - dlrn-server-new
+    - dlrn-server
 
 - hosts: trunk-centos8.rdoproject.org
   vars_files:
     - vars/dlrn.yaml
   roles:
     - swap
-    - dlrn-server-new
+    - dlrn-server
 
 - hosts: centos8-rpm-packaging-ci.rdoproject.org
   roles:
     - swap
-    - dlrn-server-new
+    - dlrn-server
 
 - hosts: rpm-packaging-ci.rdoproject.org
   roles:
-    - dlrn-server-new
+    - dlrn-server
 
 - hosts: logserver.rdoproject.org
   roles:
