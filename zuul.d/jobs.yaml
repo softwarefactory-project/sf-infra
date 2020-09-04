@@ -94,6 +94,7 @@
     run: playbooks/zuul/configure-hosts.yaml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      - name: review.rdoproject.org/rdo-infra/ansible-role-dlrn
       - name: software-factory/sf-infra
     vars:
       sf_infra_play_name: site
