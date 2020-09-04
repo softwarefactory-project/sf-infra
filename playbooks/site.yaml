@@ -102,7 +102,7 @@
     - vars/dlrn.yaml
   roles:
     - rdotrunk-checks
-    - dlrn-server
+    - dlrn-server-new
 
 - hosts: trunk-centos7.rdoproject.org
   vars_files:
