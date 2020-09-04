@@ -34,6 +34,7 @@
 
 - hosts: afs-mirror
   roles:
+    - setup-ssl
     - afs-mirror
     - afs-monitoring
 
