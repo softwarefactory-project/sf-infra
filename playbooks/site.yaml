@@ -123,6 +123,10 @@
     - swap
     - dlrn-server-new
 
+- hosts: rpm-packaging-ci.rdoproject.org
+  roles:
+    - dlrn-server-new
+
 - hosts: logserver.rdoproject.org
   roles:
     - hostname

@@ -1,0 +1,55 @@
+enable_worker_cronjobs: &enable_cron true
+enable_purge_cronjobs: &enable_purge true
+disable_worker_email: &disable_email true
+
+dlrn_server_type: primary
+dlrn_enable_https: true
+dlrn_manage_letsencrypt: false
+dlrn_host: rpm-packaging-ci
+dlrn_override_files:
+  /home/centos-stein/data/repos/dlrn-deps.repo:
+      source: centos7-stein-rpm-packaging-dlrn-deps.repo
+  /home/centos-rocky/data/repos/dlrn-deps.repo:
+      source: centos7-rocky-rpm-packaging-dlrn-deps.repo
+
+api_workers: []
+web_domain: 'rpm-packaging-ci.rdoproject.org'
+dlrn_workers:
+  centos-stein:
+    name: 'centos-stein'
+    distro: 'centos7'
+    target: 'centos-stein'
+    distgit_branch: 'stable/stein'
+    distro_branch: 'stable/stein'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    cron_hour: '*/4'
+    cron_minute: '35'
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/stein/repos']
+    release: 'stein'
+    baseurl: 'http://rpm-packaging-ci.rdoproject.org/stein/repos/'
+    pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
+  centos-rocky:
+    name: 'centos-rocky'
+    distro: 'centos7'
+    target: 'centos-rocky'
+    distgit_branch: 'stable/rocky'
+    distro_branch: 'stable/rocky'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    cron_hour: '*/4'
+    cron_minute: '15'
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/rocky/repos']
+    release: 'rocky'
+    baseurl: 'http://rpm-packaging-ci.rdoproject.org/rocky/repos/'
+    pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
