@@ -210,7 +210,7 @@ servers:
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
-    flavor: v1-standard-1
+    flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.review.rdoproject.org
