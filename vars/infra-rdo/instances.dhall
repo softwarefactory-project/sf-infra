@@ -242,7 +242,7 @@ let mkCentosWorker =
                               , connection = Infra.Connection::{
                                 , ansible_user = "jpena"
                                 , proxy_command = Some
-                                    "ssh -q jpena@jump.ci.centos.org -W %h:%p"
+                                    "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
                                 }
                               }
                           //  Infra.ExternalServer

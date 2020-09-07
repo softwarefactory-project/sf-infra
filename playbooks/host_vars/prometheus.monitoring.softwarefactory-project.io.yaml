@@ -29,7 +29,7 @@ firewall_rules:
     state: enabled
   - immediate: yes
     permanent: yes
-    rich_rule: rule family=ipv4 source address=8.43.84.199/32 port port=8080 protocol=tcp accept
+    rich_rule: rule family=ipv4 source address=8.43.84.248/32 port port=8080 protocol=tcp accept
     state: enabled
   - immediate: yes
     permanent: yes
