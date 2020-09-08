@@ -17,7 +17,7 @@ groups:
           summary: 'Nodepool failed to provide instance to Zuul'
 
       - alert: zuul_nodepool_requests_failed
-        expr: zuul_nodepool_requests_state_by_label
+        expr: increase(zuul_nodepool_requests_state_by_label{state="failed"}[1m])
         labels:
           severity: warning
         annotations:
