@@ -22,6 +22,5 @@
             else
                 TOX_PARAMS="$CHANGED_ROLES"
             fi
-            export MOLECULE_PUPPET_DLRN_PATH="{{ ansible_user_dir }}/{{ zuul.projects['review.rdoproject.org/rdo-infra/puppet-dlrn'].src_dir }}/"
             tox -e molecule -- ${TOX_PARAMS}
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
