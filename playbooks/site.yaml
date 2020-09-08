@@ -52,7 +52,6 @@
 - hosts: sf:rdo
   roles:
     - sf-ssh
-    - sf-release
 
 - hosts: install-server
   roles:

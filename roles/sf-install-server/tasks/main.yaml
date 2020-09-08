@@ -20,13 +20,6 @@
   # quick fix because sf-release doesn't install when repo
   ignore_errors: true
 
-- name: Install sfconfig package
-  become: true
-  package:
-    name: https://softwarefactory-project.io/logs/85/17685/3/check/sf-rpm-build/8d1d2d6/buildset/sf-config-3.5.0.14.gef78449-3.el7.noarch.rpm
-  # quick fix because sf-release doesn't install when repo
-  ignore_errors: true
-
 - name: Copy the arch.yaml
   become: true
   copy:

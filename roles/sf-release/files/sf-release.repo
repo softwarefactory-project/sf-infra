@@ -1,6 +1,0 @@
-[sfrelease-3.4]
-name=SF 3.4 packages
-baseurl=http://38.102.83.102/kojifiles/repos/sf-3.4-el7-release/
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-SOFTWARE-FACTORY
-gpgcheck=1
-enabled=1
