@@ -227,18 +227,6 @@ let instances =
           , volume_size = Some 60
           }
         }
-      , Instance::{
-        , name = "validate_resize"
-        , groups = [ Infra.Group.rdo, Infra.Group.install-server ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , volume_size = Some 40
-          , security_groups = [ "web", "managesf", "internal" ]
-          }
-        }
       ]
 
 let mkCentosWorker =

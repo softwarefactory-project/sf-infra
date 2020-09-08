@@ -17,7 +17,6 @@ This project manages:
 * images.rdoproject.org
 * www.rdoproject.org
 * dlrn-db.rdoproject.org
-* validate_resize.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
 * rdo-ci-cloudslave01.ci.centos.org
