@@ -45,4 +45,4 @@
 
     - name: Include role
       include_role:
-        name: dlrn-server-new
+        name: dlrn-server
