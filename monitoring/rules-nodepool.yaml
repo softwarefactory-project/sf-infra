@@ -3,11 +3,11 @@ groups:
   - name: NodepoolDibImages
     rules:
       - alert: DibImageOutdated
-        expr: time() - nodepool_dib_image_status_last_build > 86400
+        expr: time() - nodepool_dib_image_status_last_build > 172800
         labels:
           severity: warning
         annotations:
-          summary: "Nodepool DIB image {{ $labels.image }} is older than 1 day!"
+          summary: "Nodepool DIB image {{ $labels.image }} is older than 2 day!"
 
       - alert: DibImageBuildFailed
         expr: nodepool_dib_image_status_rc != 0
