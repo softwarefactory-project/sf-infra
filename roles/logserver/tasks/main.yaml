@@ -25,25 +25,3 @@
     content: |
       <html><head><title>Logserver</title></head><body>Welcome to {{ fqdn }} logserver</body></html>
     dest: /var/www/logs/index.html
-
-- name: Remove old purge-logs script
-  become: yes
-  file:
-    path: /usr/local/bin/purge-logs.sh
-    state: absent
-
-- name: Install purge-logs script
-  become: yes
-  copy:
-    src: purge-logs.py
-    dest: /usr/local/bin/purge-logs.py
-    mode: 0755
-
-- name: Install crontab for purge-logs
-  become: yes
-  cron:
-    name: purge-logs
-    user: loguser
-    job: "/usr/local/bin/purge-logs.py --retention-days {{ logs_expiry }}"
-    hour: 5
-    minute: 0
