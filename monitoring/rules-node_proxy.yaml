@@ -27,3 +27,10 @@ groups:
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "node_memory_MemAvailable_bytes < (1024 * 1024 * 10)"
         for: "30m"
+      - alert: InstanceOutOfDisk
+        annotations:
+          description: |
+            Node only has {{ $value }} bytes of free disk available.
+          summary: "Out of disk (instance {{ $labels.instance }})"
+        expr: "node_filesystem_avail_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} * 100 / node_filesystem_size_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} < 20"
+        for: "30m"

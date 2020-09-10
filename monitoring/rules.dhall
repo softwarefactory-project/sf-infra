@@ -85,6 +85,19 @@ in  \(job-name : Text) ->
                     ''
                 }
               }
+            , Prometheus.AlertingRule::{
+              , alert = Some "InstanceOutOfDisk"
+              , expr = Some
+                  "node_filesystem_avail_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} * 100 / node_filesystem_size_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} < 20"
+              , for = Some "30m"
+              , annotations = Some Prometheus.Annotations::{
+                , summary = "Out of disk (instance {{ \$labels.instance }})"
+                , description = Some
+                    ''
+                    Node only has {{ $value }} bytes of free disk available.
+                    ''
+                }
+              }
             ]
           }
         ]
