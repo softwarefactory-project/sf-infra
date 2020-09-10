@@ -37,7 +37,6 @@ all:
       hosts:
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
-        validate_resize.rdoproject.org: {}
     installer:
       hosts:
         registry.rdoproject.org: {}
@@ -58,7 +57,6 @@ all:
         elk.rdoproject.org: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
-        validate_resize.rdoproject.org: {}
     rdocloud-data-fetcher:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -234,10 +232,6 @@ all:
       ansible_user: cloud-user
     trunk.rdoproject.org:
       ansible_port: 3300
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    validate_resize.rdoproject.org:
-      ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
     www.rdoproject.org:
