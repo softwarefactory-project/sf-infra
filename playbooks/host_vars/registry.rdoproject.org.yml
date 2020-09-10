@@ -65,6 +65,8 @@ openshift_certificate_expiry_warning_days: 30
 openshift_certificate_expiry_generate_html_report: yes
 openshift_certificate_expiry_save_json_results: yes
 openshift_certificate_expiry_show_all: yes
+# https://access.redhat.com/solutions/4006641
+openshift_certificate_expiry_fail_on_warn: false
 timestamp: "{{ lookup('pipe', 'date +%Y%m%d-%H:%M') }}"
 openshift_certificate_expiry_html_report_path: "/home/fedora/registry-certcheck/{{ timestamp }}-cert-expiry-report.html"
 openshift_certificate_expiry_json_results_path: "/home/fedora/registry-certcheck/{{ timestamp }}-cert-expiry-report.json"
