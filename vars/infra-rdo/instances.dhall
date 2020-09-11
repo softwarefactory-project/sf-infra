@@ -261,6 +261,14 @@ let extra =
       , Instance::(     { name = "trunk", groups = [ Infra.Group.dlrn ] }
                     //  AwsServer
                   )
+      , Instance::(     { name = "mirror.regionone.rdo-cloud"
+                        , groups = [ Infra.Group.afs-mirror ]
+                        , connection = Infra.Connection::{
+                          , ansible_user = "centos"
+                          }
+                        }
+                    //  Infra.ExternalServer
+                  )
       ]
 
 let vexxhost-instances =

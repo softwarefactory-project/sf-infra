@@ -1,0 +1,11 @@
+afs_mirror_fqdn: "mirror.regionone.rdo-cloud.rdoproject.org"
+ssl_cert_options:
+  cert1:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "{{ afs_mirror_fqdn }}"
+    webroot: "/var/www/mirror"
+certbot_plugin: "--webroot -w /var/www/mirror"
+afs_client_cache_size: 50000000
+afs_ssl_cert: "/etc/letsencrypt/live/{{ afs_mirror_fqdn }}/cert.pem"
+afs_ssl_private_key: "/etc/letsencrypt/live/{{ afs_mirror_fqdn }}/privkey.pem"
+afs_ssl_cacert: "/etc/letsencrypt/live/{{ afs_mirror_fqdn }}/fullchain.pem"
