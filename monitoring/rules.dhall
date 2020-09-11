@@ -7,6 +7,10 @@ Some doc:
 
 let Prometheus = ./binding.dhall
 
+let gigabyte = "1024^3"
+
+let megabyte = "1024^2"
+
 in  \(job-name : Text) ->
       Prometheus.RulesConfig::{
       , groups = Some
@@ -15,7 +19,7 @@ in  \(job-name : Text) ->
           , rules = Some
             [ Prometheus.AlertingRule::{
               , alert = Some "InstanceDown"
-              , expr = Some "up{job=\"${job-name}\"} == 0"
+              , expr = Some "up{job='${job-name}'} == 0"
               , for = Some "10m"
               }
             , Prometheus.AlertingRule::{
@@ -27,14 +31,14 @@ in  \(job-name : Text) ->
                         Over 1 day, if the slope becomes negative in 3 days, then emit an alarm
                         ''
 
-                  let avail = "node_filesystem_avail_bytes{job=\"${job-name}\"}"
+                  let avail = "node_filesystem_avail_bytes{job='${job-name}'}"
 
-                  let total = "node_filesystem_size_bytes{job=\"${job-name}\"}"
+                  let total = "node_filesystem_size_bytes{job='${job-name}'}"
 
                   let usage = "${avail} * 100 / ${total}"
 
                   let prediction =
-                        "predict_linear(node_filesystem_avail_bytes{job=\"${job-name}\"}[1d], 3 * 24 * 3600)"
+                        "predict_linear(node_filesystem_avail_bytes{job='${job-name}'}[1d], 3 * 24 * 3600)"
 
                   in  Some "(${usage} < 50) and (${prediction} < 0)"
               , for = Some "12h"
@@ -58,7 +62,7 @@ in  \(job-name : Text) ->
                   let usage = "${avail} * 100 / ${total}"
 
                   let prediction =
-                        "predict_linear(node_memory_MemAvailable_bytes{job=\"${job-name}\"}[1d], 3 * 24 * 3600)"
+                        "predict_linear(node_memory_MemAvailable_bytes{job='${job-name}'}[1d], 3 * 24 * 3600)"
 
                   in  Some "(${usage} < 50) and (${prediction} < 0)"
               , for = Some "12h"
@@ -75,26 +79,33 @@ in  \(job-name : Text) ->
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfMemory"
               , expr = Some
-                  "node_memory_MemAvailable_bytes < (1024 * 1024 * 10)"
+                  "node_memory_MemAvailable_bytes < ( 10 * ${megabyte})"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value }} bytes of free mem available.
+                    Node only has {{ $value / ${megabyte} }} MB of free mem available.
                     ''
                 }
               }
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfDisk"
-              , expr = Some
-                  "node_filesystem_avail_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} * 100 / node_filesystem_size_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} < 20"
+              , expr =
+                  let percentage_node_filesystem_avail_bytes =
+                        "node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs'}"
+
+                  let filesystem_avail_bytes =
+                        "node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'}"
+
+                  in  Some
+                        "(${percentage_node_filesystem_avail_bytes} < 10) and (${filesystem_avail_bytes} < 20 * ${gigabyte})"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of disk (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value }} bytes of free disk available.
+                    Node only has {{ $value / ${gigabyte} }} GB of free disk available.
                     ''
                 }
               }

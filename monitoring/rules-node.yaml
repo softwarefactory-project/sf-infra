@@ -3,13 +3,13 @@ groups:
   - name: node.rules
     rules:
       - alert: InstanceDown
-        expr: "up{job=\"node\"} == 0"
+        expr: "up{job='node'} == 0"
         for: "10m"
       - alert: WillRunOutOfDiskInThreeDays
         annotations:
           description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
           summary: "Out of disk space (instance {{ $labels.instance }})"
-        expr: "(node_filesystem_avail_bytes{job=\"node\"} * 100 / node_filesystem_size_bytes{job=\"node\"} < 50) and (predict_linear(node_filesystem_avail_bytes{job=\"node\"}[1d], 3 * 24 * 3600) < 0)"
+        expr: "(node_filesystem_avail_bytes{job='node'} * 100 / node_filesystem_size_bytes{job='node'} < 50) and (predict_linear(node_filesystem_avail_bytes{job='node'}[1d], 3 * 24 * 3600) < 0)"
         for: "12h"
       - alert: WillRunOutOfMemoryInThreeDays
         annotations:
@@ -18,19 +18,19 @@ groups:
               VALUE = {{ $value }}
               LABELS: {{ $labels }}
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job=\"node\"}[1d], 3 * 24 * 3600) < 0)"
+        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node'}[1d], 3 * 24 * 3600) < 0)"
         for: "12h"
       - alert: InstanceOutOfMemory
         annotations:
           description: |
-            Node only has {{ $value }} bytes of free mem available.
+            Node only has {{ $value / 1024^2 }} MB of free mem available.
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "node_memory_MemAvailable_bytes < (1024 * 1024 * 10)"
+        expr: "node_memory_MemAvailable_bytes < ( 10 * 1024^2)"
         for: "30m"
       - alert: InstanceOutOfDisk
         annotations:
           description: |
-            Node only has {{ $value }} bytes of free disk available.
+            Node only has {{ $value / 1024^3 }} GB of free disk available.
           summary: "Out of disk (instance {{ $labels.instance }})"
-        expr: "node_filesystem_avail_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} * 100 / node_filesystem_size_bytes{fstype!=\"tmpfs\",fstype!=\"rootfs\"} < 20"
+        expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"
