@@ -85,7 +85,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value / ${megabyte} }} MB of free mem available.
+                    Node only has {{ $value }} bytes of free mem available.
                     ''
                 }
               }
@@ -105,7 +105,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of disk (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value / ${gigabyte} }} GB of free disk available.
+                    Node only has {{ $value }} bytes of free disk available.
                     ''
                 }
               }
