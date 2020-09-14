@@ -247,6 +247,7 @@ servers:
       - monitoring
       - web
       - hound
+      - internal
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes

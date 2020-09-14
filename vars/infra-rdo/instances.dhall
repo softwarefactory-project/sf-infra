@@ -166,7 +166,7 @@ let instances =
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , auto_ip = Some True
-          , security_groups = [ "web", "hound" ]
+          , security_groups = [ "web", "hound", "internal" ]
           , volume_size = Some 10
           }
         , volumes =
