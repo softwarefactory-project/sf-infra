@@ -8,7 +8,7 @@
     description: Lint prometheus configuration
     nodeset: fedora-latest-pod
     files:
-      - roles/prometheus/files/.*.yaml
+      - monitoring/.*
       - playbooks/prometheus-lint.yaml
     run: playbooks/prometheus-lint.yaml
 
