@@ -8,7 +8,7 @@ dlrn_enable_https: true
 dlrn_manage_letsencrypt: false
 dlrn_host: trunk-centos8
 
-api_workers: ['centos8-master-uc', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
+api_workers: ['centos8-master-uc', 'centos8-victoria', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
 web_domain: 'trunk-centos8.rdoproject.org'
 
 dlrn_workers:
@@ -67,6 +67,36 @@ dlrn_workers:
 #    gerrit_email: 'javier.pena@redhat.com'
 #    gerrit_topic: 'rdo-FTBFS-master-head'
     rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
+    rsyncport: '3300'
+    use_components: true
+  centos8-victoria:
+    distro: 'centos8'
+    target: 'centos8-victoria'
+    distgit_branch: 'victoria-rdo'
+    distro_branch: 'stable/victoria'
+    disable_email: *disable_email
+    # NOTE(jpena): set to *enable_cron and *enable_purge after the initial bootstrap
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '3'
+    purge_minute: '37'
+    symlinks: ['/var/www/html/centos8-victoria', '/var/www/html/victoria/centos8']
+    # NOTE(jpena): set to 'victoria' once the tag has been created in rdoinfo
+    release: 'victoria-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos8-victoria'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-victoria:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_victoria?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    # NOTE(jpena): uncomment once the initial bootstrap has been completed
+    #gerrit_topic: 'rdo-FTBFS-victoria'
+    rsyncdest: 'centos8-victoria@3.87.151.16:/home/centos8-victoria/data/repos'
     rsyncport: '3300'
     use_components: true
   centos8-ussuri:
