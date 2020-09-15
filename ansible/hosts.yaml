@@ -9,6 +9,7 @@ all:
         nodes: {}
     afs-mirror:
       hosts:
+        mirror.regionone.rdo-cloud.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
     ara:
       hosts:
@@ -163,6 +164,10 @@ all:
     managesf.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
+      ansible_user: centos
+    mirror.regionone.rdo-cloud.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
       ansible_user: centos
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_port: 22
