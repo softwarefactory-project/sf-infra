@@ -1,18 +1,18 @@
+# This file is managed by dhall.
 groups:
   - name: systemd.rules
     rules:
       - alert: systemd_unit_failed
-        expr: node_systemd_unit_state{state="failed"} > 0
-        labels:
-          severity: warning
         annotations:
-          description: 'Instance {{ $labels.instance }}: Service {{ $labels.name }} failed'
-          summary: 'Some systemd unit is/are failing'
-
+          summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} failed"
+        expr: "node_systemd_unit_state{state='failed'} > 0"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
       - alert: systemd_unit_flapping
-        expr: changes(node_systemd_unit_state{state="active"}[5m]) > 5
-        labels:
-          severity: warning
         annotations:
-          description: 'Instance {{ $labels.instance }}: Service {{ $labels.name }} is flapping'
-          summary: 'Some systemd unit is/are flapping'
+          summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} is flapping"
+        expr: "changes(node_systemd_unit_state{state='active'}[5m]) > 5"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

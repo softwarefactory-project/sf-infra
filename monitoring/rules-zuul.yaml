@@ -1,24 +1,26 @@
+# This file is managed by dhall.
 groups:
   - name: zuul.rules
     rules:
       - alert: zuul_blocked_change_total
-        expr: zuul_blocked_change_total{job="journal"} > 0
-        for: 1h
-        labels:
-          severity: warning
         annotations:
-          description: 'The {{ $labels.tenant }} tenant in Zuul has {{ $value }} stuck changes'
-
+          summary: "The {{ $labels.tenant }} tenant in Zuul has {{ $value }} stuck changes"
+        expr: "zuul_blocked_change_total{job='journal'} > 0"
+        for: "1h"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
       - alert: zuul_nodepool_requests_failed
-        expr: increase(zuul_nodepool_requests{state="failed"}[1m])
-        labels:
-          severity: warning
         annotations:
-          summary: 'Nodepool failed to provide instance to Zuul'
-
+          summary: Nodepool failed to provide instance to Zuul
+        expr: "increase(zuul_nodepool_requests{state='failed'}[1m])"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
       - alert: zuul_nodepool_requests_failed
-        expr: increase(zuul_nodepool_requests_state_by_label{state="failed"}[1m])
-        labels:
-          severity: warning
         annotations:
-          summary: 'Nodepool failed to provide {{ $labels.label }} to Zuul'
+          summary: "Nodepool failed to provide {{ $labels.label }} to Zuul"
+        expr: "increase(zuul_nodepool_requests_state_by_label{state='failed'}[1m])"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

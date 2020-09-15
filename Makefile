@@ -4,8 +4,15 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/vars/nodepool-tripleo.yaml \
 	  playbooks/vars/nodepool-rdo.yaml \
 	  monitoring/prometheus.yaml \
+	  monitoring/rules-afs.yaml \
+	  monitoring/rules-backup.yaml \
+	  monitoring/rules-dlrn.yaml \
+	  monitoring/rules-http.yaml \
 	  monitoring/rules-node.yaml \
 	  monitoring/rules-node_proxy.yaml \
+	  monitoring/rules-nodepool.yaml \
+	  monitoring/rules-systemd.yaml \
+	  monitoring/rules-zuul.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  roles/acme-tiny/tasks/main.yaml \
 	  roles/acme-tiny/defaults/main.yaml \
