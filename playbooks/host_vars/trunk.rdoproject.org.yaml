@@ -219,8 +219,6 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
     rsyncdest: 'centos8-victoria@3.87.151.16:/home/centos8-victoria/data/repos'
     rsyncport: '3300'
     use_components: true
