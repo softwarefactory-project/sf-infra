@@ -58,6 +58,11 @@ let README =
 
       ${Inventory}
 
+      # Managing Groups
+
+      Groups are hardcoded in the `conf/types/Group.dhall` file. Extra groups
+      needed outside of the sf-infra project needs to be added to this file.
+
       # Jobs
 
       There are a few jobs:
