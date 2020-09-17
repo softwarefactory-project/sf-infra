@@ -20,7 +20,7 @@
         archive: yes
       become: true
 
-- name: Redeploy All certificates
+- name: Redeploy all certificates
   hosts: registry.rdoproject.org
   vars:
     registry_host: "{{ inventory_hostname }}"

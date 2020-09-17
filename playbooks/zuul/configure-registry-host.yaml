@@ -35,11 +35,29 @@
         # Provided by Zuul secret
         ARA_API_PASSWORD: "{{ ara_api.password }}"
 
+    - name: Create ansible registry renew log directory
+      become: true
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: fedora
+        group: fedora
+      loop:
+        - /var/log/registry-cert-renew
+        - /var/lib/sf-infra
+
+    - name: Copy renew certificate script
+      copy:
+        content: |
+          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra;
+          export ANSIBLE_CONFIG=ansible/ansible-registry.cfg;
+          export ANSIBLE_LOG_PATH=/var/log/registry-cert-renew/ansible-$(date '+%Y-%m-%d').log;
+          /usr/bin/ansible-playbook playbooks/registry-renew-certificates.yml -i ansible/hosts.yaml
+        dest: /var/lib/sf-infra/registry-renew.sh
+
+    # Renew cert each week - Sunday at 0:00
     - name: Create cron job for renewing certificate
       cron:
         name: Renew registry certificate
-        minute: "0"
-        hour: "4"
-        month: "*/1"
-        job: |
-          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra; export ANSIBLE_CONFIG=ansible/ansible-registry.cfg; /usr/bin/ansible-playbook playbooks/registry-renew-certificates.yml -i ansible/hosts.yaml | systemd-cat -t registry-ssl-renew -p info
+        special_time: weekly
+        job: bash /var/lib/sf-infra/registry-renew.sh
