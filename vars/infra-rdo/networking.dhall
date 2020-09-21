@@ -33,6 +33,10 @@ let security_groups =
               , port = +9100
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +9104
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
             ]
           }
         , { name = "rdo-trunk", rules = [ Infra.Rule::{ port = +3300 } ] }

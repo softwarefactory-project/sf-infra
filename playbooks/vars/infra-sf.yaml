@@ -83,6 +83,9 @@ security_groups:
       - port: 9102
         protocol: tcp
         remote_ip_prefix: "{{ prometheus_private_ip }}/32"
+      - port: 9104
+        protocol: tcp
+        remote_ip_prefix: "{{ prometheus_private_ip }}/32"
       - port: 9100
         protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
@@ -90,6 +93,9 @@ security_groups:
         protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9102
+        protocol: tcp
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+      - port: 9104
         protocol: tcp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: prometheus

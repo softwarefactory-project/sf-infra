@@ -84,6 +84,8 @@ security_groups:
         state: absent
       - port: 9100
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+      - port: 9104
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: rdo-trunk
     rules:
       - port: 3300

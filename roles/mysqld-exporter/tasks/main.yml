@@ -1,0 +1,37 @@
+---
+- name: Create mysqld config file
+  become: yes
+  template:
+    src: mysqld_exporter.j2
+    dest: "/etc/.mysqld_exporter.cnf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Define container mounts with SSL
+  set_fact:
+    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z -v /etc/mysql/ssl:/etc/mysql/ssl:Z"
+  when:
+    - mysqld_exporter_use_ssl
+
+
+- name: Define container mounts without SSL
+  set_fact:
+    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z"
+  when:
+    - not mysqld_exporter_use_ssl
+
+
+- include_role:
+    name: container-service
+  vars:
+    pod_name: mysqld-exporter
+    pod_param: >
+      --net=host
+      {{ mysqld_exporter_mounts }}
+      {{ container_images['mysqld-exporter'] | default('quay.io/prometheus/mysqld-exporter:latest') }}
+      --config.my-cnf /etc/.mysqld_exporter.cnf
+      --collect.global_status
+      --collect.binlog_size
+      --collect.slave_status
+

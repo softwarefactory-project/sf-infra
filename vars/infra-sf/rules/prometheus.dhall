@@ -1,6 +1,6 @@
 let Infra = ../../../conf/package.dhall
 
-let ports-that-prometheus-connect-to = [ +9100, +9101, +9102 ]
+let ports-that-prometheus-connect-to = [ +9100, +9101, +9102, +9104 ]
 
 in  Infra.Prelude.List.map
       Integer

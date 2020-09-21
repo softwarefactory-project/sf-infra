@@ -29,8 +29,11 @@
     - node-exporter
 
 - hosts: backup
+  vars_files:
+    - vars/dlrn-db.yaml
   roles:
     - backup-monitoring
+    - mysqld-exporter
 
 - hosts: afs-mirror
   roles:
@@ -151,6 +154,7 @@
   roles:
     - hostname
     - firewalld
+    - mysqld-exporter
   tasks:
     - include_role:
         name: mariadb-replicated

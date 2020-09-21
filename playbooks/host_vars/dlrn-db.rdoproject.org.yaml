@@ -8,3 +8,6 @@ firewall_rules:
       permanent: yes
       immediate: yes
       state: enabled
+mysqld_exporter_user: root
+mysqld_exporter_password: "{{ db_password }}"
+mysqld_exporter_use_ssl: true

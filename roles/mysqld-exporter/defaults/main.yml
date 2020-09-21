@@ -1,0 +1,4 @@
+---
+mysqld_exporter_user: root
+mysqld_exporter_password: CHANGEME
+mysqld_exporter_use_ssl: false
