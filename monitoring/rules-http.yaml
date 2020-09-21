@@ -6,5 +6,5 @@ groups:
         expr: "probe_success{job='blackbox'} == 0"
         for: "10m"
       - alert: SSLCertExpiringSoon
-        expr: "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 7"
+        expr: "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 6"
         for: "10m"
