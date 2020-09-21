@@ -1,11 +1,11 @@
+# This file is managed by dhall.
 groups:
   - name: dlrn.rules
     rules:
       - alert: RDOTrunkRepoTooOld
-        # Time since last build is more than one day
-        expr: dlrn_last_build{job="node"} < (time() - 86400)
-        labels:
-          severity: warning
-          lasttime: '{{ $value | humanizeTimestamp }}'
         annotations:
-          summary: 'Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}'
+          summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}"
+        expr: "dlrn_last_build{job='node'} < (time() - 86400)"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

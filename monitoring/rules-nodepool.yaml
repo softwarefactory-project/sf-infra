@@ -1,63 +1,62 @@
----
+# This file is managed by dhall.
 groups:
   - name: NodepoolDibImages
     rules:
       - alert: DibImageOutdated
-        expr: time() - nodepool_dib_image_status_last_build > 172800
-        labels:
-          severity: warning
         annotations:
           summary: "Nodepool DIB image {{ $labels.image }} is older than 2 day!"
-
-      - alert: DibImageBuildFailed
-        expr: nodepool_dib_image_status_rc != 0
+        expr: "time() - nodepool_dib_image_status_last_build > 172800"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: DibImageBuildFailed
         annotations:
           summary: "DIB image {{ $labels.image }} build failed"
-
+        expr: "nodepool_dib_image_status_rc != 0"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
   - name: NodepoolLauncher
     rules:
       - alert: NodepoolNodes
-        expr: nodepool_nodes{state="failed"} > 0
-        labels:
-          severity: warning
         annotations:
-          summary: "Nodepool failed to spawn instance"
-
-      - alert: NodepoolNodesByLabel
-        expr: nodepool_nodes_by_label{state="failed"} > 0
+          summary: Nodepool failed to spawn instance
+        expr: "nodepool_nodes{state='failed'} > 0"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: NodepoolNodesByLabel
         annotations:
           summary: "Nodepool failed to spawn instance with label {{ $labels.label }}"
-
-      - alert: NodepoolNodesByProvider
-        expr: nodepool_nodes_by_provider{state="failed"} > 0
+        expr: "nodepool_nodes_by_label{state='failed'} > 0"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: NodepoolNodesByProvider
         annotations:
           summary: "Nodepool failed to spawn instance on provider {{ $labels.provider }}"
-
-
-      - alert: NodepoolLaunchByProvider
-        expr: increase(nodepool_launch_by_provider{result!="ready"}[1m]) > 0
+        expr: "nodepool_nodes_by_provider{state='failed'} > 0"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: NodepoolLaunchByProvider
         annotations:
           summary: "Nodepool failed to spawn instance with label {{ $labels.label }} on {{ $labels.provider }}"
-
-      # This alert could match instances started by nodepool to ensure min-ready or instances required by zuul-scheduler
-      - alert: NodepoolLaunchByRequestor
-        expr: increase(nodepool_launch_by_requestor{result!="ready"}[1m]) > 0
+        expr: "increase(nodepool_launch_by_provider{result!='ready'}[1m]) > 0"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: NodepoolLaunchByRequestor
         annotations:
           summary: "Nodepool failed to launch instance for requestor {{ $labels.requestor }}"
-
-      - alert: NodepoolLaunch
-        expr: increase(nodepool_launch{result!="ready"}[1m]) > 0
+        expr: "increase(nodepool_launch_by_requestor{result!='ready'}[1m]) > 0"
         labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: NodepoolLaunch
         annotations:
           summary: "Nodepool failed to launch instance with error {{ $labels.result }}"
+        expr: "increase(nodepool_launch{result!='ready'}[1m]) > 0"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

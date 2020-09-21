@@ -1,11 +1,11 @@
+# This file is managed by dhall.
 groups:
   - name: backup.rules
     rules:
       - alert: BackupTooOld
-        # Time since last backup is more than three days
-        expr: bup_last_backup{job="node"} < (time() - 259200)
-        labels:
-          severity: warning
-          lasttime: '{{ $value | humanizeTimestamp }}'
         annotations:
-          summary: 'Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}'
+          summary: "Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}"
+        expr: "bup_last_backup{job='node'} < (time() - 259200)"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
