@@ -13,7 +13,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "SSLCertExpiringSoon"
             , expr = Some
-                "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 7"
+                "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 6"
             , for = Some "10m"
             }
           ]
