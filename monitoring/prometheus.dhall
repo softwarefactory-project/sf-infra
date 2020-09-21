@@ -15,6 +15,9 @@ let {- TODO: maybe move this to an Instance schema
       , "rdo-ci-cloudslave05.ci.centos.org:9100"
       ]
 
+let db_server_list =
+      [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
+
 in  PrometheusConfig
       Infra.instances
       [ "rules-node.yaml"
@@ -34,4 +37,5 @@ in  PrometheusConfig
           [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
       ,     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]
         //  { scrape_interval = Some "5m" }
+      , ScrapeConfigs.static "mysqld" db_server_list
       ]

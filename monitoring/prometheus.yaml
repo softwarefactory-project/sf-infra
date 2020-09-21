@@ -139,3 +139,8 @@ scrape_configs:
     static_configs:
       - targets:
           - localhost:9102
+  - job_name: mysqld
+    static_configs:
+      - targets:
+          - dlrn-db.rdoproject.org:9104
+          - backup.rdoproject.org:9104
