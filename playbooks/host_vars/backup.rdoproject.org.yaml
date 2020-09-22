@@ -1,3 +1,4 @@
 mysqld_exporter_user: root
 mysqld_exporter_password: "{{ db_password }}"
 mysqld_exporter_use_ssl: true
+mysqld_exporter_ssl_certs: "{{ db_ssl_certs }}"

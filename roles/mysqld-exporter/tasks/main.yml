@@ -8,19 +8,39 @@
     group: root
     mode: '0644'
 
-- name: Define container mounts with SSL
-  set_fact:
-    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z -v /etc/mysql/ssl:/etc/mysql/ssl:Z"
+- name: Create directories for SSL certs
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - /etc/mysqld_exporter
+    - /etc/mysqld_exporter/ssl
   when:
     - mysqld_exporter_use_ssl
 
+- name: Deploy certificates
+  become: yes
+  copy:
+    dest: "/etc/mysqld_exporter/ssl/{{ item.value.filename }}"
+    content: "{{ item.value.contents }}"
+  no_log: yes
+  with_dict: "{{ mysqld_exporter_ssl_certs }}"
+  when:
+    - mysqld_exporter_use_ssl
+
+- name: Define container mounts with SSL
+  set_fact:
+    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z -v /etc/mysqld_exporter/ssl:/etc/mysqld_exporter/ssl:Z"
+  when:
+    - mysqld_exporter_use_ssl
 
 - name: Define container mounts without SSL
   set_fact:
     mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z"
   when:
     - not mysqld_exporter_use_ssl
-
 
 - include_role:
     name: container-service
@@ -35,4 +55,3 @@
       --collect.global_status
       --collect.binlog_size
       --collect.slave_status
-

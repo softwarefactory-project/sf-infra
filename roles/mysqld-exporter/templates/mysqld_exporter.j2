@@ -3,7 +3,7 @@ user={{ mysqld_exporter_user | default('root') }}
 password={{ mysqld_exporter_password | default('') }}
 host=localhost
 {% if mysqld_exporter_use_ssl | default(false) %}
-ssl-ca=/etc/mysql/ssl/ca-cert.pem
-ssl-cert=/etc/mysql/ssl/client-cert.pem
-ssl-key=/etc/mysql/ssl/client-key.pem
+ssl-ca=/etc/mysqld_exporter/ssl/ca-cert.pem
+ssl-cert=/etc/mysqld_exporter/ssl/client-cert.pem
+ssl-key=/etc/mysqld_exporter/ssl/client-key.pem
 {% endif %}
