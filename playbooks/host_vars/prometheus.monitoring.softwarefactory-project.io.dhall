@@ -9,7 +9,7 @@ let security_group_rules =
       # ../../vars/infra-sf/rules/prometheus-statsd.dhall
 
 let container_images =
-    --- NOTE: node_exporter container image is set in group_vars/all
+    --- NOTE: node_exporter and mysqld_exporter container images are set in group_vars/all
       { prometheus =
           "quay.io/prometheus/prometheus@sha256:788260ebd13613456c168d2eed8290f119f2b6301af2507ff65908d979c66c17"
       , blackbox =
