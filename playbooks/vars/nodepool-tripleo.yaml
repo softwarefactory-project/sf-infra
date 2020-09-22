@@ -31,5 +31,7 @@ security_groups:
       - port: -1
         protocol: icmp
       - port: 19885
+      - port: 5001
+        remote_ip_prefix: "38.102.83.0/24"
 servers: []
 volumes: []
