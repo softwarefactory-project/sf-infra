@@ -31,6 +31,7 @@
       {{ mysqld_exporter_mounts }}
       {{ container_images['mysqld-exporter'] | default('quay.io/prometheus/mysqld-exporter:latest') }}
       --config.my-cnf /etc/.mysqld_exporter.cnf
+      --tls.insecure-skip-verify
       --collect.global_status
       --collect.binlog_size
       --collect.slave_status
