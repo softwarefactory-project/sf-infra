@@ -48,7 +48,7 @@ in  \(job-name : Text) ->
                 , description = Some
                     ''
                     Disk is almost full (< 10% left)
-                      VALUE = {{ $value }}
+                      VALUE = {{ $value | humanize1024 }}
                       LABELS: {{ $labels }}''
                 }
               }
@@ -71,7 +71,7 @@ in  \(job-name : Text) ->
                 , description = Some
                     ''
                     Node memory is filling up (< 10% left)
-                      VALUE = {{ $value }}
+                      VALUE = {{ $value | humanize1024 }}
                       LABELS: {{ $labels }}
                     ''
                 }
@@ -85,7 +85,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value }} bytes of free mem available.
+                    Node only has {{ $value | humanize1024 }} of free mem available.
                     ''
                 }
               }
@@ -105,7 +105,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of disk (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value }} bytes of free disk available.
+                    Node only has {{ $value | humanize1024 }} of free disk available.
                     ''
                 }
               }
