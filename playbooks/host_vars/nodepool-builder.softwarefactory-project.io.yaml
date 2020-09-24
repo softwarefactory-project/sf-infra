@@ -1,3 +1,3 @@
 bind_mounts:
-  - {source: '/mnt/lib_nodepool', dest: '/var/lib/nodepool'}
-  - {source: '/mnt/cache_nodepool', dest: '/var/cache/nodepool'}
+  - {source: '/mnt/lib_nodepool', dest: '/var/lib/nodepool', owner: "nodepool", group: "nodepool"}
+  - {source: '/mnt/cache_nodepool', dest: '/var/cache/nodepool', owner: "nodepool", group: "nodepool"}
