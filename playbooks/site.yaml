@@ -169,3 +169,7 @@
   roles:
     - setup-ssl
     - ara-api-container
+
+- hosts: koji.softwarefactory-project.io
+  roles:
+    - firewalld
