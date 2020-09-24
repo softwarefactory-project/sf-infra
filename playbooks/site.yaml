@@ -125,6 +125,7 @@
     - hostname
     - volume
     - setup-ssl
+    - firewalld
     - {role: image-server, become: true}
 
 - hosts: redhat-oss-git-stats.softwarefactory-project.io
