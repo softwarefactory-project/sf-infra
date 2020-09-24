@@ -46,22 +46,19 @@
   become: true
   when: lvm | bool
 
-- name: Create and mount extra volume
-  block:
-    - name: Ensure partition
-      filesystem:
-        fstype: '{{ filesystem | default("xfs") }}'
-        dev: '/dev/{{ partition }}'
-
-    - name: Mount partition
-      include_tasks: mount_partition.yaml
-
-    - name: Bind mount partitions
-      include_tasks: bind_mounts.yaml
-      when: bind_mounts != []
-
+- name: Create partition
+  filesystem:
+    fstype: '{{ filesystem | default("xfs") }}'
+    dev: '/dev/{{ partition }}'
   when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
   become: true
+
+- name: Mount partition
+  include_tasks: mount_partition.yaml
+
+- name: Bind mount partitions
+  include_tasks: bind_mounts.yaml
+  when: bind_mounts != []
 
 # Note: ofcourse, the partition module resizefs attribute doesn't work with xfs
 # because xfs needs a mountpoint, not a device

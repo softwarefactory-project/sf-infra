@@ -5,6 +5,7 @@
     group: '{{ mount_group | default("root") }}'
     state: directory
   loop: "{{ bind_mounts }}"
+  become: true
 
 - name: Create destination directories
   file:
@@ -13,6 +14,7 @@
     group: '{{ mount_group | default("root") }}'
     state: directory
   loop: "{{ bind_mounts }}"
+  become: true
 
 - name: Mount and bind volumes
   mount:
@@ -22,3 +24,4 @@
     state: mounted
     fstype: none
   loop: "{{ bind_mounts }}"
+  become: true
