@@ -86,7 +86,7 @@ scrape_configs:
           - https://review.rdoproject.org/zuul/api/info
           - https://review.rdoproject.org/analytics/app/kibana
           - https://review.rdoproject.org
-          - http://elk.review.rdoproject.org:9200
+          - "http://elk.review.rdoproject.org:9200/_cluster/health?wait_for_status=green&timeout=50s&pretty"
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/analytics/api/licensing/info
           - https://softwarefactory-project.io/zuul/api/info
@@ -102,7 +102,7 @@ scrape_configs:
           - http://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org
-          - http://elk.softwarefactory-project.io:9200
+          - "http://elk.softwarefactory-project.io:9200/_cluster/health?wait_for_status=green&timeout=50s&pretty"
           - "https://rdo.vexxhost.ca/auth/login/?next=/"
   - job_name: blackbox-auth
     metrics_path: /probe

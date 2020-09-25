@@ -128,7 +128,7 @@ let instances =
             in  [ "https://review.rdoproject.org/zuul/api/info"
                 , "https://review.rdoproject.org/analytics/app/kibana"
                 , "https://review.rdoproject.org"
-                , "http://elk.review.rdoproject.org:9200"
+                , "http://elk.review.rdoproject.org:9200/_cluster/health?wait_for_status=green&timeout=50s&pretty"
                 ]
         , groups = [ Infra.Group.rdo, Infra.Group.install-server ]
         , connection = OS.CentOS.`7.0`.connection
