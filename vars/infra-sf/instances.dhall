@@ -136,7 +136,7 @@ let instances =
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
-                , "http://elk.softwarefactory-project.io:9200/_cluster/health?wait_for_status=green&timeout=50s&pretty"
+                , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
                 , "https://rdo.vexxhost.ca/auth/login/?next=/"
                 ]
         , groups =
