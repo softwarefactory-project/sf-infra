@@ -1,4 +1,4 @@
 bind_mounts:
-  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch'}
-  - {source: '/mnt/logs', dest: '/var/www/logs'}
-  - {source: '/mnt/influxdb', dest: '/var/lib/influxdb'}
+  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "elasticsearch", group: "elasticsearch"}
+  - {source: '/mnt/influxdb', dest: '/var/lib/influxdb', owner: "influxdb", group: "influxdb"}
+  - {source: '/mnt/logs', dest: '/var/www/logs', owner: "loguser", group: "apache"}

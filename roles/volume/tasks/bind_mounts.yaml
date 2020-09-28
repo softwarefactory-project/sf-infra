@@ -1,8 +1,8 @@
 - name: Create source directories
   file:
     path: '{{ item.source }}'
-    owner: '{{ mount_owner | default("root") }}'
-    group: '{{ mount_group | default("root") }}'
+    owner: '{{ item.owner | default("root") }}'
+    group: '{{ item.group | default("root") }}'
     state: directory
   loop: "{{ bind_mounts }}"
   become: true
@@ -10,8 +10,8 @@
 - name: Create destination directories
   file:
     path: '{{ item.dest }}'
-    owner: '{{ mount_owner | default("root") }}'
-    group: '{{ mount_group | default("root") }}'
+    owner: '{{ item.owner | default("root") }}'
+    group: '{{ item.group | default("root") }}'
     state: directory
   loop: "{{ bind_mounts }}"
   become: true
