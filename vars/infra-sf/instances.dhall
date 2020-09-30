@@ -23,21 +23,21 @@ let tenant-instance =
 let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
-            , server = tenant-instance.server // Infra.setIp "38.102.83.40"
+            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.40"
             }
       ,     tenant-instance
         //  { name = "ovirt"
-            , server = tenant-instance.server // Infra.setIp "38.102.83.159"
+            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.159"
             }
       ,     tenant-instance
         //  { name = "ovirt-staging"
-            , server = tenant-instance.server // Infra.setIp "38.102.83.251"
+            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.251"
             }
       ,     tenant-instance
         //  { name = "ansible"
             , server =
                     tenant-instance.server
-                //  Infra.setIp "38.102.83.19"
+                //  Infra.Server.Ip "38.102.83.19"
                 //  { state =
                         let note = "force server creation" in Some "present"
                     }
@@ -153,7 +153,7 @@ let instances =
                 , volume_size = Some 20
                 , security_groups = [ "web", "managesf" ]
                 }
-            //  Infra.setIp "38.102.83.76"
+            //  Infra.Server.Ip "38.102.83.76"
         }
       , Instance::{
         , name = "nodepool-builder"
@@ -179,7 +179,7 @@ let instances =
                 , security_groups = [ "hypervisor-oci" ]
                 , flavor = Some Flavors.`8vcpu_16GB`
                 }
-            //  Infra.setIp "38.102.83.186"
+            //  Infra.Server.Ip "38.102.83.186"
         }
       , Instance::{
         , name = "zs"
@@ -198,7 +198,7 @@ let instances =
                 , flavor = Some Flavors.`4vcpus_8gb`
                 , security_groups = [ "web" ]
                 }
-            //  Infra.setIp "38.102.83.102"
+            //  Infra.Server.Ip "38.102.83.102"
         }
       , Instance::{
         , name = "integrations"
@@ -216,10 +216,7 @@ let instances =
 let mkServers =
       \(name : Text) ->
       \(flavor : Text) ->
-      \(count : Natural) ->
-        Infra.Prelude.List.map
-          Natural
-          Instance.Type
+        Infra.Instance.generate
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
@@ -232,7 +229,6 @@ let mkServers =
                 }
               }
           )
-          (Infra.seq count)
 
 let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 
@@ -242,6 +238,7 @@ let zuuls = mkExecutors 7 # mkMergers 8
 
 let default-security-groups = [ "common", "monitoring", "internal" ]
 
-in  Infra.setSecurityGroups
+in  Infra.Tenant.addSecurityGroupsAndSetFqdn
       default-security-groups
-      (Infra.setFqdn fqdn (instances # tenant-instances # zuuls))
+      fqdn
+      (instances # tenant-instances # zuuls)

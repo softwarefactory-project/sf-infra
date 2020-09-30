@@ -70,14 +70,14 @@ let security_groups =
           }
         , { name = "rcn-share"
           , rules =
-              Infra.text-to-rule-map
-                (Infra.tcp-access-rule +4433)
+              Infra.Rule.textMap
+                (Infra.Rule.createTcpPort +4433)
                 [ "38.145.32.0/22", "38.102.83.0/24" ]
           }
         , { name = "dlrn-db"
           , rules =
-              Infra.text-to-rule-map
-                (Infra.tcp-access-rule +3306)
+              Infra.Rule.textMap
+                (Infra.Rule.createTcpPort +3306)
                 [ "54.82.121.165/32"
                 , "3.87.151.16/32"
                 , "38.102.83.226/32"
@@ -87,15 +87,18 @@ let security_groups =
           }
         ]
 
-in  { networks = Some [ Infra.mkNetwork "public" rdo_network.name ]
+in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]
     , subnets = Some
-      [ Infra.mkSubnet
+      [ Infra.Subnet.create
           rdo_network.name
           rdo_network.network_prefix
           Common.dns-servernames
       ]
     , routers = Some
-      [     Infra.mkRouter "public" rdo_network.name rdo_network.network_prefix
+      [     Infra.Router.create
+              "public"
+              rdo_network.name
+              rdo_network.network_prefix
         //  backward-compat-name
       ]
     , security_groups

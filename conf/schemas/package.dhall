@@ -1,4 +1,5 @@
-{ Connection = ./Connection/package.dhall
+{ AnsibleInventory = ./AnsibleInventory/package.dhall
+, Connection = ./Connection/package.dhall
 , Firewall = ./Firewall/package.dhall
 , Image = ./Image/package.dhall
 , Instance = ./Instance/package.dhall

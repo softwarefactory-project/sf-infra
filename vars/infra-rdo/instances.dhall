@@ -149,7 +149,7 @@ let instances =
                 , image = OS.CentOS.`7.0`.image.name
                 , security_groups = [ "elk", "internal" ]
                 }
-            //  Infra.setIp "38.102.83.136"
+            //  Infra.Server.Ip "38.102.83.136"
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
@@ -230,25 +230,21 @@ let instances =
       ]
 
 let mkCentosWorker =
-      \(count : Natural) ->
-        Infra.Prelude.List.map
-          Natural
-          Instance.Type
-          ( \(idx : Natural) ->
-              Instance::(     { name =
-                                  "rdo-ci-cloudslave0${Natural/show
-                                                         idx}.ci.centos.org"
-                              , groups = [ Infra.Group.ci-centos-org ]
-                              , connection = Infra.Connection::{
-                                , ansible_user = "jpena"
-                                , proxy_command = Some
-                                    "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
-                                }
+      Infra.Instance.generate
+        ( \(idx : Natural) ->
+            Instance::(     { name =
+                                "rdo-ci-cloudslave0${Natural/show
+                                                       idx}.ci.centos.org"
+                            , groups = [ Infra.Group.ci-centos-org ]
+                            , connection = Infra.Connection::{
+                              , ansible_user = "jpena"
+                              , proxy_command = Some
+                                  "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
                               }
-                          //  Infra.ExternalServer
-                        )
-          )
-          (Infra.seq count)
+                            }
+                        //  Infra.ExternalServer
+                      )
+        )
 
 let AwsServer =
           Infra.ExternalServer
@@ -272,9 +268,10 @@ let extra =
       ]
 
 let vexxhost-instances =
-      Infra.setSecurityGroups
+      Infra.Tenant.addSecurityGroupsAndSetFqdn
         [ "common", "monitoring" ]
-        (Infra.setFqdn fqdn (instances # extra))
+        fqdn
+        (instances # extra)
 
 let centos-instances = mkCentosWorker 5
 

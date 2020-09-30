@@ -1,3 +1,3 @@
-let Infra = ../../../conf/package.dhall
+let Rule = ../../../conf/schemas/Rule/package.dhall
 
-in  Infra.text-to-rule-map (Infra.tcp-access-rule +8080) [ "8.43.84.248/32" ]
+in  Rule.textMap (Rule.createTcpPort +8080) [ "8.43.84.248/32" ]

@@ -5,12 +5,14 @@
 -}
 let Infra = ../conf/package.dhall
 
+let Instance = Infra.Instance
+
 in  { Infra =
       { RDO =
           let instances = ./infra-rdo/instances.dhall
 
-          in  Infra.Tenant::(     { servers = Infra.getServers instances
-                                  , volumes = Infra.getVolumes instances
+          in  Infra.Tenant::(     { servers = Infra.Tenant.getServers instances
+                                  , volumes = Infra.Tenant.getVolumes instances
                                   }
                               //  ./infra-rdo/networking.dhall
                               //  ./infra-rdo/images.dhall
@@ -18,8 +20,8 @@ in  { Infra =
       , SF =
           let instances = ./infra-sf/instances.dhall
 
-          in  Infra.Tenant::(     { servers = Infra.getServers instances
-                                  , volumes = Infra.getVolumes instances
+          in  Infra.Tenant::(     { servers = Infra.Tenant.getServers instances
+                                  , volumes = Infra.Tenant.getVolumes instances
                                   }
                               //  ./infra-sf/networking.dhall
                               //  ./infra-sf/images.dhall

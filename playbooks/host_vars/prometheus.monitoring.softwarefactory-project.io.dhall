@@ -23,7 +23,10 @@ let container_images =
       }
 
 let firewall_rules =
-        Infra.securityGroupRulesToFirewallRules security_group_rules
+        Infra.Rule.map
+          Infra.Firewall.Type
+          Infra.Firewall.fromRule
+          security_group_rules
       # [ { immediate = "yes"
           , permanent = "yes"
           , port = None Text
