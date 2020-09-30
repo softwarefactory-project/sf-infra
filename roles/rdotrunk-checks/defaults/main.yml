@@ -1,12 +1,9 @@
 ---
 rdo_trunk_workers:
-  - centos-master-uc
   - centos-train
   - centos-stein
   - centos-rocky
   - centos-queens
-  - rhel8-master
-  - rhel8-train
   - centos8-master-uc
   - centos8-victoria
   - centos8-ussuri
