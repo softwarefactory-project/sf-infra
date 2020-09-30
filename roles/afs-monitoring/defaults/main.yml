@@ -1,4 +1,4 @@
 ---
 afs_mirror_metrics:
   - name: CentOS-mirror
-    url: https://graphite01.opendev.org/render?target=stats.gauges.afs.afs01_dfw_openstack_org.vol.mirror_centos_readonly.creation&format=json&from=-10min&noNullPoints=True&maxDataPoints=2
+    url: https://graphite.opendev.org/render?target=stats.gauges.afs.afs01_dfw_openstack_org.vol.mirror_centos_readonly.creation&format=json&from=-10min&noNullPoints=True&maxDataPoints=2
