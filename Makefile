@@ -29,14 +29,14 @@ all: dhall-version-check dhall-schemas dhall-format $(MANAGED) prettify-generate
 	@sh -c "echo '# This file is managed by dhall.'; env DHALL_INFRA=$$(pwd)/package.dhall dhall-to-yaml --explain --file $<" > $@
 
 prettify-generated-ansible:
-	@python3 conf/scripts/yaml-prettifier.py roles/acme-tiny/tasks/main.yaml
+	@python3 scripts/yaml-prettifier.py roles/acme-tiny/tasks/main.yaml
 	@dhall to-directory-tree --output roles/acme-tiny/templates <<< "(./roles/acme-tiny/role.dhall).Templates"
 	@dhall text > roles/acme-tiny/README.md                     <<< "(./roles/acme-tiny/role.dhall).README"
 
 # dhall-schemas generate the package files from diretory content
 dhall-schemas:
-	@python3 conf/scripts/gen_groups.py  conf/types/Group.dhall > conf/types/Groups.dhall
-	@python3 conf/scripts/gen_list.py vars/*/instances.dhall > vars/instances.dhall
+	@python3 scripts/gen_groups.py Infra/Group/Type.dhall > Infra/Group/Groups.dhall
+
 
 dhall-format:
 	@find . -name "*.dhall" -exec dhall --ascii format --inplace {} \;

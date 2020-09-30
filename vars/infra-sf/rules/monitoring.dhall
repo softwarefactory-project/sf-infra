@@ -1,8 +1,7 @@
-let Infra = ../../../conf/package.dhall
+let Infra = ../../../Infra/package.dhall
 
 let private-monitoring-rules =
-      Infra.Prelude.List.map
-        Infra.Rule.Type
+      Infra.Rule.map
         Infra.Rule.Type
         ( \(rule : Infra.Rule.Type) ->
             rule // { remote_ip_prefix = Some "{{ prometheus_private_ip }}/32" }
@@ -10,8 +9,7 @@ let private-monitoring-rules =
         ./prometheus.dhall
 
 let public-monitoring-rules =
-      Infra.Prelude.List.map
-        Infra.Rule.Type
+      Infra.Rule.map
         Infra.Rule.Type
         ( \(rule : Infra.Rule.Type) ->
             rule // { remote_ip_prefix = Some "{{ prometheus_public_ip }}/32" }

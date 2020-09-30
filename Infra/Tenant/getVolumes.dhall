@@ -1,4 +1,4 @@
-let Prelude = ../../Prelude.dhall
+let Prelude = ../Prelude.dhall
 
 let Instance = ../Instance/package.dhall
 

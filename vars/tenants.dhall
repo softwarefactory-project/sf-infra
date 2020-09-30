@@ -3,7 +3,7 @@
 - playbooks/configure-tenants.yaml
 - playbooks/create-hosts.yaml playbooks
 -}
-let Infra = ../conf/package.dhall
+let Infra = ../Infra/package.dhall
 
 let Instance = Infra.Instance
 

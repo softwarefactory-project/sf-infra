@@ -1,4 +1,4 @@
-let Instance = ../conf/schemas/Instance/package.dhall
+let Instance = ../Infra/Instance/package.dhall
 
 let instances = ./instances.dhall
 
