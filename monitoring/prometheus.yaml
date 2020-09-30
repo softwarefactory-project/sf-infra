@@ -36,6 +36,10 @@ scrape_configs:
           - images.rdoproject.org:9100
           - www.rdoproject.org:9100
           - dlrn-db.rdoproject.org:9100
+          - backup.rdoproject.org:9100
+          - trunk.rdoproject.org:9100
+          - mirror.regionone.rdo-cloud.rdoproject.org:9100
+          - bridge.softwarefactory-project.io:9100
           - logreduce-mqtt-01.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
           - ara.softwarefactory-project.io:9100

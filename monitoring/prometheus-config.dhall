@@ -17,10 +17,12 @@ in  \(instances : List Infra.Instance.Type) ->
       let node-scrape =
             let node-list =
                   Infra.Prelude.List.map
-                    Infra.Server.Type
+                    Infra.Instance.Type
                     Text
-                    (\(server : Infra.Server.Type) -> "${server.name}:9100")
-                    (Infra.getServers instances)
+                    ( \(instance : Infra.Instance.Type) ->
+                        "${instance.name}:9100"
+                    )
+                    (Infra.getReachable instances)
 
             in  [ (./scrape-configs.dhall).static "node" node-list ]
 

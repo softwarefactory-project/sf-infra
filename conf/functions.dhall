@@ -273,6 +273,16 @@ in  { Prelude
         \(ip : Text) -> \(port : Integer) -> tcp-access-rule port ip
     , udp-ports-rule =
         \(ip : Text) -> \(port : Integer) -> udp-access-rule port ip
+    , getReachable =
+        \(instances : List Instance.Type) ->
+          Prelude.List.filter
+            Instance.Type
+            ( \(i : Instance.Type) ->
+                merge
+                  { None = True, Some = \(proxy : Text) -> False }
+                  i.connection.proxy_command
+            )
+            instances
     , getServers =
         \(instances : List Instance.Type) ->
           Prelude.List.map
