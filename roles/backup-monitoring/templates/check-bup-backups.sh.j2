@@ -11,12 +11,16 @@ BASE_DIRS+=({% for loc in sf_backup_locations -%} "{{ loc.dir }}" {% endfor -%})
 BASE_DOMAINS+=({% for loc in sf_backup_locations -%} "{{ loc.domain }}" {% endfor -%})
 MONTH_SUBDIRS+=({% for loc in sf_backup_locations -%} "{{ loc.month_subdir }}" {% endfor -%})
 
+{% if bup_container_name is defined %}
+CONTAINER_NAME=bup_container_name
+{% endif %}
+
 {%raw %}
 rm -f ${COLLECTOR_DIR}/bup_backup.prom.$$
 
 len=${#BASE_DIRS[@]}
 for (( i=0; i<$len; i++ )); do
-    timestamp=$(/usr/local/bin/get-bup-backup-age.sh ${BASE_DIRS[$i]} ${BASE_DOMAINS[$i]} ${MONTH_SUBDIRS[$i]})
+    timestamp=$(/usr/local/bin/get-bup-backup-age.sh ${BASE_DIRS[$i]} ${BASE_DOMAINS[$i]} ${MONTH_SUBDIRS[$i]} ${CONTAINER_NAME})
     echo "bup_last_backup{dir=\"${BASE_DIRS[$i]}\"} $timestamp" >> ${COLLECTOR_DIR}/bup_backup.prom.$$
 done
 
