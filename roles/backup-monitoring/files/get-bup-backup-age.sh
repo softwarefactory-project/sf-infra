@@ -3,6 +3,7 @@
 BUP_DIR="${1}"
 DIRECTORY="${2}"
 USE_DATE_SUBDIR="${3}"
+CONTAINER_NAME=${CONTAINER_NAME:-$4}
 
 if [ $USE_DATE_SUBDIR -eq 1 ]; then
     CURDATE=$(date +%Y-%m)
@@ -13,7 +14,14 @@ export BUP_DIR
 
 # Get timestamps
 NOW=$(date +"%s")
-FILE_DATE=$(sudo /usr/local/bin/bup ls -l ${DIRECTORY} | grep -v latest | awk '{print $6}' |sort -r | head -n 1)
+
+if [ -n "${CONTAINER_NAME}" ]; then
+    # NOTE: bup can not not list files in backup in mounted volume in the
+    # container, but it can read when the it is in the directory.
+    FILE_DATE=$(podman exec -it "${CONTAINER_NAME}" bash -c "cd ${DIRECTORY} ; bup ls -l ${DIRECTORY} | grep -v latest | awk '{print $6}' |sort -r | head -n 1")
+else
+    FILE_DATE=$(sudo /usr/local/bin/bup ls -l ${DIRECTORY} | grep -v latest | awk '{print $6}' |sort -r | head -n 1)
+fi
 
 [ -z $FILE_DATE ] && exit 1
 
