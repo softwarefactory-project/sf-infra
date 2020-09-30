@@ -1,0 +1,12 @@
+{ auto_ip : Optional Bool
+, boot_from_volume : Text
+, flavor : Optional Text
+, floating_ips : Optional (List Text)
+, image : Text
+, key_name : Text
+, name : Text
+, network : Text
+, security_groups : List Text
+, state : Optional Text
+, volume_size : Optional Natural
+}
