@@ -1,18 +1,26 @@
 #!/bin/bash
 
-# RDO backup dirs
+BASE_DIRS=()
+BASE_DOMAINS=()
+MONTH_SUBDIRS=()
 COLLECTOR_DIR=/var/lib/node_exporter/textfile_collector
-BASE_DIRS=({% for loc in rdo_backup_locations -%} "{{ loc.dir }}" {% endfor -%})
-BASE_DOMAINS=({% for loc in rdo_backup_locations -%} "{{ loc.domain }}" {% endfor -%})
-MONTH_SUBDIRS=({% for loc in rdo_backup_locations -%} "{{ loc.month_subdir }}" {% endfor -%})
 
+{% if rdo_backup_locations %}
+# RDO backup dirs
+BASE_DIRS+=({% for loc in rdo_backup_locations -%} "{{ loc.dir }}" {% endfor -%})
+BASE_DOMAINS+=({% for loc in rdo_backup_locations -%} "{{ loc.domain }}" {% endfor -%})
+MONTH_SUBDIRS+=({% for loc in rdo_backup_locations -%} "{{ loc.month_subdir }}" {% endfor -%})
+{% endif %}
+
+{% if sf_backup_locations %}
 # SF infra backup dirs
 BASE_DIRS+=({% for loc in sf_backup_locations -%} "{{ loc.dir }}" {% endfor -%})
 BASE_DOMAINS+=({% for loc in sf_backup_locations -%} "{{ loc.domain }}" {% endfor -%})
 MONTH_SUBDIRS+=({% for loc in sf_backup_locations -%} "{{ loc.month_subdir }}" {% endfor -%})
+{% endif %}
 
 {% if bup_container_name is defined %}
-CONTAINER_NAME=bup_container_name
+CONTAINER_NAME="{{ bup_container_name }}"
 {% endif %}
 
 {%raw %}

@@ -18,7 +18,7 @@ NOW=$(date +"%s")
 if [ -n "${CONTAINER_NAME}" ]; then
     # NOTE: bup can not not list files in backup in mounted volume in the
     # container, but it can read when the it is in the directory.
-    FILE_DATE=$(podman exec -it "${CONTAINER_NAME}" bash -c "cd ${DIRECTORY} ; bup ls -l ${DIRECTORY} | grep -v latest | awk '{print $6}' |sort -r | head -n 1")
+    FILE_DATE=$(podman exec -it "${CONTAINER_NAME}" bash -c "export BUP_DIR=$BUP_DIR && bup ls -l $DIRECTORY | grep -v latest | awk '{print \$6}' |sort -r | head -n 1")
 else
     FILE_DATE=$(sudo /usr/local/bin/bup ls -l ${DIRECTORY} | grep -v latest | awk '{print $6}' |sort -r | head -n 1)
 fi
