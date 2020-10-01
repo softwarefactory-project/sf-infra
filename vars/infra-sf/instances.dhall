@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , groups = [ Infra.Group.Type.rdocloud-data-fetcher, Infra.Group.Type.sf ]
+      , groups = [ "rdocloud-data-fetcher", "sf" ]
       , connection = OS.CentOS.`7.0`.connection
       , server = Infra.Server::{
         , image = OS.CentOS.`7.0`.image.name
@@ -52,7 +52,7 @@ let instances =
                   )
       , Instance::{
         , name = "logreduce-mqtt-01"
-        , groups = [ Infra.Group.Type.logreduce-mqtt ]
+        , groups = [ "logreduce-mqtt" ]
         , connection = OS.Fedora.`30`.connection
         , server = Infra.Server::{
           , image = OS.Fedora.`30`.image.name
@@ -74,7 +74,7 @@ let instances =
       , Instance::{
         , name = "ara"
         , auth_urls = [ "https://ara.softwarefactory-project.io" ]
-        , groups = [ Infra.Group.Type.ara ]
+        , groups = [ "ara" ]
         , connection = OS.Fedora.`31`.connection
         , server = Infra.Server::{
           , image = OS.Fedora.`31`.image.name
@@ -98,8 +98,7 @@ let instances =
         }
       , Instance::{
         , name = "elk"
-        , groups =
-          [ Infra.Group.Type.sf, Infra.Group.Type.rdocloud-data-fetcher ]
+        , groups = [ "sf", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -140,11 +139,7 @@ let instances =
                 , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
                 , "https://rdo.vexxhost.ca/auth/login/?next=/"
                 ]
-        , groups =
-          [ Infra.Group.Type.sf
-          , Infra.Group.Type.install-server
-          , Infra.Group.Type.rdocloud-data-fetcher
-          ]
+        , groups = [ "sf", "install-server", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
         , server =
                 Infra.Server::{
@@ -158,8 +153,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups =
-          [ Infra.Group.Type.sf, Infra.Group.Type.rdocloud-data-fetcher ]
+        , groups = [ "sf", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =
@@ -172,7 +166,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s02"
-        , groups = [ Infra.Group.Type.sf ]
+        , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
         , server =
                 Infra.Server::{
@@ -185,7 +179,7 @@ let instances =
         }
       , Instance::{
         , name = "zs"
-        , groups = [ Infra.Group.Type.sf ]
+        , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         }
@@ -222,7 +216,7 @@ let mkServers =
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
-              , groups = [ Infra.Group.Type.sf ]
+              , groups = [ "sf" ]
               , connection = OS.CentOS.`7.0`.connection
               , server = Infra.Server::{
                 , image = OS.CentOS.`7.0`.image.name

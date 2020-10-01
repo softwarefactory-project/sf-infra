@@ -16,12 +16,11 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-mysqld.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  roles/acme-tiny/tasks/main.yaml \
-	  roles/acme-tiny/defaults/main.yaml \
-	  ansible/hosts.yaml
+	  roles/acme-tiny/defaults/main.yaml
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-schemas dhall-format $(MANAGED) prettify-generated-ansible
+all: dhall-version-check dhall-format $(MANAGED) prettify-generated-ansible
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 .FORCE:
@@ -33,10 +32,8 @@ prettify-generated-ansible:
 	@dhall to-directory-tree --output roles/acme-tiny/templates <<< "(./roles/acme-tiny/role.dhall).Templates"
 	@dhall text > roles/acme-tiny/README.md                     <<< "(./roles/acme-tiny/role.dhall).README"
 
-# dhall-schemas generate the package files from diretory content
-dhall-schemas:
-	@python3 scripts/gen_groups.py Infra/Group/Type.dhall > Infra/Group/Groups.dhall
-
+dhall-inventory:
+	@dhall-to-json --file ansible/hosts.dhall | python3 scripts/gen_inventory.py | json-to-dhall | dhall-to-yaml > ansible/hosts.yaml
 
 dhall-format:
 	@find . -name "*.dhall" -exec dhall --ascii format --inplace {} \;

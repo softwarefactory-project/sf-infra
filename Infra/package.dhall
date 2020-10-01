@@ -61,7 +61,6 @@ and a future change will remove it from the Infra package.
 { AnsibleInventory = ./AnsibleInventory/package.dhall
 , Connection = ./Connection/package.dhall
 , Firewall = ./Firewall/package.dhall
-, Group = ./Group/package.dhall
 , Image = ./Image/package.dhall
 , Instance = ./Instance/package.dhall
 , Keypair = ./Keypair/package.dhall

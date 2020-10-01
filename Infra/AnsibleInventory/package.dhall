@@ -2,7 +2,9 @@
 # AnsibleInventory
 
 A package to convert `Instance`s to Ansible related configuration.
-
-> TODO: decouple from the Group union
 -}
-{ createGroup = ./createGroup.dhall, createHosts = ./createHosts.dhall }
+{ createGroup = ./createGroup.dhall
+, createHosts = ./createHosts.dhall
+, Group = ./Group/package.dhall
+, Host = ./Host/package.dhall
+}
