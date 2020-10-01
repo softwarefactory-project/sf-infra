@@ -1,2 +1,8 @@
 --| Check if an instance has been created
-\(instance : ./Type.dhall) -> instance.skip_os_server_task == False
+let Instance = { Type = ./Type.dhall }
+
+let isCreated
+    : Instance.Type -> Bool
+    = \(instance : Instance.Type) -> instance.skip_os_server_task == False
+
+in  isCreated

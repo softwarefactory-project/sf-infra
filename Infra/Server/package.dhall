@@ -1,3 +1,8 @@
+{-|
+# Server
+
+A package to define OpenStack `Server`.
+-}
 { Ip = ./Ip.dhall
 , Type = ./Type.dhall
 , addSecurityGroups = ./addSecurityGroups.dhall

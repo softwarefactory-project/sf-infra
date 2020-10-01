@@ -183,6 +183,9 @@
                   label: pod-dhall-1-33
         - prometheus-lint
         - sf-infra-molecule
+        - shake-factory-docs:
+            files:
+              - ^Infra/.*$
     gate:
       jobs:
         - sf-infra-test-udp-multiplexer
@@ -194,6 +197,9 @@
                 - flake8
                 - yamllint
         - dhall-diff: *dhall-nodeset
+        - shake-factory-docs:
+            files:
+              - ^Infra/.*$
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff

@@ -10,4 +10,5 @@ import ShakeFactory.Dhall
 main = shakeMain $ do
   want ["Infra/package.dhall"]
   "//package.dhall" %> dhallPackageAction
+  dhallDocsDirRules "Infra" "dhall-infra"
   cleanRules

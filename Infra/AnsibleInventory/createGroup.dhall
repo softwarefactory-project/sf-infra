@@ -1,4 +1,5 @@
 --| A function to create the inventory group list
+
 let Prelude = ../Prelude.dhall
 
 let Instance = ../Instance/package.dhall

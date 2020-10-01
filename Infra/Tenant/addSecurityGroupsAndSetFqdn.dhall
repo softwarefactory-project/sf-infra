@@ -3,9 +3,39 @@ let Instance = ../Instance/package.dhall
 
 let Server = ../Server/package.dhall
 
-in  \(security-groups : List Text) ->
-    \(fqdn : Text) ->
-    \(instances : List Instance.Type) ->
-      Instance.mapInstance
-        (Instance.updateServer (Server.addSecurityGroups security-groups))
-        (Instance.mapInstance (Instance.setFqdn fqdn) instances)
+let addSecurityGroupsAndSetFqdn
+    : forall (security-groups : List Text) ->
+      forall (fqdn : Text) ->
+      List Instance.Type ->
+        List Instance.Type
+    = \(security-groups : List Text) ->
+      \(fqdn : Text) ->
+      \(instances : List Instance.Type) ->
+        Instance.mapInstance
+          (Instance.updateServer (Server.addSecurityGroups security-groups))
+          (Instance.mapInstance (Instance.setFqdn fqdn) instances)
+
+let example0 =
+      let Connection = ../Connection/package.dhall
+
+      in    assert
+          :     addSecurityGroupsAndSetFqdn
+                  [ "monitoring" ]
+                  "softwarefactory-project.io"
+                  [ Instance::{
+                    , connection = Connection::{ ansible_user = "centos" }
+                    , name = "www"
+                    , server = Server::{ image = "centos" }
+                    }
+                  ]
+            ===  [ Instance::{
+                   , connection = Connection::{ ansible_user = "centos" }
+                   , name = "www.softwarefactory-project.io"
+                   , server = Server::{
+                     , image = "centos"
+                     , security_groups = [ "monitoring" ]
+                     }
+                   }
+                 ]
+
+in  addSecurityGroupsAndSetFqdn
