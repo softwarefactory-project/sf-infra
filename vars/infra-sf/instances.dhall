@@ -4,7 +4,7 @@ let fqdn = "softwarefactory-project.io"
 
 let Instance = Infra.Instance
 
-let OS = Infra.OS
+let OS = (../common.dhall).OS
 
 let Flavors = (../common.dhall).Flavors
 
@@ -48,7 +48,7 @@ let instances =
       [ Instance::(     { name = "bridge"
                         , connection = OS.Fedora.`31`.connection
                         }
-                    //  Infra.ExternalServer
+                    //  Instance.External
                   )
       , Instance::{
         , name = "logreduce-mqtt-01"

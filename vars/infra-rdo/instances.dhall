@@ -4,7 +4,7 @@ let fqdn = "rdoproject.org"
 
 let Instance = Infra.Instance
 
-let OS = Infra.OS
+let OS = (../common.dhall).OS
 
 let Flavors = (../common.dhall).Flavors
 
@@ -242,12 +242,12 @@ let mkCentosWorker =
                                   "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
                               }
                             }
-                        //  Infra.ExternalServer
+                        //  Infra.Instance.External
                       )
         )
 
 let AwsServer =
-          Infra.ExternalServer
+          Infra.Instance.External
       //  { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
 
 let extra =
@@ -263,7 +263,7 @@ let extra =
                           , ansible_user = "centos"
                           }
                         }
-                    //  Infra.ExternalServer
+                    //  Infra.Instance.External
                   )
       ]
 

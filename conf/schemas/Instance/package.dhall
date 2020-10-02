@@ -1,4 +1,5 @@
-{ Type = ./Type.dhall
+{ External = ./External.dhall
+, Type = ./Type.dhall
 , default = ./default.dhall
 , filter = ./filter.dhall
 , generate = ./generate.dhall
