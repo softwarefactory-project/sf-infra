@@ -1,3 +1,8 @@
+{-|
+# Rule
+
+A package to define OpenStack Security Group `Rule`.
+-}
 { Type = ./Type.dhall
 , create = ./create.dhall
 , createTcpHost = ./createTcpHost.dhall
