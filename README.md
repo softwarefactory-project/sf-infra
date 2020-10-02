@@ -57,11 +57,6 @@ This project manages:
 * zm07.softwarefactory-project.io
 * zm08.softwarefactory-project.io
 
-# Managing Groups
-
-Groups are hardcoded in the `Infra/Group/Type.dhall` file. Extra groups
-needed outside of the sf-infra project needs to be added to this file.
-
 # Jobs
 
 There are a few jobs:

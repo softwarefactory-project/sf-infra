@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let instances =
       [ Instance::{
         , name = "mirror.regionone.vexxhost"
-        , groups = [ Infra.Group.Type.afs-mirror ]
+        , groups = [ "afs-mirror" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -22,7 +22,7 @@ let instances =
         }
       , Instance::{
         , name = "centos8-rpm-packaging-ci"
-        , groups = [ Infra.Group.Type.dlrn ]
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`8.0`.image.name
@@ -40,7 +40,7 @@ let instances =
         }
       , Instance::{
         , name = "rpm-packaging-ci"
-        , groups = [ Infra.Group.Type.dlrn ]
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -53,13 +53,7 @@ let instances =
       , Instance::{
         , name = "registry"
         , groups =
-          [ Infra.Group.Type.registry
-          , Infra.Group.Type.etcd
-          , Infra.Group.Type.masters
-          , Infra.Group.Type.nodes
-          , Infra.Group.Type.openshift
-          , Infra.Group.Type.installer
-          ]
+          [ "registry", "etcd", "masters", "nodes", "openshift", "installer" ]
         , connection =
             OS.CentOS.`7.0`.connection // { ansible_become = Some True }
         , server = Infra.Server::{
@@ -84,7 +78,7 @@ let instances =
         }
       , Instance::{
         , name = "trunk-centos8"
-        , groups = [ Infra.Group.Type.dlrn ]
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`8.0`.image.name
@@ -103,7 +97,7 @@ let instances =
         }
       , Instance::{
         , name = "trunk-centos7"
-        , groups = [ Infra.Group.Type.dlrn ]
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -130,7 +124,7 @@ let instances =
                 , "https://review.rdoproject.org"
                 , "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
                 ]
-        , groups = [ Infra.Group.Type.rdo, Infra.Group.Type.install-server ]
+        , groups = [ "rdo", "install-server" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -142,7 +136,7 @@ let instances =
         }
       , Instance::{
         , name = "elk"
-        , groups = [ Infra.Group.Type.rdo ]
+        , groups = [ "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
         , server =
                 Infra.Server::{
@@ -161,7 +155,7 @@ let instances =
         }
       , Instance::{
         , name = "logserver"
-        , groups = [ Infra.Group.Type.rdo ]
+        , groups = [ "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -235,7 +229,7 @@ let mkCentosWorker =
             Instance::(     { name =
                                 "rdo-ci-cloudslave0${Natural/show
                                                        idx}.ci.centos.org"
-                            , groups = [ Infra.Group.Type.ci-centos-org ]
+                            , groups = [ "ci-centos-org" ]
                             , connection = Infra.Connection::{
                               , ansible_user = "jpena"
                               , proxy_command = Some
@@ -251,16 +245,10 @@ let AwsServer =
       //  { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
 
 let extra =
-      [ Instance::(     { name = "backup"
-                        , groups = [ Infra.Group.Type.backup ]
-                        }
-                    //  AwsServer
-                  )
-      , Instance::(     { name = "trunk", groups = [ Infra.Group.Type.dlrn ] }
-                    //  AwsServer
-                  )
+      [ Instance::({ name = "backup", groups = [ "backup" ] } // AwsServer)
+      , Instance::({ name = "trunk", groups = [ "dlrn" ] } // AwsServer)
       , Instance::(     { name = "mirror.regionone.rdo-cloud"
-                        , groups = [ Infra.Group.Type.afs-mirror ]
+                        , groups = [ "afs-mirror" ]
                         , connection = Infra.Connection::{
                           , ansible_user = "centos"
                           }
