@@ -8,7 +8,6 @@ import ShakeFactory
 import ShakeFactory.Dhall
 
 main = shakeMain $ do
-  want ["conf/schemas/package.dhall"]
-  "conf/schemas.dhall" %> dhallTopLevelPackageAction "./conf/schemas/package.dhall"
+  want ["Infra/package.dhall"]
   "//package.dhall" %> dhallPackageAction
   cleanRules

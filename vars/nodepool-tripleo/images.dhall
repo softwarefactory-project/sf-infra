@@ -1,4 +1,4 @@
-let Infra = ../../conf/package.dhall
+let Infra = ../../Infra/package.dhall
 
 let {- Note (dmsimard): The name "CentOS-7-x86_64-GenericCloud" is expected/hardcoded in different TripleO places
     -} images =

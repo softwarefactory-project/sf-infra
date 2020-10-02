@@ -1,5 +1,5 @@
 {- Global configuration defaults values -}
-let Infra = ../conf/package.dhall
+let Infra = ../Infra/package.dhall
 
 let {- The official flavor list that is running on the Infra Aggregate
     This can be used for sf, rdo (not tripleo), dci and fedora jobs

@@ -1,10 +1,12 @@
+let Infra = ../Infra/package.dhall
+
+let vars = ../vars/package.dhall
+
 let Prometheus = ./binding.dhall
 
 let PrometheusConfig = ./prometheus-config.dhall
 
 let ScrapeConfigs = ./scrape-configs.dhall
-
-let Infra = env:DHALL_INFRA
 
 let {- TODO: maybe move this to an Instance schema
     -} ci_centos_list =
@@ -19,7 +21,7 @@ let db_server_list =
       [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
 
 in  PrometheusConfig
-      Infra.instances
+      vars.instances
       [ "rules-node.yaml"
       , "rules-node_proxy.yaml"
       , "rules-http.yaml"

@@ -1,4 +1,8 @@
-let Infra = ../package.dhall
+let Prelude = ../Infra/Prelude.dhall
+
+let Infra = ../Infra/package.dhall
+
+let vars = ../vars/package.dhall
 
 let sshconfig =
       let mkConn =
@@ -24,12 +28,12 @@ let sshconfig =
                   ControlPath /run/user/1000/%r@%h:%p
 
               ''
-          ++  Infra.Prelude.Text.concat
-                ( Infra.Prelude.List.map
+          ++  Prelude.Text.concat
+                ( Prelude.List.map
                     Infra.Instance.Type
                     Text
                     mkConn
-                    Infra.instances
+                    vars.instances
                 )
 
 let header =
@@ -38,13 +42,13 @@ let header =
       ''
 
 let Inventory =
-      Infra.Prelude.Text.concatSep
+      Prelude.Text.concatSep
         "\n"
-        ( Infra.Prelude.List.map
+        ( Prelude.List.map
             Infra.Instance.Type
             Text
             (\(instance : Infra.Instance.Type) -> "* ${instance.name}")
-            Infra.instances
+            vars.instances
         )
 
 let README =
@@ -60,7 +64,7 @@ let README =
 
       # Managing Groups
 
-      Groups are hardcoded in the `conf/types/Group.dhall` file. Extra groups
+      Groups are hardcoded in the `Infra/Group/Type.dhall` file. Extra groups
       needed outside of the sf-infra project needs to be added to this file.
 
       # Jobs

@@ -1,5 +1,5 @@
 --| A function to create the inventory hosts list
-let Prelude = ../../Prelude.dhall
+let Prelude = ../Prelude.dhall
 
 let Instance = ../Instance/package.dhall
 

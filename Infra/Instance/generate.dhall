@@ -1,4 +1,4 @@
-let Prelude = ../../Prelude.dhall
+let Prelude = ../Prelude.dhall
 
 in  \(f : Natural -> ./Type.dhall) ->
     \(count : Natural) ->

@@ -1,4 +1,4 @@
-let Rule = ../../../conf/schemas/Rule/package.dhall
+let Rule = ../../../Infra/Rule/package.dhall
 
 let statsd-exporter = +9125
 

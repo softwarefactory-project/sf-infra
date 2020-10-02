@@ -1,4 +1,4 @@
-let Infra = ../../conf/package.dhall
+let Infra = ../../Infra/package.dhall
 
 let Common = ../common.dhall
 

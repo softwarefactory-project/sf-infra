@@ -1,15 +1,15 @@
-let Infra = ../conf/package.dhall
+let Infra = ../Infra/package.dhall
 
 let instances = ../vars/instances.dhall
 
 let {- special case for openshift-ansible that requires a group of groups -}
     openshift-ansible-group =
-      { name = Infra.Group.OSEv3
+      { name = Infra.Group.Type.OSEv3
       , children =
-        [ Infra.Group.etcd
-        , Infra.Group.masters
-        , Infra.Group.nodes
-        , Infra.Group.installer
+        [ Infra.Group.Type.etcd
+        , Infra.Group.Type.masters
+        , Infra.Group.Type.nodes
+        , Infra.Group.Type.installer
         ]
       }
 

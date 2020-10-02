@@ -1,7 +1,9 @@
 {- This file contains a functions to generate a basic prometheus config -}
 let Prometheus = ./binding.dhall
 
-let Infra = ../conf/package.dhall
+let Prelude = ../Infra/Prelude.dhall
+
+let Infra = ../Infra/package.dhall
 
 let {- Return an empty list if the len is 0
     -} optional-scrape =
@@ -26,9 +28,9 @@ in  \(instances : List Infra.Instance.Type) ->
             in  [ (./scrape-configs.dhall).static "node" node-list ]
 
       let web-list =
-            Infra.Prelude.List.concat
+            Prelude.List.concat
               Text
-              ( Infra.Prelude.List.map
+              ( Prelude.List.map
                   Infra.Instance.Type
                   (List Text)
                   (\(instance : Infra.Instance.Type) -> instance.urls)
@@ -41,9 +43,9 @@ in  \(instances : List Infra.Instance.Type) ->
               [ (./scrape-configs.dhall).blackbox web-list ]
 
       let auth-web-list =
-            Infra.Prelude.List.concat
+            Prelude.List.concat
               Text
-              ( Infra.Prelude.List.map
+              ( Prelude.List.map
                   Infra.Instance.Type
                   (List Text)
                   (\(instance : Infra.Instance.Type) -> instance.auth_urls)

@@ -1,13 +1,14 @@
 --| A function to create the inventory group list
-let Prelude = ../../Prelude.dhall
+let Prelude = ../Prelude.dhall
 
 let Instance = ../Instance/package.dhall
 
-let GroupOfGroup = ../../types/GroupOfGroup.dhall
+let GroupOfGroup =
+      { name : ../Group/Type.dhall, children : List ../Group/Type.dhall }
 
-let Group = ../../types/Group.dhall
+let Group = ../Group/Type.dhall
 
-let Groups = ../../types/Groups.dhall
+let Groups = ../Group/Groups.dhall
 
 in  \(instances : List Instance.Type) ->
     \(group-of-groups : List GroupOfGroup) ->
