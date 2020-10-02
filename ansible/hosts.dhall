@@ -14,7 +14,10 @@ let {- special case for openshift-ansible that requires a group of groups -}
       }
 
 in  { all =
-      { hosts = Infra.mkHost instances
-      , children = Infra.mkGroup instances [ openshift-ansible-group ]
+      { hosts = Infra.AnsibleInventory.createHosts instances
+      , children =
+          Infra.AnsibleInventory.createGroup
+            instances
+            [ openshift-ansible-group ]
       }
     }

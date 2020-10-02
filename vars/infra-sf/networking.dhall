@@ -44,26 +44,26 @@ let security_groups =
         ]
 
 in  { networks = Some
-      [ Infra.mkNetwork Common.external-network sf_network.name
-      , Infra.mkNetwork Common.external-network oci_network.name
+      [ Infra.Network.create Common.external-network sf_network.name
+      , Infra.Network.create Common.external-network oci_network.name
       ]
     , subnets = Some
-      [ Infra.mkSubnet
+      [ Infra.Subnet.create
           sf_network.name
           sf_network.network_prefix
           Common.dns-servernames
-      , Infra.mkSubnet
+      , Infra.Subnet.create
           oci_network.name
           oci_network.network_prefix
           Common.dns-servernames
       ]
     , routers = Some
-      [     Infra.mkRouter
+      [     Infra.Router.create
               Common.external-network
               sf_network.name
               sf_network.network_prefix
         //  backward-compat-name
-      , Infra.mkRouter
+      , Infra.Router.create
           Common.external-network
           oci_network.name
           oci_network.network_prefix

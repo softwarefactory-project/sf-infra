@@ -16,13 +16,12 @@ in  \(instances : List Infra.Instance.Type) ->
     \(targets : List Prometheus.ScrapeConfig.Type) ->
       let node-scrape =
             let node-list =
-                  Infra.Prelude.List.map
-                    Infra.Instance.Type
+                  Infra.Instance.map
                     Text
                     ( \(instance : Infra.Instance.Type) ->
                         "${instance.name}:9100"
                     )
-                    (Infra.getReachable instances)
+                    (Infra.Instance.filter Infra.Instance.isReachable instances)
 
             in  [ (./scrape-configs.dhall).static "node" node-list ]
 

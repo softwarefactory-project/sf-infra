@@ -10,8 +10,8 @@ in  { security_groups =
           ]
         }
       ]
-    , networks = Some [ Infra.mkNetwork "public" "private" ]
+    , networks = Some [ Infra.Network.create "public" "private" ]
     , subnets = Some
-      [ Infra.mkSubnet "private" "192.168.1" Common.dns-servernames ]
-    , routers = Some [ Infra.mkRouter "public" "private" "192.168.1" ]
+      [ Infra.Subnet.create "private" "192.168.1" Common.dns-servernames ]
+    , routers = Some [ Infra.Router.create "public" "private" "192.168.1" ]
     }
