@@ -1,8 +1,4 @@
-let Infra =
-      { Image = ./schemas/Image.dhall
-      , Connection = ./schemas/Connection.dhall
-      , Server = ./schemas/Server.dhall
-      }
+let Infra = ./schemas/package.dhall
 
 in  { ExternalServer =
       { skip_os_server_task = True

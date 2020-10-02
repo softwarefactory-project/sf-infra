@@ -3,6 +3,8 @@ let Prelude =
         env:DHALL_PRELUDE
       ? https://prelude.dhall-lang.org/v17.0.0/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
 
+let Infra = ./schemas/package.dhall
+
 let {- Generate sequence like unix seq command -} seq =
       \(count : Natural) ->
         let seq = Prelude.List.replicate count Natural 1
@@ -56,12 +58,6 @@ let mkRouter =
           ]
         }
 
-let Server = ./schemas/Server.dhall
-
-let Volume = ./schemas/Volume.dhall
-
-let Instance = ./schemas/Instance.dhall
-
 let Group = ./types/Group.dhall
 
 let GroupOfGroup = ./types/GroupOfGroup.dhall
@@ -70,19 +66,19 @@ let Groups = ./types/Groups.dhall
 
 let HostVarValue = < int : Natural | str : Text | bool : Bool >
 
-let mapServer = Prelude.List.map Server.Type Server.Type
+let mapServer = Prelude.List.map Infra.Server.Type Infra.Server.Type
 
-let mapInstance = Prelude.List.map Instance.Type Instance.Type
+let mapInstance = Prelude.List.map Infra.Instance.Type Infra.Instance.Type
 
 let emptyVars = [] : List { mapKey : Text, mapValue : HostVarValue }
 
 let mkHost =
       Prelude.List.map
-        Instance.Type
+        Infra.Instance.Type
         { mapKey : Text
         , mapValue : List { mapKey : Text, mapValue : HostVarValue }
         }
-        ( \(instance : Instance.Type) ->
+        ( \(instance : Infra.Instance.Type) ->
             { mapKey = instance.name
             , mapValue =
                   toMap
@@ -123,7 +119,7 @@ let mkHost =
         )
 
 let mkGroup =
-      \(instances : List Instance.Type) ->
+      \(instances : List Infra.Instance.Type) ->
       \(group-of-groups : List GroupOfGroup) ->
         let ChildrenValue = { mapKey : Group, mapValue : {} }
 
@@ -145,16 +141,16 @@ let mkGroup =
               let {- Convert list of instance to their name dict
                   -} instanceName =
                     Prelude.List.map
-                      Instance.Type
+                      Infra.Instance.Type
                       HostsValue
-                      ( \(instance : Instance.Type) ->
+                      ( \(instance : Infra.Instance.Type) ->
                           { mapKey = instance.name, mapValue = {=} }
                       )
 
               let {- Check if a instance is part of a group
                   -} filterInstance =
                     \(group : Groups.Type) ->
-                    \(instance : Instance.Type) ->
+                    \(instance : Infra.Instance.Type) ->
                       Prelude.List.fold
                         Group
                         instance.groups
@@ -171,7 +167,7 @@ let mkGroup =
                       , hosts = Some
                           ( instanceName
                               ( Prelude.List.filter
-                                  Instance.Type
+                                  Infra.Instance.Type
                                   (filterInstance group)
                                   instances
                               )
@@ -211,17 +207,13 @@ let mkGroup =
 let setFqdn =
       \(fqdn : Text) ->
         mapInstance
-          ( \(instance : Instance.Type) ->
+          ( \(instance : Infra.Instance.Type) ->
               instance // { name = instance.name ++ "." ++ fqdn }
           )
 
-let Rule = ./schemas/Rule.dhall
-
-let Firewall = ./schemas/Firewall.dhall
-
 let securityGroupRuleToFirewallRule
-    : Rule.Type -> Firewall.Type
-    = \(rule : Rule.Type) ->
+    : Infra.Rule.Type -> Infra.Firewall.Type
+    = \(rule : Infra.Rule.Type) ->
         let proto =
               merge
                 { None = "tcp", Some = \(proto : Text) -> proto }
@@ -230,10 +222,12 @@ let securityGroupRuleToFirewallRule
         let port = Integer/clamp rule.port
 
         in  merge
-              { None = Firewall::{ port = Some "${Natural/show port}/${proto}" }
+              { None = Infra.Firewall::{
+                , port = Some "${Natural/show port}/${proto}"
+                }
               , Some =
                   \(address : Text) ->
-                    Firewall::{
+                    Infra.Firewall::{
                     , rich_rule = Some
                         (     "rule family=ipv4 "
                           ++  "source address=${address} "
@@ -245,13 +239,16 @@ let securityGroupRuleToFirewallRule
               rule.remote_ip_prefix
 
 let securityGroupRulesToFirewallRules
-    : List Rule.Type -> List Firewall.Type
-    = Prelude.List.map Rule.Type Firewall.Type securityGroupRuleToFirewallRule
+    : List Infra.Rule.Type -> List Infra.Firewall.Type
+    = Prelude.List.map
+        Infra.Rule.Type
+        Infra.Firewall.Type
+        securityGroupRuleToFirewallRule
 
 let {- This is a function transformer,
        it transforms a `Text -> Rule` function to a `List Text -> List Rule` function
     -} text-to-rule-map =
-      Prelude.List.map Text Rule.Type
+      Prelude.List.map Text Infra.Rule.Type
 
 let {- This function takes a port Integer and it returns a function
        that takes an IP as an input and returns a Rule
@@ -259,7 +256,7 @@ let {- This function takes a port Integer and it returns a function
       \(proto : Text) ->
       \(port : Integer) ->
       \(ip : Text) ->
-        Rule::{ port, protocol = Some proto, remote_ip_prefix = Some ip }
+        Infra.Rule::{ port, protocol = Some proto, remote_ip_prefix = Some ip }
 
 let tcp-access-rule = access-rule "tcp"
 
@@ -274,38 +271,38 @@ in  { Prelude
     , udp-ports-rule =
         \(ip : Text) -> \(port : Integer) -> udp-access-rule port ip
     , getReachable =
-        \(instances : List Instance.Type) ->
+        \(instances : List Infra.Instance.Type) ->
           Prelude.List.filter
-            Instance.Type
-            ( \(i : Instance.Type) ->
+            Infra.Instance.Type
+            ( \(i : Infra.Instance.Type) ->
                 merge
                   { None = True, Some = \(proxy : Text) -> False }
                   i.connection.proxy_command
             )
             instances
     , getServers =
-        \(instances : List Instance.Type) ->
+        \(instances : List Infra.Instance.Type) ->
           Prelude.List.map
-            Instance.Type
-            Server.Type
-            (\(i : Instance.Type) -> i.server // { name = i.name })
+            Infra.Instance.Type
+            Infra.Server.Type
+            (\(i : Infra.Instance.Type) -> i.server // { name = i.name })
             ( Prelude.List.filter
-                Instance.Type
-                (\(i : Instance.Type) -> i.skip_os_server_task == False)
+                Infra.Instance.Type
+                (\(i : Infra.Instance.Type) -> i.skip_os_server_task == False)
                 instances
             )
     , getVolumes =
-        \(instances : List Instance.Type) ->
+        \(instances : List Infra.Instance.Type) ->
           Prelude.List.concat
-            Volume.Type
+            Infra.Volume.Type
             ( Prelude.List.map
-                Instance.Type
-                (List Volume.Type)
-                ( \(i : Instance.Type) ->
+                Infra.Instance.Type
+                (List Infra.Volume.Type)
+                ( \(i : Infra.Instance.Type) ->
                     Prelude.List.map
-                      Volume.Type
-                      Volume.Type
-                      (\(v : Volume.Type) -> v // { server = i.name })
+                      Infra.Volume.Type
+                      Infra.Volume.Type
+                      (\(v : Infra.Volume.Type) -> v // { server = i.name })
                       i.volumes
                 )
                 instances
@@ -319,7 +316,7 @@ in  { Prelude
     , setSecurityGroups =
         \(security-groups : List Text) ->
           mapInstance
-            ( \(instance : Instance.Type) ->
+            ( \(instance : Infra.Instance.Type) ->
                     instance
                 //  { server =
                             instance.server
@@ -334,6 +331,6 @@ in  { Prelude
     , seq
     , map = Prelude.List.map
     , setFqdn
-    , mapServerText = Prelude.List.map Server.Type Text
+    , mapServerText = Prelude.List.map Infra.Server.Type Text
     , securityGroupRulesToFirewallRules
     }
