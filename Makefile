@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/vars/infra-rdo.yaml \
 	  playbooks/vars/nodepool-sf.yaml \
