@@ -5,7 +5,7 @@ groups:
       - alert: RDOTrunkRepoTooOld
         annotations:
           summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}"
-        expr: "dlrn_last_build{job='node'} < (time() - 86400)"
+        expr: "dlrn_last_build{job='node'} < (time() - (86400 * 3))"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning

@@ -7,7 +7,7 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ Prometheus.AlertingRule::{
             , alert = Some "RDOTrunkRepoTooOld"
-            , expr = Some "dlrn_last_build{job='node'} < (time() - 86400)"
+            , expr = Some "dlrn_last_build{job='node'} < (time() - (86400 * 3))"
             , labels = Some
               { severity = "warning"
               , lasttime = "{{ \$value | humanizeTimestamp }}"
