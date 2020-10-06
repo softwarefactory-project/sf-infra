@@ -3,9 +3,18 @@ let Instance = { Type = ./Type.dhall, default = ./default.dhall }
 
 let Server = ../Server/package.dhall
 
+let Prelude = ../Prelude.dhall
+
 let getServers
     : List Instance.Type -> List Server.Type
-    = ./map.dhall ../Server/Type.dhall ./getServer.dhall
+    = \(instances : List Instance.Type) ->
+        Prelude.List.unpackOptionals
+          Server.Type
+          ( ./map.dhall
+              (Optional ../Server/Type.dhall)
+              ./getServer.dhall
+              instances
+          )
 
 let example0 =
       let Connection = ../Connection/package.dhall
@@ -15,7 +24,7 @@ let example0 =
                   [ Instance::{
                     , name = "www"
                     , connection = Connection::{ ansible_user = "centos" }
-                    , server = Server::{ image = "centos" }
+                    , server = Some Server::{ image = "centos" }
                     }
                   ]
             ===  [ Server::{ image = "centos", name = "www" } ]

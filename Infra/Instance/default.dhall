@@ -1,6 +1,6 @@
 { auth_urls = [] : List Text
 , groups = [] : List Text
-, skip_os_server_task = False
 , urls = [] : List Text
+, server = None ../Server/Type.dhall
 , volumes = [] : List ../Volume/Type.dhall
 }

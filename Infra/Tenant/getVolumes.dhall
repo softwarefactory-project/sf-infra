@@ -26,14 +26,11 @@ let getVolumes
 let example0 =
       let Connection = ../Connection/package.dhall
 
-      let Server = ../Server/package.dhall
-
       in    assert
           :     getVolumes
                   [ Instance::{
                     , connection = Connection::{ ansible_user = "centos" }
                     , name = "www"
-                    , server = Server::{ image = "centos" }
                     }
                   ]
             ===  Prelude.List.empty Volume.Type

@@ -3,6 +3,9 @@ let Instance = { Type = ./Type.dhall }
 
 let isCreated
     : Instance.Type -> Bool
-    = \(instance : Instance.Type) -> instance.skip_os_server_task == False
+    = \(instance : Instance.Type) ->
+        merge
+          { None = False, Some = \(server : ../Server/Type.dhall) -> True }
+          instance.server
 
 in  isCreated

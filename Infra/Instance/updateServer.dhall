@@ -9,6 +9,12 @@ let updateServer
         Instance.Type
     = \(update : Server.Type -> Server.Type) ->
       \(instance : Instance.Type) ->
-        instance // { server = update instance.server }
+        merge
+          { None = instance
+          , Some =
+              \(server : Server.Type) ->
+                instance // { server = Some (update server) }
+          }
+          instance.server
 
 in  updateServer

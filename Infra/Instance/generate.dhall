@@ -17,14 +17,11 @@ let generate
 let example0 =
       let Connection = ../Connection/package.dhall
 
-      let Server = ../Server/package.dhall
-
       let createInstance =
             \(idx : Natural) ->
               Instance::{
               , name = "www-${Natural/show idx}"
               , connection = Connection::{ ansible_user = "centos" }
-              , server = Server::{ image = "centos" }
               }
 
       in    assert
@@ -32,17 +29,14 @@ let example0 =
             ===  [ Instance::{
                    , name = "www-1"
                    , connection = Connection::{ ansible_user = "centos" }
-                   , server = Server::{ image = "centos" }
                    }
                  , Instance::{
                    , name = "www-2"
                    , connection = Connection::{ ansible_user = "centos" }
-                   , server = Server::{ image = "centos" }
                    }
                  , Instance::{
                    , name = "www-3"
                    , connection = Connection::{ ansible_user = "centos" }
-                   , server = Server::{ image = "centos" }
                    }
                  ]
 

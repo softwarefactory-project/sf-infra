@@ -25,13 +25,13 @@ let example0 =
                   [ Instance::{
                     , connection = Connection::{ ansible_user = "centos" }
                     , name = "www"
-                    , server = Server::{ image = "centos" }
+                    , server = Some Server::{ image = "centos" }
                     }
                   ]
             ===  [ Instance::{
                    , connection = Connection::{ ansible_user = "centos" }
                    , name = "www.softwarefactory-project.io"
-                   , server = Server::{
+                   , server = Some Server::{
                      , image = "centos"
                      , security_groups = [ "monitoring" ]
                      }

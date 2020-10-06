@@ -10,20 +10,16 @@ let setFqdn
 let example0 =
       let Connection = ../Connection/package.dhall
 
-      let Server = ../Server/package.dhall
-
       in    assert
           :     setFqdn
                   "softwarefactory-project.io"
                   Instance::{
                   , name = "www"
                   , connection = Connection::{ ansible_user = "centos" }
-                  , server = Server::{ image = "centos" }
                   }
             ===  Instance::{
                  , name = "www.softwarefactory-project.io"
                  , connection = Connection::{ ansible_user = "centos" }
-                 , server = Server::{ image = "centos" }
                  }
 
 in  setFqdn

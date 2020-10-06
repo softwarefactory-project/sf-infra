@@ -4,8 +4,15 @@ let Instance = { Type = ./Type.dhall, default = ./default.dhall }
 let Server = ../Server/package.dhall
 
 let getServer
-    : Instance.Type -> Server.Type
-    = \(instance : ./Type.dhall) -> instance.server // { name = instance.name }
+    : Instance.Type -> Optional Server.Type
+    = \(instance : ./Type.dhall) ->
+        merge
+          { None = None Server.Type
+          , Some =
+              \(server : Server.Type) ->
+                Some (server // { name = instance.name })
+          }
+          instance.server
 
 let example0 =
       let Connection = ../Connection/package.dhall
@@ -15,8 +22,8 @@ let example0 =
                   Instance::{
                   , name = "www"
                   , connection = Connection::{ ansible_user = "centos" }
-                  , server = Server::{ image = "centos" }
+                  , server = Some Server::{ image = "centos" }
                   }
-            ===  Server::{ image = "centos", name = "www" }
+            ===  Some Server::{ image = "centos", name = "www" }
 
 in  getServer

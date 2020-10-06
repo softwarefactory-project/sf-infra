@@ -13,48 +13,47 @@ let tenant-instance =
       , name = "tenant"
       , groups = [ "rdocloud-data-fetcher", "sf" ]
       , connection = OS.CentOS.`7.0`.connection
-      , server = Infra.Server::{
-        , image = OS.CentOS.`7.0`.image.name
-        , volume_size = Some 40
-        , security_groups = [ "web" ]
-        }
+      }
+
+let tenant-server =
+      Infra.Server::{
+      , image = OS.CentOS.`7.0`.image.name
+      , volume_size = Some 40
+      , security_groups = [ "web" ]
       }
 
 let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
-            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.40"
+            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.40")
             }
       ,     tenant-instance
         //  { name = "ovirt"
-            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.159"
+            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.159")
             }
       ,     tenant-instance
         //  { name = "ovirt-staging"
-            , server = tenant-instance.server // Infra.Server.Ip "38.102.83.251"
+            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.251")
             }
       ,     tenant-instance
         //  { name = "ansible"
-            , server =
-                    tenant-instance.server
-                //  Infra.Server.Ip "38.102.83.19"
-                //  { state =
-                        let note = "force server creation" in Some "present"
-                    }
+            , server = Some
+                (     tenant-server
+                  //  Infra.Server.Ip "38.102.83.19"
+                  //  { state =
+                          let note = "force server creation" in Some "present"
+                      }
+                )
             }
       ]
 
 let instances =
-      [ Instance::(     { name = "bridge"
-                        , connection = OS.Fedora.`31`.connection
-                        }
-                    //  Instance.External
-                  )
+      [ Instance::{ name = "bridge", connection = OS.Fedora.`31`.connection }
       , Instance::{
         , name = "logreduce-mqtt-01"
         , groups = [ "logreduce-mqtt" ]
         , connection = OS.Fedora.`30`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.Fedora.`30`.image.name
           , boot_from_volume = "yes"
           , volume_size = Some 80
@@ -63,7 +62,7 @@ let instances =
       , Instance::{
         , name = "prometheus.monitoring"
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , auto_ip = Some True
           , boot_from_volume = "yes"
@@ -76,7 +75,7 @@ let instances =
         , auth_urls = [ "https://ara.softwarefactory-project.io" ]
         , groups = [ "ara" ]
         , connection = OS.Fedora.`31`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.Fedora.`31`.image.name
           , auto_ip = Some True
           , boot_from_volume = "yes"
@@ -87,7 +86,7 @@ let instances =
       , Instance::{
         , name = "redhat-oss-git-stats"
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , auto_ip = Some True
           , boot_from_volume = "yes"
@@ -100,7 +99,7 @@ let instances =
         , name = "elk"
         , groups = [ "sf", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , security_groups = [ "elk" ]
           }
@@ -141,21 +140,22 @@ let instances =
                 ]
         , groups = [ "sf", "install-server", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server =
-                Infra.Server::{
-                , image = OS.CentOS.`7.0`.image.name
-                , flavor = Some Flavors.`4vcpus_16gb`
-                , boot_from_volume = "yes"
-                , volume_size = Some 20
-                , security_groups = [ "web", "managesf" ]
-                }
-            //  Infra.Server.Ip "38.102.83.76"
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`7.0`.image.name
+                  , flavor = Some Flavors.`4vcpus_16gb`
+                  , boot_from_volume = "yes"
+                  , volume_size = Some 20
+                  , security_groups = [ "web", "managesf" ]
+                  }
+              //  Infra.Server.Ip "38.102.83.76"
+            )
         }
       , Instance::{
         , name = "nodepool-builder"
         , groups = [ "sf", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+        , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =
           [ Infra.Volume::{
             , display_name = "nodepool-builder-data-2"
@@ -168,38 +168,40 @@ let instances =
         , name = "k1s02"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server =
-                Infra.Server::{
-                , image = OS.CentOS.`7.0`.image.name
-                , network = "oci-private-network"
-                , security_groups = [ "hypervisor-oci" ]
-                , flavor = Some Flavors.`8vcpu_16GB`
-                }
-            //  Infra.Server.Ip "38.102.83.186"
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`7.0`.image.name
+                  , network = "oci-private-network"
+                  , security_groups = [ "hypervisor-oci" ]
+                  , flavor = Some Flavors.`8vcpu_16GB`
+                  }
+              //  Infra.Server.Ip "38.102.83.186"
+            )
         }
       , Instance::{
         , name = "zs"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+        , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         }
       , Instance::{
         , name = "koji"
         , connection = OS.CentOS.`7.0`.connection
-        , server =
-                Infra.Server::{
-                , image = OS.CentOS.`7.0`.image.name
-                , boot_from_volume = "yes"
-                , volume_size = Some 80
-                , flavor = Some Flavors.`4vcpus_8gb`
-                , security_groups = [ "web" ]
-                }
-            //  Infra.Server.Ip "38.102.83.102"
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`7.0`.image.name
+                  , boot_from_volume = "yes"
+                  , volume_size = Some 80
+                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , security_groups = [ "web" ]
+                  }
+              //  Infra.Server.Ip "38.102.83.102"
+            )
         }
       , Instance::{
         , name = "integrations"
         , connection = OS.CentOS.`7.0`.connection
-        , server = Infra.Server::{
+        , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , auto_ip = Some True
           , boot_from_volume = "yes"
@@ -218,7 +220,7 @@ let mkServers =
               , name = "${name}0${Natural/show idx}"
               , groups = [ "sf" ]
               , connection = OS.CentOS.`7.0`.connection
-              , server = Infra.Server::{
+              , server = Some Infra.Server::{
                 , image = OS.CentOS.`7.0`.image.name
                 , flavor = Some flavor
                 , boot_from_volume = "no"

@@ -2,8 +2,7 @@
 , connection : ../Connection/Type.dhall
 , groups : List Text
 , name : Text
-, server : ../Server/Type.dhall
-, skip_os_server_task : Bool
+, server : Optional ../Server/Type.dhall
 , urls : List Text
 , volumes : List ../Volume/Type.dhall
 }

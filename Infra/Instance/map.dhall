@@ -17,8 +17,6 @@ let map
 let example0 =
       let Connection = ../Connection/package.dhall
 
-      let Server = ../Server/package.dhall
-
       in    assert
           :     map
                   Text
@@ -26,7 +24,6 @@ let example0 =
                   [ Instance::{
                     , name = "www"
                     , connection = Connection::{ ansible_user = "centos" }
-                    , server = Server::{ image = "centos" }
                     }
                   ]
             ===  [ "www" ]

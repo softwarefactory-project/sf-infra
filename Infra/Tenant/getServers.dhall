@@ -16,7 +16,7 @@ let example0 =
                   [ Instance::{
                     , connection = Connection::{ ansible_user = "centos" }
                     , name = "www"
-                    , server = Server::{ image = "centos" }
+                    , server = Some Server::{ image = "centos" }
                     }
                   ]
             ===  [ Server::{ name = "www", image = "centos" } ]
