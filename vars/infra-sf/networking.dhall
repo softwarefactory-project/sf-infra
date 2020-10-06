@@ -2,9 +2,19 @@ let Infra = ../../Infra/package.dhall
 
 let Common = ../common.dhall
 
-let sf_network = { name = "private", network_prefix = "192.168.242" }
+let sf_network =
+      { network_name = "private-network"
+      , subnet_name = "private-subnet"
+      , router_name = "private-router"
+      , network_prefix = "192.168.242"
+      }
 
-let oci_network = { name = "oci-private", network_prefix = "192.168.254" }
+let oci_network =
+      { network_name = "oci-private-network"
+      , subnet_name = "oci-private-subnet"
+      , router_name = "oci-private-router"
+      , network_prefix = "192.168.254"
+      }
 
 let backward-compat-name = { name = "default-router" }
 
@@ -44,28 +54,34 @@ let security_groups =
         ]
 
 in  { networks = Some
-      [ Infra.Network.create Common.external-network sf_network.name
-      , Infra.Network.create Common.external-network oci_network.name
+      [ Infra.Network.create Common.external-network sf_network.network_name
+      , Infra.Network.create Common.external-network oci_network.network_name
       ]
     , subnets = Some
       [ Infra.Subnet.create
-          sf_network.name
+          sf_network.network_name
+          sf_network.subnet_name
           sf_network.network_prefix
           Common.dns-servernames
       , Infra.Subnet.create
-          oci_network.name
+          oci_network.network_name
+          oci_network.subnet_name
           oci_network.network_prefix
           Common.dns-servernames
       ]
     , routers = Some
       [     Infra.Router.create
               Common.external-network
-              sf_network.name
+              sf_network.network_name
+              sf_network.subnet_name
+              sf_network.router_name
               sf_network.network_prefix
         //  backward-compat-name
       , Infra.Router.create
           Common.external-network
-          oci_network.name
+          oci_network.network_name
+          oci_network.subnet_name
+          oci_network.router_name
           oci_network.network_prefix
       ]
     , security_groups

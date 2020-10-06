@@ -3,19 +3,18 @@
 let Network = { Type = ./Type.dhall, default = ./default.dhall }
 
 let create
-    : forall (network : Text) -> forall (name : Text) -> Network.Type
-    = \(network : Text) ->
-      \(name : Text) ->
-        { name = name ++ "-network"
-        , external_network = network
-        , port_security_enabled = False
-        }
+    : forall (external_network : Text) ->
+      forall (network_name : Text) ->
+        Network.Type
+    = \(external_network : Text) ->
+      \(network_name : Text) ->
+        { name = network_name, external_network, port_security_enabled = False }
 
 let example0 =
         assert
-      :     create "public" "mynet"
+      :     create "public" "my-network"
         ===  Network::{
-             , name = "mynet-network"
+             , name = "my-network"
              , external_network = "public"
              , port_security_enabled = False
              }

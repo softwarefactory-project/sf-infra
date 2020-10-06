@@ -3,19 +3,23 @@
 let Router = { Type = ./Type.dhall, default = ./default.dhall }
 
 let create
-    : forall (network : Text) ->
-      forall (name : Text) ->
+    : forall (external_network : Text) ->
+      forall (network_name : Text) ->
+      forall (subnet_name : Text) ->
+      forall (router_name : Text) ->
       forall (network_prefix : Text) ->
         Router.Type
-    = \(network : Text) ->
-      \(name : Text) ->
+    = \(external_network : Text) ->
+      \(network_name : Text) ->
+      \(subnet_name : Text) ->
+      \(router_name : Text) ->
       \(network_prefix : Text) ->
         Router::{
-        , name = name ++ "-router"
-        , network
+        , name = router_name
+        , network = external_network
         , interfaces =
-          [ { net = name ++ "-network"
-            , subnet = name ++ "-subnet"
+          [ { net = network_name
+            , subnet = subnet_name
             , portip = network_prefix ++ ".1"
             }
           ]
@@ -23,13 +27,13 @@ let create
 
 let example0 =
         assert
-      :     create "public" "mynet" "192.168.0"
+      :     create "public" "my-network" "my-subnet" "my-router" "192.168.0"
         ===  Router::{
-             , name = "mynet-router"
+             , name = "my-router"
              , network = "public"
              , interfaces =
-               [ { net = "mynet-network"
-                 , subnet = "mynet-subnet"
+               [ { net = "my-network"
+                 , subnet = "my-subnet"
                  , portip = "192.168.0.1"
                  }
                ]
