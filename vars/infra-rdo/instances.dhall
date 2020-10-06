@@ -231,7 +231,7 @@ let mkCentosWorker =
                                                        idx}.ci.centos.org"
                             , groups = [ "ci-centos-org" ]
                             , connection = Infra.Connection::{
-                              , ansible_user = "jpena"
+                              , ansible_user = "rdo-monitoring"
                               , proxy_command = Some
                                   "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
                               }

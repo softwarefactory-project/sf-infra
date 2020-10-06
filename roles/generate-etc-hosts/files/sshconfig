@@ -64,23 +64,23 @@ Host mirror.regionone.rdo-cloud.rdoproject.org
     Port 22
 
 Host rdo-ci-cloudslave01.ci.centos.org
-    User jpena
+    User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host rdo-ci-cloudslave02.ci.centos.org
-    User jpena
+    User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host rdo-ci-cloudslave03.ci.centos.org
-    User jpena
+    User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host rdo-ci-cloudslave04.ci.centos.org
-    User jpena
+    User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host rdo-ci-cloudslave05.ci.centos.org
-    User jpena
+    User rdo-monitoring
     Port 22
     ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host bridge.softwarefactory-project.io
