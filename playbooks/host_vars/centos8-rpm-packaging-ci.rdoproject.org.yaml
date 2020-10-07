@@ -10,6 +10,8 @@ dlrn_host: centos8-rpm-packaging-ci
 dlrn_override_files:
   /home/centos8-master/data/repos/dlrn-deps.repo:
       source: centos8-master-rpm-packaging-dlrn-deps.repo
+  /home/centos8-victoria/data/repos/dlrn-deps.repo:
+      source: centos8-victoria-rpm-packaging-dlrn-deps.repo
   /home/centos8-ussuri/data/repos/dlrn-deps.repo:
       source: centos8-ussuri-rpm-packaging-dlrn-deps.repo
   /home/centos8-train/data/repos/dlrn-deps.repo:
@@ -33,6 +35,28 @@ dlrn_workers:
     symlinks: ['/var/www/html/repos']
     release: 'ussuri'
     baseurl: 'https://centos8-rpm-packaging-ci.rdoproject.org/repos/'
+    pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+  centos8-victoria:
+    distro: 'centos8'
+    target: 'centos8-victoria'
+    distgit_branch: 'stable/victoria'
+    distro_branch: 'stable/victoria'
+    disable_email: *disable_email
+    # NOTE(jpena): change to *enable_cron and *enable_purge after the initial bootstrap
+    enable_cron: false
+    enable_purge: false
+    cron_hour: '*/4'
+    cron_minute: '50'
+    purge_hour: '1'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/victoria/repos']
+    release: 'victoria'
+    baseurl: 'https://centos8-rpm-packaging-ci.rdoproject.org/victoria/repos/'
     pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
