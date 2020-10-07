@@ -2,12 +2,7 @@ let Infra = ../../Infra/package.dhall
 
 let Common = ../common.dhall
 
-let rdo_network =
-      { network_name = "private-network"
-      , subnet_name = "private-subnet"
-      , router_name = "private-router"
-      , network_prefix = "192.168.240"
-      }
+let rdo_network = { name = "private", network_prefix = "192.168.240" }
 
 let backward-compat-name = { name = "default-router" }
 
@@ -92,20 +87,17 @@ let security_groups =
           }
         ]
 
-in  { networks = Some [ Infra.Network.create "public" rdo_network.network_name ]
+in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]
     , subnets = Some
       [ Infra.Subnet.create
-          rdo_network.network_name
-          rdo_network.subnet_name
+          rdo_network.name
           rdo_network.network_prefix
           Common.dns-servernames
       ]
     , routers = Some
       [     Infra.Router.create
               "public"
-              rdo_network.network_name
-              rdo_network.subnet_name
-              rdo_network.router_name
+              rdo_network.name
               rdo_network.network_prefix
         //  backward-compat-name
       ]
