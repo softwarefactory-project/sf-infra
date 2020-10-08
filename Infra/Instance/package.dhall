@@ -16,6 +16,7 @@ infrastructure component.
 , map = ./map.dhall
 , mapInstance = ./mapInstance.dhall
 , setFqdn = ./setFqdn.dhall
+, setName = ./setName.dhall
 , textMap = ./textMap.dhall
 , updateServer = ./updateServer.dhall
 }
