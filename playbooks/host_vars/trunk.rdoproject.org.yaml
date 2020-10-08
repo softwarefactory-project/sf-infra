@@ -121,7 +121,7 @@ dlrn_workers:
     purge_hour: '7'
     purge_minute: '7'
     symlinks: ['/var/www/html/rhel8-master']
-    release: 'victoria-uc'
+    release: 'wallaby-uc'
     baseurl: 'http://trunk.rdoproject.org/rhel8-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'mysql+pymysql://rhel8-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_rhel8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
@@ -161,7 +161,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
-    release: 'victoria-uc'
+    release: 'wallaby-uc'
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -186,7 +186,7 @@ dlrn_workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-master-head']
-    release: 'victoria'
+    release: 'wallaby'
     baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -208,8 +208,7 @@ dlrn_workers:
     purge_hour: '3'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos8-victoria', '/var/www/html/victoria/centos8']
-    # NOTE(jpena): set to 'victoria' once the tag has been created in rdoinfo
-    release: 'victoria-uc'
+    release: 'victoria'
     baseurl: 'https://trunk.rdoproject.org/centos8-victoria'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -233,7 +232,6 @@ dlrn_workers:
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-ussuri', '/var/www/html/ussuri/centos8']
-# TODO: move to ussuri once the tags have been updated in rdo
     release: 'ussuri'
     baseurl: 'https://trunk.rdoproject.org/centos8-ussuri'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
