@@ -9,7 +9,7 @@ dlrn_host: trunk
 dlrn_sshd_port: 3300
 
 web_domain: 'trunk.rdoproject.org'
-api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'rhel8-master', 'rhel8-train', 'centos8-master-uc', 'centos8-victoria', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
+api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos8-master-uc', 'centos8-victoria', 'centos8-ussuri', 'centos8-train-old', 'centos8-train']
 
 dlrn_workers:
   centos-train:
@@ -110,46 +110,6 @@ dlrn_workers:
     gerrit_topic: 'rdo-FTBFS-queens'
 #    rsyncdest: 'centos-queens@54.81.116.189:/home/centos-queens/data/repos'
 #    rsyncport: '3300'
-  rhel8-master:
-    distro: 'rhel8'
-    target: 'rhel8'
-    distgit_branch: 'rpm-master'
-    distro_branch: 'master'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    purge_hour: '7'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/rhel8-master']
-    release: 'wallaby-uc'
-    baseurl: 'http://trunk.rdoproject.org/rhel8-master'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://rhel8-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_rhel8_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-  rhel8-train:
-    distro: 'rhel8'
-    target: 'rhel8-train'
-    distgit_branch: 'train-rdo'
-    distro_branch: 'stable/train'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    purge_hour: '7'
-    purge_minute: '29'
-    symlinks: ['/var/www/html/rhel8-train']
-    release: 'train'
-    baseurl: 'http://trunk.rdoproject.org/rhel8-train'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://rhel8-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_rhel8_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
   centos8-master-uc:
     distro: 'centos8'
     target: 'centos8-master-uc'
