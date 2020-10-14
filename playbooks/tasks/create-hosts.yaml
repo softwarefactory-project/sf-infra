@@ -16,6 +16,7 @@
     network: "{{ item.network | default(None) }}"
     auto_ip: "{{ item.auto_ip | default(omit) }}"
     floating_ips: "{{ item.floating_ips | default(omit) }}"
+    floating_ip_pools: "{{ item.floating_ip_pools | default(omit) }}"
     security_groups: "{{ item.security_groups | default('default') }}"
     boot_from_volume: "{{ item.boot_from_volume | default('no') }}"
     volume_size: "{{ item.volume_size | default(0) }}"

@@ -17,6 +17,7 @@
     network_name: "{{ item.network_name }}"
     cidr: "{{ item.cidr }}"
     dns_nameservers: "{{ item.dns_nameservers }}"
+    host_routes: "{{ item.host_routes|default(omit) }}"
     allocation_pool_start: "{{ item.allocation_pool_start|default(omit) }}"
     allocation_pool_end: "{{ item.allocation_pool_end|default(omit) }}"
   loop: "{{ tenant_config.subnets | default([]) }}"
