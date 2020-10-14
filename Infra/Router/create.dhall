@@ -15,8 +15,8 @@ let create
         , network
         , interfaces =
           [ { net = name ++ "-network"
-            , subnet = name ++ "-subnet"
-            , portip = network_prefix ++ ".1"
+            , subnet = Some (name ++ "-subnet")
+            , portip = Some (network_prefix ++ ".1")
             }
           ]
         }
@@ -29,8 +29,8 @@ let example0 =
              , network = "public"
              , interfaces =
                [ { net = "mynet-network"
-                 , subnet = "mynet-subnet"
-                 , portip = "192.168.0.1"
+                 , subnet = Some "mynet-subnet"
+                 , portip = Some "192.168.0.1"
                  }
                ]
              }

@@ -2,6 +2,7 @@
 , boot_from_volume : Text
 , flavor : Optional Text
 , floating_ips : Optional (List Text)
+, floating_ip_pools : Optional (List Text)
 , image : Text
 , key_name : Text
 , name : Text

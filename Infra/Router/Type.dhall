@@ -1,4 +1,1 @@
-{ interfaces : List { net : Text, portip : Text, subnet : Text }
-, name : Text
-, network : Text
-}
+{ interfaces : List ./Interface/Type.dhall, name : Text, network : Text }
