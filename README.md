@@ -37,6 +37,7 @@ This project manages:
 * zs.softwarefactory-project.io
 * koji.softwarefactory-project.io
 * integrations.softwarefactory-project.io
+* nodepool-launcher-02.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * ovirt.softwarefactory-project.io
 * ovirt-staging.softwarefactory-project.io

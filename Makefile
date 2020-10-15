@@ -22,7 +22,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-format $(MANAGED) prettify-generated-ansible
+all: dhall-version-check dhall-format dhall-inventory $(MANAGED) prettify-generated-ansible
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 .FORCE:

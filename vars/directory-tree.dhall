@@ -9,17 +9,37 @@ let sshconfig =
             \(instance : Infra.Instance.Type) ->
               let optional-proxy =
                     merge
-                      { None = ""
+                      { None = None Text
                       , Some =
-                          \(command : Text) -> "    ProxyCommand " ++ command
+                          \(command : Text) -> Some ("ProxyCommand " ++ command)
                       }
                       instance.connection.proxy_command
+
+              let optional-hostname =
+                    merge
+                      { None = None Text
+                      , Some = \(hostip : Text) -> Some ("Hostname " ++ hostip)
+                      }
+                      instance.connection.ansible_host
+
+              let indent =
+                    Prelude.List.map Text Text (\(n : Text) -> "    " ++ n)
+
+              let extra =
+                    Prelude.Text.concatSep
+                      "\n"
+                      ( indent
+                          ( Prelude.List.unpackOptionals
+                              Text
+                              [ optional-proxy, optional-hostname ]
+                          )
+                      )
 
               in  ''
                   Host ${instance.name}
                       User ${instance.connection.ansible_user}
                       Port ${Natural/show instance.connection.ansible_port}
-                  ${optional-proxy}
+                  ${extra}
                   ''
 
       in      ''

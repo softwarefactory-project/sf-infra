@@ -51,6 +51,7 @@ scrape_configs:
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
           - integrations.softwarefactory-project.io:9100
+          - nodepool-launcher-02.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - ovirt.softwarefactory-project.io:9100
           - ovirt-staging.softwarefactory-project.io:9100

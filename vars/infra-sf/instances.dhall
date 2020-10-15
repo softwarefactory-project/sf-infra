@@ -209,6 +209,13 @@ let instances =
           , flavor = Some Flavors.`1vcpu_2gb`
           }
         }
+      , Instance::{
+        , name = "nodepool-launcher-02"
+        , connection = Infra.Connection::{
+          , ansible_user = "centos"
+          , ansible_host = Some "38.145.38.40"
+          }
+        }
       ]
 
 let mkServers =

@@ -131,6 +131,10 @@ Host integrations.softwarefactory-project.io
     User centos
     Port 22
 
+Host nodepool-launcher-02.softwarefactory-project.io
+    User centos
+    Port 22
+    Hostname 38.145.38.40
 Host fedora.softwarefactory-project.io
     User centos
     Port 22
