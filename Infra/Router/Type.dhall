@@ -1,1 +1,1 @@
-{ interfaces : List ./Interface/Type.dhall, name : Text, network : Text }
+{ interfaces : List ./Interfaces.dhall, name : Text, network : Text }

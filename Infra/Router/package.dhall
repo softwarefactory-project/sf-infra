@@ -7,4 +7,5 @@ A package to define OpenStack `Router`.
 , create = ./create.dhall
 , default = ./default.dhall
 , Interface = ./Interface/package.dhall
+, Interfaces = ./Interfaces.dhall
 }

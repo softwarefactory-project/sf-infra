@@ -1,6 +1,10 @@
 --| The recommanded nomenclature for router
 
-let Router = { Type = ./Type.dhall, default = ./default.dhall }
+let Router =
+      { Type = ./Type.dhall
+      , default = ./default.dhall
+      , Interfaces = ./Interfaces.dhall
+      }
 
 let create
     : forall (network : Text) ->
@@ -14,10 +18,11 @@ let create
         , name = name ++ "-router"
         , network
         , interfaces =
-          [ { net = name ++ "-network"
-            , subnet = Some (name ++ "-subnet")
-            , portip = Some (network_prefix ++ ".1")
-            }
+          [ Router.Interfaces.full
+              { net = name ++ "-network"
+              , subnet = Some (name ++ "-subnet")
+              , portip = Some (network_prefix ++ ".1")
+              }
           ]
         }
 
@@ -28,10 +33,11 @@ let example0 =
              , name = "mynet-router"
              , network = "public"
              , interfaces =
-               [ { net = "mynet-network"
-                 , subnet = Some "mynet-subnet"
-                 , portip = Some "192.168.0.1"
-                 }
+               [ Router.Interfaces.full
+                   { net = "mynet-network"
+                   , subnet = Some "mynet-subnet"
+                   , portip = Some "192.168.0.1"
+                   }
                ]
              }
 
