@@ -1,6 +1,7 @@
 ---
 dependency:
-  name: gilt
+  name: shell
+  command: gilt --config molecule/default/gilt.yml overlay
 driver:
   name:  podman
 platforms:
