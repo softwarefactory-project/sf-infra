@@ -146,7 +146,7 @@ let instances =
                   , flavor = Some Flavors.`4vcpus_16gb`
                   , boot_from_volume = "yes"
                   , volume_size = Some 20
-                  , security_groups = [ "web", "managesf" ]
+                  , security_groups = [ "web", "managesf", "zookeeper" ]
                   }
               //  Infra.Server.Ip "38.102.83.76"
             )

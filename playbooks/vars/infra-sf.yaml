@@ -127,6 +127,10 @@ security_groups:
         remote_ip_prefix: "192.168.242.0/24"
       - port: 9200
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+  - name: zookeeper
+    rules:
+      - port: 2281
+        remote_ip_prefix: "{{ nodepool_launcher_02_ip }}/32"
 servers:
   - auto_ip: false
     boot_from_volume: yes
@@ -207,6 +211,7 @@ servers:
       - internal
       - web
       - managesf
+      - zookeeper
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
