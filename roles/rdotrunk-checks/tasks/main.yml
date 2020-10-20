@@ -17,13 +17,21 @@
         group: root
         mode: 0755
 
+    - name: Deploy check-dlrn-metrics.sh
+      template:
+        src: check-dlrn-metrics.sh.j2
+        dest: /usr/local/bin/check-dlrn-metrics.sh
+        owner: root
+        group: root
+        mode: 0755
+
     - name: Ensure cronie is installed
       package:
         name:
           - cronie
         state: present
 
-    - name: Create cron job
+    - name: Create cron job to check DLRN dates
       cron:
         name: check-dlrn-dates
         user: root
@@ -31,3 +39,12 @@
         hour: "*"
         day: "*"
         job: '/usr/local/bin/check-dlrn-dates.sh'
+
+    - name: Create cron job to check DLRN metrics
+      cron:
+        name: check-dlrn-metrics
+        user: root
+        minute: "0"
+        hour: "*"
+        day: "*"
+        job: '/usr/local/bin/check-dlrn-metrics.sh'
