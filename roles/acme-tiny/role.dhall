@@ -218,10 +218,20 @@ let --| The roles tasks
                   , src = Files.refresh-script
                   , mode = Some "0755"
                   }
+                , register = Some "_acme_tiny_script"
                 }
               , Ansible.Task::{
                 , name = Some "Run the acme-tiny script"
                 , command = Some "${script} no-reload"
+                , when = Some "_acme_tiny_script is changed"
+                }
+              , Ansible.Task::{
+                , name = Some "Create cronjob for refreshing certs"
+                , cron = Some Ansible.Cron::{
+                  , name = Some "Run acme tiny refresh script"
+                  , special_time = Some "weekly"
+                  , job = Some "${script} no-reload"
+                  }
                 }
               ]
 

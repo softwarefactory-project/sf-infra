@@ -1,5 +1,6 @@
 #!/bin/sh
-RELOAD=0
+
+RELOAD=$1
 
 {% for item in acme_domains %}
 /sbin/acme-tiny --account-key {{ acme_keys_dir }}/account.key \
@@ -12,7 +13,7 @@ if [ $? == 0 ] && [ -f {{ acme_certs_dir }}/{{ item.domain }}.pem.tmp ]; then
 fi
 {% endfor %}
 
-if [ $RELOAD == 1 ]; then
+if [ $RELOAD -eq 1 ] && [ "$RELOAD" != 'no-reload' ]; then
    systemctl reload httpd
    # TODO: check if service is running, otherwise restore previous files?
 fi

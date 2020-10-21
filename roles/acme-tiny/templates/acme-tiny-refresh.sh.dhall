@@ -4,7 +4,8 @@
 \(challenge-dir : Text) ->
   ''
   #!/bin/sh
-  RELOAD=0
+
+  RELOAD=$1
 
   {% for item in acme_domains %}
   /sbin/acme-tiny --account-key ${account-file} \
@@ -17,7 +18,7 @@
   fi
   {% endfor %}
 
-  if [ $RELOAD == 1 ]; then
+  if [ $RELOAD -eq 1 ] && [ "$RELOAD" != 'no-reload' ]; then
      systemctl reload httpd
      # TODO: check if service is running, otherwise restore previous files?
   fi
