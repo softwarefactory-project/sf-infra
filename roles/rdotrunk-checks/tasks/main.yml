@@ -44,7 +44,7 @@
       cron:
         name: check-dlrn-metrics
         user: root
-        minute: "0"
+        minute: "45"
         hour: "*"
         day: "*"
         job: '/usr/local/bin/check-dlrn-metrics.sh'
