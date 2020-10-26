@@ -165,6 +165,22 @@
       - ^tests/.*molecule.yml$
       - ^zuul.d/jobs.yaml$
 
+- job:
+    name: sf-infra-grafana-dashboards
+    parent: sf-infra-base
+    description: Deploy Grafana and take screenshots of all dashboards
+    pre-run: tests/pre-grafana-dash.yml
+    run: tests/grafana-dash.yml
+    post-run: tests/post-grafana-dash.yml
+    required-projects:
+      - name: software-factory/sf-infra
+    nodeset:
+      nodes:
+        - name: primary
+          label: rdo-centos-8
+    files:
+      - ^roles/grafana/.*$
+
 - project:
     check:
       jobs:
@@ -183,6 +199,7 @@
                   label: pod-dhall-1-33
         - prometheus-lint
         - sf-infra-molecule
+        - sf-infra-grafana-dashboards
         - shake-factory-docs:
             files:
               - ^Infra/.*$

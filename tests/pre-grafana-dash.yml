@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:
+    - name: Ensure requirements are installed
+      package:
+        name:
+          - npm
+          - jq
+          - nss
+          - atk
+          - at-spi2-atk
+          - libX11-xcb
+          - cups-libs
+          - libdrm
+          - libXcomposite
+          - libXdamage
+          - libXrandr
+          - libwayland-client
+          - gtk3
+          - libgbm
+          - alsa-lib
+          - centos-release-openstack-ussuri
+      become: yes
+
+    - name: Install Ansible locally
+      package:
+        name:
+          - ansible
+      become: yes

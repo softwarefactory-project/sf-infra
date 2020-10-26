@@ -1,0 +1,16 @@
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setViewport({width: 1920, height: 1080 })
+{% for board in dashboards %}
+  await page.goto('http://localhost:3000/dashboards',  {waitUntil: 'networkidle0'});
+  await page.click("[aria-label='Dashboard search item {{ board }}']")
+  await page.waitForNavigation({waitUntil: 'networkidle0'})
+  await page.waitForTimeout(5000)
+  await page.screenshot({path: 'log/example-{{ board }}.png'});
+{% endfor %}
+  await browser.close();
+})();
+

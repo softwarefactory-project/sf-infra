@@ -1,0 +1,60 @@
+---
+- hosts: all
+  tasks:
+    - name: Generate dummy ansible_vault file
+      copy:
+        content: |
+          test
+        dest: '{{ ansible_user_dir }}/.ansible_vault'
+
+    - name: Generate simple playbook to deploy Grafana
+      copy:
+        content: |
+          ---
+          - hosts: localhost
+            vars:
+              grafana_server_root_url: http://localhost
+              prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+            roles:
+              - grafana
+        dest: '{{ ansible_user_dir }}/deploy_grafana.yml'
+
+    - name: Deploy Grafana locally
+      shell:
+        cmd: |
+          ansible-playbook deploy_grafana.yml
+      environment:
+        ANSIBLE_CONFIG: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible"
+
+    - name: Get puppeteer
+      shell:
+        cmd: |
+          npm i puppeteer
+        chdir: "{{ ansible_user_dir }}"
+
+    - name: Find all dashboards
+      shell:
+        cmd: |
+          for file in /etc/grafana/provisioning/dashboards/*.json; do cat $file | jq -r .title; done
+      register: dashboard_names
+
+    - set_fact:
+        dashboards: "{{ dashboard_names.stdout.split('\n') }}"
+
+    - name: Deploy puppeteer script
+      template:
+        src: grafana-screenshots.js.j2
+        dest: '{{ ansible_user_dir }}/test.js'
+        mode: 0755
+
+    - name: Create log directory
+      file:
+        path: '{{ ansible_user_dir }}/log'
+        state: directory
+        mode: '0755'
+
+    - name: Run puppeteer script
+      shell:
+        cmd: |
+          node test.js
+        chdir: "{{ ansible_user_dir }}"
