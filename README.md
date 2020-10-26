@@ -26,6 +26,7 @@ This project manages:
 * rdo-ci-cloudslave04.ci.centos.org
 * rdo-ci-cloudslave05.ci.centos.org
 * bridge.softwarefactory-project.io
+* lambda.softwarefactory-project.io
 * logreduce-mqtt-01.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * ara.softwarefactory-project.io

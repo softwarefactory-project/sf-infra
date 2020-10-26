@@ -50,6 +50,13 @@ let tenant-instances =
 let instances =
       [ Instance::{ name = "bridge", connection = OS.Fedora.`31`.connection }
       , Instance::{
+        , name = "lambda"
+        , node-exporter = False
+        , connection =
+            OS.Fedora.`32`.connection
+          with ansible_host = Some "38.145.39.190"
+        }
+      , Instance::{
         , name = "logreduce-mqtt-01"
         , groups = [ "logreduce-mqtt" ]
         , connection = OS.Fedora.`30`.connection

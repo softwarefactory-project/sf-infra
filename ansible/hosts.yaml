@@ -148,6 +148,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    lambda.softwarefactory-project.io:
+      ansible_host: '38.145.39.190'
+      ansible_port: 22
+      ansible_python_interpreter: python3
+      ansible_user: fedora
     logreduce-mqtt-01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3
