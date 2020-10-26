@@ -9,6 +9,7 @@ infrastructure component.
 , filter = ./filter.dhall
 , generate = ./generate.dhall
 , getName = ./getName.dhall
+, getNodeExporter = ./getNodeExporter.dhall
 , getServer = ./getServer.dhall
 , getServers = ./getServers.dhall
 , isCreated = ./isCreated.dhall

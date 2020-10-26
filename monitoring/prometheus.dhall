@@ -21,7 +21,7 @@ let db_server_list =
       [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
 
 in  PrometheusConfig
-      vars.instances
+      (Infra.Instance.filter Infra.Instance.getNodeExporter vars.instances)
       [ "rules-node.yaml"
       , "rules-node_proxy.yaml"
       , "rules-http.yaml"
