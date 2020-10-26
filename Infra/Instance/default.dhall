@@ -3,4 +3,5 @@
 , urls = [] : List Text
 , server = None ../Server/Type.dhall
 , volumes = [] : List ../Volume/Type.dhall
+, node-exporter = True
 }
