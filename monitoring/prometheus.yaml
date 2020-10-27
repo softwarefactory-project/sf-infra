@@ -25,6 +25,7 @@ scrape_configs:
     static_configs:
       - targets:
           - mirror.regionone.vexxhost.rdoproject.org:9100
+          - mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org:9100
           - centos8-rpm-packaging-ci.rdoproject.org:9100
           - rpm-packaging-ci.rdoproject.org:9100
           - registry.rdoproject.org:9100

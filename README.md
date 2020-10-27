@@ -6,6 +6,7 @@ Operational Playbook for softwarefactory-project.io
 This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org
+* mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org
 * centos8-rpm-packaging-ci.rdoproject.org
 * rpm-packaging-ci.rdoproject.org
 * registry.rdoproject.org

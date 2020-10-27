@@ -8,6 +8,7 @@ all:
         nodes: {}
     afs-mirror:
       hosts:
+        mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org: {}
         mirror.regionone.rdo-cloud.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
     ara:
@@ -168,6 +169,10 @@ all:
     managesf.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
+      ansible_user: centos
+    mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
       ansible_user: centos
     mirror.regionone.rdo-cloud.rdoproject.org:
       ansible_port: 22
