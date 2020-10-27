@@ -46,11 +46,8 @@
   with_items:
     - apt-puppetlabs
     - centos
-    - ceph-deb-hammer
-    - ceph-deb-jewel
-    - ceph-deb-luminous
-    - ceph-deb-mimic
     - ceph-deb-nautilus
+    - ceph-deb-octopus
     - deb-docker
     - debian
     - debian-security
