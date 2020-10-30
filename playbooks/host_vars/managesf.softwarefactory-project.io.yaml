@@ -3,3 +3,5 @@ acme_vhost_owner: "pagesuser"
 acme_domains:
   - domain: docs.softwarefactory-project.io
     vhost_root: /var/www/pages/docs.softwarefactory-project.io/
+  - domain: www.softwarefactory-project.io
+    vhost_root: /var/www/pages/www.softwarefactory-project.io/
