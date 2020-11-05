@@ -31,6 +31,15 @@ let createHosts
                 # merge
                     { None = AnsibleInventory.Host.empty
                     , Some =
+                        \(method : Text) ->
+                          toMap
+                            { ansible_become_method = Prelude.JSON.string method
+                            }
+                    }
+                    instance.connection.ansible_become_method
+                # merge
+                    { None = AnsibleInventory.Host.empty
+                    , Some =
                         \(command : Text) ->
                           toMap
                             { ansible_ssh_common_args =
