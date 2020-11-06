@@ -1,3 +1,5 @@
+# This file is managed by sf-infra
+
 description: The softwarefactory-project.io architecture
 inventory:
 - name: managesf
@@ -37,11 +39,24 @@ inventory:
   roles:
   - nodepool-builder
 
+
+- name: nodepool-builder-02
+  ip: 38.145.37.207
+  remote: true
+  roles:
+  - nodepool-builder
+
 - name: zs
   ip: 192.168.242.66
   roles:
   - zuul-scheduler
   - zuul-web
+  - nodepool-launcher
+
+- name: nodepool-launcher-02
+  ip: 38.145.38.40
+  remote: true
+  roles:
   - nodepool-launcher
 
 # executors

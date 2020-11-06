@@ -13,11 +13,11 @@
     mode: 0400
   when: not sf_tenant
 
-- name: Install last stable repository of software factory
+# https://softwarefactory-project.io/r/20018
+- name: Install a backported version of managesf
   become: true
   package:
-    name: https://softwarefactory-project.io/repos/sf-release-{{ sf_version }}.rpm
-  # quick fix because sf-release doesn't install when repo
+    name: http://softwarefactory-project.io/html/managesf-0.24.1.1.g0f05ba0-11.el7.noarch.rpm
   ignore_errors: true
 
 - name: Copy the arch.yaml
