@@ -203,8 +203,10 @@
         tasks_from: master.yml
 
 - hosts: ci-centos-org
+  become: yes
   roles:
     - pushprox
+    - cico-agent
 
 - name: Deploy and configure ARA API server
   hosts: ara.softwarefactory-project.io
