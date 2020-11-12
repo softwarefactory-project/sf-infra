@@ -94,6 +94,7 @@
 - hosts: zs.softwarefactory-project.io
   roles:
     - zuul_cli_access
+    - stack-checks
 
 - hosts: dlrn
   vars_files:

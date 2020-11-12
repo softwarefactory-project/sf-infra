@@ -1,0 +1,70 @@
+---
+- name: Check if Openstack client venv exists
+  stat:
+    path: "{{ openstack_client_venv_path }}"
+  register: _os_client_venv
+
+# NOTE: There is an issue to setup virtualenv with python3
+# using venv library. In that case, on Centos 7, virtualenv module
+# will be used.
+- name: Setup Openstack client virtual env
+  block:
+    - name: Setup virtual env on Centos 7
+      block:
+        - name: Install virtuenv package
+          yum:
+            name:
+              - python-virtualenv
+            state: present
+
+        - name: Install Openstack client in the virtual environment
+          pip:
+            virtualenv: "{{ openstack_client_venv_path }}"
+            virtualenv_command: virtualenv
+            virtualenv_python: python2
+            name: pip
+
+      when: ansible_distribution == "CentOS" and ansible_distribution_major_version < "8"
+
+    - name: Setup virtual env on Centos 8
+      block:
+        - name: Install python3 devel package
+          yum:
+            name:
+              - python3-devel
+            state: present
+
+        - name: Install Openstack client in the virtual environment
+          pip:
+            virtualenv: "{{ openstack_client_venv_path }}"
+            virtualenv_python: python3
+            name:
+              - pip
+      when: ansible_distribution == "CentOS" and ansible_distribution_major_version > "8"
+
+    - name: Install Openstack client in venv
+      pip:
+        virtualenv: "{{ openstack_client_venv_path }}"
+        name:
+          - python-openstackclient
+          - python-heatclient
+        extra_args: "-c https://releases.openstack.org/constraints/upper/stein"
+
+  when: not _os_client_venv.stat.exists
+  become: true
+
+- name: Copy stack status script
+  copy:
+    src: openstack-simply-reporter.py
+    dest: /usr/local/bin/openstack-simply-reporter.py
+    mode: '0755'
+  become: true
+
+# NOTE: Only root has clouds information
+- name: Create cronjob
+  become: true
+  become_user: root
+  cron:
+    name: Get stack status
+    minute: "*/5"
+    job: "source {{ openstack_client_venv_path }}/bin/activate && /usr/local/bin/stack-check.sh --os-clouds {{ os_clouds | join(' ') }} ; deactivate"
