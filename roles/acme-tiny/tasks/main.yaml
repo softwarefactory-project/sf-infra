@@ -1,5 +1,3 @@
-# This file is managed by dhall.
-
 - name: Install acme-tiny
   become: true
   package:
@@ -9,7 +7,7 @@
 - name: "Ensure directory {{ acme_keys_dir }} exists"
   become: true
   file:
-    mode: '0755'
+    mode: "0755"
     owner: root
     path: "{{ acme_keys_dir }}"
     state: directory
@@ -17,7 +15,7 @@
 - name: "Ensure directory {{ acme_certs_dir }} exists"
   become: true
   file:
-    mode: '0755'
+    mode: "0755"
     owner: root
     path: "{{ acme_certs_dir }}"
     state: directory
@@ -35,18 +33,18 @@
     cmd: "openssl genrsa 4096 > {{ acme_keys_dir }}/{{ item.domain }}.key"
     creates: "{{ acme_keys_dir }}/{{ item.domain }}.key"
 
-- name: "Run openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj \"/CN={{ item.domain }}\" for: {{ acme_keys_dir }}/{{ item.domain }}.csr"
+- name: 'Run openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj "/CN={{ item.domain }}" for: {{ acme_keys_dir }}/{{ item.domain }}.csr'
   become: true
   loop: "{{ acme_domains }}"
   shell:
-    cmd: "openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj \"/CN={{ item.domain }}\" > {{ acme_keys_dir }}/{{ item.domain }}.csr"
+    cmd: 'openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj "/CN={{ item.domain }}" > {{ acme_keys_dir }}/{{ item.domain }}.csr'
     creates: "{{ acme_keys_dir }}/{{ item.domain }}.csr"
 
 - name: "Ensure directory {{ acme_challenges_dir }}/{{ item.domain }} exists"
   become: true
   loop: "{{ acme_domains }}"
   file:
-    mode: '0755'
+    mode: "0755"
     owner: root
     path: "{{ acme_challenges_dir }}/{{ item.domain }}"
     state: directory
@@ -55,7 +53,7 @@
   become: true
   loop: "{{ acme_domains }}"
   file:
-    mode: '0755'
+    mode: "0755"
     owner: "{{ acme_vhost_owner }}"
     path: "{{ item.vhost_root }}"
     state: directory
@@ -87,7 +85,7 @@
   register: "_acme_tiny_script"
   template:
     dest: /usr/local/bin/acme-tiny-refresh.sh
-    mode: '0755'
+    mode: "0755"
     src: acme-tiny-refresh.sh
 
 - name: Run the acme-tiny script
