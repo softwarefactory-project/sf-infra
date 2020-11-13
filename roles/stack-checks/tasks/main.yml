@@ -67,4 +67,4 @@
   cron:
     name: Get stack status
     minute: "*/5"
-    job: "source {{ openstack_client_venv_path }}/bin/activate && /usr/local/bin/stack-check.sh --os-clouds {{ os_clouds | join(' ') }} ; deactivate"
+    job: "{{ openstack_client_venv_path }}/bin/python /usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }}"
