@@ -32,7 +32,7 @@ def get_arguments():
 def remove_collector_file(collector_path):
     try:
         os.remove(collector_path)
-    except FileNotFoundError:
+    except OSError:
         pass
     except Exception:
         raise
