@@ -5,3 +5,4 @@ ssl_cert_options:
     domain: "testmachine.rdoproject.org"
     webroot: "/var/www/html"
 certbot_plugin: "--standalone"
+http_service_name: 'httpd'
