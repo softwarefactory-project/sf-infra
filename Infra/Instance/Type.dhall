@@ -1,9 +1,9 @@
-{ auth_urls : List Text
-, connection : ../Connection/Type.dhall
-, node-exporter : Bool
+{ connection : ../Connection/Type.dhall
 , groups : List Text
+, monitoring_auth_urls : List Text
+, monitoring_urls : List Text
 , name : Text
+, node-exporter : Bool
 , server : Optional ../Server/Type.dhall
-, urls : List Text
 , volumes : List ../Volume/Type.dhall
 }

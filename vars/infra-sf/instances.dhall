@@ -79,7 +79,7 @@ let instances =
         }
       , Instance::{
         , name = "ara"
-        , auth_urls = [ "https://ara.softwarefactory-project.io" ]
+        , monitoring_auth_urls = [ "https://ara.softwarefactory-project.io" ]
         , groups = [ "ara" ]
         , connection = OS.Fedora.`31`.connection
         , server = Some Infra.Server::{
@@ -121,7 +121,7 @@ let instances =
         }
       , Instance::{
         , name = "managesf"
-        , urls =
+        , monitoring_urls =
             let note = "TODO: move urls to relevant instance"
 
             let validate =

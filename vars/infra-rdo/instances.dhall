@@ -123,7 +123,7 @@ let instances =
         }
       , Instance::{
         , name = "managesf.review"
-        , urls =
+        , monitoring_urls =
             let note = "TODO: move urls to relevant instance"
 
             in  [ "https://review.rdoproject.org/zuul/api/info"
@@ -217,7 +217,7 @@ let instances =
           , security_groups = [ "web" ]
           , volume_size = Some 10
           }
-        , urls = [ "https://www.rdoproject.org/" ]
+        , monitoring_urls = [ "https://www.rdoproject.org/" ]
         }
       , Instance::{
         , name = "rdo-web-builder"
