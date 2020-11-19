@@ -5,6 +5,7 @@
       project_name: "{{ cloud.tenant | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
+    port_security_enabled: "{{ item.port_security_enabled | default(omit) }}"
   loop: "{{ tenant_config.networks | default([]) }}"
 
 - name: Create subnets
