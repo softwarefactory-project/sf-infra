@@ -1,100 +1,108 @@
-Operational Playbook for softwarefactory-project.io
-===================================================
+# Software-Factory and RDO infra management
 
-# Inventory
+## Why
 
-This project manages:
+The project is used to manage softwarefactory-project.io and
+rdoproject.org infrastructures using CI/CD workflow.
 
-* mirror.regionone.vexxhost.rdoproject.org
-* mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org
-* centos8-rpm-packaging-ci.rdoproject.org
-* rpm-packaging-ci.rdoproject.org
-* registry.rdoproject.org
-* trunk-centos8.rdoproject.org
-* trunk-centos7.rdoproject.org
-* managesf.review.rdoproject.org
-* elk.rdoproject.org
-* logserver.rdoproject.org
-* images.rdoproject.org
-* www.rdoproject.org
-* rdo-web-builder.rdoproject.org
-* dlrn-db.rdoproject.org
-* backup.rdoproject.org
-* trunk.rdoproject.org
-* mirror.regionone.rdo-cloud.rdoproject.org
-* rdo-ci-cloudslave01.ci.centos.org
-* rdo-ci-cloudslave02.ci.centos.org
-* rdo-ci-cloudslave03.ci.centos.org
-* rdo-ci-cloudslave04.ci.centos.org
-* rdo-ci-cloudslave05.ci.centos.org
-* rdo-web-builder.int.osci.io
-* bridge.softwarefactory-project.io
-* lambda.softwarefactory-project.io
-* logreduce-mqtt-01.softwarefactory-project.io
-* prometheus.monitoring.softwarefactory-project.io
-* ara.softwarefactory-project.io
-* redhat-oss-git-stats.softwarefactory-project.io
-* elk.softwarefactory-project.io
-* managesf.softwarefactory-project.io
-* nodepool-builder.softwarefactory-project.io
-* k1s02.softwarefactory-project.io
-* zs.softwarefactory-project.io
-* koji.softwarefactory-project.io
-* integrations.softwarefactory-project.io
-* nodepool-launcher-02.softwarefactory-project.io
-* fedora.softwarefactory-project.io
-* ovirt.softwarefactory-project.io
-* ovirt-staging.softwarefactory-project.io
-* ansible.softwarefactory-project.io
-* ze01.softwarefactory-project.io
-* ze02.softwarefactory-project.io
-* ze03.softwarefactory-project.io
-* ze04.softwarefactory-project.io
-* ze05.softwarefactory-project.io
-* ze06.softwarefactory-project.io
-* ze07.softwarefactory-project.io
-* zm01.softwarefactory-project.io
-* zm02.softwarefactory-project.io
-* zm03.softwarefactory-project.io
-* zm04.softwarefactory-project.io
-* zm05.softwarefactory-project.io
-* zm06.softwarefactory-project.io
-* zm07.softwarefactory-project.io
-* zm08.softwarefactory-project.io
+Zuul is used to launch jobs to create, configure and update the
+infrastructure on OpenStack public clouds.
 
-# Jobs
+External instances could also be managed by the project.
 
-There are a few jobs:
+Monitoring is configured for all the hosts define on the project using
+prometheus, the monitoring is located at
+https://prometheus.monitoring.softwarefactory-project.io
 
-* sf-infra-create-bridge creates the bridge, and it is the only one running inside a container
-* sf-infra-configure-tenants setup openstack tenant (running from the bridge)
-* sf-infra-create-hosts creates new host and display their IP
-* sf-infra-configure-hosts run the site.yaml playbook
+## How
 
-The idea is to have openstacksdk tasks in jobs that are running only when needed.
-Then most of the work is done with the configure-hosts job that use a static inventory.
+The infrastucture deployment and configuration is done by running Zuul
+jobs defined in ./zuul.d/jobs.yaml. The Zuul jobs create, configure and
+update the infrastructure:
 
-# To modify the openstack resources managed by sf-infra:
+* Dhall is used to generate ansible inventory and variables files needed to
+  manage the infrastructure.
+* OpenStack networks, subnets, routers, security groups and instances are
+  managed using ansible os_* modules. Roles in ./roles are used to configure
+  hosts and services.
 
-Edit the files in the top-level vars directory, for example:
 
-* Modifies instances to vars/infra-rdo/instances.dhall
-* Update network configuration in vars/*/networking.dhall
+#### The main directories are:
 
-Then run `make` to update the yaml files.
+* ansible: contains ansible inventory and configuration files.
+* Infra: Dhall types to manage the infrastructure.
+* monitoring: prometheus configuration and rules.
+* playbooks: main playbooks used to manage the infrastructure.
+* roles: ansible roles.
+* tests: playbooks used with molecule to validate roles.
+* vars: configuration directory for the infrastructure.
+* zuul.d: zuul jobs location.
 
-To manage the configuration, use an existing group such as `monitoring` and/or add an entry in the `playbooks/site.yaml`
 
-Use git-review to submit the change and let the CI create and run the playbook.
+#### Vars directory
 
-# To add a vault secret
+From a user perspective, the most important files and directories in vars
+directory are:
 
-From the bridge, fedora account:
 ```
-ansible-vault encrypt_string --stdin-name var-name < file-var-value >> var-file.yaml
+vars
+├── common.dhall
+├── files
+├── infra-rdo
+├── infra-sf
+├── nodepool-rdo
+├── nodepool-sf
+├── nodepool-tripleo
 ```
 
-# To update playbook vars
+This directory contains the configuration for OpenStack tenants, there is one
+directory per project:
+* infra-sf and infra-rdo contains configuration to manage network and servers
+  configuration for both projects.
+* nodepool-* contains configuration to manage network configuration for nodepool
+  projects.
+* common.dhall for data shared in tenants (images, flavors, ...).
+* files directory contains static files like ssh pubkey.
 
-The variable are now declared using dhall. Run `make` to update the yaml files.
-Have a look to doc/dhall-onboarding/README.md to get started with dhall
+
+#### Playbooks directory
+
+These playbooks are executed if needed (configure-tenants.yaml is only
+executed if networks or servers should be created or updated). Here a
+description of the most importants:
+
+##### create-bridge.yaml
+
+This playbook is used to manage bridge deployment and configuration. The
+bridge is the host where the ansible playbooks are run.
+
+##### configure-tenants.yaml
+
+Tenant management, to creates and configures networks, subnets, routers
+and security groups.
+
+##### create-hosts.yaml
+
+Host management, to create and configure servers and volumes.
+
+##### site.yaml
+
+Host configuration, to define roles and playbooks per host or group.
+
+##### rdo-registry.yaml
+
+Specific configuration for rdo-registry deployment.
+
+
+## Documentation
+
+How-to are located in doc directory:
+
+* how-to-add-server.md
+* how-to-vault-secret.md
+
+Have a look to doc/dhall-onboarding/README.md to get started with dhall.
+
+## Inventory
+
+All the servers managed by the project could be found on doc/inventory.md
