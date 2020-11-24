@@ -100,6 +100,7 @@ How-to are located in doc directory:
 
 * how-to-manage-instance.md
 * how-to-networking.md
+* how-to-dedicated-workspace-for-a-project.md
 * how-to-vault-secret.md
 
 Have a look to doc/dhall-onboarding/README.md to get started with dhall.
