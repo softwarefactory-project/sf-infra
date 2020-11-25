@@ -211,7 +211,7 @@
 - name: Deploy and configure ARA API server
   hosts: ara.softwarefactory-project.io
   roles:
-    - setup-ssl
+    # - setup-ssl
     - ara-api-container
 
 - hosts: koji.softwarefactory-project.io
