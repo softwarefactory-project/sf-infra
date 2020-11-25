@@ -211,11 +211,8 @@
 - name: Deploy and configure ARA API server
   hosts: ara.softwarefactory-project.io
   roles:
-    # - setup-ssl
+    - setup-ssl
     - ara-api-container
-  vars:
-    http_service_name: nginx
-    additional_params: '--nginx'
 
 - hosts: koji.softwarefactory-project.io
   roles:

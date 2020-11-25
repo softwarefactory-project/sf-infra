@@ -7,7 +7,6 @@ ssl_cert_options:
     domain: "{{ ara_api_fqdn }}"
     webroot: "/usr/share/nginx/html"
 
-http_service_name: nginx
 
 # Hostnames that can accept queries for the API server
 ara_api_allowed_hosts:
@@ -26,3 +25,5 @@ ara_api_secret_key: !vault |
           6163313438383562610a323639386336333762353236336335393362316165396438323834386631
           31633836613838653132323663666337343035303439386564666331663937386538633265613837
           3165653161643666663436336436333361623533373932373639
+
+http_service_name: httpd

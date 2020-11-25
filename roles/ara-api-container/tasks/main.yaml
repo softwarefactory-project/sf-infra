@@ -78,27 +78,53 @@
 #       nginx but not for apache yet.
 - become: yes
   block:
-    - name: Install nginx for reverse proxy and SSL termination
-      package:
-        name: nginx
-        state: present
-
     - name: Enable proxy for selinux
       seboolean:
         name: httpd_can_network_connect
         state: yes
         persistent: yes
 
-    - name: Configure vhost
-      template:
-        src: vhost.conf.j2
-        dest: /etc/nginx/conf.d/ara-api.conf
-      notify:
-        - restart nginx
+    - name: Configure nginx
+      block:
+        - name: Install nginx for reverse proxy and SSL termination
+          package:
+            name: nginx
+            state: present
 
-    - name: Enable and start nginx
-      service:
-        name: nginx
-        state: started
-        enabled: yes
-      register: ara_nginx_enabled
+        - name: Configure vhost - nginx
+          template:
+            src: nginx-vhost.conf.j2
+            dest: /etc/nginx/conf.d/ara-api.conf
+          notify:
+            - restart nginx
+
+        - name: Enable and start nginx
+          service:
+            name: nginx
+            state: started
+            enabled: yes
+          register: ara_nginx_enabled
+
+      when: http_service_name == 'nginx'
+
+    - name: Configure Apache2
+      block:
+        - name: Install Apache2
+          package:
+            name: httpd
+            state: present
+
+        - name: Configure vhost - Apache2
+          template:
+            src: apache-vhost.conf.j2
+            dest: /etc/httpd/conf.d/ara-api.conf
+          notify:
+            - restart apache2
+
+        - name: Enable and start apache2
+          service:
+            name: httpd
+            state: started
+            enabled: yes
+
+      when: http_service_name == 'httpd'

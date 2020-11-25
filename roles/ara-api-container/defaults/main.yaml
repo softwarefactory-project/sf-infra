@@ -124,3 +124,5 @@ ara_api_database_conn_max_age: 0
 # timezone but Ansible doesn't provide, for example, an ansible_timezone fact
 # that we could use here. With that in mind, UTC is the best default for now.
 ara_api_time_zone: UTC
+
+http_service_name: nginx
