@@ -33,7 +33,9 @@ in  \(instances : List Infra.Instance.Type) ->
               ( Prelude.List.map
                   Infra.Instance.Type
                   (List Text)
-                  (\(instance : Infra.Instance.Type) -> instance.urls)
+                  ( \(instance : Infra.Instance.Type) ->
+                      instance.monitoring_urls
+                  )
                   instances
               )
 
@@ -48,7 +50,9 @@ in  \(instances : List Infra.Instance.Type) ->
               ( Prelude.List.map
                   Infra.Instance.Type
                   (List Text)
-                  (\(instance : Infra.Instance.Type) -> instance.auth_urls)
+                  ( \(instance : Infra.Instance.Type) ->
+                      instance.monitoring_auth_urls
+                  )
                   instances
               )
 
