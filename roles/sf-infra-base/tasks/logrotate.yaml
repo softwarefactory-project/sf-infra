@@ -1,0 +1,13 @@
+- name: Check if /etc/logrotate.conf exists
+  stat:
+    path: /etc/logrotate.conf
+  register: logrotate
+
+- name: Ensure rotated logs are compressed
+  lineinfile:
+    path: /etc/logrotate.conf
+    regexp: '^compress'
+    insertafter: '^#compress'
+    line: 'compress'
+  when: logrotate.stat.exists
+

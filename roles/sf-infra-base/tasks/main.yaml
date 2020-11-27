@@ -3,3 +3,6 @@
   loop: "{{ packages }}"
   loop_control:
     loop_var: package
+
+- name: Apply basic logrotate configuration
+  include_tasks: logrotate.yaml
