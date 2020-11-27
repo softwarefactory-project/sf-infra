@@ -209,26 +209,19 @@ let instances =
         }
       , Instance::{
         , name = "www"
-        , connection = OS.CentOS.`8.1`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.1`.image.name
-          , flavor = Some Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , security_groups = [ "web" ]
-          , volume_size = Some 10
-          }
+        , connection =
+                OS.CentOS.`8.1`.connection
+            //  { ansible_python_interpreter = "python3" }
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`8.1`.image.name
+                  , flavor = Some Flavors.`1vcpu_4gb`
+                  , security_groups = [ "web" ]
+                  , volume_size = Some 10
+                  }
+              //  Infra.Server.Ip "38.102.83.227"
+            )
         , monitoring_urls = [ "https://www.rdoproject.org/" ]
-        }
-      , Instance::{
-        , name = "rdo-web-builder"
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
-          , security_groups = [ "web" ]
-          , volume_size = Some 10
-          }
         }
       , Instance::{
         , name = "dlrn-db"

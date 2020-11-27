@@ -37,7 +37,6 @@ scrape_configs:
           - logserver.rdoproject.org:9100
           - images.rdoproject.org:9100
           - www.rdoproject.org:9100
-          - rdo-web-builder.rdoproject.org:9100
           - dlrn-db.rdoproject.org:9100
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100

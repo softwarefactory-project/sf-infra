@@ -158,7 +158,7 @@
           become: yes
 
 # after www.rdoproject.org
-- hosts: rdo-web-builder.rdoproject.org
+- hosts: rdo-web-builder.int.osci.io
   roles:
     - hostname
   tasks:
