@@ -1,7 +1,8 @@
 ---
 website_username: web_builder
-# TODO: enable when switching to production
-#use_ssl: True
-#force_ssl: True
-#use_letsencrypt: True
+use_ssl: True
+force_ssl: True
+use_letsencrypt: True
+# can be disabled on a per-vhost basis
+enable_hsts: True
 
