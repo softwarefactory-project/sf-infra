@@ -13,7 +13,7 @@ let example0 =
       :     create "mynet" "10.0.0" [ "10.1.1.1" ]
         ===  Subnet::{
              , name = "mynet-subnet"
-             , cidr = "10.0.0.0/24"
+             , cidr = Some "10.0.0.0/24"
              , gateway_ip = Some "10.0.0.1"
              , dns_nameservers = [ "10.1.1.1" ]
              , network_name = "mynet-network"
