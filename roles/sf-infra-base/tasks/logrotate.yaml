@@ -10,4 +10,4 @@
     insertafter: '^#compress'
     line: 'compress'
   when: logrotate.stat.exists
-
+  become: yes
