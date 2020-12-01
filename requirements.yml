@@ -9,4 +9,14 @@
   name: dashboards
 - src: git+https://gitlab.com/osas/ansible-role-postfix.git
   name: postfix
+- src: git+https://gitlab.com/osas/ansible-role-spamassassin.git
+  name: spamassassin
+- src: git+https://gitlab.com/osas/ansible-role-mailman2.git
+  name: mailman2
+- src: git+https://gitlab.com/osas/ansible-role-postgrey.git
+  name: postgrey
+- src: git+https://gitlab.com/osas/ansible-role-data_movebind.git
+  name: data_movebind
+- src: git+https://gitlab.com/osas/ansible-role-dovecot.git
+  name: dovecot
 

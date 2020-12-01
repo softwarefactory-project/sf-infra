@@ -72,6 +72,10 @@ let security_groups =
                 , "66.187.233.202/32"
                 ]
           }
+        , { name = "mta", rules = [ Infra.Rule::{ port = +25 } ] }
+        , { name = "mda"
+          , rules = [ Infra.Rule::{ port = +143 }, Infra.Rule::{ port = +993 } ]
+          }
         ]
 
 in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]

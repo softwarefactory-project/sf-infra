@@ -165,6 +165,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    lists.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     logreduce-mqtt-01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3
