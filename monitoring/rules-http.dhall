@@ -14,7 +14,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "SSLCertExpiringSoon"
             , expr = Some
                 "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 6"
-            , for = Some "10m"
+            , for = Some "1d"
             }
           ]
         }
