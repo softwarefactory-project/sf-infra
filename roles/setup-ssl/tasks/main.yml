@@ -35,44 +35,35 @@
         - ansible_distribution != "Fedora"
         - ansible_distribution_major_version == "8"
 
-    - name: Install certbot from EPEL
+    - name: Install certbot
       package:
         name:
           - certbot
         state: present
-        enablerepo: epel
-      when: ansible_distribution != "Fedora"
+        enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
 
-    - name: Install python2-certbot-apache from EPEL on CentOS 7
+    - name: Install python certboot library
       package:
-        name:
-          - python2-certbot-apache
+        name: "{{ ( ansible_distribution_major_version == '7') | ternary('python2-certbot-apache', 'python3-certbot-apache' ) }}"
         state: present
-        enablerepo: epel
+        enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
       when:
-        - ansible_distribution != "Fedora"
-        - ansible_distribution_major_version == "7"
+        - http_service_name != 'nginx'
 
-    - name: Install certbot on Fedora
-      package:
-        name:
-          - certbot
-          - python3-certbot-apache
-        state: present
-      when: ansible_distribution == "Fedora"
+    # We can use http_service_name variable, to start the service, because
+    # both have same name.
+    - name: "Install {{ http_service_name }}"
+      package: "{{ http_service_name }}"
 
-    # cronie, which provides crontab, might not be installed by default
-    - name: Install httpd and cronie
-      package:
-        name:
-          - httpd
-          - cronie
-
-    - name: Start httpd
+    - name: Start "{{ http_service_name }}"
       systemd:
-        name: httpd
+        name: "{{ http_service_name }}"
         state: started
 
+    # cronie, which provides crontab, might not be installed by default
+    - name: Install cronie
+      package:
+        name: cronie
 
 - name: Generate lets encrypt SSLs
   include_tasks: ssl_create_cert.yml

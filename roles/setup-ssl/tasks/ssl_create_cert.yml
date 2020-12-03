@@ -20,7 +20,7 @@
   register: cert
 
 - name: Generate certificate
-  command: "certbot certonly {{ certbot_plugin }} -m {{ cert_item.value.email }} --agree-tos -n -d {{ cert_item.value.domain }}"
+  command: "certbot certonly {{ certbot_plugin }} -m {{ cert_item.value.email }} --agree-tos -n -d {{ cert_item.value.domain }} {{ additional_params | default('') }}"
   when: not cert.stat.exists
 
 - name: Create cron job for automatic cert renewal
@@ -30,4 +30,4 @@
     hour: "0"
     weekday: "0"
     user:  "root"
-    job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ cert_item.value.domain }} --webroot-path {{ cert_item.value.webroot | default('/var/www/html') }} && /usr/bin/systemctl reload {{ http_service_name | default('httpd') }}"
+    job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ cert_item.value.domain }} --webroot-path {{ cert_item.value.webroot | default('/var/www/html') }} {{ additional_params | default('') }} && /usr/bin/systemctl reload {{ http_service_name | default('httpd') }}"

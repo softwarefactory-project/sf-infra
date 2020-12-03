@@ -213,6 +213,9 @@
   roles:
     # - setup-ssl
     - ara-api-container
+  vars:
+    http_service_name: nginx
+    additional_params: '--nginx'
 
 - hosts: koji.softwarefactory-project.io
   roles:
