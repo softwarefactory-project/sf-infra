@@ -18,22 +18,15 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-mysqld.yaml \
 	  monitoring/rules-stack-check.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
-	  roles/acme-tiny/tasks/main.yaml \
-	  roles/acme-tiny/defaults/main.yaml
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-format dhall-inventory $(MANAGED) prettify-generated-ansible
+all: dhall-version-check dhall-format dhall-inventory $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 .FORCE:
 %.yaml: %.dhall .FORCE
 	@sh -c "echo '# This file is managed by dhall.'; env DHALL_INFRA=$$(pwd)/package.dhall dhall-to-yaml --explain --file $<" > $@
-
-prettify-generated-ansible:
-	@python3 scripts/yaml-prettifier.py roles/acme-tiny/tasks/main.yaml
-	@dhall to-directory-tree --output roles/acme-tiny/templates <<< "(./roles/acme-tiny/role.dhall).Templates"
-	@dhall text > roles/acme-tiny/README.md                     <<< "(./roles/acme-tiny/role.dhall).README"
 
 dhall-inventory:
 	@dhall-to-json --file ansible/hosts.dhall | python3 scripts/gen_inventory.py | json-to-dhall | dhall-to-yaml > ansible/hosts.yaml

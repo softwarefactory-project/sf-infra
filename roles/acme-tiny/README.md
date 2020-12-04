@@ -16,14 +16,3 @@
 
 - `acme_domains`: The list of domains
   :default: []
-
-
-## Contribute
-
-This role is entirely defined in the `role.dhall` file.
-Update the content by running these commands:
-
-  dhall to-directory-tree --output templates <<< "(./role.dhall).Templates"
-  dhall-to-yaml --output tasks/main.yaml     <<< "(./role.dhall).Tasks"
-  dhall-to-yaml --output defaults/main.yaml  <<< "(./role.dhall).Defaults"
-  dhall text > README.md                     <<< "(./role.dhall).README"
