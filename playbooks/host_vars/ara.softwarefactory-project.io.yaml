@@ -11,6 +11,7 @@ ssl_cert_options:
 # Hostnames that can accept queries for the API server
 ara_api_allowed_hosts:
   - "{{ ara_api_fqdn }}"
+  - "{{ ansible_default_ipv4.address | default('127.0.0.1') }}"
 
 # Don't allow unauthenticated reads or writes
 ara_api_write_login_required: true
