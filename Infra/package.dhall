@@ -65,6 +65,7 @@ and a future change will remove it from the Infra package.
 , Instance = ./Instance/package.dhall
 , Keypair = ./Keypair/package.dhall
 , Network = ./Network/package.dhall
+, OpenShift = ./OpenShift/package.dhall
 , Router = ./Router/package.dhall
 , Rule = ./Rule/package.dhall
 , SecurityGroup = ./SecurityGroup/package.dhall
