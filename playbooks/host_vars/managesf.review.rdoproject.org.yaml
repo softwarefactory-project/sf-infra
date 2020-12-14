@@ -1,0 +1,4 @@
+acme_vhost_owner: "pagesuser"
+acme_domains:
+  - domain: review.rdoproject.org
+    vhost_root: /var/www/pages/

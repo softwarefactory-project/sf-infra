@@ -217,3 +217,7 @@
 - hosts: koji.softwarefactory-project.io
   roles:
     - firewalld
+
+- hosts: managesf.review.rdoproject.org
+  roles:
+    - acme-tiny
