@@ -8,7 +8,7 @@ let create
       \(name : Text) ->
         { name = name ++ "-network"
         , external_network = network
-        , port_security_enabled = False
+        , port_security_enabled = Some False
         }
 
 let example0 =
@@ -17,7 +17,7 @@ let example0 =
         ===  Network::{
              , name = "mynet-network"
              , external_network = "public"
-             , port_security_enabled = False
+             , port_security_enabled = Some False
              }
 
 in  create
