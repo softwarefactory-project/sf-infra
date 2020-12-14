@@ -1,0 +1,3 @@
+acme_domains:
+  - domain: ovirt.softwarefactory-project.io
+    sf_gateway: true
