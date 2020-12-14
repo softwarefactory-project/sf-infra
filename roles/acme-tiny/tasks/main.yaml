@@ -52,6 +52,7 @@
 - name: "Ensure directory {{ item.vhost_root }} exists"
   become: true
   loop: "{{ acme_domains }}"
+  when: "item.vhost_root is defined"
   file:
     mode: "0755"
     owner: "{{ acme_vhost_owner }}"
@@ -70,7 +71,7 @@
   loop: "{{ acme_domains }}"
   register: "_vhost_conf"
   template:
-    dest: "/etc/httpd/conf.d/{{ item.domain }}.conf"
+    dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
 
 - name: Reload apache
@@ -112,7 +113,7 @@
   loop: "{{ acme_domains }}"
   register: "_vhost_conf"
   template:
-    dest: "/etc/httpd/conf.d/{{ item.domain }}.conf"
+    dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
 
 - name: Reload apache
