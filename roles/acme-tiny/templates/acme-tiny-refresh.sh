@@ -3,7 +3,7 @@
 RELOAD=$1
 
 {% for item in acme_domains %}
-/sbin/acme-tiny --account-key {{ acme_keys_dir }}/account.key \
+$(which acme-tiny) --account-key {{ acme_keys_dir }}/account.key \
                 --csr {{ acme_keys_dir }}/{{ item.domain }}.csr             \
                 --acme-dir {{ acme_challenges_dir }}/{{ item.domain }}   \
                 > {{ acme_certs_dir }}/{{ item.domain }}.pem.tmp
