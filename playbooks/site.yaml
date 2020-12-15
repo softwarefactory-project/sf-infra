@@ -221,3 +221,7 @@
 - hosts: managesf.review.rdoproject.org
   roles:
     - acme-tiny
+
+- hosts: ovirt.softwarefactory-project.io
+  roles:
+    - acme-tiny
