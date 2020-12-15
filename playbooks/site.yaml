@@ -225,3 +225,7 @@
 - hosts: ovirt.softwarefactory-project.io
   roles:
     - acme-tiny
+
+- hosts: ovirt-staging.softwarefactory-project.io
+  roles:
+    - acme-tiny
