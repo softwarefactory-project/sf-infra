@@ -151,6 +151,10 @@ Host nodepool-builder-02.softwarefactory-project.io
     User centos
     Port 22
     Hostname 38.145.37.207
+Host image-builder.softwarefactory-project.io
+    User centos
+    Port 22
+
 Host fedora.softwarefactory-project.io
     User centos
     Port 22

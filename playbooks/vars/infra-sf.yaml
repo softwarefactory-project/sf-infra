@@ -284,6 +284,17 @@ servers:
       - monitoring
       - internal
     volume_size: 20
+  - auto_ip: false
+    boot_from_volume: yes
+    flavor: "1vcpu_2gb"
+    image: centos-8.3-2011
+    key_name: sf-infra-key
+    name: image-builder.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
@@ -530,3 +541,7 @@ volumes:
     display_name: nodepool-builder-data-2
     server: nodepool-builder.softwarefactory-project.io
     size: 200
+  - device: /dev/vdb
+    display_name: image-builder-data
+    server: image-builder.softwarefactory-project.io
+    size: 50

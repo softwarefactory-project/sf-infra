@@ -230,6 +230,23 @@ let instances =
           , ansible_host = Some "38.145.37.207"
           }
         }
+      , Instance::{
+        , name = "image-builder"
+        , groups = [ "sf" ]
+        , connection = OS.CentOS.`8.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`8.3`.image.name
+          , flavor = Some Flavors.`1vcpu_2gb`
+          }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "image-builder-data"
+            , size = 50
+            , server = "image-builder" ++ "." ++ fqdn
+            , device = "/dev/vdb"
+            }
+          ]
+        }
       ]
 
 let mkServers =
