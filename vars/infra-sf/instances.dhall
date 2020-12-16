@@ -223,6 +223,13 @@ let instances =
           , ansible_host = Some "38.145.38.40"
           }
         }
+      , Instance::{
+        , name = "nodepool-builder-02"
+        , connection = Infra.Connection::{
+          , ansible_user = "centos"
+          , ansible_host = Some "38.145.37.207"
+          }
+        }
       ]
 
 let mkServers =

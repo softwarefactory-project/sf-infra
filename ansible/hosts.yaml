@@ -188,6 +188,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    nodepool-builder-02.softwarefactory-project.io:
+      ansible_host: '38.145.37.207'
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: centos
     nodepool-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
