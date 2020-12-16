@@ -6,18 +6,11 @@ let create
     : forall (network : Text) -> forall (name : Text) -> Network.Type
     = \(network : Text) ->
       \(name : Text) ->
-        { name = name ++ "-network"
-        , external_network = network
-        , port_security_enabled = Some False
-        }
+        { name = name ++ "-network", external_network = network }
 
 let example0 =
         assert
       :     create "public" "mynet"
-        ===  Network::{
-             , name = "mynet-network"
-             , external_network = "public"
-             , port_security_enabled = Some False
-             }
+        ===  Network::{ name = "mynet-network", external_network = "public" }
 
 in  create
