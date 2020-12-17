@@ -27,7 +27,6 @@ keypairs:
 networks:
   - external_network: public
     name: private-network
-    port_security_enabled: false
 routers:
   - interfaces:
       - net: private-network
