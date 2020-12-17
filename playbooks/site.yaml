@@ -9,7 +9,18 @@
   roles:
     - bridge-accounts
     - generate-etc-hosts
-    - postfix
+  tasks:
+    - name: "Install MTA"
+      include_role:
+        name: postfix
+        apply:
+          become: yes
+      vars:
+        myhostname: "{{ smtp_host }}"
+        mydomain: "{{ smtp_domain }}"
+        myorigin: "{{ smtp_host }}"
+        mynetworks:
+          - "{{ prometheus_public_ip }}/32"
 
 - hosts:
     - zs.softwarefactory-project.io

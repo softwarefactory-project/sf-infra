@@ -7,4 +7,6 @@
   name: httpd
 - src: git+https://github.com/rdo-infra/ansible-role-rdo_dashboards.git
   name: dashboards
+- src: git+https://gitlab.com/osas/ansible-role-postfix.git
+  name: postfix
 
