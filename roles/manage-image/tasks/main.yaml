@@ -31,6 +31,7 @@
         container_format: "{{ image.container_format }}"
         disk_format: "{{ image.disk_format }}"
         filename: "{{ image_download.dest }}"
+        is_public: yes
         # TODO: Passing the checksum discards the image name from the query
         # https://github.com/ansible/ansible/blob/fca8a5ef76cc9e40c866981ef2987bbc5726738c/lib/ansible/modules/cloud/openstack/os_image.py#L144-L147
         # checksum: "{{ image.checksum }}"
