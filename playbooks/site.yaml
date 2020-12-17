@@ -181,11 +181,11 @@
         apply:
           become: yes
 
-- hosts: elk.*:nodepool-builder.softwarefactory-project.io
+- hosts: elk.*:nodepool-builder.*
   roles:
     - volume
 
-- hosts: nodepool-builder.softwarefactory-project.io
+- hosts: nodepool-builder.*
   roles:
     - manage-upstream-config-project
 
