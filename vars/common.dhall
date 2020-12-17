@@ -131,6 +131,26 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "e2cf1081645b1089f574918fb808b32d247169ec4ec1a13bca9e14a74df6530e"
                         }
                       }
+                    , `8.3` =
+                      { connection = Infra.Connection::(CentOS // PyAuto)
+                      , image = Infra.Image::{
+                        , name = "centos-8.3-2011"
+                        , url =
+                            "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"
+                        , checksum =
+                            "7ec97062618dc0a7ebf211864abf63629da1f325578868579ee70c495bed3ba0"
+                        }
+                      }
+                    , `8-stream` =
+                      { connection = Infra.Connection::(CentOS // PyAuto)
+                      , image = Infra.Image::{
+                        , name = "centos-8-stream"
+                        , url =
+                            "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20201019.1.x86_64.qcow2"
+                        , checksum =
+                            "68e5d217f8777789cbe5c47cda8776f4acfefa3968b7cef751ba08f651d0cf5a"
+                        }
+                      }
                     }
             , Fedora =
                 let Fedora = Py3 // { ansible_user = "fedora" }
