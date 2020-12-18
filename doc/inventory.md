@@ -39,6 +39,7 @@ This project manages:
 * integrations.softwarefactory-project.io
 * nodepool-launcher-02.softwarefactory-project.io
 * nodepool-builder-02.softwarefactory-project.io
+* image-builder.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * ovirt.softwarefactory-project.io
 * ovirt-staging.softwarefactory-project.io
