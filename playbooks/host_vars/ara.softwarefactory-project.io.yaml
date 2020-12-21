@@ -28,3 +28,4 @@ ara_api_secret_key: !vault |
           3165653161643666663436336436333361623533373932373639
 
 http_service_name: httpd
+webroot_dir: /usr/share/nginx/html

@@ -212,6 +212,7 @@
   roles:
     - setup-ssl
     - ara-api-container
+    - node-exporter
 
 - hosts: koji.softwarefactory-project.io
   roles:

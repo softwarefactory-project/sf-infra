@@ -4,6 +4,14 @@
 <VirtualHost *:80>
         ServerName {{ ara_api_fqdn }}
 
+        {% if webroot_dir %}
+        Alias /.well-known/acme-challenge {{ webroot_dir }}/.well-known/acme-challenge
+        <Directory {{ webroot_dir}}/.well-known/acme-challenge >
+            Order deny,allow
+            Require all granted
+        </Directory>
+        {% endif %}
+
         RewriteEngine On
         # for lets encrypt automation
         RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/
