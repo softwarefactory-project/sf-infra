@@ -224,6 +224,30 @@ let instances =
         , monitoring_urls = [ "https://www.rdoproject.org/" ]
         }
       , Instance::{
+        , name = "lists"
+        , connection = OS.CentOS.`7.0`.connection
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , flavor = Some Flavors.`1vcpu_2gb`
+          , auto_ip = Some True
+          , security_groups = [ "mta", "mda", "web" ]
+          , volume_size = Some 10
+          }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "swap"
+            , size = 1
+            , device = "/dev/vdb"
+            }
+          , Infra.Volume::{
+            , display_name = "lists-data"
+            , size = 5
+            , device = "/dev/vdc"
+            }
+          ]
+        , monitoring_urls = [ "https://lists.rdoproject.org/" ]
+        }
+      , Instance::{
         , name = "dlrn-db"
         , connection = OS.CentOS.`8.1`.connection
         , server = Some Infra.Server::{

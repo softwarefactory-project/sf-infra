@@ -1,0 +1,8 @@
+# starting 2017-12-31 16:48 JST, thousands of SPAMs came from @qq.com and targeted *-owner@lists.rdoprojects.com
+# again on 2018-03-03 with a slightly modified From
+header CN_SPAM_1 From =~ /\d+\@qq\.com/i
+score CN_SPAM_1 10
+
+# residual SPAM not caught by previous rule
+header CN_SPAM_2 Subject =~ /[点。]COM/i
+score CN_SPAM_2 10

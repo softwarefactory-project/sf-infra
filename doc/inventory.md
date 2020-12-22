@@ -14,6 +14,7 @@ This project manages:
 * logserver.rdoproject.org
 * images.rdoproject.org
 * www.rdoproject.org
+* lists.rdoproject.org
 * dlrn-db.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org

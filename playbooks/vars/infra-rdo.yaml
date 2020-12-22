@@ -137,6 +137,13 @@ security_groups:
       - port: 3306
         protocol: tcp
         remote_ip_prefix: "66.187.233.202/32"
+  - name: mta
+    rules:
+      - port: 25
+  - name: mda
+    rules:
+      - port: 143
+      - port: 993
 servers:
   - auto_ip: true
     boot_from_volume: yes
@@ -285,6 +292,20 @@ servers:
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes
+    flavor: "1vcpu_2gb"
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: lists.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - mta
+      - mda
+      - web
+    volume_size: 10
+  - auto_ip: true
+    boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-8.1-1911
     key_name: sf-infra-key
@@ -344,3 +365,11 @@ volumes:
     display_name: images-data
     server: images.rdoproject.org
     size: 1000
+  - device: /dev/vdb
+    display_name: swap
+    server: lists.rdoproject.org
+    size: 1
+  - device: /dev/vdc
+    display_name: lists-data
+    server: lists.rdoproject.org
+    size: 5
