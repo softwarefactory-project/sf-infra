@@ -34,6 +34,10 @@ def get_arguments():
     return args
 
 
+def _quote(name):
+    return '"' + name + '"'
+
+
 def remove_collector_file(collector_path):
     try:
         os.remove(collector_path)
@@ -71,7 +75,7 @@ def get_stack_status(cloud, metrics):
         if stack.stack_status.lower() in STACK_REPORT_STATE:
             metric_name = "%s_%s{cloud=%s}" % (base_metric_name,
                                                stack.stack_status.lower(),
-                                               stack.location.cloud)
+                                               _quote(stack.location.cloud))
             count_metric(metric_name, metrics)
 
     return metrics
@@ -83,10 +87,9 @@ def get_ports_status(cloud, metrics, timezone):
     for port in cloud.list_ports():
         old_port = _check_port_time(port, timezone)
         if port.status.lower() in PORT_REPORT_STATE:
-            metric_name = "%s_%s{cloud=%s, is_old=%s}" % (base_metric_name,
-                                                          port.status.lower(),
-                                                          cloud.name,
-                                                          str(old_port))
+            metric_name = "%s_%s{cloud=%s,is_old=%s}" % (
+                base_metric_name, port.status.lower(), _quote(
+                    cloud.name), _quote(str(old_port)))
             count_metric(metric_name, metrics)
 
     return metrics
