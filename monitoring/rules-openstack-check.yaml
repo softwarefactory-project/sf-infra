@@ -1,0 +1,21 @@
+# This file is managed by dhall.
+groups:
+  - name: stack-check.rules
+    rules:
+      - alert: StackCheckDeleteFailed
+        annotations:
+          summary: There are at least 3 stacks in deleted_failed state
+        expr: "stack_delete_failed > 3"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
+  - name: neutron-undeleted-ports.rules
+    rules:
+      - alert: NeutronUndeletedPorts
+        annotations:
+          summary: "There are at least 3 ports in down state that are older than 3 days (PORT_TIMEDELTA)"
+        expr: |
+          port_down{is_old="True"} > 3
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

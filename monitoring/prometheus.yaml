@@ -20,7 +20,7 @@ rule_files:
   - rules-nodepool.yaml
   - rules-zuul.yaml
   - rules-mysqld.yaml
-  - rules-stack-check.yaml
+  - rules-openstack-check.yaml
 scrape_configs:
   - job_name: node
     static_configs:
