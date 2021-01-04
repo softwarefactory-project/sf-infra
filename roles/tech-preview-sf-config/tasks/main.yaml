@@ -1,0 +1,5 @@
+- name: Install tech-preview-sf-config.repo
+  copy:
+    src: tech-preview-sf-config.repo
+    dest: /etc/yum.repos.d/tech-preview-sf-config.repo
+  become: true
