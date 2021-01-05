@@ -5,3 +5,4 @@ podman_gw_ip: 10.88.0.1
 prometheus_public_ip: 38.102.83.250
 prometheus_private_ip: 192.168.242.246
 nodepool_launcher_02_ip: 38.145.38.40
+nodepool_builder_02_ip: 38.145.37.207

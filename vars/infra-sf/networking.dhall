@@ -47,6 +47,10 @@ let security_groups =
               , port = +2281
               , remote_ip_prefix = Some "{{ nodepool_launcher_02_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +2281
+              , remote_ip_prefix = Some "{{ nodepool_builder_02_ip }}/32"
+              }
             ]
           }
         ]

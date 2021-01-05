@@ -221,11 +221,11 @@
         data_dev: /dev/vdc
         data_path: /srv/data
 
-- hosts: elk.*:nodepool-builder.*
+- hosts: elk.*:nodepool-builder*
   roles:
     - volume
 
-- hosts: nodepool-builder.*
+- hosts: nodepool-builder*
   roles:
     - manage-upstream-config-project
 
