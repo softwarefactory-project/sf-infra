@@ -160,7 +160,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups = [ "sf", "rdocloud-data-fetcher" ]
+        , groups = [ "sf", "nodepool-builder", "rdocloud-data-fetcher" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =
@@ -218,6 +218,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-launcher-02"
+        , groups = [ "sf" ]
         , connection = Infra.Connection::{
           , ansible_user = "centos"
           , ansible_host = Some "38.145.38.40"
@@ -225,6 +226,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder-02"
+        , groups = [ "sf", "nodepool-builder" ]
         , connection = Infra.Connection::{
           , ansible_user = "centos"
           , ansible_host = Some "38.145.37.207"
