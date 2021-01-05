@@ -49,11 +49,6 @@
     - logreduce-mqtt-worker
     - firewalld
 
-# Temporary group until the migration is completed
-- hosts: rdocloud-data-fetcher
-  roles:
-    - setup-rdocloud-ssh-access
-
 - hosts: sf:rdo
   roles:
     - sf-ssh

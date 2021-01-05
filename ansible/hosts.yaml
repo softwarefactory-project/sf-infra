@@ -68,15 +68,6 @@ all:
         elk.rdoproject.org: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
-    rdocloud-data-fetcher:
-      hosts:
-        ansible.softwarefactory-project.io: {}
-        elk.softwarefactory-project.io: {}
-        fedora.softwarefactory-project.io: {}
-        managesf.softwarefactory-project.io: {}
-        nodepool-builder.softwarefactory-project.io: {}
-        ovirt-staging.softwarefactory-project.io: {}
-        ovirt.softwarefactory-project.io: {}
     registry:
       hosts:
         registry.rdoproject.org: {}

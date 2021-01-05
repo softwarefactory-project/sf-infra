@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , groups = [ "rdocloud-data-fetcher", "sf" ]
+      , groups = [ "sf" ]
       , connection = OS.CentOS.`7.0`.connection
       }
 
@@ -104,7 +104,7 @@ let instances =
         }
       , Instance::{
         , name = "elk"
-        , groups = [ "sf", "rdocloud-data-fetcher" ]
+        , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -145,7 +145,7 @@ let instances =
                 , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
                 , "https://rdo.vexxhost.ca/auth/login/?next=/"
                 ]
-        , groups = [ "sf", "install-server", "rdocloud-data-fetcher" ]
+        , groups = [ "sf", "install-server" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some
             (     Infra.Server::{
@@ -160,7 +160,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups = [ "sf", "nodepool-builder", "rdocloud-data-fetcher" ]
+        , groups = [ "sf", "nodepool-builder" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =
