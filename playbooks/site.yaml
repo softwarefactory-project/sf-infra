@@ -66,6 +66,20 @@
 - hosts: managesf.softwarefactory-project.io
   roles:
     - acme-tiny
+  tasks:
+    # FIXME(dpawlik) Remove this task after upgrade to sf 3.6
+    - name: Create repoxplorer rotation file
+      become: true
+      copy:
+        content: |
+          /var/log/repoxplorer/*.log {
+              missingok
+              notifempty
+              compress
+              delaycompress
+          }
+        dest: /etc/logrotate.d/repoxplorer
+        mode: '0644'
 
 - hosts: integrations.softwarefactory-project.io
   roles:
