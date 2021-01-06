@@ -258,7 +258,7 @@ let mkServers =
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
-              , groups = [ "sf" ]
+              , groups = [ "sf", name ]
               , connection = OS.CentOS.`7.0`.connection
               , server = Some Infra.Server::{
                 , image = OS.CentOS.`7.0`.image.name

@@ -100,6 +100,25 @@ all:
         zm07.softwarefactory-project.io: {}
         zm08.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
+    ze:
+      hosts:
+        ze01.softwarefactory-project.io: {}
+        ze02.softwarefactory-project.io: {}
+        ze03.softwarefactory-project.io: {}
+        ze04.softwarefactory-project.io: {}
+        ze05.softwarefactory-project.io: {}
+        ze06.softwarefactory-project.io: {}
+        ze07.softwarefactory-project.io: {}
+    zm:
+      hosts:
+        zm01.softwarefactory-project.io: {}
+        zm02.softwarefactory-project.io: {}
+        zm03.softwarefactory-project.io: {}
+        zm04.softwarefactory-project.io: {}
+        zm05.softwarefactory-project.io: {}
+        zm06.softwarefactory-project.io: {}
+        zm07.softwarefactory-project.io: {}
+        zm08.softwarefactory-project.io: {}
   hosts:
     ansible.softwarefactory-project.io:
       ansible_port: 22

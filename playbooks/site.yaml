@@ -53,6 +53,13 @@
   roles:
     - sf-ssh
 
+- hosts: ze
+  tasks:
+    - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
+      yum:
+        name: rpm-build
+      become: yes
+
 - hosts: install-server
   roles:
     - hostname
