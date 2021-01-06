@@ -1,3 +1,5 @@
+# This file is managed by sf-infra
+
 description: The rdoproject.org architecture
 inventory:
   - name: managesf
