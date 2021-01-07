@@ -284,7 +284,7 @@ servers:
       - monitoring
       - internal
     volume_size: 20
-  - auto_ip: false
+  - auto_ip: true
     boot_from_volume: yes
     flavor: "1vcpu_2gb"
     image: centos-8.3-2011
