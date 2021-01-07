@@ -79,7 +79,7 @@ in  \(job-name : Text) ->
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfMemory"
               , expr = Some
-                  "node_memory_MemAvailable_bytes < ( 10 * ${megabyte})"
+                  "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
@@ -107,6 +107,20 @@ in  \(job-name : Text) ->
                     ''
                     Node only has {{ $value | humanize1024 }} of free disk available.
                     ''
+                }
+              }
+            , Prometheus.AlertingRule::{
+              , alert = Some "OOMKillerDetected"
+              , expr = Some "increase(node_vmstat_oom_kill[10m]) > 0"
+              , for = Some "5m"
+              , annotations = Some Prometheus.Annotations::{
+                , summary =
+                    "OOM Killer detected on (instance {{ \$labels.instance }})"
+                , description = Some
+                    ''
+                    OOM kill detected
+                      VALUE = {{ $value }}
+                      LABELS: {{ $labels }}''
                 }
               }
             ]
