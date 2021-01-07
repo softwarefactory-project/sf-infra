@@ -1,0 +1,2 @@
+zuul_container_user: "zuul"
+zuul_container_update_key: "https://softwarefactory-project.io/zuul/api/tenant/containers-update/project-ssh-key/containers-config.pub"

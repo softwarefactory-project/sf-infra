@@ -43,6 +43,10 @@
     - afs-mirror
     - afs-monitoring
 
+- hosts: image-builder.softwarefactory-project.io
+  roles:
+    - image-builder
+
 - hosts: logreduce-mqtt
   roles:
     - custom-exporter

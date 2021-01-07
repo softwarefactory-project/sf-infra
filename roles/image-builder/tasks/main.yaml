@@ -1,0 +1,24 @@
+- name: Install tools
+  package:
+    name: podman
+  become: true
+
+- name: Create account
+  user:
+    name: "{{ zuul_container_user }}"
+    home: "/home/{{ zuul_container_user }}"
+    shell: /bin/bash
+  become: true
+
+- name: Create home dir
+  file:
+    path: "/home/{{ zuul_container_user }}"
+    state: directory
+    owner: "{{ zuul_container_user }}"
+  become: true
+
+- name: "Authorized {{ zuul_container_user }} executor"
+  become: yes
+  authorized_key:
+    user: "{{ zuul_container_user }}"
+    key: "{{ zuul_container_update_key }}"
