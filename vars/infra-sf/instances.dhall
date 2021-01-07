@@ -240,6 +240,7 @@ let instances =
           , image = OS.CentOS.`8.3`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
           , auto_ip = Some True
+          , security_groups = [ "zuul-console" ]
           }
         , volumes =
           [ Infra.Volume::{

@@ -295,6 +295,7 @@ servers:
       - common
       - monitoring
       - internal
+      - zuul-console
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
