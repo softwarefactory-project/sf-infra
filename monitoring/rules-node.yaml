@@ -25,7 +25,7 @@ groups:
           description: |
             Node only has {{ $value | humanize1024 }} of free mem available.
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "node_memory_MemAvailable_bytes < ( 10 * 1024^2)"
+        expr: "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10"
         for: "30m"
       - alert: InstanceOutOfDisk
         annotations:
@@ -34,3 +34,9 @@ groups:
           summary: "Out of disk (instance {{ $labels.instance }})"
         expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"
+      - alert: OOMKillerDetected
+        annotations:
+          description: "OOM kill detected\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+          summary: "OOM Killer detected on (instance {{ $labels.instance }})"
+        expr: "increase(node_vmstat_oom_kill[10m]) > 0"
+        for: "5m"
