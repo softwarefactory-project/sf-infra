@@ -289,3 +289,7 @@
 - hosts: ovirt-staging.softwarefactory-project.io
   roles:
     - acme-tiny
+
+- hosts: ansible.softwarefactory-project.io
+  roles:
+    - acme-tiny
