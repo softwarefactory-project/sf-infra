@@ -138,5 +138,6 @@ inventory:
 - ip: 38.102.83.186
   name: k1s02
   remote: true
+  max-servers: 25
   roles:
   - hypervisor-k1s
