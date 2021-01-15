@@ -4,7 +4,7 @@
     name: python3-openstacksdk
   become: true
 
-- name: Copy stack status script
+- name: Copy openstack simply reporter
   copy:
     src: openstack-simply-reporter.py
     dest: /usr/local/bin/openstack-simply-reporter.py

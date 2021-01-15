@@ -116,7 +116,7 @@
 - hosts: zs.softwarefactory-project.io
   roles:
     - zuul_cli_access
-    - stack-checks
+    - openstack-simply-reporter
 
 - hosts: dlrn
   vars_files:

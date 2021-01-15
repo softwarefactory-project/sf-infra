@@ -10,7 +10,7 @@ from dateutil import parser
 
 STACK_REPORT_STATE = ['create_complete', 'delete_failed',
                       'delete_in_progress']
-PORT_REPORT_STATE = ['down', 'active']
+PORT_REPORT_STATE = ['down', 'active', 'n/a']
 PORT_TIMEDELTA = 3
 
 
