@@ -34,15 +34,14 @@ inventory:
   - job-logs-gearman-worker
   - hound
 
-- name: nodepool-builder
-  ip: 192.168.242.73
-  roles:
-  - nodepool-builder
-
-
 - name: nodepool-builder-02
   ip: 38.145.37.207
   remote: true
+  roles:
+  - nodepool-builder
+
+- name: nodepool-builder
+  ip: 192.168.242.73
   roles:
   - nodepool-builder
 
