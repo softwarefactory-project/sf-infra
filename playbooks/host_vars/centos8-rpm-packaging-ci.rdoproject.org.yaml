@@ -41,6 +41,7 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+    mock_config: 'centos8stream.cfg.j2'
   centos8-victoria:
     distro: 'centos8'
     target: 'centos8-victoria'
