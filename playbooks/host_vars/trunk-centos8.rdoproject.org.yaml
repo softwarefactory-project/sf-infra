@@ -69,6 +69,7 @@ dlrn_workers:
     rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
     rsyncport: '3300'
     use_components: true
+    mock_config: 'centos8stream.cfg.j2'
   centos8-victoria:
     distro: 'centos8'
     target: 'centos8-victoria'
