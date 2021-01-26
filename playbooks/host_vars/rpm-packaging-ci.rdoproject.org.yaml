@@ -11,6 +11,7 @@ dlrn_override_files:
       source: centos7-stein-rpm-packaging-dlrn-deps.repo
   /home/centos-rocky/data/repos/dlrn-deps.repo:
       source: centos7-rocky-rpm-packaging-dlrn-deps.repo
+force_python_version: python3
 
 api_workers: []
 web_domain: 'rpm-packaging-ci.rdoproject.org'
