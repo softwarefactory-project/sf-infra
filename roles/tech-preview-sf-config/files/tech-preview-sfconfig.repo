@@ -1,0 +1,6 @@
+[tech-preview-sf-config]
+name=Tech preview for sfconfig
+baseurl=https://softwarefactory-project.io/html/tech-preview-sf-config-3.5.4.2/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-SOFTWARE-FACTORY
+gpgcheck=0
+enabled=1
