@@ -82,6 +82,7 @@
       - name: ara_api
         secret: bridge_ara_api
 
+# NOTE: This job will be removed in the future.
 - job:
     name: sf-infra-configure-hosts
     parent: sf-infra-base
@@ -99,6 +100,54 @@
     vars:
       sf_infra_play_name: site
       fetch_galaxy_role: True
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+      - name: vault
+        secret: ansible-vault
+      - name: ara_api
+        secret: bridge_ara_api
+
+- job:
+    name: sf-infra-configure-hosts-rdo
+    parent: sf-infra-base
+    description: Configure the RDO infra hosts
+    semaphore: sf-infra
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
+    run: playbooks/zuul/configure-hosts.yaml
+    required-projects:
+      - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+      - name: review.rdoproject.org/rdo-infra/ansible-role-dlrn
+      - name: software-factory/sf-infra
+    timeout: 3600
+    vars:
+      sf_infra_play_name: site_rdo
+      fetch_galaxy_role: True
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+      - name: vault
+        secret: ansible-vault
+      - name: ara_api
+        secret: bridge_ara_api
+
+- job:
+    name: sf-infra-configure-hosts-sf
+    parent: sf-infra-base
+    description: Configure the sf.io hosts
+    semaphore: sf-infra
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
+    run: playbooks/zuul/configure-hosts.yaml
+    required-projects:
+      - name: software-factory/sf-infra
+    timeout: 3600
+    vars:
+      sf_infra_play_name: site_sf
+      fetch_galaxy_role: False
     secrets:
       - name: cloud
         secret: vexxhost-cloud

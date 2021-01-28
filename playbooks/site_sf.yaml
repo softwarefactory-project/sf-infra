@@ -1,0 +1,147 @@
+---
+- hosts: bridge.softwarefactory-project.io
+  gather_facts: yes
+  pre_tasks:
+    - name: Ensure hostname is correct
+      hostname:
+        name: bridge.softwarefactory-project.io
+      become: yes
+  roles:
+    - bridge-accounts
+    - generate-etc-hosts
+  tasks:
+    - name: "Install MTA"
+      include_role:
+        name: postfix
+        apply:
+          become: yes
+      vars:
+        myhostname: "{{ smtp_host }}"
+        mydomain: "{{ smtp_domain }}"
+        myorigin: "{{ smtp_host }}"
+        mynetworks:
+          - "{{ prometheus_public_ip }}/32"
+
+- hosts: sf
+  roles:
+    - sf-infra-base
+    - node-exporter
+    - sf-ssh
+
+- hosts: lambda
+  roles:
+    - dev-spice
+
+- hosts: image-builder.softwarefactory-project.io
+  roles:
+    - image-builder
+
+- hosts: logreduce-mqtt
+  roles:
+    - custom-exporter
+    - logreduce-mqtt-worker
+    - firewalld
+
+- hosts: ze
+  tasks:
+    - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
+      yum:
+        name: rpm-build
+      become: yes
+
+- hosts: managesf.softwarefactory-project.io
+  roles:
+    - hostname
+    - sf-install-server
+    - acme-tiny
+  tasks:
+    # FIXME(dpawlik) Remove this task after upgrade to sf 3.6
+    - name: Create repoxplorer rotation file
+      become: true
+      copy:
+        content: |
+          /var/log/repoxplorer/*.log {
+              missingok
+              notifempty
+              compress
+              delaycompress
+          }
+        dest: /etc/logrotate.d/repoxplorer
+        mode: '0644'
+
+- hosts: integrations.softwarefactory-project.io
+  roles:
+    - integrations
+
+- hosts: prometheus.monitoring.softwarefactory-project.io
+  pre_tasks:
+    - name: Install requirements
+      package:
+        name:
+          - podman
+          - dnsmasq
+      become: yes
+  roles:
+    - hostname
+    - firewalld
+    - setup-ssl
+    - udp-multiplexer
+    - monitoring-gateway
+    - alert-manager
+    - dnsmasq
+    - grafana
+    - blackbox-exporter
+    - prometheus
+    - pushprox
+    - statsd-exporter
+
+- hosts: zs.softwarefactory-project.io
+  roles:
+    - zuul_cli_access
+    - openstack-simply-reporter
+
+- hosts: redhat-oss-git-stats.softwarefactory-project.io
+  roles:
+    - hostname
+    - elasticsearch
+    - repoxplorer
+    - repoxplorer-gateway
+    - repoxplorer-rh-config
+    - setup-ssl
+
+- hosts: elk.softwarefactory-project.io:nodepool-builder
+  roles:
+    - volume
+
+- hosts: nodepool-builder
+  roles:
+    - manage-upstream-config-project
+
+- hosts: ci-centos-org
+  become: yes
+  roles:
+    - pushprox
+    - cico-agent
+
+- name: Deploy and configure ARA API server
+  hosts: ara.softwarefactory-project.io
+  roles:
+    - setup-ssl
+    - ara-api-container
+    - node-exporter
+
+- hosts: koji.softwarefactory-project.io
+  roles:
+    - firewalld
+
+- hosts: ovirt.softwarefactory-project.io
+  roles:
+    - acme-tiny
+
+- hosts: ovirt-staging.softwarefactory-project.io
+  roles:
+    - acme-tiny
+
+- hosts: ansible.softwarefactory-project.io
+  roles:
+    - acme-tiny

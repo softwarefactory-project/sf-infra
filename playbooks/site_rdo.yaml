@@ -1,0 +1,196 @@
+---
+- hosts: bridge.softwarefactory-project.io
+  gather_facts: yes
+  pre_tasks:
+    - name: Ensure hostname is correct
+      hostname:
+        name: bridge.softwarefactory-project.io
+      become: yes
+  roles:
+    - bridge-accounts
+    - generate-etc-hosts
+  tasks:
+    - name: "Install MTA"
+      include_role:
+        name: postfix
+        apply:
+          become: yes
+      vars:
+        myhostname: "{{ smtp_host }}"
+        mydomain: "{{ smtp_domain }}"
+        myorigin: "{{ smtp_host }}"
+        mynetworks:
+          - "{{ prometheus_public_ip }}/32"
+
+- hosts: all:!osci_zone:!sf
+  roles:
+    - sf-infra-base
+
+- hosts: all:!sf
+  roles:
+    - node-exporter
+
+- hosts: backup
+  vars_files:
+    - vars/dlrn-db.yaml
+  roles:
+    - backup-monitoring
+    - mysqld-exporter
+
+- hosts: afs-mirror
+  roles:
+    - setup-ssl
+    - afs-mirror
+    - afs-monitoring
+
+- hosts: rdo
+  roles:
+    - sf-ssh
+
+- hosts: managesf.review.rdoproject.org
+  roles:
+    - hostname
+    - sf-install-server
+
+- hosts: dlrn
+  vars_files:
+    - vars/dlrn.yaml
+  roles:
+    - firewalld
+    - dlrn-server
+
+- hosts: trunk.rdoproject.org
+  roles:
+    - rdotrunk-checks
+
+- hosts:
+    - trunk-centos7.rdoproject.org
+    - trunk-centos8.rdoproject.org
+    - centos8-rpm-packaging-ci.rdoproject.org
+  roles:
+    - swap
+
+- hosts: logserver.rdoproject.org
+  roles:
+    - hostname
+    - volume
+    - logserver
+    - setup-ssl
+
+- hosts: images.rdoproject.org
+  roles:
+    - hostname
+    - volume
+    - setup-ssl
+    - firewalld
+    - {role: image-server, become: true}
+
+- hosts: www.rdoproject.org
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: vhosts
+        apply:
+          become: yes
+
+# after www.rdoproject.org
+- hosts: rdo-web-builder.int.osci.io
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    # NOTE(jpena): We will be able to remove this task once the DNS entry
+    # for www.rdoproject.org has been changed
+    - name: Set IP for www.rdoproject.org in /etc/hosts
+      become: yes
+      lineinfile:
+        dest: '/etc/hosts'
+        regexp: ".+www.rdoproject.org.+$"
+        line: "38.102.83.227 www.rdoproject.org"
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: builders
+        apply:
+          become: yes
+
+- hosts: lists.rdoproject.org
+  become: yes
+  roles:
+    - hostname
+    - swap
+  handlers:
+    - name: "Clean YUM Metadata"
+      command: yum clean metadata
+      args:
+        warn: no
+
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+
+
+    - name: Authorized backup node to run backup
+      become: yes
+      authorized_key:
+        user: root
+        key: "{{ backup_pub_key }}"
+
+    - name: "Setup the OSPO/OSCI Infra repo"
+      yum_repository:
+        name: ospo_osci_infra
+        description: "Copr repo for OSPO ComInfra Team"
+        baseurl: "https://copr-be.cloud.fedoraproject.org/results/duck/osas-infra-team-rpm-repo/epel-{{ ansible_distribution_major_version }}-$basearch/"
+        gpgkey: "https://copr-be.cloud.fedoraproject.org/results/duck/osas-infra-team-rpm-repo/pubkey.gpg"
+        repo_gpgcheck: False
+        gpgcheck: True
+        skip_if_unavailable: True
+        state: present
+        enabled: True
+      when: ansible_os_family == 'RedHat'
+      notify: Clean YUM Metadata
+
+    - meta: flush_handlers
+
+    - name: "Deploy mailing-lists"
+      include_role:
+        name: mailing_lists
+      vars:
+        data_dev: /dev/vdc
+        data_path: /srv/data
+
+- hosts: dlrn-db.rdoproject.org
+  vars_files:
+    - vars/dlrn-db.yaml
+  roles:
+    - hostname
+    - firewalld
+    - mysqld-exporter
+  tasks:
+    - include_role:
+        name: mariadb-replicated
+        tasks_from: master.yml
+
+- hosts: ci-centos-org
+  become: yes
+  roles:
+    - pushprox
+    - cico-agent
+
+- hosts: elk.rdoproject.org
+  roles:
+    - volume
