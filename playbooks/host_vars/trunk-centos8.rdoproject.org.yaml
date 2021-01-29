@@ -98,6 +98,7 @@ dlrn_workers:
     rsyncdest: 'centos8-victoria@3.87.151.16:/home/centos8-victoria/data/repos'
     rsyncport: '3300'
     use_components: true
+    mock_config: 'centos8stream.cfg.j2'
   centos8-ussuri:
     distro: 'centos8'
     target: 'centos8-ussuri'
