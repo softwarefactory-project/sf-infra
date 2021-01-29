@@ -5,28 +5,39 @@
 # Duck: you can use prometheus_monitored_services_extra to add services
 #       to the base ones (which should be stripped down on day)
 prometheus_monitored_services:
-  - blackbox-exporter
-  - elasticsearch
-  - etherpad
+# common
   - fail2ban
-  - gearman
-  - gerrit
-  - gerritbot
-  - grafana
   - httpd
-  - kibana
-  - kojid
-  - kojira
-  - managesf
-  - mariadb
   - node_exporter
-  - nodepool-builder
-  - nodepool-launcher
-  - postfix
+# monitoring
+  - blackbox-exporter
   - prometheus
   - pushprox-proxy
   - statsd_exporter
   - udp-multiplexer
+# sf.io
+  - elasticsearch
+  - etherpad
+  - gearman
+  - gerrit
+  - gerritbot
+  - grafana
+  - houndd
+  - influxdb
+  - kibana
+  - kojid
+  - kojira
+  - log-gearman-client
+  - log-gearman-worker
+  - logstash
+  - managesf
+  - mariadb
+  - nodepool-builder
+  - nodepool-launcher
+  - postfix
+  - repoxplorer
+  - repoxplorer-webui
+  - telegraf
   - zookeeper
   - zuul-executor
   - zuul-merger
