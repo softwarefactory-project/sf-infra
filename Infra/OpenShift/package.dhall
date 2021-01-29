@@ -1,1 +1,4 @@
-./Import.dhall // { deploySimple = ./deploySimple.dhall }
+    ./Import.dhall
+//  { deploySimple = ./deploySimple.dhall
+    , deployWithEnv = ./deployWithEnv.dhall
+    }
