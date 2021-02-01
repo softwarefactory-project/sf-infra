@@ -7,6 +7,7 @@ dlrn_enable_https: true
 dlrn_manage_letsencrypt: false
 dlrn_host: trunk
 dlrn_sshd_port: 3300
+force_python_version: python3
 
 web_domain: 'trunk.rdoproject.org'
 api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos8-master-uc', 'centos8-victoria', 'centos8-ussuri', 'centos8-train']
