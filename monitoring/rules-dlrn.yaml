@@ -4,8 +4,8 @@ groups:
     rules:
       - alert: RDOTrunkRepoTooOld
         annotations:
-          summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}"
-        expr: "dlrn_last_build{job='node'} < (time() - (86400 * 3))"
+          summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}, which is older than three days ago"
+        expr: "dlrn_last_build{job='node'} < (time() - (3600 * 24 * 3))"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
