@@ -2,14 +2,13 @@
 mail_domain: lists.rdoproject.org
 ml_routing_map: /etc/postfix/mailinglists
 website_domain: lists.rdoproject.org
-# TODO: enable when switching to production
-#force_tls: True
-#use_tls: True
-#use_letsencrypt: True
-#tls_method: manual
-#cert_file: "/etc/letsencrypt/live/{{ website_domain }}/fullchain.pem"
-#key_file: "/etc/letsencrypt/live/{{ website_domain }}/privkey.pem"
-#ca_file: /etc/pki/tls/cert.pem
+force_tls: True
+use_tls: True
+use_letsencrypt: True
+tls_method: manual
+cert_file: "/etc/letsencrypt/live/{{ website_domain }}/fullchain.pem"
+key_file: "/etc/letsencrypt/live/{{ website_domain }}/privkey.pem"
+ca_file: /etc/pki/tls/cert.pem
 with_tls: False   # dovecot
 # due to https://github.com/ansible/ansible/issues/21890
 sa_config_bits: /etc/mail/spamassassin/local.cf.d
