@@ -57,7 +57,9 @@ def convert_dict_to_string(metrics):
 
 def write_metrics_to_collector(collector_path, metrics):
     with open(collector_path, 'w') as f:
-        f.write(metrics)
+        # NOTE(dpawlik) An empty line on the end is required, and
+        # in 'w' mode just '\n' is not enough.
+        f.write(metrics + "\n" + " ")
 
 
 def _check_port_time(port, timezone):
@@ -86,9 +88,10 @@ def get_ports_status(cloud, metrics, timezone):
 
     for port in cloud.list_ports():
         old_port = _check_port_time(port, timezone)
+        port_status = port.status.lower().replace('/', '')
         if port.status.lower() in PORT_REPORT_STATE:
-            metric_name = "%s_%s{cloud=%s,is_old=%s}" % (
-                base_metric_name, port.status.lower(), _quote(
+            metric_name = "%s_%s{cloud=%s, is_old=%s}" % (
+                base_metric_name, port_status, _quote(
                     cloud.name), _quote(str(old_port)))
             count_metric(metric_name, metrics)
 
