@@ -14,5 +14,6 @@
         permanent: "{{ item.permanent | default('yes') }}"
         immediate: "{{ item.immediate | default('yes') }}"
         state: "{{ item.state | default('enabled') }}"
+        zone: "{{ item.zone | default('public') }}"
       with_items: "{{ firewall_rules }}"
   become: yes
