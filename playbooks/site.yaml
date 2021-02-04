@@ -37,6 +37,10 @@
     - backup-monitoring
     - mysqld-exporter
 
+- hosts: lambda
+  roles:
+    - dev-spice
+
 - hosts: afs-mirror
   roles:
     - setup-ssl
