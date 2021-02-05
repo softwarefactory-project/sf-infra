@@ -222,6 +222,12 @@
         name:
           - epel-release
 
+    - name: Authorized backup node to run backup
+      become: yes
+      authorized_key:
+        user: root
+        key: "{{ backup_pub_key }}"
+
     - name: "Setup the OSPO/OSCI Infra repo"
       yum_repository:
         name: ospo_osci_infra
