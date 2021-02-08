@@ -1,6 +1,11 @@
 # This file is managed by dhall.
 image_cache_dir: "{{ ansible_user_dir }}/image_cache"
 images:
+  - checksum: "7a2b3cc3bb3a92ce927e685d33efe8efd75577efbe207b267cb66f68afae7ce9"
+    container_format: bare
+    disk_format: qcow2
+    name: fedora-33-1.2
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2
   - checksum: e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0
     container_format: bare
     disk_format: qcow2
