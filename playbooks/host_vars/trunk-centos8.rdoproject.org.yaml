@@ -154,3 +154,4 @@ dlrn_workers:
     rsyncdest: 'centos8-train@3.87.151.16:/home/centos8-train/data/repos'
     rsyncport: '3300'
     use_components: true
+    mock_config: 'centos8stream.cfg.j2'
