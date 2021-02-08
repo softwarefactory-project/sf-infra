@@ -46,6 +46,7 @@ let sshconfig =
               Host *
                   ControlMaster auto
                   ControlPath /run/user/1000/%r@%h:%p
+                  PubkeyAcceptedKeyTypes +ssh-rsa
 
               ''
           ++  Prelude.Text.concat

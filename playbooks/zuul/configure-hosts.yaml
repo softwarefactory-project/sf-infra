@@ -4,7 +4,7 @@
   vars:
     bridge_name: bridge.softwarefactory-project.io
     bridge_ip: 38.102.83.244
-    bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG+w4PGQtn2VpFwEpww7uYaVcubHMvKCiM1uj6NOwx9X"
+    bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAADRnrMKg7ZvvG4zrMCjEnT1/RkfXAagSBYoQfTbzrHj+BoFGDbt4F1rM+PA+cJUJ2KS5ZCktJLWNeyYKCuKOg="
   tasks:
     - add_host:
         name: "{{ bridge_name }}"
@@ -24,8 +24,13 @@
     bridge_packages:
       - ansible
       - ara
+      - cronie
       - dnsmasq
+      - python3-cryptography
+      - python3-netaddr
+      - python3-lxml
       - python3-openstacksdk
+      - python3-pyOpenSSL
       - vim-enhanced
       - tmux
       - wget
