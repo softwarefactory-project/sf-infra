@@ -28,7 +28,7 @@
     - node-exporter
     - sf-ssh
 
-- hosts: lambda
+- hosts: lambda.softwarefactory-project.io
   roles:
     - dev-spice
 

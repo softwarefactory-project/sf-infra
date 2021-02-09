@@ -22,7 +22,7 @@
         mynetworks:
           - "{{ prometheus_public_ip }}/32"
 
-- hosts: all:!osci_zone:!sf
+- hosts: all:!osci_zone:!sf:!lambda.softwarefactory-project.io
   roles:
     - sf-infra-base
 
