@@ -79,13 +79,26 @@ in  \(job-name : Text) ->
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfMemory"
               , expr = Some
-                  "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10"
+                  "(node_memory_MemAvailable_bytes + node_memory_SwapFree_bytes) / node_memory_MemTotal_bytes * 100 < 10"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
                     Node only has {{ $value | humanize1024 }} of free mem available.
+                    ''
+                }
+              }
+            , Prometheus.AlertingRule::{
+              , alert = Some "InstanceOutOfSwap"
+              , expr = Some
+                  "(node_memory_SwapTotal_bytes > 0) and (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes * 100 < 50)"
+              , for = Some "30m"
+              , annotations = Some Prometheus.Annotations::{
+                , summary = "Out of swap (instance {{ \$labels.instance }})"
+                , description = Some
+                    ''
+                    Node only has {{ $value | humanize1024 }} of free swap available.
                     ''
                 }
               }
