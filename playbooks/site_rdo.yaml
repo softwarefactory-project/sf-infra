@@ -36,6 +36,15 @@
   roles:
     - backup-monitoring
     - mysqld-exporter
+  tasks:
+    # from rdo-infra-playbooks
+    - name: Configure backups
+      include_role:
+        name: backup-server
+        tasks_from: main.yml
+        apply:
+          become: yes
+          become_user: root
 
 - hosts: afs-mirror
   roles:
