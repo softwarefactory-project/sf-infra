@@ -1,4 +1,5 @@
 ---
+# registry.rdoproject.org.yml
 openshift_node_group_name: node-config-all-in-one
 openshift_schedulable: true
 openshift_docker_selinux_enabled: false
