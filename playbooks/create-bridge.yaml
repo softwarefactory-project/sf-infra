@@ -2,6 +2,16 @@
 # This is the bootstrap playbook, run it once to create the bridge
 - hosts: container
   tasks:
+    - name: Deploy centos-release-openstack-victoria
+      package:
+        name: centos-release-openstack-victoria
+        state: present
+
+    - name: Deploy python3-openstacksdk
+      package:
+        name: python3-openstacksdk
+        state: present
+
     - name: Create config directory
       file:
         path: "~/.config/openstack"
@@ -42,7 +52,8 @@
         key_name: "sf-infra-key"
         flavor: "v1-standard-2"
         network: private-network
-        auto_ip: yes
+        floating_ips:
+          - "38.102.83.244"
         security_groups:
           - common
           - zuul-console
