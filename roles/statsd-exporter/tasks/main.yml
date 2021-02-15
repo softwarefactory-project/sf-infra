@@ -74,4 +74,4 @@
           -p {{ listen_tcp_port }}:9125
           {{ container_images['statsd_exporter'] | default('quay.io/prometheus/statsd-exporter:latest') }}
           --statsd.mapping-config=/tmp/statsd_mapping.yml
-          --log.level=debug
+          --log.level=info
