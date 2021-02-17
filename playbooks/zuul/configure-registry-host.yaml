@@ -4,6 +4,7 @@
   vars:
     bridge_name: bridge.softwarefactory-project.io
     bridge_ip: 38.102.83.244
+    # NOTE(jpena): if the bridge host is ever recreated, we will have to update this key
     bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAADRnrMKg7ZvvG4zrMCjEnT1/RkfXAagSBYoQfTbzrHj+BoFGDbt4F1rM+PA+cJUJ2KS5ZCktJLWNeyYKCuKOg="
   tasks:
     - add_host:

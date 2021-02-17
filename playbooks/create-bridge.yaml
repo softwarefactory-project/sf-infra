@@ -1,5 +1,10 @@
 ---
 # This is the bootstrap playbook, run it once to create the bridge
+# NOTE(jpena): when rebuilding the bridge, make sure to also modify
+#              the playbooks/tasks/create-hosts.yaml playbook, so
+#              the role that generates /etc/hosts.yaml is executed.
+#              Otherwise, we will have issues later when running
+#              the sf-infra-configure-hosts role
 - hosts: container
   tasks:
     - name: Deploy centos-release-openstack-victoria
