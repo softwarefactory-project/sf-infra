@@ -68,10 +68,6 @@ Host trunk.rdoproject.org
     User centos
     Port 3300
 
-Host mirror.regionone.rdo-cloud.rdoproject.org
-    User centos
-    Port 22
-
 Host rdo-ci-cloudslave01.ci.centos.org
     User rdo-monitoring
     Port 22

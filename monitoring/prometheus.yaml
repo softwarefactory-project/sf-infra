@@ -41,7 +41,6 @@ scrape_configs:
           - dlrn-db.rdoproject.org:9100
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100
-          - mirror.regionone.rdo-cloud.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
           - logreduce-mqtt-01.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
@@ -110,7 +109,6 @@ scrape_configs:
           - https://images.rdoproject.org
           - https://lists.rdoproject.org
           - https://logserver.rdoproject.org
-          - http://mirror.regionone.rdo-cloud.rdoproject.org
           - http://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - https://trunk.registry.rdoproject.org

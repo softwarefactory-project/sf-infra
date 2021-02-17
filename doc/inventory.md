@@ -18,7 +18,6 @@ This project manages:
 * dlrn-db.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
-* mirror.regionone.rdo-cloud.rdoproject.org
 * rdo-ci-cloudslave01.ci.centos.org
 * rdo-ci-cloudslave02.ci.centos.org
 * rdo-ci-cloudslave03.ci.centos.org

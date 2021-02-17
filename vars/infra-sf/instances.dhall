@@ -138,7 +138,6 @@ let instances =
                 , "https://images.rdoproject.org"
                 , "https://lists.rdoproject.org"
                 , "https://logserver.rdoproject.org"
-                , "http://mirror.regionone.rdo-cloud.rdoproject.org"
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
