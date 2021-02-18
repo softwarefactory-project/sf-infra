@@ -560,3 +560,7 @@ volumes:
     display_name: image-builder-data
     server: image-builder.softwarefactory-project.io
     size: 50
+  - device: /dev/vdb
+    display_name: logs-data
+    server: fedora.softwarefactory-project.io
+    size: 100

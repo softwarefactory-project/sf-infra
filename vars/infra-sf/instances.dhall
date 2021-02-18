@@ -26,6 +26,14 @@ let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
             , server = Some (tenant-server // Infra.Server.Ip "38.102.83.40")
+            , volumes =
+              [ Infra.Volume::{
+                , display_name = "logs-data"
+                , size = 100
+                , server = "fedora" ++ "." ++ fqdn
+                , device = "/dev/vdb"
+                }
+              ]
             }
       ,     tenant-instance
         //  { name = "ovirt"

@@ -113,6 +113,10 @@
   roles:
     - volume
 
+- hosts: fedora.softwarefactory-project.io
+  roles:
+    - volume
+
 - hosts: nodepool-builder
   roles:
     - manage-upstream-config-project
