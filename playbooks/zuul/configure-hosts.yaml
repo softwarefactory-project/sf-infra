@@ -4,6 +4,7 @@
   vars:
     bridge_name: bridge.softwarefactory-project.io
     bridge_ip: 38.102.83.244
+    # NOTE(jpena): if the bridge host is ever recreated, we will have to update this key
     bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAADRnrMKg7ZvvG4zrMCjEnT1/RkfXAagSBYoQfTbzrHj+BoFGDbt4F1rM+PA+cJUJ2KS5ZCktJLWNeyYKCuKOg="
   tasks:
     - add_host:
@@ -80,6 +81,24 @@
           package:
             name: "{{ bridge_packages }}"
             state: present
+
+        - name: Add ssh host key for jump.ci.centos.org
+          known_hosts:
+            name: 'jump.ci.centos.org'
+            key: 'jump.ci.centos.org ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII5XmG2wsYOwCIUyw/EhbDz9BpUQpaOvJhBuvhKTMgV8'
+
+        - name: Add ssh host key for soeru.osci.io
+          known_hosts:
+            name: 'soeru.osci.io'
+            key: 'soeru.osci.io ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEhsNyfWBf4P1euzS1pJgT3yV+c1AoZA9QJua8H6tv1Y'
+
+        - name: Ensure sf-infra SSH key is deployed
+          copy:
+            content: "{{ sshkey.id_rsa }}"
+            dest: "~/.ssh/id_rsa"
+            mode: "0400"
+          no_log: yes
+          when: sshkey is defined
 
         - name: Fetch galaxy Roles
           command: ansible-galaxy install --force-with-deps -r requirements.yml

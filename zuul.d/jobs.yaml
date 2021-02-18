@@ -107,6 +107,8 @@
         secret: ansible-vault
       - name: ara_api
         secret: bridge_ara_api
+      - name: sshkey
+        secret: bridge_ssh_key
 
 - job:
     name: sf-infra-configure-hosts-rdo
