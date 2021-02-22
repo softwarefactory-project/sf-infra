@@ -116,6 +116,7 @@
 - hosts: fedora.softwarefactory-project.io
   roles:
     - volume
+    - acme-tiny
 
 - hosts: nodepool-builder
   roles:
