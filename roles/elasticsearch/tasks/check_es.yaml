@@ -14,11 +14,13 @@
     mode: '0755'
   become: true
 
+# FIXME(dpawlik): set user and password and switch to https when
+# Opendistro is installed.
 - name: Setup cronjob for getting Elasticsearch timestamp
   cron:
     name: Get last timestamp for node_exporter
     minute: "0"
     hour: "*/1"
     user: root
-    job: "/usr/local/bin/check-elasticsearch.py --elasticsearch-url https://$(hostname):9200"
+    job: "/usr/local/bin/check-elasticsearch.py --elasticsearch-url http://$(hostname):9200"
   become: true
