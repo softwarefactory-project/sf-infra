@@ -3,6 +3,7 @@
   package:
     name:
       - node_exporter
+      - python3-dateutil
       - python3-elasticsearch
     state: present
   become: true

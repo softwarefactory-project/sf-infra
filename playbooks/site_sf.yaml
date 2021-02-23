@@ -109,7 +109,7 @@
     - repoxplorer-rh-config
     - setup-ssl
 
-- hosts: elk.softwarefactory-project.io:nodepool-builder
+- hosts: elk.softwarefactory-project.io
   roles:
     - volume
   tasks:
@@ -124,6 +124,7 @@
 
 - hosts: nodepool-builder
   roles:
+    - volume
     - manage-upstream-config-project
 
 - hosts: ci-centos-org
