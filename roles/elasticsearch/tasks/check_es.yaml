@@ -1,0 +1,24 @@
+---
+- name: Ensure that node_exporter is already installed
+  package:
+    name:
+      - node_exporter
+      - python3-elasticsearch
+    state: present
+  become: true
+
+- name: Copy Elasticsearch state reporter
+  copy:
+    src: check-elasticsearch.py
+    dest: /usr/local/bin/check-elasticsearch.py
+    mode: '0755'
+  become: true
+
+- name: Setup cronjob for getting Elasticsearch timestamp
+  cron:
+    name: Get last timestamp for node_exporter
+    minute: "0"
+    hour: "*/1"
+    user: root
+    job: "/usr/local/bin/check-elasticsearch.py --elasticsearch-url https://$(hostname):9200"
+  become: true

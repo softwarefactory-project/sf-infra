@@ -112,6 +112,10 @@
 - hosts: elk.softwarefactory-project.io:nodepool-builder
   roles:
     - volume
+  tasks:
+    - include_role:
+        name: elasticsearch
+        tasks_from: check_es.yaml
 
 - hosts: fedora.softwarefactory-project.io
   roles:
