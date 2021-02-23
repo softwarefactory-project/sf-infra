@@ -66,6 +66,13 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINkTw3tpP6CFVAFKCGucuJUluJbgaqBInH91e8HyK46U duck@Zushi"
+  misc:
+    name: "misc"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCz0e6L1YAyBq10OuHouTZKZaNKsBzDD+FJXMQuduwQpZ2ps+krpKcewVdD+7C5VE/B4PO/3IH6c8pra8odbQLK1y9cU8kyQyn2PA+q792nDDfNqCyONmhzBozVJOGWh6jlxNrXU9GINGFxYpY7LZRGtQevDUzaOQcwsFapOm7vvswibkQbElJsfhwnXyu5z7vULQZeppqvaPlXdo/8lMp0glMG5BeObsQjr1xdPkzYmWxt6ql0nrKu8HKM5l6QRCCqNhTPYO6Rj9qrpQtax1fn3wqG/jqPfNFTMCZXcHNUBNmdibYJYVaMkqG2qLJL//kz4hITyWkGm+auc7EdTYIP misc@kiora/nano/main"
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5Ehci8w5VC1U9dWazGK9uEgZtR6bmhY5jeYJACeaM9T967jJxNDSEZbvNsV6SRcExHec65lurZzv+iCH+K7HcuBlPno9cH5OfVNv+CrVB+rIIB237kZCgcmCB09W5wRc53bT4OV0vyghY8o+42cj1vkIfQBO6GHu2U4NLDEC+PTDvaxYefRydHGBZhQqas8f00Q6CyLBhLUeRiij9lHiOnbs6+yDw1UMtNWo/bRnmM7fWc2T+8CLM72vjhslXsiy/uFemrUxlG1lm21OVGdB1mj5sPl9aZ+WWYU3xBEIqEPm7Z5P41RQvLWK1XCm58cnQm55oQ/91knAlsEQ2r8zh misc@kiora/nano/backup"
   ykarel:
     name: "ykarel"
     groups:
