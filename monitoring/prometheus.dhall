@@ -33,6 +33,7 @@ in  PrometheusConfig
       , "rules-zuul.yaml"
       , "rules-mysqld.yaml"
       , "rules-openstack-check.yaml"
+      , "rules-es-check.yaml"
       ]
       [     ScrapeConfigs.static "node_proxy" ci_centos_list
         //  { proxy_url = Some "http://127.0.0.1:8080" }

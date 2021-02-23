@@ -39,15 +39,18 @@ def do_query(es_url, user, password, index, insecure):
         },
         "sort": [{
             "@timestamp": {
-                "order": "asc"
+                "order": "desc"
             }
         }],
         "size": "1"
     }'''
-    es = Elasticsearch(es_url,
-                       http_auth=(user, password),
-                       verify_certs=insecure)
-    es_search = es.search(index=index, body=str(data))
+    kwargs = {'verify_certs': insecure}
+    if user and password:
+        kwargs['http_auth'] = (user, password)
+    es = Elasticsearch(es_url, **kwargs)
+
+    query_kwargs = {'index': index, 'body': str(data)}
+    es_search = es.search(**query_kwargs)
     es_source = es_search['hits']['hits'][0]['_source']
     return es_source.get('@timestamp') if es_source.get(
         '@timestamp') else es_source.get('timestamp')
