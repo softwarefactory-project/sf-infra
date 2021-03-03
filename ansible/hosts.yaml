@@ -73,6 +73,7 @@ all:
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
+        centos.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
@@ -135,6 +136,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    centos.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     centos8-rpm-packaging-ci.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto

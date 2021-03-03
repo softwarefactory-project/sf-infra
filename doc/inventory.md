@@ -41,6 +41,7 @@ This project manages:
 * nodepool-builder-02.softwarefactory-project.io
 * image-builder.softwarefactory-project.io
 * fedora.softwarefactory-project.io
+* centos.softwarefactory-project.io
 * ovirt.softwarefactory-project.io
 * ovirt-staging.softwarefactory-project.io
 * ansible.softwarefactory-project.io
