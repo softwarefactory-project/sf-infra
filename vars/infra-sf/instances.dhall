@@ -35,7 +35,10 @@ let tenant-instances =
                 }
               ]
             }
-      , tenant-instance // { name = "centos", server = Some tenant-server }
+      ,     tenant-instance
+        //  { name = "centos"
+            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.189")
+            }
       ,     tenant-instance
         //  { name = "ovirt"
             , server = Some (tenant-server // Infra.Server.Ip "38.102.83.159")

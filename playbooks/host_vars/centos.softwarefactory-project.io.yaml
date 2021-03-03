@@ -1,0 +1,4 @@
+acme_vhost_owner: "pagesuser"
+acme_domains:
+  - domain: centos.softwarefactory-project.io
+    sf_gateway: true

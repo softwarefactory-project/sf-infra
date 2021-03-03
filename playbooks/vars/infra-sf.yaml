@@ -324,9 +324,10 @@ servers:
       - internal
       - web
     volume_size: 40
-  - auto_ip: false
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ips:
+      - '38.102.83.189'
     image: centos-7-1907
     key_name: sf-infra-key
     name: centos.softwarefactory-project.io

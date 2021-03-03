@@ -28,6 +28,10 @@
     - node-exporter
     - sf-ssh
 
+- hosts: centos.softwarefactory-project.io
+  roles:
+    - acme-tiny
+
 - hosts: lambda.softwarefactory-project.io
   roles:
     - dev-spice
