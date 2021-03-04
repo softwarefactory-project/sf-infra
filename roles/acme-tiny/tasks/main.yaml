@@ -22,7 +22,7 @@
 - name: "Ensure directory {{ acme_keys_dir }} exists"
   become: true
   file:
-    mode: "0755"
+    mode: "0700"
     owner: root
     path: "{{ acme_keys_dir }}"
     state: directory
@@ -38,14 +38,14 @@
 - name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/account.key"
   become: true
   shell:
-    cmd: "openssl genrsa 4096 > {{ acme_keys_dir }}/account.key"
+    cmd: "openssl genrsa --out {{ acme_keys_dir }}/account.key 4096"
     creates: "{{ acme_keys_dir }}/account.key"
 
 - name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/{{ item.domain }}.key"
   become: true
   loop: "{{ acme_domains }}"
   shell:
-    cmd: "openssl genrsa 4096 > {{ acme_keys_dir }}/{{ item.domain }}.key"
+    cmd: "openssl genrsa --out {{ acme_keys_dir }}/{{ item.domain }}.key 4096"
     creates: "{{ acme_keys_dir }}/{{ item.domain }}.key"
 
 - name: 'Run openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj "/CN={{ item.domain }}" for: {{ acme_keys_dir }}/{{ item.domain }}.csr'
@@ -88,6 +88,7 @@
   template:
     dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
+  when: not item.vhost_skip|default(false)
 
 - name: Reload apache
   when: "_vhost_conf is changed"
@@ -130,6 +131,7 @@
   template:
     dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
+  when: not item.vhost_skip|default(false)
 
 - name: Reload apache
   when: "_vhost_conf is changed"
