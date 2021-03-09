@@ -5,6 +5,7 @@ rdo_trunk_workers:
   - centos-rocky
   - centos-queens
   - centos8-master-uc
+  - centos8-wallaby
   - centos8-victoria
   - centos8-ussuri
   - centos8-train
