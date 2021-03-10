@@ -10,7 +10,7 @@ dlrn_sshd_port: 3300
 force_python_version: python3
 
 web_domain: 'trunk.rdoproject.org'
-api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos8-master-uc', 'centos8-victoria', 'centos8-ussuri', 'centos8-train']
+api_workers: ['centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos8-master-uc', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train']
 
 dlrn_workers:
   centos-train:
@@ -158,6 +158,29 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
     use_components: true
+  centos8-wallaby:
+    distro: 'centos8'
+    target: 'centos8-wallaby'
+    distgit_branch: 'wallaby-rdo'
+    distro_branch: 'stable/wallaby'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '42'
+    symlinks: ['/var/www/html/centos8-wallaby', '/var/www/html/wallaby/centos8']
+    # NOTE(jpena): set to 'wallaby' once the tag has been created in rdoinfo
+    release: 'wallaby-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos8-wallaby'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-wallaby:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_wallaby?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    use_components: true
   centos8-victoria:
     distro: 'centos8'
     target: 'centos8-victoria'
@@ -198,7 +221,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'mysql+pymysql://centos8-ussuri:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_ussuri?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
+    mock_tmpfs_enable: false
     fallback_to_master: true
     include_srpm_in_repo: true
     enable_deps_sync: false
@@ -223,7 +246,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'mysql+pymysql://c8-train-compone:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train_components?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
+    mock_tmpfs_enable: false
     fallback_to_master: true
     include_srpm_in_repo: true
     enable_deps_sync: false
