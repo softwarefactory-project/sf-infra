@@ -77,9 +77,8 @@ dlrn_workers:
     distgit_branch: 'wallaby-rdo'
     distro_branch: 'stable/wallaby'
     disable_email: *disable_email
-    # NOTE(jpena): set to *enable_cron and *enable_purge after the initial bootstrap
-    enable_cron: false
-    enable_purge: false
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
     purge_hour: '3'
     purge_minute: '42'
     symlinks: ['/var/www/html/centos8-wallaby', '/var/www/html/wallaby/centos8']
@@ -96,8 +95,7 @@ dlrn_workers:
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
     gerrit_email: 'javier.pena@redhat.com'
-    # NOTE(jpena): uncomment once the initial bootstrap has been completed
-    # gerrit_topic: 'rdo-FTBFS-wallaby'
+    gerrit_topic: 'rdo-FTBFS-wallaby'
     rsyncdest: 'centos8-wallaby@3.87.151.16:/home/centos8-wallaby/data/repos'
     rsyncport: '3300'
     use_components: true
