@@ -91,7 +91,6 @@ let instances =
         }
       , Instance::{
         , name = "ara"
-        , monitoring_auth_urls = [ "https://ara.softwarefactory-project.io" ]
         , groups = [ "ara" ]
         , connection = OS.Fedora.`31`.connection
         , server = Some Infra.Server::{
@@ -140,9 +139,7 @@ let instances =
                   "curl -o /dev/null -s -w '%{http_code}' URL should return 200"
 
             in  [ "https://softwarefactory-project.io"
-                , "https://softwarefactory-project.io/analytics/api/licensing/info"
                 , "https://softwarefactory-project.io/zuul/api/info"
-                , "https://softwarefactory-project.io/elasticsearch/"
                 , "https://ovirt.softwarefactory-project.io/zuul/api/info"
                 , "https://ansible.softwarefactory-project.io/zuul/api/info"
                 , "https://fedora.softwarefactory-project.io/zuul/api/info"
@@ -153,9 +150,14 @@ let instances =
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
-                , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
                 , "https://rdo.vexxhost.ca/auth/login/?next=/"
                 ]
+        , monitoring_auth_urls =
+          [ "https://ara.softwarefactory-project.io"
+          , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
+          , "https://softwarefactory-project.io/elasticsearch/"
+          , "https://softwarefactory-project.io/analytics/api/licensing/info"
+          ]
         , groups = [ "sf", "install-server" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some
