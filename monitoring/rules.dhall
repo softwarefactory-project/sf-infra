@@ -78,8 +78,15 @@ in  \(job-name : Text) ->
               }
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfMemory"
-              , expr = Some
-                  "(node_memory_MemAvailable_bytes + node_memory_SwapFree_bytes) / node_memory_MemTotal_bytes * 100 < 10"
+              , expr =
+                  let avail =
+                        "node_memory_MemAvailable_bytes{job='${job-name}'}"
+
+                  let free = "node_memory_SwapFree_bytes{job='${job-name}'}"
+
+                  let total = "node_memory_MemTotal_bytes{job='${job-name}'}"
+
+                  in  Some "(${avail} + ${free}) / ${total} * 100 < 10"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
@@ -91,8 +98,12 @@ in  \(job-name : Text) ->
               }
             , Prometheus.AlertingRule::{
               , alert = Some "InstanceOutOfSwap"
-              , expr = Some
-                  "(node_memory_SwapTotal_bytes > 0) and (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes * 100 < 50)"
+              , expr =
+                  let total = "node_memory_SwapTotal_bytes{job='${job-name}'}"
+
+                  let free = "node_memory_SwapFree_bytes{job='${job-name}'}"
+
+                  in  Some "(${total} > 0) and (${free} / ${total} * 100 < 50)"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of swap (instance {{ \$labels.instance }})"
@@ -106,7 +117,7 @@ in  \(job-name : Text) ->
               , alert = Some "InstanceOutOfDisk"
               , expr =
                   let percentage_node_filesystem_avail_bytes =
-                        "node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs'}"
+                        "node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs',job='${job-name}'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs',job='${job-name}'}"
 
                   let filesystem_avail_bytes =
                         "node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'}"
