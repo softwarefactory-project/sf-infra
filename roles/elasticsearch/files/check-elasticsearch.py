@@ -3,7 +3,6 @@
 import argparse
 import pytz
 import os
-
 from elasticsearch import Elasticsearch
 from dateutil import parser as date_parser
 
@@ -17,6 +16,12 @@ def get_arguments():
     parser.add_argument('--user', help='Username for login to the ES')
     parser.add_argument('--password', help='User password for login to the ES')
     parser.add_argument('--index', help='Index to check', default='logstash-*')
+    parser.add_argument('--key', help='Use cert key for auth. Requires:'
+                                      '--cert and --ca-cert param')
+    parser.add_argument('--cert', help='Use cert for auth. Requires:'
+                                       '--key and --ca-cert')
+    parser.add_argument('--ca-cert', help='Use ca-cert for auth. Requires:'
+                                          '--key and --cert')
     parser.add_argument('--collector_path',
                         required=False,
                         default='/var/lib/node_exporter/textfile_collector/'
@@ -26,13 +31,11 @@ def get_arguments():
     parser.add_argument('--query-delta',
                         default=3,
                         help='How many days from last log is needed')
-
     args = parser.parse_args()
-
     return args
 
 
-def do_query(es_url, user, password, index, insecure):
+def do_query(es_url, user, password, index, insecure, cert, key, ca_cert):
     data = '''{
         "query": {
             "match_all": {}
@@ -47,8 +50,14 @@ def do_query(es_url, user, password, index, insecure):
     kwargs = {'verify_certs': insecure}
     if user and password:
         kwargs['http_auth'] = (user, password)
-    es = Elasticsearch(es_url, **kwargs)
+    if cert:
+        kwargs['client_cert'] = cert
+    if ca_cert:
+        kwargs['ca_certs'] = ca_cert
+    if key:
+        kwargs['client_key'] = key
 
+    es = Elasticsearch(es_url, **kwargs)
     query_kwargs = {'index': index, 'body': str(data)}
     es_search = es.search(**query_kwargs)
     es_source = es_search['hits']['hits'][0]['_source']
@@ -83,11 +92,11 @@ if __name__ == '__main__':
     timezone = pytz.UTC
     remove_collector_file(args.collector_path)
     query_date = do_query(args.elasticsearch_url, args.user, args.password,
-                          args.index, args.insecure)
+                          args.index, args.insecure, args.cert, args.key,
+                          args.ca_cert)
     query_timestamp = convert_to_timestamp(query_date)
     metrics = {
         'elasticsearch_last_update{index="%s"}' % args.index: query_timestamp
     }
-
     metrics = convert_dict_to_string(metrics)
     write_metrics_to_collector(args.collector_path, metrics)
