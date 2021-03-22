@@ -25,21 +25,21 @@ groups:
           description: |
             Node only has {{ $value | humanize1024 }} of free mem available.
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "(node_memory_MemAvailable_bytes + node_memory_SwapFree_bytes) / node_memory_MemTotal_bytes * 100 < 10"
+        expr: "(node_memory_MemAvailable_bytes{job='node_proxy'} + node_memory_SwapFree_bytes{job='node_proxy'}) / node_memory_MemTotal_bytes{job='node_proxy'} * 100 < 10"
         for: "30m"
       - alert: InstanceOutOfSwap
         annotations:
           description: |
             Node only has {{ $value | humanize1024 }} of free swap available.
           summary: "Out of swap (instance {{ $labels.instance }})"
-        expr: "(node_memory_SwapTotal_bytes > 0) and (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes * 100 < 50)"
+        expr: "(node_memory_SwapTotal_bytes{job='node_proxy'} > 0) and (node_memory_SwapFree_bytes{job='node_proxy'} / node_memory_SwapTotal_bytes{job='node_proxy'} * 100 < 50)"
         for: "30m"
       - alert: InstanceOutOfDisk
         annotations:
           description: |
             Node only has {{ $value | humanize1024 }} of free disk available.
           summary: "Out of disk (instance {{ $labels.instance }})"
-        expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
+        expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"
       - alert: OOMKillerDetected
         annotations:
