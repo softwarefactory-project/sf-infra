@@ -13,12 +13,17 @@
     mode: 0400
   when: not sf_tenant
 
-# https://softwarefactory-project.io/r/20018
-- name: Install a backported version of managesf
-  become: true
-  package:
-    name: http://softwarefactory-project.io/html/managesf-0.24.1.1.g0f05ba0-11.el7.noarch.rpm
-  ignore_errors: true
+- name: Copy gerrit logo
+  become: yes
+  copy:
+    src: "{{ ansible_fqdn }}-gerrit-logo.png"
+    dest: /var/www/static/gerrit-logo.png
+
+- name: Copy gerrit theme
+  become: yes
+  copy:
+    src: "{{ ansible_fqdn }}-sftheme.html"
+    dest: /var/lib/gerrit/plugins/sftheme.html
 
 - name: Copy the arch.yaml
   become: true
