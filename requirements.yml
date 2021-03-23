@@ -1,17 +1,14 @@
 ---
 - src: git+https://gitlab.com/osci/ansible-role-web_builder.git
   name: web_builder
-  version: "0693ea1e725c09b3f8a89f61b13b264f084593a1"
 - src: git+https://gitlab.com/osas/ansible-role-msmtp.git
   name: msmtp
 - src: git+https://gitlab.com/osas/ansible-role-ah-httpd.git
   name: httpd
-  version: "dcb2855f7b57682b8da73a0c1a3f9472f1ba6895"
 - src: git+https://github.com/rdo-infra/ansible-role-rdo_dashboards.git
   name: dashboards
 - src: git+https://gitlab.com/osas/ansible-role-postfix.git
   name: postfix
-  version: "7be8c5f4fd1ced1ad50b99a2ab7524842564fdc4"
 - src: git+https://gitlab.com/osas/ansible-role-spamassassin.git
   name: spamassassin
 - src: git+https://gitlab.com/osas/ansible-role-mailman2.git
@@ -22,5 +19,4 @@
   name: data_movebind
 - src: git+https://gitlab.com/osas/ansible-role-dovecot.git
   name: dovecot
-  version: "519cf01cd32e04d7129811f3f53dc4f4411feac9"
 
