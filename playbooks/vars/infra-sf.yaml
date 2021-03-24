@@ -322,6 +322,7 @@ servers:
       - common
       - monitoring
       - internal
+      - elk
       - web
     volume_size: 40
   - boot_from_volume: yes
