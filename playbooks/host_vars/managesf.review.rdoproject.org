@@ -1,1 +1,0 @@
-sf_ssh_priv_key: "{{ install_server_rdo_key }}"

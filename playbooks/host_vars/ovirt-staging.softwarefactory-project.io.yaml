@@ -1,3 +1,4 @@
 acme_domains:
   - domain: ovirt-staging.softwarefactory-project.io
     sf_gateway: true
+    vhost_skip: true

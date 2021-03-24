@@ -1,3 +1,4 @@
+sf_ssh_priv_key: "{{ install_server_rdo_key }}"
 acme_domains:
   - domain: review.rdoproject.org
     sf_gateway: true

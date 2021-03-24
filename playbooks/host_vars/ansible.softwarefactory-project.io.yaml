@@ -1,3 +1,4 @@
 acme_domains:
   - domain: ansible.softwarefactory-project.io
     sf_gateway: true
+    vhost_skip: true
