@@ -18,7 +18,7 @@ groups:
               VALUE = {{ $value | humanize1024 }}
               LABELS: {{ $labels }}
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node_proxy'}[1d], 3 * 24 * 3600) < 0)"
+        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node_proxy'}[1d], 3 * 24 * 3600) < 0) AND {instance!~'ze.*|zm.*', job='node'}"
         for: "12h"
       - alert: InstanceOutOfMemory
         annotations:
