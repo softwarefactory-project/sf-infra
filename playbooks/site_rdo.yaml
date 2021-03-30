@@ -60,6 +60,7 @@
   roles:
     - hostname
     - sf-install-server
+    - acme-tiny
 
 - hosts: dlrn
   vars_files:
