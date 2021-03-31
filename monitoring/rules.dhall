@@ -64,7 +64,8 @@ in  \(job-name : Text) ->
                   let prediction =
                         "predict_linear(node_memory_MemAvailable_bytes{job='${job-name}'}[1d], 3 * 24 * 3600)"
 
-                  in  Some "(${usage} < 50) and (${prediction} < 0)"
+                  in  Some
+                        "(${usage} < 50) and (${prediction} < 0) AND {instance!~'ze.*|zm.*', job='node'}"
               , for = Some "12h"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
