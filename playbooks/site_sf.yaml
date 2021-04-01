@@ -130,6 +130,7 @@
   roles:
     - volume
     - manage-upstream-config-project
+    - builder-cleanup
 
 - hosts: ci-centos-org
   become: yes
