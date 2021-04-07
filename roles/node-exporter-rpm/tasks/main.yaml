@@ -1,8 +1,14 @@
 ---
 - block:
-    - name: Install copr
+    - name: Gather package facts
+      package_facts:
+        manager: auto
+
+    - name: Install package from copr
       yum:
         name: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-x86_64/00935314-golang-github-prometheus-node_exporter/golang-github-prometheus-node_exporter-0.18.1-6.el7.x86_64.rpm
+      when:
+        - "('golang-github-prometheus-node_exporter' not in ansible_facts.packages) or ('golang-github-prometheus-node_exporter' in ansible_facts.packages and ansible_facts.packages['golang-github-prometheus-node_exporter'][0]['version'] != '0.18.1')"
 
     - name: Adding service suffix for prometheus_monitored_services
       set_fact:
