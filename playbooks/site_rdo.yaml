@@ -121,14 +121,6 @@
         name:
           - epel-release
       become: yes
-    # NOTE(jpena): We will be able to remove this task once the DNS entry
-    # for www.rdoproject.org has been changed
-    - name: Set IP for www.rdoproject.org in /etc/hosts
-      become: yes
-      lineinfile:
-        dest: '/etc/hosts'
-        regexp: ".+www.rdoproject.org.+$"
-        line: "38.102.83.227 www.rdoproject.org"
     - name: "Deploy websites"
       include_role:
         name: websites
