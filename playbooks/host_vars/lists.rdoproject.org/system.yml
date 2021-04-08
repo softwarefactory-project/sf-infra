@@ -1,2 +1,10 @@
 ---
+ml_type: mm2
 swap_device: /dev/vdb
+data_dev: /dev/vdc
+mail_domain: rdoproject.org
+force_tls: True
+use_tls: True
+use_letsencrypt: True
+tls_method: manual
+

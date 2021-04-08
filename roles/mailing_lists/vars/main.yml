@@ -1,11 +1,6 @@
 ---
-mail_domain: lists.rdoproject.org
 ml_routing_map: /etc/postfix/mailinglists
 website_domain: lists.rdoproject.org
-force_tls: True
-use_tls: True
-use_letsencrypt: True
-tls_method: manual
 cert_file: "/etc/letsencrypt/live/{{ website_domain }}/fullchain.pem"
 key_file: "/etc/letsencrypt/live/{{ website_domain }}/privkey.pem"
 ca_file: /etc/pki/tls/cert.pem
