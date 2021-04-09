@@ -1,0 +1,36 @@
+---
+- name: Install bup
+  block:
+  - name: Install required packages
+    package:
+      name: "{{ backup_packages }}"
+      state: installed
+
+  - name: Check for existing bup binary
+    stat:
+      path: "/usr/local/bin/bup"
+    register: bup_exists
+
+  - name: Create temporary directory for bup
+    tempfile:
+      state: directory
+      suffix: bup
+    register: bup_path
+    when: not bup_exists.stat.exists
+
+  - name: Fetch and uncompress bup tarball
+    unarchive:
+      src: "https://github.com/bup/bup/archive/{{ bup_version }}.tar.gz"
+      dest: "{{ bup_path.path }}"
+      remote_src: yes
+    when: not bup_exists.stat.exists
+
+  - name: Compile and install bup
+    shell:
+      cmd: |
+        ./configure
+        make
+        make install
+      chdir: "{{ bup_path.path }}/bup-{{ bup_version }}"
+    when: not bup_exists.stat.exists
+  become: yes

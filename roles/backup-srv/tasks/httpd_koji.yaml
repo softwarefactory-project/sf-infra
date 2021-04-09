@@ -1,0 +1,44 @@
+---
+- name: Configure httpd for koji
+  become: yes
+  block:
+    - name: Add sfrepos user
+      user:
+        name: sfrepos
+        state: present
+
+    - name: Create the sfkoji backup directory
+      file:
+        path: /var/www/html/sfkoji
+        state: directory
+        mode: 0755
+        owner: sfrepos
+        group: sfrepos
+        setype: httpd_sys_content_t
+
+    # The SSL certificate and renewal cron jobs are created as part of the
+    # rdo-infra/base role
+
+    - name: Deploy SSL options file for letsencrypt
+      copy:
+        src: options-ssl-apache.conf
+        dest: /etc/letsencrypt/options-ssl-apache.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Create vhost configuration
+      template:
+        src: site.conf.j2
+        dest: /etc/httpd/conf.d/site.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart httpd
+
+    - name: Enable and start httpd
+      service:
+        name: "httpd"
+        state: "started"
+        enabled: "yes"

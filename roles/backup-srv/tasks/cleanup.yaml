@@ -1,0 +1,13 @@
+---
+- name: Remove unused files or directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/cron.d/sf-backup
+    - /etc/cron.d/sf-rdo
+    - /root/rdo-infra-playbooks
+    - /root/rdo-ml-backup
+    - /root/sf-ops
+    - /root/sf-project-backup
+  become: yes

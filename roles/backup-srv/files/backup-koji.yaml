@@ -1,0 +1,58 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: "Add {{ koji_host }} to the inventory"
+      add_host:
+        name: "{{ koji_host }}"
+        groups: "koji"
+    - name: "Set current_bup_dir"
+      set_fact:
+        current_bup_dir: "{{ bup_dir }}/{{ ansible_date_time.year }}-{{ ansible_date_time.month }}"
+    - name: "Create local backup directory {{ local_dir }}"
+      file:
+        path: "{{ local_dir }}"
+        state: directory
+        mode: 0700
+    - name: "Create local bup directory {{ current_bup_dir }}"
+      file:
+        path: "{{ current_bup_dir }}"
+        state: directory
+        mode: 0700
+    - stat:
+        path: "{{ current_bup_dir }}/HEAD"
+      register: bd
+    - name: "Bup init"
+      command: "bup init"
+      environment:
+        BUP_DIR: "{{ current_bup_dir }}"
+        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+      when: not bd.stat.exists
+
+- hosts: koji
+  remote_user: kojiadmin
+  tasks:
+    - name: "Backup koji database"
+      shell: "pg_dump -U koji koji | gzip > /home/kojiadmin/koji_pgdump.sql.gz"
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: "Rsync koji db dump to localhost {{ local_dir }}"
+      command: "rsync kojiadmin@{{ koji_host }}:/home/kojiadmin/koji_pgdump.sql.gz {{ local_dir }}"
+    - name: "Rsync koji /mnt/koji to localhost {{ local_dir }}"
+      command: "rsync -a --delete-delay kojiadmin@{{ koji_host }}:/mnt/koji {{ local_dir }}"
+
+    - name: "Bup index"
+      command: "bup index {{ local_dir }}"
+      environment:
+        BUP_DIR: "{{ current_bup_dir }}"
+        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+    - name: "Bup save"
+      command: "bup save -n {{ koji_host }} {{ local_dir }}"
+      environment:
+        BUP_DIR: "{{ current_bup_dir }}"
+        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
+    - name: "Rsync koji {{ local_dir }}/koji/repo/{{ item }} {{ www_dir }}"
+      command: "rsync -a --delete-delay {{ local_dir }}/koji/repos/{{ item }} {{ www_dir }}"
+      with_items: "{{ sf_releases }}"

@@ -1,0 +1,36 @@
+backup_packages:
+  - gcc
+  - python-devel
+  - httpd
+  - mod_ssl
+  - lvm2
+  - git
+
+bup_version: 0.29.1
+# TODO: use volume role to manage lvs after moving all data on /var/lib/backup lv
+# vg_device: /dev/xvdf
+# lvs:
+#   - {name: backup, size: 350g}
+#   - {name: koji, size: 40g}
+
+servers:
+  - filename: "sf"
+    instances: ["softwarefactory-project.io"]
+    hour: 1
+  - filename: "rdo"
+    instances: ["review.rdoproject.org", "elk.review.rdoproject.org"]
+    hour: 2
+  - filename: "list"
+    instances: ["lists.rdoproject.org"]
+    remote_dir: "/srv/data/"
+    run_sf_backup: "no"
+    hour: 3
+  - filename: "koji"
+    instances: ["koji.softwarefactory-project.io"]
+    www_dir: "/var/www/html/sfkoji/repos/"
+    playbook: "backup-koji.yaml"
+    sf_releases:
+      - sf-master-el7
+      - sf-3.6-el7-release
+      - sf-3.5-el7-release
+    hour: 4

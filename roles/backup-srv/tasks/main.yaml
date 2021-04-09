@@ -1,0 +1,42 @@
+---
+- name: Install bup
+  include_tasks: install.yaml
+
+- name: Setup httpd for koji
+  include_tasks: httpd_koji.yaml
+
+- name: Cleanup outdated files
+  include_tasks: cleanup.yaml
+
+- name: Setup jobs
+  become: yes
+  block:
+    - name: Add MAILTO address in crontab
+      cron:
+        name: MAILTO
+        user: root
+        env: yes
+        value: softwarefactory-operations-team@redhat.com
+
+    - name: Install playbooks
+      copy:
+        src: "{{ item }}"
+        dest: "/var/lib/backup/{{ item }}"
+      loop:
+        - backup.yaml
+        - backup-koji.yaml
+
+    - name: Generate variables files
+      template:
+        src: "backup.yaml.j2"
+        dest: "/var/lib/backup/{{ item.filename }}.yaml"
+      loop: "{{ servers }}"
+
+    - name: Create crontab entries
+      cron:
+        name: "Run backup for {{ item.filename }}"
+        user: "root"
+        minute: "0"
+        hour: "{{ item.hour }}"
+        job: 'ansible-playbook -vv /var/lib/backup/{{ item.playbook | default("backup.yaml") }} -e @/var/lib/backup/{{item.filename}}.yaml'
+      loop: "{{ servers }}"

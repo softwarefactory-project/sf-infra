@@ -34,17 +34,11 @@
   vars_files:
     - vars/dlrn-db.yaml
   roles:
-    - backup-monitoring
+    # TODO: fix backup-monitoring role
+    # use same variables than backup-srv
+    # - backup-monitoring
     - mysqld-exporter
-  tasks:
-    # from rdo-infra-playbooks
-    - name: Configure backups
-      include_role:
-        name: backup-server
-        tasks_from: main.yml
-        apply:
-          become: yes
-          become_user: root
+    - backup-srv
 
 - hosts: afs-mirror
   roles:
