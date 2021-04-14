@@ -13,9 +13,20 @@ all:
     ara:
       hosts:
         ara.softwarefactory-project.io: {}
-    backup:
+    backup-rdo:
+      hosts:
+        lists.rdoproject.org: {}
+        managesf.review.rdoproject.org: {}
+    backup-server:
       hosts:
         backup.rdoproject.org: {}
+    backup-sf:
+      hosts:
+        ansible.softwarefactory-project.io: {}
+        centos.softwarefactory-project.io: {}
+        fedora.softwarefactory-project.io: {}
+        managesf.softwarefactory-project.io: {}
+        ovirt.softwarefactory-project.io: {}
     ci-centos-org:
       hosts:
         rdo-ci-cloudslave01.ci.centos.org: {}

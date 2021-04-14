@@ -30,7 +30,11 @@
   roles:
     - node-exporter
 
-- hosts: backup
+- hosts: backup-rdo
+  roles:
+    - backup-client
+
+- hosts: backup-server
   vars_files:
     - vars/dlrn-db.yaml
   roles:
@@ -144,13 +148,6 @@
       package:
         name:
           - epel-release
-
-
-    - name: Authorized backup node to run backup
-      become: yes
-      authorized_key:
-        user: root
-        key: "{{ backup_pub_key }}"
 
     - name: "Setup the OSPO/OSCI Infra repo"
       yum_repository:

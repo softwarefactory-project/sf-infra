@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , groups = [ "sf" ]
+      , groups = [ "sf", "backup-sf" ]
       , connection = OS.CentOS.`7.0`.connection
       }
 
@@ -49,6 +49,7 @@ let tenant-instances =
             }
       ,     tenant-instance
         //  { name = "ovirt-staging"
+            , groups = [ "sf" ]
             , server = Some (tenant-server // Infra.Server.Ip "38.102.83.251")
             }
       ,     tenant-instance
@@ -162,7 +163,7 @@ let instances =
           , "https://softwarefactory-project.io/elasticsearch/"
           , "https://softwarefactory-project.io/analytics/api/licensing/info"
           ]
-        , groups = [ "sf", "install-server" ]
+        , groups = [ "sf", "install-server", "backup-sf" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some
             (     Infra.Server::{

@@ -133,7 +133,7 @@ let instances =
         , monitoring_auth_urls =
           [ "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
           ]
-        , groups = [ "rdo", "install-server" ]
+        , groups = [ "rdo", "install-server", "backup-rdo" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -228,6 +228,7 @@ let instances =
       , Instance::{
         , name = "lists"
         , connection = OS.CentOS.`7.0`.connection
+        , groups = [ "backup-rdo" ]
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
@@ -280,7 +281,9 @@ let AwsServer =
       { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
 
 let extra =
-      [ Instance::({ name = "backup", groups = [ "backup" ] } // AwsServer)
+      [ Instance::(     { name = "backup", groups = [ "backup-server" ] }
+                    //  AwsServer
+                  )
       , Instance::({ name = "trunk", groups = [ "dlrn" ] } // AwsServer)
       ]
 

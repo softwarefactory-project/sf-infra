@@ -28,6 +28,10 @@
     - node-exporter
     - sf-ssh
 
+- hosts: backup-sf
+  roles:
+    - backup-client
+
 - hosts: centos.softwarefactory-project.io
   roles:
     - acme-tiny
