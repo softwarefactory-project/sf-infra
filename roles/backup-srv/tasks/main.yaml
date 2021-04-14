@@ -5,9 +5,6 @@
 - name: Setup httpd for koji
   include_tasks: httpd_koji.yaml
 
-- name: Cleanup outdated files
-  include_tasks: cleanup.yaml
-
 - name: Setup jobs
   become: yes
   block:
