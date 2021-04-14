@@ -1,15 +1,14 @@
 ---
-rdo_backup_locations:
-  - dir: /var/lib/backup_lists_rdo/bup
+bup_backup_locations:
+  - dir: /var/lib/backup/bup/lists.rdoproject.org
     domain: lists.rdoproject.org
-    month_subdir: 0
-  - dir: /var/lib/backup_review_rdo/bup
+    month_subdir: 1
+  - dir: /var/lib/backup/bup/review.rdoproject.org
     domain: review.rdoproject.org
     month_subdir: 1
-sf_backup_locations:
-  - dir: /var/lib/sfbackup/bup
+  - dir: /var/lib/backup/bup/softwarefactory-project.io
     domain: softwarefactory-project.io
     month_subdir: 1
-  - dir: /var/lib/sfbackup/bup-koji
+  - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
     domain: koji.softwarefactory-project.io
     month_subdir: 1

@@ -3,7 +3,7 @@
   block:
     - name: Dump the configurations
       copy:
-        content: "{{ (rdo_backup_locations + sf_backup_locations) | to_json }}"
+        content: "{{ bup_backup_locations | to_json }}"
         dest: /var/lib/bup-backup-locations.json
 
     - name: Deploy check-bup-backups.py

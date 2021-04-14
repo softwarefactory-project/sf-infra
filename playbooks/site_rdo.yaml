@@ -34,11 +34,9 @@
   vars_files:
     - vars/dlrn-db.yaml
   roles:
-    # TODO: fix backup-monitoring role
-    # use same variables than backup-srv
-    # - backup-monitoring
     - mysqld-exporter
     - backup-srv
+    - backup-monitoring
 
 - hosts: afs-mirror
   roles:
