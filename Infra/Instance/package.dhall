@@ -10,6 +10,8 @@ infrastructure component.
 , generate = ./generate.dhall
 , getName = ./getName.dhall
 , getNodeExporter = ./getNodeExporter.dhall
+, getBackup = ./getBackup.dhall
+, getBackups = ./getBackups.dhall
 , getServer = ./getServer.dhall
 , getServers = ./getServers.dhall
 , isCreated = ./isCreated.dhall
