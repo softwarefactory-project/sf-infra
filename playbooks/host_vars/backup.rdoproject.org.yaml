@@ -1,4 +1,38 @@
-mysqld_exporter_user: root
+bup_backup_locations:
+  - dir: /var/lib/backup/bup/softwarefactory-project.io
+    domain: softwarefactory-project.io
+    month_subdir: 1
+  - dir: /var/lib/backup/bup/review.rdoproject.org
+    domain: review.rdoproject.org
+    month_subdir: 1
+  - dir: /var/lib/backup/bup/lists.rdoproject.org
+    domain: lists.rdoproject.org
+    month_subdir: 1
+  - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
+    domain: koji.softwarefactory-project.io
+    month_subdir: 1
 mysqld_exporter_password: "{{ db_password }}"
-mysqld_exporter_use_ssl: true
 mysqld_exporter_ssl_certs: "{{ db_ssl_certs }}"
+mysqld_exporter_use_ssl: true
+mysqld_exporter_user: root
+servers:
+  - filename: "sf"
+    instances: ["softwarefactory-project.io"]
+    hour: 1
+  - filename: "rdo"
+    instances: ["review.rdoproject.org", "elk.review.rdoproject.org"]
+    hour: 2
+  - filename: "list"
+    instances: ["lists.rdoproject.org"]
+    remote_dir: "/srv/data/"
+    run_sf_backup: "no"
+    hour: 3
+  - filename: "koji"
+    instances: ["koji.softwarefactory-project.io"]
+    www_dir: "/var/www/html/sfkoji/repos/"
+    playbook: "backup-koji.yaml"
+    sf_releases:
+      - sf-master-el7
+      - sf-3.6-el7-release
+      - sf-3.5-el7-release
+    hour: 4
