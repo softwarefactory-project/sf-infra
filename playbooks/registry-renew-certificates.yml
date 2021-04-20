@@ -11,6 +11,10 @@
     # NOTE(dpawlik) Copy new certs to the bridge host, because
     # it will be copied back using Openshift Ansible, when some patch set
     # will trigger sf-infra-configure-registry job.
+    - name: Make sure that directory exists on bridge host
+      file:
+        path: /home/fedora/letsencrypt
+        state: directory
     - name: Copy generated certs to the bridge host
       synchronize:
         src: /etc/letsencrypt/
