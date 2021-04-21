@@ -34,3 +34,15 @@ servers:
       - sf-3.6-el7-release
       - sf-3.5-el7-release
     hour: 4
+  - filename: "ansible"
+    instances: ["ansible.softwarefactory-project.io"]
+    hour: 5
+  - filename: "centos"
+    instances: ["centos.softwarefactory-project.io"]
+    hour: 6
+  - filename: "fedora"
+    instances: ["fedora.softwarefactory-project.io"]
+    hour: 7
+  - filename: "ovirt"
+    instances: ["ovirt.softwarefactory-project.io"]
+    hour: 8
