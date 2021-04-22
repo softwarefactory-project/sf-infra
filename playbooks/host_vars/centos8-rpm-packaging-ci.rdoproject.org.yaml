@@ -10,6 +10,8 @@ dlrn_host: centos8-rpm-packaging-ci
 dlrn_override_files:
   /home/centos8-master/data/repos/dlrn-deps.repo:
       source: centos8-master-rpm-packaging-dlrn-deps.repo
+  /home/centos8-wallaby/data/repos/dlrn-deps.repo:
+      source: centos8-wallaby-rpm-packaging-dlrn-deps.repo
   /home/centos8-victoria/data/repos/dlrn-deps.repo:
       source: centos8-victoria-rpm-packaging-dlrn-deps.repo
   /home/centos8-ussuri/data/repos/dlrn-deps.repo:
@@ -35,6 +37,29 @@ dlrn_workers:
     symlinks: ['/var/www/html/repos']
     release: 'ussuri'
     baseurl: 'https://centos8-rpm-packaging-ci.rdoproject.org/repos/'
+    pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+    mock_config: 'centos8stream.cfg.j2'
+  centos8-wallaby:
+    distro: 'centos8'
+    target: 'centos8-wallaby'
+    distgit_branch: 'stable/wallaby'
+    distro_branch: 'stable/wallaby'
+    disable_email: *disable_email
+    # FIXME(jpena): set to *enable_cron after the initial bootstrap
+    enable_cron: false
+    enable_purge: *enable_purge
+    cron_hour: '*/4'
+    cron_minute: '30'
+    purge_hour: '1'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/wallaby/repos']
+    release: 'wallaby'
+    baseurl: 'https://centos8-rpm-packaging-ci.rdoproject.org/wallaby/repos/'
     pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -82,7 +107,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: true
+    mock_tmpfs_enable: false
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
@@ -104,7 +129,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.gitrepo.GitRepoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: true
+    mock_tmpfs_enable: false
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
