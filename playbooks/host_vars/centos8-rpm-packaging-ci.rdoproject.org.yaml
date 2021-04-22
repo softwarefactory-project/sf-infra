@@ -63,6 +63,7 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+    mock_config: 'centos8stream.cfg.j2'
   centos8-ussuri:
     distro: 'centos8'
     target: 'centos8-ussuri'
@@ -84,6 +85,7 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+    mock_config: 'centos8stream.cfg.j2'
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'
@@ -105,3 +107,4 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
+    mock_config: 'centos8stream.cfg.j2'
