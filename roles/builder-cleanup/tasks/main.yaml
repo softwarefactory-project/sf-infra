@@ -1,0 +1,7 @@
+---
+- name: Cleanup outdated fedora rawhide images
+  cron:
+    name: "Cleanup outdated fedora rawhide images"
+    special_time: daily
+    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'Fedora-Cloud-Base-Rawhide*' -mtime +5 -delete"
+  become: yes
