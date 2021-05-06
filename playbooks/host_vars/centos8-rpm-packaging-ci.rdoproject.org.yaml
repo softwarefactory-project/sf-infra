@@ -44,6 +44,7 @@ dlrn_workers:
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
+    purge_custom_args: '--older-than 30 -y --exclude-dirs /home/centos8-master/data/repos/current,/home/centos8-master/data/repos/consistent'
   centos8-wallaby:
     distro: 'centos8'
     target: 'centos8-wallaby'
@@ -67,6 +68,7 @@ dlrn_workers:
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
+    purge_custom_args: '--older-than 30 -y --exclude-dirs /home/centos8-wallaby/data/repos/current,/home/centos8-wallaby/data/repos/consistent'
   centos8-victoria:
     distro: 'centos8'
     target: 'centos8-victoria'
@@ -89,6 +91,7 @@ dlrn_workers:
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
+    purge_custom_args: '--older-than 30 -y --exclude-dirs /home/centos8-victoria/data/repos/current,/home/centos8-victoria/data/repos/consistent'
   centos8-ussuri:
     distro: 'centos8'
     target: 'centos8-ussuri'
@@ -111,6 +114,7 @@ dlrn_workers:
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
+    purge_custom_args: '--older-than 30 -y --exclude-dirs /home/centos8-ussuri/data/repos/current,/home/centos8-ussuri/data/repos/consistent'
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'
@@ -133,3 +137,4 @@ dlrn_workers:
     fallback_to_master: true
     gitrepo_repo: 'https://opendev.org/openstack/rpm-packaging'
     mock_config: 'centos8stream.cfg.j2'
+    purge_custom_args: '--older-than 30 -y --exclude-dirs /home/centos8-train/data/repos/current,/home/centos8-train/data/repos/consistent'
