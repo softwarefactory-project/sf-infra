@@ -19,6 +19,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-openstack-check.yaml \
 	  monitoring/rules-es-check.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
+	  playbooks/host_vars/backup.rdoproject.org.yaml
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 

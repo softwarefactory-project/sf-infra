@@ -123,6 +123,12 @@ let instances =
         }
       , Instance::{
         , name = "managesf.review"
+        , backup = Some Infra.Backup::{
+          , run_sf_backup = True
+          , real_name = Some "review.rdoproject.org"
+          , instances = Some
+            [ "review.rdoproject.org", "elk.review.rdoproject.org" ]
+          }
         , monitoring_urls =
             let note = "TODO: move urls to relevant instance"
 
@@ -227,6 +233,10 @@ let instances =
         }
       , Instance::{
         , name = "lists"
+        , backup = Some Infra.Backup::{
+          , remote_dir = Some "/srv/data/"
+          , run_sf_backup = False
+          }
         , connection = OS.CentOS.`7.0`.connection
         , groups = [ "backup-rdo" ]
         , server = Some Infra.Server::{

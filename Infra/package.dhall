@@ -59,6 +59,7 @@ The Group package was incorrectly modeled as an Union of possible group
 and a future change will remove it from the Infra package.
 -}
 { AnsibleInventory = ./AnsibleInventory/package.dhall
+, Backup = ./Backup/package.dhall
 , Connection = ./Connection/package.dhall
 , Firewall = ./Firewall/package.dhall
 , Image = ./Image/package.dhall

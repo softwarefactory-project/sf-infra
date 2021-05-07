@@ -3,4 +3,3 @@ firewall_rules:
       permanent: yes
       immediate: yes
       state: enabled
-

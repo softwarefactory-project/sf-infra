@@ -11,6 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
+      , backup = Some Infra.Backup::{ run_sf_backup = True }
       , groups = [ "sf", "backup-sf" ]
       , connection = OS.CentOS.`7.0`.connection
       }
@@ -137,6 +138,10 @@ let instances =
         }
       , Instance::{
         , name = "managesf"
+        , backup = Some Infra.Backup::{
+          , run_sf_backup = True
+          , real_name = Some "softwarefactory-project.io"
+          }
         , monitoring_urls =
             let note = "TODO: move urls to relevant instance"
 
@@ -211,6 +216,13 @@ let instances =
         }
       , Instance::{
         , name = "koji"
+        , backup = Some Infra.Backup::{
+          , www_dir = Some "/var/www/html/sfkoji/repos/"
+          , playbook = Some "backup-koji.yaml"
+          , run_sf_backup = True
+          , sf_releases = Some
+            [ "sf-master-el7", "sf-3.6-el7-release", "sf-3.5-el7-release" ]
+          }
         , connection = OS.CentOS.`7.0`.connection
         , server = Some
             (     Infra.Server::{
