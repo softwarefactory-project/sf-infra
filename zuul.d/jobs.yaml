@@ -3,14 +3,6 @@
     name: sf-infra
     max: 1
 
-- semaphore:
-    name: configure-hosts-rdo
-    max: 1
-
-- semaphore:
-    name: configure-hosts-sf
-    max: 1
-
 - job:
     name: prometheus-lint
     description: Lint prometheus configuration
@@ -122,7 +114,7 @@
     name: sf-infra-configure-hosts-rdo
     parent: sf-infra-base
     description: Configure the RDO infra hosts
-    semaphore: configure-hosts-rdo
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
@@ -147,7 +139,7 @@
     name: sf-infra-configure-hosts-sf
     parent: sf-infra-base
     description: Configure the sf.io hosts
-    semaphore: configure-hosts-sf
+    semaphore: sf-infra
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
@@ -286,32 +278,9 @@
         - sf-infra-configure-tenants:
             dependencies:
               - dhall-diff
-        - sf-infra-configure-hosts-rdo:
+        - sf-infra-configure-hosts:
             dependencies:
-              - name: dhall-diff
-                soft: false
-              - name: linters
-                soft: false
-              - name: sf-infra-configure-tenants
-                soft: true
-              - name: sf-infra-create-hosts
-                soft: true
-        - sf-infra-configure-hosts-sf:
-            dependencies:
-              - name: dhall-diff
-                soft: false
-              - name: linters
-                soft: false
-              - name: sf-infra-configure-tenants
-                soft: true
-              - name: sf-infra-create-hosts
-                soft: true
-        - wait-for-changes-ahead:
-            dependencies:
-              - name: sf-infra-configure-hosts-rdo
-                soft: true
-              - name: sf-infra-configure-hosts-sf
-                soft: true
+              - dhall-diff
         - sf-infra-configure-registry:
             dependencies:
               - dhall-diff
