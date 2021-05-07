@@ -136,12 +136,6 @@
     - manage-upstream-config-project
     - builder-cleanup
 
-- hosts: ci-centos-org
-  become: yes
-  roles:
-    - pushprox
-    - cico-agent
-
 - name: Deploy and configure ARA API server
   hosts: ara.softwarefactory-project.io
   roles:
