@@ -126,8 +126,7 @@ let instances =
         , backup = Some Infra.Backup::{
           , run_sf_backup = True
           , real_name = Some "review.rdoproject.org"
-          , instances = Some
-            [ "review.rdoproject.org", "elk.review.rdoproject.org" ]
+          , instances = Some [ "review.rdoproject.org" ]
           }
         , monitoring_urls =
             let note = "TODO: move urls to relevant instance"

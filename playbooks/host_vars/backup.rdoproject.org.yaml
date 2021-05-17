@@ -36,7 +36,6 @@ servers:
     hour: 0
     instances:
       - review.rdoproject.org
-      - elk.review.rdoproject.org
     run_sf_backup: true
   - filename: lists.rdoproject.org.yaml
     hour: 1

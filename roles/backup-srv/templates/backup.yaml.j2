@@ -1,4 +1,4 @@
-{% if item.filename == "koji" %}
+{% if item.filename.startswith('koji') %}
 koji_host: "{{ item.instances[0] }}"
 www_dir: "{{ item.www_dir }}"
 sf_releases:
