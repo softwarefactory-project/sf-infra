@@ -3,6 +3,20 @@
     name: podman
   become: true
 
+- name: Ensure that storage driver is overlay
+  lineinfile:
+    path: "/etc/containers/storage.conf"
+    regexp: '^driver\ =\ \"\w+\"$'
+    line: 'driver = "overlay"'
+  become: true
+
+- name: Change mount program to fuse-overlays
+  lineinfile:
+    path: /etc/containers/storage.conf
+    regexp: '^#mount_program'
+    line: 'mount_program = "/usr/bin/fuse-overlayfs"'
+  become: true
+
 - name: Create account
   user:
     name: "{{ zuul_container_user }}"
