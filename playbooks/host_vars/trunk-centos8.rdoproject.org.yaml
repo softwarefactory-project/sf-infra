@@ -12,6 +12,31 @@ api_workers: ['centos8-master-uc', 'centos8-wallaby', 'centos8-victoria', 'cento
 web_domain: 'trunk-centos8.rdoproject.org'
 
 dlrn_workers:
+  centos9-master-preview:
+    distro: 'centos9'
+    target: 'centos9-master-preview'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master-preview']
+    release: 'xena-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos9-master-preview'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    rsyncdest: 'centos9-master-preview@3.87.151.16:/home/centos9-master-preview/data/repos'
+    rsyncport: '3300'
+    use_components: true
+    mock_config: 'centos9preview.cfg.j2'
   centos8-master-uc:
     distro: 'centos8'
     target: 'centos8-master-uc'
