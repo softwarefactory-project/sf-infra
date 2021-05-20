@@ -107,6 +107,7 @@
   roles:
     - zuul_cli_access
     - openstack-simply-reporter
+    - zookeeper-exporter
 
 - hosts: elk.softwarefactory-project.io
   roles:

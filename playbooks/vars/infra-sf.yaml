@@ -155,6 +155,9 @@ security_groups:
         remote_ip_prefix: "{{ nodepool_launcher_02_ip }}/32"
       - port: 2281
         remote_ip_prefix: "{{ nodepool_builder_02_ip }}/32"
+  - name: zookeeper-exporter
+    rules:
+      - port: 9141
 servers:
   - auto_ip: false
     boot_from_volume: yes
@@ -259,6 +262,7 @@ servers:
       - common
       - monitoring
       - internal
+      - zookeeper-exporter
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:

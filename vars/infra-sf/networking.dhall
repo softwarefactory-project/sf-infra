@@ -53,6 +53,9 @@ let security_groups =
               }
             ]
           }
+        , { name = "zookeeper-exporter"
+          , rules = [ Infra.Rule::{ port = +9141 } ]
+          }
         ]
 
 in  { networks = Some

@@ -201,7 +201,10 @@ let instances =
         , name = "zs"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , security_groups = [ "zookeeper-exporter" ]
+          }
         }
       , Instance::{
         , name = "koji"
