@@ -11,15 +11,15 @@ let security_group_rules =
 let container_images =
     --- NOTE: node_exporter and mysqld_exporter container images are set in group_vars/all
       { prometheus =
-          "quay.io/prometheus/prometheus@sha256:ea420f6cd98e4e43e264a7a2e6e27e8328f47aa32d937e0c6e8e3b30fdefe6eb"
+          "quay.io/prometheus/prometheus@sha256:5accb68b56ba452e449a5e552411acaeabbbe0f087acf19a1157ce3dd10a8bed"
       , blackbox =
-          "quay.io/prometheus/blackbox-exporter@sha256:1ffc3f109eb39c89df16cdaf359cb9127d4ca2b5313724e939c2c8769aff8176"
+          "quay.io/prometheus/blackbox-exporter@sha256:94de5897eef1b3c1ba7fbfebb9af366e032c0ff915a52c0066ff2e0c1bcd2e45"
       , alertmanager =
           "quay.io/prometheus/alertmanager@sha256:24a5204b418e8fa0214cfb628486749003b039c279c56b5bddb5b10cd100d926"
       , grafana =
-          "quay.io/app-sre/grafana@sha256:f140fde5ba622745926b1e390b6ff335c1a0b7a1126cd4211600534f922ef4c0"
+          "quay.io/software-factory/grafana@sha256:91ebc00a7427cd6156d0c2b51ba243dfb4659d1f8c8cee11e37b735798606ae4"
       , statsd_exporter =
-          "quay.io/prometheus/statsd-exporter@sha256:e23571c28ebe90b46ea00e1224e844635c972877cf507e0800f68fdab8e7e507"
+          "quay.io/prometheus/statsd-exporter@sha256:32e64e411fc1df9329aafed42b1b48740837bc84f116350d8e9feab8bd64c27c"
       }
 
 let firewall_rules =
