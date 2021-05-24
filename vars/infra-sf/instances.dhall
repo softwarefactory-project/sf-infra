@@ -160,7 +160,7 @@ let instances =
                 , "http://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://trunk.registry.rdoproject.org"
-                , "https://rdo.vexxhost.ca/auth/login/?next=/"
+                , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
         , monitoring_auth_urls =
           [ "https://ara.softwarefactory-project.io"
