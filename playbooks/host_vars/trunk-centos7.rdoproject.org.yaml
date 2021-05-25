@@ -106,7 +106,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'mysql+pymysql://centos-stein:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_stein?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
-    fallback_to_master: true
+    fallback_to_master: false
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
@@ -132,9 +132,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'mysql+pymysql://centos-rocky:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_rocky?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
-# TODO(jpena): set to false once all rocky-rdo branches have been created, then cleanup rdoinfo
-# to ensure all packages are built
-    fallback_to_master: true
+    fallback_to_master: false
     enable_deps_sync: true
     enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
