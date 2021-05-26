@@ -43,4 +43,4 @@
       --collector.interrupts
       --collector.textfile.directory /var/lib/node_exporter/textfile_collector
       --collector.systemd
-      --collector.systemd.unit-whitelist='{{ prometheus_monitored_services | join('|') }}'
+      --collector.systemd.unit-include="{{ prometheus_monitored_services | join('|') }}"
