@@ -193,8 +193,8 @@ inventory_public_dns:
   - www.rdoproject.org
 
 container_images:
-  node_exporter: "quay.io/prometheus/node-exporter@sha256:cf66a6bbd573fd819ea09c72e21b528e9252d58d01ae13564a29749de1e48e0f"
-  mysqld_exporter: "quay.io/software-factory/mysqld-exporter@sha256:95f76f3d34bfba7c31ea71d41207bbfacebf1fd3ae975e38ae2c091cf1820fe2"
+  node_exporter: "quay.io/prometheus/node-exporter@sha256:22fbde17ab647ddf89841e5e464464eece111402b7d599882c2a3393bc0d2810"
+  mysqld_exporter: "quay.io/prometheus/mysqld-exporter@sha256:2a6144cee9854467396a9ac896ffb39589bc5b7bb8842b589e1be71995abc84e"
 
 # by default OSPO/OSCI roles consider firewalld is present on RH systems as it is the default in non-minimal images
 manage_firewall: False
