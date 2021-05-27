@@ -3,7 +3,7 @@ certbot_plugin: "--apache"
 container_images:
   alertmanager: "quay.io/prometheus/alertmanager@sha256:24a5204b418e8fa0214cfb628486749003b039c279c56b5bddb5b10cd100d926"
   blackbox: "quay.io/prometheus/blackbox-exporter@sha256:94de5897eef1b3c1ba7fbfebb9af366e032c0ff915a52c0066ff2e0c1bcd2e45"
-  grafana: "quay.io/software-factory/grafana@sha256:91ebc00a7427cd6156d0c2b51ba243dfb4659d1f8c8cee11e37b735798606ae4"
+  grafana: "quay.io/software-factory/grafana@sha256:aa6b58d911de35939b065fc2fcd1bed76d3a42f0d7213b47898da7870f0b5c99"
   prometheus: "quay.io/prometheus/prometheus@sha256:5accb68b56ba452e449a5e552411acaeabbbe0f087acf19a1157ce3dd10a8bed"
   statsd_exporter: "quay.io/prometheus/statsd-exporter@sha256:32e64e411fc1df9329aafed42b1b48740837bc84f116350d8e9feab8bd64c27c"
 firewall_rules:
