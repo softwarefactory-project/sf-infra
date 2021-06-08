@@ -37,7 +37,7 @@
   loop: "{{ tenant_config.volumes }}"
 
 # Attaching volumes with os_server only works at initial server creation
-# Use os_server_volume instead
+# Use os_server_volume instead.
 - name: Attach additional volumes
   os_server_volume:
     cloud: "{{ cloud.name }}"
