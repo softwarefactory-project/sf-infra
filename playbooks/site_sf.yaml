@@ -75,7 +75,7 @@
               delaycompress
           }
         dest: /etc/logrotate.d/repoxplorer
-        mode: '0644'
+        mode: "0644"
 
 - hosts: integrations.softwarefactory-project.io
   roles:
@@ -107,15 +107,6 @@
   roles:
     - zuul_cli_access
     - openstack-simply-reporter
-
-- hosts: redhat-oss-git-stats.softwarefactory-project.io
-  roles:
-    - hostname
-    - elasticsearch
-    # - repoxplorer
-    # - repoxplorer-gateway
-    # - repoxplorer-rh-config
-    - setup-ssl
 
 - hosts: elk.softwarefactory-project.io
   roles:

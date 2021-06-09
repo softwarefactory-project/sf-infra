@@ -112,10 +112,6 @@ Host ara.softwarefactory-project.io
     User fedora
     Port 22
 
-Host redhat-oss-git-stats.softwarefactory-project.io
-    User centos
-    Port 22
-
 Host elk.softwarefactory-project.io
     User centos
     Port 22

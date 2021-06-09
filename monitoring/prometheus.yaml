@@ -46,7 +46,6 @@ scrape_configs:
           - logreduce-mqtt-01.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
           - ara.softwarefactory-project.io:9100
-          - redhat-oss-git-stats.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100

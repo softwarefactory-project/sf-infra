@@ -280,10 +280,6 @@ all:
       ansible_python_interpreter: auto
       ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q tenant@soeru.osci.io -W %h:%p\""
       ansible_user: root
-    redhat-oss-git-stats.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     registry.rdoproject.org:
       ansible_become: true
       ansible_port: 22

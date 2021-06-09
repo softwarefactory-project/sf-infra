@@ -108,18 +108,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "redhat-oss-git-stats"
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , auto_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 500
-          , flavor = Some Flavors.`8vcpus_32gb`
-          , security_groups = [ "web" ]
-          }
-        }
-      , Instance::{
         , name = "elk"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection

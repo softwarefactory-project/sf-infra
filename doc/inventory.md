@@ -29,7 +29,6 @@ This project manages:
 * logreduce-mqtt-01.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * ara.softwarefactory-project.io
-* redhat-oss-git-stats.softwarefactory-project.io
 * elk.softwarefactory-project.io
 * managesf.softwarefactory-project.io
 * nodepool-builder.softwarefactory-project.io
