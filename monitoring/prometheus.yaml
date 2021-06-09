@@ -46,7 +46,6 @@ scrape_configs:
           - bridge.softwarefactory-project.io:9100
           - logreduce-mqtt-01.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
-          - ara.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100
@@ -131,7 +130,6 @@ scrape_configs:
     static_configs:
       - targets:
           - "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
-          - https://ara.softwarefactory-project.io
           - "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
           - https://softwarefactory-project.io/elasticsearch/
           - https://softwarefactory-project.io/analytics/api/licensing/info

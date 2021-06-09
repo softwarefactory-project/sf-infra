@@ -112,10 +112,6 @@ Host prometheus.monitoring.softwarefactory-project.io
     User centos
     Port 22
 
-Host ara.softwarefactory-project.io
-    User fedora
-    Port 22
-
 Host elk.softwarefactory-project.io
     User centos
     Port 22

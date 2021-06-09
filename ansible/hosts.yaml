@@ -10,9 +10,6 @@ all:
       hosts:
         mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
-    ara:
-      hosts:
-        ara.softwarefactory-project.io: {}
     backup-rdo:
       hosts:
         lists.rdoproject.org: {}
@@ -138,10 +135,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    ara.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python3
-      ansible_user: fedora
     backup.rdoproject.org:
       ansible_port: 3300
       ansible_python_interpreter: python2

@@ -102,18 +102,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "ara"
-        , groups = [ "ara" ]
-        , connection = OS.Fedora.`31`.connection
-        , server = Some Infra.Server::{
-          , image = OS.Fedora.`31`.image.name
-          , auto_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 80
-          , security_groups = [ "web" ]
-          }
-        }
-      , Instance::{
         , name = "elk"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
@@ -158,8 +146,7 @@ let instances =
                 , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
         , monitoring_auth_urls =
-          [ "https://ara.softwarefactory-project.io"
-          , "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
+          [ "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
           , "https://softwarefactory-project.io/elasticsearch/"
           , "https://softwarefactory-project.io/analytics/api/licensing/info"
           ]
