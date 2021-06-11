@@ -18,8 +18,8 @@ dlrn_workers:
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master-preview']
