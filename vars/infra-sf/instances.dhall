@@ -113,6 +113,7 @@ let instances =
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
           , security_groups = [ "elk" ]
           }
         , volumes =
