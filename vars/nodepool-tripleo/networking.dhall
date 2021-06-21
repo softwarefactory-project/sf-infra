@@ -10,6 +10,10 @@ in  { security_groups =
             , port = +5001
             , remote_ip_prefix = Some "38.102.83.0/24"
             }
+          , Infra.Rule::{
+            , port = +8766
+            , remote_ip_prefix = Some "38.102.83.0/24"
+            }
           ]
         }
       ]
