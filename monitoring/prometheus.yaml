@@ -156,3 +156,7 @@ scrape_configs:
       - targets:
           - dlrn-db.rdoproject.org:9104
           - backup.rdoproject.org:9104
+  - job_name: apache
+    static_configs:
+      - targets:
+          - trunk.rdoproject.org:9117

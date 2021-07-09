@@ -20,6 +20,8 @@ let {- TODO: maybe move this to an Instance schema
 let db_server_list =
       [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
 
+let apache_server_list = [ "trunk.rdoproject.org:9117" ]
+
 in  PrometheusConfig
       (Infra.Instance.filter Infra.Instance.getNodeExporter vars.instances)
       [ "rules-node.yaml"
@@ -43,4 +45,5 @@ in  PrometheusConfig
       ,     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]
         //  { scrape_interval = Some "5m" }
       , ScrapeConfigs.static "mysqld" db_server_list
+      , ScrapeConfigs.static "apache" apache_server_list
       ]
