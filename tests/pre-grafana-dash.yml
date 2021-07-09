@@ -15,11 +15,12 @@
           - libXcomposite
           - libXdamage
           - libXrandr
+          - libxshmfence
           - libwayland-client
           - gtk3
           - libgbm
           - alsa-lib
-          - centos-release-openstack-ussuri
+          - centos-release-openstack-victoria
       become: yes
 
     - name: Install Ansible locally
