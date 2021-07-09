@@ -68,6 +68,7 @@
 - hosts: trunk.rdoproject.org
   roles:
     - rdotrunk-checks
+    - apache-exporter
 
 - hosts:
     - trunk-centos7.rdoproject.org
