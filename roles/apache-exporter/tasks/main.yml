@@ -1,0 +1,10 @@
+---
+- include_role:
+    name: container-service
+  vars:
+    pod_name: apache_exporter
+    pod_param: >
+      --net=host
+      {{ container_images['apache_exporter'] | default('quay.io/software-factory/apache_exporter:latest') }}
+      --scrape_uri="{{ apache_exporter_url }}"
+      {% if apache_exporter_insecure %} --insecure {% endif %}

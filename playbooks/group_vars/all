@@ -195,6 +195,7 @@ inventory_public_dns:
 container_images:
   node_exporter: "quay.io/prometheus/node-exporter@sha256:22fbde17ab647ddf89841e5e464464eece111402b7d599882c2a3393bc0d2810"
   mysqld_exporter: "quay.io/prometheus/mysqld-exporter@sha256:2a6144cee9854467396a9ac896ffb39589bc5b7bb8842b589e1be71995abc84e"
+  apache_exporter: "quay.io/software-factory/apache_exporter@sha256:ab022d3d176b392057b169af6718e46e18d127c2e45c0d7972fb9f14553e6018"
 
 # by default OSPO/OSCI roles consider firewalld is present on RH systems as it is the default in non-minimal images
 manage_firewall: False

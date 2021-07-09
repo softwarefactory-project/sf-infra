@@ -1,3 +1,11 @@
+firewall_rules:
+  - immediate: yes
+    permanent: yes
+    rich_rule: rule family=ipv4 source address=38.102.83.250/32 port port=9117 protocol=tcp accept
+    state: enabled
+apache_exporter_url: https://localhost/server-status?auto
+apache_exporter_insecure: true
+
 enable_worker_cronjobs: &enable_cron false
 enable_purge_cronjobs: &enable_purge false
 disable_worker_email: &disable_email true
