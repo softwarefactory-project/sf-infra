@@ -9,6 +9,7 @@ rdo_trunk_workers:
   - centos8-victoria
   - centos8-ussuri
   - centos8-train
+  - centos9-master-preview
 
 rdo_trunk_symlinks:
   - current
