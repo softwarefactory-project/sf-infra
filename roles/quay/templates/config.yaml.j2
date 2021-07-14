@@ -1,0 +1,133 @@
+-FEATURE_RESTRICTED_V1_PUSH: true
+# Enable logrotation
+ACTION_LOG_ARCHIVE_LOCATION: default
+ACTION_LOG_ARCHIVE_PATH: /datastorage/logrotate
+ACTION_LOG_ROTATION_THRESHOLD: 1d
+ALLOW_PULLS_WITHOUT_STRICT_LOGGING: false
+FEATURE_ACTION_LOG_ROTATION: true
+
+AUTHENTICATION_TYPE: Database
+AVATAR_KIND: local
+BITTORRENT_FILENAME_PEPPER: null
+BUILDLOGS_REDIS:
+    host: {{ redis_host | default('localhost') }}
+    password: {{ redis_password }}
+    port: 6379
+
+{% if 'webpage' in quay_contact_info and quay_contact_info['webpage'] %}
+CONTACT_INFO:
+    - {{ quay_contact_info['webpage'] }}
+{% endif %}
+
+{% if 'logo_url' in quay_contact_info and quay_contact_info['logo_url'] %}
+ENTERPRISE_LOGO_URL: {{ quay_contact_info['logo_url'] }}
+{% endif %}
+
+DATABASE_SECRET_KEY: {%if database_secret_key|default(false) %}{{ database_secret_key }}{% else %}{{ 999999999999 | random | to_uuid }}{% endif %}
+
+DB_CONNECTION_ARGS:
+    autorollback: true
+    threadlocals: true
+DB_URI: postgresql://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default('localhost') }}/{{ postgresql_db_name }}
+DEFAULT_TAG_EXPIRATION: 2w
+DISTRIBUTED_STORAGE_CONFIG:
+    default:
+        - LocalStorage
+        - storage_path: /datastorage/registry
+DISTRIBUTED_STORAGE_DEFAULT_LOCATIONS: []
+DISTRIBUTED_STORAGE_PREFERENCE:
+    - default
+# NOTE: comment EXTERNAL_TLS_TERMINATION if Quay service
+# should renew certificates. Set EXTERNAL_TLS_TERMINATION to true,
+# when you want to renew it by yourself.
+# EXTERNAL_TLS_TERMINATION: true
+FEATURE_ACI_CONVERSION: false
+FEATURE_ANONYMOUS_ACCESS: true
+FEATURE_APP_REGISTRY: false
+FEATURE_APP_SPECIFIC_TOKENS: true
+FEATURE_BITBUCKET_BUILD: false
+FEATURE_BLACKLISTED_EMAILS: false
+# set FEATURE_BUILD_SUPPORT to false, if user can not
+# provice Dockerfile in quay to build container image.
+# NOTE: we disable, because it can overload our host.
+FEATURE_BUILD_SUPPORT: false
+FEATURE_CHANGE_TAG_EXPIRATION: true
+FEATURE_DIRECT_LOGIN: true
+FEATURE_GITHUB_BUILD: false
+FEATURE_GITHUB_LOGIN: false
+FEATURE_GITLAB_BUILD: false
+FEATURE_GOOGLE_LOGIN: false
+FEATURE_INVITE_ONLY_USER_CREATION: false
+FEATURE_MAILING: false
+FEATURE_NONSUPERUSER_TEAM_SYNCING_SETUP: false
+FEATURE_PARTIAL_USER_AUTOCOMPLETE: true
+FEATURE_PROXY_STORAGE: false
+FEATURE_REPO_MIRROR: false
+FEATURE_REQUIRE_TEAM_INVITE: true
+FEATURE_SECURITY_NOTIFICATIONS: false
+# Set FEATURE_SECURITY_SCANNER to false if you
+# want to disable Clair service.
+FEATURE_SECURITY_SCANNER: true
+FEATURE_SIGNING: false
+FEATURE_STORAGE_REPLICATION: false
+FEATURE_TEAM_SYNCING: false
+# Set FEATURE_USER_CREATION to true if create account should be available
+# in quay login page.
+FEATURE_USER_CREATION: false
+FEATURE_USER_LAST_ACCESSED: true
+FEATURE_USER_LOG_ACCESS: false
+FEATURE_USER_METADATA: false
+FEATURE_USER_RENAME: false
+FEATURE_USERNAME_CONFIRMATION: true
+FRESH_LOGIN_TIMEOUT: 10m
+GITHUB_LOGIN_CONFIG: {}
+GITHUB_TRIGGER_CONFIG: {}
+GITLAB_TRIGGER_KIND: {}
+GPG2_PRIVATE_KEY_FILENAME: signing-private.gpg
+GPG2_PUBLIC_KEY_FILENAME: signing-public.gpg
+LDAP_ALLOW_INSECURE_FALLBACK: false
+LDAP_EMAIL_ATTR: mail
+LDAP_UID_ATTR: uid
+LDAP_URI: ldap://localhost
+LOG_ARCHIVE_LOCATION: default
+LOGS_MODEL: database
+LOGS_MODEL_CONFIG: {}
+MAIL_DEFAULT_SENDER: support@quay.io
+MAIL_PORT: 587
+MAIL_USE_AUTH: false
+MAIL_USE_TLS: false
+PREFERRED_URL_SCHEME: https
+REGISTRY_TITLE: RDO Quay
+REGISTRY_TITLE_SHORT: RDO Quay
+REPO_MIRROR_INTERVAL: 30
+REPO_MIRROR_TLS_VERIFY: true
+SEARCH_MAX_RESULT_PAGE_COUNT: 10
+SEARCH_RESULTS_PER_PAGE: 10
+SECURITY_SCANNER_INDEXING_INTERVAL: 30
+
+SECURITY_SCANNER_V4_ENDPOINT: http://{{ clair_host | default('localhost') }}:6060
+{% if clair_psk_key | length %}
+SECURITY_SCANNER_V4_PSK: clair_psk_key
+{% endif %}
+
+SERVER_HOSTNAME: {{ inventory_hostname }}
+SETUP_COMPLETE: true
+SUPER_USERS:
+{% for user in quay_superusers %}
+    - {{ user }}
+{% endfor %}
+TAG_EXPIRATION_OPTIONS:
+    - 0s
+    - 1d
+    - 1w
+    - 2w
+    - 4w
+TEAM_RESYNC_STALE_TIME: 30m
+TESTING: false
+USE_CDN: false
+USER_EVENTS_REDIS:
+    host: {{ redis_host | default('localhost') }}
+    password: {{ redis_password }}
+    port: 6379
+USER_RECOVERY_TOKEN_LIFETIME: 30m
+USERFILES_LOCATION: default

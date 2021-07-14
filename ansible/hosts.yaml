@@ -73,6 +73,9 @@ all:
     osci_zone:
       children:
         osci_internal_zone: {}
+    quay:
+      hosts:
+        quay.rdoproject.org: {}
     rdo:
       hosts:
         elk.rdoproject.org: {}
@@ -80,7 +83,6 @@ all:
         managesf.review.rdoproject.org: {}
     registry:
       hosts:
-        quay.rdoproject.org: {}
         registry.rdoproject.org: {}
     sf:
       hosts:
@@ -254,7 +256,7 @@ all:
     quay.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: cloud-user
+      ansible_user: centos
     rdo-ci-cloudslave01.ci.centos.org:
       ansible_port: 22
       ansible_python_interpreter: auto

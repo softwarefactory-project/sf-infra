@@ -85,7 +85,7 @@ let instances =
         }
       , Instance::{
         , name = "quay"
-        , groups = [ "registry" ]
+        , groups = [ "quay" ]
         , connection = OS.CentOS.`8-stream`.connection
         , server = Some
             (     Infra.Server::{
@@ -98,16 +98,17 @@ let instances =
             )
         , volumes =
           [ Infra.Volume::{
-            , display_name = "quay-db"
+            , display_name = "quay_db"
             , size = 50
             , device = "/dev/vdb"
             }
           , Infra.Volume::{
-            , display_name = "quay-data"
+            , display_name = "quay_data"
             , size = 1024
             , device = "/dev/vdc"
             }
           ]
+        , monitoring_urls = [ "https://quay.rdoproject.org/" ]
         }
       , Instance::{
         , name = "trunk-centos8"

@@ -1,0 +1,29 @@
+---
+self_signed_certs: true
+initial_config: false
+
+postgresql_user: 'quayuser'
+postgresql_password: 'quaypass'
+postgresql_db_name: 'quay'
+postgresql_admin_password: 'adminpass'
+postgresql_partition: ''
+
+redis_password: 'strongpassword'
+
+quay_superusers:
+  - admin
+
+quay_contact_info:
+  webpage: https://www.rdoproject.org/
+  logo_url: ''
+
+# Configure additional accounts.
+# NOTE: admin user is not generated automatically.
+quay_users:
+  test:
+    email: test@test.com
+    password: test1234
+
+# NOTE: The clair service seems to work without generating PSK
+# key. It might be a situation that documentation is outdated.
+clair_psk_key: ''

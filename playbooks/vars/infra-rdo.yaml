@@ -355,11 +355,11 @@ volumes:
     server: registry.rdoproject.org
     size: 1024
   - device: /dev/vdb
-    display_name: quay-db
+    display_name: quay_db
     server: quay.rdoproject.org
     size: 50
   - device: /dev/vdc
-    display_name: quay-data
+    display_name: quay_data
     server: quay.rdoproject.org
     size: 1024
   - device: /dev/vdb

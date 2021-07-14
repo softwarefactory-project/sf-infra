@@ -25,7 +25,7 @@ Host registry.rdoproject.org
     Port 22
 
 Host quay.rdoproject.org
-    User cloud-user
+    User centos
     Port 22
 
 Host trunk-centos8.rdoproject.org

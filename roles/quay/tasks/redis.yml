@@ -1,0 +1,20 @@
+---
+- name: Create redis directories
+  become: true
+  file:
+    path: /var/data/redis
+    mode: '0777'
+    recurse: true
+
+    # NOTE: with host network, -p 6379:6379 is not needed.
+- name: Setup redis container
+  include_role:
+    name: container-service
+  vars:
+    pod_name: redis
+    pod_param: >
+      --network host
+      -v /var/data/redis:/var/lib/redis/data:Z
+      {{ container_images['redis'] | default('docker.io/redis:6.2.4') }}
+      --requirepass "{{ redis_password }}"
+  no_log: true
