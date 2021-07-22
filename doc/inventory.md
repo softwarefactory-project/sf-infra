@@ -7,6 +7,7 @@ This project manages:
 * centos8-rpm-packaging-ci.rdoproject.org
 * rpm-packaging-ci.rdoproject.org
 * registry.rdoproject.org
+* quay.rdoproject.org
 * trunk-centos8.rdoproject.org
 * trunk-centos7.rdoproject.org
 * managesf.review.rdoproject.org

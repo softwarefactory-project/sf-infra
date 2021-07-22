@@ -31,6 +31,7 @@ scrape_configs:
           - centos8-rpm-packaging-ci.rdoproject.org:9100
           - rpm-packaging-ci.rdoproject.org:9100
           - registry.rdoproject.org:9100
+          - quay.rdoproject.org:9100
           - trunk-centos8.rdoproject.org:9100
           - trunk-centos7.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
