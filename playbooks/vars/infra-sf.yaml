@@ -155,9 +155,10 @@ security_groups:
         remote_ip_prefix: "{{ nodepool_launcher_02_ip }}/32"
       - port: 2281
         remote_ip_prefix: "{{ nodepool_builder_02_ip }}/32"
-  - name: zookeeper-exporter
+  - name: zookeeper_exporter
     rules:
       - port: 9141
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 servers:
   - auto_ip: false
     boot_from_volume: yes
@@ -226,6 +227,7 @@ servers:
       - web
       - managesf
       - zookeeper
+      - zookeeper_exporter
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
@@ -262,7 +264,6 @@ servers:
       - common
       - monitoring
       - internal
-      - zookeeper-exporter
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:
