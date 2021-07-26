@@ -1,6 +1,8 @@
 - name: Install tools
   package:
-    name: podman
+    name:
+      - podman
+      - git
   become: true
 
 - name: Create account
