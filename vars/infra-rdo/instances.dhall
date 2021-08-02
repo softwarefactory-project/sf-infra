@@ -84,6 +84,32 @@ let instances =
           ]
         }
       , Instance::{
+        , name = "quay"
+        , groups = [ "registry" ]
+        , connection = OS.CentOS.`8-stream`.connection
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`8-stream`.image.name
+                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , security_groups = [ "web" ]
+                  , volume_size = Some 50
+                  }
+              //  Infra.Server.Ip "38.129.56.158"
+            )
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "quay-db"
+            , size = 50
+            , device = "/dev/vdb"
+            }
+          , Infra.Volume::{
+            , display_name = "quay-data"
+            , size = 1024
+            , device = "/dev/vdc"
+            }
+          ]
+        }
+      , Instance::{
         , name = "trunk-centos8"
         , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.0`.connection

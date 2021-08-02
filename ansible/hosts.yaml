@@ -80,6 +80,7 @@ all:
         managesf.review.rdoproject.org: {}
     registry:
       hosts:
+        quay.rdoproject.org: {}
         registry.rdoproject.org: {}
     sf:
       hosts:
@@ -250,6 +251,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    quay.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     rdo-ci-cloudslave01.ci.centos.org:
       ansible_port: 22
       ansible_python_interpreter: auto

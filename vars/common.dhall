@@ -142,7 +142,15 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                         }
                       }
                     , `8-stream` =
-                      { connection = Infra.Connection::(CentOS // PyAuto)
+                      { connection = Infra.Connection::(     CentOS
+                                                         //  PyAuto
+                                                         //  { ansible_user =
+                                                                 let comment =
+                                                                       "For some reason, this image uses a cloud-user"
+
+                                                                 in  "cloud-user"
+                                                             }
+                                                       )
                       , image = Infra.Image::{
                         , name = "centos-8-stream"
                         , url =

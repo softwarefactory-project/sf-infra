@@ -1,0 +1,7 @@
+---
+lvm: True
+vg_name: 'vgimage'
+lv_name: 'image'
+devices:
+  - /dev/vdc
+mountpoint: '/var/data/quay'
