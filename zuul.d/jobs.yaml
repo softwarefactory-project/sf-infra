@@ -187,6 +187,28 @@
         secret: bridge_ara_api
 
 - job:
+    name: sf-infra-configure-quay
+    parent: sf-infra-base
+    description: Configure the Quay host
+    semaphore: sf-infra
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
+    run: playbooks/zuul/configure-quay-host.yaml
+    required-projects:
+      - name: software-factory/sf-infra
+    files:
+      - ^playbooks/quay-renew-certificates.yml$
+      - ^playbooks/zuul/configure-quay-host.yaml$
+    secrets:
+      - name: cloud
+        secret: vexxhost-cloud
+      - name: vault
+        secret: ansible-vault
+      - name: ara_api
+        secret: bridge_ara_api
+
+- job:
     name: sf-infra-molecule
     parent: sf-infra-base
     description: Use molecule to test Ansible roles
@@ -282,5 +304,8 @@
             dependencies:
               - dhall-diff
         - sf-infra-configure-registry:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-quay:
             dependencies:
               - dhall-diff
