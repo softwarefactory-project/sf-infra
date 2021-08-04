@@ -24,10 +24,10 @@
     pod_param: >
       --net=host
       --pid=host
-      -v /etc/zuul/ssl:/etc/zuul/ssl:Z
       -p {{ listen_port }}:{{ listen_port }}
+      -v /var/lib/software-factory/bootstrap-data/zk-ca/:/etc/zookeeper/:ro
       {{ container_images['zookeeper_exporter'] | default('docker.io/dabealu/zookeeper-exporter:latest') }}
-      -zk-hosts {{ zookeeper_hosts }}
-      -zk-tls-auth-cert {{ zookeeper_cert }}
-      -zk-tls-auth-key {{ zookeeper_key }}
-      -zk-tls-auth {{ zookeeper_tls_enabled }}
+      --zk-hosts "{{ zookeeper_hosts }}"
+      --zk-tls-auth-key /etc/zookeeper/keys/clientkey.pem
+      --zk-tls-auth-cert /etc/zookeeper/certs/client.pem
+      --zk-tls-auth true

@@ -161,3 +161,7 @@ scrape_configs:
     static_configs:
       - targets:
           - trunk.rdoproject.org:9117
+  - job_name: zookeeper
+    static_configs:
+      - targets:
+          - managesf.softwarefactory-project.io:9141

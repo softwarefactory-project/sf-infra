@@ -53,8 +53,13 @@ let security_groups =
               }
             ]
           }
-        , { name = "zookeeper-exporter"
-          , rules = [ Infra.Rule::{ port = +9141 } ]
+        , { name = "zookeeper_exporter"
+          , rules =
+            [ Infra.Rule::{
+              , port = +9141
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
+            ]
           }
         ]
 

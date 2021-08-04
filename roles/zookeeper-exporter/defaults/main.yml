@@ -16,7 +16,7 @@
 
 listen_port: 9141
 # Default port: 2181, SSL: 2281
-zookeeper_hosts: 'localhost:2281'
+zookeeper_hosts: '0.0.0.0:2181'
 zookeeper_cert: '/etc/zuul/ssl/zookeeper.crt'
 zookeeper_key: '/etc/zuul/ssl/zookeeper.key'
 zookeeper_tls_enabled: true

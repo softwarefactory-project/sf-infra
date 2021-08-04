@@ -22,6 +22,8 @@ let db_server_list =
 
 let apache_server_list = [ "trunk.rdoproject.org:9117" ]
 
+let zookeeper_server_list = [ "managesf.softwarefactory-project.io:9141" ]
+
 in  PrometheusConfig
       (Infra.Instance.filter Infra.Instance.getNodeExporter vars.instances)
       [ "rules-node.yaml"
@@ -46,4 +48,5 @@ in  PrometheusConfig
         //  { scrape_interval = Some "5m" }
       , ScrapeConfigs.static "mysqld" db_server_list
       , ScrapeConfigs.static "apache" apache_server_list
+      , ScrapeConfigs.static "zookeeper" zookeeper_server_list
       ]
