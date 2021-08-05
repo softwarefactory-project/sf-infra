@@ -1,0 +1,113 @@
+---
+- name: Create cert dirs
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    state: directory
+    recurse: true
+  loop:
+    - /var/data/quay/certs
+    - /var/data/quay/config
+    - /var/data/clair/config
+
+- name: Generate self signed certs
+  block:
+    - name: Check if CA certs was done earlier
+      stat:
+        path: "/var/data/quay/certs/rootCA.pem"
+      register: _ca_cert
+
+    - name: Generate CA cert
+      become: true
+      block:
+        - name: Install required packages
+          package:
+            name: openssl
+            state: present
+
+        - name: Generate CA cert
+          shell: |
+            openssl genrsa -out /var/data/quay/certs/rootCA-key.pem 2048 && \
+            openssl req -new -x509 -sha256 -days 3650 \
+              -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuayRDO" \
+              -key /var/data/quay/certs/rootCA-key.pem \
+              -out /var/data/quay/certs/rootCA.pem
+          register: _quay_ca_cert
+          no_log: true
+      when: not _ca_cert.stat.exists
+
+    - name: Generate certs for Quay
+      become: true
+      block:
+        - name: Check if Quay certs was done earlier
+          stat:
+            path: "/var/data/quay/certs/ssl.cert"
+          register: _quay_admin_cert
+
+        - name: Generate admin certs
+          shell: |
+            openssl genrsa -out /var/data/quay/certs/ssl-key-temp.pem 2048 && \
+            openssl pkcs8 -inform PEM -outform PEM -in /var/data/quay/certs/ssl-key-temp.pem \
+              -topk8 -nocrypt -v1 PBE-SHA1-3DES -out /var/data/quay/certs/ssl.key && \
+            openssl req -new -key /var/data/quay/certs/ssl.key \
+              -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuayRDO/CN={{ inventory_hostname }}" \
+              -out /var/data/quay/certs/ssl.csr && \
+            openssl x509 -req -in /var/data/quay/certs/ssl.csr \
+              -CA /var/data/quay/certs/rootCA.pem -days 3650 \
+              -CAkey /var/data/quay/certs/rootCA-key.pem \
+              -CAcreateserial -sha256 -out /var/data/quay/certs/ssl.cert
+          register: _quay_elasticsearch_cert
+          when: not _quay_admin_cert.stat.exists
+          no_log: true
+
+        - name: Copy CA cert
+          copy:
+            src: /var/data/quay/certs/rootCA.pem
+            dest: /etc/pki/ca-trust/source/anchors/rootCA.pem
+            mode: "0644"
+            owner: root
+            group: root
+            remote_src: true
+
+        - name: Trust generated cert
+          command: update-ca-trust
+
+        - name: Create podman certs.d directory
+          file:
+            path: /etc/containers/certs.d/{{ inventory_hostname }}
+            state: directory
+
+        - name: Copy certs to quay config dir
+          shell: |
+            cp /var/data/quay/certs/ssl.cert /var/data/quay/config/ssl.cert && \
+            cp /var/data/quay/certs/ssl.key /var/data/quay/config/ssl.key && \
+            cp /var/data/quay/certs/rootCA.pem /var/data/quay/config/ca.crt && \
+            chmod 0777 /var/data/quay/config/ && \
+            cp /var/data/quay/certs/rootCA.pem /etc/containers/certs.d/{{ inventory_hostname }}/ca.crt
+
+        - name: Copy certs to clair config dir
+          shell: |
+            cp /var/data/quay/certs/ssl.cert /var/data/clair/config/clair.cert && \
+            cp /var/data/quay/certs/ssl.key /var/data/clair/config/clair.key && \
+            chmod 0777 /var/data/clair/config/
+
+  when: self_signed_certs
+
+- name: Copy acme-tiny certs to quay dir
+  become: true
+  block:
+    - name: Copy certs to quay config dir
+      shell: |
+        cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/quay/config/ssl.cert && \
+        cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/quay/config/ssl.key && \
+        chmod 0777 /var/data/quay/config/
+
+    - name: Copy certs to clair config dir
+      shell: |
+        cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/clair/config/clair.cert && \
+        cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/clair/config/clair.key && \
+        chmod 0777 /var/data/quay/config/
+
+  when: not self_signed_certs

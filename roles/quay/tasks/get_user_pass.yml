@@ -1,0 +1,61 @@
+---
+# NOTE: On first running, Quay service need to update database
+# tables, so the public.user table will not exists.
+# The Quay service have nginx inside the container which is running
+# on port 8443. With --net=host param on creating quay container,
+# this port is exposed.
+- name: Wait for service to be running
+  wait_for:
+    port: 8443
+    host: 0.0.0.0
+    delay: 10
+    timeout: 300
+
+- name: Check if user exists in quay
+  postgresql_query:
+    login_host: "{{ postgresql_host | default('localhost') }}"
+    db: quay
+    login_user: "{{ postgresql_user }}"
+    login_password: "{{ postgresql_password }}"
+    query: SELECT * FROM public.user WHERE username = %s
+    positional_args:
+      - "{{ user_item.key }}"
+  register: _quay_user_exist
+  no_log: true
+
+- name: Configure user
+  block:
+    - name: Generate user hash
+      shell: |
+        python3 -c 'import bcrypt; print(bcrypt.hashpw(b"{{ user_item.value.password }}", bcrypt.gensalt(12)).decode("utf-8"))'
+      register: _quay_user_hash
+      no_log: true
+
+    - name: Generate user uuid
+      shell: |
+        uuidgen
+      register: _quay_user_uuid
+
+    # NOTE: table structure looks like:
+    # "company": null, "creation_date": "2021-08-03T08:42:56.966096",
+    # "email": "some@email.org", "enabled": true, "family_name": null,
+    # "given_name": null,"id": 1, "invalid_login_attempts": 0,
+    # "invoice_email": false, "invoice_email_address": null,
+    # "last_accessed": null, "last_invalid_login": "2021-08-03T08:42:56.966092",
+    # "location": null, "maximum_queued_builds_count": null,
+    # "organization": false, "password_hash": "my_bcrypt_hash",
+    # "removed_tag_expiration_s": 1209600, "robot": false, "stripe_id": null,
+    # "username": "admin", "uuid": "12b32466-1201-4d91-bab0-3cd43a106b12",
+    # "verified": true
+    - name: Insert user into DB
+      postgresql_query:
+        login_host: "{{ postgresql_host | default('localhost') }}"
+        db: quay
+        login_user: "{{ postgresql_user }}"
+        login_password: "{{ postgresql_password }}"
+        query: |
+          INSERT INTO public.user (email, enabled, invoice_email, last_invalid_login, organization, password_hash, robot, username, uuid, verified)
+          VALUES ('{{ user_item.value.email }}', 'true', 'false', '1970-01-01T00:00:00.000000', 'false', '{{ _quay_user_hash.stdout }}', 'false', '{{ user_item.key }}', '{{ _quay_user_uuid.stdout }}', 'true')
+      no_log: true
+
+  when: not _quay_user_exist.query_result

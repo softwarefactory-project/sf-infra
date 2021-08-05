@@ -49,16 +49,19 @@
         enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
       when:
         - http_service_name != 'nginx'
+        - http_service_name != 'standalone'
 
     # We can use http_service_name variable, to start the service, because
     # both have same name.
     - name: "Install {{ http_service_name }}"
       package: "{{ http_service_name }}"
+      when: http_service_name != 'standalone'
 
     - name: Start "{{ http_service_name }}"
       systemd:
         name: "{{ http_service_name }}"
         state: started
+      when: http_service_name != 'standalone'
 
     # cronie, which provides crontab, might not be installed by default
     - name: Install cronie

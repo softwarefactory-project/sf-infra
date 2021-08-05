@@ -1,0 +1,10 @@
+---
+- name: Install required packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - podman
+    - python3-psycopg2
+    - python3-bcrypt
