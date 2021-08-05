@@ -255,7 +255,7 @@ all:
       ansible_user: centos
     quay.rdoproject.org:
       ansible_port: 22
-      ansible_python_interpreter: auto
+      ansible_python_interpreter: /usr/libexec/platform-python
       ansible_user: centos
     rdo-ci-cloudslave01.ci.centos.org:
       ansible_port: 22
