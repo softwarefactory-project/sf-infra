@@ -21,6 +21,8 @@
     - { name: 'rdo_trunk_metrics.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/11442
     - { name: 'zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
+      # Dashboard: https://grafana.com/grafana/dashboards/3894
+    - { name: 'apache-exporter.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
