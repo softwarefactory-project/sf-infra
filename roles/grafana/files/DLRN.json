@@ -1,0 +1,659 @@
+{
+  "editable": true,
+  "graphTooltip": 0,
+  "hideControls": false,
+  "id": 0,
+  "links": [
+    {
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "DLRN",
+      "tooltip": "build service for RDO",
+      "type": "link",
+      "url": "https://trunk.rdoproject.org"
+    }
+  ],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hideTimeOverride": false,
+      "id": 0,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "dlrn_builds_total{instance=\"centos9-master-uc\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-master-uc",
+          "refId": "centos9-master-uc"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-master-uc\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-master-uc",
+          "refId": "centos8-master-uc"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-xena\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-xena",
+          "refId": "centos8-xena"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-wallaby\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-wallaby",
+          "refId": "centos8-wallaby"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-victoria\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-victoria",
+          "refId": "centos8-victoria"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-ussuri\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-ussuri",
+          "refId": "centos8-ussuri"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos8-train\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-train",
+          "refId": "centos8-train"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos-train\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos-train",
+          "refId": "centos-train"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Total builds by worker",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transformations": [],
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos9-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-master-uc",
+          "refId": "centos9-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-master-uc",
+          "refId": "centos8-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-xena",
+          "refId": "centos8-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-wallaby",
+          "refId": "centos8-wallaby"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-victoria\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-victoria",
+          "refId": "centos8-victoria"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-ussuri\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-ussuri",
+          "refId": "centos8-ussuri"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos8-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-train",
+          "refId": "centos8-train"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos-train",
+          "refId": "centos-train"
+        }
+      ],
+      "thresholds": "",
+      "title": "Total builds in the last 24 hours",
+      "transformations": [],
+      "transparent": false,
+      "type": "stat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 2,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos9-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-master-uc",
+          "refId": "centos9-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-master-uc",
+          "refId": "centos8-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-xena",
+          "refId": "centos8-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-wallaby",
+          "refId": "centos8-wallaby"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-victoria\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-victoria",
+          "refId": "centos8-victoria"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-ussuri\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-ussuri",
+          "refId": "centos8-ussuri"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-train",
+          "refId": "centos8-train"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos-train",
+          "refId": "centos-train"
+        }
+      ],
+      "thresholds": "",
+      "title": "Successful builds in the last 24 hours",
+      "transformations": [],
+      "transparent": false,
+      "type": "stat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 3,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos9-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-master-uc",
+          "refId": "centos9-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-master-uc\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-master-uc",
+          "refId": "centos8-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-xena",
+          "refId": "centos8-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-wallaby",
+          "refId": "centos8-wallaby"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-victoria\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-victoria",
+          "refId": "centos8-victoria"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-ussuri\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-ussuri",
+          "refId": "centos8-ussuri"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos8-train",
+          "refId": "centos8-train"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos-train\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos-train",
+          "refId": "centos-train"
+        }
+      ],
+      "thresholds": "",
+      "title": "Failed builds in the last 24 hours",
+      "transformations": [],
+      "transparent": false,
+      "type": "stat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 17,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "collapse": false,
+    "enable": true,
+    "notice": false,
+    "now": true,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "status": "Stable",
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "3h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "3d",
+      "4d",
+      "7d",
+      "30d"
+    ],
+    "type": "timepicker"
+  },
+  "timezone": "utc",
+  "title": "RDO Trunk Service",
+  "version": 0
+}

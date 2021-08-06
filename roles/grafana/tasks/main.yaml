@@ -19,6 +19,7 @@
     - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'blackbox.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'rdo_trunk_metrics.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'DLRN.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/11442
     - { name: 'zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/3894

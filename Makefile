@@ -21,10 +21,15 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  playbooks/host_vars/backup.rdoproject.org.yaml
 
+DASHBOARDS = roles/grafana/files/DLRN.json
+
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-format dhall-inventory $(MANAGED)
+all: dhall-version-check dhall-format dhall-inventory $(DASHBOARDS) $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
+
+%.json: %.dhall .FORCE
+	dhall-to-json --explain --file $< --output $@
 
 .FORCE:
 %.yaml: %.dhall .FORCE
