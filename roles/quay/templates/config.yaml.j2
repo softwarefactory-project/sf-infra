@@ -106,8 +106,8 @@ SEARCH_RESULTS_PER_PAGE: 10
 SECURITY_SCANNER_INDEXING_INTERVAL: 30
 
 SECURITY_SCANNER_V4_ENDPOINT: http://{{ clair_host | default('localhost') }}:6060
-{% if clair_psk_key | length %}
-SECURITY_SCANNER_V4_PSK: clair_psk_key
+{% if clair_psk_key is defined and clair_psk_key %}
+SECURITY_SCANNER_V4_PSK: {{ clair_psk_key }}
 {% endif %}
 
 SERVER_HOSTNAME: {{ inventory_hostname }}
