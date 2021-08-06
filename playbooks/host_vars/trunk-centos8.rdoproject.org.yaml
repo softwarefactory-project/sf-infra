@@ -8,7 +8,7 @@ dlrn_enable_https: true
 dlrn_manage_letsencrypt: false
 dlrn_host: trunk-centos8
 
-api_workers: ['centos8-master-uc', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train']
+api_workers: ['centos8-master-uc', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview']
 web_domain: 'trunk-centos8.rdoproject.org'
 
 dlrn_workers:
