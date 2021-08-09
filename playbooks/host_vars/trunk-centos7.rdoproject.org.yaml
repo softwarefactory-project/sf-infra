@@ -10,60 +10,9 @@ dlrn_host: trunk-centos7
 force_python_version: python3
 
 web_domain: 'trunk-primary.rdoproject.org'
-api_workers: ['centos-master-uc', 'centos-train']
+api_workers: ['centos-train']
 
 dlrn_workers:
-  centos-master:
-    distro: 'centos7'
-    target: 'centos'
-    distgit_branch: 'rpm-master-head'
-    distro_branch: 'master'
-    disable_email: *disable_email
-    enable_cron: false
-    cron_env: '--head-only'
-    cron_hour: '*/4'
-    cron_minute: '5'
-    enable_purge: *enable_purge
-    purge_hour: '1'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos7-master-head']
-    release: 'ussuri'
-    baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-master:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: false
-    fallback_to_master: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'javier.pena@redhat.com'
-#    gerrit_topic: 'rdo-FTBFS-master-head'
-    rsyncdest: 'centos-master@3.87.151.16:/home/centos-master/data/repos'
-    rsyncport: '3300'
-  centos-master-uc:
-    distro: 'centos7'
-    target: 'centos-master-uc'
-    distgit_branch: 'rpm-master'
-    distro_branch: 'master'
-    disable_email: *disable_email
-    enable_cron: false
-    enable_purge: *enable_purge
-    purge_hour: '2'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
-    release: 'ussuri-uc'
-    baseurl: 'https://trunk.rdoproject.org/centos7'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-master-uc:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'javier.pena@redhat.com'
-#    gerrit_topic: 'rdo-FTBFS'
-    rsyncdest: 'centos-master-uc@3.87.151.16:/home/centos-master-uc/data/repos'
-    rsyncport: '3300'
   centos-train:
     distro: 'centos7'
     target: 'centos-train'
