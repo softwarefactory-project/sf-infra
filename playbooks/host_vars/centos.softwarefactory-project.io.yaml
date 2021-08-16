@@ -1,3 +1,11 @@
+bind_mounts:
+  - {
+      source: "/mnt/logs",
+      dest: "/var/www/logs",
+      owner: "loguser",
+      group: "apache",
+    }
+
 acme_domains:
   - domain: centos.softwarefactory-project.io
     sf_gateway: true
