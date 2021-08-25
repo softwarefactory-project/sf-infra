@@ -117,7 +117,7 @@
 
 - name: Add ssl-cert option to mysql-clients.conf
   ini_file:
-    path: /etc/my.cnf.d/ mysql-clients.conf
+    path: /etc/my.cnf.d/mysql-clients.conf
     section: mysqld
     option: ssl-cert
     value: /etc/mysql/ssl/server-cert.pem
