@@ -8,7 +8,7 @@ dlrn_enable_https: true
 dlrn_manage_letsencrypt: false
 dlrn_host: trunk-centos8
 
-api_workers: ['centos8-master-uc', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview']
+api_workers: ['centos8-master-uc', 'centos8-xena', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview']
 web_domain: 'trunk-centos8.rdoproject.org'
 
 dlrn_workers:
@@ -96,6 +96,37 @@ dlrn_workers:
     rsyncport: '3300'
     use_components: true
     mock_config: 'centos8stream.cfg.j2'
+  centos8-xena:
+    distro: 'centos8'
+    target: 'centos8-xena'
+    distgit_branch: 'xena-rdo'
+    distro_branch: 'stable/xena'
+    disable_email: *disable_email
+    # FIXME(jpena): set to *enable_cron and *enable_purge after the initial bootstrap
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '22'
+    symlinks: ['/var/www/html/centos8-xena', '/var/www/html/xena/centos8']
+    # NOTE(jpena): set to 'xena' once the tag has been created in rdoinfo
+    release: 'xena-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos8-xena'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos8-xena:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_xena?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'javier.pena@redhat.com'
+    # FIXME(jpena): enable when the bootstrap is completed
+#    gerrit_topic: 'rdo-FTBFS-xena'
+    rsyncdest: 'centos8-xena@3.87.151.16:/home/centos8-xena/data/repos'
+    rsyncport: '3300'
+    use_components: true
+    mock_config: 'centos8stream.cfg.j2'
   centos8-wallaby:
     distro: 'centos8'
     target: 'centos8-wallaby'
@@ -140,7 +171,7 @@ dlrn_workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'mysql+pymysql://centos8-victoria:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_victoria?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
+    mock_tmpfs_enable: false
     fallback_to_master: true
     include_srpm_in_repo: true
     enable_deps_sync: true
