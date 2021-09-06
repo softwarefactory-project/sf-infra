@@ -17,7 +17,7 @@
         pod_name: postgresql
         pod_param: >
           --network host
-          -v /var/lib/pgsql/data:/var/lib/pgsql/data:Z
+          -v /var/lib/pgsql/data:/var/lib/postgresql/data:z
           -e POSTGRES_USER={{ postgresql_user }}
           -e POSTGRES_PASSWORD={{ postgresql_password }}
           -e POSTGRES_DB={{ postgresql_db_name }}
