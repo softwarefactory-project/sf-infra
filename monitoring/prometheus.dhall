@@ -41,9 +41,6 @@ in  PrometheusConfig
       ]
       [     ScrapeConfigs.static "node_proxy" ci_centos_list
         //  { proxy_url = Some "http://127.0.0.1:8080" }
-      , ScrapeConfigs.static
-          "journal"
-          [ "logreduce-mqtt-01.softwarefactory-project.io:9101" ]
       ,     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]
         //  { scrape_interval = Some "5m" }
       , ScrapeConfigs.static "mysqld" db_server_list

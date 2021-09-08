@@ -81,16 +81,6 @@ let instances =
           with ansible_host = Some "38.145.39.190"
         }
       , Instance::{
-        , name = "logreduce-mqtt-01"
-        , groups = [ "logreduce-mqtt" ]
-        , connection = OS.Fedora.`30`.connection
-        , server = Some Infra.Server::{
-          , image = OS.Fedora.`30`.image.name
-          , boot_from_volume = "yes"
-          , volume_size = Some 80
-          }
-        }
-      , Instance::{
         , name = "prometheus.monitoring"
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{

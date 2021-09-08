@@ -27,7 +27,6 @@ This project manages:
 * rdo-web-builder.int.osci.io
 * bridge.softwarefactory-project.io
 * lambda.softwarefactory-project.io
-* logreduce-mqtt-01.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io
 * managesf.softwarefactory-project.io
