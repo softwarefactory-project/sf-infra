@@ -96,6 +96,7 @@
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
       - name: review.rdoproject.org/rdo-infra/ansible-role-dlrn
       - name: software-factory/sf-infra
+      - name: software-factory/ansible-role-elastic-recheck
     timeout: 3600
     vars:
       sf_infra_play_name: site

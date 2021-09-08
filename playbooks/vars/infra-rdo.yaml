@@ -333,6 +333,21 @@ servers:
       - monitoring
       - dlrn-db
     volume_size: 60
+  - boot_from_volume: yes
+    flavor: "4vcpus_8gb"
+    floating_ips:
+      - '38.102.83.14'
+    image: centos-8-stream
+    key_name: sf-infra-key
+    name: opensearch.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+      - elk
+      - internal
+    volume_size: 50
 subnets:
   - cidr: "192.168.240.0/24"
     dns_nameservers:
@@ -398,3 +413,7 @@ volumes:
     display_name: lists-data
     server: lists.rdoproject.org
     size: 5
+  - device: /dev/vdb
+    display_name: opensearch_data
+    server: opensearch.rdoproject.org
+    size: 1024

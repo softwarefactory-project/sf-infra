@@ -17,6 +17,7 @@ This project manages:
 * www.rdoproject.org
 * lists.rdoproject.org
 * dlrn-db.rdoproject.org
+* opensearch.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
 * rdo-ci-cloudslave01.ci.centos.org

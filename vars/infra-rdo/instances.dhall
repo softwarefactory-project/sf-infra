@@ -297,6 +297,28 @@ let instances =
           , volume_size = Some 60
           }
         }
+      , Instance::{
+        , name = "opensearch"
+        , groups = [ "opensearch" ]
+        , connection = OS.CentOS.`8-stream`.connection
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`8-stream`.image.name
+                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , security_groups = [ "web", "elk", "internal" ]
+                  , volume_size = Some 50
+                  }
+              //  Infra.Server.Ip "38.102.83.14"
+            )
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "opensearch_data"
+            , size = 1024
+            , device = "/dev/vdb"
+            }
+          ]
+        , monitoring_urls = [ "https://opensearch.rdoproject.org/" ]
+        }
       ]
 
 let mkCentosWorker =
