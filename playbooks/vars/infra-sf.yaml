@@ -160,18 +160,6 @@ security_groups:
       - port: 9141
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 servers:
-  - auto_ip: false
-    boot_from_volume: yes
-    flavor: v1-standard-2
-    image: fedora-30-1.2
-    key_name: sf-infra-key
-    name: logreduce-mqtt-01.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2

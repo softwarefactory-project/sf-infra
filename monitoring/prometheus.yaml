@@ -44,7 +44,6 @@ scrape_configs:
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
-          - logreduce-mqtt-01.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
           - ara.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
@@ -144,10 +143,6 @@ scrape_configs:
           - rdo-ci-cloudslave03.ci.centos.org:9100
           - rdo-ci-cloudslave04.ci.centos.org:9100
           - rdo-ci-cloudslave05.ci.centos.org:9100
-  - job_name: journal
-    static_configs:
-      - targets:
-          - logreduce-mqtt-01.softwarefactory-project.io:9101
   - job_name: statsd_exporter
     scrape_interval: "5m"
     static_configs:

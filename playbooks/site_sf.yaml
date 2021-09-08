@@ -45,12 +45,6 @@
   roles:
     - image-builder
 
-- hosts: logreduce-mqtt
-  roles:
-    - custom-exporter
-    - logreduce-mqtt-worker
-    - firewalld
-
 - hosts: ze
   tasks:
     - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
