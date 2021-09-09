@@ -1,6 +1,7 @@
 ---
 - name: Renew Letsencrypt SSL certificates
   hosts: quay.rdoproject.org
+  become: true
   vars:
     registry_host: "{{ inventory_hostname }}"
   tasks:
