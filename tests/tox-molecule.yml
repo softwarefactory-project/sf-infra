@@ -3,7 +3,6 @@
   tasks:
     - name: Run tox -emolecule
       changed_when: true
-      become: true
       shell:
         cmd: |
             ROLE_TO_TEST="{{ role_to_test | default('') }}"
