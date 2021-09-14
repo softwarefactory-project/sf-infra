@@ -2,6 +2,7 @@
 rdo_trunk_workers:
   - centos-train
   - centos8-master-uc
+  - centos8-xena
   - centos8-wallaby
   - centos8-victoria
   - centos8-ussuri
