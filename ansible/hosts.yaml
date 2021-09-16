@@ -58,6 +58,9 @@ all:
     nodes:
       hosts:
         registry.rdoproject.org: {}
+    opensearch:
+      hosts:
+        opensearch.rdoproject.org: {}
     openshift:
       hosts:
         registry.rdoproject.org: {}
@@ -226,6 +229,10 @@ all:
       ansible_host: '38.145.38.40'
       ansible_port: 22
       ansible_python_interpreter: auto
+      ansible_user: centos
+    opensearch.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: /usr/libexec/platform-python
       ansible_user: centos
     ovirt-staging.softwarefactory-project.io:
       ansible_port: 22

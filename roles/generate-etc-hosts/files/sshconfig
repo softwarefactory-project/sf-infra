@@ -64,6 +64,10 @@ Host dlrn-db.rdoproject.org
     User centos
     Port 22
 
+Host opensearch.rdoproject.org
+    User centos
+    Port 22
+
 Host backup.rdoproject.org
     User centos
     Port 3300

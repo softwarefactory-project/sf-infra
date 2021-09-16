@@ -220,3 +220,18 @@
     # Use standalone server to get SSL certs from certbot
     additional_params: '--standalone'
     http_service_name: 'standalone'
+
+- hosts: opensearch.rdoproject.org
+  pre_tasks:
+    - name: Setup Opensearch partition
+      vars:
+        lvm: "{{ partitions['opensearch']['lvm'] | default('') }}"
+        devices: "{{ partitions['opensearch']['devices'] | list | default('') }}"
+        mountpoint: "{{ partitions['opensearch']['mountpoint'] | default('') }}"
+        vg_name: "{{ partitions['opensearch']['vg_name'] | default('') }}"
+        lv_name: "{{ partitions['opensearch']['lv_name'] | default('') }}"
+      include_role:
+        name: volume
+  roles:
+    - hostname
+    - {name: ansible-role-elastic-recheck, become: true}
