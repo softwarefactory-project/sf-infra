@@ -1,4 +1,6 @@
 ---
+fqdn: opensearch.rdoproject.org
+
 partitions:
   opensearch:
     lvm: True
