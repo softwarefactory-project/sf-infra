@@ -1,0 +1,78 @@
+---
+- name: Configure additional log-gearman-client
+  become: true
+  block:
+    - name: Create configuration file
+      template:
+        src: config-client.j2
+        dest: /etc/log-gearman-client/config-{{ external_elk['infra_name'] }}.yml
+        mode: '0644'
+        owner: joblogsclient
+        group: joblogsclient
+      register: _log_gearman_client
+
+    - name: Copy systemd service configuration
+      template:
+        src: service-client.j2
+        dest: /usr/lib/systemd/system/log-gearman-client-{{ external_elk['infra_name'] }}.service
+        mode: '0644'
+        owner: root
+        group: root
+      register: _log_gearman_service_client
+
+    - name: Restart service if necessary - client
+      service:
+        name: log-gearman-client-{{ external_elk['infra_name'] }}
+        state: restarted
+        daemon-reload: true
+      when: _log_gearman_client.changed or _log_gearman_service_client.changed
+
+- name: Configure additional log-gearman-worker
+  become: true
+  block:
+    - name: Create configuration file
+      template:
+        src: config-worker.j2
+        dest: /etc/log-gearman-worker/config-{{ external_elk['infra_name'] }}.yml
+        mode: '0644'
+        owner: joblogsworker
+        group: joblogsworker
+      register: _log_gearman_config
+
+    - name: Copy systemd service configuration
+      template:
+        src: service-worker.j2
+        dest: /usr/lib/systemd/system/log-gearman-worker-{{ external_elk['infra_name'] }}.service
+        mode: '0644'
+        owner: root
+        group: root
+      register: _log_gearman_service
+
+    - name: Restart service if necessary
+      service:
+        name: log-gearman-worker-{{ external_elk['infra_name'] }}
+        state: restarted
+        daemon-reload: true
+      when: _log_gearman_config.changed or _log_gearman_service.changed
+
+- name: Configure get-last-job-logs script
+  become: true
+  block:
+    - name: Copy script
+      copy:
+        src: get-last-job-logs.py
+        dest: /usr/local/bin/get-last-job-logs.py
+        mode: '0755'
+
+    - name: Create cronjob entry
+      cron:
+        name: Forward tripleo-ci-centos-8-containers-multinode
+        minute: "5"
+        job: >
+          /usr/local/bin/get-last-job-logs.py
+          --job-name tripleo-ci-centos-8-containers-multinode
+          --gearman-port 4732
+          --gearman-server elk.rdoproject.org
+          --zuul-api-url https://zuul.opendev.org/api/tenant/
+          --tenant openstack
+          --checkpoint-file /tmp/results-checkpoint.txt

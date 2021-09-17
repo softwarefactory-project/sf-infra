@@ -31,6 +31,7 @@ let security_groups =
         , { name = "elk"
           , rules =
             [ Infra.Rule::{ port = +4731 }
+            , Infra.Rule::{ port = +4732 }
             , Infra.Rule::{
               , port = +9200
               , remote_ip_prefix = Some "${rdo_network.network_prefix}.0/24"
