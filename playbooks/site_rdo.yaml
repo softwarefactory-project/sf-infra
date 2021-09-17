@@ -125,11 +125,12 @@
         apply:
           become: yes
 
-- hosts: lists.rdoproject.org
+- hosts: lists.rdoproject.org:lists-ng.rdoproject.org
   become: yes
   roles:
     - hostname
-    - swap
+    # already created on lists.rdoproject.org and lists-ng is handled differently
+    #- swap
   handlers:
     - name: "Clean YUM Metadata"
       command: yum clean metadata
@@ -162,7 +163,7 @@
       include_role:
         name: mailing_lists
       vars:
-        data_dev: /dev/vdc
+        # data_dev and ml_type are defined int he inventory
         data_path: /srv/data
 
 - hosts: dlrn-db.rdoproject.org

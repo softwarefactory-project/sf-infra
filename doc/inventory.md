@@ -26,6 +26,7 @@ This project manages:
 * rdo-ci-cloudslave04.ci.centos.org
 * rdo-ci-cloudslave05.ci.centos.org
 * rdo-web-builder.int.osci.io
+* lists-ng.rdoproject.org
 * bridge.softwarefactory-project.io
 * lambda.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io

@@ -355,6 +355,8 @@ let centos-instances = mkCentosWorker 5
 
 let ospo-internal-vhosts = [ "rdo-web-builder.int.osci.io" ]
 
+let ospo-external-vhosts = [ "lists-ng.rdoproject.org" ]
+
 let defaultOSPOInternalInstance =
       Instance::{
       , name = "default"
@@ -365,9 +367,22 @@ let defaultOSPOInternalInstance =
         }
       }
 
+let defaultOSPOExternalInstance =
+      Instance::{
+      , name = "default"
+      , groups = [ "osci_zone" ]
+      , connection = Infra.Connection::{
+        , ansible_user = "root"
+        , ansible_host = Some "8.43.85.121"
+        }
+      }
+
 let ospo-instances =
-      Instance.textMap
-        (Instance.setName defaultOSPOInternalInstance)
-        ospo-internal-vhosts
+        Instance.textMap
+          (Instance.setName defaultOSPOInternalInstance)
+          ospo-internal-vhosts
+      # Instance.textMap
+          (Instance.setName defaultOSPOExternalInstance)
+          ospo-external-vhosts
 
 in  vexxhost-instances # centos-instances # ospo-instances

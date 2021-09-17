@@ -1,5 +1,10 @@
 ---
 
+- name: "Check ml_type is defined"
+  fail:
+    msg: "Please define the Mailman version (ml_type) to either 'mm2' or 'mm3'"
+  when: ml_type is not defined
+
 - name: "Create Space for Mailing-Lists data"
   vars:
     fs_type: xfs
@@ -16,10 +21,18 @@
         fstype: "{{ fs_type }}"
         state: mounted
 
+    - name: Add swap file
+      include_role:
+        name: swap_file
+      vars:
+        size: 1G
+        path: /var/swap
+      when: ml_type == "mm3"
+
   tags: partitioning
 
 
-- name: "Deploy ML"
+- name: "Deploy Mailman 2"
   block:
     - name: "Install SpamAssassin"
       include_role:
@@ -49,7 +62,7 @@
       vars:
         myhostname: "{{ inventory_hostname }}"
         relay_domains:
-          - "{{ mail_domain }}"
+          - lists.rdoproject.org
         with_mailman2: true
         with_postgrey: true
         with_spamassassin: true
@@ -62,14 +75,6 @@
         local_accounts:
           - privacy
 
-    - name: "Install extra maps"
-      copy:
-        src: "{{ item }}"
-        dest: "/etc/postfix/{{ item }}"
-      with_items:
-        - recipients_access
-      notify: regenerate mail maps
-
     - name: "Use the second disk for all Mailman2 data"
       include_role:
         name: data_movebind
@@ -80,6 +85,84 @@
           - crond
           - mailman
           - httpd
+
+  when: ml_type == "mm2"
+  tags: mailinglists
+
+
+- name: "Deploy Mailman 3"
+  block:
+    - name: "Install Mailing-Lists Server"
+      include_role:
+        name: mailing_lists_server
+      vars:
+        display_name: "RDO List Archives"
+        domain: rdoproject.org
+        admin_users:
+          - duck
+          - misc
+          # TODO: add RDO folks
+        mail_aliases:
+          root: "{{ ['root'] + ml_error_emails }}"
+          listmaster: root
+        local_accounts:
+          - privacy
+        # used for selective antispam
+        smtpd_recipient_restrictions_custom:
+          - "check_recipient_access pcre:$config_directory/recipients_access"
+        # TODO: enable after migration
+        #use_simple_tls: True
+        with_dovecot: True
+        whitelist_clients:
+          - redhat.com
+        service_profile: medium
+
+    - name: "Use the second disk for all Mailman3 database"
+      include_role:
+        name: data_movebind
+      vars:
+        src: /var/lib/pgsql
+        dest: "{{ data_path }}/mailman3-database"
+        services:
+          - crond
+          - mailman3
+          - httpd
+          - postgresql
+
+    - name: "Use the second disk for all Mailman3 data"
+      include_role:
+        name: data_movebind
+      vars:
+        src: /var/lib/mailman3
+        dest: "{{ data_path }}/mailman3-lib"
+        services:
+          - crond
+          - mailman3
+          - httpd
+
+    - name: "Use the second disk for all Hyperkitty+Postorius data"
+      include_role:
+        name: data_movebind
+      vars:
+        src: /var/www/mailman
+        dest: "{{ data_path }}/mailman3-www"
+        services:
+          - crond
+          - mailman3
+          - httpd
+
+  when: ml_type == "mm3"
+  tags: mailinglists
+
+- name: "Deploy Extra Mail Settings"
+  block:
+    - name: "Install extra maps"
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/postfix/{{ item }}"
+      with_items:
+        - recipients_access
+      notify: regenerate mail maps
 
     # quick fix for SPAM generating a low Spamassassin score
     - name: "SPAM filtering"
@@ -95,12 +178,6 @@
           /^X-Spam-Level: \*{8,}/ DISCARD
         marker: "# {mark} ANSIBLE MANAGED BLOCK ML-SPAM"
       notify: reload mail system
-
-    - name: "Install MDA"
-      include_role:
-        name: dovecot
-      vars:
-        auth: yaml-dict
 
     - name: "Install Dovecot users"
       copy:

@@ -192,6 +192,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    lists-ng.rdoproject.org:
+      ansible_host: '8.43.85.121'
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: root
     lists.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
