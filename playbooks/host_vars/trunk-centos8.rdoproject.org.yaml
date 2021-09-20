@@ -33,7 +33,7 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    rsyncdest: 'centos9-master-uc@3.87.151.16:/home/centos9-master/data/repos'
+    rsyncdest: 'centos9-master-uc@3.87.151.16:/home/centos9-master-uc/data/repos'
     rsyncport: '3300'
     use_components: true
     mock_config: 'centos9preview.cfg.j2'

@@ -40,8 +40,8 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
+    enable_deps_sync: true
+    enable_brs_sync: true
     use_components: true
     mock_config: 'centos9preview.cfg.j2'
   centos9-master-preview:
