@@ -59,6 +59,6 @@
     # Renew cert each week - Sunday at 0:00
     - name: Create cron job for renewing certificate
       cron:
-        name: Renew registry certificate
+        name: Renew registry certificate - OpenShift
         special_time: weekly
         job: bash /var/lib/sf-infra/registry-renew.sh
