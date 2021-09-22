@@ -24,6 +24,17 @@ let apache_server_list = [ "trunk.rdoproject.org:9117" ]
 
 let zookeeper_server_list = [ "managesf.softwarefactory-project.io:9141" ]
 
+let dlrnapi_target_list =
+      [ "api-centos9-master-uc"
+      , "api-centos8-master-uc"
+      , "api-centos8-xena"
+      , "api-centos8-wallaby"
+      , "api-centos8-victoria"
+      , "api-centos8-ussuri"
+      , "api-centos8-train"
+      , "api-centos-train"
+      ]
+
 in  PrometheusConfig
       (Infra.Instance.filter Infra.Instance.getNodeExporter vars.instances)
       [ "rules-node.yaml"
@@ -46,4 +57,5 @@ in  PrometheusConfig
       , ScrapeConfigs.static "mysqld" db_server_list
       , ScrapeConfigs.static "apache" apache_server_list
       , ScrapeConfigs.static "zookeeper" zookeeper_server_list
+      , ScrapeConfigs.dlrn dlrnapi_target_list
       ]

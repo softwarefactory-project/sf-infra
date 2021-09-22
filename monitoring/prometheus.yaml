@@ -162,3 +162,29 @@ scrape_configs:
     static_configs:
       - targets:
           - managesf.softwarefactory-project.io:9141
+  - job_name: dlrn
+    metrics_path: /metrics
+    relabel_configs:
+      - separator: ''
+        source_labels:
+          - "__address__"
+          - "__metrics_path__"
+        target_label: "__metrics_path__"
+      - regex: "^api-(.*)$"
+        replacement: "$1"
+        source_labels:
+          - "__address__"
+        target_label: instance
+      - replacement: trunk.rdoproject.org
+        target_label: "__address__"
+    scrape_interval: "30m"
+    static_configs:
+      - targets:
+          - api-centos9-master-uc
+          - api-centos8-master-uc
+          - api-centos8-xena
+          - api-centos8-wallaby
+          - api-centos8-victoria
+          - api-centos8-ussuri
+          - api-centos8-train
+          - api-centos-train

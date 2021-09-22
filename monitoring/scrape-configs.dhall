@@ -10,6 +10,33 @@ let static =
           [ Prometheus.StaticConfig::{ targets = Some targets } ]
         }
 
+let dlrn =
+      \(targets : List Text) ->
+        Prometheus.ScrapeConfig::{
+        , job_name = Some "dlrn"
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{ targets = Some targets } ]
+        , scrape_interval = Some "30m"
+        , metrics_path = Some "/metrics"
+        , relabel_configs = Some
+          [ Prometheus.RelabelConfig::{
+            , source_labels = Some [ "__address__", "__metrics_path__" ]
+            , target_label = Some "__metrics_path__"
+            , separator = Some ""
+            }
+          , Prometheus.RelabelConfig::{
+            , source_labels = Some [ "__address__" ]
+            , regex = Some "^api-(.*)\$"
+            , replacement = Some "\$1"
+            , target_label = Some "instance"
+            }
+          , Prometheus.RelabelConfig::{
+            , target_label = Some "__address__"
+            , replacement = Some "trunk.rdoproject.org"
+            }
+          ]
+        }
+
 let blackbox-scrape-config =
       \(modules : List Text) ->
       \(urls : List Text) ->
@@ -38,6 +65,7 @@ let blackbox-scrape-config =
         }
 
 in  { static
+    , dlrn
     , blackbox = blackbox-scrape-config [ "http_2xx" ]
     , blackbox-auth =
         \(auth-urls : List Text) ->
