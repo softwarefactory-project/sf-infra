@@ -16,7 +16,7 @@ let dlrn =
         , job_name = Some "dlrn"
         , static_configs = Some
           [ Prometheus.StaticConfig::{ targets = Some targets } ]
-        , scrape_interval = Some "30m"
+        , scrape_interval = Some "5m"
         , metrics_path = Some "/metrics"
         , relabel_configs = Some
           [ Prometheus.RelabelConfig::{

@@ -177,7 +177,7 @@ scrape_configs:
         target_label: instance
       - replacement: trunk.rdoproject.org
         target_label: "__address__"
-    scrape_interval: "30m"
+    scrape_interval: "5m"
     static_configs:
       - targets:
           - api-centos9-master-uc
