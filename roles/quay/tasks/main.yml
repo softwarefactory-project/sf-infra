@@ -28,6 +28,9 @@
 - name: Setup clair
   include_tasks: clair.yml
 
+- name: Setup quay mirror
+  include_tasks: mirror.yml
+
 - name: Setup quay
   include_tasks: quay.yml
 

@@ -16,7 +16,7 @@ container_images:
   postgresql: "docker.io/postgres:alpine3.14"
   redis: "docker.io/redis:6.2.4"
   quay: "quay.io/projectquay/quay:v3.5.2"
-  clair: "quay.io/projectquay/clair:4.1.1"
+  clair: "quay.io/projectquay/clair:4.2.2"
 
 ssl_cert_options:
   cert1:
