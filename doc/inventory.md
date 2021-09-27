@@ -20,11 +20,6 @@ This project manages:
 * opensearch.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
-* rdo-ci-cloudslave01.ci.centos.org
-* rdo-ci-cloudslave02.ci.centos.org
-* rdo-ci-cloudslave03.ci.centos.org
-* rdo-ci-cloudslave04.ci.centos.org
-* rdo-ci-cloudslave05.ci.centos.org
 * rdo-web-builder.int.osci.io
 * lists-ng.rdoproject.org
 * bridge.softwarefactory-project.io
