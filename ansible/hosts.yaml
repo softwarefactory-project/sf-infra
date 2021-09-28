@@ -24,13 +24,6 @@ all:
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         ovirt.softwarefactory-project.io: {}
-    ci-centos-org:
-      hosts:
-        rdo-ci-cloudslave01.ci.centos.org: {}
-        rdo-ci-cloudslave02.ci.centos.org: {}
-        rdo-ci-cloudslave03.ci.centos.org: {}
-        rdo-ci-cloudslave04.ci.centos.org: {}
-        rdo-ci-cloudslave05.ci.centos.org: {}
     dlrn:
       hosts:
         centos8-rpm-packaging-ci.rdoproject.org: {}
@@ -255,31 +248,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: /usr/libexec/platform-python
       ansible_user: centos
-    rdo-ci-cloudslave01.ci.centos.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p\""
-      ansible_user: rdo-monitoring
-    rdo-ci-cloudslave02.ci.centos.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p\""
-      ansible_user: rdo-monitoring
-    rdo-ci-cloudslave03.ci.centos.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p\""
-      ansible_user: rdo-monitoring
-    rdo-ci-cloudslave04.ci.centos.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p\""
-      ansible_user: rdo-monitoring
-    rdo-ci-cloudslave05.ci.centos.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p\""
-      ansible_user: rdo-monitoring
     rdo-web-builder.int.osci.io:
       ansible_port: 22
       ansible_python_interpreter: auto

@@ -178,12 +178,6 @@
         name: mariadb-replicated
         tasks_from: master.yml
 
-- hosts: ci-centos-org
-  become: yes
-  roles:
-    - pushprox
-    - cico-agent
-
 - hosts: elk.rdoproject.org
   roles:
     - volume

@@ -321,20 +321,6 @@ let instances =
         }
       ]
 
-let mkCentosWorker =
-      Instance.generate
-        ( \(idx : Natural) ->
-            Instance::{
-            , name = "rdo-ci-cloudslave0${Natural/show idx}.ci.centos.org"
-            , groups = [ "ci-centos-org" ]
-            , connection = Infra.Connection::{
-              , ansible_user = "rdo-monitoring"
-              , proxy_command = Some
-                  "ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p"
-              }
-            }
-        )
-
 let AwsServer =
       { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
 
@@ -350,8 +336,6 @@ let vexxhost-instances =
         [ "common", "monitoring" ]
         fqdn
         (instances # extra)
-
-let centos-instances = mkCentosWorker 5
 
 let ospo-internal-vhosts = [ "rdo-web-builder.int.osci.io" ]
 
@@ -385,4 +369,4 @@ let ospo-instances =
           (Instance.setName defaultOSPOExternalInstance)
           ospo-external-vhosts
 
-in  vexxhost-instances # centos-instances # ospo-instances
+in  vexxhost-instances # ospo-instances

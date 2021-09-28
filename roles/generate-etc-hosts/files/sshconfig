@@ -76,26 +76,6 @@ Host trunk.rdoproject.org
     User centos
     Port 3300
 
-Host rdo-ci-cloudslave01.ci.centos.org
-    User rdo-monitoring
-    Port 22
-    ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
-Host rdo-ci-cloudslave02.ci.centos.org
-    User rdo-monitoring
-    Port 22
-    ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
-Host rdo-ci-cloudslave03.ci.centos.org
-    User rdo-monitoring
-    Port 22
-    ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
-Host rdo-ci-cloudslave04.ci.centos.org
-    User rdo-monitoring
-    Port 22
-    ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
-Host rdo-ci-cloudslave05.ci.centos.org
-    User rdo-monitoring
-    Port 22
-    ProxyCommand ssh -q rdo-monitoring@jump.ci.centos.org -W %h:%p
 Host rdo-web-builder.int.osci.io
     User root
     Port 22
