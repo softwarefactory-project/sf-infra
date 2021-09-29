@@ -58,6 +58,10 @@
 - name: Configure get-last-job-logs script
   become: true
   block:
+    - name: Install required packages
+      package:
+        name: python3-gear
+
     - name: Copy script
       copy:
         src: get-last-job-logs.py

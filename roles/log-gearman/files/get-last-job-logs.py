@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 
 import argparse
-import requests
-import os
-import sys
-
-import json
 import gear
-import yaml
+import json
+import os
+import requests
+import sys
+import time
 import urllib
-
-from datetime import datetime
+import yaml
 
 
 file_to_check = ['job-output.txt.gz', 'job-output.txt',
@@ -82,7 +80,6 @@ def get_last_job_results(zuul_url, tenant, job_name, insecure):
 
 
 def sort_results(job_results):
-    # FIXME: are the results always sorted?
     dump_datetime = {}
     sorted_results = []
     for i, v in enumerate(job_results):
@@ -90,7 +87,8 @@ def sort_results(job_results):
         # job fails on post job, so log_url value is not present.
         if not v["end_time"] or not v["log_url"]:
             continue
-        dump_datetime[i] = datetime.fromisoformat(v["end_time"]).timestamp()
+        dump_datetime[i] = time.mktime(time.strptime(v['end_time'],
+                                                     "%Y-%m-%dT%H:%M:%S"))
     sorted_datetime = {k: v for k, v in sorted(dump_datetime.items(),
                                                key=lambda item: item[1])}
     for k, v in sorted_datetime.items():
