@@ -181,6 +181,7 @@
 - hosts: elk.rdoproject.org
   roles:
     - volume
+    - log-gearman
   tasks:
     - include_role:
         name: elasticsearch

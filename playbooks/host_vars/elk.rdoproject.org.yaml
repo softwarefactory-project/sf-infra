@@ -1,3 +1,11 @@
 bind_mounts:
   - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "elasticsearch", group: "elasticsearch"}
   - {source: '/mnt/influxdb', dest: '/var/lib/influxdb', owner: "influxdb", group: "influxdb"}
+
+external_elk:
+  infra_name: rdoproject.org
+  gearman_port: 4732
+  opensearch_host: opensearch.rdoproject.org
+  # Value from host_vars/opensearch.rdoproject.org.yml file:
+  # tenant_configuration: { rdoproject.org : { logstash_input_port: 9998 }}
+  opensearch_logstash_port: 9998

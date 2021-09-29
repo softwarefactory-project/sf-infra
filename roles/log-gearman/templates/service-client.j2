@@ -1,0 +1,17 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Job logs gearman scheduler client
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Restart=on-failure
+User=joblogsclient
+Group=joblogsclient
+SyslogIdentifier=joblogs-gearman-client
+ExecStart=/usr/bin/log-gearman-client.py -c /etc/log-gearman-client/config-{{ external_elk['infra_name'] }}.yml --foreground -d /var/log/log-gearman-client/client-{{ external_elk['infra_name'] }}.log
+
+[Install]
+WantedBy=multi-user.target
