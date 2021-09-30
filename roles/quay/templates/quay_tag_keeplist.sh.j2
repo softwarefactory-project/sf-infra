@@ -1,0 +1,21 @@
+#!/bin/bash
+# Generates a comma separated value of tags to whitelist for the Quay RDO registry.
+# We want to keep some tag names (ex: "current-tripleo") but also the hash
+# that they resolve to (ex: "5466f249bd36900a1dac573cdc83e7a11493aea2_0c8f7f95")
+
+releases="{{ quay_pruner_dlrn_endpoints | join(' ') }}"
+names="{{ quay_pruner_extended_keeplist | join(' ') }}"
+
+[[ ! -d /tmp/dlrnapi ]] && virtualenv /tmp/dlrnapi >/dev/null
+source /tmp/dlrnapi/bin/activate
+pip install setuptools --upgrade >/dev/null
+pip install dlrnapi_client >/dev/null
+
+(for release in $releases
+do
+  for name in $names
+  do
+     echo $name
+     dlrnapi --url https://trunk.rdoproject.org/${release} promotion-get --promote-name ${name} --limit 1 | jq -r '.[0] | (.repo_hash,.aggregate_hash)' | grep -v null
+  done
+done) | sort | uniq |paste -sd ','

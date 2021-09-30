@@ -39,3 +39,7 @@
   with_dict: "{{ quay_users }}"
   loop_control:
     loop_var: user_item
+
+- name: Set up image pruning script
+  include_tasks: prune.yml
+  when: quay_enable_prune | default(false)

@@ -67,4 +67,67 @@ curl -k -sSL -X "GET" -H "Authorization: Bearer $TOKEN" -H "Content-Type: applic
 }
 ```
 
-###
+### Registry image pruning
+
+We do not want to keep the uploaded container images forever. To allow
+image pruning we will be using [Quay tag expiration](https://docs.projectquay.io/use_quay.html#tag-expiration).
+
+Note that the pruning script will set the expiration date to 1 day after
+its execution, and the Time Machine functionality in Quay will allow
+recovering the image for some time (two weeks by default). Thus, its effect
+in disk usage will not be immediate.
+
+To configure tag expiration in the role, we need to declare the following
+variables:
+
+- `quay_enable_prune`: If set to `true`, the pruning script will be enabled.
+- `quay_pruner_log_directory`: This is the directory that will store the
+  pruning script logs.
+- `quay_organizations`: This is a list of all the organizations to be
+  analyzed. Each of the items in the list must contain the following:
+  - `name`: Name of the organization.
+  - `token`: For each organization, a unique OAuth2 token must be created,
+    following the instructions from the [Quay API documentation](https://docs.quay.io/api/).
+    The token need full permissions over repositories in the organization.
+    Since the token can be used for admin operations, it must be kept
+    secret, and should never be stored in plain text. Use Ansible Vault
+    instead.
+  - `prune_days`: This value defines the number of days before a tag
+    is expired.
+- `quay_pruner_dlrn_endpoints`: This list defines the DLRN API endpoints
+  that will be queried to create a list of protected image tags.
+- `quay_pruner_extended_keeplist`: This list defines the protected image
+  tags. The pruning script will check the DLRN API endpoint for those tags,
+  and add the tags and those hashed tags they point to to a keep list, so
+  they will not be expired even if they are older than `prune_days`.
+
+This is an example configuration:
+
+```
+quay_enable_prune: true
+
+quay_pruner_log_directory: /var/log/quay_tag_pruner
+
+quay_organizations:
+    - name: tripleomaster
+      token: 'testtoken'
+      prune_days: 7
+
+quay_pruner_dlrn_endpoints:
+  - api-centos9-master-uc  
+  - api-centos8-master-uc
+  - api-centos8-wallaby
+  - api-centos8-victoria
+  - api-centos8-ussuri
+  - api-centos8-train
+  - api-centos-train
+
+quay_pruner_extended_keeplist:
+  - current-tripleo
+  - current-tripleo-rdo
+  - current-tripleo-rdo-internal
+  - tripleo-ci-testing
+  - promoted-components
+  - component-ci-testing
+  - previous-current-tripleo
+```
