@@ -18,24 +18,47 @@ import json
 import sys
 
 
+# recursively merge d2 in d1
+def merge(d1, d2):
+    # If d2 is not a dict, then stop
+    if not isinstance(d2, dict):
+        return d2
+
+    # create a new dict with d1
+    new = dict()
+    for key in d1:
+        new[key] = d1[key]
+
+    for key in d2:
+        if key in new:
+            new[key] = merge(d1[key], d2[key])
+        else:
+            new[key] = d2[key]
+
+    return new
+
+
+def list_reduce(cb, init):
+    return functools.reduce(cb, init, [])
+
+
+# The initial inventory
 inventory = json.loads(sys.stdin.read())
-print(json.dumps(dict(all=dict(
-    children=dict([
-        # We extract the group and their hosts from the list of instances
-        (group, dict(
-            hosts=dict(
-                functools.reduce(
-                    lambda acc, instance: acc + [(instance["name"], {})]
-                    if group in instance["groups"] else acc,
-                    inventory["instances"],
-                    [],
-                )
-            )
-        ))
-        for group in functools.reduce(
-                lambda acc, instance: acc + instance["groups"],
-                inventory["instances"],
-                [])
-    ]   # The extra groups and hosts can be used as-it
-        + list(inventory.get("groups", {}).items())
-    ), hosts=inventory["hosts"]))))
+
+# We extract the group and their hosts from the list of instances
+groups = list_reduce(
+    lambda acc, instance: acc + instance["groups"], inventory["instances"])
+hosts_groups = dict([
+    (group,
+     dict(hosts=dict(list_reduce(
+         lambda acc, instance: acc + [(instance["name"], {})]
+         if group in instance["groups"]
+         else acc,
+         inventory["instances"]))))
+    for group in groups])
+
+# And the extra groups with custom children
+extra_groups = dict(list(inventory.get("groups", {}).items()))
+
+print(json.dumps(dict(all=dict(children=merge(hosts_groups, extra_groups),
+                               hosts=inventory["hosts"]))))
