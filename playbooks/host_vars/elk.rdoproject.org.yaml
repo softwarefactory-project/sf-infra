@@ -9,3 +9,5 @@ external_elk:
   # Value from host_vars/opensearch.rdoproject.org.yml file:
   # tenant_configuration: { rdoproject.org : { logstash_input_port: 9998 }}
   opensearch_logstash_port: 9998
+  gearman_client_host: elk.review.rdoproject.org
+  gearmna_worker_host: elk.review.rdoproject.org

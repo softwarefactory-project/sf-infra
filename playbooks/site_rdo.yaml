@@ -179,6 +179,12 @@
         tasks_from: master.yml
 
 - hosts: elk.rdoproject.org
+  pre_tasks:
+    - name: Set Opensearch local ip address
+      lineinfile:
+        dest: '/etc/hosts'
+        regexp: "^opensearch.rdoproject.org.+$"
+        line: "192.168.240.253 opensearch opensearch.rdoproject.org"
   roles:
     - volume
     - log-gearman

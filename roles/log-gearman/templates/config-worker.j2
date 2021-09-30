@@ -1,5 +1,5 @@
-gearman-host: "{{ inventory_hostname }}"
-gearman-port: "{{ external_elk['gearman_port'] }}"
-output-host: "{{ external_elk['opensearch_host'] }}"
-output-port: "{{ external_elk['opensearch_logstash_port'] }}"
+gearman-host: {{ external_elk['gearman_worker_host'] | default(inventory_hostname) }}
+gearman-port: {{ external_elk['gearman_port'] }}
+output-host: {{ external_elk['opensearch_host'] }}
+output-port: {{ external_elk['opensearch_logstash_port'] }}
 output-mode: tcp

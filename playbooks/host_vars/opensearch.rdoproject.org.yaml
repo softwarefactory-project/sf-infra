@@ -15,6 +15,7 @@ container_images:
   opensearch: quay.rdoproject.org/software-factory/opensearch:1.0.0-customized
   opensearch-dashboards: quay.rdoproject.org/software-factory/opensearch-dashboards:1.0.0
 
+setup_ssl: true
 ssl_cert_options:
   cert1:
     email: "softwarefactory-operations-team@redhat.com"

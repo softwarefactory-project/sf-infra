@@ -64,8 +64,6 @@ def get_arguments():
     parser.add_argument('--gearman-server', help='Gearman host addresss')
     parser.add_argument('--gearman-port', help='Gearman listen port. '
                         'Defaults to 4731.', default=4731)
-    parser.add_argument('--keep', help="Keep temporary directory with logs",
-                        action="store_true")
     args = parser.parse_args()
     return args
 
