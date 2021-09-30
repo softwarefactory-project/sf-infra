@@ -25,6 +25,9 @@ ENTERPRISE_LOGO_URL: {{ quay_contact_info['logo_url'] }}
 
 DATABASE_SECRET_KEY: {%if database_secret_key|default(false) %}{{ database_secret_key }}{% else %}{{ 999999999999 | random | to_uuid }}{% endif %}
 
+# Needed by mirror service
+SECRET_KEY: {%if secret_key|default(false) %}{{ secret_key }}{% else %}{{ 999999999999 | random | to_uuid }}{% endif %}
+
 DB_CONNECTION_ARGS:
     autorollback: true
     threadlocals: true
