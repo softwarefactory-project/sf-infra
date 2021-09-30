@@ -15,6 +15,17 @@ container_images:
   opensearch: quay.rdoproject.org/software-factory/opensearch:1.0.0-customized
   opensearch-dashboards: quay.rdoproject.org/software-factory/opensearch-dashboards:1.0.0
 
+ssl_cert_options:
+  cert1:
+    email: "softwarefactory-operations-team@redhat.com"
+    domain: "opensearch.rdoproject.org"
+    webroot: "/var/www/html"
+certbot_plugin: "--webroot -w /var/www/html"
+
+ssl_cert_file: /etc/letsencrypt/live/opensearch.rdoproject.org/cert.pem
+ssl_chain_file: /etc/letsencrypt/live/opensearch.rdoproject.org/chain.pem
+ssl_key_file: /etc/letsencrypt/live/opensearch.rdoproject.org/privkey.pem
+
 tenant_configuration:
   rdoproject.org:
     logstash_input_port: 9998

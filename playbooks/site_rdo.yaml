@@ -230,4 +230,5 @@
         name: volume
   roles:
     - hostname
+    - setup-ssl
     - {name: ansible-role-elastic-recheck, become: true}
