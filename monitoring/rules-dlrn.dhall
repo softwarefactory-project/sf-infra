@@ -1,10 +1,8 @@
 let Prometheus = ./binding.dhall
 
-let day = "3600 * 24"
+let max-age-c7 = { value = "72h", str = "three days" }
 
-let max-age-c7 = { value = "(${day} * 3)", str = "three days" }
-
-let max-age-c8 = { value = "(${day} * 1)", str = "one day" }
+let max-age-c8 = { value = "24h", str = "one day" }
 
 in  Prometheus.RulesConfig::{
     , groups = Some
@@ -17,7 +15,7 @@ in  Prometheus.RulesConfig::{
                     Prometheus.AlertingRule::{
                     , alert = Some "RDOTrunkRepoTooOld"
                     , expr = Some
-                        "dlrn_last_build{worker=~'${worker}'} < (time() - ${max-age.value})"
+                        "increase(dlrn_builds_total{instance=~'${worker}'}[${max-age.value}]) < 1"
                     , labels = Some
                       { severity = "warning"
                       , lasttime = "{{ \$value | humanizeTimestamp }}"
@@ -25,12 +23,15 @@ in  Prometheus.RulesConfig::{
                     , annotations = Some
                       { description = None Text
                       , summary =
-                          "Last build for {{ \$labels.worker }}/{{ \$labels.symlink }} dates back to {{ \$value | humanizeTimestamp }}, which is older than ${max-age.str} ago"
+                          "No new builds in {{ \$labels.worker }} for the last ${max-age.str}"
                       }
                     }
 
             in  Some
-                  [ rule "centos-.*" max-age-c7, rule "centos8-.*" max-age-c8 ]
+                  [ rule "centos-.*" max-age-c7
+                  , rule "centos8-.*" max-age-c8
+                  , rule "centos9-.*" max-age-c8
+                  ]
         }
       ]
     }

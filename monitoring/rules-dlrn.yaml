@@ -4,15 +4,22 @@ groups:
     rules:
       - alert: RDOTrunkRepoTooOld
         annotations:
-          summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}, which is older than three days ago"
-        expr: "dlrn_last_build{worker=~'centos-.*'} < (time() - (3600 * 24 * 3))"
+          summary: "No new builds in {{ $labels.worker }} for the last three days"
+        expr: "increase(dlrn_builds_total{instance=~'centos-.*'}[72h]) < 1"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
       - alert: RDOTrunkRepoTooOld
         annotations:
-          summary: "Last build for {{ $labels.worker }}/{{ $labels.symlink }} dates back to {{ $value | humanizeTimestamp }}, which is older than one day ago"
-        expr: "dlrn_last_build{worker=~'centos8-.*'} < (time() - (3600 * 24 * 1))"
+          summary: "No new builds in {{ $labels.worker }} for the last one day"
+        expr: "increase(dlrn_builds_total{instance=~'centos8-.*'}[24h]) < 1"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
+      - alert: RDOTrunkRepoTooOld
+        annotations:
+          summary: "No new builds in {{ $labels.worker }} for the last one day"
+        expr: "increase(dlrn_builds_total{instance=~'centos9-.*'}[24h]) < 1"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
