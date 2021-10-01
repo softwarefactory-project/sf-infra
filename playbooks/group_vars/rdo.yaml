@@ -1,1 +1,4 @@
 sf_ssh_pub_key: "{{ install_server_rdo_pub }}"
+package_list:
+  - {name: "ca-certificates"}
+  - {name: "chrony", service: "chronyd", config_template: "chrony.conf", dest: "/etc/chrony.conf" }
