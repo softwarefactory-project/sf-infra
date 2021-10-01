@@ -57,9 +57,6 @@ all:
     openshift:
       hosts:
         registry.rdoproject.org: {}
-    osci_internal_zone:
-      hosts:
-        rdo-web-builder.int.osci.io: {}
     osci_zone:
       children:
         osci_internal_zone: {}
@@ -248,11 +245,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: /usr/libexec/platform-python
       ansible_user: centos
-    rdo-web-builder.int.osci.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q tenant@soeru.osci.io -W %h:%p\""
-      ansible_user: root
     registry.rdoproject.org:
       ansible_become: true
       ansible_port: 22
