@@ -32,7 +32,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9-master']
-    release: 'xena-uc'
+    release: 'yoga-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -55,7 +55,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master-preview']
-    release: 'xena-uc'
+    release: 'yoga-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-preview'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -104,7 +104,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
-    release: 'xena-uc'
+    release: 'yoga-uc'
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -129,7 +129,7 @@ dlrn_workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-master-head']
-    release: 'xena'
+    release: 'yoga'
     baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -151,8 +151,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '22'
     symlinks: ['/var/www/html/centos8-xena', '/var/www/html/xena/centos8']
-    # NOTE(jpena): set to 'xena' once the tag has been created in rdoinfo
-    release: 'xena-uc'
+    release: 'xena'
     baseurl: 'https://trunk.rdoproject.org/centos8-xena'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
