@@ -20,6 +20,7 @@ This project manages:
 * opensearch.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
+* rdo-web-builder.int.osci.io
 * lists-ng.rdoproject.org
 * bridge.softwarefactory-project.io
 * lambda.softwarefactory-project.io

@@ -347,7 +347,7 @@ let defaultOSPOInternalInstance =
       , groups = [ "osci_zone", "osci_internal_zone" ]
       , connection = Infra.Connection::{
         , ansible_user = "root"
-        , proxy_command = Some "ssh -q tenant@soeru.osci.io -W %h:%p"
+        , proxy_command = Some "ssh -q rdo@soeru.osci.io -W %h:%p"
         }
       }
 
@@ -369,7 +369,4 @@ let ospo-instances =
           (Instance.setName defaultOSPOExternalInstance)
           ospo-external-vhosts
 
-in    vexxhost-instances
-    # Instance.textMap
-        (Instance.setName defaultOSPOExternalInstance)
-        ospo-external-vhosts
+in  vexxhost-instances # ospo-instances
