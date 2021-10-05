@@ -1,0 +1,44 @@
+- name: Install required packages
+  package:
+    name:
+      - jq
+      - python3-virtualenv
+      - python3-requests
+    state: present
+  become: true
+
+- name: Install image tag pruner
+  copy:
+    src: quay_tag_pruner.py
+    dest: /usr/local/bin/quay_tag_pruner
+    mode: '0755'
+  become: true
+
+- name: Install tag keeplist generator
+  template:
+    src: quay_tag_keeplist.sh.j2
+    dest: /usr/local/bin/quay_tag_keeplist
+    mode: '0755'
+  become: true
+
+- name: Install wrapper script
+  template:
+    src: quay_registry_pruner.sh.j2
+    dest: /usr/local/bin/quay_registry_pruner
+    mode: '0755'
+  become: true
+
+- name: Set up prune log directory
+  file:
+    path: "{{ quay_pruner_log_directory }}"
+    state: directory
+  become: true
+
+- name: Set up cron to prune tags and images
+  cron:
+    name: quay_image_pruning
+    minute: 0
+    hour: 1
+    user: root
+    job: '/usr/local/bin/quay_registry_pruner > {{ quay_pruner_log_directory }}/pruner.$(/usr/bin/date +\%s).log 2>&1'
+  become: true
