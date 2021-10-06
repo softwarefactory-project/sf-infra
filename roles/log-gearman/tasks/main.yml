@@ -55,7 +55,7 @@
         daemon-reload: true
       when: _log_gearman_config.changed or _log_gearman_service.changed
 
-- name: Configure get-last-job-logs script
+- name: Configure zuul-job-scrapper script
   become: true
   block:
     - name: Install required packages
@@ -64,8 +64,8 @@
 
     - name: Copy script
       copy:
-        src: get-last-job-logs.py
-        dest: /usr/local/bin/get-last-job-logs.py
+        src: zuul-job-scrapper.py
+        dest: /usr/local/bin/zuul-job-scrapper.py
         mode: '0755'
 
     - name: Create cronjob entry
@@ -73,10 +73,11 @@
         name: Forward tripleo-ci-centos-8-containers-multinode
         minute: "5"
         job: >
-          /usr/local/bin/get-last-job-logs.py
+          /usr/local/bin/zuul-job-scrapper.py
           --job-name tripleo-ci-centos-8-containers-multinode
           --gearman-port 4732
           --gearman-server elk.rdoproject.org
           --zuul-api-url https://zuul.opendev.org/api/tenant/
           --tenant openstack
-          --checkpoint-file /tmp/results-checkpoint.txt
+          --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt
+          --foreground

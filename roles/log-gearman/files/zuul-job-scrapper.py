@@ -42,34 +42,59 @@ files:
 
 def get_arguments():
     parser = argparse.ArgumentParser(
-        description="Fetch and push last Zuul CI " "job logs into gearman"
+        description="Fetch and push last Zuul CI job logs into gearman."
+                    "Example: \n\tzuul-job-scrapper.py --tenant openstack\n\n"
+                    "or more advanced version that scrap specified job name:"
+                    "\n\tzuul-job-scrapper.py --job-name "
+                    "tripleo-ci-centos-8-containers-multinode "
+                    "--gearman-port 4732 --gearman-server elk.rdoproject.org "
+                    "--zuul-api-url https://zuul.opendev.org/api/tenant/ "
+                    "--checkpoint-file /tmp/results-checkpoint.txt "
+                    "--tenant openstack --foreground",
+        formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument(
-        "--zuul-api-url",
-        help="URL for Zuul API. Defaults to"
+        "-u", "--zuul-api-url",
+        help="URL for Zuul API. Defaults to: "
              "https://softwarefactory-project.io/zuul/api/tenant",
         default="https://softwarefactory-project.io/zuul/api/tenant/")
-    parser.add_argument(
-        "--tenant", help="Tenant on which CI job is running."
-                         "Defaults to: local",
-        default="local")
-    parser.add_argument("--job-name", help="CI job name")
+    parser.add_argument("-t", "--tenant",
+                        help="Tenant on which CI job is running."
+                             "Defaults to: local",
+                        default="local")
+    parser.add_argument("--job-name",
+                        help="CI job name. If not set it would scrap "
+                             "every latest builds")
+    parser.add_argument('-s', '--gearman-server', help='Gearman host addresss')
+    parser.add_argument('-p', '--gearman-port', help='Gearman listen port. '
+                        'Defaults to 4731.', default=4731)
+    parser.add_argument('--sleep', help='Time before checking new builds. '
+                        'Defaults to 120', default=120)
     parser.add_argument("--insecure",
                         action="store_false",
                         help="Skip validating SSL cert")
     parser.add_argument('--checkpoint-file', help='File that will keep'
                         'information about last uuid timestamp for a job.'
                         'Defaults to /tmp/results-checkpoint.txt',
-                        default='/tmp/results-checkpoint.txt')
-    parser.add_argument('--gearman-server', help='Gearman host addresss')
-    parser.add_argument('--gearman-port', help='Gearman listen port. '
-                        'Defaults to 4731.', default=4731)
+                        default='/usr/local/zuul-scrapper-checkpoint.txt')
+    parser.add_argument('--ignore-checkpoint', help='Ignore last job uuid '
+                        'that is set in --checkpoint-file',
+                        action="store_true")
+    parser.add_argument("--foreground", action='store_true',
+                        help="Run in the foreground.")
+    parser.add_argument("--pidfile",
+                        default="/var/run/zuul-log-scrapper/"
+                                "zuul-log-scrapper.pid",
+                        help="PID file to lock during daemonization.")
     args = parser.parse_args()
     return args
 
 
 def get_last_job_results(zuul_url, tenant, job_name, insecure):
-    url = "%s/%s/builds?job_name=%s" % (zuul_url, tenant, job_name)
+    if job_name:
+        url = "%s/%s/builds?job_name=%s" % (zuul_url, tenant, job_name)
+    else:
+        url = "%s/%s/builds" % (zuul_url, tenant)
     jobs_result = requests.get(url, verify=insecure)
     if jobs_result.status_code != 200:
         print("Provided URL is wrong or Zuul API is down")
@@ -98,33 +123,50 @@ def check_if_uuid_in_job_result(job_results, last_uuid):
     return filter(lambda result: result['uuid'] == last_uuid, job_results)
 
 
-def get_last_result_uuid(job_name, checkpoint_file):
-    if not os.path.isfile(checkpoint_file):
+def get_last_result_uuid(job_name, checkpoint_file, ignore_checkpoint):
+    if not os.path.isfile(checkpoint_file) or ignore_checkpoint:
         return
 
     with open(checkpoint_file) as f:
         for line in f:
             key, val = line.split()
-            if key == job_name:
+            # FIXME: add checking uuid if no job_name specified
+            if (job_name and key == job_name) or (not job_name and
+                                                  key == "builds"):
                 return val
 
 
 def write_last_job_uuid(job_name, checkpoint_file, job_uuid):
     job_in_file = False
-    if not os.path.isfile(checkpoint_file):
-        raise("Can not write last job uuid into the file %s" % checkpoint_file)
+    checkpoint_text = []
+    # Assume, that no --job-name specified, so write "builds"
+    # as a key to set checkpoint.
+    if not job_name:
+        job_name = "builds"
 
-    with open(checkpoint_file, 'rt') as f:
-        with open(checkpoint_file, 'wt') as f_out:
-            for line in f:
-                key, val = line.split()
-                if key == job_name:
-                    f_out.write(line.replace(val, job_uuid))
-                    job_in_file = True
+    try:
+        if not os.path.isfile(checkpoint_file):
+            open(checkpoint_file, "a").close()
 
-    if not job_in_file:
-        with open(checkpoint_file, "a") as f:
-            f.write("%s %s" % (job_name, job_uuid))
+        with open(checkpoint_file, 'r') as f:
+            checkpoint_text = f.readlines()
+            with open(checkpoint_file, 'w') as f_out:
+                for line in checkpoint_text:
+                    key, val = line.split()
+                    if key == job_name:
+                        checkpoint_text = [jobuuid.replace(val, job_uuid)
+                                           for jobuuid in checkpoint_text]
+                        f_out.writelines(checkpoint_text)
+                        job_in_file = True
+                        break
+
+        if not job_in_file:
+            with open(checkpoint_file, "a") as f:
+                # if job-name or builds key was not found, write old content
+                f.writelines(checkpoint_text)
+                f.write("%s %s" % (job_name, job_uuid))
+    except Exception as e:
+        raise("Can not write status to the checkpoint file %s" % e)
 
 
 def cleanup_results(job_results, job_uuid):
@@ -223,14 +265,14 @@ class LogMatcher(object):
         return fields
 
 
-if __name__ == "__main__":
-    args = get_arguments()
+def main(args):
     job_results = get_last_job_results(
         args.zuul_api_url, args.tenant, args.job_name, args.insecure
     )
     sorted_results = sort_results(job_results)
     last_result_uuid = get_last_result_uuid(args.job_name,
-                                            args.checkpoint_file)
+                                            args.checkpoint_file,
+                                            args.ignore_checkpoint)
     cleaned_results = cleanup_results(sorted_results, last_result_uuid)
 
     if not cleaned_results:
@@ -252,3 +294,22 @@ if __name__ == "__main__":
 
     write_last_job_uuid(args.job_name, args.checkpoint_file,
                         sorted_results[-1]['uuid'])
+
+    if not args.foreground:
+        time.sleep(args.sleep)
+
+
+if __name__ == "__main__":
+    args = get_arguments()
+    if args.foreground:
+        main(args)
+    else:
+        import daemon
+        try:
+            import daemon.pidlockfile as pidfile_mod
+        except ImportError:
+            import daemon.pidfile as pidfile_mod
+        pidfile = pidfile_mod.TimeoutPIDLockFile(args.pidfile, 10)
+        # NOTE: if you use default pid location, you need to run as root!
+        with daemon.DaemonContext(pidfile=pidfile):
+            main()
