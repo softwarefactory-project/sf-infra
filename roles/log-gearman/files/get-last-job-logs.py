@@ -233,6 +233,10 @@ if __name__ == "__main__":
                                             args.checkpoint_file)
     cleaned_results = cleanup_results(sorted_results, last_result_uuid)
 
+    if not cleaned_results:
+        print("Nothing to do!")
+        sys.exit(0)
+
     for job_result in cleaned_results:
         results = dict(files=[], jobs=[], invocation={})
 
