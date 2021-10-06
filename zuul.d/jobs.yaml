@@ -225,7 +225,6 @@
         - name: primary
           label: rdo-centos-8
     files:
-      - ^roles/rdotrunk-checks/.*$
       - ^roles/backup-monitoring/.*$
       - ^roles/swap/.*$
       - ^roles/dlrn-server/.*$
