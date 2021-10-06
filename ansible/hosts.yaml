@@ -63,6 +63,9 @@ all:
     osci_zone:
       children:
         osci_internal_zone: {}
+      hosts:
+        lists-ng.rdoproject.org: {}
+        rdo-web-builder.int.osci.io: {}
     quay:
       hosts:
         quay.rdoproject.org: {}
