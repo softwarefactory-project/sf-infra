@@ -48,6 +48,13 @@
         group: root
       register: _log_gearman_service
 
+    - name: Set permissions to whole worker directory
+      file:
+        path: /etc/log-gearman-worker
+        state: directory
+        owner: joblogsworker
+        group: joblogsworker
+
     - name: Restart service if necessary
       service:
         name: log-gearman-worker-{{ external_elk['infra_name'] }}
@@ -81,3 +88,7 @@
           --tenant openstack
           --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt
           --foreground
+
+    - name: Configure scrapper service
+      include_tasks: zuul-job-scrapper.yml
+      loop: "{{ tenant_builds }}"

@@ -1,0 +1,13 @@
+---
+# Sample:
+# tenant_builds:
+#   - tenant: rdoproject.org
+#     gearman_port: 4732
+#     gearman_server: elk.review.rdoproject.org
+#     zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant
+#   - tenant: local
+#     gearman_port: 4732
+#     gearman_server: managesf.sftests.com
+#     zuul_api_url: https://managesf.sftests.com/zuul/api/tenant
+#     insecure: true
+tenant_builds: []

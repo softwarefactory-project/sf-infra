@@ -11,3 +11,10 @@ external_elk:
   opensearch_logstash_port: 9998
   gearman_client_host: elk.review.rdoproject.org
   gearmna_worker_host: elk.review.rdoproject.org
+
+# For zuul-job-scrapper script
+tenant_builds:
+  - tenant: rdoproject.org
+    gearman_port: 4732
+    gearman_server: elk.review.rdoproject.org
+    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant

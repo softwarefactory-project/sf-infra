@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+import daemon
+import lockfile
 import gear
 import json
 import os
@@ -83,8 +85,7 @@ def get_arguments():
     parser.add_argument("--foreground", action='store_true',
                         help="Run in the foreground.")
     parser.add_argument("--pidfile",
-                        default="/var/run/zuul-log-scrapper/"
-                                "zuul-log-scrapper.pid",
+                        default="/var/run/zuul-scrapper/scrapper.pid",
                         help="PID file to lock during daemonization.")
     args = parser.parse_args()
     return args
@@ -266,37 +267,41 @@ class LogMatcher(object):
 
 
 def main(args):
-    job_results = get_last_job_results(
-        args.zuul_api_url, args.tenant, args.job_name, args.insecure
-    )
-    sorted_results = sort_results(job_results)
-    last_result_uuid = get_last_result_uuid(args.job_name,
-                                            args.checkpoint_file,
-                                            args.ignore_checkpoint)
-    cleaned_results = cleanup_results(sorted_results, last_result_uuid)
+    while True:
+        job_results = get_last_job_results(
+            args.zuul_api_url, args.tenant, args.job_name, args.insecure
+        )
+        sorted_results = sort_results(job_results)
+        last_result_uuid = get_last_result_uuid(args.job_name,
+                                                args.checkpoint_file,
+                                                args.ignore_checkpoint)
+        cleaned_results = cleanup_results(sorted_results, last_result_uuid)
 
-    if not cleaned_results:
-        print("Nothing to do!")
-        sys.exit(0)
+        if cleaned_results:
+            for job_result in cleaned_results:
+                results = dict(files=[], jobs=[], invocation={})
 
-    for job_result in cleaned_results:
-        results = dict(files=[], jobs=[], invocation={})
+                # add missing informations
+                job_result['tenant'] = args.tenant
 
-        # add missing informations
-        job_result['tenant'] = args.tenant
+                lmc = LogMatcher(args.gearman_server, args.gearman_port,
+                                 job_result['result'], job_result['log_url'],
+                                 {})
+                results['files'] = check_specified_files(job_result)
 
-        lmc = LogMatcher(args.gearman_server, args.gearman_port,
-                         job_result['result'], job_result['log_url'], {})
-        results['files'] = check_specified_files(job_result)
+                for handle in lmc.submitJobs("push-log", results['files'],
+                                             job_result):
+                    results['jobs'].append(handle)
 
-        for handle in lmc.submitJobs("push-log", results['files'], job_result):
-            results['jobs'].append(handle)
+            write_last_job_uuid(args.job_name, args.checkpoint_file,
+                                sorted_results[-1]['uuid'])
+        else:
+            print("Nothing to do!")
 
-    write_last_job_uuid(args.job_name, args.checkpoint_file,
-                        sorted_results[-1]['uuid'])
-
-    if not args.foreground:
-        time.sleep(args.sleep)
+        if args.foreground:
+            break
+        else:
+            time.sleep(args.sleep)
 
 
 if __name__ == "__main__":
@@ -304,12 +309,6 @@ if __name__ == "__main__":
     if args.foreground:
         main(args)
     else:
-        import daemon
-        try:
-            import daemon.pidlockfile as pidfile_mod
-        except ImportError:
-            import daemon.pidfile as pidfile_mod
-        pidfile = pidfile_mod.TimeoutPIDLockFile(args.pidfile, 10)
-        # NOTE: if you use default pid location, you need to run as root!
-        with daemon.DaemonContext(pidfile=pidfile):
-            main()
+        with daemon.DaemonContext(stdout=sys.stdout, stderr=sys.stderr,
+                                  pidfile=lockfile.FileLock(args.pidfile)):
+            main(args)

@@ -1,0 +1,17 @@
+---
+- name: Copy zuul log scrapper service configuration
+  template:
+    src: "zuul-job-scrapper.service.j2"
+    dest: "/usr/lib/systemd/system/zuul-job-scrapper-{{ item['tenant'] }}.service"
+    mode: '0644'
+    owner: root
+    group: root
+  register: _zuul_scrapper_service
+
+- name: Restart service if needed
+  service:
+    name: "zuul-job-scrapper-{{ item['tenant'] }}"
+    state: restarted
+    enabled: true
+    daemon-reload: true
+  when: _zuul_scrapper_service.changed
