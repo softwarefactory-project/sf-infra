@@ -44,7 +44,6 @@ scrape_configs:
           - opensearch.rdoproject.org:9100
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100
-          - lists-ng.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
           - prometheus.monitoring.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100

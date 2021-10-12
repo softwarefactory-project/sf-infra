@@ -355,6 +355,7 @@ let defaultOSPOExternalInstance =
       Instance::{
       , name = "default"
       , groups = [ "osci_zone" ]
+      , node-exporter = False
       , connection = Infra.Connection::{
         , ansible_user = "root"
         , ansible_host = Some "8.43.85.121"
