@@ -238,7 +238,8 @@ class LogMatcher(object):
         fields["build_node"] = 'zuul-executor'
         fields["filename"] = filename
         fields["build_name"] = result['job_name']
-        fields["build_status"] = 'SUCCESS' if result['result'] else 'FAILURE'
+        fields["build_status"] = ('SUCCESS' if result['result'] == 'SUCCESS'
+                                  else 'FAILURE')
         fields["project"] = result['project']
         fields["voting"] = int(result['voting'])
         fields["build_set"] = result["buildset"]
