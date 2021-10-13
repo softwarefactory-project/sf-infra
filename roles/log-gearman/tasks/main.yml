@@ -84,10 +84,8 @@
           --job-name tripleo-ci-centos-8-containers-multinode
           --gearman-port 4732
           --gearman-server elk.rdoproject.org
-          --zuul-api-url https://zuul.opendev.org/api/tenant/
-          --tenant openstack
+          --zuul-api-url https://zuul.opendev.org/api/tenant/openstack
           --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt
-          --foreground
 
     - name: Configure scrapper service
       include_tasks: zuul-job-scrapper.yml
