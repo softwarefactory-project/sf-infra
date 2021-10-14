@@ -98,6 +98,7 @@
       vars:
         display_name: "RDO List Archives"
         domain: rdoproject.org
+        webui_vhost: lists.rdoproject.org
         admin_users:
           - duck
           - misc
