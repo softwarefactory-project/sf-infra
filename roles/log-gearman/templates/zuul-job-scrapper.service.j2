@@ -8,7 +8,7 @@ Restart=on-failure
 User=joblogsworker
 Group=joblogsworker
 SyslogIdentifier=zuul-scrapper-{{ item['tenant'] }}
-ExecStart=/usr/local/bin/zuul-job-scrapper.py --gearman-port {{ item['gearman_port'] }} --gearman-server {{ item['gearman_server'] }} --zuul-api-url {{ item['zuul_api_url'] }} --checkpoint-file /etc/log-gearman-worker/zuul-scrapper-checkpoint.txt {% if 'insecure' in item and item['insecure'] %}--insecure{% endif %}
+ExecStart=/usr/local/bin/zuul-job-scrapper.py --gearman-port {{ item['gearman_port'] }} --gearman-server {{ item['gearman_server'] }} --zuul-api-url {{ item['zuul_api_url'] }} --checkpoint-file /etc/log-gearman-worker/zuul-scrapper-{{ item['tenant'] }}-checkpoint.txt {% if 'insecure' in item and item['insecure'] %}--insecure{% endif %} --follow
 
 [Install]
 WantedBy=multi-user.target

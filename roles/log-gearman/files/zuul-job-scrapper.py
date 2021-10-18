@@ -16,10 +16,12 @@ import datetime
 import json
 import logging
 import requests
+import sys
 import time
 import urllib
 import yaml
 
+from distutils.version import StrictVersion as s_version
 
 file_to_check = [
     "job-output.txt.gz",
@@ -74,7 +76,8 @@ def get_arguments():
         help="Gearman listen port. " "Defaults to 4731.",
         default=4731,
     )
-    parser.add_argument("--follow", help="Keep polling zuul builds")
+    parser.add_argument("--follow", help="Keep polling zuul builds",
+                        action="store_true")
     parser.add_argument(
         "--insecure", action="store_false", help="Skip validating SSL cert"
     )
@@ -129,7 +132,7 @@ class Config:
                 "ERROR: zuul-api-url needs to be in the form "
                 "of: https://<fqdn>/api/tenant/<tenant-name>"
             )
-            exit(1)
+            sys.exit(1)
         self.tenant = url_path[-1]
 
     def save(self, start_time):
@@ -145,11 +148,24 @@ class Config:
 ###############################################################################
 # Fetch zuul builds
 ###############################################################################
+def _zuul_complete_available(zuul_url, insecure):
+    url = zuul_url + '/status'
+    zuul_status = requests.get(url, verify=insecure)
+    zuul_status.raise_for_status()
+    zuul_version = zuul_status.json().get('zuul_version')
+    if zuul_version and (
+            s_version(zuul_version.split('-')[0]) >= s_version('4.7.0')):
+        return '&complete=true'
+
+
 def get_last_job_results(zuul_url, job_name, insecure):
     extra = ("&job_name=" + job_name) if job_name else ""
     pos, size = 0, 100
     zuul_url = zuul_url.rstrip("/")
-    base_url = zuul_url + "/builds?complete=true&limit=" + str(size) + extra
+    zuul_complete = _zuul_complete_available(zuul_url, insecure)
+    if zuul_complete:
+        extra = extra + zuul_complete
+    base_url = zuul_url + "/builds?limit=" + str(size) + extra
 
     while True:
         url = base_url + "&skip=" + str(pos)
