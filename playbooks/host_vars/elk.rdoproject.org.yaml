@@ -17,4 +17,4 @@ tenant_builds:
   - tenant: rdoproject.org
     gearman_port: 4732
     gearman_server: elk.review.rdoproject.org
-    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant
+    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant/rdoproject.org
