@@ -148,14 +148,38 @@ class Config:
 ###############################################################################
 # Fetch zuul builds
 ###############################################################################
+def parse_version(zuul_version_txt):
+    """ Parse the zuul version returned by the different services:
+
+    >>> parse_version("4.6.0-1.el7")
+    StrictVersion ('4.6')
+    >>> parse_version("4.10.2.dev6 22f04be1")
+    StrictVersion ('4.10.2')
+    >>> parse_version("4.10.2.dev6 22f04be1") > parse_version("4.6.0-1.el7")
+    True
+    >>> parse_version("4.6.0-1.el7") > parse_version("4.7.0")
+    False
+    """
+    if not zuul_version_txt:
+        return
+    zuul_version = zuul_version_txt
+    # drop rpm package suffix
+    zuul_version = zuul_version.split("-")[0]
+    # drop pip package suffix
+    zuul_version = zuul_version.split(".dev")[0]
+    try:
+        return s_version(zuul_version)
+    except Exception:
+        raise ValueError("Invalid zuul version: %s" % zuul_version_txt)
+
+
 def _zuul_complete_available(zuul_url, insecure):
-    url = zuul_url + '/status'
+    url = zuul_url + "/status"
     zuul_status = requests.get(url, verify=insecure)
     zuul_status.raise_for_status()
-    zuul_version = zuul_status.json().get('zuul_version')
-    if zuul_version and (
-            s_version(zuul_version.split('-')[0]) >= s_version('4.7.0')):
-        return '&complete=true'
+    zuul_version = parse_version(zuul_status.json().get("zuul_version"))
+    if zuul_version and zuul_version >= s_version("4.7.0"):
+        return "&complete=true"
 
 
 def get_last_job_results(zuul_url, job_name, insecure):
