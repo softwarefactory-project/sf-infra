@@ -2,3 +2,20 @@ bind_mounts:
   - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "elasticsearch", group: "elasticsearch"}
   - {source: '/mnt/influxdb', dest: '/var/lib/influxdb', owner: "influxdb", group: "influxdb"}
   - {source: '/mnt/logs', dest: '/var/www/logs', owner: "loguser", group: "apache"}
+
+external_elk:
+  infra_name: softwarefactory-project.io
+  gearman_port: 4732
+  opensearch_host: opensearch.rdoproject.org
+  # Value from host_vars/opensearch.rdoproject.org.yml file:
+  # tenant_configuration: { softwarefactory-project.io : { logstash_input_port: 9997 }}
+  opensearch_logstash_port: 9997
+  gearman_client_host: elk.softwarefactory-project.io
+  gearmna_worker_host: elk.softwarefactory-project.io
+
+# For zuul-job-scrapper script
+tenant_builds:
+  - tenant: softwarefactory-project.io
+    gearman_port: 4732
+    gearman_server: elk.softwarefactory-project.io
+    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant/local

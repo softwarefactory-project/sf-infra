@@ -56,6 +56,10 @@ let security_groups =
               , port = +9998
               , remote_ip_prefix = Some "38.102.83.136/32"
               }
+            , Infra.Rule::{
+              , port = +9997
+              , remote_ip_prefix = Some "38.102.83.124/32"
+              }
             ]
           }
         , { name = "registry"
