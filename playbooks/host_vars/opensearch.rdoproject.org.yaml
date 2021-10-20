@@ -12,8 +12,8 @@ partitions:
 
 container_images:
   # Customized image that include patch: https://github.com/opensearch-project/opensearch-build/pull/240
-  opensearch: quay.rdoproject.org/software-factory/opensearch:1.0.0-customized
-  opensearch-dashboards: quay.rdoproject.org/software-factory/opensearch-dashboards:1.0.0
+  opensearch: quay.rdoproject.org/software-factory/opensearch:1.1.0
+  opensearch-dashboards: quay.rdoproject.org/software-factory/opensearch-dashboards:1.1.0
   logstash: quay.rdoproject.org/software-factory/logstash:7.10.1
   curator: quay.rdoproject.org/software-factory/curator:5.7
 
