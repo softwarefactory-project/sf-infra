@@ -95,6 +95,7 @@
     - name: "Install Mailing-Lists Server"
       include_role:
         name: mailing_lists_server
+        public: yes
       vars:
         display_name: "RDO List Archives"
         domain: rdoproject.org
@@ -151,6 +152,36 @@
           - crond
           - mailman3
           - httpd
+
+    - name: Configure web access to old ML archives
+      copy:
+        src: "old_ml_archives.conf"
+        dest: "{{ _vhost_confdir }}/"
+        owner: root
+        group: root
+        mode: 0644
+      notify: reload httpd
+
+    - name: Install custom favicon
+      copy:
+        src: "{{ item }}"
+        dest: "{{ webapp_path }}/static-extra/"
+        owner: root
+        group: root
+        mode: 0644
+      loop:
+        - favicon.ico
+        - rdo_logo.png
+      notify: Update static files
+
+    - name: Install custom branded navbar template
+      copy:
+        src: "navbar-brand.html"
+        dest: "{{ webapp_path }}/templates/hyperkitty/"
+        owner: root
+        group: root
+        mode: 0644
+      notify: reload apache
 
   when: ml_type == "mm3"
   tags: mailinglists
