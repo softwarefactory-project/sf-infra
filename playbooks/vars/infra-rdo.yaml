@@ -103,6 +103,10 @@ security_groups:
         remote_ip_prefix: "38.102.83.141/32"
       - port: 5601
         remote_ip_prefix: "38.102.83.141/32"
+  - name: logstash
+    rules:
+      - port: 9998
+        remote_ip_prefix: "38.102.83.136/32"
   - name: registry
     rules:
       - port: 53
@@ -348,6 +352,7 @@ servers:
       - web
       - elk
       - internal
+      - logstash
     volume_size: 50
 subnets:
   - cidr: "192.168.240.0/24"
