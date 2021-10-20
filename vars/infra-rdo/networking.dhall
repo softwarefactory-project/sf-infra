@@ -50,6 +50,14 @@ let security_groups =
               }
             ]
           }
+        , { name = "logstash"
+          , rules =
+            [ Infra.Rule::{
+              , port = +9998
+              , remote_ip_prefix = Some "38.102.83.136/32"
+              }
+            ]
+          }
         , { name = "registry"
           , rules =
             [ Infra.Rule::{ port = +53 }
