@@ -300,7 +300,9 @@ let instances =
       , Instance::{
         , name = "opensearch"
         , groups = [ "opensearch" ]
-        , connection = OS.CentOS.`8-stream`.connection
+        , connection =
+                OS.CentOS.`8-stream`.connection
+            //  { ansible_host = Some "38.102.83.14" }
         , server = Some
             (     Infra.Server::{
                   , image = OS.CentOS.`8-stream`.image.name
