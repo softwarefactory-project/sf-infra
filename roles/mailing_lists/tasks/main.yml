@@ -172,15 +172,19 @@
       loop:
         - favicon.ico
         - rdo_logo.png
+        - rdo_theme.css
       notify: Update static files
 
     - name: Install custom branded navbar template
       copy:
-        src: "navbar-brand.html"
+        src: "{{ item }}"
         dest: "{{ webapp_path }}/templates/hyperkitty/"
         owner: root
         group: root
         mode: 0644
+      loop:
+        - navbar-brand.html
+        - headers.html
       notify: reload apache
 
   when: ml_type == "mm3"

@@ -1,0 +1,7 @@
+/* RDO's color */
+.navbar {
+  background-color: #80100f;
+}
+.navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
