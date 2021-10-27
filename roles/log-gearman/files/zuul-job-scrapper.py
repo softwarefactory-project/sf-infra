@@ -9,13 +9,14 @@ The goal is to push recent zuul builds into log gearman processor.
 """
 
 
-import multiprocessing
 import argparse
-import gear
 import datetime
+import gear
 import json
 import logging
+import multiprocessing
 import requests
+import socket
 import sys
 import time
 import urllib
@@ -34,7 +35,7 @@ file_to_check = [
     "var/log/extra/errors.txt.gz",
 ]
 
-config = """
+logstash_processor_config = """
 files:
   - name: job-output.txt
     tags:
@@ -70,7 +71,8 @@ def get_arguments():
         "--job-name",
         help="CI job name. If not set it would scrap " "every latest builds",
     )
-    parser.add_argument("--gearman-server", help="Gearman host addresss")
+    parser.add_argument("--gearman-server", help="Gearman host addresss",
+                        required=True)
     parser.add_argument(
         "--gearman-port",
         help="Gearman listen port. " "Defaults to 4731.",
@@ -90,6 +92,12 @@ def get_arguments():
         "--ignore-checkpoint",
         help="Ignore last job uuid " "that is set in --checkpoint-file",
         action="store_true",
+    )
+    parser.add_argument(
+        "--logstash-url",
+        help="When provided, script will check connection to Logstash "
+             "service before sending to log processing system. "
+             "For example: logstash.local:9999"
     )
     parser.add_argument("--debug", action="store_true",
                         help="Print more informations")
@@ -245,7 +253,7 @@ class LogMatcher(object):
         out_event = {}
         tags = []
         out_event["fields"] = self.makeFields(file_object, result)
-        config_files = yaml.safe_load(config)
+        config_files = yaml.safe_load(logstash_processor_config)
         for f in config_files["files"]:
             if file_object in f["name"] or \
                     file_object.replace(".gz", "") in f["name"]:
@@ -322,6 +330,13 @@ def run_build(build):
     lmc.submitJobs("push-log", results["files"], build)
 
 
+def check_connection(logstash_url):
+    host, port = logstash_url.split(':')
+    logging.debug("Checking connection to %s on port %s" % (host, port))
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex((host, port)) == 0
+
+
 def run(args):
     start_time = datetime.datetime.now()
     config = Config(args)
@@ -339,6 +354,11 @@ def run(args):
 
     if args.job_name:
         builds = list(filter(lambda x: x["job_name"] == args.job_name, builds))
+
+    if args.logstash_url and not check_connection(args.logstash_url):
+        logging.critical("Can not connect to logstash %s. "
+                         "Is it up?" % args.logstash_url)
+        return
 
     try:
         pool = multiprocessing.Pool()
