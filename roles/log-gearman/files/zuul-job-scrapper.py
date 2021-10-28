@@ -65,11 +65,16 @@ def get_arguments():
     parser = argparse.ArgumentParser(
         description="Fetch and push last Zuul CI job logs into gearman."
     )
-    parser.add_argument("--zuul-api-url", help="URL for Zuul API",
-                        required=True)
+    parser.add_argument("--zuul-api-url",
+                        help="URL(s) for Zuul API. Parameter can be set "
+                             "multiple times.",
+                        required=True,
+                        action='append')
     parser.add_argument(
         "--job-name",
-        help="CI job name. If not set it would scrap " "every latest builds",
+        help="CI job name(s). Prameter can be set multiple times."
+             "If not set it would scrap every latest builds.",
+             action='append',
     )
     parser.add_argument("--gearman-server", help="Gearman host addresss",
                         required=True)
@@ -119,11 +124,11 @@ def format_time(d):
 
 
 class Config:
-    def __init__(self, args):
+    def __init__(self, args, zuul_api_url, job_name=None):
         self.checkpoint = None
         self.filename = args.checkpoint_file
-        if args.checkpoint_file and args.job_name:
-            self.filename += args.job_name
+        if args.checkpoint_file and job_name:
+            self.filename += "-" + job_name
         if args.checkpoint_file and not args.ignore_checkpoint:
             try:
                 self.checkpoint = \
@@ -134,7 +139,7 @@ class Config:
             self.checkpoint = (datetime.datetime.now() -
                                datetime.timedelta(days=1))
 
-        url_path = args.zuul_api_url.split("/")
+        url_path = zuul_api_url.split("/")
         if url_path[-3] != "api" and url_path[-2] != "tenant":
             print(
                 "ERROR: zuul-api-url needs to be in the form "
@@ -207,6 +212,21 @@ def get_last_job_results(zuul_url, job_name, insecure):
         for job in jobs_result.json():
             yield job
         pos += size
+
+
+def filter_available_jobs(zuul_api_url, job_names, insecure):
+    filtered_jobs = []
+    url = zuul_api_url + "/jobs"
+    logging.info("Getting available jobs %s", url)
+    available_jobs = requests.get(url, verify=insecure)
+    available_jobs.raise_for_status()
+    if not available_jobs:
+        return []
+    for defined_job in job_names:
+        for job in available_jobs.json():
+            if defined_job == job.get('name'):
+                filtered_jobs.append(defined_job)
+    return filtered_jobs
 
 
 ###############################################################################
@@ -337,12 +357,12 @@ def check_connection(logstash_url):
         return s.connect_ex((host, port)) == 0
 
 
-def run(args):
+def run_scrapping(args, zuul_api_url, job_name=None):
     start_time = datetime.datetime.now()
-    config = Config(args)
+    config = Config(args, zuul_api_url, job_name)
 
     builds = []
-    for build in get_last_job_results(args.zuul_api_url, args.job_name,
+    for build in get_last_job_results(zuul_api_url, job_name,
                                       args.insecure):
         if not config.is_recent(build):
             break
@@ -352,8 +372,8 @@ def run(args):
 
     logging.info("Processing %d builds", len(builds))
 
-    if args.job_name:
-        builds = list(filter(lambda x: x["job_name"] == args.job_name, builds))
+    if job_name:
+        builds = list(filter(lambda x: x["job_name"] == job_name, builds))
 
     if args.logstash_url and not check_connection(args.logstash_url):
         logging.critical("Can not connect to logstash %s. "
@@ -365,6 +385,22 @@ def run(args):
         pool.map(run_build, builds)
     finally:
         config.save(start_time)
+
+
+def run(args):
+    for zuul_api_url in args.zuul_api_url:
+        if args.job_name:
+            jobs_in_zuul = filter_available_jobs(zuul_api_url, args.job_name,
+                                                 args.insecure)
+            logging.info("Available jobs for %s are %s" % (
+                zuul_api_url, jobs_in_zuul))
+            for job_name in jobs_in_zuul:
+                logging.info("Starting checking logs for job %s in %s" % (
+                    job_name, zuul_api_url))
+                run_scrapping(args, zuul_api_url, job_name)
+        else:
+            logging.info("Starting checking logs for %s" % zuul_api_url)
+            run_scrapping(args, zuul_api_url)
 
 
 def main(args):
