@@ -56,10 +56,6 @@ Host www.rdoproject.org
     User centos
     Port 22
 
-Host lists.rdoproject.org
-    User centos
-    Port 22
-
 Host dlrn-db.rdoproject.org
     User centos
     Port 22
@@ -80,10 +76,10 @@ Host rdo-web-builder.int.osci.io
     User root
     Port 22
     ProxyCommand ssh -q rdo@soeru.osci.io -W %h:%p
-Host lists-ng.rdoproject.org
+Host lists.rdoproject.org
     User root
     Port 22
-    Hostname 8.43.85.121
+
 Host bridge.softwarefactory-project.io
     User fedora
     Port 22

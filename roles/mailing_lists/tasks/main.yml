@@ -1,10 +1,5 @@
 ---
 
-- name: "Check ml_type is defined"
-  fail:
-    msg: "Please define the Mailman version (ml_type) to either 'mm2' or 'mm3'"
-  when: ml_type is not defined
-
 - name: "Create Space for Mailing-Lists data"
   vars:
     fs_type: xfs
@@ -27,67 +22,8 @@
       vars:
         size: 1G
         path: /var/swap
-      when: ml_type == "mm3"
 
   tags: partitioning
-
-
-- name: "Deploy Mailman 2"
-  block:
-    - name: "Install SpamAssassin"
-      include_role:
-        name: spamassassin
-      vars:
-        service_profile: medium
-
-    - name: "Install web vhost '{{ website_domain }}'"
-      include_role:
-        name: httpd
-        tasks_from: vhost
-
-    - name: "Install Mailman 2"
-      include_role:
-        name: mailman2
-
-    - name: "Install Postgrey"
-      include_role:
-        name: postgrey
-      vars:
-        whitelist_clients:
-          - redhat.com
-
-    - name: "Install Postfix"
-      include_role:
-        name: postfix
-      vars:
-        myhostname: "{{ inventory_hostname }}"
-        relay_domains:
-          - lists.rdoproject.org
-        with_mailman2: true
-        with_postgrey: true
-        with_spamassassin: true
-        # used for selective antispam
-        smtpd_recipient_restrictions_custom:
-          - "check_recipient_access pcre:$config_directory/recipients_access"
-        aliases:
-          root: "{{ ['root'] + ml_error_emails }}"
-          listmaster: root
-        local_accounts:
-          - privacy
-
-    - name: "Use the second disk for all Mailman2 data"
-      include_role:
-        name: data_movebind
-      vars:
-        src: /var/lib/mailman
-        dest: "{{ data_path }}/mailman2-lib"
-        services:
-          - crond
-          - mailman
-          - httpd
-
-  when: ml_type == "mm2"
-  tags: mailinglists
 
 
 - name: "Deploy Mailman 3"
@@ -187,7 +123,6 @@
         - headers.html
       notify: reload apache
 
-  when: ml_type == "mm3"
   tags: mailinglists
 
 - name: "Deploy Extra Mail Settings"

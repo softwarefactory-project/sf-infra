@@ -15,13 +15,12 @@ This project manages:
 * logserver.rdoproject.org
 * images.rdoproject.org
 * www.rdoproject.org
-* lists.rdoproject.org
 * dlrn-db.rdoproject.org
 * opensearch.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
 * rdo-web-builder.int.osci.io
-* lists-ng.rdoproject.org
+* lists.rdoproject.org
 * bridge.softwarefactory-project.io
 * lambda.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io

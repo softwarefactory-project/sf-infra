@@ -3,9 +3,6 @@ bup_backup_locations:
   - dir: /var/lib/backup/bup/review.rdoproject.org
     domain: review.rdoproject.org
     month_subdir: 1
-  - dir: /var/lib/backup/bup/lists.rdoproject.org
-    domain: lists.rdoproject.org
-    month_subdir: 1
   - dir: /var/lib/backup/bup/softwarefactory-project.io
     domain: softwarefactory-project.io
     month_subdir: 1
@@ -37,19 +34,13 @@ servers:
     instances:
       - review.rdoproject.org
     run_sf_backup: true
-  - filename: lists.rdoproject.org.yaml
-    hour: 1
-    instances:
-      - lists.rdoproject.org
-    remote_dir: /srv/data/
-    run_sf_backup: false
   - filename: softwarefactory-project.io.yaml
-    hour: 2
+    hour: 1
     instances:
       - softwarefactory-project.io
     run_sf_backup: true
   - filename: koji.softwarefactory-project.io.yaml
-    hour: 3
+    hour: 2
     instances:
       - koji.softwarefactory-project.io
     playbook: backup-koji.yaml
@@ -60,27 +51,27 @@ servers:
       - sf-3.5-el7-release
     www_dir: /var/www/html/sfkoji/repos/
   - filename: fedora.softwarefactory-project.io.yaml
-    hour: 4
+    hour: 3
     instances:
       - fedora.softwarefactory-project.io
     run_sf_backup: true
   - filename: centos.softwarefactory-project.io.yaml
-    hour: 5
+    hour: 4
     instances:
       - centos.softwarefactory-project.io
     run_sf_backup: true
   - filename: ovirt.softwarefactory-project.io.yaml
-    hour: 6
+    hour: 5
     instances:
       - ovirt.softwarefactory-project.io
     run_sf_backup: true
   - filename: ovirt-staging.softwarefactory-project.io.yaml
-    hour: 7
+    hour: 6
     instances:
       - ovirt-staging.softwarefactory-project.io
     run_sf_backup: true
   - filename: ansible.softwarefactory-project.io.yaml
-    hour: 8
+    hour: 7
     instances:
       - ansible.softwarefactory-project.io
     run_sf_backup: true
