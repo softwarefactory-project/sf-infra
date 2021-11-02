@@ -95,11 +95,14 @@ let instances =
         , name = "elk"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , security_groups = [ "elk" ]
-          }
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`7.0`.image.name
+                  , flavor = Some Flavors.`4vcpus_16gb`
+                  , security_groups = [ "elk" ]
+                  }
+              //  Infra.Server.Ip "38.102.83.124"
+            )
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
