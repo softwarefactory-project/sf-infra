@@ -17,24 +17,63 @@
             name: clair
             state: stopped
 
+        # NOTE: we need to remove redirect before certbot starts doing its job.
+        - name: Set prerouting to port 8443
+          iptables:
+            table: nat
+            chain: PREROUTING
+            protocol: tcp
+            destination_port: 443
+            to_ports: 8443
+            jump: REDIRECT
+            state: absent
+
+        - name: Set prerouting to port 8080
+          iptables:
+            table: nat
+            chain: PREROUTING
+            protocol: tcp
+            destination_port: 80
+            to_ports: 8080
+            jump: REDIRECT
+            state: absent
+
         - name: Run certbot
           become: true
           shell: |
             /usr/bin/certbot certonly  -d quay.rdoproject.org --standalone
 
         - name: Replace certs
-          command: |
+          shell: |
             cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/quay/config/ssl.cert && \
             cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/quay/config/ssl.key && \
-            chmod 0777 /var/data/quay/config/ && \
             cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/clair/config/clair.cert && \
             cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/clair/config/clair.key && \
-            chmod 0777 /var/data/quay/config/
+            chmod 0777 -R /var/data/quay/config/*.cert /var/data/quay/config/*key
+
       # NOTE: We don't want to stop service even if something was wrong
       # on generating new certs.
       # We can assume, that the certs have not being copied to the destination
       # dir, so service can start with old cert.
       always:
+        - name: Set prerouting to port 8443
+          iptables:
+            table: nat
+            chain: PREROUTING
+            protocol: tcp
+            destination_port: 443
+            to_ports: 8443
+            jump: REDIRECT
+
+        - name: Set prerouting to port 8080
+          iptables:
+            table: nat
+            chain: PREROUTING
+            protocol: tcp
+            destination_port: 80
+            to_ports: 8080
+            jump: REDIRECT
+
         - name: Restart Quay service
           service:
             name: quay
