@@ -6,7 +6,7 @@
 - job:
     name: prometheus-lint
     description: Lint prometheus configuration
-    nodeset: fedora-latest-pod
+    nodeset: linters-pod
     files:
       - monitoring/.*
       - playbooks/prometheus-lint.yaml
@@ -262,7 +262,7 @@
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - linters:
-            nodeset: fedora-latest-pod
+            nodeset: linters-pod
             vars:
               linters:
                 - flake8
@@ -271,7 +271,7 @@
             nodeset:
               nodes:
                 - name: container
-                  label: pod-dhall-1-33
+                  label: zuul-worker-dhall
         - prometheus-lint
         - sf-infra-molecule
         - sf-infra-grafana-dashboards
@@ -283,7 +283,7 @@
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - linters:
-            nodeset: fedora-latest-pod
+            nodeset: linters-pod
             vars:
               linters:
                 - flake8
