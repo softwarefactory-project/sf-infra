@@ -1,10 +1,9 @@
 ---
-ml_type: mm2
-swap_device: /dev/vdb
-data_dev: /dev/vdc
-mail_domain: rdoproject.org
+data_dev: /dev/vdb
 force_tls: True
 use_tls: True
 use_letsencrypt: True
 tls_method: manual
 
+# The ssh key that can run backup playbook
+backup_pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTUqJQiAj+6VJ9HqXkgZ1OvLu9KIIIn2yvn+8usyrqtHubIx570Me9BuWhgSaySMIFuz5TDqsjMtPNjQq1JnX61VsO0DctmrOzsme27gPZg1e1AND7YWLQnokDWDgG4/G0RXp8/qwfM0mZNHA0dK+7fRCmXnSG2NlF8FHo55MAhQxREUoCUPXB0dSupNiQEliipk2E448GNa4E0M4C8pSNI9Y92KEEUk6CdeHQ/E/ICKg9eR8xXtzz1B46rc5IhrtgoadtdN+QZywcOyLzDt3LRFVe4+D2QNsdcWbwe5BHFsuNN+pMGh6gRffQMryryVxnONheSoX9lBTpRmTpk+8p root@ip-10-236-228-149

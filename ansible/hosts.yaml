@@ -12,7 +12,6 @@ all:
         mirror.regionone.vexxhost.rdoproject.org: {}
     backup-rdo:
       hosts:
-        lists.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
     backup-server:
       hosts:
@@ -64,7 +63,7 @@ all:
       children:
         osci_internal_zone: {}
       hosts:
-        lists-ng.rdoproject.org: {}
+        lists.rdoproject.org: {}
         rdo-web-builder.int.osci.io: {}
     quay:
       hosts:
@@ -188,15 +187,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
-    lists-ng.rdoproject.org:
-      ansible_host: '8.43.85.121'
+    lists.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: root
-    lists.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     logserver.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2

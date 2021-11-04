@@ -124,12 +124,10 @@
         apply:
           become: yes
 
-- hosts: lists.rdoproject.org:lists-ng.rdoproject.org
+- hosts: lists.rdoproject.org
   become: yes
   roles:
     - hostname
-    # already created on lists.rdoproject.org and lists-ng is handled differently
-    #- swap
   handlers:
     - name: "Clean YUM Metadata"
       command: yum clean metadata
