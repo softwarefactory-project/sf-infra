@@ -78,14 +78,24 @@
     - name: Create cronjob entry
       cron:
         name: Forward tripleo-ci-centos-8-containers-multinode
+        state: absent
+
+    - name: Create tripleo cronjob entry
+      cron:
+        name: Forward tripleo openstack jobs
         minute: "5"
         job: >
           /usr/local/bin/zuul-job-scrapper.py
           --job-name tripleo-ci-centos-8-containers-multinode
+          --job-name tripleo-ci-centos-8-content-provider
+          --job-name tripleo-ci-centos-8-undercloud-upgrade
+          --job-name tripleo-ci-centos-8-content-provider-train
+          --job-name tripleo-ci-centos-8-content-provider-ussuri
+          --job-name openstack-tox-linters
           --gearman-port 4732
           --gearman-server elk.rdoproject.org
           --zuul-api-url https://zuul.opendev.org/api/tenant/openstack
-          --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt
+          --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt > /dev/null
 
     - name: Configure scrapper service
       include_tasks: zuul-job-scrapper.yml
