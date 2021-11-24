@@ -185,7 +185,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-xena'
     rsyncdest: 'centos8-xena@3.87.151.16:/home/centos8-xena/data/repos'
     rsyncport: '3300'
@@ -284,6 +284,6 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
 #    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
 #    gerrit_topic: 'rdo-FTBFS-train'
     use_components: true

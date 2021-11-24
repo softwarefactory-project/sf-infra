@@ -34,7 +34,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-cs9'
     rsyncdest: 'centos9-master-uc@3.87.151.16:/home/centos9-master-uc/data/repos'
     rsyncport: '3300'
@@ -115,7 +115,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS'
     rsyncdest: 'centos8-master-uc@3.87.151.16:/home/centos8-master-uc/data/repos'
     rsyncport: '3300'
@@ -146,7 +146,7 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
 #    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'javier.pena@redhat.com'
+#    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
 #    gerrit_topic: 'rdo-FTBFS-master-head'
     rsyncdest: 'centos8-master@3.87.151.16:/home/centos8-master/data/repos'
     rsyncport: '3300'
@@ -174,7 +174,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-xena'
     rsyncdest: 'centos8-xena@3.87.151.16:/home/centos8-xena/data/repos'
     rsyncport: '3300'
@@ -202,7 +202,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-wallaby'
     rsyncdest: 'centos8-wallaby@3.87.151.16:/home/centos8-wallaby/data/repos'
     rsyncport: '3300'
@@ -230,7 +230,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-victoria'
     rsyncdest: 'centos8-victoria@3.87.151.16:/home/centos8-victoria/data/repos'
     rsyncport: '3300'
@@ -258,7 +258,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-ussuri'
     rsyncdest: 'centos8-ussuri@3.87.151.16:/home/centos8-ussuri/data/repos'
     rsyncport: '3300'
@@ -286,7 +286,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'javier.pena@redhat.com'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-train'
     rsyncdest: 'centos8-train@3.87.151.16:/home/centos8-train/data/repos'
     rsyncport: '3300'
