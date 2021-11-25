@@ -14,3 +14,18 @@
       infra_script: roles/udp-multiplexer/files/udp-multiplexer.hs
     files:
       - roles/udp-multiplexer/files/udp-multiplexer.hs
+
+- project:
+    check: &jobs
+      jobs:
+        - cabal-test:
+            vars:
+              ghc_version: 8.8
+              files:
+                - tools/InventoryCSV.hs
+                - sf-infra.cabal
+            nodeset:
+              nodes:
+                - name: container
+                  label: zuul-worker-haskell
+    gate: *jobs

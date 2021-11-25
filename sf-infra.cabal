@@ -1,0 +1,25 @@
+-- Run using: `sudo dnf install -y ghc cabal-install && cabal run sf-infra`
+cabal-version:       >=1.10
+name:                sf-infra
+version:             0.1.0.0
+author:              Tristan de Cacqueray
+maintainer:          tdecacqu@redhat.com
+build-type:          Simple
+extra-source-files:  README.md
+
+executable sf-infra
+  main-is:             ./tools/InventoryCSV.hs
+  ghc-options:         -Wall
+                       -Wcompat
+                       -Widentities
+                       -Wincomplete-uni-patterns
+                       -Wincomplete-record-updates
+                       -Wredundant-constraints
+                       -fhide-source-paths
+                       -Wmissing-export-lists
+                       -Wpartial-fields
+                       -Wunused-packages
+  build-depends:       base < 5
+                     , dhall
+                     , text
+  default-language:    Haskell2010
