@@ -84,18 +84,14 @@
       cron:
         name: Forward tripleo openstack jobs
         minute: "5"
-        job: >
-          /usr/local/bin/zuul-job-scrapper.py
-          --job-name tripleo-ci-centos-8-containers-multinode
-          --job-name tripleo-ci-centos-8-content-provider
-          --job-name tripleo-ci-centos-8-undercloud-upgrade
-          --job-name tripleo-ci-centos-8-content-provider-train
-          --job-name tripleo-ci-centos-8-content-provider-ussuri
-          --job-name openstack-tox-linters
-          --gearman-port 4732
-          --gearman-server elk.rdoproject.org
-          --zuul-api-url https://zuul.opendev.org/api/tenant/openstack
-          --checkpoint-file /usr/local/zuul-scrapper-checkpoint.txt > /dev/null
+        job: "{{ zuul_scrapper_cron_job }}"
+      when: zuul_scrapper_cron_job is defined and zuul_scrapper_cron_job
+
+    - name: Remove tripleo cronjob entry if absent
+      cron:
+        name: Forward tripleo openstack jobs
+        state: absent
+      when: zuul_scrapper_cron_job is not defined
 
     - name: Configure scrapper service
       include_tasks: zuul-job-scrapper.yml
