@@ -27,6 +27,22 @@
         daemon-reload: true
       when: _log_gearman_client.changed or _log_gearman_service_client.changed
 
+    - name: Setup logrorate - client
+      copy:
+        content: |
+          /var/log/log-gearman-client/client-{{ external_elk['infra_name'] }}.log {
+              daily
+              rotate 7
+              missingok
+              dateext
+              copytruncate
+              compress
+          }
+        dest: /etc/logrotate.d/log-gearman-client-{{ external_elk['infra_name'] }}
+        mode: '0644'
+        owner: root
+        group: root
+
 - name: Configure additional log-gearman-worker
   become: true
   block:
@@ -61,6 +77,22 @@
         state: restarted
         daemon-reload: true
       when: _log_gearman_config.changed or _log_gearman_service.changed
+
+    - name: Setup logrorate - worker
+      copy:
+        content: |
+          /var/log/log-gearman-worker/worker-{{ external_elk['infra_name'] }}.log {
+              daily
+              rotate 7
+              missingok
+              dateext
+              copytruncate
+              compress
+          }
+        dest: /etc/logrotate.d/log-gearman-worker-{{ external_elk['infra_name'] }}
+        mode: '0644'
+        owner: root
+        group: root
 
 - name: Configure zuul-job-scrapper script
   become: true
