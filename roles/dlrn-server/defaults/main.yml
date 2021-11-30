@@ -20,3 +20,7 @@ rdo_dlrn_admin_users:
     name: "dpawlik"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsne3wzhPRzlzaOK1a2IeMAd9w2sMFsE6Q45g3q/j6q dpawlik@redhat.com"
+  tvignaud:
+    name: "tvignaud"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC65F8rb5U+jYmUMG0NS6qMWd2NHad/pSwymfayba25oHjHZT/VZXfJHu8Jo7p3j36YECoQL8gvtCK8XHbaL9eQKCYcEuHJ/JSPgFIT1Nxbrp0FANtMt2pwInsc3ja2Q96CvZI78r4unfmcoaJPb11oprz8ooADxGGakAzEk1kAcvAzuhKGxJAopkIRcJbBdaRUtPBD5jUz7XaiaHSIsBQtjBgy+3qnJ3j6ofIaU5g9mgZR8PKmHWPpi8JvSorNb/m38Ps7voJJ0L8bIp2GcZs13vqzV3Jql25x1u7dDH34/F1koIgQp6vHsxIjkb8pBZ7ocg8/UBMfFdy3nBEJKmkd"
