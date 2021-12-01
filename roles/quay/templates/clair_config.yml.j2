@@ -9,8 +9,10 @@ indexer:
   layer_scan_concurrency: 5
   migrations: true
 matcher:
-  indexer_addr: "http://localhost:6060/"
+  indexer_addr: "0.0.0.0:6060"
   connstring: "postgres://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default('localhost') }}/clair?sslmode=disable"
+  migrations: true
+  max_conn_pool: 100
   updater_sets:
   - "alpine"
   - "aws"
@@ -28,8 +30,8 @@ matchers:
   - "python"
   - "rhel"
 notifier:
-  indexer_addr: http://localhost:6060/
-  matcher_addr: http://localhost:6060/
+  indexer_addr: http://0.0.0.0:6060/
+  matcher_addr: http://0.0.0.0:6060/
   connstring: "postgres://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default('localhost') }}/clair?sslmode=disable"
   migrations: true
   delivery_interval: 1m
