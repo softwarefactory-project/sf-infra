@@ -45,10 +45,10 @@
 
         - name: Replace certs
           shell: |
-            cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/quay/config/ssl.cert && \
-            cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/quay/config/ssl.key && \
-            cp /etc/letsencrypt/archive/{{ inventory_hostname }}/fullchain1.pem /var/data/clair/config/clair.cert && \
-            cp /etc/letsencrypt/archive/{{ inventory_hostname }}/privkey1.pem /var/data/clair/config/clair.key && \
+            cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/quay/config/ssl.cert && \
+            cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/ssl.key && \
+            cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/clair/config/clair.cert && \
+            cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/clair.key && \
             chmod 0777 -R /var/data/quay/config/*.cert /var/data/quay/config/*key
 
       # NOTE: We don't want to stop service even if something was wrong
@@ -73,6 +73,20 @@
             destination_port: 80
             to_ports: 8080
             jump: REDIRECT
+
+        # To avoid situation that container got previous certificates state,
+        # recreate containers.
+        - name: Remove containers
+          shell: "podman rm {{ item }}"
+          loop:
+            - clair
+            - quay
+
+        - name: Recreate containers
+          shell: "/usr/local/bin/podman-{{ item }}.sh"
+          loop:
+            - clair
+            - quay
 
         - name: Restart Quay service
           service:
