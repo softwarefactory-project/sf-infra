@@ -46,6 +46,7 @@
   with_items:
     - apt-puppetlabs
     - centos
+    - centos-stream
     - ceph-deb-nautilus
     - ceph-deb-octopus
     - deb-docker
