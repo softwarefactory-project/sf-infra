@@ -1,6 +1,9 @@
 ---
 fqdn: opensearch.rdoproject.org
 
+logstash_maximum_heap_size: 1g
+logstash_minimum_heap_size: 1g
+
 partitions:
   opensearch:
     lvm: True
