@@ -125,6 +125,7 @@ let instances =
                   "curl -o /dev/null -s -w '%{http_code}' URL should return 200"
 
             in  [ "https://softwarefactory-project.io"
+                , "https://softwarefactory-project.io/r/config/server/version"
                 , "https://softwarefactory-project.io/zuul/api/info"
                 , "https://ovirt.softwarefactory-project.io/zuul/api/info"
                 , "https://ansible.softwarefactory-project.io/zuul/api/info"
