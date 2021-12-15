@@ -86,7 +86,9 @@ let instances =
       , Instance::{
         , name = "quay"
         , groups = [ "quay" ]
-        , connection = OS.CentOS.`8-stream`.connection
+        , connection =
+                OS.CentOS.`8-stream`.connection
+            //  { ansible_host = Some "38.129.56.158" }
         , server = Some
             (     Infra.Server::{
                   , image = OS.CentOS.`8-stream`.image.name
