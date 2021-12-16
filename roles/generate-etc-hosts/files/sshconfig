@@ -84,10 +84,6 @@ Host bridge.softwarefactory-project.io
     User fedora
     Port 22
 
-Host lambda.softwarefactory-project.io
-    User fedora
-    Port 22
-    Hostname 38.145.39.190
 Host prometheus.monitoring.softwarefactory-project.io
     User centos
     Port 22

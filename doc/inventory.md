@@ -22,7 +22,6 @@ This project manages:
 * rdo-web-builder.int.osci.io
 * lists.rdoproject.org
 * bridge.softwarefactory-project.io
-* lambda.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io
 * managesf.softwarefactory-project.io
