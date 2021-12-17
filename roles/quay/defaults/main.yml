@@ -28,6 +28,13 @@ quay_users:
 # key. It might be a situation that documentation is outdated.
 clair_psk_key: ''
 
+# NOTE: TO get informations about vulnerabilities from applications
+# that are not affecting system, you need to enable crda matchers.
+# By default, the CRDA matcher limit is set to 100 requests per minute.
+# To increase it, you need to fill the form:
+# https://github.com/quay/clair/blob/main/Documentation/concepts/matching.md#remote-matching
+crda_url: ''
+
 # The following variables are used for the registry pruning
 quay_enable_prune: false
 

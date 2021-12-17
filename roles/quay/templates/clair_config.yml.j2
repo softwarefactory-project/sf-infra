@@ -29,6 +29,13 @@ matchers:
   - "photon"
   - "python"
   - "rhel"
+  - "crda"
+{%- if crda_url != '' %}
+  config:
+    crda:
+      url: "{{ crda_url }}"
+{% endif %}
+
 notifier:
   indexer_addr: http://0.0.0.0:6060/
   matcher_addr: http://0.0.0.0:6060/
