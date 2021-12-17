@@ -34,9 +34,8 @@ import urllib
 import yaml
 
 from distutils.version import StrictVersion as s_version
+import tenacity
 
-GEARMAN_SERVER = None
-GEARMAN_PORT = None
 
 file_to_check = [
     "job-output.txt.gz",
@@ -69,6 +68,27 @@ files:
       - console
       - errors
 """  # noqa
+
+
+retry_request = tenacity.retry(
+    # Raise the real exception instead of RetryError
+    reraise=True,
+    # Stop after 10 attempts
+    stop=tenacity.stop_after_attempt(10),
+    # Slowly wait more
+    wait=tenacity.wait_exponential(multiplier=1, min=1, max=10),
+)
+
+
+@retry_request
+def requests_get(url, verify=True):
+    return requests.get(url, verify=verify)
+
+
+def requests_get_json(url, verify=True):
+    resp = requests_get(url, verify)
+    resp.raise_for_status()
+    return resp.json()
 
 
 ###############################################################################
@@ -259,9 +279,8 @@ def _zuul_complete_available(zuul_url, insecure):
     parameter.
     """
     url = zuul_url + "/status"
-    zuul_status = requests.get(url, verify=insecure)
-    zuul_status.raise_for_status()
-    zuul_version = parse_version(zuul_status.json().get("zuul_version"))
+    zuul_status = requests_get_json(url, verify=insecure)
+    zuul_version = parse_version(zuul_status.get("zuul_version"))
     if zuul_version and zuul_version >= s_version("4.7.0"):
         return "&complete=true"
 
@@ -280,10 +299,9 @@ def get_builds(zuul_url, insecure, job_name):
     while True:
         url = base_url + "&skip=" + str(pos)
         logging.info("Getting job results %s", url)
-        jobs_result = requests.get(url, verify=insecure)
-        jobs_result.raise_for_status()
+        jobs_result = requests_get_json(url, verify=insecure)
 
-        for job in jobs_result.json():
+        for job in jobs_result:
             # It is important here to check we didn't yield builds twice,
             # as this can happen when using skip if new build get reported
             # between the two requests.
@@ -297,12 +315,11 @@ def filter_available_jobs(zuul_api_url, job_names, insecure):
     filtered_jobs = []
     url = zuul_api_url + "/jobs"
     logging.info("Getting available jobs %s", url)
-    available_jobs = requests.get(url, verify=insecure)
-    available_jobs.raise_for_status()
+    available_jobs = requests_get_json(url, verify=insecure)
     if not available_jobs:
         return []
     for defined_job in job_names:
-        for job in available_jobs.json():
+        for job in available_jobs:
             if defined_job == job.get('name'):
                 filtered_jobs.append(defined_job)
     return filtered_jobs
@@ -313,7 +330,7 @@ def get_last_job_results(zuul_url, insecure, max_skipped, last_uuid,
     """Yield builds until we find the last uuid."""
     count = 0
     for build in get_builds(zuul_url, insecure, job_name):
-        if count > max_skipped:
+        if count > int(max_skipped):
             break
         if build["uuid"] == last_uuid:
             break
@@ -324,13 +341,14 @@ def get_last_job_results(zuul_url, insecure, max_skipped, last_uuid,
 ###############################################################################
 #                              Log scraper                                    #
 ###############################################################################
-def check_specified_files(job_result):
+def check_specified_files(job_result, insecure):
     """Return list of specified files if they exists on logserver. """
     available_files = []
     for f in file_to_check:
         if not job_result["log_url"]:
             continue
-        response = requests.get("%s%s" % (job_result["log_url"], f))
+        response = requests_get("%s%s" % (job_result["log_url"], f),
+                                insecure)
         if response.status_code == 200:
             available_files.append(f)
     return available_files
@@ -347,6 +365,8 @@ def setup_logging(debug):
 
 def run_build(build):
     """Submit job informations into log processing system. """
+    args = build.pop("build_args")
+
     logging.info(
         "Processing logs for %s | %s | %s | %s",
         build["job_name"],
@@ -358,13 +378,13 @@ def run_build(build):
     results = dict(files=[], jobs=[], invocation={})
 
     lmc = LogMatcher(
-        GEARMAN_SERVER,
-        GEARMAN_PORT,
+        args.gearman_server,
+        args.gearman_port,
         build["result"],
         build["log_url"],
         {},
     )
-    results["files"] = check_specified_files(build)
+    results["files"] = check_specified_files(build, args.insecure)
 
     lmc.submitJobs("push-log", results["files"], build)
 
@@ -429,14 +449,8 @@ def run(args):
 
 
 def main():
-    global GEARMAN_SERVER
-    global GEARMAN_PORT
-
     args = get_arguments()
     setup_logging(args.debug)
-
-    GEARMAN_SERVER = args.gearman_server
-    GEARMAN_PORT = args.gearman_port
     while True:
         run(args)
         if not args.follow:
