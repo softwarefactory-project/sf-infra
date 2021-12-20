@@ -31,7 +31,7 @@ dlrn_workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos9-master']
+    symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
     release: 'yoga-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -100,7 +100,7 @@ dlrn_workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master-preview']
+    symlinks: ['/var/www/html/centos9-master-preview']
     release: 'yoga-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-preview'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
