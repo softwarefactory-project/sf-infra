@@ -114,7 +114,11 @@
 - hosts: elk.softwarefactory-project.io
   roles:
     - volume
+    # FIXME: Remove log-gearman role when logscraper is available in sf-config
+    # and Opensearch is available in Openstack infra
     - log-gearman
+    - {name: 'logscraper', become: true}
+    - {name: 'logsender', become: true}
   tasks:
     - include_role:
         name: elasticsearch

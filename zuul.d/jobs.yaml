@@ -97,6 +97,7 @@
       - name: review.rdoproject.org/rdo-infra/ansible-role-dlrn
       - name: software-factory/sf-infra
       - name: software-factory/ansible-role-elastic-recheck
+      - name: opendev.org/openstack/ci-log-processing
     timeout: 3600
     vars:
       sf_infra_play_name: site
