@@ -27,7 +27,6 @@ scrape_configs:
     static_configs:
       - targets:
           - mirror.regionone.vexxhost.rdoproject.org:9100
-          - mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org:9100
           - centos8-rpm-packaging-ci.rdoproject.org:9100
           - rpm-packaging-ci.rdoproject.org:9100
           - registry.rdoproject.org:9100
@@ -52,8 +51,6 @@ scrape_configs:
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
           - integrations.softwarefactory-project.io:9100
-          - nodepool-launcher-02.softwarefactory-project.io:9100
-          - nodepool-builder-02.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100

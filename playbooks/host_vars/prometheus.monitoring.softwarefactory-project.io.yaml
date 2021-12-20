@@ -37,14 +37,6 @@ firewall_rules:
     state: enabled
   - immediate: yes
     permanent: yes
-    rich_rule: rule family=ipv4 source address=38.145.37.207/32 port port=7000 protocol=udp accept
-    state: enabled
-  - immediate: yes
-    permanent: yes
-    rich_rule: rule family=ipv4 source address=38.145.38.40/32 port port=7000 protocol=udp accept
-    state: enabled
-  - immediate: yes
-    permanent: yes
     rich_rule: rule family=ipv4 source address=38.102.83.0/24 port port=7000 protocol=udp accept
     state: enabled
   - immediate: yes

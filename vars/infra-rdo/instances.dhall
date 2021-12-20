@@ -23,11 +23,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "mirror.regionone.psi-public-nodepool-tripleo"
-        , groups = [ "afs-mirror" ]
-        , connection = Infra.Connection::{ ansible_user = "centos" }
-        }
-      , Instance::{
         , name = "centos8-rpm-packaging-ci"
         , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.0`.connection

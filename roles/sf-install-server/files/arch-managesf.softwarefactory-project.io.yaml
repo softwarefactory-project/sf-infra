@@ -34,12 +34,6 @@ inventory:
   - job-logs-gearman-worker
   - hound
 
-- name: nodepool-builder-02
-  ip: 38.145.37.207
-  remote: true
-  roles:
-  - nodepool-builder
-
 - name: nodepool-builder
   ip: 192.168.242.73
   roles:
@@ -50,12 +44,6 @@ inventory:
   roles:
   - zuul-scheduler
   - zuul-web
-  - nodepool-launcher
-
-- name: nodepool-launcher-02
-  ip: 38.145.38.40
-  remote: true
-  roles:
   - nodepool-launcher
 
 # executors

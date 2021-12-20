@@ -3,7 +3,6 @@
 This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org
-* mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org
 * centos8-rpm-packaging-ci.rdoproject.org
 * rpm-packaging-ci.rdoproject.org
 * registry.rdoproject.org
@@ -30,8 +29,6 @@ This project manages:
 * zs.softwarefactory-project.io
 * koji.softwarefactory-project.io
 * integrations.softwarefactory-project.io
-* nodepool-launcher-02.softwarefactory-project.io
-* nodepool-builder-02.softwarefactory-project.io
 * image-builder.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * centos.softwarefactory-project.io

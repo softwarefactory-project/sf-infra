@@ -8,10 +8,6 @@ Host mirror.regionone.vexxhost.rdoproject.org
     User centos
     Port 22
 
-Host mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org
-    User centos
-    Port 22
-
 Host centos8-rpm-packaging-ci.rdoproject.org
     User cloud-user
     Port 22
@@ -116,14 +112,6 @@ Host integrations.softwarefactory-project.io
     User centos
     Port 22
 
-Host nodepool-launcher-02.softwarefactory-project.io
-    User centos
-    Port 22
-    Hostname 38.145.38.40
-Host nodepool-builder-02.softwarefactory-project.io
-    User centos
-    Port 22
-    Hostname 38.145.37.207
 Host image-builder.softwarefactory-project.io
     User centos
     Port 22
