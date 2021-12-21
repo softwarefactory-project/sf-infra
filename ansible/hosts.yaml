@@ -8,7 +8,6 @@ all:
         nodes: {}
     afs-mirror:
       hosts:
-        mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
     backup-rdo:
       hosts:
@@ -45,7 +44,6 @@ all:
         registry.rdoproject.org: {}
     nodepool-builder:
       hosts:
-        nodepool-builder-02.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
     nodes:
       hosts:
@@ -85,9 +83,7 @@ all:
         image-builder.softwarefactory-project.io: {}
         k1s02.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-        nodepool-builder-02.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
-        nodepool-launcher-02.softwarefactory-project.io: {}
         ovirt-staging.softwarefactory-project.io: {}
         ovirt.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
@@ -198,27 +194,13 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    mirror.regionone.psi-public-nodepool-tripleo.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: centos
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    nodepool-builder-02.softwarefactory-project.io:
-      ansible_host: '38.145.37.207'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: centos
     nodepool-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
-      ansible_user: centos
-    nodepool-launcher-02.softwarefactory-project.io:
-      ansible_host: '38.145.38.40'
-      ansible_port: 22
-      ansible_python_interpreter: auto
       ansible_user: centos
     opensearch.rdoproject.org:
       ansible_host: '38.102.83.14'
