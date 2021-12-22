@@ -17,7 +17,7 @@ container_images:
   # Customized image that include patch: https://github.com/opensearch-project/opensearch-build/pull/240
   opensearch: quay.rdoproject.org/software-factory/opensearch:1.2.2
   opensearch-dashboards: quay.rdoproject.org/software-factory/opensearch-dashboards:1.2.0
-  logstash: quay.rdoproject.org/software-factory/logstash:7.10.1
+  logstash: quay.rdoproject.org/software-factory/logstash:7.10.1-patched
   curator: quay.rdoproject.org/software-factory/curator:5.7
 
 setup_ssl: true
