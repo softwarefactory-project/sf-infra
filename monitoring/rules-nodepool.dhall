@@ -9,6 +9,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "DibImageOutdated"
             , expr = Some
                 "time() - nodepool_dib_image_status_last_build > 172800"
+            , for = Some "24h"
             , labels = Some
               { severity = "warning"
               , lasttime = "{{ \$value | humanizeTimestamp }}"
@@ -16,7 +17,7 @@ in  Prometheus.RulesConfig::{
             , annotations = Some
               { description = None Text
               , summary =
-                  "Nodepool DIB image {{ \$labels.image }} is older than 2 day!"
+                  "Nodepool DIB image {{ \$labels.image }} was last built {{ \$labels.lasttime }}!"
               }
             }
           , Prometheus.AlertingRule::{

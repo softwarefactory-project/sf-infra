@@ -4,8 +4,9 @@ groups:
     rules:
       - alert: DibImageOutdated
         annotations:
-          summary: "Nodepool DIB image {{ $labels.image }} is older than 2 day!"
+          summary: "Nodepool DIB image {{ $labels.image }} was last built {{ $labels.lasttime }}!"
         expr: "time() - nodepool_dib_image_status_last_build > 172800"
+        for: "24h"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
