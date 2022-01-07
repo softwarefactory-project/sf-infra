@@ -3,7 +3,7 @@
 - name: Install dependencies
   become: true
   package:
-    name: "xorg-x11-server-Xspice,openbox,xorg-x11-drv-libinput,tint2,xorg-x11-server-utils,xterm,tmux,podman,buildah,python3-pyyaml"
+    name: "xorg-x11-server-Xspice,openbox,xorg-x11-drv-libinput,tint2,xterm,tmux,podman,buildah,python3-pyyaml"
     state: present
 
 - name: Configure spice
@@ -60,14 +60,14 @@
 - name: Install script spice
   become: true
   copy:
-    content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nsudo env SPICE_DEBUG_ALLOW_MC=1 Xspice :$SEAT --port \"5900${SEAT}\""
+    content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nsudo env SPICE_DEBUG_ALLOW_MC=1 Xspice :$SEAT --port \"5900${SEAT}\" --disable-ticketing > /dev/null"
     dest: /usr/local/bin/spice.sh
     mode: '0755'
 
 - name: Install script desktop
   become: true
   copy:
-    content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nDISPLAY=:$SEAT /usr/bin/openbox-session"
+    content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nLD_LIBRARY_PATH= DISPLAY=:$SEAT sh -c \"tint2 & /usr/bin/openbox-session\""
     dest: /usr/local/bin/desktop.sh
     mode: '0755'
 
