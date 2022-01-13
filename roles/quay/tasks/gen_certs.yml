@@ -12,14 +12,14 @@
     - /var/data/quay/config
     - /var/data/clair/config
 
-- name: Generate self signed certs
+- name: Generate self signed cert
   block:
-    - name: Check if CA certs was done earlier
+    - name: Check if self signed cert key already exists
       stat:
-        path: "/var/data/quay/certs/rootCA.pem"
-      register: _ca_cert
+        path: "/var/data/quay/certs/ssl.key"
+      register: _priv_key
 
-    - name: Generate CA cert
+    - name: Generate certs for Quay if not exists
       become: true
       block:
         - name: Install required packages
@@ -27,40 +27,90 @@
             name: openssl
             state: present
 
-        - name: Generate CA cert
-          shell: |
-            openssl genrsa -out /var/data/quay/certs/rootCA-key.pem 2048 && \
-            openssl req -new -x509 -sha256 -days 3650 \
-              -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuayRDO" \
-              -key /var/data/quay/certs/rootCA-key.pem \
-              -out /var/data/quay/certs/rootCA.pem
-          register: _quay_ca_cert
-          no_log: true
-      when: not _ca_cert.stat.exists
+        ### CA ###
+        - name: Gen CA privkey
+          openssl_privatekey:
+            path: /var/data/quay/certs/rootCA.key
 
-    - name: Generate certs for Quay
-      become: true
-      block:
-        - name: Check if Quay certs was done earlier
-          stat:
-            path: "/var/data/quay/certs/ssl.cert"
-          register: _quay_admin_cert
+        - name: Generate CA csr
+          openssl_csr:
+            path: /var/data/quay/certs/rootCA.csr
+            privatekey_path: /var/data/quay/certs/rootCA.key
+            country_name: PL
+            state_or_province_name: Quay
+            locality_name: Quay
+            organization_name: Software-Factory
+            organizational_unit_name: Quay
+            common_name: "{{ inventory_hostname }}"
+            # Additional params according to
+            # https://access.redhat.com/documentation/en-us/red_hat_quay/3/html/manage_red_hat_quay/using-ssl-to-protect-quay
+            basic_constraints_critical: true
+            basic_constraints:
+              - CA:TRUE
+            key_usage_critical: true
+            key_usage:
+              - digitalSignature
+              - keyEncipherment
+              - keyCertSign
 
-        - name: Generate admin certs
-          shell: |
-            openssl genrsa -out /var/data/quay/certs/ssl-key-temp.pem 2048 && \
-            openssl pkcs8 -inform PEM -outform PEM -in /var/data/quay/certs/ssl-key-temp.pem \
-              -topk8 -nocrypt -v1 PBE-SHA1-3DES -out /var/data/quay/certs/ssl.key && \
-            openssl req -new -key /var/data/quay/certs/ssl.key \
-              -subj "/C=PL/ST=WROCLAW/L=WROCLAW/O=QuayRDO/CN={{ inventory_hostname }}" \
-              -out /var/data/quay/certs/ssl.csr && \
-            openssl x509 -req -in /var/data/quay/certs/ssl.csr \
-              -CA /var/data/quay/certs/rootCA.pem -days 3650 \
-              -CAkey /var/data/quay/certs/rootCA-key.pem \
-              -CAcreateserial -sha256 -out /var/data/quay/certs/ssl.cert
-          register: _quay_elasticsearch_cert
-          when: not _quay_admin_cert.stat.exists
-          no_log: true
+        - name: Generate selfsigned CA certificate
+          openssl_certificate:
+            path: /var/data/quay/certs/ca_cert.pem
+            csr_path: /var/data/quay/certs/rootCA.csr
+            privatekey_path: /var/data/quay/certs/rootCA.key
+            provider: selfsigned
+            selfsigned_digest: sha256
+
+        - name: Generate selfsigned CA certificate
+          openssl_certificate:
+            path: /var/data/quay/certs/rootCA.pem
+            csr_path: /var/data/quay/certs/rootCA.csr
+            privatekey_path: /var/data/quay/certs/rootCA.key
+            ownca_path: /var/data/quay/certs/ca_cert.pem
+            ownca_privatekey_path: /var/data/quay/certs/rootCA.key
+            provider: ownca
+            ownca_digest: sha256
+          register: ownca_certificate
+
+        ### Quay cert ###
+        - name: Gen privkey
+          openssl_privatekey:
+            path: /var/data/quay/certs/ssl.key
+
+        - name: Generate Openssl CSR
+          openssl_csr:
+            path: /var/data/quay/certs/ssl.csr
+            privatekey_path: /var/data/quay/certs/ssl.key
+            country_name: PL
+            state_or_province_name: Quay
+            locality_name: Quay
+            organization_name: Software-Factory
+            organizational_unit_name: Quay
+            common_name: "{{ inventory_hostname }}"
+            # Additional params according to
+            # https://access.redhat.com/documentation/en-us/red_hat_quay/3/html/manage_red_hat_quay/using-ssl-to-protect-quay
+            basic_constraints:
+              - CA:FALSE
+            key_usage_critical: yes
+            key_usage:
+              - nonRepudiation
+              - digitalSignature
+              - keyEncipherment
+            subject_alt_name:
+              - "DNS:localhost"
+              - "DNS:{{ inventory_hostname }}"
+              - "IP:{{ quay_ip_address | default(ansible_default_ipv4.address) }}"
+            subject_alt_name_critical: true
+            extended_key_usage:
+              - serverAuth
+              - clientAuth
+
+        - name: Generate a self signed cert
+          openssl_certificate:
+            path: /var/data/quay/certs/ssl.crt
+            privatekey_path: /var/data/quay/certs/ssl.key
+            csr_path: /var/data/quay/certs/ssl.csr
+            provider: selfsigned
 
         - name: Copy CA cert
           copy:
@@ -72,7 +122,17 @@
             remote_src: true
 
         - name: Trust generated cert
-          command: update-ca-trust
+          command: update-ca-trust extract
+
+        - name: Ensure CA cert has been added
+          shell: |
+            trust list | grep "{{ inventory_hostname }}"
+          register: _ca_trust_list
+
+        - name: Fail when CA not added
+          fail:
+            msg: "Can not find self signed CA cert in trust list!"
+          when: inventory_hostname not in _ca_trust_list.stdout
 
         - name: Create podman certs.d directory
           file:
@@ -81,7 +141,7 @@
 
         - name: Copy certs to quay config dir
           shell: |
-            cp /var/data/quay/certs/ssl.cert /var/data/quay/config/ssl.cert && \
+            cp /var/data/quay/certs/ssl.crt /var/data/quay/config/ssl.cert && \
             cp /var/data/quay/certs/ssl.key /var/data/quay/config/ssl.key && \
             cp /var/data/quay/certs/rootCA.pem /var/data/quay/config/ca.crt && \
             chmod 0777 /var/data/quay/config/ && \
@@ -89,10 +149,11 @@
 
         - name: Copy certs to clair config dir
           shell: |
-            cp /var/data/quay/certs/ssl.cert /var/data/clair/config/clair.cert && \
+            cp /var/data/quay/certs/ssl.crt /var/data/clair/config/clair.cert && \
             cp /var/data/quay/certs/ssl.key /var/data/clair/config/clair.key && \
             chmod 0777 /var/data/clair/config/
 
+      when: not _priv_key.stat.exists
   when: self_signed_certs
 
 - name: Copy acme-tiny certs to quay dir
