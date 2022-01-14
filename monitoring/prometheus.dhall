@@ -17,6 +17,8 @@ let zookeeper_server_list = [ "managesf.softwarefactory-project.io:9141" ]
 
 let dlrnapi_target_list =
       [ "api-centos9-master-uc"
+      , "api-centos9-xena"
+      , "api-centos9-wallaby"
       , "api-centos8-master-uc"
       , "api-centos8-xena"
       , "api-centos8-wallaby"
