@@ -28,5 +28,6 @@
       {{ container_images['prometheus'] | default('quay.io/prometheus/prometheus:latest') }}
       --web.external-url="{{ prometheus_public_url }}/"
       --web.route-prefix="prometheus"
+      --web.enable-admin-api
       --config.file=/etc/prometheus/prometheus.yaml
     pod_config: "{{ _prom_config }}"
