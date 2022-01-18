@@ -1,0 +1,31 @@
+- name: Ensure yum-utils
+  become: true
+  yum:
+    name: yum-utils
+    state: latest
+
+- name: Update all installed packages to the latest version
+  become: true
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+    update_only: yes
+  register: yum_update
+
+- name: Perform extra tasks when needed
+  block:
+    - name: Autoremove all "leaf" packages from the system
+      yum:
+        autoremove: yes
+
+    # TODO: parse output and restart updated service
+    - name: Check services that needs to be restarted
+      shell: needs-restarting -s
+      fail_when: false
+
+    # TODO: Send an email if system need a restart
+    - name: Check if system needs a reboot
+      shell: needs-restarting -r
+      fail_when: false
+  when: yum_update.changed
