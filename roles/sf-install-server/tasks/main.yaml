@@ -16,8 +16,8 @@
 - name: Copy gerrit theme
   become: yes
   copy:
-    src: "{{ ansible_fqdn }}-sftheme.html"
-    dest: /var/lib/gerrit/plugins/sftheme.html
+    src: "{{ ansible_fqdn }}-sftheme.js"
+    dest: /var/lib/gerrit/plugins/sftheme.js
 
 - name: Copy the arch.yaml
   become: true
