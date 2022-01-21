@@ -37,3 +37,12 @@
         hour: "{{ item.hour }}"
         job: 'ansible-playbook -vv /var/lib/backup/{{ item.playbook | default("backup.yaml") }} -e @/var/lib/backup/{{item.filename}}.yaml'
       loop: "{{ servers }}"
+
+    - name: Add pruning of old backups to crontab
+      cron:
+        name: "Remove {{ item.filename }} backups older than 6 months"
+        special_time: weekly
+        user: "root"
+        job: >
+          find /var/lib/backup/bup/{{ item.instances[0] }} -maxdepth 1 -mtime +180 -type d -exec rm -rf {} \;
+      loop: "{{ servers }}"
