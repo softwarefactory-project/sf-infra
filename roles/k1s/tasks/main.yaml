@@ -1,0 +1,8 @@
+# Configure the k1s service on fedora host
+
+- name: Create config directory
+  file:
+    path: /etc/k1s
+    mode: 0700
+    state: directory
+  become: true

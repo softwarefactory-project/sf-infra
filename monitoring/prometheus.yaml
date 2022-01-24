@@ -72,6 +72,7 @@ scrape_configs:
           - zm06.softwarefactory-project.io:9100
           - zm07.softwarefactory-project.io:9100
           - zm08.softwarefactory-project.io:9100
+          - sf-container-worker-1.softwarefactory-project.io:9100
   - job_name: blackbox
     metrics_path: /probe
     params:

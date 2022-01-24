@@ -22,6 +22,10 @@
         mynetworks:
           - "{{ prometheus_public_ip }}/32"
 
+- hosts: k1s
+  roles:
+    - k1s
+
 - hosts: sf
   roles:
     - sf-infra-base

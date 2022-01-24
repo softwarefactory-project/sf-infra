@@ -237,6 +237,25 @@ let instances =
         }
       ]
 
+let -- | A function to create external k1s worker
+    mkK1sWorker =
+      \(idx : Natural) ->
+      \(ip : Text) ->
+        Instance::{
+        , name = "sf-container-worker-${Natural/show idx}"
+        , groups = [ "k1s" ]
+        , connection = Infra.Connection::{
+          , ansible_user = "sf"
+          , ansible_python_interpreter = "auto"
+          , ansible_host = Some ip
+          }
+        }
+
+let -- | These machines are hosted in the ansible org tenant
+    -- please contact Goneri Le Bouder <gleboude@redhat.com>
+    k1s-workers =
+      [ mkK1sWorker 1 "38.129.16.183" ]
+
 let mkServers =
       \(name : Text) ->
       \(flavor : Text) ->
@@ -265,4 +284,4 @@ let default-security-groups = [ "common", "monitoring", "internal" ]
 in  Infra.Tenant.addSecurityGroupsAndSetFqdn
       default-security-groups
       fqdn
-      (instances # tenant-instances # zuuls)
+      (instances # tenant-instances # zuuls # k1s-workers)

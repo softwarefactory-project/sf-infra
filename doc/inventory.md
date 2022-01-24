@@ -50,4 +50,5 @@ This project manages:
 * zm06.softwarefactory-project.io
 * zm07.softwarefactory-project.io
 * zm08.softwarefactory-project.io
+* sf-container-worker-1.softwarefactory-project.io
 

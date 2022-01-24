@@ -196,3 +196,7 @@ Host zm08.softwarefactory-project.io
     User centos
     Port 22
 
+Host sf-container-worker-1.softwarefactory-project.io
+    User sf
+    Port 22
+    Hostname 38.129.16.183

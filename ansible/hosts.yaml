@@ -39,6 +39,9 @@ all:
     installer:
       hosts:
         registry.rdoproject.org: {}
+    k1s:
+      hosts:
+        sf-container-worker-1.softwarefactory-project.io: {}
     masters:
       hosts:
         registry.rdoproject.org: {}
@@ -238,6 +241,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    sf-container-worker-1.softwarefactory-project.io:
+      ansible_host: '38.129.16.183'
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: sf
     trunk-centos7.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
