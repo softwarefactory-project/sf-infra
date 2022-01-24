@@ -21,9 +21,9 @@
         - cabal-test:
             vars:
               ghc_version: 8.8
-              files:
-                - tools/InventoryCSV.hs
-                - sf-infra.cabal
+            files:
+              - tools/InventoryCSV.hs
+              - sf-infra.cabal
             nodeset:
               nodes:
                 - name: container
