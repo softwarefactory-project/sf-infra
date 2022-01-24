@@ -1,8 +1,88 @@
 # Configure the k1s service on fedora host
+# Based from https://softwarefactory-project.io/cgit/software-factory/sf-config/tree/ansible/roles/sf-hypervisor-k1s/tasks/setup.yml
+
+- name: Install requirements
+  package:
+    name:
+      - podman
+      - python3-cherrypy
+      - python3-routes
+      - git
+      - cronie
+  become: true
+
+- name: Clone the software
+  git:
+    repo: https://pagure.io/software-factory/k1s
+    dest: /usr/src/k1s
+    update: no
+  become: true
+
+- name: Clone the package
+  git:
+    repo: https://softwarefactory-project.io/r/rpms/k1s
+    dest: /usr/src/k1s-distgit
+    update: no
+  become: true
+
+- name: Install the software
+  shell: |
+    if [ -f /usr/bin/k1s ]; then
+        cd /usr/src/k1s;
+        python3 setup.py develop --prefix /usr/ || exit 1
+    fi
+  become: true
 
 - name: Create config directory
   file:
     path: /etc/k1s
     mode: 0700
     state: directory
+  become: true
+
+- name: Install certificates
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/k1s/{{ item.dest }}.pem"
+    mode: '0400'
+  loop:
+    - content: "{{ k1s_crt }}"
+      dest: "cert"
+    - content: "{{ k1s_key }}"
+      dest: "key"
+    - content: "{{ k1s_chain }}"
+      dest: "chain"
+  become: true
+
+- name: Setup configuration
+  copy:
+    content: |
+      K1S_TOKEN={{ k1s_token }}
+      K1S_TLS_PATH=/etc/k1s
+    dest: /etc/sysconfig/k1s
+    mode: '0400'
+  become: true
+
+- name: Install the service
+  copy:
+    remote_src: true
+    src: /usr/src/k1s-distgit/k1s.service
+    dest: /etc/systemd/system/k1s.service
+  become: true
+
+- name: Start service
+  service:
+    name: k1s
+    state: started
+    enabled: yes
+    daemon-reload: true
+  become: true
+
+- name: Add periodic job to prune unused podman images
+  cron:
+    name: "podman-image-prune"
+    user: "root"
+    minute: "0"
+    hour: "2"
+    job: 'podman image prune'
   become: true
