@@ -38,3 +38,15 @@ For example, error looks like:
 * remove directory by typing: `rm -rf /tmp/appliance` . This directory content will be downloaded in next DIB build
 * restart nodepool-builder service
 * reboot host if problem still exists
+
+Remove data from Prometheus
+---------------------------
+
+After an image removal the related data series could be cleaned to avoid useless alerts.
+Commands below are for an image called "upstream-centos-9-stream".
+
+From the bridge:
+```
+$ ssh prometheus.softwarefactory-project.io
+$ curl -X POST -g 'http://localhost:9090/prometheus/api/v1/admin/tsdb/delete_series?match[]={image="upstream-centos-9-stream"}'
+```
