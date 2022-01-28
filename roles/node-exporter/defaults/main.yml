@@ -28,7 +28,9 @@ prometheus_monitored_services:
   - kojid
   - kojira
   - log-gearman-client
+  - log-gearman-client-softwarefactory-project.io
   - log-gearman-worker
+  - log-gearman-worker-softwarefactory-project.io
   - logstash
   - managesf
   - mariadb
@@ -43,3 +45,12 @@ prometheus_monitored_services:
   - zuul-merger
   - zuul-scheduler
   - zuul-web
+  - zuul-job-scrapper-softwarefactory-project.io
+# rdo
+  - log-gearman-client-rdoproject.org
+  - log-gearman-worker-rdoproject.org
+  - zuul-job-scrapper-rdoproject.org
+# logscraper01.openstack.org
+  - logscraper-openstack
+  - loggearman-worker
+  - loggearman-client

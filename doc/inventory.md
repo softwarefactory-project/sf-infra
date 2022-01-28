@@ -51,4 +51,5 @@ This project manages:
 * zm07.softwarefactory-project.io
 * zm08.softwarefactory-project.io
 * sf-container-worker-1.softwarefactory-project.io
+* logscraper01.openstack.org
 
