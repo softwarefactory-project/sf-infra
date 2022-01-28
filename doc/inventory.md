@@ -10,7 +10,7 @@ This project manages:
 * trunk-centos8.rdoproject.org
 * trunk-centos7.rdoproject.org
 * managesf.review.rdoproject.org
-* elk.rdoproject.org
+* elk.review.rdoproject.org
 * logserver.rdoproject.org
 * images.rdoproject.org
 * www.rdoproject.org

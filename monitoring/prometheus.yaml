@@ -34,7 +34,7 @@ scrape_configs:
           - trunk-centos8.rdoproject.org:9100
           - trunk-centos7.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
-          - elk.rdoproject.org:9100
+          - elk.review.rdoproject.org:9100
           - logserver.rdoproject.org:9100
           - images.rdoproject.org:9100
           - www.rdoproject.org:9100

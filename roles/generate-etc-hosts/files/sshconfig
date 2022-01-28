@@ -36,7 +36,7 @@ Host managesf.review.rdoproject.org
     User centos
     Port 22
 
-Host elk.rdoproject.org
+Host elk.review.rdoproject.org
     User centos
     Port 22
 
