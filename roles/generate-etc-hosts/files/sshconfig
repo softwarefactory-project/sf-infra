@@ -100,6 +100,10 @@ Host k1s02.softwarefactory-project.io
     User centos
     Port 22
 
+Host k1s03.softwarefactory-project.io
+    User fedora
+    Port 22
+
 Host zs.softwarefactory-project.io
     User centos
     Port 22

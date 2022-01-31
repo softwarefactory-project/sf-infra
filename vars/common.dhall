@@ -196,6 +196,17 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "7a2b3cc3bb3a92ce927e685d33efe8efd75577efbe207b267cb66f68afae7ce9"
                         }
                       }
+                    , `35` =
+                      { connection = Infra.Connection::Fedora
+                      , image = Infra.Image::{
+                        , name = "fedora-35-1.2"
+                        , url =
+                                url
+                            ++  "35/Cloud/x86_64/images/Fedora-Cloud-Base-35-1.2.x86_64.qcow2"
+                        , checksum =
+                            "fe84502779b3477284a8d4c86731f642ca10dd3984d2b5eccdf82630a9ca2de6"
+                        }
+                      }
                     }
             }
     }

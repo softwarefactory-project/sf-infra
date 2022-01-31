@@ -1,3 +1,4 @@
+-- | Set auto_ip to True to get a floating ip
 { auto_ip : Optional Bool
 , boot_from_volume : Text
 , flavor : Optional Text
