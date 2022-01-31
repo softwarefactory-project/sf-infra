@@ -8,4 +8,4 @@ groups:
         expr: "bup_last_backup{job='node'} < (time() - 259200)"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: warning
+          severity: critical

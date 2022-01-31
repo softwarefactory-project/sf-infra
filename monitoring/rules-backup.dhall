@@ -5,13 +5,9 @@ in  Prometheus.RulesConfig::{
       [ Prometheus.Group::{
         , name = Some "backup.rules"
         , rules = Some
-          [ Prometheus.AlertingRule::{
+          [ Prometheus.CriticalRule::{
             , alert = Some "BackupTooOld"
             , expr = Some "bup_last_backup{job='node'} < (time() - 259200)"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
             , annotations = Some
               { description = None Text
               , summary =

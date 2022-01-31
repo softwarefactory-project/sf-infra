@@ -29,7 +29,7 @@ all: dhall-version-check dhall-format dhall-inventory $(DASHBOARDS) $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.json: %.dhall .FORCE
-	dhall-to-json --explain --file $< --output $@
+	@dhall-to-json --explain --file $< --output $@
 
 .FORCE:
 %.yaml: %.dhall .FORCE

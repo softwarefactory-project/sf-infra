@@ -5,6 +5,9 @@ groups:
       - alert: InstanceDown
         expr: "up{job='node_proxy'} == 0"
         for: "10m"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
       - alert: WillRunOutOfDiskInThreeDays
         annotations:
           description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value | humanize1024 }}\n  LABELS: {{ $labels }}"
@@ -27,6 +30,9 @@ groups:
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "(node_memory_MemAvailable_bytes{job='node_proxy'} + node_memory_SwapFree_bytes{job='node_proxy'}) / node_memory_MemTotal_bytes{job='node_proxy'} * 100 < 10"
         for: "30m"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
       - alert: InstanceOutOfSwap
         annotations:
           description: |
@@ -41,6 +47,9 @@ groups:
           summary: "Out of disk (instance {{ $labels.instance }})"
         expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
       - alert: OOMKillerDetected
         annotations:
           description: "OOM kill detected\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

@@ -5,6 +5,12 @@ groups:
       - alert: WebDown
         expr: "probe_success{job='blackbox'} == 0"
         for: "10m"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
       - alert: SSLCertExpiringSoon
         expr: "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 6"
         for: "1d"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
