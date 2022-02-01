@@ -7,6 +7,9 @@ logstash_minimum_heap_size: 1g
 elasticsearch_minimum_heap_size: 1g
 elasticsearch_maximum_heap_size: 1g
 
+opensearch_container_params: "--net host --pid host --memory 2g"
+logstash_container_params: "--net host --pid host --memory 2g"
+
 partitions:
   opensearch:
     lvm: True
