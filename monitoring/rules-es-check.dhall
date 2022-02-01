@@ -5,7 +5,7 @@ in  Prometheus.RulesConfig::{
       [ Prometheus.Group::{
         , name = Some "elasticsearch-check.rules"
         , rules = Some
-          [ Prometheus.AlertingRule::{
+          [ Prometheus.CriticalRule::{
             , alert = Some "ElasticsearchOutdatedMetrics"
             , expr = Some "time() - elasticsearch_last_update > 259200"
             , labels = Some

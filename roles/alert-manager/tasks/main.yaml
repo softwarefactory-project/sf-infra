@@ -23,6 +23,8 @@
       route:
         group_by: [Alertname]
         receiver: softwarefactory-operations-team
+        match:
+          severity: critical
 
       receivers:
         - name: softwarefactory-operations-team

@@ -17,7 +17,7 @@ in  \(job-name : Text) ->
         [ Prometheus.Group::{
           , name = Some "${job-name}.rules"
           , rules = Some
-            [ Prometheus.AlertingRule::{
+            [ Prometheus.CriticalRule::{
               , alert = Some "InstanceDown"
               , expr = Some "up{job='${job-name}'} == 0"
               , for = Some "10m"
@@ -77,7 +77,7 @@ in  \(job-name : Text) ->
                     ''
                 }
               }
-            , Prometheus.AlertingRule::{
+            , Prometheus.CriticalRule::{
               , alert = Some "InstanceOutOfMemory"
               , expr =
                   let avail =
@@ -114,7 +114,7 @@ in  \(job-name : Text) ->
                     ''
                 }
               }
-            , Prometheus.AlertingRule::{
+            , Prometheus.CriticalRule::{
               , alert = Some "InstanceOutOfDisk"
               , expr =
                   let percentage_node_filesystem_avail_bytes =

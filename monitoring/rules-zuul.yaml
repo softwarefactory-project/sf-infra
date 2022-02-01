@@ -9,7 +9,7 @@ groups:
         for: "1h"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: warning
+          severity: critical
       - alert: zuul_nodepool_requests_failed
         annotations:
           summary: Nodepool failed to provide instance to Zuul

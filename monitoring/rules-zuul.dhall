@@ -5,14 +5,10 @@ in  Prometheus.RulesConfig::{
       [ Prometheus.Group::{
         , name = Some "zuul.rules"
         , rules = Some
-          [ Prometheus.AlertingRule::{
+          [ Prometheus.CriticalRule::{
             , alert = Some "zuul_blocked_change_total"
             , expr = Some "zuul_blocked_change_total{job='journal'} > 0"
             , for = Some "1h"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
             , annotations = Some
               { description = None Text
               , summary =

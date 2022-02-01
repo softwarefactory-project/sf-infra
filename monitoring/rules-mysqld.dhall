@@ -5,7 +5,7 @@ in  Prometheus.RulesConfig::{
       [ Prometheus.Group::{
         , name = Some "mysqld.rules"
         , rules = Some
-          [ Prometheus.AlertingRule::{
+          [ Prometheus.CriticalRule::{
             , alert = Some "MariaDBDown"
             , expr = Some "mysql_up{job='mysqld'} == 0"
             , for = Some "10m"
@@ -14,8 +14,8 @@ in  Prometheus.RulesConfig::{
               , summary = "MariaDB is down on {{ \$labels.instance }}"
               }
             }
-          , Prometheus.AlertingRule::{
-            , alert = Some "MariaDBReplicationFAiled"
+          , Prometheus.CriticalRule::{
+            , alert = Some "MariaDBReplicationFailed"
             , expr = Some
                 "(mysql_slave_status_slave_io_running{job='mysqld'} == 0) or (mysql_slave_status_slave_sql_running{job='mysqld'} == 0)"
             , for = Some "10m"
