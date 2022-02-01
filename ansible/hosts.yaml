@@ -57,6 +57,9 @@ all:
     openshift:
       hosts:
         registry.rdoproject.org: {}
+    openstack:
+      hosts:
+        logscraper01.openstack.org: {}
     osci_internal_zone:
       hosts:
         rdo-web-builder.int.osci.io: {}
@@ -185,6 +188,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: root
+    logscraper01.openstack.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: sf
     logserver.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2

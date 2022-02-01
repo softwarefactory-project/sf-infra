@@ -200,3 +200,7 @@ Host sf-container-worker-1.softwarefactory-project.io
     User sf
     Port 22
     Hostname 38.129.16.183
+Host logscraper01.openstack.org
+    User sf
+    Port 22
+

@@ -281,7 +281,10 @@ let zuuls = mkExecutors 7 # mkMergers 8
 
 let default-security-groups = [ "common", "monitoring", "internal" ]
 
-in  Infra.Tenant.addSecurityGroupsAndSetFqdn
-      default-security-groups
-      fqdn
-      (instances # tenant-instances # zuuls # k1s-workers)
+let all-instances =
+      Infra.Tenant.addSecurityGroupsAndSetFqdn
+        default-security-groups
+        fqdn
+        (instances # tenant-instances # zuuls # k1s-workers)
+
+in  all-instances # ./extra-instances.dhall

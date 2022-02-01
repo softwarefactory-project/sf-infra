@@ -143,3 +143,7 @@
 - hosts: ansible.softwarefactory-project.io
   roles:
     - acme-tiny
+
+- hosts: logscraper01.openstack.org
+  roles:
+    - node-exporter
