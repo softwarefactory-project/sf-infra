@@ -29,7 +29,7 @@
 
 - name: Install the software
   shell: |
-    if [ -f /usr/bin/k1s ]; then
+    if [ ! -f /usr/bin/k1s ]; then
         cd /usr/src/k1s;
         python3 setup.py develop --prefix /usr/ || exit 1
     fi
