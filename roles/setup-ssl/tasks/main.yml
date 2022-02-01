@@ -23,14 +23,22 @@
           - epel-release
       when: ansible_distribution != "Fedora"
 
-    - name: Enable PowerTools repo in Centos 8
-      yum_repository:
-        name: "CentOS-PowerTools"
-        description: "CentOS-$releasever - PowerTools"
-        mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=PowerTools&infra=$infra"
-        enabled: yes
-        gpgcheck: yes
-        gpgkey: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+    - name: Enable PowerTools repo in Centos 8 stream
+      block:
+        - name: Remove Centos 8 PowerTools repo
+          file:
+            path: /etc/yum.repos.d/CentOS-PowerTools.repo
+            state: absent
+
+        - name: Install required packages
+          package:
+            name: dnf-plugins-core
+            state: present
+
+        - name: Enable Centos 8 PowerTools stream repository
+          shell: |
+            yum config-manager --set-enabled powertools
+
       when:
         - ansible_distribution != "Fedora"
         - ansible_distribution_major_version == "8"
