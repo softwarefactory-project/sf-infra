@@ -63,7 +63,32 @@
     - vars/dlrn.yaml
   roles:
     - firewalld
-    - dlrn-server
+  post_tasks:
+    - name: Get the wanted DLRN state
+      delegate_to: localhost
+      shell: |
+        # Here we hash all the relevant files that trigger a rebuild
+        find ~/src/review.rdoproject.org/rdo-infra/ansible-role-dlrn/ \
+             ~/src/softwarefactory-project.io/software-factory/sf-infra/playbooks/vars/dlrn.yaml \
+             ~/src/softwarefactory-project.io/software-factory/sf-infra/roles/dlrn-server/ \
+             -type f | xargs cat | md5sum
+      register: dlrn_want
+
+    - name: Check the host state
+      shell: cat /etc/sf-infra-dlrn-state || true
+      register: dlrn_has
+
+    - when: dlrn_want.stdout != dlrn_has.stdout
+      block:
+        - name: Include the dlrn-server role
+          include_role:
+            name: dlrn-server
+
+        - name: Write the state
+          copy:
+            content: "{{ dlrn_want.stdout }}"
+            dest: /etc/sf-infra-dlrn-state
+          become: true
 
 - hosts: trunk.rdoproject.org
   roles:
