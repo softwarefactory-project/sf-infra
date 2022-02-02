@@ -1,0 +1,2 @@
+# Run the k1s service using the fedora user
+k1s_user: fedora
