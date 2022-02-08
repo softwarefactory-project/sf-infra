@@ -13,6 +13,19 @@
       - socat
   become: true
 
+- name: Create configuration group
+  group:
+    name: k1s
+  become: true
+
+- name: Ensure user is in the group
+  user:
+    name: "{{ k1s_user }}"
+    append: yes
+    groups:
+      - k1s
+  become: true
+
 - name: Clone the software
   git:
     repo: https://pagure.io/software-factory/k1s
@@ -46,17 +59,17 @@
 - name: Create config directory
   file:
     path: /etc/k1s
-    mode: 0700
+    mode: 0770
     state: directory
-    owner: "{{ k1s_user }}"
+    group: k1s
   become: true
 
 - name: Install certificates
   copy:
     content: "{{ item.content }}"
     dest: "/etc/k1s/{{ item.dest }}.pem"
-    mode: '0400'
-    owner: "{{ k1s_user }}"
+    mode: '0440'
+    group: k1s
   loop:
     - content: "{{ k1s_crt }}"
       dest: "cert"
@@ -66,35 +79,46 @@
       dest: "chain"
   become: true
 
-- name: Setup configuration
-  copy:
-    content: |
-      K1S_TOKEN={{ k1s_token }}
-      K1S_TLS_PATH=/etc/k1s
-    dest: /etc/sysconfig/k1s
-    mode: '0400'
-    owner: "{{ k1s_user }}"
-  become: true
-
+# TODO: remove root support once sf-container-worker is migrated to userns.
 - name: Install the service
-  copy:
-    remote_src: true
-    src: /usr/src/k1s-distgit/k1s.service
-    dest: /etc/systemd/system/k1s.service
+  when: k1s_user == 'root'
   become: true
-
-- name: Install the user service
-  when: k1s_user != 'root'
-  vars:
-    k1s_systemd_base: "/home/{{ k1s_user }}/.config/systemd/user"
   block:
-    - file:
-        path: "{{ k1s_systemd_base }}"
-        state: directory
+    - copy:
+        content: |
+          K1S_TOKEN={{ k1s_token|trim }}
+          K1S_PORT={{ k1s_port }}
+          K1S_TLS_PATH=/etc/k1s
+        dest: /etc/sysconfig/k1s
+        mode: '0400'
     - copy:
         remote_src: true
         src: /usr/src/k1s-distgit/k1s.service
-        dest: "{{ k1s_systemd_base }}/k1s.service"
+        dest: /etc/systemd/system/k1s.service
+
+- name: Install the user service
+  when: k1s_user != 'root'
+  become: yes
+  block:
+    - copy:
+        remote_src: true
+        content: |
+          [Unit]
+          Description=K1S {{ k1s_user }} service
+          After=network.target
+
+          [Service]
+          Type=simple
+          SyslogIdentifier=k1s
+          User={{ k1s_user }}
+          Environment="K1S_TOKEN={{ k1s_token|trim }}"
+          Environment="K1S_PORT={{ k1s_port }}"
+          Environment="K1S_TLS_PATH=/etc/k1s"
+          ExecStart=/usr/bin/k1s
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: "/etc/systemd/system/k1s-{{ k1s_user }}.service"
 
 - name: Start service
   when: k1s_user == 'root'
@@ -107,12 +131,12 @@
 
 - name: Start the user service
   when: k1s_user != 'root'
-  systemd:
-    name: k1s
-    scope: user
+  become: yes
+  service:
+    name: "k1s-{{ k1s_user }}"
     state: started
     enabled: yes
-    daemon_reload: true
+    daemon-reload: true
 
 - name: Add periodic job to prune unused podman images
   cron:

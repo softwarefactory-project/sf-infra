@@ -19,6 +19,14 @@ let security_groups =
             , Infra.Rule::{ port = +22022, port_range_max = Some +65535 }
             ]
           }
+        , { name = "cs-k1s03"
+          , rules =
+            [ Infra.Rule::{
+              , port = +9024
+              , remote_ip_prefix = Some "38.102.83.189/32"
+              }
+            ]
+          }
         , { name = "prometheus-mail"
           , rules =
             [ Infra.Rule::{
