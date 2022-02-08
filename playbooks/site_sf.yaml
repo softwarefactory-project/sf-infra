@@ -62,6 +62,7 @@
 - hosts: image-builder.softwarefactory-project.io
   roles:
     - image-builder
+    - podman-pruner
 
 - hosts: ze
   tasks:
