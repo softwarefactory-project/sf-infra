@@ -180,7 +180,11 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups = [ "sf" ]
+        , groups =
+            let note =
+                  "Here we use the k1s group because this host is not managed by sfconfig"
+
+            in  [ "k1s" ]
         , connection = OS.Fedora.`35`.connection
         , server = Some
             (     Infra.Server::{

@@ -48,6 +48,7 @@
     path: /etc/k1s
     mode: 0700
     state: directory
+    owner: "{{ k1s_user }}"
   become: true
 
 - name: Install certificates
@@ -55,6 +56,7 @@
     content: "{{ item.content }}"
     dest: "/etc/k1s/{{ item.dest }}.pem"
     mode: '0400'
+    owner: "{{ k1s_user }}"
   loop:
     - content: "{{ k1s_crt }}"
       dest: "cert"
@@ -71,6 +73,7 @@
       K1S_TLS_PATH=/etc/k1s
     dest: /etc/sysconfig/k1s
     mode: '0400'
+    owner: "{{ k1s_user }}"
   become: true
 
 - name: Install the service
@@ -80,7 +83,21 @@
     dest: /etc/systemd/system/k1s.service
   become: true
 
+- name: Install the user service
+  when: k1s_user != 'root'
+  vars:
+    k1s_systemd_base: "/home/{{ k1s_user }}/.config/systemd/user"
+  block:
+    - file:
+        path: "{{ k1s_systemd_base }}"
+        state: directory
+    - copy:
+        remote_src: true
+        src: /usr/src/k1s-distgit/k1s.service
+        dest: "{{ k1s_systemd_base }}/k1s.service"
+
 - name: Start service
+  when: k1s_user == 'root'
   service:
     name: k1s
     state: started
@@ -88,10 +105,19 @@
     daemon-reload: true
   become: true
 
+- name: Start the user service
+  when: k1s_user != 'root'
+  systemd:
+    name: k1s
+    scope: user
+    state: started
+    enabled: yes
+    daemon_reload: true
+
 - name: Add periodic job to prune unused podman images
   cron:
     name: "podman-image-prune"
-    user: "root"
+    user: "{{ k1s_user }}"
     minute: "0"
     hour: "2"
     job: 'podman image prune'
