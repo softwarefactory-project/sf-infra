@@ -1,6 +1,5 @@
 --| Create a rule using host first.
 --  This is useful when composed with textMap to add tcp-rules for a single port.
-
 let Rule =
       { Type = ./Type.dhall
       , default = ./default.dhall
