@@ -1,5 +1,4 @@
 --| The recommanded nomenclature for network
-
 let Network = { Type = ./Type.dhall, default = ./default.dhall }
 
 let create

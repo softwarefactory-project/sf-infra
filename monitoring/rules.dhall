@@ -4,7 +4,6 @@ Some doc:
   Get metrics names: curl -g 'http://localhost:9090/prometheus/api/v1/label/__name__/values' | tr ',' '\n'
   Test expr: curl -g 'http://localhost:9090/prometheus/api/v1/query' --data-urlencode 'query=predict_linear(node_filesystem_avail_bytes{job="node",mountpoint="/",instance="managesf.softwarefactory-project.io:9100"}[1d], 365 * 24 * 3600)'
 -}
-
 let Prometheus = ./binding.dhall
 
 let gigabyte = "1024^3"

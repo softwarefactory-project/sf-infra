@@ -247,7 +247,7 @@ let instances =
         , volumes =
           [ Infra.Volume::{
             , display_name = "image-builder-data"
-            , size = 50
+            , size = 1000
             , server = "image-builder" ++ "." ++ fqdn
             , device = "/dev/vdb"
             }

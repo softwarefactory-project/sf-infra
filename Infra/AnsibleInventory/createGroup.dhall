@@ -1,5 +1,4 @@
 --| A function to create the inventory group of group list
-
 let Prelude = ../Prelude.dhall
 
 let AnsibleInventory = { Group = ./Group/package.dhall }

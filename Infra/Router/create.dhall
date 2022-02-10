@@ -1,5 +1,4 @@
 --| The recommanded nomenclature for router
-
 let Router =
       { Type = ./Type.dhall
       , default = ./default.dhall
