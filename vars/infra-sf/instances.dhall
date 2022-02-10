@@ -190,7 +190,7 @@ let instances =
             (     Infra.Server::{
                   , image = OS.Fedora.`35`.image.name
                   , network = "oci-private-network"
-                  , security_groups = [ "hypervisor-oci" ]
+                  , security_groups = [ "hypervisor-oci", "cs-k1s03" ]
                   , flavor = Some Flavors.`8vcpu_16GB`
                   }
               //  Infra.Server.Ip "38.102.83.139"

@@ -26,6 +26,20 @@
   roles:
     - k1s
 
+- hosts: k1s03.softwarefactory-project.io
+  tasks:
+    - name: Create user
+      user:
+        name: "centos"
+      become: true
+
+    - name: Create a k1s service for centos
+      include_role:
+        name: k1s
+      vars:
+        k1s_port: 9024
+        k1s_user: centos
+
 - hosts: sf
   roles:
     - sf-infra-base
