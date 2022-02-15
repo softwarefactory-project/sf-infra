@@ -48,8 +48,7 @@
         # used for selective antispam
         smtpd_recipient_restrictions_custom:
           - "check_recipient_access pcre:$config_directory/recipients_access"
-        # TODO: enable after migration
-        #use_simple_tls: True
+        use_simple_tls: True
         with_dovecot: True
         whitelist_clients:
           - redhat.com
