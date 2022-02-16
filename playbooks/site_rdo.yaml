@@ -142,12 +142,12 @@
         name:
           - epel-release
       become: yes
-    - name: "Deploy websites"
-      include_role:
-        name: websites
-        tasks_from: builders
-        apply:
-          become: yes
+    # - name: "Deploy websites"
+    #   include_role:
+    #     name: websites
+    #     tasks_from: builders
+    #     apply:
+    #       become: yes
 
 - hosts: lists.rdoproject.org
   become: yes
