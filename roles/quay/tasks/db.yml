@@ -2,12 +2,18 @@
 - name: Setup postgresql
   become: true
   block:
+    - name: Check if pgsql data dir exists
+      stat:
+        path: /var/lib/pgsql/data
+      register: pgsql_data_dir
+
     - name: Create host directories
       file:
-        path: "/var/lib/pgsql/data"
+        path: /var/lib/pgsql/data
         state: directory
         recurse: true
         mode: '0777'
+      when: not pgsql_data_dir.stat.exists
 
     # NOTE: with host network, -p 5432:5432 is not needed.
     - name: Setup Postgres container
