@@ -1,0 +1,3 @@
+pruning_time: daily
+user: "zuul"
+extra_attributes: ""
