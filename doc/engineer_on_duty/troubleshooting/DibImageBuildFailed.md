@@ -49,4 +49,5 @@ From the bridge:
 ```
 $ ssh prometheus.softwarefactory-project.io
 $ curl -X POST -g 'http://localhost:9090/prometheus/api/v1/admin/tsdb/delete_series?match[]={image="upstream-centos-9-stream"}'
+$ systemctl restart statsd_exporter
 ```
