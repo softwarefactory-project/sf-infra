@@ -27,6 +27,7 @@ This project manages:
 * nodepool-builder.softwarefactory-project.io
 * k1s02.softwarefactory-project.io
 * k1s03.softwarefactory-project.io
+* k1s04.softwarefactory-project.io
 * zs.softwarefactory-project.io
 * koji.softwarefactory-project.io
 * integrations.softwarefactory-project.io

@@ -55,6 +55,8 @@
     insertafter: '^\s*"bridge":.*'
     line: '        "mtu": 1450,'
   become: true
+  # It seems like recent podman no longer use this bridge. Let's ignore the error for now, and let's remove that task later.
+  failed_when: false
 
 - name: Create config directory
   file:

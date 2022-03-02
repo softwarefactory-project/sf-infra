@@ -49,6 +49,7 @@ scrape_configs:
           - nodepool-builder.softwarefactory-project.io:9100
           - k1s02.softwarefactory-project.io:9100
           - k1s03.softwarefactory-project.io:9100
+          - k1s04.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
           - integrations.softwarefactory-project.io:9100

@@ -190,11 +190,22 @@ let instances =
             (     Infra.Server::{
                   , image = OS.Fedora.`35`.image.name
                   , network = "oci-private-network"
-                  , security_groups = [ "hypervisor-oci", "cs-k1s03" ]
+                  , security_groups = [ "hypervisor-oci" ]
                   , flavor = Some Flavors.`8vcpu_16GB`
                   }
               //  Infra.Server.Ip "38.102.83.139"
             )
+        }
+      , Instance::{
+        , name = "k1s04"
+        , groups = [ "k1s" ]
+        , connection = OS.Fedora.`35`.connection
+        , server = Some Infra.Server::{
+          , image = OS.Fedora.`35`.image.name
+          , network = "oci-private-network"
+          , security_groups = [ "hypervisor-oci", "cs-k1s03" ]
+          , flavor = Some Flavors.`4vcpus_8gb`
+          }
         }
       , Instance::{
         , name = "zs"
