@@ -18,7 +18,7 @@ dlrn_sshd_port: 3300
 force_python_version: python3
 
 web_domain: 'trunk.rdoproject.org'
-api_workers: ['centos-train', 'centos8-master-uc', 'centos8-yoga', 'centos8-xena', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview', 'centos9-master-uc', 'centos9-wallaby', 'centos9-xena']
+api_workers: ['centos-train', 'centos8-master-uc', 'centos8-yoga', 'centos8-xena', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview', 'centos9-master-uc', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
 
 dlrn_workers:
   centos9-master-uc:
@@ -44,6 +44,37 @@ dlrn_workers:
     enable_brs_sync: true
     use_components: true
     mock_config: 'centos9preview.cfg.j2'
+  centos9-yoga:
+    distro: 'centos9'
+    target: 'centos9-yoga'
+    distgit_branch: 'yoga-rdo'
+    distro_branch: 'stable/yoga'
+    disable_email: *disable_email
+    # FIXME(jcapitao): set to *enable_cron and *enable_purge after the initial bootstrap
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-yoga', '/var/www/html/yoga/centos9']
+    # NOTE(jcapitao): set to 'yoga' once the tag has been created in rdoinfo
+    release: 'yoga-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos9-yoga'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-yoga:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos9_yoga?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    # FIXME(jcapitao): enable when the bootstrap is completed
+    #    gerrit_topic: 'rdo-FTBFS-yoga'
+    rsyncdest: 'centos9-yoga@3.87.151.16:/home/centos9-yoga/data/repos'
+    rsyncport: '3300'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
   centos9-wallaby:
     distro: 'centos9'
     target: 'centos9-wallaby'
