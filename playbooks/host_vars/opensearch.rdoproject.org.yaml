@@ -4,10 +4,10 @@ fqdn: opensearch.rdoproject.org
 logstash_maximum_heap_size: 1g
 logstash_minimum_heap_size: 1g
 
-elasticsearch_minimum_heap_size: 1g
-elasticsearch_maximum_heap_size: 1g
+elasticsearch_minimum_heap_size: 2g
+elasticsearch_maximum_heap_size: 2g
 
-opensearch_container_params: "--net host --pid host --memory 2g"
+opensearch_container_params: "--net host --pid host --memory 4g"
 logstash_container_params: "--net host --pid host --memory 2g"
 
 partitions:
