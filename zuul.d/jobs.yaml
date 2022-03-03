@@ -223,7 +223,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: rdo-centos-8
+          label: rdo-centos-stream
     files:
       - ^roles/backup-monitoring/.*$
       - ^roles/swap/.*$
