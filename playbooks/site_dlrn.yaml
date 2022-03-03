@@ -1,0 +1,30 @@
+---
+- hosts: dlrn
+  vars_files:
+    - vars/dlrn.yaml
+  roles:
+    - firewalld
+    - dlrn-server
+
+- hosts: trunk.rdoproject.org
+  roles:
+    - apache-exporter
+
+- hosts:
+    - trunk-centos7.rdoproject.org
+    - trunk-centos8.rdoproject.org
+    - centos8-rpm-packaging-ci.rdoproject.org
+  roles:
+    - swap
+
+- hosts: dlrn-db.rdoproject.org
+  vars_files:
+    - vars/dlrn-db.yaml
+  roles:
+    - hostname
+    - firewalld
+    - mysqld-exporter
+  tasks:
+    - include_role:
+        name: mariadb-replicated
+        tasks_from: master.yml
