@@ -11,9 +11,6 @@
   name: postfix
 - src: git+https://gitlab.com/osci/ansible-role-spamassassin.git
   name: spamassassin
-# TODO: remove after migration to MM3
-- src: git+https://gitlab.com/osas/ansible-role-mailman2.git
-  name: mailman2
 - src: git+https://gitlab.com/osci/ansible-role-postgrey.git
   name: postgrey
 - src: git+https://gitlab.com/osci/ansible-role-data_movebind.git
