@@ -94,7 +94,7 @@
           K1S_TLS_PATH=/etc/k1s
         dest: /etc/sysconfig/k1s
         mode: '0400'
-        no_log: true
+      no_log: true
     - copy:
         remote_src: true
         src: /usr/src/k1s-distgit/k1s.service
@@ -123,6 +123,7 @@
           [Install]
           WantedBy=multi-user.target
         dest: "/etc/systemd/system/k1s-{{ k1s_user }}.service"
+      no_log: true
 
 - name: Start service
   when: k1s_user == 'root'
