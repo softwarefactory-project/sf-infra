@@ -79,6 +79,7 @@
       dest: "key"
     - content: "{{ k1s_chain }}"
       dest: "chain"
+  no_log: true
   become: true
 
 # TODO: remove root support once sf-container-worker is migrated to userns.
@@ -93,6 +94,7 @@
           K1S_TLS_PATH=/etc/k1s
         dest: /etc/sysconfig/k1s
         mode: '0400'
+        no_log: true
     - copy:
         remote_src: true
         src: /usr/src/k1s-distgit/k1s.service
