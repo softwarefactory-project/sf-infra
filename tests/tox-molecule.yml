@@ -3,25 +3,25 @@
   tasks:
     - name: Run tox -emolecule
       changed_when: true
-      shell:
-        cmd: |
-            set -x
-            ROLE_TO_TEST="{{ role_to_test | default('') }}"
-            if [ -z "$ROLE_TO_TEST" ]; then
-                CHANGED_ROLES_PRE=$(git diff --name-only --diff-filter=ACMDTR HEAD~1 |grep roles | while read line; do echo "$line"|awk -F/ '{print $1"/"$2}'; done | sort -u)
-                CHANGED_ROLES=""
-                for ROLE in ${CHANGED_ROLES_PRE}; do
-                    if [ -d "${ROLE}/molecule" ]; then
-                        CHANGED_ROLES="$CHANGED_ROLES $ROLE"
-                    fi
-                done
-            else
-                CHANGED_ROLES=${ROLE_TO_TEST}
-            fi
-            if [ -z "$CHANGED_ROLES" ]; then
-                TOX_PARAMS=""
-            else
-                TOX_PARAMS=$(echo "$CHANGED_ROLES" | awk '{$1=$1};1')
-            fi
-            tox -e molecule -- "${TOX_PARAMS}"
-        chdir: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+      shell: |
+        set -x
+        ROLE_TO_TEST="{{ role_to_test | default('') }}"
+        if [ -z "$ROLE_TO_TEST" ]; then
+            CHANGED_ROLES_PRE=$(git diff --name-only --diff-filter=ACMDTR HEAD~1 |grep roles | while read line; do echo "$line"|awk -F/ '{print $1"/"$2}'; done | sort -u)
+            CHANGED_ROLES=""
+            for ROLE in ${CHANGED_ROLES_PRE}; do
+                if [ -d "${ROLE}/molecule" ]; then
+                    CHANGED_ROLES="$CHANGED_ROLES $ROLE"
+                fi
+            done
+        else
+            CHANGED_ROLES="$ROLE_TO_TEST"
+        fi
+        if [ -z "$CHANGED_ROLES" ]; then
+            TOX_PARAMS=""
+        else
+            TOX_PARAMS="$(echo "$CHANGED_ROLES" | awk '{$1=$1};1')"
+        fi
+        tox -e molecule -- $TOX_PARAMS
+      args:
+        chdir: "{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
