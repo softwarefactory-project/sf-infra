@@ -104,6 +104,8 @@
   when: k1s_user != 'root'
   become: yes
   block:
+    - name: ensure XDG is persisted
+      command: "loginctl enable-linger {{ k1s_user }}"
     - copy:
         remote_src: true
         content: |
