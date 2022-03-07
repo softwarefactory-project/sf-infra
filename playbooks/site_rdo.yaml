@@ -58,49 +58,6 @@
     - sf-install-server
     - acme-tiny
 
-- hosts: dlrn
-  vars_files:
-    - vars/dlrn.yaml
-  roles:
-    - firewalld
-  post_tasks:
-    - name: Get the wanted DLRN state
-      delegate_to: localhost
-      shell: |
-        # Here we hash all the relevant files that trigger a rebuild
-        find ~/src/review.rdoproject.org/rdo-infra/ansible-role-dlrn/ \
-             ~/src/softwarefactory-project.io/software-factory/sf-infra/playbooks/vars/dlrn.yaml \
-             ~/src/softwarefactory-project.io/software-factory/sf-infra/roles/dlrn-server/ \
-             -type f | xargs cat | md5sum
-      register: dlrn_want
-
-    - name: Check the host state
-      shell: cat /etc/sf-infra-dlrn-state || true
-      register: dlrn_has
-
-    - when: dlrn_want.stdout != dlrn_has.stdout
-      block:
-        - name: Include the dlrn-server role
-          include_role:
-            name: dlrn-server
-
-        - name: Write the state
-          copy:
-            content: "{{ dlrn_want.stdout }}"
-            dest: /etc/sf-infra-dlrn-state
-          become: true
-
-- hosts: trunk.rdoproject.org
-  roles:
-    - apache-exporter
-
-- hosts:
-    - trunk-centos7.rdoproject.org
-    - trunk-centos8.rdoproject.org
-    - centos8-rpm-packaging-ci.rdoproject.org
-  roles:
-    - swap
-
 - hosts: logserver.rdoproject.org
   roles:
     - hostname
@@ -187,18 +144,6 @@
       vars:
         # data_dev and ml_type are defined int he inventory
         data_path: /srv/data
-
-- hosts: dlrn-db.rdoproject.org
-  vars_files:
-    - vars/dlrn-db.yaml
-  roles:
-    - hostname
-    - firewalld
-    - mysqld-exporter
-  tasks:
-    - include_role:
-        name: mariadb-replicated
-        tasks_from: master.yml
 
 - hosts: elk.rdoproject.org
   roles:

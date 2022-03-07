@@ -112,6 +112,26 @@
         secret: bridge_ssh_key
 
 - job:
+    name: sf-infra-configure-hosts-dlrn
+    parent: sf-infra-configure-hosts
+    description: Configure the DLRN hosts
+    dependencies:
+      - name: sf-infra-configure-hosts
+        soft: true
+    timeout: 3600
+    vars:
+      sf_infra_play_name: site_dlrn
+      fetch_galaxy_role: True
+    files:
+      - ^playbooks/vars/dlrn.yaml$
+      - ^playbooks/vars/dlrn-db.yaml$
+      - ^playbooks/host_vars/dlrn-db.rdoproject.org.yaml$
+      - ^playbooks/group_vars/dlrn$
+      - ^playbooks/site_dlrn.yaml$
+      - ^roles/dlrn-server.*
+      - ^monitoring/rules-dlrn.yaml
+
+- job:
     name: sf-infra-configure-hosts-rdo
     parent: sf-infra-base
     description: Configure the RDO infra hosts
@@ -302,6 +322,9 @@
             dependencies:
               - dhall-diff
         - sf-infra-configure-hosts:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-hosts-dlrn:
             dependencies:
               - dhall-diff
         - sf-infra-configure-registry:
