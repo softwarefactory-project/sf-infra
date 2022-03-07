@@ -132,9 +132,9 @@ security_groups:
       - port: 19885
       - port: 22022
         port_range_max: 65535
-  - name: cs-k1s03
+  - name: cs-k1s
     rules:
-      - port: 9024
+      - port: 9023
         remote_ip_prefix: "38.102.83.189/32"
   - name: prometheus-mail
     rules:
@@ -252,7 +252,7 @@ servers:
       - monitoring
       - internal
       - hypervisor-oci
-      - cs-k1s03
+      - cs-k1s
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2

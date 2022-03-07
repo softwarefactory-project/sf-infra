@@ -19,10 +19,10 @@ let security_groups =
             , Infra.Rule::{ port = +22022, port_range_max = Some +65535 }
             ]
           }
-        , { name = "cs-k1s03"
+        , { name = "cs-k1s"
           , rules =
             [ Infra.Rule::{
-              , port = +9024
+              , port = +9023
               , remote_ip_prefix = Some "38.102.83.189/32"
               }
             ]
