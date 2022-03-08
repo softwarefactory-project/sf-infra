@@ -34,8 +34,6 @@ This project manages:
 * image-builder.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * centos.softwarefactory-project.io
-* ovirt.softwarefactory-project.io
-* ovirt-staging.softwarefactory-project.io
 * ansible.softwarefactory-project.io
 * ze01.softwarefactory-project.io
 * ze02.softwarefactory-project.io

@@ -15,12 +15,6 @@ bup_backup_locations:
   - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
     domain: centos.softwarefactory-project.io
     month_subdir: 1
-  - dir: /var/lib/backup/bup/ovirt.softwarefactory-project.io
-    domain: ovirt.softwarefactory-project.io
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/ovirt-staging.softwarefactory-project.io
-    domain: ovirt-staging.softwarefactory-project.io
-    month_subdir: 1
   - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
     domain: ansible.softwarefactory-project.io
     month_subdir: 1
@@ -60,18 +54,8 @@ servers:
     instances:
       - centos.softwarefactory-project.io
     run_sf_backup: true
-  - filename: ovirt.softwarefactory-project.io.yaml
-    hour: 5
-    instances:
-      - ovirt.softwarefactory-project.io
-    run_sf_backup: true
-  - filename: ovirt-staging.softwarefactory-project.io.yaml
-    hour: 6
-    instances:
-      - ovirt-staging.softwarefactory-project.io
-    run_sf_backup: true
   - filename: ansible.softwarefactory-project.io.yaml
-    hour: 7
+    hour: 5
     instances:
       - ansible.softwarefactory-project.io
     run_sf_backup: true
