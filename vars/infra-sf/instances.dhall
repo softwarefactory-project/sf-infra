@@ -51,15 +51,6 @@ let tenant-instances =
               ]
             }
       ,     tenant-instance
-        //  { name = "ovirt"
-            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.159")
-            }
-      ,     tenant-instance
-        //  { name = "ovirt-staging"
-            , groups = [ "sf" ]
-            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.251")
-            }
-      ,     tenant-instance
         //  { name = "ansible"
             , server = Some
                 (     tenant-server
@@ -120,7 +111,6 @@ let instances =
             in  [ "https://softwarefactory-project.io"
                 , "https://softwarefactory-project.io/r/config/server/version"
                 , "https://softwarefactory-project.io/zuul/api/info"
-                , "https://ovirt.softwarefactory-project.io/zuul/api/info"
                 , "https://ansible.softwarefactory-project.io/zuul/api/info"
                 , "https://fedora.softwarefactory-project.io/zuul/api/info"
                 , "https://www.softwarefactory-project.io"

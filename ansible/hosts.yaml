@@ -21,7 +21,6 @@ all:
         centos.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-        ovirt.softwarefactory-project.io: {}
     dlrn:
       hosts:
         centos8-rpm-packaging-ci.rdoproject.org: {}
@@ -92,8 +91,6 @@ all:
         k1s02.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
-        ovirt-staging.softwarefactory-project.io: {}
-        ovirt.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
@@ -226,14 +223,6 @@ all:
       ansible_host: '38.102.83.14'
       ansible_port: 22
       ansible_python_interpreter: /usr/libexec/platform-python
-      ansible_user: centos
-    ovirt-staging.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    ovirt.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
       ansible_user: centos
     prometheus.monitoring.softwarefactory-project.io:
       ansible_port: 22

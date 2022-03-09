@@ -56,8 +56,6 @@ scrape_configs:
           - image-builder.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100
-          - ovirt.softwarefactory-project.io:9100
-          - ovirt-staging.softwarefactory-project.io:9100
           - ansible.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
           - ze02.softwarefactory-project.io:9100
@@ -102,7 +100,6 @@ scrape_configs:
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/r/config/server/version
           - https://softwarefactory-project.io/zuul/api/info
-          - https://ovirt.softwarefactory-project.io/zuul/api/info
           - https://ansible.softwarefactory-project.io/zuul/api/info
           - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
