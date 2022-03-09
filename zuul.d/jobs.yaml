@@ -250,8 +250,6 @@
       - ^roles/dlrn-server/.*$
       - ^roles/afs-monitoring/.*$
       - ^roles/elasticsearch/.*$
-      - ^roles/repoxplorer/.*$
-      - ^roles/repoxplorer-gateway/.*$
       - ^roles/custom-ssh-port/.*$
       - ^roles/mariadb-replicated/.*$
       - ^roles/firewalld/.*$

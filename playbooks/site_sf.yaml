@@ -64,7 +64,7 @@
     - acme-tiny
     - zookeeper-exporter
   tasks:
-    # FIXME(dpawlik) Remove this task after upgrade to sf 3.6
+    # FIXME(dpawlik) Remove this task after upgrade to sf 3.7
     - name: Create repoxplorer rotation file
       become: true
       copy:
