@@ -126,6 +126,8 @@
       - ^playbooks/vars/dlrn.yaml$
       - ^playbooks/vars/dlrn-db.yaml$
       - ^playbooks/host_vars/dlrn-db.rdoproject.org.yaml$
+      - ^playbooks/host_vars/trunk-centos8.rdoproject.org.yaml$
+      - ^playbooks/host_vars/trunk.rdoproject.org.yaml$
       - ^playbooks/group_vars/dlrn$
       - ^playbooks/site_dlrn.yaml$
       - ^roles/dlrn-server.*
