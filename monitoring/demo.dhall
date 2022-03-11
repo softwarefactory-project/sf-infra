@@ -4,7 +4,7 @@ let TestInstance =
       Infra.Instance::{
       , name = "Test"
       , connection = Infra.Connection::{ ansible_user = "centos" }
-      , server = Infra.Server::{ image = "unused" }
+      , server = Some Infra.Server::{ image = "unused" }
       }
 
 in  { Simplest =
@@ -19,7 +19,8 @@ in  { Simplest =
           ([] : List (./binding.dhall).ScrapeConfig.Type)
     , OneInstanceUrl =
         ./prometheus-config.dhall
-          [ TestInstance // { urls = [ "https://example.com/test" ] } ]
+          [ TestInstance // { monitoring_urls = [ "https://example.com/test" ] }
+          ]
           [ "rules-node.yaml" ]
           ([] : List (./binding.dhall).ScrapeConfig.Type)
     }
