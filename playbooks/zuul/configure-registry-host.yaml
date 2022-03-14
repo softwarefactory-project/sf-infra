@@ -50,6 +50,13 @@
     - name: Copy renew certificate script
       copy:
         content: |
+          # The openshift-ansible might be removed after a while, so
+          # ensure that rhe openshift-ansible project is available.
+          # More info:
+          # https://softwarefactory-project.io/r/plugins/gitiles/software-factory/sf-infra/+/refs/heads/master/zuul.d/jobs.yaml#199
+          if ! [ -d ~/src/github.com/rdo-infra/openshift-ansible ]; then
+            git clone https://github.com/rdo-infra/openshift-ansible -b rdo-3.11-dns-mismatch-updated ~/src/github.com/rdo-infra/openshift-ansible
+          fi
           cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra;
           export ANSIBLE_CONFIG=ansible/ansible-registry.cfg;
           export ANSIBLE_LOG_PATH=/var/log/registry-cert-renew/ansible-$(date '+%Y-%m-%d').log;
