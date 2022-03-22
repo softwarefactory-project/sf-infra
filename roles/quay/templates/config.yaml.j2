@@ -10,7 +10,7 @@ AUTHENTICATION_TYPE: Database
 AVATAR_KIND: local
 BITTORRENT_FILENAME_PEPPER: null
 BUILDLOGS_REDIS:
-    host: {{ redis_host | default('0.0.0.0') }}
+    host: {{ redis_host | default(ansible_default_ipv4.address) }}
     password: {{ redis_password }}
     port: 6379
 
@@ -31,7 +31,7 @@ SECRET_KEY: {%if secret_key|default(false) %}{{ secret_key }}{% else %}{{ 999999
 DB_CONNECTION_ARGS:
     autorollback: true
     threadlocals: true
-DB_URI: postgresql://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default('0.0.0.0') }}/{{ postgresql_db_name }}
+DB_URI: postgresql://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default(ansible_default_ipv4.address) }}/{{ postgresql_db_name }}
 DEFAULT_TAG_EXPIRATION: 2w
 DISTRIBUTED_STORAGE_CONFIG:
     default:
@@ -110,7 +110,7 @@ SEARCH_RESULTS_PER_PAGE: 10
 SECURITY_SCANNER_INDEXING_INTERVAL: 30
 
 {% if enable_clair %}
-SECURITY_SCANNER_V4_ENDPOINT: http://{{ clair_host | default('0.0.0.0') }}:6060
+SECURITY_SCANNER_V4_ENDPOINT: http://{{ clair_host | default(ansible_default_ipv4.address) }}:6060
 {% if clair_psk_key is defined and clair_psk_key %}
 SECURITY_SCANNER_V4_PSK: {{ clair_psk_key }}
 {% endif %}
@@ -132,7 +132,7 @@ TEAM_RESYNC_STALE_TIME: 30m
 TESTING: false
 USE_CDN: false
 USER_EVENTS_REDIS:
-    host: {{ redis_host | default('0.0.0.0') }}
+    host: {{ redis_host | default(ansible_default_ipv4.address) }}
     password: {{ redis_password }}
     port: 6379
 USER_RECOVERY_TOKEN_LIFETIME: 30m
