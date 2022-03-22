@@ -31,10 +31,10 @@
       register: _infra_key
 
     - name: Copy the clouds.yaml
-      copy:
-        content: "{{ cloud.yamlFile }}"
-        dest: "~/.config/openstack/clouds.yaml"
-        mode: "0600"
+      template:
+        src: zuul/templates/clouds.yaml.j2
+        dest: ~/.config/openstack/clouds.yaml
+        mode: "0400"
       no_log: yes
 
     - name: Ensure sf-infra key pair exists

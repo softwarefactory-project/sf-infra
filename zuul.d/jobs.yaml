@@ -18,6 +18,7 @@
     allowed-projects:
       - software-factory/sf-infra
       - review.rdoproject.org/rdo-infra/rdo-infra-playbooks
+    timeout: 7200
     irrelevant-files:
       - "Makefile"
       - ".*.dhall"
@@ -34,22 +35,21 @@
     files:
       - ^playbooks/create-bridge.yaml$
     secrets:
-      - name: cloud
-        secret: vexxhost-cloud
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
     nodeset:
       # This special job needs to run from a container
       nodes:
         - name: container
-          label: pod-centos-8
+          label: pod-centos-8-stream
 
 - job:
     name: sf-infra-configure-tenants
     parent: sf-infra-base
     description: Create the tenant resources such as network and secgroup
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-bridge
-        soft: true
     files:
       - ^playbooks/configure-tenants.yaml$
       - ^playbooks/vars/.*
@@ -60,8 +60,6 @@
     vars:
       sf_infra_play_name: configure-tenants
     secrets:
-      - name: ara_api
-        secret: bridge_ara_api
       - name: vexxhost_rdo
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
@@ -72,9 +70,6 @@
     parent: sf-infra-base
     description: Create the hosts
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-configure-tenants
-        soft: true
     files:
       - ^playbooks/create-hosts.yaml$
       - ^playbooks/vars/.*
@@ -83,24 +78,17 @@
     vars:
       sf_infra_play_name: create-hosts
     secrets:
-      - name: ara_api
-        secret: bridge_ara_api
       - name: vexxhost_rdo
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
 
-# NOTE: This job will be removed in the future.
 - job:
-    name: sf-infra-configure-hosts
+    name: sf-infra-configure
     parent: sf-infra-base
-    description: Configure the hosts
+    abstract: true
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
-      # - name: sf-infra-configure-tripleo-standalone
-      #   soft: true
+    description: Base job to configure hosts
     run: playbooks/zuul/configure-hosts.yaml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
@@ -113,98 +101,140 @@
       sf_infra_play_name: site
       fetch_galaxy_role: True
     secrets:
-      - name: cloud
-        secret: vexxhost-cloud
       - name: vexxhost_rdo
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
       - name: vault
         secret: ansible-vault
-      - name: ara_api
-        secret: bridge_ara_api
       - name: sshkey
         secret: bridge_ssh_key
 
 - job:
     name: sf-infra-configure-hosts-dlrn
-    parent: sf-infra-configure-hosts
+    parent: sf-infra-configure
     description: Configure the DLRN hosts
-    dependencies:
-      - name: sf-infra-configure-hosts
-        soft: true
-    timeout: 3600
     vars:
       sf_infra_play_name: site_dlrn
-      fetch_galaxy_role: True
     files:
-      - ^playbooks/vars/dlrn.yaml$
-      - ^playbooks/vars/dlrn-db.yaml$
-      - ^playbooks/host_vars/dlrn-db.rdoproject.org.yaml$
-      - ^playbooks/host_vars/trunk-centos8.rdoproject.org.yaml$
-      - ^playbooks/host_vars/trunk.rdoproject.org.yaml$
-      - ^playbooks/group_vars/dlrn$
-      - ^playbooks/site_dlrn.yaml$
-      - ^roles/dlrn-server.*
-      - ^monitoring/rules-dlrn.yaml
+      - playbooks/site_dlrn.yaml
+      - playbooks/host_vars/dlrn-db.rdoproject.org.yaml
+      - ^playbooks/host_vars/trunk.*.yaml$
+      - playbooks/group_vars/all
+      - playbooks/group_vars/dlrn
+      - "^roles/apache-exporter/.*$"
+      - "^roles/dlrn-server/.*$"
+      - "^roles/firewalld/.*$"
+      - "^roles/firewalld/.*$"
+      - "^roles/hostname/.*$"
+      - "^roles/mariadb-replicated/.*$"
+      - "^roles/mysqld-exporter/.*$"
+      - "^roles/swap/.*$"
 
 - job:
+    name: sf-infra-configure-hosts-osci
+    parent: sf-infra-configure
+    description: Configure the OSCI hosts
+    vars:
+      sf_infra_play_name: site_osci
+    files:
+      - playbooks/site_osci.yaml
+      - "^playbooks/host_vars/lists.rdoproject.org/.*$"
+      - "^playbooks/host_vars/rdo-web-builder.int.osci.io/.*$"
+      - "^playbooks/host_vars/www.rdoproject.org/.*$"
+      - "^playbooks/group_vars/osci_internal_zone/.*$"
+      - "^playbooks/group_vars/osci_zone/.*$"
+      - "^roles/mailing_lists/.*$"
+      - "^roles/websites/.*$"
+- job:
     name: sf-infra-configure-hosts-rdo
-    parent: sf-infra-base
+    parent: sf-infra-configure
     description: Configure the RDO infra hosts
-    semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
-    run: playbooks/zuul/configure-hosts.yaml
-    required-projects:
-      - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
-      - name: review.rdoproject.org/rdo-infra/ansible-role-dlrn
-      - name: software-factory/sf-infra
-      - name: software-factory/ansible-role-elastic-recheck
-    timeout: 3600
     vars:
       sf_infra_play_name: site_rdo
-      fetch_galaxy_role: True
-    secrets:
-      - name: cloud
-        secret: vexxhost-cloud
-      - name: vault
-        secret: ansible-vault
-      - name: ara_api
-        secret: bridge_ara_api
+    files:
+      - playbooks/site_rdo.yaml
+      - ^playbooks/host_vars/.*rdoproject.org.ya?ml$
+      - playbooks/host_vars/rdo-web-builder.int.osci.io
+      - playbooks/group_vars/all
+      - playbooks/group_vars/osci_internal_zone
+      - playbooks/group_vars/osci_zone
+      - playbooks/group_vars/rdo.yaml
+      - "^roles/acme-tiny/.*$"
+      - "^roles/afs-mirror/.*$"
+      - "^roles/afs-monitoring/.*$"
+      - "^roles/ansible-role-elastic-recheck/.*$"
+      - "^roles/backup-client/.*$"
+      - "^roles/backup-monitoring/.*$"
+      - "^roles/backup-srv/.*$"
+      - "^roles/firewalld/.*$"
+      - "^roles/hostname/.*$"
+      - "^roles/image-server/.*$"
+      - "^roles/log-gearman/.*$"
+      - "^roles/logserver/.*$"
+      - "^roles/mailing_lists/.*$"
+      - "^roles/mysqld-exporter/.*$"
+      - "^roles/node-exporter/.*$"
+      - "^roles/quay/.*$"
+      - "^roles/setup-ssl/.*$"
+      - "^roles/sf-infra-base/.*$"
+      - "^roles/sf-install-server/.*$"
+      - "^roles/sf-ssh/.*$"
+      - "^roles/volume/.*$"
+      - "^roles/websites/.*$"
 
 - job:
     name: sf-infra-configure-hosts-sf
-    parent: sf-infra-base
+    parent: sf-infra-configure
     description: Configure the sf.io hosts
-    semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
-    run: playbooks/zuul/configure-hosts.yaml
-    required-projects:
-      - name: software-factory/sf-infra
-    timeout: 3600
     vars:
       sf_infra_play_name: site_sf
-      fetch_galaxy_role: False
-    secrets:
-      - name: cloud
-        secret: vexxhost-cloud
-      - name: vault
-        secret: ansible-vault
-      - name: ara_api
-        secret: bridge_ara_api
+    files:
+      - playbooks/site_sf.yaml
+      - ^playbooks/host_vars/.*softwarefactory-project.io.ya?ml$
+      - playbooks/group_vars/all
+      - playbooks/group_vars/k1s.yaml
+      - playbooks/group_vars/logreduce-mqtt
+      - playbooks/group_vars/nodepool-builder.yaml
+      - playbooks/group_vars/sf.yaml
+      - "^monitoring/.*yaml$"
+      - "^roles/acme-tiny/.*$"
+      - "^roles/alert-manager/.*$"
+      - "^roles/backup-client/.*$"
+      - "^roles/blackbox-exporter/.*$"
+      - "^roles/builder-cleanup/.*$"
+      - "^roles/dnsmasq/.*$"
+      - "^roles/elasticsearch/.*$"
+      - "^roles/firewalld/.*$"
+      - "^roles/fm-gateway/.*$"
+      - "^roles/grafana/.*$"
+      - "^roles/hostname/.*$"
+      - "^roles/image-builder/.*$"
+      - "^roles/integrations/.*$"
+      - "^roles/k1s/.*$"
+      - "^roles/log-gearman/.*$"
+      - "^roles/manage-upstream-config-project/.*$"
+      - "^roles/monitoring-gateway/.*$"
+      - "^roles/node-exporter/.*$"
+      - "^roles/openstack-simply-reporter/.*$"
+      - "^roles/podman-pruner/.*$"
+      - "^roles/prometheus/.*$"
+      - "^roles/pushprox/.*$"
+      - "^roles/setup-ssl/.*$"
+      - "^roles/sf-infra-base/.*$"
+      - "^roles/sf-install-server/.*$"
+      - "^roles/sf-ssh/.*$"
+      - "^roles/statsd-exporter/.*$"
+      - "^roles/udp-multiplexer/.*$"
+      - "^roles/volume/.*$"
+      - "^roles/zookeeper-exporter/.*$"
+      - "^roles/zuul_cli_access/.*$"
 
 - job:
     name: sf-infra-create-tripleo-standalone
     parent: sf-infra-base
     description: Install tripleo-standalone on ibm baremetal
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
     run: playbooks/zuul/run-play.yaml
     timeout: 3600
     vars:
@@ -220,9 +250,6 @@
     parent: sf-infra-base
     description: Install tripleo-standalone on ibm baremetal
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-tripleo-standalone
-        soft: true
     run: playbooks/zuul/run-play.yaml
     vars:
       playbook: configure-tripleo-standalone.yaml
@@ -237,9 +264,6 @@
     parent: sf-infra-base
     description: Configure the registry host
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
     run: playbooks/zuul/configure-registry-host.yaml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
@@ -253,21 +277,18 @@
       - ^playbooks/zuul/configure-registry-host.yaml$
       - ^playbooks/host_vars/registry.rdoproject.org.yml$
     secrets:
-      - name: cloud
-        secret: vexxhost-cloud
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
       - name: vault
         secret: ansible-vault
-      - name: ara_api
-        secret: bridge_ara_api
 
 - job:
     name: sf-infra-configure-quay
     parent: sf-infra-base
     description: Configure the Quay host
     semaphore: sf-infra
-    dependencies:
-      - name: sf-infra-create-hosts
-        soft: true
     run: playbooks/zuul/configure-quay-host.yaml
     required-projects:
       - name: software-factory/sf-infra
@@ -275,12 +296,12 @@
       - ^playbooks/quay-renew-certificates.yml$
       - ^playbooks/zuul/configure-quay-host.yaml$
     secrets:
-      - name: cloud
-        secret: vexxhost-cloud
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
       - name: vault
         secret: ansible-vault
-      - name: ara_api
-        secret: bridge_ara_api
 
 - job:
     name: sf-infra-molecule
@@ -321,7 +342,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: rdo-centos-stream
+          label: cloud-centos-8-stream
     files:
       - ^roles/grafana/.*$
       - ^tests/grafana-dash.yml$
@@ -364,7 +385,9 @@
                   label: zuul-worker-dhall
         - prometheus-lint
         - sf-infra-molecule
-        - sf-infra-grafana-dashboards
+        - sf-infra-grafana-dashboards:
+            files:
+              - "^roles/grafana/.*$"
         - shake-factory-docs:
             files:
               - ^Infra/.*$
@@ -386,27 +409,51 @@
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff
-        - sf-infra-create-hosts:
-            dependencies:
-              - dhall-diff
         - sf-infra-configure-tenants:
             dependencies:
               - dhall-diff
-        - sf-infra-configure-hosts:
+              - name: sf-infra-create-bridge
+                soft: true
+        - sf-infra-create-hosts:
             dependencies:
               - dhall-diff
+              - name: sf-infra-configure-tenants
+                soft: true
+        - sf-infra-configure-hosts-sf:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-configure-hosts-rdo:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
         - sf-infra-configure-hosts-dlrn:
             dependencies:
               - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-configure-hosts-osci:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
         - sf-infra-configure-registry:
             dependencies:
               - dhall-diff
         - sf-infra-create-tripleo-standalone:
             dependencies:
               - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
         - sf-infra-configure-tripleo-standalone:
             dependencies:
               - dhall-diff
+              - name: sf-infra-create-tripleo-standalone
+                soft: true
         - sf-infra-configure-quay:
             dependencies:
               - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true

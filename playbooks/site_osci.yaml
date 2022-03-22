@@ -1,0 +1,79 @@
+---
+- import_playbook: site_bridge.yaml
+
+- hosts: osci
+  roles:
+    - node-exporter
+    - update-host
+
+- hosts: www.rdoproject.org
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: vhosts
+        apply:
+          become: yes
+
+# after www.rdoproject.org
+- hosts: rdo-web-builder.int.osci.io
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: builders
+        apply:
+          become: yes
+
+- hosts: lists.rdoproject.org
+  become: yes
+  roles:
+    - hostname
+  handlers:
+    - name: "Clean YUM Metadata"
+      command: yum clean metadata
+      args:
+        warn: no
+
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+
+    - name: "Setup the OSPO/OSCI Infra repo"
+      yum_repository:
+        name: ospo_osci_infra
+        description: "Copr repo for OSPO ComInfra Team"
+        baseurl: "https://copr-be.cloud.fedoraproject.org/results/duck/osas-infra-team-rpm-repo/epel-{{ ansible_distribution_major_version }}-$basearch/"
+        gpgkey: "https://copr-be.cloud.fedoraproject.org/results/duck/osas-infra-team-rpm-repo/pubkey.gpg"
+        repo_gpgcheck: False
+        gpgcheck: True
+        skip_if_unavailable: True
+        state: present
+        enabled: True
+      when: ansible_os_family == 'RedHat'
+      notify: Clean YUM Metadata
+
+    - meta: flush_handlers
+
+    - name: "Deploy mailing-lists"
+      include_role:
+        name: mailing_lists
+      vars:
+        # data_dev and ml_type are defined int he inventory
+        data_path: /srv/data

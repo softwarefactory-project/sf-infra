@@ -13,7 +13,7 @@ let Flavors = (../common.dhall).Flavors
 let instances =
       [ Instance::{
         , name = "mirror.regionone.vexxhost"
-        , groups = [ "afs-mirror" ]
+        , groups = [ "afs-mirror", "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
@@ -223,6 +223,7 @@ let instances =
         }
       , Instance::{
         , name = "images"
+        , groups = [ "rdo" ]
         , connection = OS.CentOS.`8.1`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
@@ -241,6 +242,7 @@ let instances =
         }
       , Instance::{
         , name = "www"
+        , groups = [ "osci" ]
         , connection =
                 OS.CentOS.`8.1`.connection
             //  { ansible_python_interpreter = "python3" }
@@ -257,6 +259,7 @@ let instances =
         }
       , Instance::{
         , name = "dlrn-db"
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.1`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
@@ -268,7 +271,7 @@ let instances =
         }
       , Instance::{
         , name = "opensearch"
-        , groups = [ "opensearch" ]
+        , groups = [ "opensearch", "rdo" ]
         , connection =
                 OS.CentOS.`8-stream`.connection
             //  { ansible_host = Some "38.102.83.14" }
@@ -295,7 +298,7 @@ let instances =
 let extra =
       [ Instance::{
         , name = "backup"
-        , groups = [ "backup-server" ]
+        , groups = [ "backup-server", "rdo" ]
         , connection =
                 OS.CentOS.`7.0`.connection
             //  { ansible_port = 3300, ansible_host = Some "54.147.29.140" }
@@ -320,7 +323,7 @@ let ospo-external-vhosts = [ "lists.rdoproject.org" ]
 let defaultOSPOInternalInstance =
       Instance::{
       , name = "default"
-      , groups = [ "osci_zone", "osci_internal_zone" ]
+      , groups = [ "osci_zone", "osci_internal_zone", "osci" ]
       , connection = Infra.Connection::{
         , ansible_user = "root"
         , proxy_command = Some "ssh -q rdo@soeru.osci.io -W %h:%p"
@@ -330,7 +333,7 @@ let defaultOSPOInternalInstance =
 let defaultOSPOExternalInstance =
       Instance::{
       , name = "default"
-      , groups = [ "osci_zone" ]
+      , groups = [ "osci_zone", "osci" ]
       , node-exporter = False
       , connection = Infra.Connection::{ ansible_user = "root" }
       }

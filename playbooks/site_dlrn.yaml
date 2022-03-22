@@ -1,5 +1,7 @@
 ---
-- hosts: dlrn
+- import_playbook: site_bridge.yaml
+
+- hosts: dlrn:!dlrn-db.rdoproject.org
   vars_files:
     - vars/dlrn.yaml
   roles:

@@ -1,26 +1,5 @@
 ---
-- hosts: bridge.softwarefactory-project.io
-  gather_facts: yes
-  pre_tasks:
-    - name: Ensure hostname is correct
-      hostname:
-        name: bridge.softwarefactory-project.io
-      become: yes
-  roles:
-    - bridge-accounts
-    - generate-etc-hosts
-  tasks:
-    - name: "Install MTA"
-      include_role:
-        name: postfix
-        apply:
-          become: yes
-      vars:
-        myhostname: "{{ smtp_host }}"
-        mydomain: "{{ smtp_domain }}"
-        myorigin: "{{ smtp_host }}"
-        mynetworks:
-          - "{{ prometheus_public_ip }}/32"
+- import_playbook: site_bridge.yaml
 
 - hosts: k1s
   roles:
