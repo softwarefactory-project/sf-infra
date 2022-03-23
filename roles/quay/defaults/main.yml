@@ -24,6 +24,7 @@ quay_users:
     email: test@test.com
     password: test1234
 
+enable_clair: true
 # NOTE: The clair service seems to work without generating PSK
 # key. It might be a situation that documentation is outdated.
 clair_psk_key: ''
@@ -48,3 +49,5 @@ quay_organizations:
 quay_pruner_dlrn_endpoints: []
 
 quay_pruner_extended_keeplist: []
+
+enable_mirror: true

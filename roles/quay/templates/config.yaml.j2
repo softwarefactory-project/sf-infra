@@ -70,7 +70,8 @@ FEATURE_REQUIRE_TEAM_INVITE: true
 FEATURE_SECURITY_NOTIFICATIONS: false
 # Set FEATURE_SECURITY_SCANNER to false if you
 # want to disable Clair service.
-FEATURE_SECURITY_SCANNER: true
+FEATURE_SECURITY_SCANNER: {{ enable_clair }}
+
 FEATURE_SIGNING: false
 FEATURE_STORAGE_REPLICATION: false
 FEATURE_TEAM_SYNCING: false
@@ -108,9 +109,11 @@ SEARCH_MAX_RESULT_PAGE_COUNT: 10
 SEARCH_RESULTS_PER_PAGE: 10
 SECURITY_SCANNER_INDEXING_INTERVAL: 30
 
+{% if enable_clair %}
 SECURITY_SCANNER_V4_ENDPOINT: http://{{ clair_host | default('0.0.0.0') }}:6060
 {% if clair_psk_key is defined and clair_psk_key %}
 SECURITY_SCANNER_V4_PSK: {{ clair_psk_key }}
+{% endif %}
 {% endif %}
 
 SERVER_HOSTNAME: {{ inventory_hostname }}
