@@ -1,0 +1,5 @@
+---
+# NOTE: with this parameter, you are able to provide
+# prometheus service own ca cert, so it will not raise an
+# error when page uses self signed cert.
+additional_cert_path: ""

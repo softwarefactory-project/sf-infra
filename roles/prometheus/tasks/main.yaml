@@ -25,6 +25,7 @@
       --network host
       -v /etc/prometheus/:/etc/prometheus/:Z
       -v /var/lib/prometheus:/prometheus:Z
+      {% if additional_cert_path %}-v {{ additional_cert_path }}:/etc/ssl/certs/custom-cert.crt:z{% endif %}
       {{ container_images['prometheus'] | default('quay.io/prometheus/prometheus:latest') }}
       --web.external-url="{{ prometheus_public_url }}/"
       --web.route-prefix="prometheus"
