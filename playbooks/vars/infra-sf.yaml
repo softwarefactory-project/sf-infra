@@ -152,6 +152,9 @@ security_groups:
         remote_ip_prefix: "192.168.242.0/24"
       - port: 9200
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+      - port: 8125
+        protocol: udp
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: zookeeper_exporter
     rules:
       - port: 9141
