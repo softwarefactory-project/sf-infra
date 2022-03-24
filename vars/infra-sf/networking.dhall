@@ -47,6 +47,11 @@ let security_groups =
               , port = +9200
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +8125
+              , protocol = Some "udp"
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
             ]
           }
         , { name = "zookeeper_exporter"
