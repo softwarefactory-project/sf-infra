@@ -1,2 +1,0 @@
-# The service was deployed as root, keep the setting for now, but that needs to be redeployed as fedora
-k1s_user: root
