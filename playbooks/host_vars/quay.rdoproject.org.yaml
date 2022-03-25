@@ -12,6 +12,10 @@ partitions:
     device: vdb
     mountpoint: '/var/lib/pgsql'
 
+# NOTE: We disable clair service due it was using a lot IOPS
+# on scanning the image content.
+enable_clair: false
+
 container_images:
   postgresql: "docker.io/postgres:alpine3.14"
   redis: "docker.io/redis:6.2.4"
