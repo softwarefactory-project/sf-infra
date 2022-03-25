@@ -7,7 +7,7 @@ Type=simple
 Restart=on-failure
 User=joblogsworker
 Group=joblogsworker
-SyslogIdentifier=joblogs-gearman-worker
+SyslogIdentifier=joblogs-gearman-worker-{{ external_elk['infra_name'] }}
 ExecStart=/usr/bin/log-gearman-worker.py -c /etc/log-gearman-worker/config-{{ external_elk['infra_name'] }}.yml --foreground -d /var/log/log-gearman-worker/worker-{{ external_elk['infra_name'] }}.log
 
 [Install]
