@@ -130,46 +130,6 @@
           {{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}
       when: self_signed_certs
 
-    - name: Set prerouting to port 8443
-      iptables:
-        table: nat
-        chain: PREROUTING
-        protocol: tcp
-        destination_port: 443
-        to_ports: 8443
-        jump: REDIRECT
-
-    - name: Set prerouting to port 8080
-      iptables:
-        table: nat
-        chain: PREROUTING
-        protocol: tcp
-        destination_port: 80
-        to_ports: 8080
-        jump: REDIRECT
-
-    - name: Allow localhost traffic to connect 443 when self signed cert
-      iptables:
-        table: nat
-        chain: OUTPUT
-        protocol: tcp
-        destination_port: 443
-        to_ports: 8443
-        jump: REDIRECT
-        out_interface: lo
-      when: self_signed_certs
-
-    - name: Allow localhost traffic to connect 80 when self signed cert
-      iptables:
-        table: nat
-        chain: OUTPUT
-        protocol: tcp
-        destination_port: 80
-        to_ports: 8080
-        jump: REDIRECT
-        out_interface: lo
-      when: self_signed_certs
-
     - name: Restart quay registry when config changed
       service:
         name: quay
