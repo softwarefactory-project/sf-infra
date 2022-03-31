@@ -122,6 +122,7 @@
   roles:
     - volume
     - acme-tiny
+    - fm-gateway
 
 - hosts: nodepool-builder
   roles:

@@ -1,0 +1,72 @@
+---
+- name: Create host directories
+  become: yes
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /etc/fm-gateway/
+
+- name: Create configuration file
+  become: yes
+  copy:
+    content: |
+      amqp_url = "amqps://fedora:@rabbitmq.fedoraproject.org/%2Fpublic_pubsub"
+
+      [tls]
+      ca_cert = "/etc/fedora-messaging/cacert.pem"
+      keyfile = "/etc/fedora-messaging/fedora-key.pem"
+      certfile = "/etc/fedora-messaging/fedora-cert.pem"
+
+      [client_properties]
+      app = "Fedora Messaging Zuul"
+
+      [exchanges."amq.topic"]
+      type = "topic"
+      durable = true
+      auto_delete = false
+      arguments = {}
+
+      [qos]
+      prefetch_size = 0
+      prefetch_count = 25
+
+      [log_config]
+      version = 1
+      disable_existing_loggers = true
+
+      [log_config.formatters.simple]
+      format = "[%(levelname)-7s %(name)s] - %(message)s"
+
+      [log_config.handlers.console]
+      class = "logging.StreamHandler"
+      formatter = "simple"
+      stream = "ext://sys.stdout"
+
+      [log_config.root]
+      level = "DEBUG"
+      handlers = ["console"]
+
+      [consumer_config]
+      # If true the payload will by written in a file but not send to webhook server url
+      send_to_file = false
+      verify_ssl = true
+      topic_prefixes_dest = [
+          "org.fedoraproject.prod.pagure,https://softwarefactory-project.io/zuul/api/connection/src.fedoraproject.org/payload"
+      ]
+      exclude_projects = []
+      stats_server_port = 8080
+
+    dest: /etc/fm-gateway/config.toml
+  register: _fm_config
+
+- include_role:
+    name: container-service
+  vars:
+    pod_name: fm-gateway
+    pod_param: >
+      -v /etc/fm-gateway:/data:Z
+      --net host
+      {{ container_images['fm-gateway'] | default('quay.io/software-factory/fm-gateway:latest') }}
+    pod_config: "{{ _fm_config }}"
