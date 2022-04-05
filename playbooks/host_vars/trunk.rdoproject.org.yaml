@@ -18,7 +18,7 @@ dlrn_sshd_port: 3300
 force_python_version: python3
 
 web_domain: 'trunk.rdoproject.org'
-api_workers: ['centos-train', 'centos8-master-uc', 'centos8-yoga', 'centos8-xena', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-preview', 'centos9-master-uc', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
+api_workers: ['centos-train', 'centos8-master-uc', 'centos8-yoga', 'centos8-xena', 'centos8-wallaby', 'centos8-victoria', 'centos8-ussuri', 'centos8-train', 'centos9-master-uc', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
 
 dlrn_workers:
   centos9-master-uc:
@@ -32,7 +32,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
-    release: 'yoga-uc'
+    release: 'zed-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -55,8 +55,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-yoga', '/var/www/html/yoga/centos9']
-    # NOTE(jcapitao): set to 'yoga' once the tag has been created in rdoinfo
-    release: 'yoga-uc'
+    release: 'yoga'
     baseurl: 'https://trunk.rdoproject.org/centos9-yoga'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -119,31 +118,6 @@ dlrn_workers:
     enable_brs_sync: true
     use_components: true
     mock_config: 'centos9preview.cfg.j2'
-  centos9-master-preview:
-    distro: 'centos9'
-    target: 'centos9-master-preview'
-    distgit_branch: 'rpm-master'
-    distro_branch: 'master'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    purge_hour: '2'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos9-master-preview']
-    release: 'yoga-uc'
-    baseurl: 'https://trunk.rdoproject.org/centos9-master-preview'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: true
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#    rsyncdest: 'centos9-master-preview@3.87.151.16:/home/centos9-master-preview/data/repos'
-#    rsyncport: '3300'
-    use_components: true
-    mock_config: 'centos9preview.cfg.j2'
   centos-train:
     distro: 'centos7'
     target: 'centos-train'
@@ -179,7 +153,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
-    release: 'yoga-uc'
+    release: 'zed-uc'
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -204,7 +178,7 @@ dlrn_workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-master-head']
-    release: 'yoga'
+    release: 'zed'
     baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -226,8 +200,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos8-yoga', '/var/www/html/yoga/centos8']
-    # NOTE(jcapitao): set to 'yoga' once the tag has been created in rdoinfo
-    release: 'yoga-uc'
+    release: 'yoga'
     baseurl: 'https://trunk.rdoproject.org/centos8-yoga'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
