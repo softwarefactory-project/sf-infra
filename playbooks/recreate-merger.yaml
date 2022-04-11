@@ -1,0 +1,18 @@
+- hosts: undefined # set it to the desired hosts, e.g. zm01
+  becomes: true
+  tasks:
+    - name: Stop the service
+      service:
+        name: zuul-merger
+        state: stopped
+
+    - name: Delete the container
+      command: podman rm -f zuul-merger
+
+    - name: Recreate the container
+      command: /usr/local/bin/container-zuul-merger.sh
+
+    - name: Start the service
+      service:
+        name: zuul-merger
+        state: started
