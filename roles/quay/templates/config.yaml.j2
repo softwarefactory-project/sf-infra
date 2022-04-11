@@ -70,7 +70,7 @@ FEATURE_REQUIRE_TEAM_INVITE: true
 FEATURE_SECURITY_NOTIFICATIONS: false
 # Set FEATURE_SECURITY_SCANNER to false if you
 # want to disable Clair service.
-FEATURE_SECURITY_SCANNER: {{ enable_clair }}
+FEATURE_SECURITY_SCANNER: {{ enable_clair | lower }}
 
 FEATURE_SIGNING: false
 FEATURE_STORAGE_REPLICATION: false
