@@ -37,7 +37,7 @@ TAG="latest"
 
 ### Get repository informations
 ```
-curl -k -sSL -X "GET" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "https://localhost:8443/api/v1/repository/$REPOSITORY" | jq
+curl -k -sSL -X "GET" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "https://localhost/api/v1/repository/$REPOSITORY" | jq
 
 --- output ---
 {
@@ -114,7 +114,7 @@ quay_organizations:
       prune_days: 7
 
 quay_pruner_dlrn_endpoints:
-  - api-centos9-master-uc  
+  - api-centos9-master-uc
   - api-centos8-master-uc
   - api-centos8-wallaby
   - api-centos8-victoria

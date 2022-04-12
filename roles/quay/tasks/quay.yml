@@ -40,13 +40,13 @@
         podman stop quay_config
       ignore_errors: true
 
-      # NOTE: with host network, -p 80:8080 and -p 443:8443 are not needed.
     - name: Configure quay - ignore CN
       become: true
       command: |
         podman run --rm \
           -d \
-          --network host
+          -p 80:8080 \
+          -p 443:8443 \
           --name quay_config \
           -e GODEBUG=x509ignoreCN=0 \
           -v /var/data/quay/config:/conf/stack:Z \
@@ -63,7 +63,8 @@
       command: |
         podman run --rm \
           -d \
-          --network host
+          -p 80:8080
+          -p 443:8443
           --name quay_config \
           -v /var/data/quay/config:/conf/stack:Z \
           -v /var/data/quay/storage:/datastorage:Z \
@@ -100,14 +101,14 @@
         podman stop quay_config && sleep 5
       ignore_errors: true
 
-    # NOTE: with host network, -p 80:8080 and -p 443:8443 are not needed.
     - name: Create Quay container
       include_role:
         name: container-service
       vars:
         pod_name: quay
         pod_param: >
-          --network host
+          -p 80:8080
+          -p 443:8443
           --restart=always
           --privileged=true
           -v /var/data/quay/config:/conf/stack:Z
@@ -121,7 +122,8 @@
       vars:
         pod_name: quay
         pod_param: >
-          --network host
+          -p 80:8080
+          -p 443:8443
           --restart=always
           --privileged=true
           -e GODEBUG=x509ignoreCN=0
