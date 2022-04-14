@@ -1,12 +1,16 @@
 # Quay service deployment
 
 ## Example, how to deploy Quay service
-```
+
+```yaml
 - hosts: quay.dev
   vars:
     fqdn: quay.dev
     self_signed_certs: true
     initial_config: false
+    quay_validate_cert: false
+    # NOTE: password needs to be at least 8 characters
+    quay_admin_password: password
     quay_users:
       admin:
         email: release@somemail.com
@@ -21,7 +25,8 @@
 ```
 
 Then on the host, you can try login:
-```
+
+```sh
 export GODEBUG=x509ignoreCN=0
 podman login quay.dev -u admin -padmin
 ```
@@ -29,14 +34,16 @@ podman login quay.dev -u admin -padmin
 ## Example Quay API calls
 
 All requests have been made with exported variables:
-```
+
+```sh
 TOKEN=<SOME TOKEN>
 REPOSITORY="admin/test"
 TAG="latest"
 ```
 
 ### Get repository informations
-```
+
+```sh
 curl -k -sSL -X "GET" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "https://localhost/api/v1/repository/$REPOSITORY" | jq
 
 --- output ---
@@ -103,7 +110,7 @@ variables:
 
 This is an example configuration:
 
-```
+```yaml
 quay_enable_prune: true
 
 quay_pruner_log_directory: /var/log/quay_tag_pruner

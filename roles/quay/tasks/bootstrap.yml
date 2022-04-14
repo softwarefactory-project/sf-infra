@@ -1,0 +1,72 @@
+---
+# NOTE: On first running, Quay service need to update database
+# tables, so the public.user table will not exists.
+- name: Wait for service to be running
+  wait_for:
+    port: 443
+    host: 0.0.0.0
+    delay: 10
+    timeout: 300
+
+- name: Check if user exists in quay
+  postgresql_query:
+    login_host: "{{ postgresql_host | default('localhost') }}"
+    db: quay
+    login_user: "{{ postgresql_user }}"
+    login_password: "{{ postgresql_password }}"
+    query: SELECT * FROM public.user WHERE username = %s
+    positional_args:
+      - "{{ quay_admin_user }}"
+  register: _quay_admin_user_exist
+  no_log: true
+
+# NOTE: The bootstrap can be done only on clean DB. In the request response,
+# you will get a token that is valid only for few hours, so create
+# the application after login.
+# After the deployment, create a new application in organization,
+# generate token with all permissions.
+# NOTE: This feature is available in Quay 3.6.
+- name: Bootstraping Quay service
+  block:
+    - name: Fail when admin password is not set
+      fail:
+        msg: "Please set quay_admin_password variable with at least 8 chars!"
+      when: quay_admin_password == ""
+
+    - name: Initialize user
+      uri:
+        url: "https://0.0.0.0/api/v1/user/initialize"
+        body_format: json
+        body: "{{ lookup('template','bootstrap.json.j2') }}"
+        method: POST
+        validate_certs: "{{ quay_validate_cert | default(true) }}"
+        status_code: "200"
+        return_content: true
+      until: "'access_token' in _admin_user.content"
+      retries: 6
+      delay: 10
+      register: _admin_user
+      no_log: true
+
+    - name: Set token as fact
+      set_fact:
+        admin_token: "{{ _admin_user.json.access_token }}"
+      no_log: true
+
+    - name: Copy token to the file
+      copy:
+        content: |
+          #!/bin/bash
+          export ADMIN_TOKEN={{ admin_token }}
+        dest: /var/data/quay/config/admin_token
+      no_log: true
+  when: not _quay_admin_user_exist.query_result
+
+- name: Create token file if exists
+  copy:
+    content: |
+      #!/bin/bash
+      export ADMIN_TOKEN={{ quay_admin_token }}
+    dest: /var/data/quay/config/admin_token
+  when: quay_admin_token != ""
+  no_log: true
