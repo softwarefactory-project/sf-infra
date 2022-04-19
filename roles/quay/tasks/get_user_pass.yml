@@ -1,12 +1,9 @@
 ---
 # NOTE: On first running, Quay service need to update database
 # tables, so the public.user table will not exists.
-# The Quay service have nginx inside the container which is running
-# on port 8443. With --net=host param on creating quay container,
-# this port is exposed.
 - name: Wait for service to be running
   wait_for:
-    port: 8443
+    port: 443
     host: 0.0.0.0
     delay: 10
     timeout: 300
