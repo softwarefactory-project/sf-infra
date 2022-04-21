@@ -15,6 +15,6 @@
     pod_param: >
       --network host
       -v /var/data/redis:/var/lib/redis/data:z
-      {{ container_images['redis'] | default('docker.io/redis:6.2.4') }}
+      {{ container_images['redis'] }}
       --requirepass "{{ redis_password }}"
   no_log: true

@@ -17,9 +17,9 @@ partitions:
 enable_clair: false
 
 container_images:
-  postgresql: "docker.io/postgres:alpine3.14"
-  redis: "docker.io/redis:6.2.4"
-  quay: "quay.io/projectquay/quay:v3.5.2"
+  postgresql: "quay.io/software-factory/postgres:13.5-alpine3.14"
+  redis: "quay.io/software-factory/redis:6.2.4"
+  quay: "quay.io/projectquay/quay:v3.6.2"
   clair: "quay.io/projectquay/clair:4.3.5"
 
 ssl_cert_options:

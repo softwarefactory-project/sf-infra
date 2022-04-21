@@ -28,7 +28,7 @@
           -e POSTGRES_PASSWORD={{ postgresql_password }}
           -e POSTGRES_DB={{ postgresql_db_name }}
           -e POSTGRES_ADMIN_PASSWORD={{ postgresql_admin_password }}
-          {{ container_images['postgresql'] | default('docker.io/postgres:alpine3.14') }}
+          {{ container_images['postgresql'] }}
       register: _postgresql_db_state
       no_log: true
 

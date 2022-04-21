@@ -13,7 +13,7 @@
           -e GODEBUG=x509ignoreCN=0
           -v /var/data/quay/config:/conf/stack:Z
           -v /var/data/quay/config/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt
-          {{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}
+          {{ container_images['quay'] }}
           repomirror
       when: self_signed_certs
 
@@ -26,7 +26,7 @@
           --network host
           --restart=always
           -v /var/data/quay/config:/conf/stack:Z
-          {{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}
+          {{ container_images['quay'] }}
           repomirror
       when: not self_signed_certs
   when: not initial_config
