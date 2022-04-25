@@ -5,6 +5,9 @@
   vars:
     registry_host: "{{ inventory_hostname }}"
   tasks:
+    - name: Get service facts
+      service_facts:
+
     - name: Replace cert
       block:
         - name: Stop Quay service
@@ -16,27 +19,7 @@
           service:
             name: clair
             state: stopped
-
-        # NOTE: we need to remove redirect before certbot starts doing its job.
-        - name: Set prerouting to port 8443
-          iptables:
-            table: nat
-            chain: PREROUTING
-            protocol: tcp
-            destination_port: 443
-            to_ports: 8443
-            jump: REDIRECT
-            state: absent
-
-        - name: Set prerouting to port 8080
-          iptables:
-            table: nat
-            chain: PREROUTING
-            protocol: tcp
-            destination_port: 80
-            to_ports: 8080
-            jump: REDIRECT
-            state: absent
+          when: "'clair' in services"
 
         - name: Run certbot
           become: true
@@ -51,49 +34,29 @@
             cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/clair.key && \
             chmod 0777 -R /var/data/quay/config/*.cert /var/data/quay/config/*key
 
-      # NOTE: We don't want to stop service even if something was wrong
-      # on generating new certs.
-      # We can assume, that the certs have not being copied to the destination
-      # dir, so service can start with old cert.
-      always:
-        - name: Set prerouting to port 8443
-          iptables:
-            table: nat
-            chain: PREROUTING
-            protocol: tcp
-            destination_port: 443
-            to_ports: 8443
-            jump: REDIRECT
-
-        - name: Set prerouting to port 8080
-          iptables:
-            table: nat
-            chain: PREROUTING
-            protocol: tcp
-            destination_port: 80
-            to_ports: 8080
-            jump: REDIRECT
-
         # To avoid situation that container got previous certificates state,
         # recreate containers.
-        - name: Remove containers
-          shell: "podman rm {{ item }}"
-          loop:
-            - clair
-            - quay
+        - name: Remove Quay container
+          shell: "podman rm quay"
 
-        - name: Recreate containers
-          shell: "/usr/local/bin/podman-{{ item }}.sh"
-          loop:
-            - clair
-            - quay
+        - name: Remove Clair container
+          shell: "podman rm clair"
+          when: "'clair' in services"
 
-        - name: Restart Quay service
-          service:
-            name: quay
-            state: restarted
+        - name: Recreate Quay container
+          shell: "/usr/local/bin/podman-quay.sh"
+
+        - name: Recreate Quay container
+          shell: "/usr/local/bin/podman-clair.sh"
+          when: "'clair' in services"
 
         - name: Restart Clair service
           service:
             name: clair
+            state: restarted
+          when: "'clair' in services"
+
+        - name: Restart Quay service
+          service:
+            name: quay
             state: restarted
