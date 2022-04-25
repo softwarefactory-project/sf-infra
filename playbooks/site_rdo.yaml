@@ -177,13 +177,6 @@
     - hostname
     - setup-ssl
     - quay
-  post_tasks:
-    # Stop clair service due it is using a lot IOPS.
-    - name: Ensure Clair service is stopped
-      become: true
-      service:
-        name: clair
-        state: stopped
   vars:
     self_signed_certs: false
     initial_config: false
