@@ -54,7 +54,7 @@
           -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
           -v /var/data/quay/anchors/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt:Z \
           -v /var/data/quay/config/extra_ca_certs:/conf/stack/extra_ca_certs:Z \
-          "{{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}" \
+          {{ container_images['quay'] }} \
           config secret
       when: self_signed_certs
 
@@ -71,7 +71,7 @@
           -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
           -v /var/data/quay/anchors/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt:Z \
           -v /var/data/quay/config/extra_ca_certs:/conf/stack/extra_ca_certs:Z \
-          "{{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}" \
+          {{ container_images['quay'] }} \
           config secret
       when: not self_signed_certs
 
@@ -113,7 +113,7 @@
           --privileged=true
           -v /var/data/quay/config:/conf/stack:Z
           -v /var/data/quay/storage:/datastorage:Z
-          {{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}
+          {{ container_images['quay'] }}
       when: not self_signed_certs
 
     - name: Create Quay container - ignore CN
@@ -129,7 +129,7 @@
           -e GODEBUG=x509ignoreCN=0
           -v /var/data/quay/config:/conf/stack:Z
           -v /var/data/quay/storage:/datastorage:Z
-          {{ container_images['quay'] | default('quay.io/projectquay/quay:v3.5.2') }}
+          {{ container_images['quay'] }}
       when: self_signed_certs
 
     - name: Restart quay registry when config changed
