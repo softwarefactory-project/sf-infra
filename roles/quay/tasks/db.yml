@@ -29,6 +29,7 @@
           -e POSTGRES_DB={{ postgresql_db_name }}
           -e POSTGRES_ADMIN_PASSWORD={{ postgresql_admin_password }}
           {{ container_images['postgresql'] }}
+          {{ postgresql_additional_parameters }}
       register: _postgresql_db_state
       no_log: true
 

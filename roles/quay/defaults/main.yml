@@ -7,6 +7,7 @@ postgresql_password: 'quaypass'
 postgresql_db_name: 'quay'
 postgresql_admin_password: 'adminpass'
 postgresql_partition: ''
+postgresql_additional_parameters: "-c shared_buffers=256MB -c max_connections=2000"
 
 redis_password: 'strongpassword'
 
