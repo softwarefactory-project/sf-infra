@@ -10,11 +10,15 @@
     initial_config: false
     quay_validate_cert: false
     # NOTE: password needs to be at least 8 characters
-    quay_admin_password: password
     quay_users:
       admin:
-        email: release@somemail.com
-        password: admin
+        email: admin@somemail.com
+        password: password
+        token: ""
+      someuser:
+        email: someuser@someemail.com
+        password: password
+        token: ""
   tasks:
     - name: Setup quay
       include_role:
@@ -90,8 +94,8 @@ variables:
 - `quay_enable_prune`: If set to `true`, the pruning script will be enabled.
 - `quay_pruner_log_directory`: This is the directory that will store the
   pruning script logs.
-- `quay_organizations`: This is a list of all the organizations to be
-  analyzed. Each of the items in the list must contain the following:
+- `quay_organizations`: This is a list of users and all organizations related
+  to that user to be analyzed. Each of the items in the list must contain the following:
   - `name`: Name of the organization.
   - `token`: For each organization, a unique OAuth2 token must be created,
     following the instructions from the [Quay API documentation](https://docs.quay.io/api/).
@@ -116,7 +120,11 @@ quay_enable_prune: true
 quay_pruner_log_directory: /var/log/quay_tag_pruner
 
 quay_organizations:
+  tripleo:
     - name: tripleomaster
+      token: 'testtoken'
+      prune_days: 7
+    - name: tripleowallaby
       token: 'testtoken'
       prune_days: 7
 

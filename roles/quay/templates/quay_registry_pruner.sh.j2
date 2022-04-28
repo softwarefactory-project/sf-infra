@@ -1,6 +1,10 @@
 #!/bin/bash
 # This script wraps around quay_tag_pruner and quay_tag_keeplist.
 
-{% for org in quay_organizations %}
+{% for user in quay_organizations %}
+{% for org in user %}
+{% if 'prune_days' in org %}
 /usr/local/bin/quay_tag_pruner --days {{ org.prune_days }} --keeplist "$(/usr/local/bin/quay_tag_keeplist)" --token "{{ org.token }}" {{ org.name }} --confirm
+{% endif %}
+{% endfor %}
 {% endfor %}

@@ -87,32 +87,36 @@ secret_key: !vault |
           35306636653930323366383361373166323935363237663539346230653534383032313333366662
           6261626464303239393634373734373037373838643336383561
 
-quay_admin_user: admin
-quay_admin_email: release@softwarefactory-project.io
-quay_admin_password: !vault |
-                     $ANSIBLE_VAULT;1.1;AES256
-                     65653031626164613738333431623632343433323762633139653435636138333334663233373435
-                     6465306163303935616438373331383161343734326335350a386531373161626136383961323063
-                     33353364643061313636333765326663343831316266386234353239343534306566363238303132
-                     3533393062613731650a653666383938373135326266356136643065386337386534633630333662
-                     35653438333538646464633537396133303334653563626431326433323231653737353565366566
-                     3261386434303166316334383666376634613734306539623361
-# NOTE: The bootstrap token is only valid for few hours after boostrap
-# the Quay service. In our case, we create an application inside the
-# "software-factory" organization, with name "superapp" that later will be
-# available in /var/data/quay/config/admin_token file.
-quay_admin_token: !vault |
-                  $ANSIBLE_VAULT;1.1;AES256
-                  39323566353061326430373931616433613735323734393137333933636433663036616432643464
-                  3135373337343565333936303262666131346534663939320a393562663738633036363263663534
-                  39356636313463303032633663373461633134383239393939616539356634373037363338616639
-                  3236363739303238630a663830643338616564343334653431653338343064643535363030303665
-                  36666637373165633136646166326465313638626632383338363036356337323764626435653931
-                  6533316334313737663261346464383931356635373336353934
-
-# NOTE: The Quay API does not have an endpoint to create users (only robots can be created),
-# so we are inserting other users directly into the DB.
+# NOTE: Admin password needs to be at least 8 chars
+# NOTE: the email address needs to be unique
+# Structure looks like:
+#  <user>:
+#    email: <unique email address>
+#    password: <password>
+#    token: <token that is created manually in the application that is in config organization with administrator privileges>
 quay_users:
+  admin:
+    email: release@softwarefactory-project.io
+    password: !vault |
+              $ANSIBLE_VAULT;1.1;AES256
+              65653031626164613738333431623632343433323762633139653435636138333334663233373435
+              6465306163303935616438373331383161343734326335350a386531373161626136383961323063
+              33353364643061313636333765326663343831316266386234353239343534306566363238303132
+              3533393062613731650a653666383938373135326266356136643065386337386534633630333662
+              35653438333538646464633537396133303334653563626431326433323231653737353565366566
+              3261386434303166316334383666376634613734306539623361
+    # NOTE: The bootstrap token is only valid for few hours after boostrap
+    # the Quay service. In our case, we create an application inside the
+    # "software-factory" organization, with name "superapp" that later will be
+    # available in /var/data/quay/config/admin_token file.
+    token: !vault |
+           $ANSIBLE_VAULT;1.1;AES256
+           39323566353061326430373931616433613735323734393137333933636433663036616432643464
+           3135373337343565333936303262666131346534663939320a393562663738633036363263663534
+           39356636313463303032633663373461633134383239393939616539356634373037363338616639
+           3236363739303238630a663830643338616564343334653431653338343064643535363030303665
+           36666637373165633136646166326465313638626632383338363036356337323764626435653931
+           6533316334313737663261346464383931356635373336353934
   sf:
     email: softwarefactory-operations-team@redhat.com
     password: !vault |
@@ -123,6 +127,7 @@ quay_users:
               3036356162653533660a626332316662396561653336646430626534326562336433386435336338
               33663432323361373863376330616664663239633631636365313237643538326261663035626265
               3535326335346363353238316666393234616164346664626566
+    token: ""
   tripleo:
     email: tripleo@redhat.com
     password: !vault |
@@ -133,6 +138,7 @@ quay_users:
               3633366435396339350a623363613333326263356536376361323738313133303261336531376566
               61313432373166356330303938653061663531623966656263343037616430323263316666333732
               3134383637633139663666353134623066306130326436643861
+    token: ""
   zuul:
     email: zuul@softwarefactory-project.io
     password: !vault |
@@ -143,10 +149,20 @@ quay_users:
               6661373437663735640a346432316561336265343435353836393037626435656266646663343033
               66333737396138353839343931383861363162393934363030366261366333623333623935623934
               6439323961663966396563623136316132613731373161653463
+    token: ""
 
 ### Quay container image pruner ###
 quay_enable_prune: true
+
+### Automatization organization creation in Quay registry ###
+# Structure looks like:
+#   <user>
+#     - name: organization
+#       token: <robot token>
+#       prune_days: <retention days>
+quay_api_url: https://quay.rdoproject.org/api/v1
 quay_organizations:
+  tripleo:
     - name: tripleomastercentos9
       token: !vault |
                 $ANSIBLE_VAULT;1.1;AES256
@@ -157,9 +173,25 @@ quay_organizations:
                 66306133303866336539616431616132306230326435643864646537396662366436633165346632
                 3434643939343035636532653633333130393664633534306637
       prune_days: 7
+    - name: tripleotraincentos8
+      token: ""
+      prune_days: 7
+    - name: tripleotraincentos7
+      token: ""
+      prune_days: 7
+    - name: tripleowallabycentos9
+      token: ""
+      prune_days: 7
+    - name: tripleowallabycentos8
+      token: ""
+      prune_days: 7
 
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
+  - api-centos8-train
+  - api-centos-train
+  - api-centos8-wallaby
+  - api-centos9-wallaby
 
 quay_pruner_extended_keeplist:
   - current-tripleo

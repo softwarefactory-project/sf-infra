@@ -1,6 +1,6 @@
 {
-    "username": "{{ quay_admin_user | default('admin')}}",
-    "password": "{{ quay_admin_password }}",
-    "email": "{{ quay_admin_email | default('softwarefactory-operations-team@redhat.com')}}",
+    "username": "admin",
+    "password": "{{ quay_users['admin']['password'] }}",
+    "email": "{{ quay_users['admin']['email'] }}",
     "access_token": true
 }

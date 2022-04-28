@@ -1,0 +1,27 @@
+---
+# NOTE: The application token is connected to the userspace.
+# In other words, 'admin' user can not create organization for
+# another user without its token. In that case, we read the
+# token for the user, which got admin privileges and then
+# we operate on that.
+# To generate that token, login as a user via web client
+# create organization "config", then create new application that
+# have all privileges.
+- name: Check if token file exists
+  stat:
+    path: "/var/data/quay/config/{{ user_organizations.key }}_token"
+  register: _config_file
+
+- name: Get the token from file
+  become: true
+  shell: |
+    grep -i admin_token /var/data/quay/config/{{ user_organizations.key }}_token | cut -f2 -d'='
+  register: token
+  no_log: true
+  when: _config_file.stat.exists
+
+- name: Set user token as fact
+  set_fact:
+    "quay_{{ user_organizations.key }}_token": "{{ token.stdout }}"
+  no_log: true
+  when: _config_file.stat.exists

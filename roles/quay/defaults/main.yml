@@ -20,20 +20,26 @@ container_images:
 quay_superusers:
   - admin
 
-quay_admin_user: admin
-quay_admin_password: ""
-quay_admin_token: ""
-
 quay_contact_info:
   webpage: https://www.rdoproject.org/
   logo_url: ''
 
-# Configure additional accounts.
-# NOTE: admin user is not generated automatically.
+# NOTE: password needs to be at least 8 chars for admin
+# NOTE: user email needs to be unique
+# Structure looks like:
+#  <user>:
+#    email: <unique email address>
+#    password: <password>
+#    token: <token that is created manually in the application that is in config organization with administrator privileges>
 quay_users:
-  test:
-    email: test@test.com
-    password: test1234
+  admin:
+    email: admin@test.com
+    password: ""
+    token: ""
+#  test:
+#    email: test@test.com
+#    password: test1234
+#    token: ""
 
 enable_clair: true
 # NOTE: The clair service seems to work without generating PSK
@@ -52,7 +58,13 @@ quay_enable_prune: false
 
 quay_pruner_log_directory: /var/log/quay_tag_pruner
 
+# Structure looks like:
+#   <user>
+#     - name: organization
+#       token: <robot token>
+#       prune_days: <retention days>
 quay_organizations:
+  user:
     - name: tripleomaster
       token: 'testtoken'
       prune_days: 7

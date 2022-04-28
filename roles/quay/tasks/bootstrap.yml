@@ -1,4 +1,14 @@
 ---
+- name: Fail when admin password is not set
+  fail:
+    msg: "Please set admin user and set password with at least 8 chars!"
+  when:
+    - "'admin' not in quay_users"
+    - "'password' not in quay_users['admin']"
+    - "'email' not in quay_users['admin']"
+    - "quay_users['admin']['password'] == ''"
+    - "quay_users['admin']['email'] == ''"
+
 # NOTE: On first running, Quay service need to update database
 # tables, so the public.user table will not exists.
 - name: Wait for service to be running
@@ -16,7 +26,7 @@
     login_password: "{{ postgresql_password }}"
     query: SELECT * FROM public.user WHERE username = %s
     positional_args:
-      - "{{ quay_admin_user }}"
+      - "admin"
   register: _quay_admin_user_exist
   no_log: true
 
@@ -28,11 +38,6 @@
 # NOTE: This feature is available in Quay 3.6.
 - name: Bootstraping Quay service
   block:
-    - name: Fail when admin password is not set
-      fail:
-        msg: "Please set quay_admin_password variable with at least 8 chars!"
-      when: quay_admin_password == ""
-
     - name: Initialize user
       uri:
         url: "https://0.0.0.0/api/v1/user/initialize"
@@ -61,12 +66,3 @@
         dest: /var/data/quay/config/admin_token
       no_log: true
   when: not _quay_admin_user_exist.query_result
-
-- name: Create token file if exists
-  copy:
-    content: |
-      #!/bin/bash
-      export ADMIN_TOKEN={{ quay_admin_token }}
-    dest: /var/data/quay/config/admin_token
-  when: quay_admin_token != ""
-  no_log: true

@@ -1,0 +1,5 @@
+---
+quay_api_url: ""
+robot_name: "cirobot"
+team_name: "creators"
+quay_insecure: false
