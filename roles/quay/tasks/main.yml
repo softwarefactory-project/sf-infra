@@ -36,6 +36,9 @@
 - name: Setup quay
   include_tasks: quay.yml
 
+- name: Bootstrap Quay
+  include_tasks: bootstrap.yml
+
 - name: Get user passwords
   include_tasks: get_user_pass.yml
   with_dict: "{{ quay_users }}"

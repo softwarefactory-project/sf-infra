@@ -118,6 +118,12 @@ SECURITY_SCANNER_V4_PSK: {{ clair_psk_key }}
 
 SERVER_HOSTNAME: {{ inventory_hostname }}
 SETUP_COMPLETE: true
+
+# Initialize admin user - require Quay > 3.5.X
+# NOTE: The DB needs to be empty to create user with request.
+FEATURE_USER_INITIALIZE: true
+BROWSER_API_CALLS_XHR_ONLY: false
+
 SUPER_USERS:
 {% for user in quay_superusers %}
     - {{ user }}

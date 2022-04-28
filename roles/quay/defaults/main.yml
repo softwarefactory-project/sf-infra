@@ -19,6 +19,10 @@ container_images:
 quay_superusers:
   - admin
 
+quay_admin_user: admin
+quay_admin_password: ""
+quay_admin_token: ""
+
 quay_contact_info:
   webpage: https://www.rdoproject.org/
   logo_url: ''
