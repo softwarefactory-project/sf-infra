@@ -1,7 +1,7 @@
 # This file is managed by the ./vars/directory-tree.dhall file.
 Host *
     ControlMaster auto
-    ControlPath /run/user/1000/%r@%h:%p
+    ControlPath ~/.ssh/control-%r@%h:%p
     PubkeyAcceptedKeyTypes +ssh-rsa
 
 Host mirror.regionone.vexxhost.rdoproject.org
