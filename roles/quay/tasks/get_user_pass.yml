@@ -1,13 +1,4 @@
 ---
-# NOTE: On first running, Quay service need to update database
-# tables, so the public.user table will not exists.
-- name: Wait for service to be running
-  wait_for:
-    port: 443
-    host: 0.0.0.0
-    delay: 10
-    timeout: 300
-
 - name: Check if user exists in quay
   postgresql_query:
     login_host: "{{ postgresql_host | default('localhost') }}"
@@ -22,37 +13,34 @@
 
 - name: Configure user
   block:
-    - name: Generate user hash
-      shell: |
-        python3 -c 'import bcrypt; print(bcrypt.hashpw(b"{{ user_item.value.password }}", bcrypt.gensalt(12)).decode("utf-8"))'
-      register: _quay_user_hash
+    - name: Fail when admin token is not available
+      fail:
+        msg: "No admin token provided: bootstrap is done, but token for admin in quay_users is not set"
+      when: "admin_token is not defined and 'token' not in quay_users['admin']"
+
+    - name: Create user {{ user_item.key }}
+      uri:
+        url: "https://0.0.0.0/api/v1/superuser/users/"
+        body_format: json
+        body: "{{ lookup('template','user.json.j2') }}"
+        method: POST
+        validate_certs: "{{ quay_validate_cert | default(true) }}"
+        headers:
+          Authorization: "Bearer {{ admin_token | default(quay_users['admin']['token']) }}"
+        status_code: 200, 400
+        return_content: true
+      register: _user_response
       no_log: true
 
-    - name: Generate user uuid
-      shell: |
-        uuidgen
-      register: _quay_user_uuid
-
-    # NOTE: table structure looks like:
-    # "company": null, "creation_date": "2021-08-03T08:42:56.966096",
-    # "email": "some@email.org", "enabled": true, "family_name": null,
-    # "given_name": null,"id": 1, "invalid_login_attempts": 0,
-    # "invoice_email": false, "invoice_email_address": null,
-    # "last_accessed": null, "last_invalid_login": "2021-08-03T08:42:56.966092",
-    # "location": null, "maximum_queued_builds_count": null,
-    # "organization": false, "password_hash": "my_bcrypt_hash",
-    # "removed_tag_expiration_s": 1209600, "robot": false, "stripe_id": null,
-    # "username": "admin", "uuid": "12b32466-1201-4d91-bab0-3cd43a106b12",
-    # "verified": true
-    - name: Insert user into DB
-      postgresql_query:
-        login_host: "{{ postgresql_host | default('localhost') }}"
-        db: quay
-        login_user: "{{ postgresql_user }}"
-        login_password: "{{ postgresql_password }}"
-        query: |
-          INSERT INTO public.user (email, enabled, invoice_email, last_invalid_login, organization, password_hash, robot, username, uuid, verified)
-          VALUES ('{{ user_item.value.email }}', 'true', 'false', '1970-01-01T00:00:00.000000', 'false', '{{ _quay_user_hash.stdout }}', 'false', '{{ user_item.key }}', '{{ _quay_user_uuid.stdout }}', 'true')
+    - name: Write {{ user_item.key }} to a file
+      become: true
+      lineinfile:
+        path: "/var/data/quay/config/{{ user_item.key }}_token"
+        regexp: '^export USER_PASSWORD='
+        line: 'export USER_PASSWORD="{{ _user_response.json.password }}"'
+        mode: "0400"
+        create: true
+      when: "'json' in _user_response"
       no_log: true
 
   when: not _quay_user_exist.query_result
