@@ -98,6 +98,7 @@ all:
         ze05.softwarefactory-project.io: {}
         ze06.softwarefactory-project.io: {}
         ze07.softwarefactory-project.io: {}
+        zk01.softwarefactory-project.io: {}
         zm01.softwarefactory-project.io: {}
         zm02.softwarefactory-project.io: {}
         zm03.softwarefactory-project.io: {}
@@ -293,6 +294,10 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     ze07.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    zk01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

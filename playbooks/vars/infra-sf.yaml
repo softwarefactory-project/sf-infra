@@ -258,6 +258,17 @@ servers:
       - cs-k1s
   - auto_ip: false
     boot_from_volume: yes
+    flavor: "4vcpus_8gb"
+    image: centos-7-1907
+    key_name: sf-infra-key
+    name: zk01.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+  - auto_ip: false
+    boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key

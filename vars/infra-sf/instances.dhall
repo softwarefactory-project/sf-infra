@@ -201,6 +201,15 @@ let instances =
             )
         }
       , Instance::{
+        , name = "zk01"
+        , groups = [ "sf" ]
+        , connection = OS.CentOS.`7.0`.connection
+        , server = Some Infra.Server::{
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , image = OS.CentOS.`7.0`.image.name
+          }
+        }
+      , Instance::{
         , name = "zs"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
