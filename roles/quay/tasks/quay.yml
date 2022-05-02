@@ -18,7 +18,8 @@
     src: config.yaml.j2
     dest: /var/data/quay/config/config.yaml
     mode: '0777'
-  register: _quay_config_file
+  notify:
+    - 'Restart quay registry when config changed'
 
 - name: Initial setup of Quay registry
   become: true
@@ -131,11 +132,5 @@
           -v /var/data/quay/storage:/datastorage:Z
           {{ container_images['quay'] }}
       when: self_signed_certs
-
-    - name: Restart quay registry when config changed
-      service:
-        name: quay
-        state: restarted
-      when: _quay_config_file.changed
 
   when: not initial_config

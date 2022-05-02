@@ -39,6 +39,8 @@
 - name: Bootstrap Quay
   include_tasks: bootstrap.yml
 
+- meta: flush_handlers
+
 - name: Get user passwords
   include_tasks: get_user_pass.yml
   with_dict: "{{ quay_users }}"

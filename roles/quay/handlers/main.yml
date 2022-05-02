@@ -1,0 +1,6 @@
+---
+- name: Restart quay registry when config changed
+  become: true
+  service:
+    name: quay
+    state: restarted
