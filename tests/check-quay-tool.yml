@@ -1,0 +1,58 @@
+---
+- name: Check
+  hosts: quay.dev
+  vars:
+    fqdn: quay.dev
+    self_signed_certs: true
+    initial_config: false
+    quay_validate_cert: false
+    quay_users:
+      admin:
+        email: admin@quay.dev
+        password: password
+      sf:
+        email: test@quay.dev
+        password: password
+    database_secret_key: 58995dde-5a37-53a1-ab79-835dfa2bc701
+    secret_key: 171e632d-c0a6-56ac-be90-5ee27d283d5d
+    enable_clair: false
+    enable_mirror: false
+
+    postgresql_user: quayuser
+    postgresql_password: quaypass
+    organization: fakeorg
+    team_name: testteam
+    robot_name: bender
+    api_url: https://{{ fqdn }}/api/v1
+    images:
+      - name: registry.fedoraproject.org/fedora:36
+        local_name: "{{ fqdn }}/{{ organization }}/fedora:36"
+        repo_name: fedora
+      - name: quay.io/centos/centos:stream8
+        local_name: "{{ fqdn }}/{{ organization}}/centos:stream8"
+        repo_name: centos
+    podman_parameters: "--tls-verify=false "
+  tasks:
+    - include_role:
+        name: hostname
+      when: zuul is not defined
+
+    - include_role:
+        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/hostname"
+        tasks_from: main.yml
+      when: zuul is defined
+
+    - name: Setup Quay service
+      include_role:
+        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/python-quay-tool'].src_dir }}/ansible/roles/check_service"
+        tasks_from: setup.yml
+
+    - name: Prepare required repositories
+      include_role:
+        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/python-quay-tool'].src_dir }}/ansible/roles/check_service"
+        tasks_from: prepare.yml
+
+    - name: Run quaytool functional tests
+      include_role:
+        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/python-quay-tool'].src_dir }}/ansible/roles/check_service"
+        tasks_from: check.yml
