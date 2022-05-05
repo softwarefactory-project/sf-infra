@@ -28,5 +28,5 @@
     minute: "0"
     hour: "*/1"
     user: root
-    job: "/usr/local/bin/check-elasticsearch.py --key /etc/elasticsearch/certs/elasticsearch-admin.key --cert /etc/elasticsearch/certs/elasticsearch-admin.crt --ca-cert  /etc/elasticsearch/certs/localCA.pem --insecure --elasticsearch-url https://{{ ansible_fqdn }}:9200"
+    job: "/usr/local/bin/check-elasticsearch.py --key /etc/opensearch/certs/elasticsearch-admin.key --cert /etc/opensearch/certs/elasticsearch-admin.crt --ca-cert  /etc/opensearch/certs/localCA.pem --insecure --elasticsearch-url https://{{ ansible_fqdn }}:9200"
   become: true
