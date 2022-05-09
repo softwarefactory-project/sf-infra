@@ -1,5 +1,5 @@
 bind_mounts:
-  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "elasticsearch", group: "elasticsearch"}
+  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "opensearch", group: "opensearch"}
   - {source: '/mnt/influxdb', dest: '/var/lib/influxdb', owner: "influxdb", group: "influxdb"}
 
 external_elk:
