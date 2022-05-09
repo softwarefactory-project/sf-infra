@@ -24,7 +24,7 @@
         - name: Run certbot
           become: true
           shell: |
-            /usr/bin/certbot certonly  -d quay.rdoproject.org --standalone
+            /usr/bin/certbot renew
 
         - name: Replace certs
           shell: |
@@ -50,6 +50,7 @@
           shell: "/usr/local/bin/podman-clair.sh"
           when: "'clair' in services"
 
+      always:
         - name: Restart Clair service
           service:
             name: clair
