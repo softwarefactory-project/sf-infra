@@ -12,35 +12,31 @@
 
 import argparse
 from functools import partial
-import subprocess
-
-
-def run(cmd, show=False):
-    o = subprocess.check_output(cmd, shell=True)
-    if show:
-        print(o)
-    return o.decode("utf-8").strip()
-
-
-def get_tenants(zuul_url):
-    url = zuul_url + "/tenants"
-    return run("curl -s %s | jq -r '.[] | .name'" % url).split("\n")
+from sfinfra_lib import run, get_tenants
 
 
 def get_builds(tenant, zuul_url):
     url = zuul_url + "/tenant/%s/status" % tenant
+    print("Checking tenant", url)
     buildsets = set()
     for build in run(
         "curl -s %s | "
         "jq --arg tenant %s -r -f get_build_info.jq" % (url, tenant)
     ).split("\n"):
-        buildset = " ".join(build.split("#")[0])
+        buildset = build.split("#")[0]
         if buildset not in buildsets:
             buildsets.add(buildset)
             yield build
 
 
 if __name__ == "__main__":
+    try:
+        import os
+        token = os.environ["ZUUL_AUTH_TOKEN"]
+    except Exception:
+        print("ZUUL_AUTH_TOKEN env is missing, run create-token first")
+        exit(1)
+
     parser = argparse.ArgumentParser(
         description="""
 Evacuate an executor.
@@ -61,7 +57,7 @@ then reenqueued on other available executors."""
     f("ssh %s sudo zuul-executor graceful" % args.executor)
 
     cmds = [
-        ("zuul " + cmd)
+        ("zuul --auth-token '%s' %s" % (token, cmd))
         for tenant in get_tenants(args.zuul_api_url)
         for cmd in filter(
             lambda cmd: cmd.endswith(args.executor),
@@ -71,6 +67,8 @@ then reenqueued on other available executors."""
 
     if args.dry:
         print("\n".join(cmds))
+        if not cmds:
+            exit(0)
 
     with open("dequeue-script.sh", "w") as ds:
         ds.write("\n".join(cmds) + "\n")

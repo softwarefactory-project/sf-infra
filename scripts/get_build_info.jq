@@ -11,6 +11,13 @@ def get_inf(inf):
   + " --project " + inf.project
   + " # " + inf.worker.job + " running on " + inf.worker.host;
 
+def get_worker(finger_url):
+  if (finger_url|type) == "string" then
+    (finger_url | split("finger://") | .[1] | split(":") | .[0])
+  else
+    "unknown"
+  end;
+
 # Get pipelines
 .pipelines[] |
   # Keep the pipeline name
@@ -23,7 +30,7 @@ def get_inf(inf):
       ref: .ref,
       id: .id,
       project: .project_canonical,
-      worker: (.jobs[] | { result: .result, job: .name, host: .worker.hostname })
+      worker: (.jobs[] | { result: .result, job: .name, host: get_worker(.finger_url) })
     } as $inf |
   if $inf.worker.result == null then
   [
