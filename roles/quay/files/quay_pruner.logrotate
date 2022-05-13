@@ -1,0 +1,10 @@
+/var/log/quay_tag_pruner/*log
+{
+    rotate 14
+    daily
+    missingok
+    dateext
+    copytruncate
+    notifempty
+    compress
+}
