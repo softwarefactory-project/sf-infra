@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
   await page.setViewport({width: 1920, height: 1080 })
 {% for board in dashboards %}
   await page.goto('http://localhost:3000/dashboards',  {waitUntil: 'networkidle0'});
-  await page.click("[aria-label='Dashboard search item {{ board }}']")
+  await page.click("[data-testid='data-testid Dashboard search item {{ board }}']")
   await page.waitForNavigation({waitUntil: 'networkidle0'})
   await page.waitForTimeout(5000)
   await page.screenshot({path: 'log/example-{{ board }}.png'});

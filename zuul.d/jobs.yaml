@@ -272,9 +272,13 @@
     nodeset:
       nodes:
         - name: primary
-          label: rdo-centos-8
+          label: rdo-centos-stream
     files:
       - ^roles/grafana/.*$
+      - ^tests/grafana-dash.yml$
+      - ^tests/post-grafana-dash.yml$
+      - ^tests/pre-grafana-dash.yml$
+      - ^tests/templates/grafana-screenshots.js.j2$
 
 - project:
     check:
