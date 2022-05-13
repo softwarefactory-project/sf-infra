@@ -32,6 +32,16 @@
           npm i puppeteer
         chdir: "{{ ansible_user_dir }}"
 
+    - name: Create required dirs for Grafana
+      file:
+        path: "/etc/grafana/provisioning/{{ item  }}"
+        state: directory
+      loop:
+        - dashboards
+        - datasources
+        - plugins
+      become: true
+
     - name: Find all dashboards
       shell:
         cmd: |
