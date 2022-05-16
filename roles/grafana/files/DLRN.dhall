@@ -5,6 +5,8 @@ let Grafana = ./Grafana.dhall
 
 let dlrn_worker_list =
       [ "centos9-master-uc"
+      , "centos9-xena"
+      , "centos9-wallaby"
       , "centos8-master-uc"
       , "centos8-xena"
       , "centos8-wallaby"

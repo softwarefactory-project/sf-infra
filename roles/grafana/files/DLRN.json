@@ -66,6 +66,22 @@
           "refId": "centos9-master-uc"
         },
         {
+          "expr": "dlrn_builds_total{instance=\"centos9-xena\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-xena",
+          "refId": "centos9-xena"
+        },
+        {
+          "expr": "dlrn_builds_total{instance=\"centos9-wallaby\"}",
+          "format": "time_series",
+          "instant": false,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-wallaby",
+          "refId": "centos9-wallaby"
+        },
+        {
           "expr": "dlrn_builds_total{instance=\"centos8-master-uc\"}",
           "format": "time_series",
           "instant": false,
@@ -234,6 +250,22 @@
           "refId": "centos9-master-uc"
         },
         {
+          "expr": "increase(dlrn_builds_total{instance=\"centos9-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-xena",
+          "refId": "centos9-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_total{instance=\"centos9-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-wallaby",
+          "refId": "centos9-wallaby"
+        },
+        {
           "expr": "increase(dlrn_builds_total{instance=\"centos8-master-uc\"}[24h])",
           "format": "time_series",
           "instant": true,
@@ -385,6 +417,22 @@
           "refId": "centos9-master-uc"
         },
         {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos9-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-xena",
+          "refId": "centos9-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos9-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-wallaby",
+          "refId": "centos9-wallaby"
+        },
+        {
           "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-master-uc\"}[24h])",
           "format": "time_series",
           "instant": true,
@@ -534,6 +582,22 @@
           "intervalFactor": 1,
           "legendFormat": "centos9-master-uc",
           "refId": "centos9-master-uc"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos9-xena\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-xena",
+          "refId": "centos9-xena"
+        },
+        {
+          "expr": "increase(dlrn_builds_failed_total{instance=\"centos9-wallaby\"}[24h])",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "centos9-wallaby",
+          "refId": "centos9-wallaby"
         },
         {
           "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-master-uc\"}[24h])",
