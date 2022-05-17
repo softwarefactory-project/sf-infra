@@ -8,6 +8,8 @@ let dlrn_worker_list =
       , "centos9-xena"
       , "centos9-wallaby"
       , "centos8-master-uc"
+      , "centos9-yoga"
+      , "centos8-yoga"
       , "centos8-xena"
       , "centos8-wallaby"
       , "centos8-victoria"
