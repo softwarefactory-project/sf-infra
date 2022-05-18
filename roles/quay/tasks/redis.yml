@@ -17,4 +17,4 @@
       -v /var/data/redis:/var/lib/redis/data:z
       {{ container_images['redis'] }}
       --requirepass "{{ redis_password }}"
-  no_log: true
+  no_log: hide_sensitive_logs

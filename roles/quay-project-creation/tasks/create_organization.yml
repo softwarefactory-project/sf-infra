@@ -1,34 +1,42 @@
 ---
+# FIXME: We need to source the file before running quaytool command
+# to get the token. The `search_string` attribute for lineinfile is not
+# available in current version of Ansible that is installed in Zuuul CI.
 - name: Create organizations and users for {{ user_organizations.key }}
   block:
     - name: Create organization
       shell: |
-        quaytool --api-url {{ quay_api_url }} --token {{ vars['quay_' + user_organizations.key + '_token' ] }} --organization {{ item['name'] }} --create-organization {% if quay_insecure %} --insecure {% endif %}
+        source /var/data/quay/config/{{ user_organizations.key }}_token
+        quaytool --api-url {{ quay_api_url }} --token $ADMIN_TOKEN --organization {{ item['name'] }} --create-organization {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
-      no_log: true
+      no_log: hide_sensitive_logs
 
     - name: Create robot user for user {{ user_organizations.key }}
       shell: |
-        quaytool --api-url {{ quay_api_url }} --token {{ vars['quay_' + user_organizations.key + '_token' ] }} --organization {{ item['name'] }} --robot {{ robot_name }} --create-robot {% if quay_insecure %} --insecure {% endif %}
+        source /var/data/quay/config/{{ user_organizations.key }}_token
+        quaytool --api-url {{ quay_api_url }} --token $ADMIN_TOKEN --organization {{ item['name'] }} --robot {{ robot_name }} --create-robot {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
-      no_log: true
+      no_log: hide_sensitive_logs
 
     - name: Create default permissions for the robot user - write permissions
       shell: |
-        quaytool --api-url {{ quay_api_url }} --token {{ vars['quay_' + user_organizations.key + '_token' ] }} --organization {{ item['name'] }} --user {{ item['name'] }}+{{ robot_name }} --create-prototype {% if quay_insecure %} --insecure {% endif %}
+        source /var/data/quay/config/{{ user_organizations.key }}_token
+        quaytool --api-url {{ quay_api_url }} --token $ADMIN_TOKEN --organization {{ item['name'] }} --user {{ item['name'] }}+{{ robot_name }} --create-prototype {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
-      no_log: true
+      no_log: hide_sensitive_logs
 
     - name: Create creators team that will allow creating new repositories by robot
       shell: |
-        quaytool --api-url {{ quay_api_url }} --token {{ vars['quay_' + user_organizations.key + '_token' ] }} --organization {{ item['name'] }} --team {{ team_name }} --create-team {% if quay_insecure %} --insecure {% endif %}
+        source /var/data/quay/config/{{ user_organizations.key }}_token
+        quaytool --api-url {{ quay_api_url }} --token $ADMIN_TOKEN --organization {{ item['name'] }} --team {{ team_name }} --create-team {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
-      no_log: true
+      no_log: hide_sensitive_logs
 
     - name: Add robot user to the team
       shell: |
-        quaytool --api-url {{ quay_api_url }} --token {{ vars['quay_' + user_organizations.key + '_token' ] }} --organization {{ item['name'] }} --team {{ team_name }} --user {{ item['name'] }}+{{ robot_name }} --add-member {% if quay_insecure %} --insecure {% endif %}
+        source /var/data/quay/config/{{ user_organizations.key }}_token
+        quaytool --api-url {{ quay_api_url }} --token $ADMIN_TOKEN --organization {{ item['name'] }} --team {{ team_name }} --user {{ item['name'] }}+{{ robot_name }} --add-member {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
-      no_log: true
+      no_log: hide_sensitive_logs
 
   when: "{{ 'quay_' + user_organizations.key + '_token' }} is defined"

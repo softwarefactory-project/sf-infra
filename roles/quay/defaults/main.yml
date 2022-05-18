@@ -1,4 +1,6 @@
 ---
+# NOTE: the hide_sensitive_logs is set to false in Zuul CI jobs.
+hide_sensitive_logs: true
 self_signed_certs: true
 initial_config: false
 

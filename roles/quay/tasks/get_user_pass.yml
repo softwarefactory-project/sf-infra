@@ -9,7 +9,15 @@
     positional_args:
       - "{{ user_item.key }}"
   register: _quay_user_exist
-  no_log: true
+  no_log: hide_sensitive_logs
+
+- name: Wait for service to be running
+  wait_for:
+    port: 443
+    host: 0.0.0.0
+    delay: 20
+    timeout: 300
+  run_once: true
 
 - name: Configure user
   block:
@@ -30,7 +38,7 @@
         status_code: 200, 400
         return_content: true
       register: _user_response
-      no_log: true
+      no_log: hide_sensitive_logs
 
     - name: Write {{ user_item.key }} to a file
       become: true
@@ -41,7 +49,7 @@
         mode: "0400"
         create: true
       when: "'json' in _user_response"
-      no_log: true
+      no_log: hide_sensitive_logs
 
   when: not _quay_user_exist.query_result
 
@@ -53,7 +61,7 @@
     line: 'export USER_PASSWORD={{ user_item.value.password }}'
     mode: "0400"
     create: true
-  no_log: true
+  no_log: hide_sensitive_logs
   when: "'password' in user_item.value and user_item.value.password != ''"
 
 - name: Create config file - set token
@@ -64,5 +72,5 @@
     line: 'export ADMIN_TOKEN={{ user_item.value.token }}'
     mode: "0400"
     create: true
-  no_log: true
+  no_log: hide_sensitive_logs
   when: "'token' in user_item.value and user_item.value.token != ''"

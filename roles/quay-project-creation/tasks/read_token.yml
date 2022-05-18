@@ -12,16 +12,15 @@
     path: "/var/data/quay/config/{{ user_organizations.key }}_token"
   register: _config_file
 
-- name: Get the token from file
+- name: Check if token exists in file
   become: true
   shell: |
-    grep -i admin_token /var/data/quay/config/{{ user_organizations.key }}_token | cut -f2 -d'='
-  register: token
-  no_log: true
+    grep -iq admin_token /var/data/quay/config/{{ user_organizations.key }}_token
+  register: token_exists
+  no_log: hide_sensitive_logs
   when: _config_file.stat.exists
 
-- name: Set user token as fact
-  set_fact:
-    "quay_{{ user_organizations.key }}_token": "{{ token.stdout }}"
-  no_log: true
-  when: _config_file.stat.exists
+- name: Fail when token not available
+  fail:
+    msg: "Can not find ADMIN_TOKEN in the {{ user_organizations.key }}_token file"
+  when: _config_file.stat.exists and token_exists.rc != 0

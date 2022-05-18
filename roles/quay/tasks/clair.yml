@@ -6,7 +6,7 @@
     login_password: "{{ postgresql_password }}"
     name: clair
     state: present
-  no_log: true
+  no_log: hide_sensitive_logs
 
 - name: Set Clair service config
   template:
