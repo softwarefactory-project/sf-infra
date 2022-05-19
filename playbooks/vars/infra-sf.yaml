@@ -90,6 +90,9 @@ security_groups:
   - name: zuul-console
     rules:
       - port: 19885
+  - name: zuul-weeder
+    rules:
+      - port: 9001
   - name: monitoring
     rules:
       - port: 9100
@@ -316,6 +319,7 @@ servers:
       - monitoring
       - internal
       - zuul-console
+      - zuul-weeder
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:

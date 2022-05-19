@@ -255,7 +255,13 @@ let instances =
           , image = OS.CentOS.`8.3`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
           , auto_ip = Some True
-          , security_groups = [ "zuul-console" ]
+          , security_groups =
+            [ "zuul-console"
+            , let note =
+                    "Keep in sync with site.yaml and prometheus.dhall security group"
+
+              in  "zuul-weeder"
+            ]
           }
         , volumes =
           [ Infra.Volume::{

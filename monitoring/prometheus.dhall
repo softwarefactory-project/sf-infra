@@ -15,6 +15,10 @@ let apache_server_list = [ "trunk.rdoproject.org:9117" ]
 
 let zookeeper_server_list = [ "managesf.softwarefactory-project.io:9141" ]
 
+let -- | Keep in sync with site.yaml and zuul-weeder security group
+    zuul-weeder =
+      [ "image-builder.softwarefactory-project.io:9001" ]
+
 let dlrnapi_target_list =
       [ "api-centos9-master-uc"
       , "api-centos9-yoga"
@@ -51,4 +55,5 @@ in  PrometheusConfig
       , ScrapeConfigs.static "apache" apache_server_list
       , ScrapeConfigs.static "zookeeper" zookeeper_server_list
       , ScrapeConfigs.dlrn dlrnapi_target_list
+      , ScrapeConfigs.static "weeder" zuul-weeder
       ]

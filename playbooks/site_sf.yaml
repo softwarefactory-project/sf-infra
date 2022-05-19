@@ -49,6 +49,8 @@
   roles:
     - image-builder
     - podman-pruner
+    # Keep in sync with zuul-weeder security group and prometheus dhall configuration
+    - zuul-weeder
 
 - hosts: ze
   tasks:

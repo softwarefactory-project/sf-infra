@@ -11,6 +11,7 @@ let backward-compat-name = { name = "default-router" }
 let security_groups =
         Common.SecurityGroups
       # [ { name = "zuul-console", rules = [ Infra.Rule::{ port = +19885 } ] }
+        , { name = "zuul-weeder", rules = [ Infra.Rule::{ port = +9001 } ] }
         , { name = "monitoring", rules = ./rules/monitoring.dhall }
         , { name = "prometheus", rules = ./rules/prometheus-statsd.dhall }
         , { name = "hypervisor-oci"

@@ -180,3 +180,7 @@ scrape_configs:
           - api-centos8-ussuri
           - api-centos8-train
           - api-centos-train
+  - job_name: weeder
+    static_configs:
+      - targets:
+          - image-builder.softwarefactory-project.io:9001
