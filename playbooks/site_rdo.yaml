@@ -177,6 +177,7 @@
     - hostname
     - setup-ssl
     - quay
+    - quay-project-creation
   vars:
     self_signed_certs: false
     initial_config: false
