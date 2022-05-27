@@ -57,10 +57,14 @@
             state: directory
 
         - name: Copy the clouds.yaml
-          copy:
-            content: "{{ cloud.yamlFile }}"
-            dest: "~/.config/openstack/clouds.yaml"
+          blockinfile:
+            block: "{{ cloud.yamlFile }}"
+            path: "~/.config/openstack/clouds.yaml"
+            create: yes
             mode: "0400"
+            # BOF is used to insert at the beginning of the file
+            insertbefore: BOF
+            marker: "# {mark} vexxhost"
           no_log: yes
           when: cloud is defined
 

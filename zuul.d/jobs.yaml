@@ -91,6 +91,8 @@
     dependencies:
       - name: sf-infra-create-hosts
         soft: true
+      # - name: sf-infra-configure-tripleo-standalone
+      #   soft: true
     run: playbooks/zuul/configure-hosts.yaml
     required-projects:
       - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
@@ -182,6 +184,38 @@
         secret: ansible-vault
       - name: ara_api
         secret: bridge_ara_api
+
+- job:
+    name: sf-infra-create-tripleo-standalone
+    parent: sf-infra-base
+    description: Install tripleo-standalone on ibm baremetal
+    semaphore: sf-infra
+    dependencies:
+      - name: sf-infra-create-hosts
+        soft: true
+    run: playbooks/zuul/run-play.yaml
+    timeout: 3600
+    vars:
+      playbook: create-tripleo-standalone.yaml
+    files:
+      - ^playbooks/create-tripleo-standalone.yaml$
+      - ^playbooks/host_vars/baremetal02.rdoproject.org$
+
+- job:
+    name: sf-infra-configure-tripleo-standalone
+    parent: sf-infra-base
+    description: Install tripleo-standalone on ibm baremetal
+    semaphore: sf-infra
+    dependencies:
+      - name: sf-infra-create-tripleo-standalone
+        soft: true
+    run: playbooks/zuul/run-play.yaml
+    vars:
+      playbook: configure-tripleo-standalone.yaml
+    timeout: 3600
+    files:
+      - ^playbooks/configure-tripleo-standalone.yaml$
+      - ^playbooks/host_vars/baremetal02.rdoproject.org$
 
 - job:
     name: sf-infra-configure-registry
@@ -332,6 +366,12 @@
             dependencies:
               - dhall-diff
         - sf-infra-configure-registry:
+            dependencies:
+              - dhall-diff
+        - sf-infra-create-tripleo-standalone:
+            dependencies:
+              - dhall-diff
+        - sf-infra-configure-tripleo-standalone:
             dependencies:
               - dhall-diff
         - sf-infra-configure-quay:

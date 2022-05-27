@@ -1,0 +1,34 @@
+---
+# This is the main playbook that trampoline on the bridge to run the site.yaml
+- hosts: localhost
+  vars:
+    bridge_name: bridge.softwarefactory-project.io
+    bridge_ip: 38.102.83.244
+    # NOTE(jpena): if the bridge host is ever recreated, we will have to update this key
+    bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAADRnrMKg7ZvvG4zrMCjEnT1/RkfXAagSBYoQfTbzrHj+BoFGDbt4F1rM+PA+cJUJ2KS5ZCktJLWNeyYKCuKOg="
+  tasks:
+    - add_host:
+        name: "{{ bridge_name }}"
+        ansible_python_interpreter: python3
+        ansible_host: "{{ bridge_ip }}"
+        ansible_user: fedora
+        ansible_connection: ssh
+        groups: bridge
+
+    - known_hosts:
+        name: "{{ bridge_name }}"
+        key: "{{ bridge_key }}"
+
+- hosts: bridge.softwarefactory-project.io
+  gather_facts: yes
+  tasks:
+    - name: Synchronize src repos to workspace directory.
+      synchronize:
+        dest: "~/src/"
+        src: "{{ zuul.executor.src_root }}/"
+      no_log: true
+
+    - name: Run configuration playbook
+      args:
+        chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+      command: "ansible-playbook playbooks/{{ playbook }}"

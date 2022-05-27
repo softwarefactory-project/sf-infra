@@ -20,6 +20,7 @@ This project manages:
 * trunk.rdoproject.org
 * rdo-web-builder.int.osci.io
 * lists.rdoproject.org
+* baremetal02.rdoproject.org
 * bridge.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io

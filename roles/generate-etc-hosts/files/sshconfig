@@ -3,7 +3,6 @@ Host *
     ControlMaster auto
     ControlPath ~/.ssh/control-%r@%h:%p
     PubkeyAcceptedKeyTypes +ssh-rsa
-
 Host mirror.regionone.vexxhost.rdoproject.org
     User centos
     Port 22
@@ -76,6 +75,10 @@ Host lists.rdoproject.org
     User root
     Port 22
 
+Host baremetal02.rdoproject.org
+    User root
+    Port 22
+    Hostname 169.60.49.233
 Host bridge.softwarefactory-project.io
     User fedora
     Port 22

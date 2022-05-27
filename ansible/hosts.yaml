@@ -137,6 +137,11 @@ all:
       ansible_port: 3300
       ansible_python_interpreter: python2
       ansible_user: centos
+    baremetal02.rdoproject.org:
+      ansible_host: '169.60.49.233'
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: root
     bridge.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3
