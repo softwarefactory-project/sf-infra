@@ -258,7 +258,6 @@
       - ^roles/pushprox/.*$
       - ^tox.ini$
       - ^tests/.*molecule.yml$
-      - ^zuul.d/jobs.yaml$
 
 - job:
     name: sf-infra-grafana-dashboards
