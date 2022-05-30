@@ -19,7 +19,7 @@ def create_token(zuul_url):
     now = time.time()
     tenants = sfinfra_lib.get_tenants(zuul_url)
     token = {'iat': now,
-             'exp': now + 3600,
+             'exp': now + 360000,
              'iss': config_get("issuer_id"),
              'aud': config_get("client_id"),
              'sub': 'sf-operator',
