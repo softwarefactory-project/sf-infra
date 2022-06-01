@@ -145,7 +145,7 @@
         # data_dev and ml_type are defined int he inventory
         data_path: /srv/data
 
-- hosts: elk.rdoproject.org
+- hosts: elk.review.rdoproject.org
   roles:
     - volume
     - log-gearman

@@ -75,7 +75,7 @@ all:
         quay.rdoproject.org: {}
     rdo:
       hosts:
-        elk.rdoproject.org: {}
+        elk.review.rdoproject.org: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
     registry:
@@ -152,7 +152,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
-    elk.rdoproject.org:
+    elk.review.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

@@ -173,7 +173,7 @@ let instances =
           }
         }
       , Instance::{
-        , name = "elk"
+        , name = "elk.review"
         , groups = [ "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some
@@ -187,7 +187,7 @@ let instances =
           [ Infra.Volume::{
             , display_name = "elk-data"
             , size = 1000
-            , server = "elk" ++ "." ++ fqdn
+            , server = "elk" ++ "." ++ "review" ++ "." ++ fqdn
             , device = "/dev/vdb"
             }
           ]

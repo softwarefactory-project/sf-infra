@@ -267,7 +267,7 @@ servers:
       - '38.102.83.136'
     image: centos-7-1907
     key_name: sf-infra-key
-    name: elk.rdoproject.org
+    name: elk.review.rdoproject.org
     network: private-network
     security_groups:
       - common
@@ -381,7 +381,7 @@ volumes:
     size: 8
   - device: /dev/vdb
     display_name: elk-data
-    server: elk.rdoproject.org
+    server: elk.review.rdoproject.org
     size: 1000
   - device: /dev/vdb
     display_name: logs-data
