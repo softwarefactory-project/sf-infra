@@ -63,7 +63,7 @@ Host opensearch.rdoproject.org
 Host backup.rdoproject.org
     User centos
     Port 3300
-
+    Hostname 54.147.29.140
 Host trunk.rdoproject.org
     User centos
     Port 3300

@@ -291,14 +291,19 @@ let instances =
         }
       ]
 
-let AwsServer =
-      { connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 } }
-
 let extra =
-      [ Instance::(     { name = "backup", groups = [ "backup-server" ] }
-                    //  AwsServer
-                  )
-      , Instance::({ name = "trunk", groups = [ "dlrn" ] } // AwsServer)
+      [ Instance::{
+        , name = "backup"
+        , groups = [ "backup-server" ]
+        , connection =
+                OS.CentOS.`7.0`.connection
+            //  { ansible_port = 3300, ansible_host = Some "54.147.29.140" }
+        }
+      , Instance::{
+        , name = "trunk"
+        , groups = [ "dlrn" ]
+        , connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 }
+        }
       ]
 
 let vexxhost-instances =
