@@ -275,7 +275,7 @@ let instances =
             (     Infra.Server::{
                   , image = OS.CentOS.`8-stream`.image.name
                   , flavor = Some Flavors.`4vcpus_8gb`
-                  , security_groups = [ "web", "elk", "internal", "logstash" ]
+                  , security_groups = [ "web", "opensearch", "internal" ]
                   , volume_size = Some 50
                   }
               //  Infra.Server.Ip "38.102.83.14"

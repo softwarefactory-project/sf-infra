@@ -103,6 +103,12 @@ security_groups:
         remote_ip_prefix: "38.102.83.141/32"
       - port: 5601
         remote_ip_prefix: "38.102.83.141/32"
+  - name: opensearch
+    rules:
+      - port: 9200
+        remote_ip_prefix: "38.102.83.136/32"
+      - port: 9200
+        remote_ip_prefix: "38.102.83.124/32"
   - name: logstash
     rules:
       - port: 9998
@@ -338,9 +344,8 @@ servers:
       - common
       - monitoring
       - web
-      - elk
+      - opensearch
       - internal
-      - logstash
     volume_size: 50
 subnets:
   - cidr: "192.168.240.0/24"

@@ -50,6 +50,18 @@ let security_groups =
               }
             ]
           }
+        , { name = "opensearch"
+          , rules =
+            [ Infra.Rule::{
+              , port = +9200
+              , remote_ip_prefix = Some "38.102.83.136/32"
+              }
+            , Infra.Rule::{
+              , port = +9200
+              , remote_ip_prefix = Some "38.102.83.124/32"
+              }
+            ]
+          }
         , { name = "logstash"
           , rules =
             [ Infra.Rule::{
