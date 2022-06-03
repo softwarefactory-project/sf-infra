@@ -31,5 +31,6 @@ tenant_builds:
     logscraper_workers: 4
     logsender_workers: 4
     logsender_wait_time: 10
+    custom_ca_crt: /etc/pki/ca-trust/source/anchors/opensearch.pem
 
 zuul_scrapper_cron_job: ""
