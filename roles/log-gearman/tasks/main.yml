@@ -1,130 +1,37 @@
 ---
-- name: Configure additional log-gearman-client
+- name: Stop old services
   become: true
-  block:
-    - name: Create configuration file
-      template:
-        src: config-client.j2
-        dest: /etc/log-gearman-client/config-{{ external_elk['infra_name'] }}.yml
-        mode: '0644'
-        owner: joblogsclient
-        group: joblogsclient
-      register: _log_gearman_client
+  service:
+    name: "{{ item }}"
+    state: stopped
+  loop:
+    - "log-gearman-worker"
+    - "log-gearman-client"
+    - "zuul-job-scrapper-{{ external_elk['infra_name'] }}"
 
-    - name: Copy systemd service configuration
-      template:
-        src: service-client.j2
-        dest: /usr/lib/systemd/system/log-gearman-client-{{ external_elk['infra_name'] }}.service
-        mode: '0644'
-        owner: root
-        group: root
-      register: _log_gearman_service_client
-
-    - name: Restart service if necessary - client
-      service:
-        name: log-gearman-client-{{ external_elk['infra_name'] }}
-        state: restarted
-        daemon-reload: true
-      when: _log_gearman_client.changed or _log_gearman_service_client.changed
-
-    - name: Setup logrorate - client
-      copy:
-        content: |
-          /var/log/log-gearman-client/client-{{ external_elk['infra_name'] }}.log {
-              daily
-              rotate 7
-              missingok
-              dateext
-              copytruncate
-              compress
-          }
-        dest: /etc/logrotate.d/log-gearman-client-{{ external_elk['infra_name'] }}
-        mode: '0644'
-        owner: root
-        group: root
-
-- name: Configure additional log-gearman-worker
+- name: Remove old log gearman services and zuul log scrapper
   become: true
-  block:
-    - name: Create configuration file
-      template:
-        src: config-worker.j2
-        dest: /etc/log-gearman-worker/config-{{ external_elk['infra_name'] }}.yml
-        mode: '0644'
-        owner: joblogsworker
-        group: joblogsworker
-      register: _log_gearman_config
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/etc/log-gearman-client/config-{{ external_elk['infra_name'] }}.yml"
+    - "/etc/log-gearman-worker/config-{{ external_elk['infra_name'] }}.yml"
+    - "/usr/lib/systemd/system/log-gearman-client-{{ external_elk['infra_name'] }}.service"
+    - "/usr/lib/systemd/system/log-gearman-worker-{{ external_elk['infra_name'] }}.service"
+    - "/usr/lib/systemd/system/zuul-job-scrapper-{{ external_elk['infra_name'] }}.service"
+    - "/etc/logrotate.d/log-gearman-client-{{ external_elk['infra_name'] }}"
+    - "/etc/logrotate.d/log-gearman-worker-{{ external_elk['infra_name'] }}"
+    - "/usr/local/bin/zuul-job-scrapper.py"
 
-    - name: Copy systemd service configuration
-      template:
-        src: service-worker.j2
-        dest: /usr/lib/systemd/system/log-gearman-worker-{{ external_elk['infra_name'] }}.service
-        mode: '0644'
-        owner: root
-        group: root
-      register: _log_gearman_service
-
-    - name: Set permissions to whole worker directory
-      file:
-        path: /etc/log-gearman-worker
-        state: directory
-        owner: joblogsworker
-        group: joblogsworker
-
-    - name: Restart service if necessary
-      service:
-        name: log-gearman-worker-{{ external_elk['infra_name'] }}
-        state: restarted
-        daemon-reload: true
-      when: _log_gearman_config.changed or _log_gearman_service.changed
-
-    - name: Setup logrorate - worker
-      copy:
-        content: |
-          /var/log/log-gearman-worker/worker-{{ external_elk['infra_name'] }}.log {
-              daily
-              rotate 7
-              missingok
-              dateext
-              copytruncate
-              compress
-          }
-        dest: /etc/logrotate.d/log-gearman-worker-{{ external_elk['infra_name'] }}
-        mode: '0644'
-        owner: root
-        group: root
-
-- name: Configure zuul-job-scrapper script
+- name: Create tripleo cronjob entry
   become: true
-  block:
-    - name: Install required packages
-      package:
-        name: python3-gear
+  cron:
+    name: Forward tripleo openstack jobs
+    state: absent
 
-    - name: Copy script
-      copy:
-        src: zuul-job-scrapper.py
-        dest: /usr/local/bin/zuul-job-scrapper.py
-        mode: '0755'
-
-    - name: Create cronjob entry
-      cron:
-        name: Forward tripleo-ci-centos-8-containers-multinode
-        state: absent
-
-    - name: Create tripleo cronjob entry
-      cron:
-        name: Forward tripleo openstack jobs
-        minute: "5"
-        job: "{{ zuul_scrapper_cron_job }}"
-      when: zuul_scrapper_cron_job is defined and zuul_scrapper_cron_job
-
-    - name: Remove tripleo cronjob entry if absent
-      cron:
-        name: Forward tripleo openstack jobs
-        state: absent
-      when: zuul_scrapper_cron_job is not defined
-
-    - name: Configure scrapper service
-      include_tasks: zuul-job-scrapper.yml
-      loop: "{{ tenant_builds }}"
+- name: Remove tripleo cronjob entry if absent
+  become: true
+  cron:
+    name: Forward tripleo openstack jobs
+    state: absent
