@@ -47,7 +47,6 @@
           /usr/bin/ansible-playbook playbooks/quay-renew-certificates.yml -i ansible/hosts.yaml
         dest: /var/lib/sf-infra/quay-renew.sh
 
-    # Renew cert each week - Sunday at 0:00
     - name: Create cron job for renewing certificate
       cron:
         name: Renew registry certificate - Quay
