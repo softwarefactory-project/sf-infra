@@ -154,6 +154,9 @@ security_groups:
       - port: 3306
         protocol: tcp
         remote_ip_prefix: "66.187.233.202/32"
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: "54.147.29.140/32"
   - name: mta
     rules:
       - port: 25
