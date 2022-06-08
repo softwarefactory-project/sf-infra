@@ -7,13 +7,20 @@ let vars = ../vars/package.dhall
 let sshconfig =
       let mkConn =
             \(instance : Infra.Instance.Type) ->
-              let optional-proxy =
+              let optional-proxy-command =
                     merge
                       { None = None Text
                       , Some =
                           \(command : Text) -> Some ("ProxyCommand " ++ command)
                       }
                       instance.connection.proxy_command
+
+              let optional-proxy-jump =
+                    merge
+                      { None = None Text
+                      , Some = \(host : Text) -> Some ("ProxyJump " ++ host)
+                      }
+                      instance.connection.proxy_jump
 
               let optional-hostname =
                     merge
@@ -31,7 +38,10 @@ let sshconfig =
                       ( indent
                           ( Prelude.List.unpackOptionals
                               Text
-                              [ optional-proxy, optional-hostname ]
+                              [ optional-proxy-command
+                              , optional-proxy-jump
+                              , optional-hostname
+                              ]
                           )
                       )
 
@@ -47,7 +57,6 @@ let sshconfig =
                   ControlMaster auto
                   ControlPath ~/.ssh/control-%r@%h:%p
                   PubkeyAcceptedKeyTypes +ssh-rsa
-
               ''
           ++  Prelude.Text.concat
                 ( Prelude.List.map

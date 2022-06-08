@@ -5,4 +5,5 @@
 , ansible_python_interpreter : Text
 , ansible_user : Text
 , proxy_command : Optional Text
+, proxy_jump : Optional Text
 }

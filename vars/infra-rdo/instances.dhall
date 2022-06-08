@@ -342,4 +342,4 @@ let ospo-instances =
           (Instance.setName defaultOSPOExternalInstance)
           ospo-external-vhosts
 
-in  vexxhost-instances # ospo-instances
+in  vexxhost-instances # ospo-instances # ./ibm-baremetal.dhall

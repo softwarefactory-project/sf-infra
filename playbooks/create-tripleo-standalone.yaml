@@ -1,0 +1,79 @@
+- hosts: bridge.softwarefactory-project.io
+  gather_facts: no
+  tasks:
+    - name: Check if openstack client exists
+      command: which openstack
+      register: _openstack_client
+      failed_when: _openstack_client.rc not in [0,1]
+      changed_when: false
+
+    - name: "Check if {{ cloud }} works"
+      command: "openstack --os-cloud {{ cloud }} server list"
+      register: _openstack_cloud_works
+      failed_when: _openstack_cloud_works.rc not in [0,1]
+      no_log: yes
+      changed_when: false
+
+    - name: Install shiftstack
+      block:
+        - name: Install packages
+          become: yes
+          package:
+            name:
+              - tmux
+              - git
+              - ansible
+              - make
+              - python3-netaddr
+              # os_client
+              - gcc
+              - python3-devel
+            state: latest
+
+        - name: Checkout dev-install
+          git:
+            # original repo is: https://github.com/shiftstack/dev-install
+            # use nhicher repo to fix resolv.conf deletion issue
+            # https://github.com/shiftstack/dev-install/pull/191
+            repo: https://github.com/nhicher/dev-install.git
+            dest: /home/fedora/dev-install
+            version: ibmcloud
+
+        - name: Install templates
+          template:
+            src: local-overrides.yaml.j2
+            dest: /home/fedora/dev-install/local-overrides.yaml
+            mode: 0640
+
+        - name: Generate config
+          command: "make config host={{ baremetal_ip}}"
+          args:
+            chdir: /home/fedora/dev-install
+
+        - name: Install osp
+          command: "make osp_full"
+          args:
+            chdir: /home/fedora/dev-install
+      when: (_openstack_client.rc or _openstack_cloud_works.rc) == 1
+
+    - name: Check if hostonly network exists
+      command: >
+        openstack --os-cloud {{ cloud }}
+        network list --external -f value -c Name
+      register: _get_external_network
+      failed_when: _get_external_network.stdout != 'hostonly'
+      changed_when: false
+
+- hosts: baremetal02.rdoproject.org
+  gather_facts: yes
+  tasks:
+    - name: Add postrouting rule to reach ibm dns from instances
+      iptables:
+        table: nat
+        action: insert
+        chain: POSTROUTING
+        jump: SNAT
+        out_interface: bond0
+        destination: 10.0.80.0/24
+        rule_num: 1
+        to_source: "{{ ansible_bond0.ipv4.address }}"
