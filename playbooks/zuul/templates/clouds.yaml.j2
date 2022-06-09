@@ -1,0 +1,29 @@
+cache:
+  expiration:
+    server: 5
+    port: 5
+    floating-ip: 5
+clouds:
+  vexxhost-rdo:
+    auth:
+      username: zuul
+      password: {{ vexxhost_rdo.password }}
+      project_domain_name: default
+      user_domain_name: default
+      auth_url: https://rdo.vexxhost.ca:5000/v3
+    api_timeout: 60
+    identity_api_version: 3
+    image_format: 'raw'
+    region_name: RegionOne
+  ibm-bm2-nodepool:
+    auth:
+      auth_url: https://169.60.49.233:13000
+      password: {{ ibm_bm2_nodepool.password }}
+      project_domain_name: Default
+      project_name: nodepool
+      user_domain_name: Default
+      username: nodepool
+    cacert: /home/fedora/.config/openstack/ibm-bm2-ca.crt
+    identity_api_version: '3'
+    region_name: regionOne
+    volume_api_version: '3'

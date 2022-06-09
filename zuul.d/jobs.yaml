@@ -107,6 +107,10 @@
     secrets:
       - name: cloud
         secret: vexxhost-cloud
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
       - name: vault
         secret: ansible-vault
       - name: ara_api

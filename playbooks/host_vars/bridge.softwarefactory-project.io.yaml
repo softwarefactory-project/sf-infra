@@ -5,8 +5,8 @@ podman_gw_ip: 10.88.0.1
 prometheus_public_ip: 38.102.83.250
 prometheus_private_ip: 192.168.242.246
 # for tripleo-standalone
-cloud: ibm_bm2_openshift
-baremetal_name: ibm_bm2
+cloud: ibm-bm2-nodepool
+baremetal_name: ibm-bm2
 baremetal_ip: 169.60.49.233
 cloud_image: "CentOS-7-x86_64-GenericCloud-2111"
 cloud_image_url: "https://cloud.centos.org/centos/7/images/{{ cloud_image }}.qcow2"
