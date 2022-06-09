@@ -203,7 +203,8 @@
       playbook: create-tripleo-standalone.yaml
     files:
       - ^playbooks/create-tripleo-standalone.yaml$
-      - ^playbooks/host_vars/baremetal02.rdoproject.org$
+      - ^playbooks/templates/local-overrides.yaml.j2$
+      - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
 
 - job:
     name: sf-infra-configure-tripleo-standalone
@@ -219,7 +220,8 @@
     timeout: 3600
     files:
       - ^playbooks/configure-tripleo-standalone.yaml$
-      - ^playbooks/host_vars/baremetal02.rdoproject.org$
+      - ^playbooks/templates/local-overrides.yaml.j2$
+      - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
 
 - job:
     name: sf-infra-configure-registry

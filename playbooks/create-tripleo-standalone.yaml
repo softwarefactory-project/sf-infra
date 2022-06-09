@@ -44,6 +44,7 @@
             src: local-overrides.yaml.j2
             dest: /home/fedora/dev-install/local-overrides.yaml
             mode: 0640
+          no_log: yes
 
         - name: Generate config
           command: "make config host={{ baremetal_ip}}"
