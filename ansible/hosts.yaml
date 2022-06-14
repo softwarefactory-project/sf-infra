@@ -8,6 +8,7 @@ all:
         nodes: {}
     afs-mirror:
       hosts:
+        mirror.regionone.ibm-bm2-nodepool.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
     backup-rdo:
       hosts:
@@ -87,6 +88,8 @@ all:
         centos.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
+        ibm-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-ze.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s02.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -110,6 +113,7 @@ all:
         zs.softwarefactory-project.io: {}
     ze:
       hosts:
+        ibm-ze.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
@@ -170,6 +174,16 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    ibm-nodepool-launcher.softwarefactory-project.io:
+      ansible_host: '192.168.25.195'
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ibm-ze.softwarefactory-project.io:
+      ansible_host: '192.168.25.127'
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
     image-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
@@ -215,6 +229,11 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     managesf.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    mirror.regionone.ibm-bm2-nodepool.rdoproject.org:
+      ansible_host: '192.168.25.35'
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

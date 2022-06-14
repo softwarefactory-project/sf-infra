@@ -78,3 +78,16 @@
         destination: 10.0.80.0/24
         rule_num: 1
         to_source: "{{ ansible_bond0.ipv4.address }}"
+
+    - name: Create flavors
+      os_nova_flavor:
+        cloud: standalone
+        name: "{{ item.name }}"
+        disk: "{{ item.disk }}"
+        ram: "{{ item.ram }}"
+        vcpus: "{{ item.vcpus }}"
+      become: yes
+      become_user: stack
+      environment:
+        OS_CLOUD: standalone
+      loop: "{{ flavors }}"

@@ -57,6 +57,10 @@ let sshconfig =
                   ControlMaster auto
                   ControlPath ~/.ssh/control-%r@%h:%p
                   PubkeyAcceptedKeyTypes +ssh-rsa
+
+              Host 192.168.25.*
+                  ProxyJump baremetal02.rdoproject.org
+
               ''
           ++  Prelude.Text.concat
                 ( Prelude.List.map

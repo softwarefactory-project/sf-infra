@@ -21,6 +21,9 @@ This project manages:
 * rdo-web-builder.int.osci.io
 * lists.rdoproject.org
 * baremetal02.rdoproject.org
+* mirror.regionone.ibm-bm2-nodepool.rdoproject.org
+* ibm-nodepool-launcher.softwarefactory-project.io
+* ibm-ze.softwarefactory-project.io
 * bridge.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io

@@ -30,6 +30,24 @@
     gpgcheck: '{{ openafs_client_yum_repo_gpg_check }}'
   become: yes
 
+# NOTE: dkms needs deltarpm package but it does not have it as
+# a dependency.
+- name: Install deltarpm package on CentOS 7
+  yum:
+    name:
+      - deltarpm
+    state: present
+  become: yes
+  when: ansible_distribution_version is version('8', '<')
+
+- name: Install deltarpm package on CentOS 8 and newer
+  dnf:
+    name:
+      - drpm
+    state: present
+  become: yes
+  when: ansible_distribution_version is version('8', '>=')
+
 - name: Install kernel modules CentOS 7
   yum:
     name:

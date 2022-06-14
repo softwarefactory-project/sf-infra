@@ -42,11 +42,16 @@
     - backup-srv
     - backup-monitoring
 
-- hosts: afs-mirror
+- hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
     - setup-ssl
     - afs-mirror
     - afs-monitoring
+
+- hosts: mirror.regionone.ibm-bm2-nodepool.rdoproject.org
+  roles:
+    - setup-ssl-self-signed
+    - afs-mirror
 
 - hosts: rdo
   roles:

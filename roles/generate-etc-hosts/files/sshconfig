@@ -3,6 +3,10 @@ Host *
     ControlMaster auto
     ControlPath ~/.ssh/control-%r@%h:%p
     PubkeyAcceptedKeyTypes +ssh-rsa
+
+Host 192.168.25.*
+    ProxyJump baremetal02.rdoproject.org
+
 Host mirror.regionone.vexxhost.rdoproject.org
     User centos
     Port 22
@@ -79,6 +83,21 @@ Host baremetal02.rdoproject.org
     User root
     Port 22
     Hostname 169.60.49.233
+Host mirror.regionone.ibm-bm2-nodepool.rdoproject.org
+    User centos
+    Port 22
+    ProxyJump baremetal02.rdoproject.org
+    Hostname 192.168.25.35
+Host ibm-nodepool-launcher.softwarefactory-project.io
+    User centos
+    Port 22
+    ProxyJump baremetal02.rdoproject.org
+    Hostname 192.168.25.195
+Host ibm-ze.softwarefactory-project.io
+    User centos
+    Port 22
+    ProxyJump baremetal02.rdoproject.org
+    Hostname 192.168.25.127
 Host bridge.softwarefactory-project.io
     User fedora
     Port 22

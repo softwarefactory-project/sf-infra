@@ -205,6 +205,7 @@
       - ^playbooks/create-tripleo-standalone.yaml$
       - ^playbooks/templates/local-overrides.yaml.j2$
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
+      - ^playbooks/host_vars/baremetal02.rdoproject.org.yaml$
 
 - job:
     name: sf-infra-configure-tripleo-standalone

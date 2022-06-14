@@ -1,0 +1,9 @@
+flavors:
+  - name: afs
+    disk: 100
+    ram: 2048
+    vcpus: 2
+  - name: nodepool
+    disk: 80
+    ram: 8192
+    vcpus: 4
