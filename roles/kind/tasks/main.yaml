@@ -1,0 +1,36 @@
+- name: Download kind
+  get_url:
+    url: https://github.com/kubernetes-sigs/kind/releases/download/v0.14.0/kind-linux-amd64
+    dest: /bin/kind
+    mode: '0755'
+    checksum: "sha256:af5e8331f2165feab52ec2ae07c427c7b66f4ad044d09f253004a20252524c8b"
+
+- name: Copy kind-config
+  template:
+    src: kind-config.yaml
+    dest: /etc/kind-config.yaml
+
+- name: Create sharable host directory
+  file:
+    path: /home/fedora/src
+    state: directory
+
+- name: Install packages
+  package:
+    name:
+      - podman
+      - kubernetes-client
+
+- name: Create cluster
+  command: kind create cluster --config files/kind-config.yaml
+  # we ignore error that happens when the cluster is already created
+  failed_when: false
+
+- name: Setup ingress controller
+  command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+- name: Copy create-kubeconfig script
+  copy:
+    src: create-kubeconfig
+    dest: /bin/create-kubeconfig
+    mode: '0755'
