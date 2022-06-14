@@ -314,6 +314,23 @@
       - ^tests/pre-grafana-dash.yml$
       - ^tests/templates/grafana-screenshots.js.j2$
 
+- job:
+    name: sf-infra-quay-check
+    description: Deploy Quay service and check basic functionality
+    run: tests/check-quay-tool.yml
+    required-projects:
+      - name: software-factory/python-quay-tool
+    dependencies:
+      - name: quay-tool-tests
+        soft: true
+    timeout: 1800
+    files:
+      - ^roles/quay/.*$
+    nodeset:
+      nodes:
+        - name: quay.dev
+          label: cloud-centos-8-stream
+
 - project:
     check:
       jobs:
@@ -336,6 +353,7 @@
         - shake-factory-docs:
             files:
               - ^Infra/.*$
+        - sf-infra-quay-check
     gate:
       jobs:
         - sf-infra-test-udp-multiplexer
