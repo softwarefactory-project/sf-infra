@@ -42,6 +42,10 @@
     - backup-srv
     - backup-monitoring
 
+- hosts: baremetal02.rdoproject.org
+  roles:
+    - sf-ssh
+
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
     - setup-ssl

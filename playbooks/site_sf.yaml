@@ -65,6 +65,7 @@
     - sf-install-server
     - acme-tiny
     - zookeeper-exporter
+    - sf-ssh
   tasks:
     # FIXME(dpawlik) Remove this task after upgrade to sf 3.7
     - name: Create repoxplorer rotation file
