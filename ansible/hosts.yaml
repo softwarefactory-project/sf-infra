@@ -32,6 +32,10 @@ all:
     etcd:
       hosts:
         registry.rdoproject.org: {}
+    ibm-bm2-nodepool:
+      hosts:
+        ibm-nodepool-launcher.softwarefactory-project.io: {}
+        nodepool-builder.softwarefactory-project.io: {}
     install-server:
       hosts:
         managesf.review.rdoproject.org: {}
