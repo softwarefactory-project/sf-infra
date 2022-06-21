@@ -55,6 +55,14 @@ let security_groups =
               }
             ]
           }
+        , { name = "zookeeper"
+          , rules =
+            [ Infra.Rule::{
+              , port = +2281
+              , remote_ip_prefix = Some "{{ baremetal_ip }}/32"
+              }
+            ]
+          }
         , { name = "zookeeper_exporter"
           , rules =
             [ Infra.Rule::{

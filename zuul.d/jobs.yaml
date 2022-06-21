@@ -62,6 +62,10 @@
     secrets:
       - name: ara_api
         secret: bridge_ara_api
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
 
 - job:
     name: sf-infra-create-hosts
@@ -81,6 +85,10 @@
     secrets:
       - name: ara_api
         secret: bridge_ara_api
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
 
 # NOTE: This job will be removed in the future.
 - job:

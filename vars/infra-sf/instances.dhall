@@ -204,10 +204,14 @@ let instances =
         , name = "zk01"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , flavor = Some Flavors.`4vcpus_8gb`
-          , image = OS.CentOS.`7.0`.image.name
-          }
+        , server = Some
+            (     Infra.Server::{
+                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , image = OS.CentOS.`7.0`.image.name
+                  , security_groups = [ "zookeeper" ]
+                  }
+              //  Infra.Server.Ip "38.102.83.232"
+            )
         }
       , Instance::{
         , name = "zs"

@@ -158,6 +158,10 @@ security_groups:
       - port: 8125
         protocol: udp
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+  - name: zookeeper
+    rules:
+      - port: 2281
+        remote_ip_prefix: "{{ baremetal_ip }}/32"
   - name: zookeeper_exporter
     rules:
       - port: 9141
@@ -259,9 +263,10 @@ servers:
       - internal
       - hypervisor-oci
       - cs-k1s
-  - auto_ip: false
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: "4vcpus_8gb"
+    floating_ips:
+      - '38.102.83.232'
     image: centos-7-1907
     key_name: sf-infra-key
     name: zk01.softwarefactory-project.io
@@ -270,6 +275,7 @@ servers:
       - common
       - monitoring
       - internal
+      - zookeeper
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
