@@ -143,7 +143,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups = [ "sf", "nodepool-builder" ]
+        , groups = [ "sf", "nodepool-builder", "ibm-bm2-nodepool" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
         , volumes =

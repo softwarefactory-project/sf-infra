@@ -21,7 +21,7 @@ in  [ Infra.Instance::{
       }
     , Infra.Instance::{
       , name = "ibm-nodepool-launcher.softwarefactory-project.io"
-      , groups = [ "sf" ]
+      , groups = [ "sf", "ibm-bm2-nodepool" ]
       , node-exporter = False
       , connection = Infra.Connection::{
         , ansible_user = "centos"

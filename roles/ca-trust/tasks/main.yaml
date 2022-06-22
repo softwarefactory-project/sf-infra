@@ -1,0 +1,18 @@
+- name: Install CA
+  become: yes
+  block:
+    - name: Install ca-certificates
+      package:
+        name: ca-certificates
+        state: present
+
+    - name: Install Ca file
+      copy:
+        dest: "/etc/pki/ca-trust/source/anchors/{{ ca_cert_name }}"
+        content: "{{ ca_cert }}"
+      register: _ca_cert
+
+    - name: Update ca trust
+      command: "update-ca-trust"
+      when: _ca_cert.changed
+  when: ca_cert != ""

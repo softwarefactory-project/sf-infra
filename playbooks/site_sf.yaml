@@ -145,3 +145,7 @@
 - hosts: logscraper01.openstack.org
   roles:
     - node-exporter
+
+- hosts: ibm-bm2-nodepool
+  roles:
+    - ca-trust
