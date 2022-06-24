@@ -3,7 +3,6 @@
   package:
     name:
       - jq
-      - python3-virtualenv
       - python3-requests
     state: present
 

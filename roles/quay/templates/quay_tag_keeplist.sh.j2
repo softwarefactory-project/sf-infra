@@ -6,7 +6,7 @@
 releases="{{ quay_pruner_dlrn_endpoints | join(' ') }}"
 names="{{ quay_pruner_extended_keeplist | join(' ') }}"
 
-[[ ! -d /tmp/dlrnapi ]] && virtualenv /tmp/dlrnapi >/dev/null
+[[ ! -d /tmp/dlrnapi ]] && python3 -mvenv /tmp/dlrnapi >/dev/null
 source /tmp/dlrnapi/bin/activate
 pip install setuptools --upgrade >/dev/null
 pip install dlrnapi_client >/dev/null
@@ -18,4 +18,5 @@ do
      echo $name
      dlrnapi --url https://trunk.rdoproject.org/${release} promotion-get --promote-name ${name} --limit 1 | jq -r '.[0] | (.repo_hash,.aggregate_hash)' | grep -v null
   done
-done) | sort | uniq |paste -sd ','
+done) | sort | uniq |paste -sd ',' ;
+rm -rf /tmp/dlrnapi > /dev/null
