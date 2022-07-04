@@ -16,18 +16,18 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK private network baremetal02"
     block: |
       Host 192.168.25.*
-      ProxyJump baremetal02.rdoproject.org
+          ProxyJump baremetal02.rdoproject.org
 
       Host baremetal02.rdoproject.org
           User root
           Port 22
           Hostname 169.60.49.233
 
-      Host ibm-nodepool-launcher.softwarefactory-project.io
+      Host ibm-nodepool-launcher*
           ProxyJump baremetal02.rdoproject.org
           Hostname 192.168.25.195
 
-      Host ibm-ze.softwarefactory-project.io
+      Host ibm-ze*
           ProxyJump baremetal02.rdoproject.org
           Hostname 192.168.25.127
   when: ansible_fqdn == "managesf.softwarefactory-project.io"
