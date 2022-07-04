@@ -110,6 +110,8 @@
             path: /var/data/quay/certs/ssl.crt
             privatekey_path: /var/data/quay/certs/ssl.key
             csr_path: /var/data/quay/certs/ssl.csr
+            ownca_path: /var/data/quay/certs/ca_cert.pem
+            ownca_privatekey_path: /var/data/quay/certs/rootCA.key
             provider: selfsigned
 
         - name: Copy CA cert
