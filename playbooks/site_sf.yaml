@@ -31,6 +31,7 @@
     - sf-infra-base
     - node-exporter
     - sf-ssh
+    - update-host
 
 - hosts: backup-sf
   roles:

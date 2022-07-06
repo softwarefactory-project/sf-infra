@@ -29,6 +29,7 @@
 - hosts: all:!sf
   roles:
     - node-exporter
+    - update-host
 
 - hosts: backup-rdo
   roles:
