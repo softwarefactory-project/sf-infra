@@ -34,3 +34,13 @@
     src: create-kubeconfig
     dest: /bin/create-kubeconfig
     mode: '0755'
+
+# NOTE: This configuration is needed by Opensearch service
+# https://opensearch.org/docs/opensearch/install/important-settings/
+- name: Set important settings for Opensearch container
+  become: true
+  sysctl:
+    name: vm.max_map_count
+    value: "262144"
+    state: present
+    reload: true
