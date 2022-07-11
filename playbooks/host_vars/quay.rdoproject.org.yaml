@@ -249,3 +249,4 @@ quay_pruner_extended_keeplist:
   - promoted-components
   - component-ci-testing
   - previous-current-tripleo
+  - current-ceph
