@@ -79,6 +79,20 @@
         rule_num: 1
         to_source: "{{ ansible_bond0.ipv4.address }}"
 
+    - name: Add rule for monitoring
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: 9100
+        source: 38.102.83.250
+        ctstate: NEW
+        syn: match
+        jump: ACCEPT
+        comment: node_exporter
+        action: insert
+        rule_num: 61
+
+
     - name: Create flavors
       os_nova_flavor:
         cloud: standalone
