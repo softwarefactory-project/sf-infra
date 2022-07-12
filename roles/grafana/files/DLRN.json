@@ -82,14 +82,6 @@
           "refId": "centos9-wallaby"
         },
         {
-          "expr": "dlrn_builds_total{instance=\"centos8-master-uc\"}",
-          "format": "time_series",
-          "instant": false,
-          "intervalFactor": 1,
-          "legendFormat": "centos8-master-uc",
-          "refId": "centos8-master-uc"
-        },
-        {
           "expr": "dlrn_builds_total{instance=\"centos9-yoga\"}",
           "format": "time_series",
           "instant": false,
@@ -282,14 +274,6 @@
           "refId": "centos9-wallaby"
         },
         {
-          "expr": "increase(dlrn_builds_total{instance=\"centos8-master-uc\"}[24h])",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "centos8-master-uc",
-          "refId": "centos8-master-uc"
-        },
-        {
           "expr": "increase(dlrn_builds_total{instance=\"centos9-yoga\"}[24h])",
           "format": "time_series",
           "instant": true,
@@ -465,14 +449,6 @@
           "refId": "centos9-wallaby"
         },
         {
-          "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos8-master-uc\"}[24h])",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "centos8-master-uc",
-          "refId": "centos8-master-uc"
-        },
-        {
           "expr": "increase(dlrn_builds_succeeded_total{instance=\"centos9-yoga\"}[24h])",
           "format": "time_series",
           "instant": true,
@@ -646,14 +622,6 @@
           "intervalFactor": 1,
           "legendFormat": "centos9-wallaby",
           "refId": "centos9-wallaby"
-        },
-        {
-          "expr": "increase(dlrn_builds_failed_total{instance=\"centos8-master-uc\"}[24h])",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "centos8-master-uc",
-          "refId": "centos8-master-uc"
         },
         {
           "expr": "increase(dlrn_builds_failed_total{instance=\"centos9-yoga\"}[24h])",

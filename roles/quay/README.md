@@ -130,7 +130,6 @@ quay_organizations:
 
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
-  - api-centos8-master-uc
   - api-centos8-wallaby
   - api-centos8-victoria
   - api-centos8-ussuri
