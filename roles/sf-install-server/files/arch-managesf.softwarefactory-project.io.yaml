@@ -132,3 +132,13 @@ inventory:
   max-servers: 15
   roles:
   - hypervisor-k1s
+
+- name: ibm-ze
+  ip: 192.168.25.127
+  roles:
+  - zuul-executor
+
+- name: ibm-nodepool-launcher
+  ip: 192.168.25.195
+  roles:
+  - nodepool-launcher
