@@ -24,7 +24,6 @@ let dlrnapi_target_list =
       , "api-centos9-yoga"
       , "api-centos9-xena"
       , "api-centos9-wallaby"
-      , "api-centos8-master-uc"
       , "api-centos8-yoga"
       , "api-centos8-xena"
       , "api-centos8-wallaby"
