@@ -47,6 +47,7 @@ in  PrometheusConfig
       , "rules-mysqld.yaml"
       , "rules-openstack-check.yaml"
       , "rules-es-check.yaml"
+      , "rules-system-package-count.yaml"
       ]
       [     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]
         //  { scrape_interval = Some "5m" }
