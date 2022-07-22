@@ -99,22 +99,22 @@
         apply:
           become: yes
 
-## after www.rdoproject.org
-#- hosts: rdo-web-builder.int.osci.io
-#  roles:
-#    - hostname
-#  tasks:
-#    - name: "Enable EPEL"
-#      package:
-#        name:
-#          - epel-release
-#      become: yes
-#    - name: "Deploy websites"
-#      include_role:
-#        name: websites
-#        tasks_from: builders
-#        apply:
-#          become: yes
+# after www.rdoproject.org
+- hosts: rdo-web-builder.int.osci.io
+  roles:
+    - hostname
+  tasks:
+    - name: "Enable EPEL"
+      package:
+        name:
+          - epel-release
+      become: yes
+    - name: "Deploy websites"
+      include_role:
+        name: websites
+        tasks_from: builders
+        apply:
+          become: yes
 
 - hosts: lists.rdoproject.org
   become: yes
