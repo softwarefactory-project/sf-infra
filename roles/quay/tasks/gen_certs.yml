@@ -55,21 +55,10 @@
 
         - name: Generate selfsigned CA certificate
           openssl_certificate:
-            path: /var/data/quay/certs/ca_cert.pem
-            csr_path: /var/data/quay/certs/rootCA.csr
-            privatekey_path: /var/data/quay/certs/rootCA.key
-            provider: selfsigned
-            selfsigned_digest: sha256
-
-        - name: Generate selfsigned CA certificate
-          openssl_certificate:
             path: /var/data/quay/certs/rootCA.pem
             csr_path: /var/data/quay/certs/rootCA.csr
             privatekey_path: /var/data/quay/certs/rootCA.key
-            ownca_path: /var/data/quay/certs/ca_cert.pem
-            ownca_privatekey_path: /var/data/quay/certs/rootCA.key
-            provider: ownca
-            ownca_digest: sha256
+            provider: selfsigned
           register: ownca_certificate
 
         ### Quay cert ###
@@ -108,11 +97,11 @@
         - name: Generate a self signed cert
           openssl_certificate:
             path: /var/data/quay/certs/ssl.crt
-            privatekey_path: /var/data/quay/certs/ssl.key
             csr_path: /var/data/quay/certs/ssl.csr
-            ownca_path: /var/data/quay/certs/ca_cert.pem
+            ownca_not_after: "+3650d"
+            ownca_path: /var/data/quay/certs/rootCA.pem
             ownca_privatekey_path: /var/data/quay/certs/rootCA.key
-            provider: selfsigned
+            provider: ownca
 
         - name: Copy CA cert
           copy:
