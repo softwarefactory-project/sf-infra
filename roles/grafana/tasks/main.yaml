@@ -8,6 +8,7 @@
   loop:
     - /etc/grafana/provisioning/datasources
     - /etc/grafana/provisioning/dashboards
+    - /etc/grafana/secrets
 
 - name: Install config files
   become: yes
@@ -35,6 +36,22 @@
     - { name: 'grafana.ini', path: 'grafana'}
   register: _grafana_template
 
+# NOTE: Make a workaround for Zuul secret that variable is available for
+# zuul, but condition "when: sf_grafana is defined" does not pass.
+- name: Create admin secret file
+  become: true
+  copy:
+    content: '{{ sf_grafana.password }}'
+    dest: /etc/grafana/secrets/admin_password
+  when: "{{ sf_grafana | default(False) }}"
+
+- name: Create admin user file
+  become: true
+  copy:
+    content: "{{ sf_grafana.user }}"
+    dest: /etc/grafana/secrets/admin_user
+  when: "{{ sf_grafana | default(False) }}"
+
 - include_role:
     name: container-service
   vars:
@@ -42,6 +59,12 @@
     pod_param: >
       --network host
       -v /etc/grafana:/etc/grafana
+      {% if sf_grafana | default(False) %}
+      -e GF_SECURITY_ADMIN_PASSWORD__FILE='/etc/grafana/secrets/admin_password'
+      -e GF_SECURITY_ADMIN_USER__FILE='/etc/grafana/secrets/admin_user'
+      -e GF_AUTH_ANONYMOUS_ENABLED='true'
+      -e GF_USERS_ALLOW_SIGN_UP='true'
+      {% endif %}
       {{ container_images['grafana'] | default('docker.io/grafana/grafana:latest') }}
     pod_config: "{{ _grafana_config }}"
     pod_template: "{{ _grafana_template }}"

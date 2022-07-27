@@ -8,3 +8,16 @@ datasources:
    type: 'prometheus'
    url: '{{ prometheus_public_url }}'
    version: 1
+{% if vexxhost_prometheus | default(False) %}
+-  access: 'proxy'
+   editable: false
+   isDefault: false
+   name: 'prometheus-vexxhost'
+   orgId: 2
+   type: 'prometheus'
+   url: '{{ vexxhost_prometheus.url }}'
+   basicAuth: true
+   basicAuthUser: '{{ vexxhost_prometheus.user }}'
+   basicAuthPassword: '{{ vexxhost_prometheus.password }}'
+   version: 1
+{% endif %}
