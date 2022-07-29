@@ -51,6 +51,9 @@ all:
     masters:
       hosts:
         registry.rdoproject.org: {}
+    monitoring:
+      hosts:
+        prometheus.monitoring.softwarefactory-project.io: {}
     nodepool-builder:
       hosts:
         nodepool-builder.softwarefactory-project.io: {}

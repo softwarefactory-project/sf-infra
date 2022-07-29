@@ -125,10 +125,6 @@
         secret: bridge_ara_api
       - name: sshkey
         secret: bridge_ssh_key
-      - name: vexxhost_prometheus
-        secret: vexxhost-prometheus
-      - name: sf_grafana
-        secret: sf-grafana
 
 - job:
     name: sf-infra-configure-hosts-dlrn
