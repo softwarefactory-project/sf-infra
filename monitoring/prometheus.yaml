@@ -185,3 +185,7 @@ scrape_configs:
     static_configs:
       - targets:
           - image-builder.softwarefactory-project.io:9001
+  - job_name: logscraper
+    static_configs:
+      - targets:
+          - logscraper01.openstack.org:9128
