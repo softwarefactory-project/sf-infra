@@ -115,3 +115,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChvWGP5I66E3ZZat0D1jpTXbZN5aeM3Ky+dlM6LBESVKtxP1Ee4hbxei3mWBz/nJQcWqXZEEzBab6BsORk8+kt3RSpap08DHY5UMGaXZJzXWr6Iqj8Voz6+GxWBiBmpPrZc2cWKedmL4PsSDFX9X0Bz8bOllSnk1CFGiEISv0GNzDFGjqjAuXYFlCB4EDNnNvsexuT6DUnDPhpl8nTabI0AzU8d22QGfb2X4iUEt/rtogRpSS/ftZcYoVxmZKk/yLo8LvuohiS1IqACIyzDYtwb2oBVYV+Fd0fdkkvnyERS8oxjnQVC9XwSK8aXj+TlQn2oYtgw7CzJyvbkmSXGvq0wTL0lHhM6loGodM6yUI6W3HD17bkDlJbiIP1NroLtaDlQ6XIlH9XOs151hwHM3ED7fDLjXfkxa2NlvvuMYNkgq0seDmalcjJyPQuEOd4OCLyfhiiNkqlge9aNPgFl0H+gxnsqPzLe6eOE++8EJ91btLAe9xEzilvG8qVHIyXWaNo62PguUBMX7zUeKkLFxWxWCln10B5QIEZ70xbMv/mmD09jynduaQS/qk1tt9zq0P4EbOwB6wIbbTXUERiMC0OJN5W+YBhsaqLzUAEqjzMJ9RKfnsQifh8lgt4oh3/i5dKQn4RPHZCac1ipHcEPsL4jXLc3pCd4LP5GdksCCbhVQ== gomathiselvi@gmail.com"
+  kkula:
+    name: "kkula"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIgA4eGfos77YSFgVIDHXGROJufQm3Y906GY5ca/VyfC"
