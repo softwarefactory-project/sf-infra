@@ -44,3 +44,23 @@
     value: "262144"
     state: present
     reload: true
+
+# NOTE: Increase limits for nproc and nofile due error:
+# pthread_create failed (eagain)
+# NOTE(dpawlik): Default value for nofile is 1024.
+- name: Set limits for nofile
+  become: true
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '* - nofile 102400'
+    insertbefore: '^# End of file'
+    state: present
+
+ # NOTE(dpawlik): Default value for nproc is: 63844
+- name: Set limits for nproc
+  become: true
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '* - nproc unlimited'
+    insertbefore: '^# End of file'
+    state: present
