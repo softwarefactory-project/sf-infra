@@ -1,0 +1,19 @@
+groups:
+  - name: system-package-update-sf.rules
+    rules:
+      - alert: SystemOutdatedPackagesSF
+        annotations:
+          summary: "There are some packages to update in SF infra!"
+        expr: |
+          system_package_update{instance!~"(centos.+|dlrn.+|rpm.+|trunk.+).rdoproject.org.+"} > 1
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: info
+      - alert: SystemOutdatedPackagesSF
+        annotations:
+          summary: "There are many packages to update in SF infra!"
+        expr: |
+          system_package_update{instance!~"(centos.+|dlrn.+|rpm.+|trunk.+).rdoproject.org.+"} > 100
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning

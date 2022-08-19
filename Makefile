@@ -18,7 +18,8 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-mysqld.yaml \
 	  monitoring/rules-openstack-check.yaml \
 	  monitoring/rules-es-check.yaml \
-	  monitoring/rules-system-package-count.dhall \
+	  monitoring/rules-system-package-count-sf.dhall \
+	  monitoring/rules-system-package-count-rdo.dhall \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  playbooks/host_vars/backup.rdoproject.org.yaml
 
