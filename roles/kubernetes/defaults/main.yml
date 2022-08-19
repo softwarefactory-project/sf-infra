@@ -1,0 +1,10 @@
+---
+fqdn: kubernetes.dev
+
+calico_version: v3.24.0
+ingress_version: v2.3.0
+local_storage_version: v0.0.22
+
+# Kubeadm
+pod_network_cidr: 10.244.0.0/16
+service_cidr: 10.96.0.0/16

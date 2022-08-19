@@ -1,0 +1,30 @@
+---
+- name: Disable selinux
+  include_tasks: selinux.yaml
+
+- name: Prepare host
+  include_tasks: pre.yaml
+
+- name: Prepare cri-o
+  include_tasks: crio.yaml
+
+- name: Set firewall rules
+  include_tasks: firewall.yaml
+
+- name: Configure repos and install required packages
+  include_tasks: setup_kubeadm.yaml
+
+- name: Setup Kubernetes
+  include_tasks: kubeadm.yaml
+
+- name: Setup Calico
+  include_tasks: calico.yaml
+
+- name: Setup ingress
+  include_tasks: ingress.yaml
+
+- name: Post configuration
+  include_tasks: post.yaml
+
+- name: Local path provisioner
+  include_tasks: local-storage.yaml
