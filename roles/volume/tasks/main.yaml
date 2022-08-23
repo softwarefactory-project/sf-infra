@@ -30,16 +30,34 @@
       package:
         name: lvm2
 
+    - name: 'Delete existing partition of {{ item }}'
+      parted:
+        device: '{{ item }}'
+        number: '{{ part_number }}'
+        state: absent
+      loop: '{{ devices }}'
+      register: _partitions_deleted
+      when: delete_partitions | bool
+
+    - name: 'Wipe partition table of {{ item }}'
+      command: 'wipefs -a {{ item }}'
+      loop: '{{ devices }}'
+      when:
+        - _partitions_deleted.changed | bool
+        - wipe_partition_table | bool
+
     - name: Create a volume group
       lvg:
         vg: '{{ vg_name }}'
         pvs: '{{ devices | join(",") }}'
-        pesize: 32
+        pesize: '32'
+
     - name: Create a logical volume
       lvol:
         vg: '{{ vg_name }}'
         lv: '{{ lv_name }}'
         size: 100%VG
+
     - name: Define partition
       set_fact:
         partition: 'mapper/{{ vg_name }}-{{ lv_name }}'

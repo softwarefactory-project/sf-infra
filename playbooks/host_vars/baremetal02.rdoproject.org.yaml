@@ -7,3 +7,18 @@ flavors:
     disk: 80
     ram: 8192
     vcpus: 4
+lvm: true
+delete_partitions: true
+wipe_partition_table: true
+vg_name: 'var_lib'
+lv_name: 'nova'
+devices:
+  - /dev/sdb
+  - /dev/sdc
+  - /dev/sdd
+mountpoint: '/mnt/{{ vg_name }}_{{ lv_name }}'
+# bind_mount will be enabled after data sync
+# from /var/lib/config-data/nova/etc/passwd
+# nova:x:42436:42436::/var/lib/nova:/usr/sbin/nologin
+# bind_mounts:
+#   - {source: '{{ mountpoint }}', dest: '/var/lib/nova', owner: '42436', group: '42436'}

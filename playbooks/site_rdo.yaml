@@ -46,6 +46,7 @@
 - hosts: baremetal02.rdoproject.org
   roles:
     - sf-ssh
+    - volume
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:

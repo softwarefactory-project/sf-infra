@@ -10,3 +10,5 @@ lvm: false
 vg_name: ''
 lv_name: ''
 bind_mounts: []
+delete_partitions: false
+wipe_partition_table: false
