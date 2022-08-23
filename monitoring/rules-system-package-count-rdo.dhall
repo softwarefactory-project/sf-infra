@@ -7,9 +7,10 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ Prometheus.CriticalRule::{
             , alert = Some "SystemOutdatedPackagesRDO"
+            , for = Some "7d"
             , expr = Some
                 ''
-                system_package_update{instance=~"(centos.+|dlrn.+|rpm.+|trunk.+).rdoproject.org.+"} > 1
+                system_package_update{instance=~"(centos.+|dlrn.+|rpm.+|trunk.+|www).rdoproject.org.+"} > 1
                 ''
             , labels = Some
               { severity = "info"
@@ -22,9 +23,10 @@ in  Prometheus.RulesConfig::{
             }
           , Prometheus.CriticalRule::{
             , alert = Some "SystemOutdatedPackagesRDO"
+            , for = Some "14d"
             , expr = Some
                 ''
-                system_package_update{instance=~"(centos.+|dlrn.+|rpm.+|trunk.+).rdoproject.org.+"} > 100
+                system_package_update{instance=~"(centos.+|dlrn.+|rpm.+|trunk.+|www).rdoproject.org.+"} > 100
                 ''
             , labels = Some
               { severity = "warning"
