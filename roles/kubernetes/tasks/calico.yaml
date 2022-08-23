@@ -1,0 +1,34 @@
+---
+- name: Check if Calico was not deployed earlier
+  stat:
+    path: /etc/kubernetes/calico-custom-resources.yaml
+  register: _calico_resource
+
+- name: Setup Calico
+  become: true
+  block:
+    - name: Untaint nodes
+      shell: |
+        kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+        kubectl taint nodes --all node-role.kubernetes.io/master-
+      ignore_errors: true
+      environment:
+        KUBECONFIG: /root/.kube/config
+
+    - name: Install operator
+      shell: |
+        kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+
+    - name: Get custom resource
+      get_url:
+        url: https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/calicoctl.yaml
+        dest: /etc/kubernetes/calico-custom-resources.yaml
+
+    - name: Apply Calico custom resources
+      shell: |
+        kubectl create -f /etc/kubernetes/calico-custom-resources.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+  when: not _calico_resource.stat.exists

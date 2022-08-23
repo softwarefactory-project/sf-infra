@@ -1,0 +1,31 @@
+---
+- name: Setup kubernetes repository
+  become: true
+  copy:
+    content: |
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      exclude=kubelet kubeadm kubectl
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: Install required packages
+  become: true
+  yum:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    update_cache: true
+    disable_excludes: kubernetes
+
+- name: Enable kubelet service
+  become: true
+  service:
+    name: kubelet
+    state: started
+    enabled: true

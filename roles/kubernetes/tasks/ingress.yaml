@@ -1,0 +1,55 @@
+---
+- name: check if ingress was already deployed
+  stat:
+    path: ~/kubernetes-ingress
+  register: _ingress_dir
+
+- name: Deploy ingress
+  become: true
+  block:
+    - name: Clone directory
+      git:
+        repo: "https://github.com/nginxinc/kubernetes-ingress.git"
+        dest: ~/kubernetes-ingress
+        version: "{{ ingress_version }}"
+
+    - name: Configure RBAC
+      shell: |
+        kubectl apply -f common/ns-and-sa.yaml
+        kubectl apply -f rbac/rbac.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+      args:
+        chdir: ~/kubernetes-ingress/deployments
+
+    - name: Configure common resources
+      shell: |
+        kubectl apply -f common/default-server-secret.yaml
+        kubectl apply -f common/nginx-config.yaml
+        kubectl apply -f common/ingress-class.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+      args:
+        chdir: ~/kubernetes-ingress/deployments
+
+    - name: Deploy ingress controller
+      shell: |
+        kubectl apply -f common/crds/k8s.nginx.org_virtualservers.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_virtualserverroutes.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_transportservers.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_policies.yaml
+        kubectl apply -f deployment/nginx-ingress.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+      args:
+        chdir: ~/kubernetes-ingress/deployments
+
+    - name: Get access to the ingress controller
+      shell: |
+        kubectl create -f service/nodeport.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+      args:
+        chdir: ~/kubernetes-ingress/deployments
+
+  when: not _ingress_dir.stat.exists

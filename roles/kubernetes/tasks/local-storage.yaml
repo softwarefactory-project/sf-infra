@@ -1,0 +1,15 @@
+---
+# https://github.com/rancher/local-path-provisioner
+- name: Symlink src dir to local storage dir
+  become: true
+  file:
+    src: /home/fedora/src
+    dest: /opt/local-path-provisioner
+    state: link
+
+- name: Create local path storage
+  become: true
+  shell: |
+    kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/{{ local_storage_version }}/deploy/local-path-storage.yaml
+  environment:
+    KUBECONFIG: /root/.kube/config
