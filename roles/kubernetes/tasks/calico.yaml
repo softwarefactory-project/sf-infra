@@ -1,12 +1,17 @@
 ---
 - name: Check if Calico was not deployed earlier
   stat:
-    path: /etc/kubernetes/calico-custom-resources.yaml
+    path: "{{ calico_config_dir }}/calicoctl.yaml"
   register: _calico_resource
 
 - name: Setup Calico
   become: true
   block:
+    - name: Make calico directory in Kubernedes directory
+      file:
+        path: "{{ calico_config_dir }}"
+        state: directory
+
     - name: Untaint nodes
       shell: |
         kubectl taint nodes --all node-role.kubernetes.io/control-plane-
@@ -15,20 +20,30 @@
       environment:
         KUBECONFIG: /root/.kube/config
 
+    - name: Get calico manifests
+      get_url:
+        url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/{{ item }}"
+        dest: "/etc/kubernetes/calico/{{ item }}"
+      loop:
+        - tigera-operator.yaml
+        - calicoctl.yaml
+
+    # https://projectcalico.docs.tigera.io/maintenance/image-options/alternate-registry
+    - name: Replace repository from docker to quay.io
+      shell: |
+        sed -i 's#image: calico/ctl:#image: quay.io/calico/ctl:#g' {{ calico_config_dir }}/calicoctl.yaml
+      when: replace_docker_registry
+
     - name: Install operator
       shell: |
-        kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml
+        kubectl create -f /etc/kubernetes/calico/tigera-operator.yaml
       environment:
         KUBECONFIG: /root/.kube/config
 
-    - name: Get custom resource
-      get_url:
-        url: https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/calicoctl.yaml
-        dest: /etc/kubernetes/calico-custom-resources.yaml
-
-    - name: Apply Calico custom resources
+    - name: Install custom resources
       shell: |
-        kubectl create -f /etc/kubernetes/calico-custom-resources.yaml
+        kubectl create -f /etc/kubernetes/calico/calicoctl.yaml
       environment:
         KUBECONFIG: /root/.kube/config
+
   when: not _calico_resource.stat.exists

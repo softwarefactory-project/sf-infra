@@ -32,6 +32,13 @@
       args:
         chdir: ~/kubernetes-ingress/deployments
 
+    - name: Replace repository from docker to quay.io
+      shell: |
+        sed -i 's#image: nginx/nginx-ingress:#image: quay.io/nginx/nginx-ingress:#g' deployment/nginx-ingress.yaml
+      args:
+        chdir: ~/kubernetes-ingress/deployments
+      when: replace_docker_registry
+
     - name: Deploy ingress controller
       shell: |
         kubectl apply -f common/crds/k8s.nginx.org_virtualservers.yaml

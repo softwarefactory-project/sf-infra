@@ -7,9 +7,33 @@
     dest: /opt/local-path-provisioner
     state: link
 
-- name: Create local path storage
+- name: Check if local storage was already deployed
+  stat:
+    path: "{{ local_storage_config_dir }}/local-path-storage.yaml"
+  register: _local_storage_resource
+
+- name: Deploy local storage
   become: true
-  shell: |
-    kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/{{ local_storage_version }}/deploy/local-path-storage.yaml
-  environment:
-    KUBECONFIG: /root/.kube/config
+  block:
+    - name: Create local storage config dir
+      file:
+        path: "{{ local_storage_config_dir }}"
+        state: directory
+
+    - name: Get local storage manifest
+      get_url:
+        url: "https://raw.githubusercontent.com/rancher/local-path-provisioner/{{ local_storage_version }}/deploy/local-path-storage.yaml"
+        dest: "{{ local_storage_config_dir }}/local-path-storage.yaml"
+
+    - name: Replace docker.io registry to quay.io
+      shell: |
+        sed -i 's#image: rancher/local-path-provisioner:#image: quay.io/dpawlik/local-path-provisioner:#g' {{ local_storage_config_dir }}/local-path-storage.yaml
+        sed -i 's#image: busybox#image: quay.io/dpawlik/busybox#g' {{ local_storage_config_dir }}/local-path-storage.yaml
+
+    - name: Create local path storage
+      shell: |
+        kubectl apply -f {{ local_storage_config_dir }}/local-path-storage.yaml
+      environment:
+        KUBECONFIG: /root/.kube/config
+
+  when: not _local_storage_resource.stat.exists

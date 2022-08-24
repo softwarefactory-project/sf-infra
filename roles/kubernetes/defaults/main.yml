@@ -4,7 +4,14 @@ fqdn: kubernetes.dev
 calico_version: v3.24.0
 ingress_version: v2.3.0
 local_storage_version: v0.0.22
+replace_docker_registry: true
 
 # Kubeadm
 pod_network_cidr: 10.244.0.0/16
 service_cidr: 10.96.0.0/16
+
+# config
+calico_config_dir: /etc/kubernetes/calico
+
+# local storage
+local_storage_config_dir: /etc/kubernetes/local-storage
