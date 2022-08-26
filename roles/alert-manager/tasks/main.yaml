@@ -21,6 +21,8 @@
         smtp_smarthost: '{{ smtp_host }}:25'
         smtp_from: 'prometheus@{{ monitoring_host }}'
       route:
+        repeat_interval: 12h
+        group_interval: 10m
         group_by: [Alertname]
         receiver: softwarefactory-operations-team
         routes:
