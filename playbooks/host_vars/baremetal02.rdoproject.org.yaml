@@ -17,8 +17,13 @@ devices:
   - /dev/sdc
   - /dev/sdd
 mountpoint: '/mnt/{{ vg_name }}_{{ lv_name }}'
-# bind_mount will be enabled after data sync
 # from /var/lib/config-data/nova/etc/passwd
 # nova:x:42436:42436::/var/lib/nova:/usr/sbin/nologin
-# bind_mounts:
-#   - {source: '{{ mountpoint }}', dest: '/var/lib/nova', owner: '42436', group: '42436'}
+mount_owner: 42436
+mount_group: 42436
+# bind_mount will be enabled after data sync
+bind_mounts:
+  - source: '{{ mountpoint }}'
+    dest: '/var/lib/nova'
+    owner: '{{ mount_owner }}'
+    group: '{{ mount_group }}'
