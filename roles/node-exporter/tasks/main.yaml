@@ -47,3 +47,8 @@
       --collector.textfile.directory /var/lib/node_exporter/textfile_collector
       --collector.systemd
       --collector.systemd.unit-include="{{ prometheus_monitored_services | join('|') }}"
+      --collector.netdev.device-exclude='^(tap.*)$'
+      --collector.netclass.ignored-devices='^(tap.*)$'
+      --collector.filesystem.ignored-mount-points='^/(dev|proc|sys|var/lib/containers/.+|var/lib/kubelet/pods/.+|run/netns/.+)($|/)'
+      --no-collector.wifi
+      --no-collector.cpufreq
