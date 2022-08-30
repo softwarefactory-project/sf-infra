@@ -15,6 +15,8 @@
             vars:
               grafana_server_root_url: http://localhost
               prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+              container_images:
+                grafana: "quay.io/software-factory/grafana@sha256:a6fb9822cb2609a5890e2787c2192ab93fb2067eadc075608ee0567057361439"
             roles:
               - grafana
         dest: '{{ ansible_user_dir }}/deploy_grafana.yml'
@@ -26,10 +28,10 @@
       environment:
         ANSIBLE_CONFIG: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible"
 
-    - name: Get puppeteer
-      shell:
-        cmd: |
-          npm i puppeteer
+    - name: Install puppeteer
+      shell: |
+          npm install puppeteer@13.7.0
+      args:
         chdir: "{{ ansible_user_dir }}"
 
     - name: Create required dirs for Grafana
