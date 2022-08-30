@@ -18,3 +18,5 @@ servers:
     flavor: m1.medium
   - name: ibm-ze.softwarefactory-project.io
     flavor: m1.large
+  - name: ibm-zfgw.softwarefactory-project.io
+    flavor: m1.small
