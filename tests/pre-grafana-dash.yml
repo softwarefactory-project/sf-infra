@@ -1,6 +1,11 @@
 ---
 - hosts: all
+  become: true
   tasks:
+    - name: Enable newer nodejs module
+      shell: |
+        dnf module enable -y nodejs:16
+
     - name: Ensure requirements are installed
       package:
         name:
@@ -21,10 +26,8 @@
           - libgbm
           - alsa-lib
           - centos-release-openstack-victoria
-      become: yes
 
     - name: Install Ansible locally
       package:
         name:
           - ansible
-      become: yes
