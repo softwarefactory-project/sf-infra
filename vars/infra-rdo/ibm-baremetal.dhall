@@ -41,4 +41,15 @@ in  [ Infra.Instance::{
         , proxy_jump = Some "baremetal02.rdoproject.org"
         }
       }
+    , Infra.Instance::{
+      , name = "ibm-zfgw.softwarefactory-project.io"
+      , groups = [ "sf" ]
+      , node-exporter = False
+      , connection = Infra.Connection::{
+        , ansible_user = "centos"
+        , ansible_host = Some "192.168.25.80"
+        , ansible_python_interpreter = "python2"
+        , proxy_jump = Some "baremetal02.rdoproject.org"
+        }
+      }
     ]

@@ -98,6 +98,11 @@ Host ibm-ze.softwarefactory-project.io
     Port 22
     ProxyJump baremetal02.rdoproject.org
     Hostname 192.168.25.127
+Host ibm-zfgw.softwarefactory-project.io
+    User centos
+    Port 22
+    ProxyJump baremetal02.rdoproject.org
+    Hostname 192.168.25.80
 Host bridge.softwarefactory-project.io
     User fedora
     Port 22
