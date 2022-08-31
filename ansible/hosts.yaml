@@ -97,6 +97,7 @@ all:
         fedora.softwarefactory-project.io: {}
         ibm-nodepool-launcher.softwarefactory-project.io: {}
         ibm-ze.softwarefactory-project.io: {}
+        ibm-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s02.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -188,6 +189,11 @@ all:
       ansible_user: centos
     ibm-ze.softwarefactory-project.io:
       ansible_host: '192.168.25.127'
+      ansible_port: 22
+      ansible_python_interpreter: python2
+      ansible_user: centos
+    ibm-zfgw.softwarefactory-project.io:
+      ansible_host: '192.168.25.80'
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos

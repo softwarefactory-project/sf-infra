@@ -24,6 +24,7 @@ This project manages:
 * mirror.regionone.ibm-bm2-nodepool.rdoproject.org
 * ibm-nodepool-launcher.softwarefactory-project.io
 * ibm-ze.softwarefactory-project.io
+* ibm-zfgw.softwarefactory-project.io
 * bridge.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io
