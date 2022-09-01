@@ -48,6 +48,10 @@ let security_groups =
               , port = +5601
               , remote_ip_prefix = Some "38.102.83.141/32"
               }
+            , Infra.Rule::{
+              , port = +9114
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
             ]
           }
         , { name = "opensearch"
@@ -59,6 +63,10 @@ let security_groups =
             , Infra.Rule::{
               , port = +9200
               , remote_ip_prefix = Some "38.102.83.124/32"
+              }
+            , Infra.Rule::{
+              , port = +9114
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
             ]
           }

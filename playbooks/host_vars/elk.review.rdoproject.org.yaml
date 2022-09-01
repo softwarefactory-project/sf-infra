@@ -8,6 +8,7 @@ external_elk:
 container_images:
   logscraper: quay.io/software-factory/logscraper:latest
   logsender: quay.io/software-factory/logscraper:latest
+  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:13a41e8ac8366a2ec1ffefea988095ab02a397c6f1df52934f3f403f9fe3a74c
 
 tenant_builds:
   - tenant: rdoproject.org

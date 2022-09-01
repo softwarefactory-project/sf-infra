@@ -53,6 +53,10 @@ let security_groups =
               , protocol = Some "udp"
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +9114
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
             ]
           }
         , { name = "zookeeper"

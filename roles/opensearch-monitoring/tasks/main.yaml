@@ -1,0 +1,6 @@
+---
+- name: Add script for monitoring last logs
+  include_tasks: check_es.yaml
+
+- name: Configure elasticsearch exporter
+  include_tasks: elk_exporter.yaml

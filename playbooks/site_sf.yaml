@@ -117,10 +117,7 @@
     - volume
     - {name: 'logscraper', become: true}
     - {name: 'logsender', become: true}
-  tasks:
-    - include_role:
-        name: elasticsearch
-        tasks_from: check_es.yaml
+    - opensearch-monitoring
 
 - hosts: zk01.softwarefactory-project.io
   vars:

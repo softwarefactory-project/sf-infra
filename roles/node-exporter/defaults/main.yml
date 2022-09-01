@@ -16,6 +16,7 @@ prometheus_monitored_services:
   - statsd_exporter
   - udp-multiplexer
   # sf.io
+  - elasticsearch-exporter
   - etherpad
   - gearman
   - gerrit
