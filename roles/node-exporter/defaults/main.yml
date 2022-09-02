@@ -5,18 +5,17 @@
 # Duck: you can use prometheus_monitored_services_extra to add services
 #       to the base ones (which should be stripped down on day)
 prometheus_monitored_services:
-# common
+  # common
   - fail2ban
   - httpd
   - node_exporter
-# monitoring
+  # monitoring
   - blackbox-exporter
   - prometheus
   - pushprox-proxy
   - statsd_exporter
   - udp-multiplexer
-# sf.io
-  - elasticsearch
+  # sf.io
   - etherpad
   - gearman
   - gerrit
@@ -24,33 +23,26 @@ prometheus_monitored_services:
   - grafana
   - houndd
   - influxdb
-  - kibana
   - kojid
   - kojira
-  - log-gearman-client
-  - log-gearman-client-softwarefactory-project.io
-  - log-gearman-worker
-  - log-gearman-worker-softwarefactory-project.io
+  - logsender-rdoproject.org
+  - logscraper-rdoproject.org
+  - logsender-softwarefactory-project.io
+  - logscraper-softwarefactory-project.io
   - logstash
   - managesf
   - mariadb
   - nodepool-builder
   - nodepool-launcher
+  - opensearch
+  - opensearch-dashboards
   - postfix
-  - repoxplorer
-  - repoxplorer-webui
   - telegraf
   - zookeeper
   - zuul-executor
   - zuul-merger
   - zuul-scheduler
   - zuul-web
-  - zuul-job-scrapper-softwarefactory-project.io
-# rdo
-  - log-gearman-client-rdoproject.org
-  - log-gearman-worker-rdoproject.org
-  - zuul-job-scrapper-rdoproject.org
-# logscraper01.openstack.org
+  # logscraper01.openstack.org
   - logscraper-openstack
-  - loggearman-worker
-  - loggearman-client
+  - logsender-openstack
