@@ -39,7 +39,8 @@
         admin_users:
           - duck
           - misc
-          # TODO: add RDO folks
+          - apevec
+          - spotz
         mail_aliases:
           root: "{{ ['root'] + ml_error_emails }}"
           listmaster: root
