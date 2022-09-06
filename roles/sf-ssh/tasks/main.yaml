@@ -30,4 +30,8 @@
       Host ibm-ze*
           ProxyJump baremetal02.rdoproject.org
           Hostname 192.168.25.127
+
+      Host ibm-zfgw*
+          ProxyJump baremetal02.rdoproject.org
+          Hostname 192.168.25.80
   when: ansible_fqdn == "managesf.softwarefactory-project.io"
