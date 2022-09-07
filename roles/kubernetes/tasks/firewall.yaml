@@ -1,4 +1,7 @@
 ---
+- name: Get package facts
+  package_facts:
+
 - name: Add exception to the firewall
   become: true
   firewalld:
@@ -12,3 +15,4 @@
     - 10251/tcp
     - 10252/tcp
     - 10255/tcp
+  when: "'firewalld' in ansible_facts.packages"
