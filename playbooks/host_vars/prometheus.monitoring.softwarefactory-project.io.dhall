@@ -17,7 +17,7 @@ let container_images =
       , alertmanager =
           "quay.io/prometheus/alertmanager@sha256:9ab73a421b65b80be072f96a88df756fc5b52a1bc8d983537b8ec5be8b624c5a"
       , grafana =
-          "quay.io/software-factory/grafana@sha256:aa6b58d911de35939b065fc2fcd1bed76d3a42f0d7213b47898da7870f0b5c99"
+          "quay.io/software-factory/grafana-oss@sha256:d9cbc7b0cff2edb25374031691f72053f809260e36b967618ca6172bbba3696f"
       , statsd_exporter =
           "quay.io/prometheus/statsd-exporter@sha256:8be6604709613409be493520d13a58686ce0b9d69f9b23476195a37379d2df9e"
       }
