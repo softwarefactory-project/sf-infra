@@ -209,8 +209,6 @@ servers:
       - internal
       - web
       - managesf
-      - zookeeper
-      - zookeeper_exporter
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
@@ -276,6 +274,7 @@ servers:
       - monitoring
       - internal
       - zookeeper
+      - zookeeper_exporter
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2

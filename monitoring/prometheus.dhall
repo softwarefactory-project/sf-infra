@@ -13,7 +13,7 @@ let db_server_list =
 
 let apache_server_list = [ "trunk.rdoproject.org:9117" ]
 
-let zookeeper_server_list = [ "managesf.softwarefactory-project.io:9141" ]
+let zookeeper_server_list = [ "zk01.softwarefactory-project.io:9141" ]
 
 let -- | Keep in sync with site.yaml and zuul-weeder security group
     zuul-weeder =

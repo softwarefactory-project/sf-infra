@@ -65,7 +65,6 @@
     - hostname
     - sf-install-server
     - acme-tiny
-    - zookeeper-exporter
     - sf-ssh
   tasks:
     # FIXME(dpawlik) Remove this task after upgrade to sf 3.7
@@ -122,6 +121,12 @@
     - include_role:
         name: elasticsearch
         tasks_from: check_es.yaml
+
+- hosts: zk01.softwarefactory-project.io
+  vars:
+    zookeeper_tls_enabled: false
+  roles:
+    - zookeeper-exporter
 
 - hosts: fedora.softwarefactory-project.io
   roles:
