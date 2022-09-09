@@ -1,0 +1,13 @@
+---
+# https://github.com/openstack-k8s-operators/install_yamls/tree/master/devsetup
+- name: Prepare pull-secret.txt file
+  include_tasks: secret.yaml
+
+- name: Download crc
+  include_tasks: download.yaml
+
+- name: Setup crc
+  include_tasks: setup.yaml
+
+- name: Post crc step
+  include_tasks: post.yaml

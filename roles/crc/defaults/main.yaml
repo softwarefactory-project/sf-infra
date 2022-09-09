@@ -1,0 +1,5 @@
+---
+opeshift_pull_secret: ""
+openshift_admin_password: 123456789
+
+show_hidden_logs: True
