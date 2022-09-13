@@ -66,7 +66,7 @@
       "tags": [],
       "title": "GitHub",
       "type": "link",
-      "url": "https://github.com/rfrail3/grafana-dashboards"
+      "url": "https://github.com/rfmoz/grafana-dashboards"
     },
     {
       "icon": "external link",
@@ -160,6 +160,7 @@
         {
           "expr": "(((count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"$node\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
@@ -237,6 +238,7 @@
         {
           "expr": "avg(node_load5{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "refId": "A",
@@ -384,6 +386,7 @@
         {
           "expr": "((node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
           "format": "time_series",
+          "interval": "1m",
           "hide": true,
           "intervalFactor": 1,
           "refId": "A",
@@ -392,6 +395,7 @@
         {
           "expr": "100 - ((node_memory_MemAvailable_bytes{instance=\"$node\",job=\"$job\"} * 100) / node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "refId": "B",
@@ -544,6 +548,7 @@
         {
           "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"})",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -622,7 +627,7 @@
       "targets": [
         {
           "expr": "count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
-          "interval": "",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
@@ -806,6 +811,7 @@
         {
           "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "refId": "A",
@@ -1114,6 +1120,7 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
@@ -1123,6 +1130,7 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Busy User",
@@ -1132,6 +1140,7 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Busy Iowait",
           "refId": "C",
@@ -1140,6 +1149,7 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
           "refId": "D",
@@ -1148,6 +1158,7 @@
         {
           "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Busy Other",
           "refId": "E",
@@ -1156,6 +1167,7 @@
         {
           "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Idle",
           "refId": "F",
@@ -1304,6 +1316,7 @@
         {
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "RAM Total",
@@ -1313,6 +1326,7 @@
         {
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - (node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
+          "interval": "1m",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "RAM Used",
@@ -1322,6 +1336,7 @@
         {
           "expr": "node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "RAM Cache + Buffer",
           "refId": "C",
@@ -1330,6 +1345,7 @@
         {
           "expr": "node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "RAM Free",
           "refId": "D",
@@ -1338,6 +1354,7 @@
         {
           "expr": "(node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "SWAP Used",
           "refId": "E",
@@ -1473,6 +1490,7 @@
         {
           "expr": "rate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "recv {{device}}",
           "refId": "A",
@@ -1481,6 +1499,7 @@
         {
           "expr": "rate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "trans {{device}} ",
           "refId": "B",
@@ -1588,6 +1607,7 @@
         {
           "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'})",
           "format": "time_series",
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "{{mountpoint}}",
           "refId": "A",
@@ -1727,6 +1747,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='user',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "User - Normal processes executing in user mode",
               "refId": "B",
@@ -1735,6 +1756,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='nice',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Nice - Niced processes executing in user mode",
               "refId": "C",
@@ -1743,6 +1765,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Idle - Waiting for something to happen",
               "refId": "D",
@@ -1751,6 +1774,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='iowait',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Iowait - Waiting for I/O to complete",
               "refId": "E",
@@ -1759,6 +1783,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='irq',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Irq - Servicing interrupts",
               "refId": "F",
@@ -1767,6 +1792,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='softirq',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Softirq - Servicing softirqs",
               "refId": "G",
@@ -1775,6 +1801,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='steal',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Steal - Time spent in other operating systems when running in a virtualized environment",
               "refId": "H",
@@ -1783,6 +1810,7 @@
             {
               "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='guest',instance=\"$node\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Guest - Time spent running a virtual CPU for a guest operating system",
               "refId": "I",
@@ -1915,6 +1943,7 @@
             {
               "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"} - node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Apps - Memory used by user-space applications",
@@ -1924,6 +1953,7 @@
             {
               "expr": "node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "PageTables - Memory used to map between virtual and physical memory addresses",
@@ -1933,6 +1963,7 @@
             {
               "expr": "node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "SwapCache - Memory that keeps track of pages that have been fetched from swap but not yet been modified",
               "refId": "C",
@@ -1941,6 +1972,7 @@
             {
               "expr": "node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Slab - Memory used by the kernel to cache data structures for its own use (caches like inode, dentry, etc)",
@@ -1950,6 +1982,7 @@
             {
               "expr": "node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Cache - Parked file data (file content) cache",
@@ -1959,6 +1992,7 @@
             {
               "expr": "node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Buffers - Block device (e.g. harddisk) cache",
@@ -1968,6 +2002,7 @@
             {
               "expr": "node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Unused - Free memory unassigned",
@@ -1977,6 +2012,7 @@
             {
               "expr": "(node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"})",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Swap - Swap space used",
@@ -1986,6 +2022,7 @@
             {
               "expr": "node_memory_HardwareCorrupted_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Hardware Corrupted - Amount of RAM that the kernel identified as corrupted / not working",
@@ -2099,6 +2136,7 @@
             {
               "expr": "rate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive",
               "refId": "A",
@@ -2107,6 +2145,7 @@
             {
               "expr": "rate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit",
               "refId": "B",
@@ -2216,6 +2255,7 @@
             {
               "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} - node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}}",
               "refId": "A",
@@ -2548,6 +2588,7 @@
             {
               "expr": "rate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Successfully read bytes",
@@ -2557,6 +2598,7 @@
             {
               "expr": "rate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Successfully written bytes",
@@ -2668,8 +2710,8 @@
             {
               "expr": "rate(node_disk_io_time_seconds_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{device}}",
               "refId": "A",
@@ -2802,6 +2844,7 @@
             {
               "expr": "node_memory_Inactive_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Inactive - Memory which has been less recently used.  It is more eligible to be reclaimed for other purposes",
               "refId": "A",
@@ -2810,6 +2853,7 @@
             {
               "expr": "node_memory_Active_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Active - Memory that has been used more recently and usually not reclaimed unless absolutely necessary",
               "refId": "B",
@@ -2933,6 +2977,7 @@
             {
               "expr": "node_memory_Committed_AS_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Committed_AS - Amount of memory presently allocated on the system",
               "refId": "A",
@@ -2941,6 +2986,7 @@
             {
               "expr": "node_memory_CommitLimit_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CommitLimit - Amount of  memory currently available to be allocated on the system",
               "refId": "B",
@@ -3055,6 +3101,7 @@
             {
               "expr": "node_memory_Inactive_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Inactive_file - File-backed memory on inactive LRU list",
@@ -3064,6 +3111,7 @@
             {
               "expr": "node_memory_Inactive_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Inactive_anon - Anonymous and swap cache on inactive LRU list, including tmpfs (shmem)",
@@ -3073,6 +3121,7 @@
             {
               "expr": "node_memory_Active_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Active_file - File-backed memory on active LRU list",
@@ -3082,6 +3131,7 @@
             {
               "expr": "node_memory_Active_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Active_anon - Anonymous and swap cache on active least-recently-used (LRU) list, including tmpfs",
@@ -3199,6 +3249,7 @@
             {
               "expr": "node_memory_Writeback_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Writeback - Memory which is actively being written back to disk",
               "refId": "A",
@@ -3207,6 +3258,7 @@
             {
               "expr": "node_memory_WritebackTmp_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "WritebackTmp - Memory used by FUSE for temporary writeback buffers",
               "refId": "B",
@@ -3215,6 +3267,7 @@
             {
               "expr": "node_memory_Dirty_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Dirty - Memory which is waiting to get written back to the disk",
               "refId": "C",
@@ -3340,6 +3393,7 @@
             {
               "expr": "node_memory_Mapped_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Mapped - Used memory in mapped pages files which have been mmaped, such as libraries",
               "refId": "A",
@@ -3348,6 +3402,7 @@
             {
               "expr": "node_memory_Shmem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Shmem - Used shared memory (shared between several processes, thus including RAM disks)",
               "refId": "B",
@@ -3356,7 +3411,7 @@
             {
               "expr": "node_memory_ShmemHugePages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "ShmemHugePages - Memory used by shared memory (shmem) and tmpfs allocated  with huge pages",
               "refId": "C",
@@ -3365,7 +3420,7 @@
             {
               "expr": "node_memory_ShmemPmdMapped_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "ShmemPmdMapped - Ammount of shared (shmem/tmpfs) memory backed by huge pages",
               "refId": "D",
@@ -3484,6 +3539,7 @@
             {
               "expr": "node_memory_SUnreclaim_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "SUnreclaim - Part of Slab, that cannot be reclaimed on memory pressure",
               "refId": "A",
@@ -3492,6 +3548,7 @@
             {
               "expr": "node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "SReclaimable - Part of Slab, that might be reclaimed, such as caches",
               "refId": "B",
@@ -3607,6 +3664,7 @@
             {
               "expr": "node_memory_VmallocChunk_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "VmallocChunk - Largest contigious block of vmalloc area which is free",
@@ -3616,6 +3674,7 @@
             {
               "expr": "node_memory_VmallocTotal_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "VmallocTotal - Total size of vmalloc memory area",
@@ -3625,6 +3684,7 @@
             {
               "expr": "node_memory_VmallocUsed_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "VmallocUsed - Amount of vmalloc area which is used",
@@ -3740,6 +3800,7 @@
             {
               "expr": "node_memory_Bounce_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Bounce - Memory used for block device bounce buffers",
               "refId": "A",
@@ -3860,6 +3921,7 @@
             {
               "expr": "node_memory_AnonHugePages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "AnonHugePages - Memory in anonymous huge pages",
               "refId": "A",
@@ -3868,6 +3930,7 @@
             {
               "expr": "node_memory_AnonPages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "AnonPages - Memory in user pages not backed by files",
               "refId": "B",
@@ -3982,6 +4045,7 @@
             {
               "expr": "node_memory_KernelStack_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "KernelStack - Kernel memory stack. This is not reclaimable",
               "refId": "A",
@@ -3990,7 +4054,7 @@
             {
               "expr": "node_memory_Percpu_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "PerCPU - Per CPU memory allocated dynamically by loadable modules",
               "refId": "B",
@@ -4106,6 +4170,7 @@
             {
               "expr": "node_memory_HugePages_Free{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "HugePages_Free - Huge pages in the pool that are not yet allocated",
               "refId": "A",
@@ -4114,6 +4179,7 @@
             {
               "expr": "node_memory_HugePages_Rsvd{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "HugePages_Rsvd - Huge pages for which a commitment to allocate from the pool has been made, but no allocation has yet been made",
               "refId": "B",
@@ -4122,6 +4188,7 @@
             {
               "expr": "node_memory_HugePages_Surp{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "HugePages_Surp - Huge pages in the pool above the value in /proc/sys/vm/nr_hugepages",
               "refId": "C",
@@ -4237,6 +4304,7 @@
             {
               "expr": "node_memory_HugePages_Total{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "HugePages - Total size of the pool of huge pages",
               "refId": "A",
@@ -4245,6 +4313,7 @@
             {
               "expr": "node_memory_Hugepagesize_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Hugepagesize - Huge Page size",
               "refId": "B",
@@ -4362,6 +4431,7 @@
             {
               "expr": "node_memory_DirectMap1G_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "DirectMap1G - Amount of pages mapped as this size",
               "refId": "A",
@@ -4370,7 +4440,7 @@
             {
               "expr": "node_memory_DirectMap2M_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "DirectMap2M - Amount of pages mapped as this size",
               "refId": "B",
@@ -4379,7 +4449,7 @@
             {
               "expr": "node_memory_DirectMap4k_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "DirectMap4K - Amount of pages mapped as this size",
               "refId": "C",
@@ -4494,6 +4564,7 @@
             {
               "expr": "node_memory_Unevictable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Unevictable - Amount of unevictable memory that can't be swapped out for a variety of reasons",
               "refId": "A",
@@ -4502,6 +4573,7 @@
             {
               "expr": "node_memory_Mlocked_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "MLocked - Size of pages locked to memory using the mlock() system call",
               "refId": "B",
@@ -4618,6 +4690,7 @@
             {
               "expr": "node_memory_NFS_Unstable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "NFS Unstable - Memory in NFS pages sent to the server, but not yet commited to the storage",
               "refId": "A",
@@ -4733,6 +4806,7 @@
             {
               "expr": "rate(node_vmstat_pgpgin{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pagesin - Page in operations",
               "refId": "A",
@@ -4741,6 +4815,7 @@
             {
               "expr": "rate(node_vmstat_pgpgout{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pagesout - Page out operations",
               "refId": "B",
@@ -4840,6 +4915,7 @@
             {
               "expr": "rate(node_vmstat_pswpin{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pswpin - Pages swapped in",
               "refId": "A",
@@ -4848,6 +4924,7 @@
             {
               "expr": "rate(node_vmstat_pswpout{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pswpout - Pages swapped out",
               "refId": "B",
@@ -4969,6 +5046,7 @@
             {
               "expr": "rate(node_vmstat_pgfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pgfault - Page major and minor fault operations",
               "refId": "A",
@@ -4977,6 +5055,7 @@
             {
               "expr": "rate(node_vmstat_pgmajfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pgmajfault - Major page fault operations",
               "refId": "B",
@@ -4985,6 +5064,7 @@
             {
               "expr": "rate(node_vmstat_pgfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])  - rate(node_vmstat_pgmajfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Pgminfault - Minor page fault operations",
               "refId": "C",
@@ -5103,7 +5183,7 @@
             {
               "expr": "rate(node_vmstat_oom_kill{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "oom killer invocations ",
               "refId": "A",
@@ -5220,8 +5300,8 @@
             {
               "expr": "node_timex_estimated_error_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "Estimated error in seconds",
               "refId": "A",
@@ -5230,8 +5310,8 @@
             {
               "expr": "node_timex_offset_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "Time offset in between local system and reference clock",
               "refId": "B",
@@ -5240,8 +5320,8 @@
             {
               "expr": "node_timex_maxerror_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "Maximum error in seconds",
               "refId": "C",
@@ -5335,7 +5415,7 @@
             {
               "expr": "node_timex_loop_time_constant{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Phase-locked loop time adjust",
               "refId": "A",
@@ -5434,7 +5514,7 @@
             {
               "expr": "node_timex_sync_status{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Is clock synchronized to a reliable server (1 = yes, 0 = no)",
               "refId": "A",
@@ -5443,7 +5523,7 @@
             {
               "expr": "node_timex_frequency_adjustment_ratio{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Local clock frequency adjustment",
               "refId": "B",
@@ -5537,7 +5617,7 @@
             {
               "expr": "node_timex_tick_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Seconds between clock ticks",
               "refId": "A",
@@ -5546,7 +5626,7 @@
             {
               "expr": "node_timex_tai_offset_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "International Atomic Time (TAI) offset",
               "refId": "B",
@@ -5655,6 +5735,7 @@
             {
               "expr": "node_procs_blocked{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Processes blocked waiting for I/O to complete",
               "refId": "A",
@@ -5663,6 +5744,7 @@
             {
               "expr": "node_procs_running{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Processes in runnable state",
               "refId": "B",
@@ -5758,7 +5840,7 @@
             {
               "expr": "node_processes_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ state }}",
               "refId": "A",
@@ -5854,6 +5936,7 @@
             {
               "expr": "rate(node_forks_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Processes forks second",
@@ -6082,7 +6165,7 @@
             {
               "expr": "node_processes_pids{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Number of PIDs",
               "refId": "A",
@@ -6091,7 +6174,7 @@
             {
               "expr": "node_processes_max_processes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "PIDs limit",
               "refId": "B",
@@ -6193,7 +6276,7 @@
             {
               "expr": "rate(node_schedstat_running_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{ cpu }} - seconds spent running a process",
               "refId": "A",
@@ -6202,7 +6285,7 @@
             {
               "expr": "rate(node_schedstat_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{ cpu }} - seconds spent by processing waiting for this CPU",
               "refId": "B",
@@ -6305,7 +6388,7 @@
             {
               "expr": "node_processes_threads{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Allocated threads",
               "refId": "A",
@@ -6314,7 +6397,7 @@
             {
               "expr": "node_processes_max_threads{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Threads limit",
               "refId": "B",
@@ -6426,6 +6509,7 @@
             {
               "expr": "rate(node_context_switches_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Context switches",
               "refId": "A",
@@ -6434,6 +6518,7 @@
             {
               "expr": "rate(node_intr_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "Interrupts",
@@ -6529,6 +6614,7 @@
             {
               "expr": "node_load1{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "Load 1m",
               "refId": "A",
@@ -6537,6 +6623,7 @@
             {
               "expr": "node_load5{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "Load 5m",
               "refId": "B",
@@ -6545,6 +6632,7 @@
             {
               "expr": "node_load15{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "Load 15m",
               "refId": "C",
@@ -6650,7 +6738,7 @@
             {
               "expr": "rate(node_interrupts_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ type }} - {{ info }}",
               "refId": "A",
@@ -6744,7 +6832,7 @@
             {
               "expr": "rate(node_schedstat_timeslices_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{ cpu }}",
               "refId": "A",
@@ -6840,6 +6928,7 @@
             {
               "expr": "node_entropy_available_bits{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Entropy available to random number generators",
               "refId": "A",
@@ -6935,7 +7024,7 @@
             {
               "expr": "rate(process_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Time spent",
               "refId": "A",
@@ -7168,7 +7257,7 @@
             {
               "expr": "node_hwmon_temp_celsius{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ chip }} {{ sensor }} temp",
               "refId": "A",
@@ -7177,8 +7266,8 @@
             {
               "expr": "node_hwmon_temp_crit_alarm_celsius{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{ chip }} {{ sensor }} Critical Alarm",
               "refId": "B",
@@ -7187,7 +7276,7 @@
             {
               "expr": "node_hwmon_temp_crit_celsius{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ chip }} {{ sensor }} Critical",
               "refId": "C",
@@ -7196,8 +7285,8 @@
             {
               "expr": "node_hwmon_temp_crit_hyst_celsius{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{ chip }} {{ sensor }} Critical Historical",
               "refId": "D",
@@ -7206,8 +7295,8 @@
             {
               "expr": "node_hwmon_temp_max_celsius{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{ chip }} {{ sensor }} Max",
               "refId": "E",
@@ -7309,8 +7398,8 @@
             {
               "expr": "node_cooling_device_cur_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "Current {{ name }} in {{ type }}",
               "refId": "A",
@@ -7319,7 +7408,7 @@
             {
               "expr": "node_cooling_device_max_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Max {{ name }} in {{ type }}",
               "refId": "B",
@@ -7414,8 +7503,8 @@
             {
               "expr": "node_power_supply_online{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{ power_supply }} online",
               "refId": "A",
@@ -7525,7 +7614,7 @@
             {
               "expr": "rate(node_systemd_socket_accepted_connections_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ name }} Connections",
               "refId": "A",
@@ -7639,7 +7728,7 @@
             {
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"activating\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Activating",
               "refId": "A",
@@ -7648,7 +7737,7 @@
             {
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"active\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Active",
               "refId": "B",
@@ -7657,7 +7746,7 @@
             {
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"deactivating\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Deactivating",
               "refId": "C",
@@ -7666,7 +7755,7 @@
             {
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"failed\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Failed",
               "refId": "D",
@@ -7675,7 +7764,7 @@
             {
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"inactive\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Inactive",
               "refId": "E",
@@ -8099,6 +8188,7 @@
             {
               "expr": "rate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Read bytes",
               "refId": "A",
@@ -8107,6 +8197,7 @@
             {
               "expr": "rate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Written bytes",
               "refId": "B",
@@ -9421,6 +9512,7 @@
             {
               "expr": "node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Available",
@@ -9431,6 +9523,7 @@
             {
               "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Free",
@@ -9440,6 +9533,7 @@
             {
               "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Size",
@@ -9546,6 +9640,7 @@
             {
               "expr": "node_filesystem_files_free{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Free file nodes",
@@ -9651,6 +9746,7 @@
             {
               "expr": "node_filefd_maximum{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "Max open files",
               "refId": "A",
@@ -9659,6 +9755,7 @@
             {
               "expr": "node_filefd_allocated{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Open files",
               "refId": "B",
@@ -9762,6 +9859,7 @@
             {
               "expr": "node_filesystem_files{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - File nodes total",
@@ -9871,6 +9969,7 @@
             {
               "expr": "node_filesystem_readonly{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - ReadOnly",
               "refId": "A",
@@ -9879,7 +9978,7 @@
             {
               "expr": "node_filesystem_device_error{instance=\"$node\",job=\"$job\",device!~'rootfs',fstype!~'tmpfs'}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Device error",
               "refId": "B",
@@ -10002,7 +10101,7 @@
             {
               "expr": "rate(node_network_receive_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive",
               "refId": "A",
@@ -10011,7 +10110,7 @@
             {
               "expr": "rate(node_network_transmit_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit",
               "refId": "B",
@@ -10115,6 +10214,7 @@
             {
               "expr": "rate(node_network_receive_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive errors",
               "refId": "A",
@@ -10123,6 +10223,7 @@
             {
               "expr": "rate(node_network_transmit_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Rransmit errors",
               "refId": "B",
@@ -10226,6 +10327,7 @@
             {
               "expr": "rate(node_network_receive_drop_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive drop",
               "refId": "A",
@@ -10234,6 +10336,7 @@
             {
               "expr": "rate(node_network_transmit_drop_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit drop",
               "refId": "B",
@@ -10337,6 +10440,7 @@
             {
               "expr": "rate(node_network_receive_compressed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive compressed",
               "refId": "A",
@@ -10345,6 +10449,7 @@
             {
               "expr": "rate(node_network_transmit_compressed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit compressed",
               "refId": "B",
@@ -10448,6 +10553,7 @@
             {
               "expr": "rate(node_network_receive_multicast_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive multicast",
               "refId": "A",
@@ -10551,6 +10657,7 @@
             {
               "expr": "rate(node_network_receive_fifo_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive fifo",
               "refId": "A",
@@ -10559,6 +10666,7 @@
             {
               "expr": "rate(node_network_transmit_fifo_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit fifo",
               "refId": "B",
@@ -10663,6 +10771,7 @@
             {
               "expr": "rate(node_network_receive_frame_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive frame",
@@ -10764,6 +10873,7 @@
             {
               "expr": "rate(node_network_transmit_carrier_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Statistic transmit_carrier",
               "refId": "A",
@@ -10867,6 +10977,7 @@
             {
               "expr": "rate(node_network_transmit_colls_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Transmit colls",
               "refId": "A",
@@ -10967,6 +11078,7 @@
             {
               "expr": "node_nf_conntrack_entries{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "NF conntrack entries",
               "refId": "A",
@@ -10975,6 +11087,7 @@
             {
               "expr": "node_nf_conntrack_entries_limit{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "NF conntrack limit",
               "refId": "B",
@@ -11070,6 +11183,7 @@
             {
               "expr": "node_arp_entries{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ device }} - ARP entries",
               "refId": "A",
@@ -11163,6 +11277,7 @@
             {
               "expr": "node_network_mtu_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ device }} - Bytes",
               "refId": "A",
@@ -11257,6 +11372,7 @@
             {
               "expr": "node_network_speed_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ device }} - Speed",
               "refId": "A",
@@ -11351,6 +11467,7 @@
             {
               "expr": "node_network_transmit_queue_length{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{ device }} -   Interface transmit queue length",
               "refId": "A",
@@ -11456,7 +11573,7 @@
             {
               "expr": "rate(node_softnet_processed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{cpu}} - Processed",
               "refId": "A",
@@ -11465,7 +11582,7 @@
             {
               "expr": "rate(node_softnet_dropped_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{cpu}} - Dropped",
               "refId": "B",
@@ -11566,7 +11683,7 @@
             {
               "expr": "rate(node_softnet_times_squeezed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "CPU {{cpu}} - Squeezed",
               "refId": "A",
@@ -11667,6 +11784,7 @@
             {
               "expr": "node_network_up{operstate=\"up\",instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{interface}} - Operational state UP",
               "refId": "A",
@@ -11675,6 +11793,7 @@
             {
               "expr": "node_network_carrier{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "instant": false,
               "legendFormat": "{{device}} - Physical link state",
               "refId": "B"
@@ -11794,7 +11913,7 @@
             {
               "expr": "node_sockstat_TCP_alloc{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "TCP_alloc - Allocated sockets",
               "refId": "A",
@@ -11803,7 +11922,7 @@
             {
               "expr": "node_sockstat_TCP_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "TCP_inuse - Tcp sockets currently in use",
               "refId": "B",
@@ -11812,8 +11931,8 @@
             {
               "expr": "node_sockstat_TCP_mem{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": true,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "TCP_mem - Used memory for tcp",
               "refId": "C",
@@ -11822,7 +11941,7 @@
             {
               "expr": "node_sockstat_TCP_orphan{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "TCP_orphan - Orphan sockets",
               "refId": "D",
@@ -11831,7 +11950,7 @@
             {
               "expr": "node_sockstat_TCP_tw{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "TCP_tw - Sockets wating close",
               "refId": "E",
@@ -11936,7 +12055,7 @@
             {
               "expr": "node_sockstat_UDPLITE_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "UDPLITE_inuse - Udplite sockets currently in use",
               "refId": "A",
@@ -11945,7 +12064,7 @@
             {
               "expr": "node_sockstat_UDP_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "UDP_inuse - Udp sockets currently in use",
               "refId": "B",
@@ -11954,7 +12073,7 @@
             {
               "expr": "node_sockstat_UDP_mem{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "UDP_mem - Used memory for udp",
               "refId": "C",
@@ -12059,7 +12178,7 @@
             {
               "expr": "node_sockstat_FRAG_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "FRAG_inuse - Frag sockets currently in use",
               "refId": "A",
@@ -12068,7 +12187,7 @@
             {
               "expr": "node_sockstat_RAW_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "RAW_inuse - Raw sockets currently in use",
               "refId": "C",
@@ -12175,7 +12294,7 @@
             {
               "expr": "node_sockstat_TCP_mem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "mem_bytes - TCP sockets in that state",
               "refId": "A",
@@ -12184,7 +12303,7 @@
             {
               "expr": "node_sockstat_UDP_mem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "mem_bytes - UDP sockets in that state",
               "refId": "B",
@@ -12296,7 +12415,7 @@
             {
               "expr": "node_sockstat_sockets_used{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Sockets_used - Sockets currently in use",
               "refId": "A",
@@ -12427,7 +12546,7 @@
             {
               "expr": "rate(node_netstat_IpExt_InOctets{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "InOctets - Received octets",
               "refId": "A",
@@ -12436,6 +12555,7 @@
             {
               "expr": "rate(node_netstat_IpExt_OutOctets{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "OutOctets - Sent octets",
               "refId": "B",
@@ -12545,7 +12665,7 @@
             {
               "expr": "rate(node_netstat_Ip_Forwarding{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Forwarding - IP forwarding",
               "refId": "A",
@@ -12660,7 +12780,7 @@
             {
               "expr": "rate(node_netstat_Icmp_InMsgs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "InMsgs -  Messages which the entity received. Note that this counter includes all those counted by icmpInErrors",
               "refId": "A",
@@ -12669,7 +12789,7 @@
             {
               "expr": "rate(node_netstat_Icmp_OutMsgs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "OutMsgs - Messages which this entity attempted to send. Note that this counter includes all those counted by icmpOutErrors",
               "refId": "B",
@@ -12782,7 +12902,7 @@
             {
               "expr": "rate(node_netstat_Icmp_InErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "InErrors - Messages which the entity received but determined as having ICMP-specific errors (bad ICMP checksums, bad length, etc.)",
               "refId": "A",
@@ -12899,7 +13019,7 @@
             {
               "expr": "rate(node_netstat_Udp_InDatagrams{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "InDatagrams - Datagrams received",
               "refId": "A",
@@ -12908,7 +13028,7 @@
             {
               "expr": "rate(node_netstat_Udp_OutDatagrams{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "OutDatagrams - Datagrams sent",
               "refId": "B",
@@ -13015,7 +13135,7 @@
             {
               "expr": "rate(node_netstat_Udp_InErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "InErrors - UDP Datagrams that could not be delivered to an application",
               "refId": "A",
@@ -13024,7 +13144,7 @@
             {
               "expr": "rate(node_netstat_Udp_NoPorts{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "NoPorts - UDP Datagrams received on a port with no listener",
               "refId": "B",
@@ -13039,7 +13159,7 @@
             {
               "expr": "rate(node_netstat_Udp_RcvbufErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "RcvbufErrors - UDP buffer errors received",
               "refId": "D",
@@ -13048,7 +13168,7 @@
             {
               "expr": "rate(node_netstat_Udp_SndbufErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "SndbufErrors - UDP buffer errors send",
               "refId": "E",
@@ -13167,8 +13287,8 @@
             {
               "expr": "rate(node_netstat_Tcp_InSegs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "instant": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "InSegs - Segments received, including those received in error. This count includes segments received on currently established connections",
               "refId": "A",
@@ -13177,7 +13297,7 @@
             {
               "expr": "rate(node_netstat_Tcp_OutSegs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "OutSegs - Segments sent, including those on current connections but excluding those containing only retransmitted octets",
               "refId": "B",
@@ -13286,8 +13406,8 @@
             {
               "expr": "rate(node_netstat_TcpExt_ListenOverflows{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "ListenOverflows - Times the listen queue of a socket overflowed",
               "refId": "A",
@@ -13296,8 +13416,8 @@
             {
               "expr": "rate(node_netstat_TcpExt_ListenDrops{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "ListenDrops - SYNs to LISTEN sockets ignored",
               "refId": "B",
@@ -13306,7 +13426,7 @@
             {
               "expr": "rate(node_netstat_TcpExt_TCPSynRetrans{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "TCPSynRetrans - SYN-SYN/ACK retransmits to break down retransmissions in SYN, fast/timeout retransmits",
               "refId": "C",
@@ -13437,8 +13557,8 @@
             {
               "expr": "node_netstat_Tcp_CurrEstab{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "CurrEstab - TCP connections for which the current state is either ESTABLISHED or CLOSE- WAIT",
               "refId": "A",
@@ -13447,8 +13567,8 @@
             {
               "expr": "node_netstat_Tcp_MaxConn{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "MaxConn - Limit on the total number of TCP connections the entity can support (Dinamic is \"-1\")",
               "refId": "B",
@@ -13564,8 +13684,8 @@
             {
               "expr": "rate(node_netstat_TcpExt_SyncookiesFailed{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "SyncookiesFailed - Invalid SYN cookies received",
               "refId": "A",
@@ -13574,8 +13694,8 @@
             {
               "expr": "rate(node_netstat_TcpExt_SyncookiesRecv{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "SyncookiesRecv - SYN cookies received",
               "refId": "B",
@@ -13584,8 +13704,8 @@
             {
               "expr": "rate(node_netstat_TcpExt_SyncookiesSent{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "SyncookiesSent - SYN cookies sent",
               "refId": "C",
@@ -13691,7 +13811,7 @@
             {
               "expr": "rate(node_netstat_Tcp_ActiveOpens{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "ActiveOpens - TCP connections that have made a direct transition to the SYN-SENT state from the CLOSED state",
               "refId": "A",
@@ -13700,7 +13820,7 @@
             {
               "expr": "rate(node_netstat_Tcp_PassiveOpens{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
-              "interval": "",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "PassiveOpens - TCP connections that have made a direct transition to the SYN-RCVD state from the LISTEN state",
               "refId": "B",
@@ -13812,8 +13932,8 @@
             {
               "expr": "node_scrape_collector_duration_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{collector}} - Scrape duration",
               "refId": "A",
@@ -13914,8 +14034,8 @@
             {
               "expr": "node_scrape_collector_success{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{collector}} - Scrape success",
               "refId": "A",
@@ -13924,8 +14044,8 @@
             {
               "expr": "node_textfile_scrape_error{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
+              "interval": "1m",
               "hide": false,
-              "interval": "",
               "intervalFactor": 1,
               "legendFormat": "{{collector}} - Scrape textfile error (1 = true)",
               "refId": "B",
