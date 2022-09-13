@@ -136,8 +136,7 @@ let instances =
                   , flavor = Some Flavors.`4vcpus_16gb`
                   , boot_from_volume = "yes"
                   , volume_size = Some 20
-                  , security_groups =
-                    [ "web", "managesf", "zookeeper", "zookeeper_exporter" ]
+                  , security_groups = [ "web", "managesf" ]
                   }
               //  Infra.Server.Ip "38.102.83.76"
             )
@@ -209,7 +208,7 @@ let instances =
             (     Infra.Server::{
                   , flavor = Some Flavors.`4vcpus_8gb`
                   , image = OS.CentOS.`7.0`.image.name
-                  , security_groups = [ "zookeeper" ]
+                  , security_groups = [ "zookeeper", "zookeeper_exporter" ]
                   }
               //  Infra.Server.Ip "38.102.83.232"
             )

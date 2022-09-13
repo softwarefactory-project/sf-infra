@@ -25,9 +25,14 @@
       --net=host
       --pid=host
       -p {{ listen_port }}:{{ listen_port }}
-      -v /var/lib/software-factory/bootstrap-data/zk-ca/:/etc/zookeeper/:ro
+      {% if zookeeper_tls_enabled %}
+      -v {{ zookeeper_cert }}:{{ zookeeper_cert }}:ro
+      -v {{ zookeeper_key }}:{{ zookeeper_key }}:ro
+      {% endif %}
       {{ container_images['zookeeper_exporter'] | default('docker.io/dabealu/zookeeper-exporter:latest') }}
       --zk-hosts "{{ zookeeper_hosts }}"
-      --zk-tls-auth-key /etc/zookeeper/keys/clientkey.pem
-      --zk-tls-auth-cert /etc/zookeeper/certs/client.pem
-      --zk-tls-auth true
+      {% if zookeeper_tls_enabled %}
+      --zk-tls-auth-key {{ zookeeper_key }}
+      --zk-tls-auth-cert {{ zookeeper_cert }}
+      --zk-tls-auth {{ zookeeper_tls_enabled }}
+      {% endif %}

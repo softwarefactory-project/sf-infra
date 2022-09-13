@@ -8,6 +8,3 @@ acme_domains:
   - domain: softwarefactory-project.io
     sf_gateway: true
     vhost_skip: true
-
-container_images:
-  zookeeper_exporter: "docker.io/dabealu/zookeeper-exporter@sha256:6145a36fdc945a6bba8c66771aa45bba4c93ce3d71246478990a4ccbc2229899"
