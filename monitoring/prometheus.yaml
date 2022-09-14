@@ -190,3 +190,9 @@ scrape_configs:
     static_configs:
       - targets:
           - logscraper01.openstack.org:9128
+  - job_name: elasticsearch
+    static_configs:
+      - targets:
+          - elk.review.rdoproject.org:9114
+          - opensearch.rdoproject.org:9114
+          - elk.softwarefactory-project.io:9114
