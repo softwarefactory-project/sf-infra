@@ -66,6 +66,7 @@
     - sf-install-server
     - acme-tiny
     - sf-ssh
+    - apache-exporter
   tasks:
     # FIXME(dpawlik) Remove this task after upgrade to sf 3.7
     - name: Create repoxplorer rotation file
@@ -133,6 +134,7 @@
     - volume
     - acme-tiny
     - fm-gateway
+    - apache-exporter
 
 - hosts: nodepool-builder
   roles:
@@ -147,6 +149,7 @@
 - hosts: ansible.softwarefactory-project.io
   roles:
     - acme-tiny
+    - apache-exporter
 
 - hosts: logscraper01.openstack.org
   roles:
@@ -155,3 +158,4 @@
 - hosts: ibm-bm2-nodepool
   roles:
     - ca-trust
+    - apache-exporter

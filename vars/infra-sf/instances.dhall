@@ -28,7 +28,7 @@ let tenant-instances =
         //  { name = "fedora"
             , server = Some
                 ( Infra.Server.addSecurityGroups
-                    [ "elk" ]
+                    [ "elk", "apache_exporter" ]
                     (tenant-server // Infra.Server.Ip "38.102.83.40")
                 )
             , volumes =
@@ -136,7 +136,7 @@ let instances =
                   , flavor = Some Flavors.`4vcpus_16gb`
                   , boot_from_volume = "yes"
                   , volume_size = Some 20
-                  , security_groups = [ "web", "managesf" ]
+                  , security_groups = [ "web", "managesf", "apache_exporter" ]
                   }
               //  Infra.Server.Ip "38.102.83.76"
             )

@@ -166,6 +166,10 @@ security_groups:
     rules:
       - port: 9141
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+  - name: apache_exporter
+    rules:
+      - port: 9117
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
 servers:
   - auto_ip: true
     boot_from_volume: yes
@@ -209,6 +213,7 @@ servers:
       - internal
       - web
       - managesf
+      - apache_exporter
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
@@ -338,6 +343,7 @@ servers:
       - monitoring
       - internal
       - elk
+      - apache_exporter
       - web
     volume_size: 40
   - boot_from_volume: yes
