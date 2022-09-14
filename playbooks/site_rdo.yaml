@@ -161,10 +161,7 @@
     - volume
     - {name: 'logscraper', become: true}
     - {name: 'logsender', become: true}
-  tasks:
-    - include_role:
-        name: elasticsearch
-        tasks_from: check_es.yaml
+    - opensearch-monitoring
 
 - hosts: quay.rdoproject.org
   pre_tasks:
@@ -212,3 +209,4 @@
     - hostname
     - setup-ssl
     - {name: ansible-role-elastic-recheck, become: true}
+    - opensearch-monitoring
