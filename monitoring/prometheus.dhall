@@ -11,7 +11,11 @@ let ScrapeConfigs = ./scrape-configs.dhall
 let db_server_list =
       [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
 
-let apache_server_list = [ "trunk.rdoproject.org:9117" ]
+let apache_server_list =
+      [ "trunk.rdoproject.org:9117"
+      , "managesf.softwarefactory-project.io:9117"
+      , "fedora.softwarefactory-project.io:9117"
+      ]
 
 let elasticsearch_exporter_list =
       [ "elk.review.rdoproject.org:9114"
