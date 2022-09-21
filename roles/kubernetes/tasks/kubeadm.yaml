@@ -35,4 +35,9 @@
         src: /etc/kubernetes/admin.conf
         dest: ~/.kube/config
         remote_src: true
+  always:
+    - name: Get content from kubeadm log
+      shell: |
+        cat ~/kubeadm.log
+
   when: not _k8s_config.stat.exists
