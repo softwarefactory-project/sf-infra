@@ -15,11 +15,11 @@
 
 - name: Configure tenant networks
   include_role:
-    name: manage-networking
+    name: service/manage-networking
 
 - name: Configure images
   include_role:
-    name: manage-image
+    name: service/manage-image
   loop: "{{ tenant_config.images }}"
   loop_control:
     loop_var: image

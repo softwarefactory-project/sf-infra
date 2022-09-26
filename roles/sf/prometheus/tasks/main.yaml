@@ -1,0 +1,34 @@
+---
+- name: Create host directories
+  become: yes
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /etc/prometheus
+    - path: /var/lib/prometheus
+      mode: "0777"
+
+- name: Create configuration file
+  become: yes
+  synchronize:
+    src: "{{ prometheus_configuration_dir }}/"
+    dest: "/etc/prometheus/"
+  register: _prom_config
+
+- include_role:
+    name: service/container
+  vars:
+    pod_name: prometheus
+    pod_param: >
+      --network host
+      -v /etc/prometheus/:/etc/prometheus/:Z
+      -v /var/lib/prometheus:/prometheus:Z
+      {% if additional_cert_path %}-v {{ additional_cert_path }}:/etc/ssl/certs/custom-cert.crt:z{% endif %}
+      {{ container_images['prometheus'] | default('quay.io/prometheus/prometheus:latest') }}
+      --web.external-url="{{ prometheus_public_url }}/"
+      --web.route-prefix="prometheus"
+      --web.enable-admin-api
+      --config.file=/etc/prometheus/prometheus.yaml
+    pod_config: "{{ _prom_config }}"

@@ -1,0 +1,54 @@
+---
+- name: Ensure node_exporter user exists
+  become: yes
+  user:
+    name: node_exporter
+    shell: /sbin/nologing
+    home: /var/lib/node_exporter
+
+- name: Create directory for textfile exporter
+  file:
+    path: /var/lib/node_exporter/textfile_collector
+    state: directory
+    recurse: yes
+    owner: node_exporter
+    group: root
+    mode: '0775'
+  become: yes
+
+- name: Ensure that node-exporter package is removed
+  become: yes
+  package:
+    name: golang-github-prometheus-node_exporter
+    state: absent
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+- name: Adding service suffix for prometheus_monitored_services
+  set_fact:
+    prometheus_monitored_services: "{{ prometheus_monitored_services | union(prometheus_monitored_services_extra|default([])) | product(['.service']) | map('join') | list }}"
+  when: prometheus_monitored_services is defined
+
+# NOTE(dpawlik) All systemd services should end with '.service'.
+- include_role:
+    name: service/container
+  vars:
+    pod_name: node-exporter
+    pod_param: >
+      --net=host
+      --pid=host
+      -v /:/host:ro,rslave
+      -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
+      -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
+      {{ container_images['node_exporter'] | default('quay.io/prometheus/node-exporter:latest') }}
+      --path.rootfs=/host
+      --collector.netstat.fields='(.*)'
+      --collector.vmstat.fields='(.*)'
+      --collector.interrupts
+      --collector.textfile.directory /var/lib/node_exporter/textfile_collector
+      --collector.systemd
+      --collector.systemd.unit-include="{{ prometheus_monitored_services | join('|') }}"
+      --collector.netdev.device-exclude='^(tap.*)$'
+      --collector.netclass.ignored-devices='^(tap.*)$'
+      --collector.filesystem.ignored-mount-points='^/(dev|proc|sys|var/lib/containers/.+|var/lib/kubelet/pods/.+|run/netns/.+)($|/)'
+      --no-collector.wifi
+      --no-collector.cpufreq

@@ -122,14 +122,10 @@
       - ^playbooks/host_vars/trunk.*.yaml$
       - playbooks/group_vars/all
       - playbooks/group_vars/dlrn
-      - "^roles/apache-exporter/.*$"
-      - "^roles/dlrn-server/.*$"
-      - "^roles/firewalld/.*$"
-      - "^roles/firewalld/.*$"
-      - "^roles/hostname/.*$"
-      - "^roles/mariadb-replicated/.*$"
-      - "^roles/mysqld-exporter/.*$"
-      - "^roles/swap/.*$"
+      - "^roles/infra/.*$"
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+      - "^roles/dlrn/.*$"
 
 - job:
     name: sf-infra-configure-hosts-osci
@@ -144,8 +140,10 @@
       - "^playbooks/host_vars/www.rdoproject.org/.*$"
       - "^playbooks/group_vars/osci_internal_zone/.*$"
       - "^playbooks/group_vars/osci_zone/.*$"
-      - "^roles/mailing_lists/.*$"
-      - "^roles/websites/.*$"
+      - "^roles/infra/.*$"
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+      - "^roles/osci/.*$"
 - job:
     name: sf-infra-configure-hosts-rdo
     parent: sf-infra-configure
@@ -160,28 +158,10 @@
       - playbooks/group_vars/osci_internal_zone
       - playbooks/group_vars/osci_zone
       - playbooks/group_vars/rdo.yaml
-      - "^roles/acme-tiny/.*$"
-      - "^roles/afs-mirror/.*$"
-      - "^roles/afs-monitoring/.*$"
-      - "^roles/ansible-role-elastic-recheck/.*$"
-      - "^roles/backup-client/.*$"
-      - "^roles/backup-monitoring/.*$"
-      - "^roles/backup-srv/.*$"
-      - "^roles/firewalld/.*$"
-      - "^roles/hostname/.*$"
-      - "^roles/image-server/.*$"
-      - "^roles/log-gearman/.*$"
-      - "^roles/logserver/.*$"
-      - "^roles/mailing_lists/.*$"
-      - "^roles/mysqld-exporter/.*$"
-      - "^roles/node-exporter/.*$"
-      - "^roles/quay/.*$"
-      - "^roles/setup-ssl/.*$"
-      - "^roles/sf-infra-base/.*$"
-      - "^roles/sf-install-server/.*$"
-      - "^roles/sf-ssh/.*$"
-      - "^roles/volume/.*$"
-      - "^roles/websites/.*$"
+      - "^roles/infra/.*$"
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+      - "^roles/rdo/.*$"
 
 - job:
     name: sf-infra-configure-hosts-sf
@@ -198,37 +178,10 @@
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
       - "^monitoring/.*yaml$"
-      - "^roles/acme-tiny/.*$"
-      - "^roles/alert-manager/.*$"
-      - "^roles/backup-client/.*$"
-      - "^roles/blackbox-exporter/.*$"
-      - "^roles/builder-cleanup/.*$"
-      - "^roles/dnsmasq/.*$"
-      - "^roles/elasticsearch/.*$"
-      - "^roles/firewalld/.*$"
-      - "^roles/fm-gateway/.*$"
-      - "^roles/grafana/.*$"
-      - "^roles/hostname/.*$"
-      - "^roles/image-builder/.*$"
-      - "^roles/integrations/.*$"
-      - "^roles/k1s/.*$"
-      - "^roles/log-gearman/.*$"
-      - "^roles/manage-upstream-config-project/.*$"
-      - "^roles/monitoring-gateway/.*$"
-      - "^roles/node-exporter/.*$"
-      - "^roles/openstack-simply-reporter/.*$"
-      - "^roles/podman-pruner/.*$"
-      - "^roles/prometheus/.*$"
-      - "^roles/pushprox/.*$"
-      - "^roles/setup-ssl/.*$"
-      - "^roles/sf-infra-base/.*$"
-      - "^roles/sf-install-server/.*$"
-      - "^roles/sf-ssh/.*$"
-      - "^roles/statsd-exporter/.*$"
-      - "^roles/udp-multiplexer/.*$"
-      - "^roles/volume/.*$"
-      - "^roles/zookeeper-exporter/.*$"
-      - "^roles/zuul_cli_access/.*$"
+      - "^roles/infra/.*$"
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+      - "^roles/sf/.*$"
 
 - job:
     name: sf-infra-create-tripleo-standalone
@@ -318,17 +271,16 @@
         - name: primary
           label: rdo-centos-stream
     files:
-      - ^roles/backup-monitoring/.*$
-      - ^roles/swap/.*$
-      - ^roles/dlrn-server/.*$
-      - ^roles/afs-monitoring/.*$
-      - ^roles/elasticsearch/.*$
-      - ^roles/custom-ssh-port/.*$
-      - ^roles/mariadb-replicated/.*$
-      - ^roles/firewalld/.*$
-      - ^roles/pushprox/.*$
-      - ^tox.ini$
+      - ^roles/dlrn/dlrn-server/.*$
+      - ^roles/drln/mariadb-replicated/.*$
+      - ^roles/rdo/afs-monitoring/.*$
+      - ^roles/rdo/backup-monitoring/.*$
+      - ^roles/service/firewalld/.*$
+      - ^roles/service/opensearch-monitoring/.*$
+      - ^roles/sf/pushprox/.*$
+      - ^roles/system/swap/.*$
       - ^tests/.*molecule.yml$
+      - ^tox.ini$
 
 - job:
     name: sf-infra-grafana-dashboards
@@ -344,7 +296,7 @@
         - name: primary
           label: cloud-centos-8-stream
     files:
-      - ^roles/grafana/.*$
+      - ^roles/sf/grafana/.*$
       - ^tests/grafana-dash.yml$
       - ^tests/post-grafana-dash.yml$
       - ^tests/pre-grafana-dash.yml$
@@ -356,12 +308,9 @@
     run: tests/check-quay-tool.yml
     required-projects:
       - name: software-factory/python-quay-tool
-    dependencies:
-      - name: quay-tool-tests
-        soft: true
     timeout: 1800
     files:
-      - ^roles/quay/.*$
+      - ^roles/rdo/quay/.*$
     nodeset:
       nodes:
         - name: quay.dev
@@ -388,7 +337,7 @@
         - sf-infra-grafana-dashboards:
             files:
               - "^roles/grafana/.*$"
-        - sf-infra-quay-check
+        # - sf-infra-quay-check
     gate:
       jobs:
         - sf-infra-test-udp-multiplexer

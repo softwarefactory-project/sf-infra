@@ -1,0 +1,24 @@
+---
+- name: Create host directories
+  become: yes
+  file:
+    path: /etc/blackbox
+    state: directory
+    mode: 0644
+
+- name:  Copy blackbox config file
+  become: yes
+  copy:
+    src: blackbox.yml
+    dest: /etc/blackbox/blackbox.yml
+
+- include_role:
+    name: service/container
+  vars:
+    pod_name: blackbox-exporter
+    pod_param: >
+      --net=host
+      -v /etc/blackbox/:/config:Z
+      {% if additional_cert_path %}-v {{ additional_cert_path }}:/etc/ssl/certs/custom-cert.crt:z{% endif %}
+      {{ container_images['blackbox'] | default('quay.io/prometheus/black-box:latest') }}
+      --config.file=/config/blackbox.yml

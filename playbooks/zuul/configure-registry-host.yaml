@@ -31,6 +31,9 @@
       args:
         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
       command: ansible-playbook -vv playbooks/rdo-registry.yaml
+      environment:
+        ANSIBLE_CONFIG: ansible/ansible-registry.cfg
+        # Provided by Zuul secret
 
     - name: Create ansible registry renew log directory
       become: true

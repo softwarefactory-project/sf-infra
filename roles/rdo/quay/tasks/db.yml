@@ -1,0 +1,52 @@
+---
+- name: Setup postgresql
+  become: true
+  block:
+    - name: Check if pgsql data dir exists
+      stat:
+        path: /var/lib/pgsql/data
+      register: pgsql_data_dir
+
+    - name: Create host directories
+      file:
+        path: /var/lib/pgsql/data
+        state: directory
+        recurse: true
+        mode: '0777'
+      when: not pgsql_data_dir.stat.exists
+
+    # NOTE: with host network, -p 5432:5432 is not needed.
+    - name: Setup Postgres container
+      include_role:
+        name: service/container
+      vars:
+        pod_name: postgresql
+        pod_param: >
+          --network host
+          -v /var/lib/pgsql/data:/var/lib/postgresql/data:z
+          -e POSTGRES_USER={{ postgresql_user }}
+          -e POSTGRES_PASSWORD={{ postgresql_password }}
+          -e POSTGRES_DB={{ postgresql_db_name }}
+          -e POSTGRES_ADMIN_PASSWORD={{ postgresql_admin_password }}
+          {{ container_images['postgresql'] }}
+          {{ postgresql_additional_parameters }}
+      register: _postgresql_db_state
+      no_log: hide_sensitive_logs
+
+    - name: Wait for postgresql service
+      wait_for:
+        port: 5432
+        host: 0.0.0.0
+        delay: 10
+        timeout: 300
+
+    - name: Check if pg_trgm is enabled
+      shell: |
+        podman exec -it postgresql psql -U {{ postgresql_user }} -d quay -c 'SELECT *  FROM pg_extension;' | grep -q "pg_trgm"
+      register: _pg_trgm_state
+      ignore_errors: true
+
+    - name: Ensure that pg_trgm module is enabled
+      shell: |
+        podman exec -it postgresql psql -U {{ postgresql_user }} -d quay -c 'CREATE EXTENSION pg_trgm;'
+      when: _pg_trgm_state.rc == 1

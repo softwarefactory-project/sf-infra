@@ -34,11 +34,11 @@
     podman_parameters: "--tls-verify=false "
   tasks:
     - include_role:
-        name: hostname
+        name: service/hostname
       when: zuul is not defined
 
     - include_role:
-        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/hostname"
+        name: "{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/service/hostname"
         tasks_from: main.yml
       when: zuul is defined
 

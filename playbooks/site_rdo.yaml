@@ -3,73 +3,73 @@
 
 - hosts: rdo
   roles:
-    - sf-infra-base
+    - infra/base
 
 - hosts: rdo
   roles:
-    - node-exporter
-    - update-host
+    - service/node-exporter
+    - system/update-host
 
 - hosts: backup-rdo
   roles:
-    - backup-client
+    - service/backup-client
 
 - hosts: backup-server
   vars_files:
     - vars/dlrn-db.yaml
   roles:
-    - mysqld-exporter
-    - backup-srv
-    - backup-monitoring
+    - rdo/backup-monitoring
+    - rdo/backup-srv
+    - service/mysqld-exporter
 
 - hosts: baremetal02.rdoproject.org
   roles:
-    - sf-ssh
-    - volume
+    - infra/ssh
+    - system/volume
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
-    - setup-ssl
-    - afs-mirror
-    - afs-monitoring
+    - rdo/afs-mirror
+    - rdo/afs-monitoring
+    - service/setup-ssl
 
 - hosts: mirror.regionone.ibm-bm2-nodepool.rdoproject.org
   roles:
-    - setup-ssl-self-signed
-    - afs-mirror
+    - rdo/afs-mirror
+    - rdo/setup-ssl-self-signed
 
 - hosts: rdo
   roles:
-    - sf-ssh
+    - infra/ssh
 
 - hosts: managesf.review.rdoproject.org
   roles:
-    - hostname
-    - sf-install-server
-    - acme-tiny
-    - apache-exporter
+    - infra/install-server
+    - service/acme-tiny
+    - service/apache-exporter
+    - service/hostname
 
 - hosts: logserver.rdoproject.org
   roles:
-    - hostname
-    - volume
-    - logserver
-    - setup-ssl
+    - rdo/logserver
+    - service/hostname
+    - service/setup-ssl
+    - system/volume
 
 - hosts: images.rdoproject.org
   roles:
-    - hostname
-    - volume
-    - setup-ssl
-    - firewalld
+    - service/hostname
+    - system/volume
+    - service/setup-ssl
+    - service/firewalld
     - {role: image-server, become: true}
 
 - hosts: elk.review.rdoproject.org
   roles:
-    - volume
+    - system/volume
     - {name: 'logscraper', become: true}
     - {name: 'logsender', become: true}
-    - opensearch-monitoring
+    - service/opensearch-monitoring
 
 - hosts: quay.rdoproject.org
   pre_tasks:
@@ -82,19 +82,19 @@
         vg_name: "{{ partitions['quay']['vg_name'] | default('') }}"
         lv_name: "{{ partitions['quay']['lv_name'] | default('') }}"
       include_role:
-        name: volume
+        name: system/volume
     - name: Setup Postgres partition
       vars:
         lvm: "{{ partitions['db']['lvm'] | default('') }}"
         device: "{{ partitions['db']['device'] | default('') }}"
         mountpoint: "{{ partitions['db']['mountpoint'] | default('') }}"
       include_role:
-        name: volume
+        name: system/volume
   roles:
-    - hostname
-    - setup-ssl
-    - quay
-    - quay-project-creation
+    - service/hostname
+    - service/setup-ssl
+    - rdo/quay
+    - rdo/quay-project-creation
   vars:
     self_signed_certs: false
     initial_config: false
@@ -112,9 +112,9 @@
         vg_name: "{{ partitions['opensearch']['vg_name'] | default('') }}"
         lv_name: "{{ partitions['opensearch']['lv_name'] | default('') }}"
       include_role:
-        name: volume
+        name: system/volume
   roles:
-    - hostname
-    - setup-ssl
+    - service/hostname
+    - service/opensearch-monitoring
+    - service/setup-ssl
     - {name: ansible-role-elastic-recheck, become: true}
-    - opensearch-monitoring

@@ -18,7 +18,7 @@
               container_images:
                 grafana: "quay.io/software-factory/grafana@sha256:a6fb9822cb2609a5890e2787c2192ab93fb2067eadc075608ee0567057361439"
             roles:
-              - grafana
+              - sf/grafana
         dest: '{{ ansible_user_dir }}/deploy_grafana.yml'
 
     - name: Deploy Grafana locally

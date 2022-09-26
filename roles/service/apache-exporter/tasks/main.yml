@@ -1,0 +1,20 @@
+---
+- name: Copy server status configuration file
+  become: true
+  template:
+    src: server-status.conf.j2
+    dest: /etc/httpd/conf.d/server-status.conf
+    owner: apache
+    group: apache
+  notify:
+    - restart httpd service
+
+- include_role:
+    name: service/container
+  vars:
+    pod_name: apache_exporter
+    pod_param: >
+      --net=host
+      {{ container_images['apache_exporter'] | default('quay.io/software-factory/apache_exporter:latest') }}
+      --scrape_uri="{{ apache_exporter_url }}"
+      {% if apache_exporter_insecure %} --insecure {% endif %}

@@ -3,12 +3,12 @@
 
 - hosts: osci
   roles:
-    - node-exporter
-    - update-host
+    - service/node-exporter
+    - system/update-host
 
 - hosts: www.rdoproject.org
   roles:
-    - hostname
+    - service/hostname
   tasks:
     - name: "Enable EPEL"
       package:
@@ -17,7 +17,7 @@
       become: yes
     - name: "Deploy websites"
       include_role:
-        name: websites
+        name: osci/websites
         tasks_from: vhosts
         apply:
           become: yes
@@ -25,7 +25,7 @@
 # after www.rdoproject.org
 - hosts: rdo-web-builder.int.osci.io
   roles:
-    - hostname
+    - service/hostname
   tasks:
     - name: "Enable EPEL"
       package:
@@ -34,7 +34,7 @@
       become: yes
     - name: "Deploy websites"
       include_role:
-        name: websites
+        name: osci/websites
         tasks_from: builders
         apply:
           become: yes
@@ -42,7 +42,7 @@
 - hosts: lists.rdoproject.org
   become: yes
   roles:
-    - hostname
+    - service/hostname
   handlers:
     - name: "Clean YUM Metadata"
       command: yum clean metadata
@@ -71,9 +71,9 @@
 
     - meta: flush_handlers
 
-    - name: "Deploy mailing-lists"
-      include_role:
-        name: mailing_lists
-      vars:
-        # data_dev and ml_type are defined int he inventory
-        data_path: /srv/data
+    # - name: "Deploy mailing-lists"
+    #   include_role:
+    #     name: osci/mailing_lists
+    #   vars:
+    #     # data_dev and ml_type are defined int he inventory
+    #     data_path: /srv/data

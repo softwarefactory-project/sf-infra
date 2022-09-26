@@ -3,34 +3,30 @@
 
 - hosts: k1s
   roles:
-    - k1s
+    - sf/k1s
 
 - hosts: sf
   roles:
-    - sf-infra-base
-    - node-exporter
-    - sf-ssh
-    - update-host
+    - infra/base
+    - infra/ssh
+    - service/node-exporter
+    - system/update-host
 
 - hosts: backup-sf
   roles:
-    - backup-client
+    - service/backup-client
 
 - hosts: centos.softwarefactory-project.io
   roles:
-    - acme-tiny
-    - volume
-
-- hosts: lambda.softwarefactory-project.io
-  roles:
-    - dev-spice
+    - service/acme-tiny
+    - system/volume
 
 - hosts: image-builder.softwarefactory-project.io
   roles:
-    - image-builder
-    - podman-pruner
+    - sf/image-builder
+    - sf/podman-pruner
     # Keep in sync with zuul-weeder security group and prometheus dhall configuration
-    - zuul-weeder
+    - sf/zuul-weeder
 
 - hosts: ze
   tasks:
@@ -41,29 +37,16 @@
 
 - hosts: managesf.softwarefactory-project.io
   roles:
-    - hostname
-    - sf-install-server
-    - acme-tiny
-    - sf-ssh
-    - apache-exporter
-  tasks:
-    # FIXME(dpawlik) Remove this task after upgrade to sf 3.7
-    - name: Create repoxplorer rotation file
-      become: true
-      copy:
-        content: |
-          /var/log/repoxplorer/*.log {
-              missingok
-              notifempty
-              compress
-              delaycompress
-          }
-        dest: /etc/logrotate.d/repoxplorer
-        mode: "0644"
+    - infra/install-server
+    - infra/ssh
+    - service/acme-tiny
+    - service/apache-exporter
+    - service/hostname
 
+# is this host still needed?
 - hosts: integrations.softwarefactory-project.io
   roles:
-    - integrations
+    - sf/integrations
 
 - hosts: prometheus.monitoring.softwarefactory-project.io
   pre_tasks:
@@ -74,64 +57,64 @@
           - dnsmasq
       become: yes
   roles:
-    - hostname
-    - firewalld
-    - setup-ssl
-    - udp-multiplexer
-    - monitoring-gateway
-    - alert-manager
-    - dnsmasq
-    - grafana
-    - blackbox-exporter
-    - prometheus
-    - pushprox
-    - statsd-exporter
+    - service/firewalld
+    - service/hostname
+    - service/setup-ssl
+    - sf/alert-manager
+    - sf/blackbox-exporter
+    - sf/dnsmasq
+    - sf/grafana
+    - sf/monitoring-gateway
+    - sf/prometheus
+    - sf/pushprox
+    - sf/statsd-exporter
+    - sf/udp-multiplexer
 
 - hosts: zs.softwarefactory-project.io
   roles:
-    - zuul_cli_access
-    - openstack-simply-reporter
+    - sf/openstack-simply-reporter
+    - sf/zuul_cli_access
 
 - hosts: elk.softwarefactory-project.io
   roles:
-    - volume
     - {name: 'logscraper', become: true}
     - {name: 'logsender', become: true}
-    - opensearch-monitoring
+    - service/opensearch-monitoring
+    - system/volume
 
 - hosts: zk01.softwarefactory-project.io
   vars:
     zookeeper_tls_enabled: false
   roles:
-    - zookeeper-exporter
+    - sf/zookeeper-exporter
 
 - hosts: fedora.softwarefactory-project.io
   roles:
-    - volume
-    - acme-tiny
-    - fm-gateway
-    - apache-exporter
+    - service/acme-tiny
+    - service/apache-exporter
+    - sf/fm-gateway
+    - system/volume
 
 - hosts: nodepool-builder
   roles:
-    - volume
-    - manage-upstream-config-project
-    - builder-cleanup
+    - sf/builder-cleanup
+    - sf/manage-upstream-config-project
+    - system/volume
 
 - hosts: koji.softwarefactory-project.io
   roles:
-    - firewalld
+    - service/firewalld
 
 - hosts: ansible.softwarefactory-project.io
   roles:
-    - acme-tiny
-    - apache-exporter
+    - service/acme-tiny
+    - service/apache-exporter
 
 - hosts: logscraper01.openstack.org
   roles:
-    - node-exporter
+    - service/node-exporter
 
 - hosts: ibm-bm2-nodepool
   roles:
-    - ca-trust
-    - apache-exporter
+    - service/apache-exporter
+    - sf/ca-trust

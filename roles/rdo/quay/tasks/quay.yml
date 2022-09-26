@@ -1,0 +1,136 @@
+---
+- name: Prepare storage data
+  become: true
+  file:
+    path: /var/data/quay/{{ item }}
+    mode: '0777'
+    state: directory
+    recurse: true
+  loop:
+    - config
+    - storage
+    - custom
+    - anchors
+    - config/extra_ca_certs
+
+- name: Copy config
+  template:
+    src: config.yaml.j2
+    dest: /var/data/quay/config/config.yaml
+    mode: '0777'
+  notify:
+    - 'Restart quay registry when config changed'
+
+- name: Initial setup of Quay registry
+  become: true
+  block:
+    - name: Copy ca cert
+      become: true
+      shell: |
+        cp /var/data/quay/certs/rootCA.pem /var/data/quay/anchors/ca.crt
+      when: self_signed_certs
+
+    - name: Stop quay service before quay_config
+      service:
+        name: quay
+        state: stopped
+      ignore_errors: true
+
+    - name: Stop config container, if config changed
+      shell: |
+        podman stop quay_config
+      ignore_errors: true
+
+    - name: Configure quay - ignore CN
+      become: true
+      command: |
+        podman run --rm \
+          -d \
+          -p 80:8080 \
+          -p 443:8443 \
+          --name quay_config \
+          -e GODEBUG=x509ignoreCN=0 \
+          -v /var/data/quay/config:/conf/stack:Z \
+          -v /var/data/quay/storage:/datastorage:Z \
+          -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
+          -v /var/data/quay/anchors/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt:Z \
+          -v /var/data/quay/config/extra_ca_certs:/conf/stack/extra_ca_certs:Z \
+          {{ container_images['quay'] }} \
+          config secret
+      when: self_signed_certs
+
+    - name: Configure quay
+      become: true
+      command: |
+        podman run --rm \
+          -d \
+          -p 80:8080
+          -p 443:8443
+          --name quay_config \
+          -v /var/data/quay/config:/conf/stack:Z \
+          -v /var/data/quay/storage:/datastorage:Z \
+          -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
+          -v /var/data/quay/anchors/ca.crt:/etc/pki/ca-trust/source/anchors/ca.crt:Z \
+          -v /var/data/quay/config/extra_ca_certs:/conf/stack/extra_ca_certs:Z \
+          {{ container_images['quay'] }} \
+          config secret
+      when: not self_signed_certs
+
+    - name: Check if quay_config is working with official password
+      shell: |
+        curl -XGET http://{{ inventory_hostname }}:8080/api/v1/config --user quayadmin:password
+      ignore_errors: true
+
+    # NOTE: on starting quay container with config secret params,
+    # the username will show in the logs.
+    - name: Check if quay_config is working with alternative password
+      shell: |
+        curl -XGET http://{{ inventory_hostname }}:8080/api/v1/config --user quayconfig:secret
+      ignore_errors: true
+
+    - name: Fail when config setup enabled
+      fail:
+        msg: "We don't want to pass CI job when initial_config is enabled!"
+
+  when: initial_config
+
+- name: Deploy Quay
+  become: true
+  block:
+    - name: Make sure that quay config container is not running
+      shell: |
+        podman stop quay_config && sleep 5
+      ignore_errors: true
+
+    - name: Create Quay container
+      include_role:
+        name: service/container
+      vars:
+        pod_name: quay
+        pod_param: >
+          -p 80:8080
+          -p 443:8443
+          --restart=always
+          --privileged=true
+          -v /var/data/quay/config:/conf/stack:Z
+          -v /var/data/quay/storage:/datastorage:Z
+          {{ container_images['quay'] }}
+      when: not self_signed_certs
+
+    - name: Create Quay container - ignore CN
+      include_role:
+        name: service/container
+      vars:
+        pod_name: quay
+        pod_param: >
+          -p 80:8080
+          -p 443:8443
+          --restart=always
+          --privileged=true
+          -e GODEBUG=x509ignoreCN=0
+          -v /var/data/quay/config:/conf/stack:Z
+          -v /var/data/quay/storage:/datastorage:Z
+          {{ container_images['quay'] }}
+      when: self_signed_certs
+
+  when: not initial_config

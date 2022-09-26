@@ -96,5 +96,5 @@ let inventory =
       ''
 
 in  { doc.`inventory.md` = inventory
-    , roles.generate-etc-hosts.files.sshconfig = header ++ sshconfig
+    , roles.system.generate-etc-hosts.files.sshconfig = header ++ sshconfig
     }

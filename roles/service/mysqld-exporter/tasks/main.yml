@@ -1,0 +1,57 @@
+---
+- name: Create mysqld config file
+  become: yes
+  template:
+    src: mysqld_exporter.j2
+    dest: "/etc/.mysqld_exporter.cnf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create directories for SSL certs
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - /etc/mysqld_exporter
+    - /etc/mysqld_exporter/ssl
+  when:
+    - mysqld_exporter_use_ssl
+
+- name: Deploy certificates
+  become: yes
+  copy:
+    dest: "/etc/mysqld_exporter/ssl/{{ item.value.filename }}"
+    content: "{{ item.value.contents }}"
+  no_log: yes
+  with_dict: "{{ mysqld_exporter_ssl_certs }}"
+  when:
+    - mysqld_exporter_use_ssl
+
+- name: Define container mounts with SSL
+  set_fact:
+    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z -v /etc/mysqld_exporter/ssl:/etc/mysqld_exporter/ssl:Z"
+  when:
+    - mysqld_exporter_use_ssl
+
+- name: Define container mounts without SSL
+  set_fact:
+    mysqld_exporter_mounts: "-v /etc/.mysqld_exporter.cnf:/etc/.mysqld_exporter.cnf:Z"
+  when:
+    - not mysqld_exporter_use_ssl
+
+- include_role:
+    name: service/container
+  vars:
+    pod_name: mysqld-exporter
+    pod_param: >
+      --net=host
+      {{ mysqld_exporter_mounts }}
+      {{ container_images['mysqld_exporter'] | default('quay.io/software-factory/mysqld-exporter:latest') }}
+      --config.my-cnf /etc/.mysqld_exporter.cnf
+      --tls.insecure-skip-verify
+      --collect.global_status
+      --collect.binlog_size
+      --collect.slave_status

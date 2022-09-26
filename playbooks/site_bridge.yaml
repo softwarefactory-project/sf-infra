@@ -8,8 +8,8 @@
       become: yes
 
   roles:
-    - bridge-accounts
-    - generate-etc-hosts
+    - service/manage-accounts
+    - system/generate-etc-hosts
   tasks:
     - name: "Install MTA"
       include_role:
