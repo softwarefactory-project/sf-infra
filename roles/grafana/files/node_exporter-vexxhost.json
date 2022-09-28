@@ -160,6 +160,7 @@
         {
           "expr": "(((count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"$node\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A",
@@ -237,8 +238,8 @@
         {
           "expr": "avg(node_load5{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -315,6 +316,7 @@
         {
           "expr": "avg(node_load15{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -385,8 +387,8 @@
         {
           "expr": "((node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
           "format": "time_series",
-          "interval": "1m",
           "hide": true,
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -394,8 +396,8 @@
         {
           "expr": "100 - ((node_memory_MemAvailable_bytes{instance=\"$node\",job=\"$job\"} * 100) / node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "B",
           "step": 240
@@ -471,6 +473,7 @@
       "targets": [
         {
           "expr": "((node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -719,6 +722,7 @@
       "targets": [
         {
           "expr": "node_time_seconds{instance=\"$node\",job=\"$job\"} - node_boot_time_seconds{instance=\"$node\",job=\"$job\"}",
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -810,8 +814,8 @@
         {
           "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -901,6 +905,7 @@
       "targets": [
         {
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -990,6 +995,7 @@
       "targets": [
         {
           "expr": "node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "interval": "1m",
           "intervalFactor": 1,
           "refId": "A",
           "step": 240
@@ -1119,8 +1125,8 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"$node\",job=\"$job\"}[$__range])) * 100",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "refId": "A",
@@ -1129,8 +1135,8 @@
         {
           "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"$node\",job=\"$job\"}[$__range])) * 100",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "Busy User",
           "refId": "B",
@@ -1315,8 +1321,8 @@
         {
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "RAM Total",
           "refId": "A",
@@ -1325,8 +1331,8 @@
         {
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - (node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
-          "interval": "1m",
           "hide": false,
+          "interval": "1m",
           "intervalFactor": 1,
           "legendFormat": "RAM Used",
           "refId": "B",
@@ -1942,8 +1948,8 @@
             {
               "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"} - node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Apps - Memory used by user-space applications",
               "refId": "A",
@@ -1952,8 +1958,8 @@
             {
               "expr": "node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "PageTables - Memory used to map between virtual and physical memory addresses",
               "refId": "B",
@@ -2447,6 +2453,7 @@
           "targets": [
             {
               "expr": "rate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Reads completed",
               "refId": "A",
@@ -2454,6 +2461,7 @@
             },
             {
               "expr": "rate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Writes completed",
               "refId": "B",
@@ -2587,8 +2595,8 @@
             {
               "expr": "rate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Successfully read bytes",
               "refId": "A",
@@ -2597,8 +2605,8 @@
             {
               "expr": "rate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Successfully written bytes",
               "refId": "B",
@@ -3100,8 +3108,8 @@
             {
               "expr": "node_memory_Inactive_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Inactive_file - File-backed memory on inactive LRU list",
               "refId": "A",
@@ -3110,8 +3118,8 @@
             {
               "expr": "node_memory_Inactive_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Inactive_anon - Anonymous and swap cache on inactive LRU list, including tmpfs (shmem)",
               "refId": "B",
@@ -3120,8 +3128,8 @@
             {
               "expr": "node_memory_Active_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Active_file - File-backed memory on active LRU list",
               "refId": "C",
@@ -3130,8 +3138,8 @@
             {
               "expr": "node_memory_Active_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Active_anon - Anonymous and swap cache on active least-recently-used (LRU) list, including tmpfs",
               "refId": "D",
@@ -3663,8 +3671,8 @@
             {
               "expr": "node_memory_VmallocChunk_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "VmallocChunk - Largest contigious block of vmalloc area which is free",
               "refId": "A",
@@ -3673,8 +3681,8 @@
             {
               "expr": "node_memory_VmallocTotal_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "VmallocTotal - Total size of vmalloc memory area",
               "refId": "B",
@@ -3683,8 +3691,8 @@
             {
               "expr": "node_memory_VmallocUsed_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "VmallocUsed - Amount of vmalloc area which is used",
               "refId": "C",
@@ -5935,8 +5943,8 @@
             {
               "expr": "rate(node_forks_total{instance=\"$node\",job=\"$job\"}[$__range])",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Processes forks second",
               "refId": "A",
@@ -6517,8 +6525,8 @@
             {
               "expr": "rate(node_intr_total{instance=\"$node\",job=\"$job\"}[$__range])",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "Interrupts",
               "refId": "B",
@@ -7989,6 +7997,7 @@
           "targets": [
             {
               "expr": "rate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\"}[$__range])",
+              "interval": "1m",
               "intervalFactor": 4,
               "legendFormat": "{{device}} - Reads completed",
               "refId": "A",
@@ -7996,6 +8005,7 @@
             },
             {
               "expr": "rate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\"}[$__range])",
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Writes completed",
               "refId": "B",
@@ -9513,8 +9523,8 @@
             {
               "expr": "node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Available",
               "metric": "",
@@ -9524,8 +9534,8 @@
             {
               "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
-              "interval": "1m",
               "hide": true,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Free",
               "refId": "B",
@@ -9534,8 +9544,8 @@
             {
               "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
-              "interval": "1m",
               "hide": true,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Size",
               "refId": "C",
@@ -9641,8 +9651,8 @@
             {
               "expr": "node_filesystem_files_free{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - Free file nodes",
               "refId": "A",
@@ -9860,8 +9870,8 @@
             {
               "expr": "node_filesystem_files{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{mountpoint}} - File nodes total",
               "refId": "A",
@@ -10772,8 +10782,8 @@
             {
               "expr": "rate(node_network_receive_frame_total{instance=\"$node\",job=\"$job\"}[$__range])",
               "format": "time_series",
-              "interval": "1m",
               "hide": false,
+              "interval": "1m",
               "intervalFactor": 1,
               "legendFormat": "{{device}} - Receive frame",
               "refId": "A",
