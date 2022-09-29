@@ -1,0 +1,20 @@
+---
+- name: Configure crc - disable telemetry
+  shell: |
+    /usr/local/bin/crc config set consent-telemetry no
+
+- name: Configure crc - set password
+  shell: |
+    /usr/local/bin/crc config set kubeadmin-password "{{ openshift_admin_password }}"
+
+- name: Configure crc - set pull secret
+  shell: |
+    /usr/local/bin/crc config set pull-secret-file pull-secret.txt
+
+- name: Execute setup
+  shell: |
+    /usr/local/bin/crc setup &> crc-setup.log
+
+- name: Start crc
+  shell: |
+    /usr/local/bin/crc start &> crc-start.log
