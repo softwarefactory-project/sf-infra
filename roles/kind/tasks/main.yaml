@@ -64,3 +64,12 @@
     line: '* - nproc unlimited'
     insertbefore: '^# End of file'
     state: present
+
+# Increase value for inodes to avoid error:
+# "failed to create fsnotify watcher: too many open files"
+# Current values for: max_user_watches: 524288,  max_user_instances=128
+- name: Set inode limits
+  become: true
+  shell: |
+    sysctl -w fs.inotify.max_user_watches=5242880
+    sysctl -w fs.inotify.max_user_instances=1280
