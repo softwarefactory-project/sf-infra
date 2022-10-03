@@ -14,6 +14,7 @@ let db_server_list =
 let apache_server_list =
       [ "trunk.rdoproject.org:9117"
       , "managesf.softwarefactory-project.io:9117"
+      , "managesf.review.rdoproject.org:9117"
       , "fedora.softwarefactory-project.io:9117"
       ]
 
