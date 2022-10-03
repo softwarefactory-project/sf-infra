@@ -1,4 +1,14 @@
 ---
+- name: Copy server status configuration file
+  become: true
+  template:
+    src: server-status.conf.j2
+    dest: /etc/httpd/conf.d/server-status.conf
+    owner: apache
+    group: apache
+  notify:
+    - restart httpd service
+
 - include_role:
     name: container-service
   vars:
