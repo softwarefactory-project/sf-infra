@@ -33,23 +33,62 @@
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables  = 1
       net.ipv4.ip_forward                 = 1
-      net.ipv6.conf.all.disable_ipv6      = 0
-      net.ipv6.conf.default.disable_ipv6  = 0
-      net.ipv6.conf.tun0.disable_ipv6     = 0
-    dest: /etc/sysctl.d/k8s.conf
+      net.ipv6.conf.all.disable_ipv6      = 1
+      net.ipv6.conf.default.disable_ipv6  = 1
+    dest: /etc/sysctl.d/10-k8s.conf
   register: _k8s_sysctl
 
-- name: Reload system rules
+- name: Restart sysctl service
+  become: true
+  service:
+    name: systemd-sysctl
+    state: restarted
+  when: _k8s_sysctl.changed
+
+- name: Stop and disable zram0 device
+  become: true
+  systemd:
+    name: dev-zram0.swap
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Stop and disable zram-setup process
+  become: true
+  systemd:
+    name: systemd-zram-setup@zram0.service
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Disable zram
   become: true
   shell: |
-    sysctl --system
-  when: _k8s_sysctl.changed
+    swapoff /dev/zram0; zramctl --reset /dev/zram0; zramctl
+  ignore_errors: true
+
+- name: Remove zram packages
+  become: true
+  package:
+    name: zram-generator-defaults
+    state: absent
+
+- name: Touch zram-generator conf
+  become: true
+  file:
+    path: /etc/systemd/zram-generator.conf
+    state: touch
 
 - name: Disable swap
   become: true
   shell: |
-    swapoff -a
+    # NOTE: yes, ensure twice that the swap is off.
+    swapoff -a; swapoff -a
     sed -i '/swap/d' /etc/fstab
+
+- name: Check current memory state
+  shell: |
+    free -m
 
 - name: Install required system packages
   become: true
