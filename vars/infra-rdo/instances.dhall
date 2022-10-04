@@ -169,7 +169,8 @@ let instances =
           , flavor = Some Flavors.`2vcpus_8gb`
           , auto_ip = Some True
           , volume_size = Some 40
-          , security_groups = [ "web", "managesf", "internal" ]
+          , security_groups =
+            [ "web", "managesf", "internal", "apache_exporter" ]
           }
         }
       , Instance::{

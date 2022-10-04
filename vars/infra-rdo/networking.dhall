@@ -117,6 +117,14 @@ let security_groups =
         , { name = "mda"
           , rules = [ Infra.Rule::{ port = +143 }, Infra.Rule::{ port = +993 } ]
           }
+        , { name = "apache_exporter"
+          , rules =
+            [ Infra.Rule::{
+              , port = +9117
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
+            ]
+          }
         ]
 
 in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]
