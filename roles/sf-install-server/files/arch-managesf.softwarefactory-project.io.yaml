@@ -4,10 +4,12 @@ description: The softwarefactory-project.io architecture
 inventory:
 - name: zk01
   ip: 192.168.242.215
+  public_ip: 38.102.83.232
   roles:
   - zookeeper
 
 - name: managesf
+  public_ip: 38.102.83.76
   roles:
   - install-server
   - log-classify
@@ -135,10 +137,14 @@ inventory:
 
 - name: ibm-ze
   ip: 192.168.25.127
+  private: true
+  use_public_ips: yes
   roles:
   - zuul-executor
 
 - name: ibm-nodepool-launcher
+  private: true
+  use_public_ips: yes
   ip: 192.168.25.195
   roles:
   - nodepool-launcher
