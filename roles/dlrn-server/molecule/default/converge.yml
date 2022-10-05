@@ -25,7 +25,7 @@
         purge_hour: '2'
         purge_minute: '7'
         symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
-        release: 'zed-uc'
+        release: 'antelope-uc'
         baseurl: 'https://trunk.rdoproject.org/centos9-master'
         pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
         build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'

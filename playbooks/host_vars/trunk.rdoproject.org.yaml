@@ -32,7 +32,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
-    release: 'zed-uc'
+    release: 'antelope-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -55,7 +55,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9-head', '/var/www/html/centos9-master-head']
-    release: 'zed'
+    release: 'antelope'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -79,7 +79,7 @@ dlrn_workers:
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-zed', '/var/www/html/zed/centos9']
     # NOTE(jcapitao): set to 'zed' once the tag has been created in rdoinfo
-    release: 'zed-uc'
+    release: 'zed'
     baseurl: 'https://trunk.rdoproject.org/centos9-zed'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
