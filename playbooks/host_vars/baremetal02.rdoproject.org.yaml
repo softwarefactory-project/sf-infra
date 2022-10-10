@@ -1,3 +1,7 @@
+# NOTE(dpawlik): The BM02 server has poor SSD disks, that later might
+# affect CI job fail, like AMQP messages got timeout in CI job tripleO deployment,
+# due very high limits set in the system:
+# https://github.com/openstack/tripleo-ansible/blob/master/tripleo_ansible/roles/tripleo_kernel/vars/main.yml
 flavors:
   - name: afs
     disk: 100
@@ -13,6 +17,10 @@ flavors:
     disk: 80
     ram: 8192
     vcpus: 4
+  - name: m1.large.nodisk
+    disk: 0
+    ram: 8192
+    vcpus: 4
   - name: m1.medium
     disk: 40
     ram: 4096
@@ -21,6 +29,23 @@ flavors:
     disk: 20
     ram: 2048
     vcpus: 1
+  - name: m1.tiny
+    disk: 10
+    ram: 1024
+    vcpus: 1
+  - name: m1.xlarge
+    disk: 40
+    ram: 16384
+    vcpus: 4
+  - name: m1.xlarge.nodisk
+    disk: 0
+    ram: 16384
+    vcpus: 4
+  - name: m1.large.nfv
+    state: absent
+  - name: m1.xlarge.nfv
+    state: absent
+
 lvm: true
 delete_partitions: true
 wipe_partition_table: true
