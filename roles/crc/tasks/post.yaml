@@ -3,17 +3,17 @@
   shell: |
     /usr/local/bin/crc console --credentials
   register: _crc_creds
-  no_log: show_hidden_logs == False
+  no_log: "{{ hide_sensitive_logs }}"
 
 - name: Write credentials output to the file
   copy:
     content: "{{ _crc_creds.stdout }}"
     dest: crc-creds
-  no_log: show_hidden_logs == False
+  no_log: "{{ hide_sensitive_logs }}"
 
 - name: Get crc client path
   shell: |
-    eval $(crc oc-env); whereis oc
+    eval $(crc oc-env); whereis oc | awk '{print $2}'
   register: _oc_bin
 
 - name: Login to the Openshift
@@ -22,7 +22,7 @@
     echo -n "Adding router-ca to system certs to allow accessing the crc image registry"
     {{ _oc_bin.stdout }} extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator --confirm
     sudo cp -f tls.crt /etc/pki/ca-trust/source/anchors/crc-router-ca.pem
-  no_log: show_hidden_logs == False
+  no_log: "{{ hide_sensitive_logs }}"
 
 - name: Update local certs
   become: true
@@ -31,3 +31,25 @@
 - name: Add alias for oc
   shell: |
     echo "eval \$(crc oc-env)" >> ~/.bashrc
+
+- name: Setup kubernetes repository
+  become: true
+  copy:
+    content: |
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      exclude=kubelet kubeadm kubectl
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: Install required packages
+  become: true
+  yum:
+    name:
+      - kubectl
+    state: present
+    update_cache: true
+    disable_excludes: kubernetes
