@@ -27,8 +27,6 @@ in Infra.Instance.Type
 
 is equivalent to `./Instance/Type.dhall`.
 
-> The `package.dhall` can be generated using the shake command, see the `Shakefile.hs` file
-
 
 ## Schemas
 

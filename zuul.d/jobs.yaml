@@ -388,9 +388,6 @@
         - sf-infra-grafana-dashboards:
             files:
               - "^roles/grafana/.*$"
-        - shake-factory-docs:
-            files:
-              - ^Infra/.*$
         - sf-infra-quay-check
     gate:
       jobs:
@@ -403,9 +400,6 @@
                 - flake8
                 - yamllint
         - dhall-diff: *dhall-nodeset
-        - shake-factory-docs:
-            files:
-              - ^Infra/.*$
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff
