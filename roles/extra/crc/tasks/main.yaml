@@ -11,3 +11,6 @@
 
 - name: Post crc step
   include_tasks: post.yaml
+
+- name: Prepare local storage
+  include_tasks: local-storage.yaml

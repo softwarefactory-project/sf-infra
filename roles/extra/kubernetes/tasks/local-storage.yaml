@@ -1,9 +1,22 @@
 ---
 # https://github.com/rancher/local-path-provisioner
+- name: Get home directory
+  shell: |
+    getent passwd "{{ ansible_user }}" | cut -d: -f6
+  register: user_home
+
+- name: Ensure that src directory exists
+  file:
+    path: "{{ user_home.stdout }}/src"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
 - name: Symlink src dir to local storage dir
   become: true
   file:
-    src: /home/fedora/src
+    src: "{{ user_home.stdout }}/src"
     dest: /opt/local-path-provisioner
     state: link
 
@@ -24,16 +37,27 @@
       get_url:
         url: "https://raw.githubusercontent.com/rancher/local-path-provisioner/{{ local_storage_version }}/deploy/local-path-storage.yaml"
         dest: "{{ local_storage_config_dir }}/local-path-storage.yaml"
+        mode: "0644"
 
-    - name: Replace docker.io registry to quay.io
+    - name: Replace docker.io registry to quay.io due rate limit
       shell: |
         sed -i 's#image: rancher/local-path-provisioner:#image: quay.io/dpawlik/local-path-provisioner:#g' {{ local_storage_config_dir }}/local-path-storage.yaml
         sed -i 's#image: busybox#image: quay.io/dpawlik/busybox#g' {{ local_storage_config_dir }}/local-path-storage.yaml
 
-    - name: Create local path storage
+    - name: Check if current user got kube config
+      stat:
+        path: "{{ user_home.stdout }}/.kube/config"
+      register: _user_kube_config
+
+    - name: Create local path storage - root
+      become: true
       shell: |
         kubectl apply -f {{ local_storage_config_dir }}/local-path-storage.yaml
-      environment:
-        KUBECONFIG: /root/.kube/config
+      when: not _user_kube_config.stat.exists
+
+    - name: Create local path storage - local user
+      shell: |
+        kubectl apply -f {{ local_storage_config_dir }}/local-path-storage.yaml
+      when: _user_kube_config.stat.exists
 
   when: not _local_storage_resource.stat.exists

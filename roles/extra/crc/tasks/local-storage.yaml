@@ -1,0 +1,98 @@
+---
+- name: Get home directory
+  shell: |
+    getent passwd "{{ ansible_user }}" | cut -d: -f6
+  register: user_home
+
+- name: Copy oc binary
+  become: true
+  copy:
+    src: "{{ user_home.stdout }}/.crc/bin/oc/oc"
+    dest: "/usr/local/bin/oc"
+    mode: "0755"
+    remote_src: true
+
+- name: Ensure that oc is logged into Openshift
+  shell: |
+    /usr/local/bin/oc login -u kubeadmin -p "{{ openshift_admin_password }}" https://api.crc.testing:6443 --insecure-skip-tls-verify=true
+
+- name: Configure host for sf-operator
+  block:
+    - name: Get openstack install yaml repository
+      git:
+        repo: https://github.com/openstack-k8s-operators/install_yamls
+        dest: install_yamls
+
+    - name: Replace local-storage with standard storageclass
+      shell: |
+        find . -type f -exec sed -i 's/local-storage/standard/g' {} \;
+      args:
+        chdir: install_yamls
+
+    # From scripts/create-pv.sh
+    - name: Get node name
+      shell: |
+        oc get node -o name -l node-role.kubernetes.io/worker | head -n 1
+      register: node_name
+
+    # NOTE: Added retry, due CRC sometimes gets out of breath.
+    - name: Create PV
+      shell: |
+        oc debug "{{ node_name.stdout }}" -T -- chroot /host /usr/bin/bash -c "for i in {1..10}; do echo \"creating dir /mnt/openstack/pv00\$i\"; mkdir -p /mnt/openstack/pv00\$i; done"
+      until: "'pv0010' in _pv_dir.stdout"
+      retries: 6
+      delay: 10
+      register: _pv_dir
+
+    - name: Run gen-crc-pv-kustomize shell script
+      shell: |
+        bash scripts/gen-crc-pv-kustomize.sh
+      args:
+        chdir: install_yamls
+
+    - name: Apply changes
+      shell: |
+        /usr/local/bin/oc kustomize out/crc | /usr/local/bin/oc apply -f -
+      args:
+        chdir: install_yamls
+
+    - name: Add few more PV
+      shell: |
+        cat <<EOF | kubectl apply -f -
+        ---
+        kind: PersistentVolume
+        apiVersion: v1
+        metadata:
+          name: standard00{{ item }}
+        spec:
+          storageClassName: standard
+          capacity:
+            storage: 10Gi
+          accessModes:
+            - ReadWriteOnce
+            - ReadWriteMany
+            - ReadOnlyMany
+          persistentVolumeReclaimPolicy: Delete
+          local:
+            path: "/mnt/openstack/pv00{{ item }}"
+          volumeMode: Filesystem
+          nodeAffinity:
+            required:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                  - server
+        EOF
+      loop:
+        - "7"
+        - "8"
+        - "9"
+        - "10"
+      until: "'standard00' in _pv_status.stdout"
+      retries: 6
+      delay: 10
+      register: _pv_status
+
+  when: prepare_sfoperator | default(true)
