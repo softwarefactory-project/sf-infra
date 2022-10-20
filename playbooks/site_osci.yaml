@@ -71,9 +71,9 @@
 
     - meta: flush_handlers
 
-    # - name: "Deploy mailing-lists"
-    #   include_role:
-    #     name: osci/mailing_lists
-    #   vars:
-    #     # data_dev and ml_type are defined int he inventory
-    #     data_path: /srv/data
+    - name: "Deploy mailing-lists"
+      include_role:
+        name: osci/mailing_lists
+      vars:
+        # data_dev and ml_type are defined int he inventory
+        data_path: /srv/data
