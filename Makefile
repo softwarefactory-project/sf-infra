@@ -27,7 +27,7 @@ DASHBOARDS = roles/grafana/files/DLRN.json
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-format dhall-inventory $(DASHBOARDS) $(MANAGED)
+all: dhall-version-check dhall-inventory $(DASHBOARDS) $(MANAGED)
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.json: %.dhall .FORCE
