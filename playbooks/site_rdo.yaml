@@ -22,7 +22,7 @@
     - rdo/backup-srv
     - service/mysqld-exporter
 
-- hosts: baremetal02.rdoproject.org
+- hosts: baremetal
   roles:
     - infra/ssh
     - system/volume

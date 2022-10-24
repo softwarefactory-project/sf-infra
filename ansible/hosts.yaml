@@ -22,6 +22,10 @@ all:
         centos.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
+    baremetal:
+      hosts:
+        baremetal02.rdoproject.org: {}
+        baremetal03.rdoproject.org: {}
     dlrn:
       hosts:
         centos8-rpm-packaging-ci.rdoproject.org: {}
@@ -161,6 +165,11 @@ all:
       ansible_user: centos
     baremetal02.rdoproject.org:
       ansible_host: '169.60.49.233'
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: root
+    baremetal03.rdoproject.org:
+      ansible_host: '169.60.49.226'
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: root

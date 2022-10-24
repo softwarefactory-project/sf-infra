@@ -25,6 +25,7 @@ This project manages:
 * ibm-nodepool-launcher.softwarefactory-project.io
 * ibm-ze.softwarefactory-project.io
 * ibm-zfgw.softwarefactory-project.io
+* baremetal03.rdoproject.org
 * bridge.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io

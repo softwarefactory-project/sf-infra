@@ -1,14 +1,14 @@
-local_cloudname: {{ baremetal_name }}
-standalone_host: {{ baremetal_ip }}
-public_api: {{ baremetal_ip }}
+local_cloudname: {{ item.baremetal_name }}
+standalone_host: {{ item.baremetal_ip }}
+public_api: {{ item.baremetal_ip }}
 public_nic: bond1
-tripleo_repos_branch: train
+tripleo_repos_branch: {{ item.tripleo_repos_branch }}
 standalone_extra_config:
   octavia::wsgi::apache:workers: 4
 tripleo_repos_repo_branch: master
 cip_config:
   - set:
-      namespace: quay.io/tripleotraincentos8
+      namespace: {{ item.namespace }}
       name_prefix: centos-binary-
       tag: current-tripleo
 ceph_enabled: false
@@ -17,5 +17,5 @@ nm_dns: none
 primary_nic_state: up
 os_project: nodepool
 os_user: nodepool
-os_password: {{ ibm_bm2_nodepool.password }}
+os_password: {{ item.password }}
 manage_cloudsyaml: false
