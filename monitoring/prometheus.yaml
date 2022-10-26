@@ -175,6 +175,7 @@ scrape_configs:
     static_configs:
       - targets:
           - api-centos9-master-uc
+          - api-centos9-zed
           - api-centos9-yoga
           - api-centos9-xena
           - api-centos9-wallaby
