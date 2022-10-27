@@ -30,21 +30,9 @@
       package:
         name: lvm2
 
-    - name: 'Delete existing partition of {{ item }}'
-      parted:
-        device: '{{ item }}'
-        number: '{{ part_number }}'
-        state: absent
+    - name: Delete partitions
+      include_tasks: delete_partition.yaml
       loop: '{{ devices }}'
-      register: _partitions_deleted
-      when: delete_partitions | bool
-
-    - name: 'Wipe partition table of {{ item }}'
-      command: 'wipefs -a {{ item }}'
-      loop: '{{ devices }}'
-      when:
-        - _partitions_deleted.changed | bool
-        - wipe_partition_table | bool
 
     - name: Create a volume group
       lvg:

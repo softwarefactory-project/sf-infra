@@ -39,6 +39,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
     nodeset:
       # This special job needs to run from a container
       nodes:
@@ -64,6 +66,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
 
 - job:
     name: sf-infra-create-hosts
@@ -82,6 +86,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
 
 - job:
     name: sf-infra-configure
@@ -105,6 +111,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
       - name: vault
         secret: ansible-vault
       - name: sshkey
@@ -194,9 +202,15 @@
       playbook: create-tripleo-standalone.yaml
     files:
       - ^playbooks/create-tripleo-standalone.yaml$
-      - ^playbooks/templates/local-overrides.yaml.j2$
+      - ^playbooks/tasks/templates/local-overrides.yaml.j2$
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
-      - ^playbooks/host_vars/baremetal02.rdoproject.org.yaml$
+      - ^playbooks/host_vars/baremetal.*.rdoproject.org.yaml$
+      - ^playbooks/group_vars/baremetal.yaml$
+    secrets:
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
 
 - job:
     name: sf-infra-configure-tripleo-standalone
@@ -209,7 +223,7 @@
     timeout: 3600
     files:
       - ^playbooks/configure-tripleo-standalone.yaml$
-      - ^playbooks/templates/local-overrides.yaml.j2$
+      - ^playbooks/tasks/templates/local-overrides.yaml.j2$
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
 
 - job:
@@ -234,6 +248,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
       - name: vault
         secret: ansible-vault
 
@@ -253,6 +269,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
       - name: vault
         secret: ansible-vault
 
@@ -390,11 +408,12 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
-        - sf-infra-configure-tripleo-standalone:
-            dependencies:
-              - dhall-diff
-              - name: sf-infra-create-tripleo-standalone
-                soft: true
+        # disabled until bm3 is deployed for we have to adapt playbooks
+        # - sf-infra-configure-tripleo-standalone:
+        #     dependencies:
+        #       - dhall-diff
+        #       - name: sf-infra-create-tripleo-standalone
+        #         soft: true
         - sf-infra-configure-quay:
             dependencies:
               - dhall-diff

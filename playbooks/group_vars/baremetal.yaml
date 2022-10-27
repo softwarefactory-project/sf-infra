@@ -1,0 +1,64 @@
+# NOTE(dpawlik): The BM02 server has poor SSD disks, that later might
+# affect CI job fail, like AMQP messages got timeout in CI job tripleO deployment,
+# due very high limits set in the system:
+# https://github.com/openstack/tripleo-ansible/blob/master/tripleo_ansible/roles/tripleo_kernel/vars/main.yml
+flavors:
+  - name: afs
+    disk: 100
+    ram: 2048
+    vcpus: 2
+  - name: nodepool
+    disk: 80
+    ram: 8192
+    vcpus: 4
+# Overwrite flavor definition:
+# https://github.com/shiftstack/dev-install/blob/main/playbooks/prepare_stack.yaml#L76
+  - name: m1.large
+    disk: 80
+    ram: 8192
+    vcpus: 4
+  - name: m1.large.nodisk
+    disk: 0
+    ram: 8192
+    vcpus: 4
+  - name: m1.medium
+    disk: 40
+    ram: 4096
+    vcpus: 2
+  - name: m1.small
+    disk: 20
+    ram: 2048
+    vcpus: 1
+  - name: m1.tiny
+    disk: 10
+    ram: 1024
+    vcpus: 1
+  - name: m1.xlarge
+    disk: 40
+    ram: 16384
+    vcpus: 4
+  - name: m1.xlarge.nodisk
+    disk: 0
+    ram: 16384
+    vcpus: 4
+  - name: m1.large.nfv
+    state: absent
+  - name: m1.xlarge.nfv
+    state: absent
+
+lvm: true
+delete_partitions: true
+wipe_partition_table: true
+vg_name: 'var_lib'
+lv_name: 'nova'
+mountpoint: '/mnt/{{ vg_name }}_{{ lv_name }}'
+# from /var/lib/config-data/nova/etc/passwd
+# nova:x:42436:42436::/var/lib/nova:/usr/sbin/nologin
+mount_owner: 42436
+mount_group: 42436
+# bind_mount will be enabled after data sync
+bind_mounts:
+  - source: '{{ mountpoint }}'
+    dest: '/var/lib/nova'
+    owner: '{{ mount_owner }}'
+    group: '{{ mount_group }}'

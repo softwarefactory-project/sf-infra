@@ -1,55 +1,111 @@
+-- let baremetal03 =
+--       let prefix = "ibm-bm3-"
+
+--       in  Cloud::{
+--           , baremetal_name = "baremetal03." ++ rdo_domain
+--           , baremetal_ip = "169.60.49.226"
+--           , mirror_ip = "192.168.25.10"
+--           , launcher_name = prefix ++ "nodepool-launcher"
+--           , launcher_ip = "192.168.25.11"
+--           , executor_name = prefix ++ "ze"
+--           , executor_ip = "192.168.25.12"
+--           , fingergw_name = prefix ++ "zfgw"
+--           , fingergw_ip = "192.168.25.13"
+--           , domain = prefix ++ "nodepool"
+--           }
+
 let Infra = ../../Infra/package.dhall
 
-in  [ Infra.Instance::{
-      , name = "baremetal02.rdoproject.org"
-      , connection = Infra.Connection::{
-        , ansible_user = "root"
-        , ansible_host = Some "169.60.49.233"
-        , ansible_python_interpreter = "auto"
+let sf_domain = "softwarefactory-project.io"
+
+let rdo_domain = "rdoproject.org"
+
+let mk_instance =
+      \(name : Text) ->
+      \(groups : List Text) ->
+      \(ansible_host : Text) ->
+      \(proxy_jump : Text) ->
+        Infra.Instance::{
+        , name
+        , groups
+        , node-exporter = False
+        , connection = Infra.Connection::{
+          , ansible_user = "centos"
+          , ansible_host = Some ansible_host
+          , ansible_python_interpreter = "python2"
+          , proxy_jump = Some proxy_jump
+          }
         }
-      }
-    , Infra.Instance::{
-      , name = "mirror.regionone.ibm-bm2-nodepool.rdoproject.org"
-      , groups = [ "afs-mirror" ]
-      , node-exporter = False
-      , connection = Infra.Connection::{
-        , ansible_user = "centos"
-        , ansible_host = Some "192.168.25.35"
-        , ansible_python_interpreter = "python2"
-        , proxy_jump = Some "baremetal02.rdoproject.org"
+
+let mk_baremetal =
+      \(name : Text) ->
+      \(ansible_host : Text) ->
+        Infra.Instance::{
+        , name
+        , groups = [ "baremetal" ]
+        , connection = Infra.Connection::{
+          , ansible_user = "root"
+          , ansible_host = Some ansible_host
+          , ansible_python_interpreter = "auto"
+          }
         }
+
+let Cloud =
+      { Type =
+          { baremetal_name : Text
+          , baremetal_ip : Text
+          , mirror_ip : Text
+          , launcher_name : Text
+          , launcher_ip : Text
+          , executor_name : Text
+          , executor_ip : Text
+          , fingergw_name : Text
+          , fingergw_ip : Text
+          , domain : Text
+          }
+      , default = {=}
       }
-    , Infra.Instance::{
-      , name = "ibm-nodepool-launcher.softwarefactory-project.io"
-      , groups = [ "sf", "ibm-bm2-nodepool" ]
-      , node-exporter = False
-      , connection = Infra.Connection::{
-        , ansible_user = "centos"
-        , ansible_host = Some "192.168.25.195"
-        , ansible_python_interpreter = "python2"
-        , proxy_jump = Some "baremetal02.rdoproject.org"
-        }
-      }
-    , Infra.Instance::{
-      , name = "ibm-ze.softwarefactory-project.io"
-      , groups = [ "sf", "ze" ]
-      , node-exporter = False
-      , connection = Infra.Connection::{
-        , ansible_user = "centos"
-        , ansible_host = Some "192.168.25.127"
-        , ansible_python_interpreter = "python2"
-        , proxy_jump = Some "baremetal02.rdoproject.org"
-        }
-      }
-    , Infra.Instance::{
-      , name = "ibm-zfgw.softwarefactory-project.io"
-      , groups = [ "sf" ]
-      , node-exporter = False
-      , connection = Infra.Connection::{
-        , ansible_user = "centos"
-        , ansible_host = Some "192.168.25.80"
-        , ansible_python_interpreter = "python2"
-        , proxy_jump = Some "baremetal02.rdoproject.org"
-        }
-      }
-    ]
+
+let mk_cloud =
+      \(cloud : Cloud.Type) ->
+        [ mk_baremetal cloud.baremetal_name cloud.baremetal_ip
+        , mk_instance
+            ("mirror.regionone." ++ cloud.domain ++ ".rdoproject.org")
+            [ "afs-mirror" ]
+            cloud.mirror_ip
+            cloud.baremetal_name
+        , mk_instance
+            (cloud.launcher_name ++ "." ++ sf_domain)
+            [ "sf", "ibm-bm2-nodepool" ]
+            cloud.launcher_ip
+            cloud.baremetal_name
+        , mk_instance
+            (cloud.executor_name ++ "." ++ sf_domain)
+            [ "sf", "ze" ]
+            cloud.executor_ip
+            cloud.baremetal_name
+        , mk_instance
+            (cloud.fingergw_name ++ "." ++ sf_domain)
+            [ "sf" ]
+            cloud.fingergw_ip
+            cloud.baremetal_name
+        ]
+
+let baremetal02 =
+      let prefix = "ibm-"
+
+      in  Cloud::{
+          , baremetal_name = "baremetal02." ++ rdo_domain
+          , baremetal_ip = "169.60.49.233"
+          , mirror_ip = "192.168.25.35"
+          , launcher_name = prefix ++ "nodepool-launcher"
+          , launcher_ip = "192.168.25.195"
+          , executor_name = prefix ++ "ze"
+          , executor_ip = "192.168.25.127"
+          , fingergw_name = prefix ++ "zfgw"
+          , fingergw_ip = "192.168.25.80"
+          , domain = "ibm-bm2-nodepool"
+          }
+
+in    mk_cloud baremetal02
+    # [ mk_baremetal "baremetal03.rdoproject.org" "169.60.49.226" ]

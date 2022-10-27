@@ -1,0 +1,51 @@
+- name: "Check if {{ item.cloud }} works"
+  command: "openstack --os-cloud {{ item.cloud }} server list"
+  register: _openstack_cloud_works
+  failed_when: _openstack_cloud_works.rc not in [0,1]
+  no_log: yes
+  changed_when: false
+
+- name: "Install shiftstack for {{ item.cloud }}"
+  block:
+    - set_fact:
+        path: "/home/fedora/tripleo-standalone/{{ item.baremetal_name }}"
+    - name: Create working directory
+      file:
+        path: "{{ path }}"
+        state: directory
+
+    - name: "Checkout dev-install for {{ item.cloud }}"
+      git:
+        # original repo is: https://github.com/shiftstack/dev-install
+        # use nhicher repo to fix resolv.conf deletion issue
+        # https://github.com/shiftstack/dev-install/pull/191
+        repo: https://github.com/nhicher/dev-install.git
+        dest: "{{ path }}/dev-install"
+        version: ibmcloud
+
+    - name: "Install templates for {{ item.cloud }}"
+      template:
+        src: local-overrides.yaml.j2
+        dest: "{{ path }}/dev-install/local-overrides.yaml"
+        mode: 0640
+      no_log: yes
+
+    # TODO: commented to ensure the initial steps work
+    # - name: "Generate config for {{ item.cloud }}"
+    #   command: "make config host={{ item.baremetal_ip}}"
+    #   args:
+    #     chdir: "{{ path }}"
+
+    # - name: "Install osp for {{ item.cloud }}"
+    #   command: "make osp_full"
+    #   args:
+    #     chdir: "{{ path }}"
+  when: (_openstack_client.rc or _openstack_cloud_works.rc) == 1
+
+# - name: "Check if hostonly network exists for {{ item.cloud }}"
+#   command: >
+#     openstack --os-cloud {{ item.cloud }}
+#     network list --external -f value -c Name
+#   register: _get_external_network
+#   failed_when: _get_external_network.stdout != 'hostonly'
+#   changed_when: false

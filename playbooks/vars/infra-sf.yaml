@@ -169,7 +169,9 @@ security_groups:
   - name: zookeeper
     rules:
       - port: 2281
-        remote_ip_prefix: "{{ baremetal_ip }}/32"
+        remote_ip_prefix: "{{ ibm_bm2_ip }}/32"
+      - port: 2281
+        remote_ip_prefix: "{{ ibm_bm3_ip }}/32"
   - name: zookeeper_exporter
     rules:
       - port: 9141
