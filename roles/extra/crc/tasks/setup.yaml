@@ -11,6 +11,15 @@
   shell: |
     /usr/local/bin/crc config set pull-secret-file pull-secret.txt
 
+- name: Enable podman runtime
+  shell: |
+    /usr/local/bin/crc config set preset podman
+  when: crc_config_podman_runtime
+
+- name: Set additional parameters for crc
+  shell: |
+    /usr/local/bin/crc config set consent-telemetry {{ crc_config_consent_telemetry }}
+
 - name: Execute setup
   shell: |
     /usr/local/bin/crc setup &> crc-setup.log

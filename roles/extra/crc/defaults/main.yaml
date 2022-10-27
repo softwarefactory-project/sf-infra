@@ -3,3 +3,6 @@ opeshift_pull_secret: ""
 openshift_admin_password: 123456789
 
 hide_sensitive_logs: false
+
+crc_config_podman_runtime: false
+crc_config_consent_telemetry: no

@@ -14,4 +14,4 @@ service_cidr: 10.96.0.0/16
 calico_config_dir: /etc/kubernetes/calico
 
 # local storage
-local_storage_config_dir: /etc/kubernetes/local-storage
+local_storage_config_dir: /etc/kubernetes
