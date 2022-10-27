@@ -15,7 +15,7 @@ standalone_deployments:
   - baremetal_name: ibm-bm2
     baremetal_ip: "{{ ibm_bm2_ip }}"
     cloud: ibm-bm2-nodepool
-    password: "{{ ibm_bm2_nodepool.password | default('') }}"
+    secret: ibm_bm2_nodepool
     tripleo_repos_branch: train
     namespace: quay.io/tripleotraincentos8
     servers:
@@ -30,7 +30,7 @@ standalone_deployments:
   - baremetal_name: ibm-bm3
     baremetal_ip: "{{ ibm_bm2_ip }}"
     cloud: ibm-bm3-nodepool
-    password: "{{ ibm_bm3_nodepool.password | default('') }}"
+    secret: ibm_bm3_nodepool
     tripleo_repos_branch: wallaby
     namespace: quay.io/tripleowallabycentos8
     servers:
