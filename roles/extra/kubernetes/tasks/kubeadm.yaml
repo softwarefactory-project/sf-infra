@@ -5,6 +5,15 @@
     path: /etc/kubernetes/admin.conf
   register: _k8s_config
 
+# More info: https://github.com/cri-o/cri-o/issues/6197
+- name: Modify policy json
+  become: true
+  lineinfile:
+    path: /etc/containers/policy.json
+    regexp: '^.*keyPaths.*'
+    line: '                    "keyPath": "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"'
+  when: ansible_distribution_major_version == '8'
+
 - name: Deploy Kubernetes
   become: true
   block:
