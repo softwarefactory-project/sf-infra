@@ -24,11 +24,15 @@
         version: ibmcloud
 
     - name: "Install templates for {{ item.cloud }}"
-      template:
-        src: local-overrides.yaml.j2
-        dest: "{{ path }}/dev-install/local-overrides.yaml"
-        mode: 0640
-      no_log: yes
+      vars:
+        secret: "{{ item.secret.password }}"
+      debug:
+        var: secret
+      # template:
+      #   src: local-overrides.yaml.j2
+      #   dest: "{{ path }}/dev-install/local-overrides.yaml"
+      #   mode: 0640
+      # no_log: yes
 
     # TODO: commented to ensure the initial steps work
     # - name: "Generate config for {{ item.cloud }}"
