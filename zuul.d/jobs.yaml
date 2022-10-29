@@ -196,12 +196,11 @@
     parent: sf-infra-base
     description: Install tripleo-standalone on ibm baremetal
     semaphore: sf-infra
-    run: playbooks/zuul/run-play.yaml
+    run: playbooks/zuul/create-tripleo-standalone.yaml
     timeout: 3600
-    vars:
-      playbook: create-tripleo-standalone.yaml
     files:
       - ^playbooks/create-tripleo-standalone.yaml$
+      - ^playbooks/tasks/standalone-setup.yaml$
       - ^playbooks/tasks/templates/local-overrides.yaml.j2$
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
       - ^playbooks/host_vars/baremetal.*.rdoproject.org.yaml$

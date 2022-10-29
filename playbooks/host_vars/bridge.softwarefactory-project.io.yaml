@@ -8,37 +8,5 @@ prometheus_private_ip: 192.168.242.246
 cloud_image: "CentOS-7-x86_64-GenericCloud-2111"
 cloud_image_url: "https://cloud.centos.org/centos/7/images/{{ cloud_image }}.qcow2"
 keypair: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7"
-# these ips are used in infra-sf/networking.dhall for sec rules
 ibm_bm2_ip: 169.60.49.233
-ibm_bm3_ip: 169.60.49.236
-standalone_deployments:
-  - baremetal_name: ibm-bm2
-    baremetal_ip: "{{ ibm_bm2_ip }}"
-    cloud: ibm-bm2-nodepool
-    secret: ibm_bm2_nodepool
-    tripleo_repos_branch: train
-    namespace: quay.io/tripleotraincentos8
-    servers:
-      - name: mirror.regionone.ibm-bm2-nodepool.rdoproject.org
-        flavor: afs
-      - name: ibm-nodepool-launcher.softwarefactory-project.io
-        flavor: m1.medium
-      - name: ibm-ze.softwarefactory-project.io
-        flavor: m1.large
-      - name: ibm-zfgw.softwarefactory-project.io
-        flavor: m1.small
-  - baremetal_name: ibm-bm3
-    baremetal_ip: "{{ ibm_bm2_ip }}"
-    cloud: ibm-bm3-nodepool
-    secret: ibm_bm3_nodepool
-    tripleo_repos_branch: wallaby
-    namespace: quay.io/tripleowallabycentos8
-    servers:
-      - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
-        flavor: afs
-      - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
-        flavor: m1.medium
-      - name: ibm-bm3-ze.softwarefactory-project.io
-        flavor: m1.large
-      - name: ibm-bm3-zfgw.softwarefactory-project.io
-        flavor: m1.small
+ibm_bm3_ip: 169.60.49.226

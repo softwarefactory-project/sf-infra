@@ -9,6 +9,7 @@
   block:
     - set_fact:
         path: "/home/fedora/tripleo-standalone/{{ item.baremetal_name }}"
+
     - name: Create working directory
       file:
         path: "{{ path }}"
@@ -24,32 +25,18 @@
         version: ibmcloud
 
     - name: "Install templates for {{ item.cloud }}"
-      vars:
-        secret: "{{ item.secret.password }}"
-      debug:
-        var: secret
-      # template:
-      #   src: local-overrides.yaml.j2
-      #   dest: "{{ path }}/dev-install/local-overrides.yaml"
-      #   mode: 0640
-      # no_log: yes
+      template:
+        src: local-overrides.yaml.j2
+        dest: "{{ path }}/dev-install/local-overrides.yaml"
+        mode: 0640
 
-    # TODO: commented to ensure the initial steps work
-    # - name: "Generate config for {{ item.cloud }}"
-    #   command: "make config host={{ item.baremetal_ip}}"
-    #   args:
-    #     chdir: "{{ path }}"
+    - name: "Generate config for {{ item.cloud }}"
+      command: "make config host={{ item.baremetal_ip}}"
+      args:
+        chdir: "{{ path }}/dev-install"
 
-    # - name: "Install osp for {{ item.cloud }}"
-    #   command: "make osp_full"
-    #   args:
-    #     chdir: "{{ path }}"
+    - name: "Install osp for {{ item.cloud }}"
+      command: "make osp_full"
+      args:
+        chdir: "{{ path }}/dev-install"
   when: (_openstack_client.rc or _openstack_cloud_works.rc) == 1
-
-# - name: "Check if hostonly network exists for {{ item.cloud }}"
-#   command: >
-#     openstack --os-cloud {{ item.cloud }}
-#     network list --external -f value -c Name
-#   register: _get_external_network
-#   failed_when: _get_external_network.stdout != 'hostonly'
-#   changed_when: false

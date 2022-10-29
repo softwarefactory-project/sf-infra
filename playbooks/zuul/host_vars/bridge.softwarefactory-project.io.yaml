@@ -1,0 +1,33 @@
+standalone_deployments:
+  - baremetal_name: ibm-bm2
+    baremetal_ip: 169.60.49.233
+    cloud: ibm-bm2-nodepool
+    password: "{{ ibm_bm2_nodepool.password }}"
+    tripleo_repos_branch: train
+    namespace: quay.io/tripleotraincentos8
+    name_prefix: centos-binary-
+    servers:
+      - name: mirror.regionone.ibm-bm2-nodepool.rdoproject.org
+        flavor: afs
+      - name: ibm-nodepool-launcher.softwarefactory-project.io
+        flavor: m1.medium
+      - name: ibm-ze.softwarefactory-project.io
+        flavor: m1.large
+      - name: ibm-zfgw.softwarefactory-project.io
+        flavor: m1.small
+  - baremetal_name: ibm-bm3
+    baremetal_ip: 169.60.49.226
+    cloud: ibm-bm3-nodepool
+    password: "{{ ibm_bm3_nodepool.password }}"
+    tripleo_repos_branch: wallaby
+    namespace: quay.io/tripleowallaby
+    name_prefix: openstack-
+    servers:
+      - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+        flavor: afs
+      - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
+        flavor: m1.medium
+      - name: ibm-bm3-ze.softwarefactory-project.io
+        flavor: m1.large
+      - name: ibm-bm3-zfgw.softwarefactory-project.io
+        flavor: m1.small
