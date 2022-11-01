@@ -114,7 +114,7 @@
   roles:
     - service/node-exporter
 
-- hosts: ibm-bm2-nodepool
+- hosts: ibm-baremetal-nodepool
   roles:
     - service/apache-exporter
     - sf/ca-trust

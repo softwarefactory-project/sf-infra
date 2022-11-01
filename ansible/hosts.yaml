@@ -36,7 +36,7 @@ all:
     etcd:
       hosts:
         registry.rdoproject.org: {}
-    ibm-bm2-nodepool:
+    ibm-baremetal-nodepool:
       hosts:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-nodepool-launcher.softwarefactory-project.io: {}
