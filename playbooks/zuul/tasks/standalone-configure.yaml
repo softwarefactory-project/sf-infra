@@ -1,0 +1,20 @@
+- name: Add keypairs on osp deployment
+  os_keypair:
+    cloud: "{{ item.cloud }}"
+    name: bridge
+    public_key: "{{ keypair }}"
+
+- name: Create servers
+  os_server:
+    cloud: "{{ item.cloud }}"
+    name: "{{ server.name }}"
+    flavor: "{{ server.flavor }}"
+    image: "{{ cloud_image }}"
+    key_name: bridge
+    network: hostonly
+    security_groups:
+      - allow_ssh
+  loop: "{{ item.servers }}"
+  loop_control:
+    loop_var: server
+  when: item.cloud == "ibm-bm2-nodepool"

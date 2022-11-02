@@ -216,14 +216,17 @@
     parent: sf-infra-base
     description: Install tripleo-standalone on ibm baremetal
     semaphore: sf-infra
-    run: playbooks/zuul/run-play.yaml
-    vars:
-      playbook: configure-tripleo-standalone.yaml
+    run: playbooks/zuul/configure-tripleo-standalone.yaml
     timeout: 3600
     files:
-      - ^playbooks/configure-tripleo-standalone.yaml$
-      - ^playbooks/tasks/templates/local-overrides.yaml.j2$
-      - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
+      - ^playbooks/zuul/configure-tripleo-standalone.yaml$
+      - ^playbooks/zuul/tasks/standalone-configure.yaml$
+      - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
+    secrets:
+      - name: ibm_bm2_nodepool
+        secret: ibm-bm2-nodepool
+      - name: ibm_bm3_nodepool
+        secret: ibm-bm3-nodepool
 
 - job:
     name: sf-infra-configure-registry
@@ -407,12 +410,11 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
-        # disabled until bm3 is deployed for we have to adapt playbooks
-        # - sf-infra-configure-tripleo-standalone:
-        #     dependencies:
-        #       - dhall-diff
-        #       - name: sf-infra-create-tripleo-standalone
-        #         soft: true
+        - sf-infra-configure-tripleo-standalone:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-tripleo-standalone
+                soft: true
         - sf-infra-configure-quay:
             dependencies:
               - dhall-diff

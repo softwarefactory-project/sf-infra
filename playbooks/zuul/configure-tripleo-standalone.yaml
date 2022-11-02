@@ -20,7 +20,6 @@
         key: "{{ bridge_key }}"
 
 - hosts: bridge.softwarefactory-project.io
-  gather_facts: yes
   tasks:
     - name: Synchronize src repos to workspace directory.
       synchronize:
@@ -28,7 +27,17 @@
         src: "{{ zuul.executor.src_root }}/"
       no_log: true
 
-    - name: Run configuration playbook
-      args:
-        chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-      command: "ansible-playbook playbooks/{{ playbook }}"
+    - name: "Check if {{ cloud_image }} exist"
+      stat:
+        path: "/home/fedora/{{ cloud_image }}.qcow2"
+      register: _image
+
+    - name: Get "{{ cloud_image }}"
+      get_url:
+        url: "{{ cloud_image_url }}"
+        dest: "/home/fedora/{{ cloud_image }}.qcow2"
+      when: not _image.stat.exists
+
+    - include_tasks: tasks/standalone-configure.yaml
+      loop: "{{ standalone_deployments }}"
+      no_log: true
