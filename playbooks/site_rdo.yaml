@@ -29,14 +29,14 @@
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
+    - service/setup-ssl
     - rdo/afs-mirror
     - rdo/afs-monitoring
-    - service/setup-ssl
 
-- hosts: mirror.regionone.ibm-bm2-nodepool.rdoproject.org
+- hosts: private-afs-mirror
   roles:
-    - rdo/afs-mirror
     - rdo/setup-ssl-self-signed
+    - rdo/afs-mirror
 
 - hosts: rdo
   roles:

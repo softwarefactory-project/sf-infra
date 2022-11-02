@@ -1,4 +1,9 @@
 ---
+- name: Install httpd
+  package:
+    name: httpd
+  become: yes
+
 - name: Copy server status configuration file
   become: true
   template:

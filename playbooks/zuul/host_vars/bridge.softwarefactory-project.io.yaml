@@ -1,3 +1,4 @@
+# note: modify dhall code to generate this file
 cloud_image: "CentOS-7-x86_64-GenericCloud-2111"
 cloud_image_url: "https://cloud.centos.org/centos/7/images/{{ cloud_image }}.qcow2"
 keypair: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7"
@@ -25,12 +26,16 @@ standalone_deployments:
     tripleo_repos_branch: wallaby
     namespace: quay.io/tripleowallaby
     name_prefix: openstack-
-    # servers:
-    #   - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
-    #     flavor: afs
-    #   - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
-    #     flavor: m1.medium
-    #   - name: ibm-bm3-ze.softwarefactory-project.io
-    #     flavor: m1.large
-    #   - name: ibm-bm3-zfgw.softwarefactory-project.io
-    #     flavor: m1.small
+    servers:
+      - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+        flavor: afs
+        ip: 192.168.25.10
+      - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
+        flavor: m1.medium
+        ip: 192.168.25.11
+      - name: ibm-bm3-ze.softwarefactory-project.io
+        flavor: m1.large
+        ip: 192.168.25.12
+      - name: ibm-bm3-zfgw.softwarefactory-project.io
+        flavor: m1.small
+        ip: 192.168.25.13

@@ -58,8 +58,22 @@ let sshconfig =
                   ControlPath ~/.ssh/control-%r@%h:%p
                   PubkeyAcceptedKeyTypes +ssh-rsa
 
-              Host 192.168.25.*
+              Host 192.168.25.35
                   ProxyJump baremetal02.rdoproject.org
+              Host 192.168.25.195
+                  ProxyJump baremetal02.rdoproject.org
+              Host 192.168.25.127
+                  ProxyJump baremetal02.rdoproject.org
+              Host 192.168.25.80
+                  ProxyJump baremetal02.rdoproject.org
+              Host 192.168.25.10
+                  ProxyJump baremetal03.rdoproject.org
+              Host 192.168.25.11
+                  ProxyJump baremetal03.rdoproject.org
+              Host 192.168.25.12
+                  ProxyJump baremetal03.rdoproject.org
+              Host 192.168.25.13
+                  ProxyJump baremetal03.rdoproject.org
 
               ''
           ++  Prelude.Text.concat

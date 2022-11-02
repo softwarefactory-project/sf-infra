@@ -26,6 +26,10 @@ This project manages:
 * ibm-ze.softwarefactory-project.io
 * ibm-zfgw.softwarefactory-project.io
 * baremetal03.rdoproject.org
+* mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+* ibm-bm3-nodepool-launcher.softwarefactory-project.io
+* ibm-bm3-ze.softwarefactory-project.io
+* ibm-bm3-zfgw.softwarefactory-project.io
 * bridge.softwarefactory-project.io
 * prometheus.monitoring.softwarefactory-project.io
 * elk.softwarefactory-project.io

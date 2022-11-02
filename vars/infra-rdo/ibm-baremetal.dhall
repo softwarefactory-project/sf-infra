@@ -1,19 +1,3 @@
--- let baremetal03 =
---       let prefix = "ibm-bm3-"
-
---       in  Cloud::{
---           , baremetal_name = "baremetal03." ++ rdo_domain
---           , baremetal_ip = "169.60.49.226"
---           , mirror_ip = "192.168.25.10"
---           , launcher_name = prefix ++ "nodepool-launcher"
---           , launcher_ip = "192.168.25.11"
---           , executor_name = prefix ++ "ze"
---           , executor_ip = "192.168.25.12"
---           , fingergw_name = prefix ++ "zfgw"
---           , fingergw_ip = "192.168.25.13"
---           , domain = prefix ++ "nodepool"
---           }
-
 let Infra = ../../Infra/package.dhall
 
 let sf_domain = "softwarefactory-project.io"
@@ -71,7 +55,7 @@ let mk_cloud =
         [ mk_baremetal cloud.baremetal_name cloud.baremetal_ip
         , mk_instance
             ("mirror.regionone." ++ cloud.domain ++ ".rdoproject.org")
-            [ "afs-mirror" ]
+            [ "private-afs-mirror" ]
             cloud.mirror_ip
             cloud.baremetal_name
         , mk_instance
@@ -107,5 +91,20 @@ let baremetal02 =
           , domain = "ibm-bm2-nodepool"
           }
 
-in    mk_cloud baremetal02
-    # [ mk_baremetal "baremetal03.rdoproject.org" "169.60.49.226" ]
+let baremetal03 =
+      let prefix = "ibm-bm3-"
+
+      in  Cloud::{
+          , baremetal_name = "baremetal03." ++ rdo_domain
+          , baremetal_ip = "169.60.49.226"
+          , mirror_ip = "192.168.25.10"
+          , launcher_name = prefix ++ "nodepool-launcher"
+          , launcher_ip = "192.168.25.11"
+          , executor_name = prefix ++ "ze"
+          , executor_ip = "192.168.25.12"
+          , fingergw_name = prefix ++ "zfgw"
+          , fingergw_ip = "192.168.25.13"
+          , domain = prefix ++ "nodepool"
+          }
+
+in  mk_cloud baremetal02 # mk_cloud baremetal03

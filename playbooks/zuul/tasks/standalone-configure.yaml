@@ -1,10 +1,21 @@
-- name: Add keypairs on osp deployment
+---
+- name: "Add keypairs on {{ item.cloud }}"
   os_keypair:
     cloud: "{{ item.cloud }}"
     name: bridge
     public_key: "{{ keypair }}"
 
-- name: Create servers
+- name: "Set dns for {{ item.cloud }}"
+  os_subnet:
+    cloud: "{{ item.cloud }}"
+    state: present
+    network_name: hostonly
+    name: hostonly-subnet
+    cidr: 192.168.25.0/24
+    dns_nameservers:
+       - 1.1.1.1
+
+- name: "Create servers on {{ item.cloud }}"
   os_server:
     cloud: "{{ item.cloud }}"
     name: "{{ server.name }}"
@@ -18,3 +29,34 @@
   loop_control:
     loop_var: server
   when: item.cloud == "ibm-bm2-nodepool"
+
+- name: Add ports and instances
+  block:
+    - name: "Create port {{ server.name }}"
+      os_port:
+        cloud: "{{ item.cloud }}"
+        name: "{{ server.name }}"
+        network: hostonly
+        security_groups:
+          - allow_ssh
+        fixed_ips:
+          - ip_address: "{{ server.ip }}"
+      loop: "{{ item.servers }}"
+      loop_control:
+        loop_var: server
+
+    - name: "Create server {{ server.name }}"
+      os_server:
+        cloud: "{{ item.cloud }}"
+        name: "{{ server.name }}"
+        flavor: "{{ server.flavor }}"
+        image: "{{ cloud_image }}"
+        key_name: bridge
+        security_groups:
+          - allow_ssh
+        nics:
+          - port-name: "{{ server.name }}"
+      loop: "{{ item.servers }}"
+      loop_control:
+        loop_var: server
+  when: item.cloud != "ibm-bm2-nodepool"

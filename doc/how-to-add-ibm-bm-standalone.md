@@ -33,11 +33,26 @@ $ zuul-client --zuul-url https://softwarefactory-project.io/zuul encrypt \
     --infile /tmp/$cloud  >> zuul.d/secrets.yaml
 `
 
-2. add in the *in* statement the function to generate only the configuration for baremetal03 instance:
+2. add data for the cloud and in the *in* statement:
 
 `
-in    mk_cloud baremetal02
-    # [ mk_baremetal "baremetal03.rdoproject.org" "169.60.49.226" ]
+let baremetal03 =
+      let prefix = "ibm-bm3-"
+
+      in  Cloud::{
+          , baremetal_name = "baremetal03." ++ rdo_domain
+          , baremetal_ip = "169.60.49.226"
+          , mirror_ip = "192.168.25.10"
+          , launcher_name = prefix ++ "nodepool-launcher"
+          , launcher_ip = "192.168.25.11"
+          , executor_name = prefix ++ "ze"
+          , executor_ip = "192.168.25.12"
+          , fingergw_name = prefix ++ "zfgw"
+          , fingergw_ip = "192.168.25.13"
+          , domain = prefix ++ "nodepool"
+          }
+
+in  mk_cloud baremetal02 # mk_cloud baremetal03
 `
 
 3. update the configuration:
@@ -73,6 +88,19 @@ standalone_deployments:
     tripleo_repos_branch: wallaby
     namespace: quay.io/tripleowallaby
     name_prefix: openstack-
+    servers:
+      - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+        flavor: afs
+        ip: 192.168.25.10
+      - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
+        flavor: m1.medium
+        ip: 192.168.25.11
+      - name: ibm-bm3-ze.softwarefactory-project.io
+        flavor: m1.large
+        ip: 192.168.25.12
+      - name: ibm-bm3-zfgw.softwarefactory-project.io
+        flavor: m1.small
+        ip: 192.168.25.13
 `
 
 7. add password on zuul/jobs.yaml where passwords for others deployments where they are defined:
@@ -101,7 +129,50 @@ ibm-bm3-nodepool:
 `
 The crt will be installed by shiftstack/dev-install at the end of the openstack installation
 
-9. commit and propose a review with the content to setup the cloud
+9. Add Proxy jump for each ip (needed by ansible) on vars/directory-tree.dhall
+
+`
+Host 192.168.25.10
+    ProxyJump baremetal03.rdoproject.org
+Host 192.168.25.11
+    ProxyJump baremetal03.rdoproject.org
+Host 192.168.25.12
+    ProxyJump baremetal03.rdoproject.org
+Host 192.168.25.13
+    ProxyJump baremetal03.rdoproject.org
+`
+
+10. Add security group rules for zuul-fingergw in playbooks/zuul/configure-private-clouds.yaml
+
+`
+- hosts: baremetal03.rdoproject.org
+  gather_facts: yes
+  tasks:
+    - name: Forward finger port (7979) to ibm-zfgw
+      iptables:
+        chain: FORWARD
+        protocol: tcp
+        destination_port: 7979
+        destination: 192.168.25.13
+        jump: ACCEPT
+        comment: Forward rule for fingergw
+
+    - name: DNAT finger port (7979) to ibm-zfgw
+      iptables:
+        table: nat
+        chain: PREROUTING
+        in_interface: bond1
+        protocol: tcp
+        destination_port: 7979
+        jump: DNAT
+        to_destination: 192.168.25.13:7979
+        comment: PREROUTING rule for fingergw
+
+    - name: Save iptables rules
+      command: /usr/libexec/iptables/iptables.init save
+`
+
+11. commit and propose a review with the content to setup the cloud
 
 If deployment failed, most of the time, baremetal instance should be redeployed and /home/fedora/.ssh/known_hosts host entries should be removed from the bridge before redeploying
 
