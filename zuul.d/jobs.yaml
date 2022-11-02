@@ -199,12 +199,12 @@
     run: playbooks/zuul/create-tripleo-standalone.yaml
     timeout: 3600
     files:
-      - ^playbooks/create-tripleo-standalone.yaml$
-      - ^playbooks/tasks/standalone-setup.yaml$
-      - ^playbooks/tasks/templates/local-overrides.yaml.j2$
-      - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
-      - ^playbooks/host_vars/baremetal.*.rdoproject.org.yaml$
-      - ^playbooks/group_vars/baremetal.yaml$
+      - ^playbooks/zuul/create-tripleo-standalone.yaml$
+      - ^playbooks/zuul/configure-private-clouds.yaml$
+      - ^playbooks/zuul/tasks/standalone-setup.yaml$
+      - ^playbooks/zuul/templates/local-overrides.yaml.j2$
+      - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
+      - ^playbooks/zuul/group_vars/baremetal.yaml%
     secrets:
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool
