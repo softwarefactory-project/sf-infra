@@ -204,7 +204,7 @@
       - ^playbooks/zuul/tasks/standalone-setup.yaml$
       - ^playbooks/zuul/templates/local-overrides.yaml.j2$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
-      - ^playbooks/zuul/group_vars/baremetal.yaml%
+      - ^playbooks/zuul/group_vars/baremetal.yaml$
     secrets:
       - name: ibm_bm2_nodepool
         secret: ibm-bm2-nodepool

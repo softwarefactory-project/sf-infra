@@ -8,6 +8,7 @@ flavors:
     ram: 8192
     vcpus: 4
 # Overwrite flavors definition:
+# to match what we have on verxxhost
 # https://github.com/shiftstack/dev-install/blob/main/playbooks/prepare_stack.yaml#L76
   - name: m1.large
     disk: 80
