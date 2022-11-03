@@ -357,7 +357,7 @@
         - sf-infra-grafana-dashboards:
             files:
               - "^roles/grafana/.*$"
-        # - sf-infra-quay-check
+        - sf-infra-quay-check
     gate:
       jobs:
         - sf-infra-test-udp-multiplexer
