@@ -1,9 +1,9 @@
 - name: Download kind
   get_url:
-    url: https://github.com/kubernetes-sigs/kind/releases/download/v0.14.0/kind-linux-amd64
+    url: https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-linux-amd64
     dest: /bin/kind
     mode: '0755'
-    checksum: "sha256:af5e8331f2165feab52ec2ae07c427c7b66f4ad044d09f253004a20252524c8b"
+    checksum: "sha256:a8c045856db33f839908b6acb90dc8ec397253ffdaef7baf058f5a542e009b9c"
 
 - name: Copy kind-config
   template:
