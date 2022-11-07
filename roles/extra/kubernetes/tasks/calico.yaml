@@ -12,14 +12,6 @@
         path: "{{ calico_config_dir }}"
         state: directory
 
-    - name: Untaint nodes
-      shell: |
-        kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-        kubectl taint nodes --all node-role.kubernetes.io/master-
-      ignore_errors: true
-      environment:
-        KUBECONFIG: /root/.kube/config
-
     - name: Get calico manifests
       get_url:
         url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/{{ item }}"
@@ -37,13 +29,9 @@
     - name: Install operator
       shell: |
         kubectl create -f /etc/kubernetes/calico/tigera-operator.yaml
-      environment:
-        KUBECONFIG: /root/.kube/config
 
     - name: Install custom resources
       shell: |
         kubectl create -f /etc/kubernetes/calico/calicoctl.yaml
-      environment:
-        KUBECONFIG: /root/.kube/config
 
   when: not _calico_resource.stat.exists

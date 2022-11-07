@@ -1,9 +1,20 @@
 ---
 fqdn: kubernetes.dev
 
+use_loadbalancer: false
+# Minimum port is 30000
+# Those ports would be available from "outside" if the firewall on the host
+# got proper rules. For example, after deployment with baremetal ingress and
+# metallb, the whole traffic would be go via loadbalancer and ingress service
+# have dedicated rules to forward ports: 80 -> 30080 and 443 -> 30443.
+# After deploying the service, you can reach them by going: <host ip>:30080 or <host_ip>:30443
+ingress_http_port: 30080
+ingress_https_port: 30443
+
 calico_version: v3.24.0
 ingress_version: controller-v1.5.1
 local_storage_version: v0.0.22
+metallb_version: v0.13.7
 replace_docker_registry: true
 
 # Kubeadm

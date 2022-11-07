@@ -6,6 +6,7 @@
   register: user_home
 
 - name: Ensure that src directory exists
+  become: true
   file:
     path: "{{ user_home.stdout }}/src"
     state: directory
