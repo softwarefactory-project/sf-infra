@@ -8,11 +8,9 @@
 
     - name: Install Ca file
       copy:
-        dest: "/etc/pki/ca-trust/source/anchors/{{ ca_cert_name }}"
-        content: "{{ ca_cert }}"
-      register: _ca_cert
+        dest: "/etc/pki/ca-trust/source/anchors/{{ item.ca_cert_name }}"
+        content: "{{ item.ca_cert }}"
+      loop: "{{ self_signed_certs }}"
 
     - name: Update ca trust
       command: "update-ca-trust"
-      when: _ca_cert.changed
-  when: ca_cert != ""

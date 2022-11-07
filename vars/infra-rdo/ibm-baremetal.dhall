@@ -60,7 +60,7 @@ let mk_cloud =
             cloud.baremetal_name
         , mk_instance
             (cloud.launcher_name ++ "." ++ sf_domain)
-            [ "sf", "ibm-bm2-nodepool" ]
+            [ "sf", "ibm-baremetal-nodepool" ]
             cloud.launcher_ip
             cloud.baremetal_name
         , mk_instance
