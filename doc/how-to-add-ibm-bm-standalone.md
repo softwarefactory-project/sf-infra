@@ -35,6 +35,8 @@ $ zuul-client --zuul-url https://softwarefactory-project.io/zuul encrypt \
 
 2. add data for the cloud and in the *in* statement:
 
+The ips should be updated, for all bm deployment share the same subnet
+
 `
 let baremetal03 =
       let prefix = "ibm-bm3-"
@@ -175,6 +177,75 @@ Host 192.168.25.13
 11. commit and propose a review with the content to setup the cloud
 
 If deployment failed, most of the time, baremetal instance should be redeployed and /home/fedora/.ssh/known_hosts host entries should be removed from the bridge before redeploying
+
+The first deployment on gate should failed on site_{sf,rdo} for instances need to be created. A recheck on gate will be needed.
+
+## Add data in sf-infra to reach instances from managesf
+
+
+1. Update arch in roles/infra/install-server/files/arch-managesf.softwarefactory-project.io.yaml
+
+note: ibm-zfgw is not supported on sf 3.7, no need to add it in the arch for now
+`
+- name: ibm-bm3-ze
+  ip: 192.168.25.12
+  private: true
+  use_public_ips: yes
+  roles:
+  - zuul-executor
+
+- name: ibm-bm3-nodepool-launcher
+  private: true
+  use_public_ips: yes
+  ip: 192.168.25.11
+  roles:
+  - nodepool-launcher
+`
+
+2. Add the new cert in playbooks/group_vars/ibm-baremetal-nodepool.yaml
+
+The cert can be found on the bridge in /home/fedora/.config/openstack/ibm-bm3-ca.crt
+
+`
+self_signed_certs:
+  - ca_cert_name: ibm-bm3-nodepool.crt
+    ca_cert: |
+      -----BEGIN CERTIFICATE-----
+      MIIE+DCCAuCgAwIBAgIUen0QaSPoLX02oPzYnn1ATlJN5dMwDQYJKoZIhvcNAQEL
+      BQAwEzERMA8GA1UEAwwIc2ltcGxlY2EwHhcNMjIxMTAxMjEzNDQ5WhcNMzIxMDI5
+      ...
+`
+3. Add ssh config on roles/infra/ssh/tasks/main.yaml
+
+`
+Host baremetal03.rdoproject.org
+    User root
+    Port 22
+    Hostname 169.60.49.226
+
+Host 192.168.25.11
+    ProxyJump baremetal03.rdoproject.org
+
+Host 192.168.25.12
+    ProxyJump baremetal03.rdoproject.org
+
+Host 192.168.25.13
+    ProxyJump baremetal03.rdoproject.org
+
+Host ibm-bm3-nodepool-launcher*
+    ProxyJump baremetal03.rdoproject.org
+    Hostname 192.168.25.11
+
+Host ibm-bm3-ze*
+    ProxyJump baremetal03.rdoproject.org
+    Hostname 192.168.25.12
+
+Host ibm-bm3-zfgw*
+    ProxyJump baremetal03.rdoproject.org
+    Hostname 192.168.25.13
+
+`
+4. commit and propose a review with the content to setup the cloud
 
 ## Add zuul and nodepool instances on sf.io
 
