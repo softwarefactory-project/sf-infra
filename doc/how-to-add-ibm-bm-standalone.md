@@ -1,7 +1,6 @@
 # Add ibm triple-standalone cloud
 
 ## The deployment is done in few steps:
-
 1. install the cloud on a bm instance
 
 ## Variables for this deployment are defined in few places:
@@ -243,8 +242,8 @@ Host ibm-bm3-ze*
 Host ibm-bm3-zfgw*
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.13
-
 `
+
 4. commit and propose a review with the content to setup the cloud
 
 ## Add zuul and nodepool instances on sf.io
@@ -268,10 +267,47 @@ Host ibm-bm3-zfgw*
    `
 2. Add the zuul executor zone in /etc/software-factory/custom-vars.yaml
 
-
    `
    zuul_executor_zone:
      - hostname: ibm-bm3-ze
        zone: ibm-bm3-nodepool
    `
 3. run sfconfig to deploy the new hosts
+
+## Add nodepool configuration
+
+1. on the config repo, create a new provider
+
+`
+cp nodepool/providers/ibm-bm2-nodepool.dhall nodepool/providers/ibm-bm3-nodepool.dhall
+`
+update variables on nodepool/providers/ibm-bm3-nodepool.dhall for:
+
+`
+let cloud = "ibm-bm3-nodepool"
+...
+
+[ { mapKey = "executor-zone", mapValue = "ibm-bm3-nodepool" } ]
+`
+2. Add the provider in nodepool/static_config/nodepool-builder.dhall
+
+3. create static config file for nodepool-launcher service
+
+`
+cp nodepool/static_config/ibm-nodepool-launcher.dhall nodepool/static_config/ibm-bm3-nodepool-launcher.dhall
+`
+
+update variables nodepool/static_config/ibm-bm3-nodepool-launcher.dhall for:
+
+`
+let providers = [ Provider.openstack ../providers/ibm-bm3-nodepool.dhall ]
+`
+
+
+4. Add the nodepool/static_config/ibm-bm3-nodepool-launcher.yaml in MANAGED on nodepool/Makefile
+
+5. update the configuration and commit:
+
+`
+podman run --rm -it --volume $PWD:/workspace/config/:Z --volume ~/.cache:/workspace/.cache:Z quay.io/software-factory/zuul-worker-dhall /bin/bash -c "cd /workspace/config && make"
+`
