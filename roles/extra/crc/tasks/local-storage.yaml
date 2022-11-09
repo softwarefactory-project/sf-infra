@@ -22,6 +22,7 @@
       git:
         repo: https://github.com/openstack-k8s-operators/install_yamls
         dest: install_yamls
+        version: 62a3d19a9a38cc168bd4cc893529ce41ab6278f5
 
     - name: Replace local-storage with standard storageclass
       shell: |
@@ -29,70 +30,9 @@
       args:
         chdir: install_yamls
 
-    - name: Overwrite storage count
-      shell: |
-        find . -type f -exec sed -i 's/{1..6}/{1..10}/g' {} \;
-      args:
-        chdir: install_yamls
-
-    - name: Add few more PV
-      shell: |
-        cat <<EOF >> crc/storage.yaml
-        ---
-        kind: PersistentVolume
-        apiVersion: v1
-        metadata:
-          name: "standard00{{ item }}"
-        spec:
-          storageClassName: standard
-          capacity:
-            storage: 10Gi
-          accessModes:
-            - ReadWriteOnce
-            - ReadWriteMany
-            - ReadOnlyMany
-          persistentVolumeReclaimPolicy: Delete
-          local:
-            path: "/mnt/openstack/pv00{{ item }}"
-            type: DirectoryOrCreate
-          volumeMode: Filesystem
-          nodeAffinity:
-            required:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: kubernetes.io/hostname
-                  operator: In
-                  values:
-                  - server
-        EOF
-      loop:
-        - "7"
-        - "8"
-        - "9"
-        - "10"
-      args:
-        chdir: install_yamls
-
-    # NOTE: Added retry, due CRC sometimes gets out of breath.
-    - name: Create PV
-      shell: |
-        bash scripts/create-pv.sh
-      args:
-        chdir: install_yamls
-      until: "'pv0010' in _pv_dir.stdout"
-      retries: 6
-      delay: 10
-      register: _pv_dir
-
     - name: Run gen-crc-pv-kustomize shell script
       shell: |
-        bash scripts/gen-crc-pv-kustomize.sh
-      args:
-        chdir: install_yamls
-
-    - name: Apply changes
-      shell: |
-        /usr/local/bin/oc kustomize out/crc | /usr/local/bin/oc apply -f -
+        make crc_storage
       args:
         chdir: install_yamls
 
