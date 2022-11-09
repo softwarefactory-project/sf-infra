@@ -118,3 +118,7 @@
   roles:
     - service/apache-exporter
     - sf/ca-trust
+
+- hosts: ibm-instance
+  roles:
+    - sf/hostname

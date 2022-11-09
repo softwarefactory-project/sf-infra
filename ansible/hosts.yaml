@@ -41,6 +41,14 @@ all:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-nodepool-launcher.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
+    ibm-instance:
+      hosts:
+        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-bm3-ze.softwarefactory-project.io: {}
+        ibm-bm3-zfgw.softwarefactory-project.io: {}
+        ibm-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-ze.softwarefactory-project.io: {}
+        ibm-zfgw.softwarefactory-project.io: {}
     install-server:
       hosts:
         managesf.review.rdoproject.org: {}
