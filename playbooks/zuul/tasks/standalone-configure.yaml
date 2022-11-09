@@ -15,6 +15,33 @@
     dns_nameservers:
        - 1.1.1.1
 
+- name: "Create security group rules for default"
+  os_security_group_rule:
+    cloud: "{{ item.cloud }}"
+    state: present
+    security_group: default
+    protocol: tcp
+    port_range_min: "{{ port }}"
+    port_range_max: "{{ port }}"
+    remote_ip_prefix: 0.0.0.0/0
+  loop:
+    - 22
+    - 19885
+  loop_control:
+    loop_var: port
+
+- name: "Create security group rule for allow_ssh"
+  os_security_group_rule:
+    cloud: "{{ item.cloud }}"
+    state: present
+    security_group: allow_ssh
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+  # note: added for https://github.com/ansible/ansible/issues/76039
+
 - name: "Create servers on {{ item.cloud }}"
   os_server:
     cloud: "{{ item.cloud }}"
