@@ -1,6 +1,28 @@
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+    - name: Download tripleo-ci users ssh keys
+      get_url:
+        url: https://raw.githubusercontent.com/rdo-infra/ci-config/master/ci-scripts/infra-setup/tenant_vars/common.yml
+        dest: /tmp/common.yml
+
 - hosts: baremetal
   gather_facts: yes
   tasks:
+    - name: Create tripleo user
+      user:
+        name: tripleo
+
+    - include_vars:
+        file: /tmp/common.yml
+        name: tripleo
+
+    - name: Add users in ssh/authorized_key
+      authorized_key:
+        user: tripleo
+        key: "{{ item.authorized_keys }}"
+      loop: "{{ tripleo.users }}"
+      when: item.authorized_keys is defined
+
     - name: Add rule for monitoring
       iptables:
         chain: INPUT
