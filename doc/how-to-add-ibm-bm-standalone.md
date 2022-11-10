@@ -249,4 +249,29 @@ Host ibm-bm3-zfgw*
 
 ## Add zuul and nodepool instances on sf.io
 
-- run sfconfig to deploy the new hosts
+1. Add credential to connect to the cloud on /etc/software-factory/clouds.yaml
+
+   The cert is no needed on sf for it was added previously on sf-infra
+
+   `
+   ibm-bm3-nodepool:
+     auth:
+       auth_url: https://169.60.49.226:13000
+       password: $nodepool_password
+       project_domain_name: Default
+       project_name: nodepool
+       user_domain_name: Default
+       username: nodepool
+     identity_api_version: '3'
+     region_name: regionOne
+     volume_api_version: '3'
+   `
+2. Add the zuul executor zone in /etc/software-factory/custom-vars.yaml
+
+
+   `
+   zuul_executor_zone:
+     - hostname: ibm-bm3-ze
+       zone: ibm-bm3-nodepool
+   `
+3. run sfconfig to deploy the new hosts
