@@ -41,8 +41,8 @@
 
     - name: Replace docker.io registry to quay.io due rate limit
       shell: |
-        sed -i 's#image: rancher/local-path-provisioner:#image: quay.io/dpawlik/local-path-provisioner:#g' {{ local_storage_config_dir }}/local-path-storage.yaml
-        sed -i 's#image: busybox#image: quay.io/dpawlik/busybox#g' {{ local_storage_config_dir }}/local-path-storage.yaml
+        sed -i 's#image: rancher/local-path-provisioner:#image: quay.io/software-factory/local-path-provisioner:#g' {{ local_storage_config_dir }}/local-path-storage.yaml
+        sed -i 's#image: busybox#image: quay.io/software-factory/busybox#g' {{ local_storage_config_dir }}/local-path-storage.yaml
 
     - name: Check if current user got kube config
       stat:
