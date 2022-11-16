@@ -17,14 +17,18 @@
 - name: Setup Kubernetes
   include_tasks: kubeadm.yaml
 
+- name: Untaint node
+  include_tasks: untaint.yaml
+
 - name: Setup Calico
   include_tasks: calico.yaml
+
+- name: Local path provisioner
+  include_tasks: local-storage.yaml
 
 - name: Setup ingress
   include_tasks: ingress.yaml
 
-- name: Post configuration
-  include_tasks: post.yaml
-
-- name: Local path provisioner
-  include_tasks: local-storage.yaml
+- name: Deploy MetalLB
+  include_tasks: metallb.yaml
+  when: use_loadbalancer

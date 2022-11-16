@@ -1,7 +1,1 @@
 ---
-- name: Create sharable host directory
-  become: true
-  file:
-    path: /home/fedora/src
-    state: directory
-    recurse: true
