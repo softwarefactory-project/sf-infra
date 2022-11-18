@@ -20,3 +20,6 @@
 
 - name: Enable OpenShift Web Console
   include_tasks: console.yaml
+
+- name: Add welcome information
+  include_tasks: welcome.yaml

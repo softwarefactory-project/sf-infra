@@ -1,0 +1,17 @@
+---
+- name: Add information to the motd
+  become: true
+  copy:
+    content: |
+      ####################################
+      Welcome on Openshift CRC deployment!
+
+      To start CRC:
+
+      /usr/local/bin/crc start --memory 14000 --disk-size 80 --cpus 6
+
+      To reach the OpenShift console and services, check ~/constole-access.sh script.
+
+      Happy OpenShifting!
+      ####################################
+    dest: /etc/motd
