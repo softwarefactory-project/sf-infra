@@ -6,6 +6,9 @@
 - name: Download crc
   include_tasks: download.yaml
 
+- name: Prepare for setup
+  include_tasks: prepare.yaml
+
 - name: Setup crc
   include_tasks: setup.yaml
 
@@ -14,3 +17,6 @@
 
 - name: Prepare local storage
   include_tasks: local-storage.yaml
+
+- name: Enable OpenShift Web Console
+  include_tasks: console.yaml

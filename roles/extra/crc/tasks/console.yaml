@@ -1,0 +1,88 @@
+---
+- name: Install required packages
+  become: true
+  package:
+    name:
+      - haproxy
+      - policycoreutils-python-utils
+    state: present
+
+- name: Get CRC ip address
+  shell: |
+    crc ip
+  register: _crc_ip
+
+- name: Get domain
+  shell: |
+    oc get ingresses.config/cluster -o jsonpath={.spec.domain}
+  register: _crc_domain
+
+# from https://nerc-project.github.io/nerc-docs/other-tools/kubernetes/crc/#configure-your-local-workstation-to-resolve-crc-addresses
+- name: Create haproxy config
+  become: true
+  copy:
+    content: |
+      global
+
+      defaults
+      log global
+      mode http
+      timeout connect 0
+      timeout client 0
+      timeout server 0
+
+      frontend apps
+      bind {{ ansible_default_ipv4.address }}:80
+      bind {{ ansible_default_ipv4.address }}:443
+      option tcplog
+      mode tcp
+      default_backend apps
+
+      backend apps
+      mode tcp
+      balance roundrobin
+      option ssl-hello-chk
+      server webserver1 {{ _crc_ip.stdout }}:443 check
+
+      frontend api
+      bind {{ ansible_default_ipv4.address }}:6443
+      option tcplog
+      mode tcp
+      default_backend api
+
+      backend api
+      mode tcp
+      balance roundrobin
+      option ssl-hello-chk
+      server webserver1 {{ _crc_ip.stdout }}:6443 check
+    dest: /etc/haproxy/haproxy.cfg
+  register: haproxy_status
+
+- name: Set SELinux
+  become: true
+  seport:
+    ports: 6443
+    proto: tcp
+    setype: http_port_t
+    state: present
+
+- name: Restart service
+  become: true
+  systemd:
+    name: haproxy
+    state: restarted
+    daemon_reload: true
+  when: haproxy_status.changed
+
+- name: Generate local machine etc hosts template
+  copy:
+    content: >
+      # Generate /etc/host entry.
+
+      echo "$(ip route get 1.2.3.4 | awk '{print $7}' | tr -d '\n')
+      console-openshift-console.{{ _crc_domain.stdout }}
+      api.crc.testing canary-openshift-ingress-canary.{{ _crc_domain.stdout }}
+      default-route-openshift-image-registry.{{ _crc_domain.stdout }}
+      downloads-openshift-console.{{ _crc_domain.stdout }}
+      oauth-openshift.{{ _crc_domain.stdout }} {{ _crc_domain.stdout }}" | sudo tee -a /etc/hosts
+    dest: constole-access.sh
