@@ -26,6 +26,7 @@
   roles:
     - infra/ssh
     - system/volume
+    - service/node-exporter
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
