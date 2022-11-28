@@ -63,10 +63,6 @@ let security_groups =
           , rules =
             [ Infra.Rule::{
               , port = +2281
-              , remote_ip_prefix = Some "{{ ibm_bm2_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +2281
               , remote_ip_prefix = Some "{{ ibm_bm3_ip }}/32"
               }
             ]

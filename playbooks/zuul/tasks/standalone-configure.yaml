@@ -42,21 +42,6 @@
   ignore_errors: yes
   # note: added for https://github.com/ansible/ansible/issues/76039
 
-- name: "Create servers on {{ item.cloud }}"
-  os_server:
-    cloud: "{{ item.cloud }}"
-    name: "{{ server.name }}"
-    flavor: "{{ server.flavor }}"
-    image: "{{ cloud_image }}"
-    key_name: bridge
-    network: hostonly
-    security_groups:
-      - allow_ssh
-  loop: "{{ item.servers }}"
-  loop_control:
-    loop_var: server
-  when: item.cloud == "ibm-bm2-nodepool"
-
 - name: Add ports and instances
   block:
     - name: "Create port {{ server.name }}"
@@ -86,4 +71,3 @@
       loop: "{{ item.servers }}"
       loop_control:
         loop_var: server
-  when: item.cloud != "ibm-bm2-nodepool"

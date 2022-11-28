@@ -37,8 +37,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
     nodeset:
@@ -64,8 +62,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
 
@@ -84,8 +80,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
 
@@ -109,8 +103,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
       - name: vault
@@ -206,8 +198,6 @@
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
       - ^playbooks/zuul/group_vars/baremetal.yaml$
     secrets:
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
 
@@ -223,8 +213,6 @@
       - ^playbooks/zuul/tasks/standalone-configure.yaml$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
     secrets:
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
 
@@ -248,8 +236,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
       - name: vault
@@ -269,8 +255,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm2_nodepool
-        secret: ibm-bm2-nodepool
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
       - name: vault

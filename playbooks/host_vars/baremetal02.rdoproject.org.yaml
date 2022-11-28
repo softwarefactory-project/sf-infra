@@ -1,5 +1,0 @@
-# shared variables are in playbooks/group_vars/baremetal.yaml
-devices:
-  - /dev/sdb
-  - /dev/sdc
-  - /dev/sdd
