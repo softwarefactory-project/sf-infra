@@ -17,7 +17,7 @@
   shell: |
     grep -iq admin_token /var/data/quay/config/{{ user_organizations.key }}_token
   register: token_exists
-  no_log: hide_sensitive_logs
+  no_log: "{{ hide_sensitive_logs }}"
   when: _config_file.stat.exists
 
 - name: Fail when token not available
