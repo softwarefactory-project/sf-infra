@@ -232,6 +232,9 @@ quay_organizations:
              32626530366139616663616437393638363236633162626561363737646366653031376565323763
              3637633237653638636161313263343833613464333730626135
       prune_days: 7
+    - name: tripleozedcentos9
+      token: ""
+      prune_days: 7
 
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
