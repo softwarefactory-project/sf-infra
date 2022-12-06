@@ -6,11 +6,12 @@
   register: _partitions_deleted
   when: delete_partitions | bool
 
+# NOTE(dpawlik): When disk is not in lvm, it will get exit status 5.
 - name: "Check if device {{ item }} is part of the lv"
   command: "pvck -q {{ item }}"
   register: _pvck
   changed_when: false
-  failed_when: _pvck.rc not in [0, 1]
+  failed_when: _pvck.rc not in [0, 1, 5]
 
 - name: 'Wipe partition table of {{ item }}'
   command: 'wipefs -a {{ item }}'

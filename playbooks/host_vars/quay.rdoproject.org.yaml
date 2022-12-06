@@ -6,6 +6,7 @@ partitions:
     lv_name: 'image'
     devices:
       - /dev/vdc
+      - /dev/vdd
     mountpoint: '/var/data/'
   db:
     lvm: False
