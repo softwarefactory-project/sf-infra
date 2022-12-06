@@ -78,7 +78,7 @@
       # NOTE: take care: some variables are devices and some device.
       vars:
         lvm: "{{ partitions['quay']['lvm'] | default('') }}"
-        devices: "{{ partitions['quay']['devices'] | list | default('') }}"
+        devices: "{{ partitions['quay']['devices'] | default('') }}"
         mountpoint: "{{ partitions['quay']['mountpoint'] | default('') }}"
         vg_name: "{{ partitions['quay']['vg_name'] | default('') }}"
         lv_name: "{{ partitions['quay']['lv_name'] | default('') }}"

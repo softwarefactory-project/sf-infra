@@ -385,6 +385,10 @@ volumes:
     display_name: quay_data
     server: quay.rdoproject.org
     size: 1024
+  - device: /dev/vdd
+    display_name: quay_data_2
+    server: quay.rdoproject.org
+    size: 512
   - device: /dev/vdb
     display_name: trunk-centos8-swap
     server: trunk-centos8.rdoproject.org

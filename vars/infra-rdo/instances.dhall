@@ -104,6 +104,11 @@ let instances =
             , size = 1024
             , device = "/dev/vdc"
             }
+          , Infra.Volume::{
+            , display_name = "quay_data_2"
+            , size = 512
+            , device = "/dev/vdd"
+            }
           ]
         , monitoring_urls = [ "https://quay.rdoproject.org/" ]
         }
