@@ -6,7 +6,9 @@
 releases="{{ quay_pruner_dlrn_endpoints | join(' ') }}"
 names="{{ quay_pruner_extended_keeplist | join(' ') }}"
 
-[[ ! -d /tmp/dlrnapi ]] && python3 -mvenv /tmp/dlrnapi >/dev/null
+if [ ! -d /tmp/dlrnapi ]; then
+    python3 -mvenv /tmp/dlrnapi >/dev/null
+fi
 source /tmp/dlrnapi/bin/activate
 pip install setuptools --upgrade >/dev/null
 pip install dlrnapi_client >/dev/null
