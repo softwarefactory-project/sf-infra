@@ -22,8 +22,8 @@
 
 - name: Execute setup
   shell: |
-    /usr/local/bin/crc setup &> crc-setup.log
+    /usr/local/bin/crc setup {% if crc_debug %}--log-level debug{% endif %} &> crc-setup.log
 
 - name: Start crc
   shell: |
-    /usr/local/bin/crc start &> crc-start.log
+    /usr/local/bin/crc start {% if crc_debug %}--log-level debug{% endif %} &> crc-start.log
