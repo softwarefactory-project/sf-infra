@@ -10,7 +10,7 @@
 
       /usr/local/bin/crc start --memory 14000 --disk-size 80 --cpus 6
 
-      To reach the OpenShift console and services, check ~/constole-access.sh script.
+      To reach the OpenShift console and services, check ~/console-access.sh script.
 
       Happy OpenShifting!
       ####################################

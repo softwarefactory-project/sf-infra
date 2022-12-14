@@ -17,47 +17,7 @@
     oc get ingresses.config/cluster -o jsonpath={.spec.domain}
   register: _crc_domain
 
-# from https://nerc-project.github.io/nerc-docs/other-tools/kubernetes/crc/#configure-your-local-workstation-to-resolve-crc-addresses
-- name: Create haproxy config
-  become: true
-  copy:
-    content: |
-      global
-
-      defaults
-      log global
-      mode http
-      timeout connect 0
-      timeout client 0
-      timeout server 0
-
-      frontend apps
-      bind {{ ansible_default_ipv4.address }}:80
-      bind {{ ansible_default_ipv4.address }}:443
-      option tcplog
-      mode tcp
-      default_backend apps
-
-      backend apps
-      mode tcp
-      balance roundrobin
-      option ssl-hello-chk
-      server webserver1 {{ _crc_ip.stdout }}:443 check
-
-      frontend api
-      bind {{ ansible_default_ipv4.address }}:6443
-      option tcplog
-      mode tcp
-      default_backend api
-
-      backend api
-      mode tcp
-      balance roundrobin
-      option ssl-hello-chk
-      server webserver1 {{ _crc_ip.stdout }}:6443 check
-    dest: /etc/haproxy/haproxy.cfg
-  register: haproxy_status
-
+# From https://crc.dev/crc/#setting-up-remote-server_gsg
 - name: Set SELinux
   become: true
   seport:
@@ -66,11 +26,42 @@
     setype: http_port_t
     state: present
 
+- name: Create haproxy config
+  become: true
+  copy:
+    content: |
+      global
+          log /dev/log local0
+
+      defaults
+          balance roundrobin
+          log global
+          maxconn 100
+          mode tcp
+          timeout connect 5s
+          timeout client 500s
+          timeout server 500s
+
+      listen apps
+          bind 0.0.0.0:80
+          server crcvm {{ _crc_ip.stdout }}:80 check
+
+      listen apps_ssl
+          bind 0.0.0.0:443
+          server crcvm {{ _crc_ip.stdout }}:443 check
+
+      listen api
+          bind 0.0.0.0:6443
+          server crcvm {{ _crc_ip.stdout }}:6443 check
+    dest: /etc/haproxy/haproxy.cfg
+  register: haproxy_status
+
 - name: Restart service
   become: true
   systemd:
     name: haproxy
     state: restarted
+    enabled: true
     daemon_reload: true
   when: haproxy_status.changed
 
@@ -85,4 +76,4 @@
       default-route-openshift-image-registry.{{ _crc_domain.stdout }}
       downloads-openshift-console.{{ _crc_domain.stdout }}
       oauth-openshift.{{ _crc_domain.stdout }} {{ _crc_domain.stdout }}" | sudo tee -a /etc/hosts
-    dest: constole-access.sh
+    dest: console-access.sh
