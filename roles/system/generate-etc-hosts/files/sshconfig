@@ -71,8 +71,8 @@ Host opensearch.rdoproject.org
     Hostname 38.102.83.14
 Host backup.rdoproject.org
     User centos
-    Port 3300
-    Hostname 54.147.29.140
+    Port 22
+    Hostname 52.71.149.221
 Host trunk.rdoproject.org
     User centos
     Port 3300

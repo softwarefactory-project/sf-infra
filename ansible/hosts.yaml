@@ -165,9 +165,9 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     backup.rdoproject.org:
-      ansible_host: '54.147.29.140'
-      ansible_port: 3300
-      ansible_python_interpreter: python2
+      ansible_host: '52.71.149.221'
+      ansible_port: 22
+      ansible_python_interpreter: python3
       ansible_user: centos
     baremetal03.rdoproject.org:
       ansible_host: '169.60.49.226'

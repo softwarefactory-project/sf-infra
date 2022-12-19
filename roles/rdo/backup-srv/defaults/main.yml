@@ -1,15 +1,11 @@
 backup_packages:
   - gcc
-  - python-devel
+  - python3-devel
+  - make
   - httpd
   - mod_ssl
   - lvm2
   - git
 
-bup_version: 0.29.1
-# TODO: use volume role to manage lvs after moving all data on /var/lib/backup lv
-# vg_device: /dev/xvdf
-# lvs:
-#   - {name: backup, size: 350g}
-#   - {name: koji, size: 40g}
+bup_version: 0.32
 servers: []

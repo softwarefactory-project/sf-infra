@@ -12,4 +12,13 @@ in  { mysqld_exporter_user = "root"
         Infra.Backup.mkServers
           (Infra.Backup.mkCron (indexed Infra.Backup.Type Configs))
     , bup_backup_locations = Infra.Backup.mkLocations Configs
+    , devices = [ "/dev/nvme1n1" ]
+    , lvm = True
+    , vg_name = "data"
+    , lv_name = "backup"
+    , mountpoint = "/mnt/{{ vg_name }}_{{ lv_name }}"
+    , bind_mounts =
+      [ { source = "{{ mountpoint }}/backup", dest = "/var/lib/backup" }
+      , { source = "{{ mountpoint }}/sfkoji", dest = "/var/www/html/sfkoji" }
+      ]
     }

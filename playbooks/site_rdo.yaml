@@ -18,6 +18,7 @@
   vars_files:
     - vars/dlrn-db.yaml
   roles:
+    - system/volume
     - rdo/backup-monitoring
     - rdo/backup-srv
     - service/mysqld-exporter

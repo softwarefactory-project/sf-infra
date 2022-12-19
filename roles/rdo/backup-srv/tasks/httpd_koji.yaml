@@ -7,9 +7,9 @@
         name: sfrepos
         state: present
 
-    - name: Create the sfkoji backup directory
+    - name: Ensure sfrepos own sfkoji backup directory
       file:
-        path: /var/www/html/sfkoji
+        path: /mnt/data_backup/sfkoji
         state: directory
         mode: 0755
         owner: sfrepos
@@ -18,6 +18,14 @@
 
     # The SSL certificate and renewal cron jobs are created as part of the
     # rdo-infra/base role
+
+    - name: Install epel-release
+      package:
+        name: epel-release
+
+    - name: Install certbot
+      package:
+        name: certbot
 
     - name: Deploy SSL options file for letsencrypt
       copy:

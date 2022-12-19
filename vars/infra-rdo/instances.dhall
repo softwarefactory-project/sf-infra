@@ -306,7 +306,9 @@ let extra =
         , groups = [ "backup-server", "rdo" ]
         , connection =
                 OS.CentOS.`7.0`.connection
-            //  { ansible_port = 3300, ansible_host = Some "54.147.29.140" }
+            //  { ansible_host = Some "52.71.149.221"
+                , ansible_python_interpreter = "python3"
+                }
         }
       , Instance::{
         , name = "trunk"
