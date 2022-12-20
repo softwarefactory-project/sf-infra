@@ -7,10 +7,6 @@
   shell: |
     /usr/local/bin/crc config set kubeadmin-password "{{ openshift_admin_password }}"
 
-- name: Configure crc - set pull secret
-  shell: |
-    /usr/local/bin/crc config set pull-secret-file pull-secret.txt
-
 - name: Enable podman runtime
   shell: |
     /usr/local/bin/crc config set preset podman
@@ -21,9 +17,20 @@
     /usr/local/bin/crc config set consent-telemetry {{ crc_config_consent_telemetry }}
 
 - name: Execute setup
-  shell: |
-    /usr/local/bin/crc setup {% if crc_debug %}--log-level debug{% endif %} &> crc-setup.log
+  block:
+    # NOTE: The secret is created here to prevent that someone can take the
+    # token.
+    - name: Create pull-secret.txt file
+      include_tasks: secret.yaml
 
-- name: Start crc
-  shell: |
-    /usr/local/bin/crc start {% if crc_debug %}--log-level debug{% endif %} &> crc-start.log
+    - name: Configure crc - set pull secret
+      shell: |
+        /usr/local/bin/crc config set pull-secret-file pull-secret.txt
+
+    - name: Setup crc
+      shell: |
+        /usr/local/bin/crc setup {% if crc_debug %}--log-level debug{% endif %} &> crc-setup.log
+  always:
+    - name: Remove pull-secret.txt file
+      file:
+        path: "{{ openshift_pull_secret_path }}"

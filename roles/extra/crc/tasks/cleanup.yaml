@@ -1,0 +1,20 @@
+---
+# From https://github.com/crc-org/snc/blob/master/snc.sh#L241
+# https://github.com/crc-org/snc/blob/master/pull-secret.yaml
+- name: Remove pull-secret.txt file
+  file:
+    path: "{{ openshift_pull_secret_path }}"
+    state: absent
+  register: _cleanup_pull_secret
+
+- name: Remove pull secret content from the OpenShift Cluster
+  shell: |
+    mc_before_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
+    /usr/local/bin/oc replace -f https://raw.githubusercontent.com/crc-org/snc/master/pull-secret.yaml
+    mc_after_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
+    while [ "${mc_before_removing_pullsecret}" == "${mc_after_removing_pullsecret}" ]; do
+        echo "Machine config is still not rendered"
+        mc_after_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
+    done
+  timeout: 600
+  when: _cleanup_pull_secret.changed
