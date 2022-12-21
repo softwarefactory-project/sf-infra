@@ -25,6 +25,8 @@ bup_backup_locations:
     month_subdir: 1
 devices:
   - /dev/nvme1n1
+email: "softwarefactory-operations-team@redhat.com"
+fqdn: backup.rdoproject.org
 lv_name: backup
 lvm: true
 mountpoint: "/mnt/{{ vg_name }}_{{ lv_name }}"
