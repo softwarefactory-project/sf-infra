@@ -1,4 +1,16 @@
 ---
+- name: Install epel-release
+  become: yes
+  package:
+    name: epel-release
+
+- name: Install packages from epel
+  become: yes
+  package:
+    name:
+      - ansible
+      - certbot
+
 - name: Install bup
   include_tasks: install.yaml
 

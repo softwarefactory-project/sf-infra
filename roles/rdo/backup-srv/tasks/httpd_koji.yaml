@@ -16,16 +16,23 @@
         group: sfrepos
         setype: httpd_sys_content_t
 
-    # The SSL certificate and renewal cron jobs are created as part of the
-    # rdo-infra/base role
+    - name: Check for existing certificates
+      stat:
+        path: "/etc/letsencrypt/live/{{ fqdn }}"
+      register: cert
 
-    - name: Install epel-release
-      package:
-        name: epel-release
+    - name: Generate certificate
+      command: "certbot certonly --standalone -m {{ email }} --agree-tos -n -d {{ fqdn }}"
+      when: not cert.stat.exists
 
-    - name: Install certbot
-      package:
-        name: certbot
+    - name: Create cron job for automatic cert renewal
+      cron:
+        name: "Automatic SSL cert renew for {{ fqdn }}"
+        minute: "30"
+        hour: "0"
+        weekday: "0"
+        user:  "root"
+        job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ fqdn }} --webroot-path /var/www/html && /usr/bin/systemctl reload httpd"
 
     - name: Deploy SSL options file for letsencrypt
       copy:

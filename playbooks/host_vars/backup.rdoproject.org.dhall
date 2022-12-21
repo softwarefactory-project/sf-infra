@@ -17,6 +17,8 @@ in  { mysqld_exporter_user = "root"
     , vg_name = "data"
     , lv_name = "backup"
     , mountpoint = "/mnt/{{ vg_name }}_{{ lv_name }}"
+    , fqdn = "backup.rdoproject.org"
+    , email = "softwarefactory-operations-team@redhat.com"
     , bind_mounts =
       [ { source = "{{ mountpoint }}/backup", dest = "/var/lib/backup" }
       , { source = "{{ mountpoint }}/sfkoji", dest = "/var/www/html/sfkoji" }
