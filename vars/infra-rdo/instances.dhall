@@ -264,7 +264,7 @@ let instances =
         }
       , Instance::{
         , name = "dlrn-db"
-        , groups = [ "dlrn" ]
+        , groups = [ "dlrn", "db_master" ]
         , connection = OS.CentOS.`8.1`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
@@ -303,7 +303,7 @@ let instances =
 let extra =
       [ Instance::{
         , name = "backup"
-        , groups = [ "backup-server", "rdo" ]
+        , groups = [ "backup-server", "rdo", "db_replica" ]
         , connection =
                 OS.CentOS.`7.0`.connection
             //  { ansible_host = Some "52.71.149.221"

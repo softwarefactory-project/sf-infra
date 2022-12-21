@@ -49,7 +49,7 @@
     - name: Configure replication
       mysql_replication:
         mode: changemaster
-        master_host: "{{ hostvars[groups['db_master'][0]]['ansible_host'] }}"
+        master_host: "{{ master_host }}"
         master_log_file: "{{ master_db['master_status']['File'] }}"
         master_ssl: yes
         master_user: "{{ db_repl_user }}"

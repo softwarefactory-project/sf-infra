@@ -23,12 +23,14 @@ bup_backup_locations:
   - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
     domain: ansible.softwarefactory-project.io
     month_subdir: 1
+db_repl_user: dlrn_repl
 devices:
   - /dev/nvme1n1
 email: "softwarefactory-operations-team@redhat.com"
 fqdn: backup.rdoproject.org
 lv_name: backup
 lvm: true
+master_host: '38.102.83.214'
 mountpoint: "/mnt/{{ vg_name }}_{{ lv_name }}"
 mysqld_exporter_password: "{{ db_password }}"
 mysqld_exporter_ssl_certs: "{{ db_ssl_certs }}"
