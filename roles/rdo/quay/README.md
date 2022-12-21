@@ -9,7 +9,14 @@
     self_signed_certs: true
     initial_config: false
     quay_validate_cert: false
-    # NOTE: password needs to be at least 8 characters
+    # NOTE: Only admin user has password with at least 8 characters.
+    # Other users password is generated on creating the superuser account.
+    # NOTE: To generate token for an organization, after creating a superuser
+    # account, login into the Quay as this user, create new organization: "config",
+    # then inside the organization "config", create new application "admin_token",
+    # with "Administer Organization", "Administer Repositories", "Create Repositories",
+    # "View all visible repositories", "Read/Write to any accessible repositories" and
+    # "Administer User" permissions.
     quay_users:
       admin:
         email: admin@somemail.com
@@ -17,7 +24,6 @@
         token: ""
       someuser:
         email: someuser@someemail.com
-        password: password
         token: ""
   tasks:
     - name: Setup quay

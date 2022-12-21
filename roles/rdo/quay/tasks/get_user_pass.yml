@@ -9,7 +9,7 @@
     positional_args:
       - "{{ user_item.key }}"
   register: _quay_user_exist
-  no_log: hide_sensitive_logs
+  no_log: "{{ hide_sensitive_logs }}"
 
 - name: Wait for service to be running
   wait_for:
@@ -24,7 +24,7 @@
     - name: Fail when admin token is not available
       fail:
         msg: "No admin token provided: bootstrap is done, but token for admin in quay_users is not set"
-      when: "admin_token is not defined and 'token' not in quay_users['admin']"
+      when: "admin_token is not defined and ('token' not in quay_users['admin'] or 'token' in quay_users['admin'] and not quay_users['admin']['token'])"
 
     - name: Create user {{ user_item.key }}
       uri:
@@ -38,7 +38,7 @@
         status_code: 200, 400
         return_content: true
       register: _user_response
-      no_log: hide_sensitive_logs
+      no_log: "{{ hide_sensitive_logs }}"
 
     - name: Write {{ user_item.key }} to a file
       become: true
@@ -49,20 +49,9 @@
         mode: "0400"
         create: true
       when: "'json' in _user_response"
-      no_log: hide_sensitive_logs
+      no_log: "{{ hide_sensitive_logs }}"
 
   when: not _quay_user_exist.query_result
-
-- name: Create config file - set password
-  become: true
-  lineinfile:
-    path: "/var/data/quay/config/{{ user_item.key }}_token"
-    regexp: '^export USER_PASSWORD='
-    line: 'export USER_PASSWORD={{ user_item.value.password }}'
-    mode: "0400"
-    create: true
-  no_log: hide_sensitive_logs
-  when: "'password' in user_item.value and user_item.value.password != ''"
 
 - name: Create config file - set token
   become: true
@@ -72,5 +61,5 @@
     line: 'export ADMIN_TOKEN={{ user_item.value.token }}'
     mode: "0400"
     create: true
-  no_log: hide_sensitive_logs
+  no_log: "{{ hide_sensitive_logs }}"
   when: "'token' in user_item.value and user_item.value.token != ''"
