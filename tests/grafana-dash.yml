@@ -15,9 +15,9 @@
             vars:
               grafana_server_root_url: http://localhost
               prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
-              # Grafana 8.5.11
+              # Grafana 9.2.6
               container_images:
-                grafana: "quay.io/software-factory/grafana-oss@sha256:d9cbc7b0cff2edb25374031691f72053f809260e36b967618ca6172bbba3696f"
+                grafana: "quay.io/software-factory/grafana-oss@sha256:1016f0f2612877830ab8f74acbc937fafad9df0b9db1c58c353aea3afd080e40"
             roles:
               - sf/grafana
         dest: '{{ ansible_user_dir }}/deploy_grafana.yml'
