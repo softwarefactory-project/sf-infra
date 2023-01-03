@@ -34,4 +34,4 @@ tenant_builds:
     logsender_workers: 4
     logsender_wait_time: 60
     logscraper_wait_time: 600
-    custom_ca_crt: /etc/pki/ca-trust/source/anchors/opensearch.pem
+    logsender_custom_ca_crt: /etc/pki/ca-trust/source/anchors/opensearch.pem
