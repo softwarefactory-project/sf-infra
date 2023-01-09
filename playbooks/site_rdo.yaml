@@ -31,6 +31,7 @@
     - service/setup-ssl
     - rdo/afs-mirror
     - rdo/afs-monitoring
+    - service/apache-exporter
 
 - hosts: private-afs-mirror
   roles:
