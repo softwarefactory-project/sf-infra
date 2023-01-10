@@ -31,7 +31,6 @@
         name: dlrn/mariadb-replicated
         tasks_from: master.yml
 
-
 # for mysql replication, according to roles/dlrn/mariadb-replicated/README.md
 # master and replica should be in the same playbook
 - hosts: backup-server
