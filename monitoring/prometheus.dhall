@@ -16,6 +16,7 @@ let apache_server_list =
       , "managesf.softwarefactory-project.io:9117"
       , "managesf.review.rdoproject.org:9117"
       , "fedora.softwarefactory-project.io:9117"
+      , "mirror.regionone.vexxhost.rdoproject.org:9117"
       ]
 
 let elasticsearch_exporter_list =

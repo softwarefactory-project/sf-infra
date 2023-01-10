@@ -182,6 +182,7 @@ servers:
       - monitoring
       - web
       - afs
+      - apache_exporter
     volume_size: 200
   - auto_ip: true
     boot_from_volume: yes
