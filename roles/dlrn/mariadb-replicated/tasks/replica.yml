@@ -20,7 +20,7 @@
         path: /etc/my.cnf.d/replication.cnf
         section: mariadb
         option: server_id
-        value: '3'
+        value: '2'
       notify:
         - Restart mariadb
 
