@@ -3,7 +3,6 @@
   package:
     name:
       - python3-dateutil
-      - python3-elasticsearch
     state: present
   become: true
 
@@ -15,18 +14,48 @@
     msg: "node-exporter service is not here!"
   when: ansible_facts.services["node-exporter.service"] is not defined
 
-- name: Copy Elasticsearch state reporter
+- name: Copy OpenSearch state reporter
   copy:
-    src: check-elasticsearch.py
-    dest: /usr/local/bin/check-elasticsearch.py
+    src: check-opensearch.py
+    dest: /usr/local/bin/check-opensearch.py
     mode: '0755'
   become: true
 
-- name: Setup cronjob for getting Elasticsearch timestamp
+- name: Remove old elasticsearch script
+  file:
+    path: check-elasticsearch.py
+    state: absent
+
+- name: Setup cronjob for getting OpenSearch timestamp
+  become: true
+  cron:
+    name: Get last timestamp for node_exporter {{ item | replace('-*', '') }}
+    minute: "0"
+    hour: "*/1"
+    user: root
+    job: >
+      /usr/local/bin/check-opensearch.py
+      --key /etc/opensearch/certs/opensearch/opensearch-admin.key
+      --cert /etc/opensearch/certs/opensearch/opensearch-admin.crt
+      --ca-cert /etc/opensearch/certs/opensearch/localCA.pem
+      --opensearch-url https://{{ ansible_fqdn }}:9200
+      --index {{ item }}
+      --collector_path /var/lib/node_exporter/textfile_collector/metrics-{{ item | replace('-*', '')  }}.prom
+  loop: "{{ index | default(['logstash-*']) }}"
+  when: _opensearch_crt.stat.exists
+
+# NOTE: Remove below task after upgrade to 3.8
+- name: Setup cronjob for getting Opensearch timestamp - legacy
+  become: true
   cron:
     name: Get last timestamp for node_exporter
     minute: "0"
     hour: "*/1"
     user: root
-    job: "/usr/local/bin/check-elasticsearch.py --key /etc/opensearch/certs/elasticsearch-admin.key --cert /etc/opensearch/certs/elasticsearch-admin.crt --ca-cert  /etc/opensearch/certs/localCA.pem --insecure --elasticsearch-url https://{{ ansible_fqdn }}:9200"
-  become: true
+    job: >
+      /usr/local/bin/check-opensearch.py
+      --key /etc/opensearch/certs/elasticsearch-admin.key
+      --cert /etc/opensearch/certs/elasticsearch-admin.crt
+      --ca-cert  /etc/opensearch/certs/localCA.pem
+      --opensearch-url https://{{ ansible_fqdn }}:9200"
+  when: not _opensearch_crt.stat.exists

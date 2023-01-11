@@ -7,6 +7,12 @@ elasticsearch_maximum_heap_size: 2g
 
 opensearch_container_params: "--net host --pid host --memory 4g"
 
+
+# opensearch monitoring
+index:
+  - logstash-rdoproject_org-*
+  - logstash-softwarefactory_project_io-*
+
 partitions:
   opensearch:
     lvm: True

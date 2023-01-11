@@ -1,4 +1,14 @@
 ---
+# NOTE: In new SF release, we changed a certificates path.
+# That change has been applied in ansible-elasticsearch-recheck project,
+# but until our infra is not upgraded to 3.8, such condition needs to be here.
+# NOTE: Remove below task after upgrade to 3.8
+- name: Determine OpenSearch setup
+  become: true
+  stat:
+    path: /etc/opensearch/certs/opensearch/opensearch-admin.crt
+  register: _opensearch_crt
+
 - name: Add script for monitoring last logs
   include_tasks: check_es.yaml
 
