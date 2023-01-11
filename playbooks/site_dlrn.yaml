@@ -31,15 +31,16 @@
         name: dlrn/mariadb-replicated
         tasks_from: master.yml
 
-
-# for mysql replication, according to roles/dlrn/mariadb-replicated/README.md
-# master and replica should be in the same playbook
-- hosts: backup-server
-  vars_files:
-    - vars/dlrn-db.yaml
-  roles:
-    - service/mysqld-exporter
-  tasks:
-    - include_role:
-        name: dlrn/mariadb-replicated
-        tasks_from: replica.yml
+# NOTE: Appling this play on a working slave breaks replication, commenting until
+#       we investigate how to properly setup slave
+# # for mysql replication, according to roles/dlrn/mariadb-replicated/README.md
+# # master and replica should be in the same playbook
+# - hosts: backup-server
+#   vars_files:
+#     - vars/dlrn-db.yaml
+#   roles:
+#     - service/mysqld-exporter
+#   tasks:
+#     - include_role:
+#         name: dlrn/mariadb-replicated
+#         tasks_from: replica.yml
