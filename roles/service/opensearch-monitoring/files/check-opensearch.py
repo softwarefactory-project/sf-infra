@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import pytz
+import requests
 import os
-from elasticsearch import Elasticsearch
 from dateutil import parser as date_parser
 
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Check ES state')
-    parser.add_argument('--elasticsearch-url',
+    parser.add_argument('--opensearch-url',
                         required=True,
-                        help='Elasticsearch URL',
+                        help='OpenSearch URL',
                         default='https://localhost:9200')
     parser.add_argument('--user', help='Username for login to the ES')
     parser.add_argument('--password', help='User password for login to the ES')
@@ -36,7 +37,14 @@ def get_arguments():
 
 
 def do_query(es_url, user, password, index, insecure, cert, key, ca_cert):
-    data = '''{
+    if not es_url.endswith('/') or not es_url.endswith('*'):
+        es_url = "%s/%s/_search" % (es_url, index)
+
+    headers = {
+      'Content-Type': 'application/json'
+    }
+
+    data = {
         "query": {
             "match_all": {}
         },
@@ -46,20 +54,25 @@ def do_query(es_url, user, password, index, insecure, cert, key, ca_cert):
             }
         }],
         "size": "1"
-    }'''
-    kwargs = {'verify_certs': insecure}
+    }
+    kwargs = {}
     if user and password:
         kwargs['http_auth'] = (user, password)
-    if cert:
-        kwargs['client_cert'] = cert
+    if key and cert:
+        kwargs['cert'] = (cert, key)
     if ca_cert:
-        kwargs['ca_certs'] = ca_cert
-    if key:
-        kwargs['client_key'] = key
+        kwargs['verify'] = ca_cert
 
-    es = Elasticsearch(es_url, **kwargs)
-    query_kwargs = {'index': index, 'body': str(data)}
-    es_search = es.search(**query_kwargs)
+    if insecure:
+        kwargs['verify'] = False
+
+    kwargs['data'] = json.dumps(data)
+    kwargs['headers'] = headers
+
+    response = requests.get(es_url, **kwargs)
+    es_search = response.json()
+    if not es_search:
+        return
     es_source = es_search['hits']['hits'][0]['_source']
     return es_source.get('@timestamp') if es_source.get(
         '@timestamp') else es_source.get('timestamp')
@@ -91,12 +104,12 @@ if __name__ == '__main__':
     args = get_arguments()
     timezone = pytz.UTC
     remove_collector_file(args.collector_path)
-    query_date = do_query(args.elasticsearch_url, args.user, args.password,
+    query_date = do_query(args.opensearch_url, args.user, args.password,
                           args.index, args.insecure, args.cert, args.key,
                           args.ca_cert)
     query_timestamp = convert_to_timestamp(query_date)
     metrics = {
-        'elasticsearch_last_update{index="%s"}' % args.index: query_timestamp
+        'opensearch_last_update{index="%s"}' % args.index: query_timestamp
     }
     metrics = convert_dict_to_string(metrics)
     write_metrics_to_collector(args.collector_path, metrics)

@@ -3,11 +3,11 @@ let Prometheus = ./binding.dhall
 in  Prometheus.RulesConfig::{
     , groups = Some
       [ Prometheus.Group::{
-        , name = Some "elasticsearch-check.rules"
+        , name = Some "opensearch-check.rules"
         , rules = Some
           [ Prometheus.CriticalRule::{
-            , alert = Some "ElasticsearchOutdatedMetrics"
-            , expr = Some "time() - elasticsearch_last_update > 259200"
+            , alert = Some "OpensearchOutdatedMetrics"
+            , expr = Some "time() - opensearch_last_update > 259200"
             , labels = Some
               { severity = "warning"
               , lasttime = "{{ \$value | humanizeTimestamp }}"
@@ -15,7 +15,7 @@ in  Prometheus.RulesConfig::{
             , annotations = Some
               { description = None Text
               , summary =
-                  "Elasticsearch did not receive any new metrics since 3 days!"
+                  "OpenSearch did not receive any new metrics since 3 days!"
               }
             }
           ]
