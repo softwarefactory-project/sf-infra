@@ -70,10 +70,14 @@
     content: >
       # Generate /etc/host entry.
 
+      echo -e "Run this on your machine\n\n"
+
       echo "$(ip route get 1.2.3.4 | awk '{print $7}' | tr -d '\n')
       console-openshift-console.{{ _crc_domain.stdout }}
       api.crc.testing canary-openshift-ingress-canary.{{ _crc_domain.stdout }}
       default-route-openshift-image-registry.{{ _crc_domain.stdout }}
       downloads-openshift-console.{{ _crc_domain.stdout }}
-      oauth-openshift.{{ _crc_domain.stdout }} {{ _crc_domain.stdout }}" | sudo tee -a /etc/hosts
+      oauth-openshift.{{ _crc_domain.stdout }} {{ _crc_domain.stdout }} | sudo tee -a /etc/hosts"
+
+      echo -e "\nNow the console is available at this address: https://console-openshift-console.apps-crc.testing/"
     dest: console-access.sh

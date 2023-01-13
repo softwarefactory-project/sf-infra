@@ -7,14 +7,33 @@
     state: absent
   register: _cleanup_pull_secret
 
+# Create empty pull-secret.yaml file
+# NOTE: base on https://github.com/crc-org/snc/blob/master/pull-secret.yaml
+- name: Create empty pull-secret
+  copy:
+    content: |
+      apiVersion: v1
+      data:
+        .dockerconfigjson: e30K
+      kind: Secret
+      metadata:
+        name: pull-secret
+        namespace: openshift-config
+      type: kubernetes.io/dockerconfigjson
+    dest: /tmp/empty-pull-secret.yaml
+    mode: '0644'
+
+- name: Create cleanup script
+  copy:
+    content: |
+      # ensure that user is logged
+      /usr/local/bin/oc login -u kubeadmin -p "$(tail ~/crc-start.log  | grep -i password | head -1 | awk '{print $2}')"
+      /usr/local/bin/oc replace -f /tmp/empty-pull-secret.yaml
+    dest: /tmp/cleanup-secret.sh
+    mode: '0755'
+
+# NOTE: We don't want to wait until the machineconfig is updated.
+# Partially from sf-infra/roles/extra/crc/tasks/cleanup.yaml
 - name: Remove pull secret content from the OpenShift Cluster
-  shell: |
-    mc_before_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
-    /usr/local/bin/oc replace -f https://raw.githubusercontent.com/crc-org/snc/master/pull-secret.yaml
-    mc_after_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
-    while [ "${mc_before_removing_pullsecret}" == "${mc_after_removing_pullsecret}" ]; do
-        echo "Machine config is still not rendered"
-        mc_after_removing_pullsecret=$(/usr/local/bin/oc get mc --sort-by=.metadata.creationTimestamp --no-headers -oname)
-    done
-  timeout: 600
+  shell: /tmp/cleanup-secret.sh
   when: _cleanup_pull_secret.changed
