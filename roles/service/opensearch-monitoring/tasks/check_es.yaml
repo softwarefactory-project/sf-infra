@@ -57,5 +57,5 @@
       --key /etc/opensearch/certs/elasticsearch-admin.key
       --cert /etc/opensearch/certs/elasticsearch-admin.crt
       --ca-cert  /etc/opensearch/certs/localCA.pem
-      --opensearch-url https://{{ ansible_fqdn }}:9200"
+      --opensearch-url https://{{ ansible_fqdn }}:9200
   when: not _opensearch_crt.stat.exists
