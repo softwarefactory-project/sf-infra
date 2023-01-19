@@ -163,13 +163,28 @@ quay_users:
 quay_enable_prune: true
 
 ### Automatization organization creation in Quay registry ###
+# NOTE: First step is to create new organization in the project
 # Structure looks like:
-#   <user>
-#     - name: organization
-#       token: <robot token>
+#   <project>
+#     - name: my-new-organization
+#       token: ""
 #       prune_days: <retention days>
-# NOTE: to create that token, create an application inside the organization,
-# with name 'pruner' and assign roles: Administer Repositories and View all visible repositories.
+#
+# When its merged, modify the new created organization and add the
+# pruner application token.
+# Structure looks like:
+#   <project>
+#     - name: my-new-organization
+#       token: <encrypted with ansible vault pruner application token>
+#       prune_days: <retention days>
+#
+# NOTE: to create that token, create an "application" inside the organization,
+# for example: in tripleomastercentos9, go to the application,then create a
+# new one with name 'pruner', then in the new application "Generate token"
+# and assign roles: Administer Organization, Administer Repositories,
+# Create Repositories, View all visible repositories,
+# Read/Write to any accessible repositories and Administer User.
+# Later that token would be encrypted by the infra team with Ansible vault tool.
 quay_api_url: https://quay.rdoproject.org/api/v1
 quay_organizations:
   tripleo:
@@ -242,6 +257,16 @@ quay_organizations:
              6336393535386233370a636432666135373062333466353138633665626464393938323063333763
              35323331626530363731376434393866336462373937613233343433633564373137386230366233
              6331353739353538623038376435306536393531663635343534
+      prune_days: 7
+    - name: openstack-k8s-operators
+      token: !vault |
+             $ANSIBLE_VAULT;1.1;AES256
+             35333164316635646335316636633434373464616433653230336338373030363431356239626130
+             6437363536383166366532396164363836646133636265640a386165303165356338383233393766
+             32336337636633353165366433333266336365313030663134363634386366663731393839373730
+             3634653532613461640a363265303033303330646261373464333066353064643130336131366637
+             36626537653239386236663334636337623531356334663432643964366562633765666165613938
+             3761636331633537316164626236633434616466393665343232
       prune_days: 7
 
 quay_pruner_dlrn_endpoints:
