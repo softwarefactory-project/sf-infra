@@ -50,6 +50,9 @@
           -p 443:8443 \
           --name quay_config \
           -e GODEBUG=x509ignoreCN=0 \
+          {% if quay_debug %}
+          -e DEBUGLOG=true \
+          {% endif %}
           -v /var/data/quay/config:/conf/stack:Z \
           -v /var/data/quay/storage:/datastorage:Z \
           -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
@@ -67,6 +70,9 @@
           -p 80:8080
           -p 443:8443
           --name quay_config \
+          {% if quay_debug %}
+          -e DEBUGLOG=true \
+          {% endif %}
           -v /var/data/quay/config:/conf/stack:Z \
           -v /var/data/quay/storage:/datastorage:Z \
           -v /var/data/quay/custom:/quay-registry/static/img/logos/custom:Z \
@@ -112,6 +118,9 @@
           -p 443:8443
           --restart=always
           --privileged=true
+          {% if quay_debug %}
+          -e DEBUGLOG=true
+          {% endif %}
           -v /var/data/quay/config:/conf/stack:Z
           -v /var/data/quay/storage:/datastorage:Z
           {{ container_images['quay'] }}
@@ -128,6 +137,9 @@
           --restart=always
           --privileged=true
           -e GODEBUG=x509ignoreCN=0
+          {% if quay_debug %}
+          -e DEBUGLOG=true
+          {% endif %}
           -v /var/data/quay/config:/conf/stack:Z
           -v /var/data/quay/storage:/datastorage:Z
           {{ container_images['quay'] }}
