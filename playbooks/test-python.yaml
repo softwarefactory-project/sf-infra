@@ -2,5 +2,9 @@
   vars:
     target_file: "{{ zuul.project.src_dir }}/{{ infra_script }}"
   tasks:
+    - name: Install mypy
+      become: true
+      command: pip3 install mypy
+
     - name: Validate the script
       command: "mypy --strict {{ target_file }}"
