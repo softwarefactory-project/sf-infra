@@ -33,8 +33,30 @@
     owner: "{{ zuul_container_user }}"
   become: true
 
+- name: Download container-update project key
+  get_url:
+    url: "{{ zuul_container_update_key }}"
+    dest: "/home/{{ zuul_container_user }}/container_update_key.pub"
+    force: true
+    timeout: 60
+  register: dl_result
+  until: dl_result is succeeded
+  retries: 20
+  delay: 1
+  become: true
+
+- name: get key contents
+  command: "cat /home/{{ zuul_container_user }}/container_update_key.pub"
+  register: cu_pubkey
+  become: true
+
+- name: debug key
+  debug:
+    msg: "{{ cu_pubkey }}"
+
 - name: "Authorized {{ zuul_container_user }} executor"
-  become: yes
+  become: true
   authorized_key:
     user: "{{ zuul_container_user }}"
-    key: "{{ zuul_container_update_key }}"
+    state: present
+    key: "{{ cu_pubkey.stdout }}"
