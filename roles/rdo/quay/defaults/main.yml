@@ -4,6 +4,8 @@ hide_sensitive_logs: true
 self_signed_certs: true
 initial_config: false
 
+quay_debug: false
+
 postgresql_user: 'quayuser'
 postgresql_password: 'quaypass'
 postgresql_db_name: 'quay'
