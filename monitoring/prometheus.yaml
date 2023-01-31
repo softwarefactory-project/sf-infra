@@ -82,7 +82,7 @@ scrape_configs:
     metrics_path: /probe
     params:
       module:
-        - http_2xx
+        - https_2xx
     relabel_configs:
       - source_labels:
           - "__address__"

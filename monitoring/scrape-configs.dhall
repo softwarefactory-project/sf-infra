@@ -66,7 +66,7 @@ let blackbox-scrape-config =
 
 in  { static
     , dlrn
-    , blackbox = blackbox-scrape-config [ "http_2xx" ]
+    , blackbox = blackbox-scrape-config [ "https_2xx" ]
     , blackbox-auth =
         \(auth-urls : List Text) ->
               blackbox-scrape-config [ "http_4xx" ] auth-urls
