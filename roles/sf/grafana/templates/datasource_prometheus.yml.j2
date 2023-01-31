@@ -10,7 +10,7 @@ datasources:
    version: 1
 {% if vexxhost_prometheus | default(False) %}
 -  access: 'proxy'
-   editable: false
+   editable: true
    isDefault: false
    name: 'prometheus-vexxhost'
    orgId: 1
