@@ -66,7 +66,7 @@
     pod_name: grafana
     pod_param: >
       --network host
-      -v /etc/grafana:/etc/grafana
+      -v /etc/grafana:/etc/grafana:Z
       {% if sf_grafana | default(False) %}
       -e GF_SECURITY_ADMIN_PASSWORD__FILE='/etc/grafana/secrets/admin_password'
       -e GF_SECURITY_ADMIN_USER__FILE='/etc/grafana/secrets/admin_user'
