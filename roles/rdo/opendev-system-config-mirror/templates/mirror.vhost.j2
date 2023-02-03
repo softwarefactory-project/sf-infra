@@ -38,12 +38,15 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
     <Directory /var/www/mirror>
         Options Indexes FollowSymLinks MultiViews
         AllowOverride None
-        Order allow,deny
-        allow from all
-        Satisfy any
-        <IfVersion >= 2.4>
-            Require all granted
-        </IfVersion>
+        Require all granted
+    </Directory>
+
+    # Pip really doesn't like the DOCTYPE declaration for autoindexes
+    # https://github.com/pypa/pip/issues/10825
+    Alias /wheel/.header.html /var/www/wheel_header.html
+    <Directory /var/www/mirror/wheel>
+        IndexOptions +SuppressHTMLPreamble
+        HeaderName /wheel/.header.html
     </Directory>
 
     # Caching reverse proxy for things that don't make sense in AFS
@@ -61,6 +64,11 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
     # 5GiB
     CacheMaxFileSize 5368709120
     CacheStoreExpired On
+    # NOTE(frickler): 1h is a compromise between wanting to cache larger
+    # files for longer, like wheels and tarballs, but reducing the impact
+    # of broken or outdated index pages which we get delivered from pypi
+    # CDN sometimes.
+    CacheMaxExpire 3600
     # Pip sets Cache-Control: max-age=0 on requests for pypi index pages.
     # This means we don't use the cache for those requests. This setting
     # should force the proxy to ignore cache-control on the request side
@@ -97,6 +105,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
     # Rewrite the locations of the actual files
     <Location /pypi>
       SetOutputFilter INFLATE;SUBSTITUTE;DEFLATE
+      SubstituteMaxLineLength 20m
       Substitute "s|https://files.pythonhosted.org/|/pypifiles/|ni"
     </Location>
 
@@ -158,8 +167,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
 <Macro ProxyMirror $port>
     # Disable directory listing by default.
     <Directory />
-      Order Deny,Allow
-      Deny from all
+      Require all denied
       Options None
       AllowOverride None
     </Directory>
@@ -241,6 +249,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
     # Rewrite the locations of the actual files
     <Location /pypi>
       SetOutputFilter INFLATE;SUBSTITUTE;DEFLATE
+      SubstituteMaxLineLength 20m
       Substitute "s|https://files.pythonhosted.org/|/pypifiles/|ni"
     </Location>
 
@@ -401,8 +410,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
 <Macro Dockerv2Mirror $port>
     # Disable directory listing by default.
     <Directory />
-      Order Deny,Allow
-      Deny from all
+      Require all denied
       Options None
       AllowOverride None
     </Directory>
@@ -470,8 +478,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
 <Macro RHRegistryMirror $port>
     # Disable directory listing by default.
     <Directory />
-      Order Deny,Allow
-      Deny from all
+      Require all denied
       Options None
       AllowOverride None
     </Directory>
@@ -536,8 +543,7 @@ ErrorLogFormat "[%{cu}t] [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% , \ 
 
     # Disable directory listing by default.
     <Directory />
-      Order Deny,Allow
-      Deny from all
+      Require all denied
       Options None
       AllowOverride None
     </Directory>

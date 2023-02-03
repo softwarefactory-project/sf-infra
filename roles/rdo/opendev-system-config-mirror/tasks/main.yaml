@@ -15,6 +15,24 @@
     that:
       - afs_mirror.stat.exists
 
+- name: Setup Apache with scl
+  block:
+    - name: Install base packages if defined
+      package:
+        name: centos-release-scl
+        state: present
+
+    - name: Remove old Apache packages
+      package:
+        name: "{{ old_apache_packages }}"
+        state: absent
+
+    - name: Remove Apache config directory
+      file:
+        path: /etc/httpd
+        state: absent
+  when: use_scl | default(False)
+
 - name: Install apache packages
   package:
     name: '{{ apache_packages }}'
@@ -67,6 +85,14 @@
   copy:
     src: robots.txt
     dest: '{{ www_root }}'
+    owner: root
+    group: root
+    mode: 0444
+
+- name: Install wheel_header.html
+  copy:
+    src: wheel_header.html
+    dest: '{{ www_base }}'
     owner: root
     group: root
     mode: 0444

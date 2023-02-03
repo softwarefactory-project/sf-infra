@@ -1,15 +1,16 @@
 - name: Workaround for missing macro definition in CentOS 7
   copy:
     content: 'LoadModule macro_module modules/mod_macro.so'
-    dest: /etc/httpd/conf.modules.d/00-macro.conf
+    dest: "{{ apache_dir }}/conf.modules.d/00-macro.conf"
   when:
     - ansible_os_family == "RedHat"
     - ansible_distribution_major_version | int == 7
+    - not use_scl | default(False)
 
 - name: Create mirror virtual host
   template:
     src: mirror.vhost.j2
-    dest: /etc/httpd/conf.d/mirror.conf
+    dest: "{{ apache_conf_dir }}/mirror.conf"
   notify: restart apache
 
 - name: Install required SELinux binaries
@@ -29,7 +30,7 @@
 
 - name: Remove configuration for default welcome page
   file:
-    path: /etc/httpd/conf.d/welcome.conf
+    path: "{{ apache_conf_dir }}/welcome.conf"
     state: absent
   notify: restart apache
 

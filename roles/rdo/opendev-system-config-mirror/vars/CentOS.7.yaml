@@ -1,11 +1,20 @@
 cache_root: /var/cache/httpd/proxy
 www_user: apache
 www_group: apache
-apache_packages:
+use_scl: true
+old_apache_packages:
     - httpd
     - mod_ssl
-apache_name: httpd
-apache_conf_dir: /etc/httpd/conf.d
+apache_packages:
+    - httpd24
+    - httpd24-httpd
+    - httpd24-httpd-tools
+    - httpd24-libnghttp2
+    - httpd24-mod_ssl
+    - httpd24-runtime
+apache_name: httpd24
+apache_dir: /opt/rh/httpd24/root/etc/httpd
+apache_conf_dir: "{{ apache_dir }}/conf.d"
 apache_selinux_ports:
     - 8080
     - 4443
@@ -20,4 +29,3 @@ apache_selinux_ports:
 selinux_required_packages:
   - policycoreutils-python
   - libselinux-python
-

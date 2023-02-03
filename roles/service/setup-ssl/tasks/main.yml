@@ -59,6 +59,12 @@
         - http_service_name != 'nginx'
         - http_service_name != 'standalone'
 
+    - name: Install Centos scl when scl version set
+      package:
+        name: centos-release-scl
+        state: present
+      when: http_service_name == 'httpd24-httpd'
+
     # We can use http_service_name variable, to start the service, because
     # both have same name.
     - name: "Install {{ http_service_name }}"
