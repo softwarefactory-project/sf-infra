@@ -4,3 +4,6 @@ afs_client_cache_size: 50000000
 afs_ssl_cert: "/etc/pki/tls/certs/{{ client_cn }}.crt"
 afs_ssl_private_key: "/etc/pki/tls/private/{{ client_cn }}.key"
 afs_ssl_cacert: "/etc/pki/tls/certs/{{ client_cn }}.crt"
+http_service_name: "httpd24-httpd"
+apache_dir: "/opt/rh/httpd24/root/etc/httpd"
+apache_conf_dir: "{{ apache_dir }}/conf.d"

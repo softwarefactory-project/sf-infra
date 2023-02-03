@@ -1,3 +1,4 @@
 ssl_path: /etc/pki/tls/certs/
 ssl_private_path: /etc/pki/tls/private
 ca_cn: private
+http_service_name: httpd

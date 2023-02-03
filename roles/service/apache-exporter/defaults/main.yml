@@ -1,3 +1,6 @@
 ---
 apache_exporter_url: http://0.0.0.0/server-status?auto
 apache_exporter_insecure: false
+http_service_name: httpd
+apache_dir: /etc/httpd
+apache_conf_dir: "{{ apache_dir }}/conf.d"
