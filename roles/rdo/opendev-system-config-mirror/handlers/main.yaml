@@ -9,6 +9,7 @@
   service:
     name: httpd
     state: restarted
+    enabled: true
   when: ansible_os_family == "RedHat" and not use_scl | default(False)
   listen: "restart apache"
 
@@ -16,5 +17,6 @@
   service:
     name: httpd24-httpd
     state: restarted
+    enabled: true
   when: ansible_os_family == "RedHat" and use_scl | default(False)
   listen: "restart apache"
