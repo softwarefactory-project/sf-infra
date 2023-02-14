@@ -222,6 +222,7 @@ servers:
       - monitoring
       - web
       - registry
+    state: absent
     volume_size: 200
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
@@ -370,14 +371,6 @@ volumes:
     display_name: centos8-rpm-packaging-swap
     server: centos8-rpm-packaging-ci.rdoproject.org
     size: 8
-  - device: /dev/vdb
-    display_name: registry-docker
-    server: registry.rdoproject.org
-    size: 100
-  - device: /dev/vdc
-    display_name: registry-data
-    server: registry.rdoproject.org
-    size: 1024
   - device: /dev/vdb
     display_name: quay_db
     server: quay.rdoproject.org

@@ -120,7 +120,6 @@ let instances =
                 , "https://logserver.rdoproject.org"
                 , "https://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
-                , "https://trunk.registry.rdoproject.org"
                 , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
         , monitoring_auth_urls =

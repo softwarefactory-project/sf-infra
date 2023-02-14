@@ -217,31 +217,6 @@
         secret: ibm-bm3-nodepool
 
 - job:
-    name: sf-infra-configure-registry
-    parent: sf-infra-base
-    description: Configure the registry host
-    semaphore: sf-infra
-    run: playbooks/zuul/configure-registry-host.yaml
-    required-projects:
-      - name: review.rdoproject.org/rdo-infra/rdo-infra-playbooks
-      - name: software-factory/sf-infra
-      # NOTE(dpawlik) rdo-3.11 branch include cockpit patch.
-      # Official branch is: release-3.11
-      - name: github.com/rdo-infra/openshift-ansible
-        override-checkout: rdo-3.11-dns-mismatch-updated
-    files:
-      - ^playbooks/rdo-registry.yaml$
-      - ^playbooks/zuul/configure-registry-host.yaml$
-      - ^playbooks/host_vars/registry.rdoproject.org.yml$
-    secrets:
-      - name: vexxhost_rdo
-        secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
-      - name: vault
-        secret: ansible-vault
-
-- job:
     name: sf-infra-configure-quay
     parent: sf-infra-base
     description: Configure the Quay host
@@ -390,9 +365,6 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
-        - sf-infra-configure-registry:
-            dependencies:
-              - dhall-diff
         - sf-infra-create-tripleo-standalone:
             dependencies:
               - dhall-diff

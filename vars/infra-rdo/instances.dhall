@@ -64,19 +64,8 @@ let instances =
           , auto_ip = Some True
           , security_groups = [ "web", "registry" ]
           , volume_size = Some 200
+          , state = Some "absent"
           }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "registry-docker"
-            , size = 100
-            , device = "/dev/vdb"
-            }
-          , Infra.Volume::{
-            , display_name = "registry-data"
-            , size = 1024
-            , device = "/dev/vdc"
-            }
-          ]
         }
       , Instance::{
         , name = "quay"
