@@ -12,7 +12,14 @@
     pod_name: elasticsearch-exporter
     pod_param: >
       --net=host
-      -v /etc/opensearch/certs/:/etc/opensearch/certs/:z
+      -v /etc/opensearch/certs/opensearch:/etc/opensearch/certs/opensearch:z
+      {% if override_cert_perms | default(false) %}
+      --user {{ elastic_exporter_container_uid }}:{{ elastic_exporter_container_gid }}
+      --uidmap {{ elastic_exporter_container_uid }}:{{ elastic_exporter_system_uid }}:1
+      --gidmap {{ elastic_exporter_container_gid }}:{{ elastic_exporter_system_gid }}:1
+      --uidmap 0:4000:{{ elastic_exporter_container_uid - 1}}
+      --gidmap 0:4000:{{ elastic_exporter_container_gid - 1}}
+      {% endif %}
       {{ container_images['elasticsearch_exporter'] | default('quay.io/prometheuscommunity/elasticsearch-exporter:latest') }}
       --es.uri="https://{{ ansible_fqdn }}:9200"
       --es.client-cert=/etc/opensearch/certs/opensearch/opensearch-admin.crt
@@ -20,19 +27,3 @@
       --es.ca=/etc/opensearch/certs/opensearch/localCA.pem
       {% if es_insecure | default(false) %}--es.ssl-skip-verify=true{% endif %}
   when: _opensearch_crt.stat.exists
-
-# NOTE: Remove below task after upgrade to 3.8
-- include_role:
-    name: service/container
-  vars:
-    pod_name: elasticsearch-exporter
-    pod_param: >
-      --net=host
-      -v /etc/opensearch/certs/:/etc/opensearch/certs/:z
-      {{ container_images['elasticsearch_exporter'] | default('quay.io/prometheuscommunity/elasticsearch-exporter:latest') }}
-      --es.uri="https://{{ ansible_fqdn }}:9200"
-      --es.client-cert=/etc/opensearch/certs/elasticsearch-admin.crt
-      --es.client-private-key=/etc/opensearch/certs/elasticsearch-admin.key
-      --es.ca=/etc/opensearch/certs/localCA.pem
-      {% if es_insecure | default(false) %}--es.ssl-skip-verify=true{% endif %}
-  when: not _opensearch_crt.stat.exists

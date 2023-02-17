@@ -152,7 +152,7 @@ if __name__ == '__main__':
     timezone = pytz.UTC
 
     if not args.os_cloud and not args.os_clouds:
-        raise("Please set --os-cloud or --os-clouds param!")
+        raise Exception("Please set --os-cloud or --os-clouds param!")
 
     clouds = args.os_cloud + args.os_clouds
     remove_collector_file(args.collector_path)
