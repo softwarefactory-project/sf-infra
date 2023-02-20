@@ -38,9 +38,6 @@ all:
         trunk-centos7.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
-    etcd:
-      hosts:
-        registry.rdoproject.org: {}
     ibm-baremetal-nodepool:
       hosts:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
@@ -54,32 +51,20 @@ all:
       hosts:
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
-    installer:
-      hosts:
-        registry.rdoproject.org: {}
     k1s:
       hosts:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-    masters:
-      hosts:
-        registry.rdoproject.org: {}
     monitoring:
       hosts:
         prometheus.monitoring.softwarefactory-project.io: {}
     nodepool-builder:
       hosts:
         nodepool-builder.softwarefactory-project.io: {}
-    nodes:
-      hosts:
-        registry.rdoproject.org: {}
     opensearch:
       hosts:
         opensearch.rdoproject.org: {}
-    openshift:
-      hosts:
-        registry.rdoproject.org: {}
     openstack:
       hosts:
         logscraper01.openstack.org: {}
@@ -112,9 +97,6 @@ all:
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         opensearch.rdoproject.org: {}
-    registry:
-      hosts:
-        registry.rdoproject.org: {}
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -303,11 +285,6 @@ all:
       ansible_python_interpreter: auto
       ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo@soeru.osci.io -W %h:%p\""
       ansible_user: root
-    registry.rdoproject.org:
-      ansible_become: true
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     rpm-packaging-ci.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2

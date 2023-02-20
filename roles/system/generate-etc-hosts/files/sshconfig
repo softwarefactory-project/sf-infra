@@ -25,10 +25,6 @@ Host rpm-packaging-ci.rdoproject.org
     User centos
     Port 22
 
-Host registry.rdoproject.org
-    User centos
-    Port 22
-
 Host quay.rdoproject.org
     User centos
     Port 22

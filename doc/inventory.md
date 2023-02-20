@@ -5,7 +5,6 @@ This project manages:
 * mirror.regionone.vexxhost.rdoproject.org
 * centos8-rpm-packaging-ci.rdoproject.org
 * rpm-packaging-ci.rdoproject.org
-* registry.rdoproject.org
 * quay.rdoproject.org
 * trunk-centos8.rdoproject.org
 * trunk-centos7.rdoproject.org
