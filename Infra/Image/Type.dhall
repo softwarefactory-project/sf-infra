@@ -3,4 +3,5 @@
 , disk_format : Text
 , name : Text
 , url : Text
+, state : Text
 }

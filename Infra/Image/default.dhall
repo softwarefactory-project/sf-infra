@@ -1,1 +1,1 @@
-{ container_format = "bare", disk_format = "qcow2" }
+{ container_format = "bare", disk_format = "qcow2", state = "present" }

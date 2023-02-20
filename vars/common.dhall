@@ -166,6 +166,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-30-1.2"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2"
@@ -177,6 +178,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-31-1.9"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
@@ -189,6 +191,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-33-1.2"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2"
@@ -199,6 +202,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                     , `35` =
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
+                        , state = "absent"
                         , name = "fedora-35-1.2"
                         , url =
                                 url
@@ -216,6 +220,17 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             ++  "36/Cloud/x86_64/images/Fedora-Cloud-Base-36-1.5.x86_64.qcow2"
                         , checksum =
                             "ca9e514cc2f4a7a0188e7c68af60eb4e573d2e6850cc65b464697223f46b4605"
+                        }
+                      }
+                    , `37` =
+                      { connection = Infra.Connection::Fedora
+                      , image = Infra.Image::{
+                        , name = "fedora-37-1.7"
+                        , url =
+                                url
+                            ++  "37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2"
+                        , checksum =
+                            "b5b9bec91eee65489a5745f6ee620573b23337cbb1eb4501ce200b157a01f3a0"
                         }
                       }
                     }
