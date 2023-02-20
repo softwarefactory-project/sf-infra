@@ -1,3 +1,4 @@
+
 - name: Include tenant configuration
   include_vars:
     file: "{{ cloud.tenant | default(cloud.name) }}.yaml"

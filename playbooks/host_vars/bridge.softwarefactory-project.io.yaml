@@ -1,5 +1,4 @@
 ansible_connection: "local"
-bridge_private_ip: 192.168.242.251
 bridge_public_ip: 38.102.83.244
 podman_gw_ip: 10.88.0.1
 prometheus_public_ip: 38.102.83.250
