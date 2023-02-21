@@ -6,7 +6,7 @@
     - vars/dlrn.yaml
   roles:
     - service/firewalld
-    - dlrn/dlrn-server
+    - infra-dlrn/dlrn-server
 
 - hosts: trunk.rdoproject.org
   roles:
@@ -28,7 +28,7 @@
     - service/mysqld-exporter
   tasks:
     - include_role:
-        name: dlrn/mariadb-replicated
+        name: infra-dlrn/mariadb-replicated
         tasks_from: master.yml
 
 

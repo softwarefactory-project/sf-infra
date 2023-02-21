@@ -125,7 +125,7 @@
       - "^roles/infra/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"
-      - "^roles/dlrn/.*$"
+      - "^roles/infra-dlrn/.*$"
 
 - job:
     name: sf-infra-configure-hosts-osci
@@ -251,7 +251,7 @@
         - name: primary
           label: rdo-centos-stream
     files:
-      - ^roles/dlrn/dlrn-server/.*$
+      - ^roles/infra-dlrn/dlrn-server/.*$
       - ^roles/drln/mariadb-replicated/.*$
       - ^roles/rdo/afs-monitoring/.*$
       - ^roles/rdo/backup-monitoring/.*$
