@@ -22,9 +22,8 @@ inventory:
   - gitweb
   - gerritbot
   - murmur
-  - kibana
-  - cauth
-  - repoxplorer
+  - opensearch-dashboards
+  - keycloak
   - firehose
   - grafana
   - cgit
@@ -33,12 +32,10 @@ inventory:
   ip: 192.168.242.144
   roles:
   - logserver
-  - elasticsearch
-  - logstash
+  - opensearch
   - influxdb
-  - job-logs-gearman-client
-  - job-logs-gearman-worker
   - hound
+  - log-processing
 
 - name: nodepool-builder
   ip: 192.168.242.73

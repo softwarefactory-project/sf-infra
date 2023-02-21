@@ -7,7 +7,7 @@ inventory:
       - install-server
       - mysql
       - gateway
-      - cauth
+      - keycloak
       - gerrit
       - managesf
       - gitweb
@@ -15,15 +15,12 @@ inventory:
       - etherpad
       - lodgeit
       - cgit
-      - repoxplorer
   - name: elk
     ip: 192.168.240.132
     roles:
-      - elasticsearch
-      - job-logs-gearman-client
-      - job-logs-gearman-worker
-      - logstash
-      - kibana
+      - opensearch
+      - opensearch-dashboards
+      - log-processing
       - influxdb
       - grafana
   - name: logserver
