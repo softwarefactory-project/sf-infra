@@ -167,6 +167,7 @@
     name: sf-infra-configure-hosts-sf
     parent: sf-infra-configure
     description: Configure the sf.io hosts
+    timeout: 7200
     vars:
       sf_infra_play_name: site_sf
     files:

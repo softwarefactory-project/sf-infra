@@ -97,6 +97,14 @@
     name: httpd
     state: reloaded
 
+# NOTE(dpawlik): We don't care how many domains are set to refresh.
+# We just need to know if the script should be executed now or it
+# can wait for crontab.
+- name: Check if cert was already created
+  stat:
+    path: "{{ acme_certs_dir }}/{{ acme_domains[0] }}.pem"
+  register: _acme_cert
+
 - name: Setup acme-tiny refresh script /usr/local/bin/acme-tiny-refresh.sh
   become: true
   register: "_acme_tiny_script"
@@ -106,9 +114,9 @@
     src: acme-tiny-refresh.sh
 
 - name: Run the acme-tiny script
-  when: "_acme_tiny_script is changed"
   become: true
   command: /usr/local/bin/acme-tiny-refresh.sh no-reload
+  when: "_acme_tiny_script is changed and not _acme_cert.stat.exists"
 
 - name: Create cronjob for refreshing certs
   become: true

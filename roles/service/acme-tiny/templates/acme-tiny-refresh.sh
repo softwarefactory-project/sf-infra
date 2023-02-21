@@ -3,6 +3,10 @@
 RELOAD=$1
 
 {% for item in acme_domains %}
+
+# Avoid the high spike crippling let's encrypt servers
+DELAY=$((($RANDOM%900) + 900))
+sleep $DELAY
 $(which acme-tiny) --account-key {{ acme_keys_dir }}/account.key \
                 --csr {{ acme_keys_dir }}/{{ item.domain }}.csr             \
                 --acme-dir {{ acme_challenges_dir }}/{{ item.domain }}   \
