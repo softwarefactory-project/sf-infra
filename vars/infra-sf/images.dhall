@@ -9,5 +9,6 @@ in  { images =
       , OS.Fedora.`33`.image
       , OS.Fedora.`35`.image
       , OS.Fedora.`36`.image
+      , OS.Fedora.`37`.image
       ]
     }
