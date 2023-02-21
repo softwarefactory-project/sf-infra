@@ -31,6 +31,7 @@
         name: dlrn/mariadb-replicated
         tasks_from: master.yml
 
+
 # NOTE: Appling this play on a working slave breaks replication, commenting until
 #       we investigate how to properly setup slave
 # # for mysql replication, according to roles/dlrn/mariadb-replicated/README.md
