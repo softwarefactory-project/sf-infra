@@ -188,34 +188,6 @@ servers:
       - afs
       - apache_exporter
     volume_size: 200
-  - auto_ip: true
-    boot_from_volume: yes
-    flavor: v1-standard-2
-    image: centos-8.0-1905
-    key_name: sf-infra-key
-    name: centos8-rpm-packaging-ci.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - rdo-trunk
-      - apache_exporter
-    volume_size: 100
-  - auto_ip: true
-    boot_from_volume: yes
-    flavor: ci.m1.large
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: rpm-packaging-ci.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - rdo-trunk
-      - apache_exporter
-    volume_size: 100
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:
@@ -365,10 +337,6 @@ subnets:
     name: private-subnet
     network_name: private-network
 volumes:
-  - device: /dev/vdb
-    display_name: centos8-rpm-packaging-swap
-    server: centos8-rpm-packaging-ci.rdoproject.org
-    size: 8
   - device: /dev/vdb
     display_name: quay_db
     server: quay.rdoproject.org

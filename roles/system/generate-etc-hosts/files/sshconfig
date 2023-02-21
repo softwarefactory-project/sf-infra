@@ -17,14 +17,6 @@ Host mirror.regionone.vexxhost.rdoproject.org
     User centos
     Port 22
 
-Host centos8-rpm-packaging-ci.rdoproject.org
-    User cloud-user
-    Port 22
-
-Host rpm-packaging-ci.rdoproject.org
-    User centos
-    Port 22
-
 Host quay.rdoproject.org
     User centos
     Port 22

@@ -11,7 +11,6 @@
 - hosts:
     - trunk-centos7.rdoproject.org
     - trunk-centos8.rdoproject.org
-    - centos8-rpm-packaging-ci.rdoproject.org
   roles:
     - system/swap
     - service/apache-exporter
