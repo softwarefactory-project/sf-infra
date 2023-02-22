@@ -53,21 +53,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "registry"
-        , groups =
-          [ "registry", "etcd", "masters", "nodes", "openshift", "installer" ]
-        , connection =
-            OS.CentOS.`7.0`.connection // { ansible_become = Some True }
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "registry" ]
-          , volume_size = Some 200
-          , state = Some "absent"
-          }
-        }
-      , Instance::{
         , name = "quay"
         , groups = [ "quay" ]
         , connection =
