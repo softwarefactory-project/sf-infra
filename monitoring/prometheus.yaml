@@ -22,8 +22,7 @@ rule_files:
   - rules-mysqld.yaml
   - rules-openstack-check.yaml
   - rules-es-check.yaml
-  - rules-system-package-count-sf.yaml
-  - rules-system-package-count-rdo.yaml
+  - rules-system-updates.yaml
 scrape_configs:
   - job_name: node
     static_configs:

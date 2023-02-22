@@ -18,8 +18,7 @@ The main configuration is constructed with the *prometheus-config.dhall* .-}
 , rules-openstack-check = ./rules-openstack-check.dhall
 , rules-systemd = ./rules-systemd.dhall
 , rules-zuul = ./rules-zuul.dhall
-, rules-system-update-sf = ./rules-system-package-count-sf.dhall
-, rules-system-update-rdo = ./rules-system-package-count-rdo.dhall
+, rules-system-updates = ./rules-system-updates.dhall
 , rules = ./rules.dhall
 , scrape-configs = ./scrape-configs.dhall
 }
