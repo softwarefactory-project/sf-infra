@@ -266,6 +266,12 @@ quay_organizations:
              36643866363138353130306230613932316437643566336339643865333165666338316538326661
              3763653166613830303434633334643739386433313431663931
       prune_days: 7
+    - name: podified-main-centos9
+      token: ""
+      prune_days: 7
+    - name: podified-zed-centos9
+      token: ""
+      prune_days: 7
 
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
