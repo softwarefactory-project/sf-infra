@@ -1,0 +1,6 @@
+---
+- name: Remove sensitive content
+  become: true
+  file:
+    path: "{{ registry_secret_path }}"
+    state: absent

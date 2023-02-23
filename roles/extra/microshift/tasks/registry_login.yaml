@@ -1,0 +1,17 @@
+---
+# Check if pull-secret.txt is available on the host.
+# To download secret, https://cloud.redhat.com/openshift/create/local
+- name: Fail when openshift_pull_sec not provided
+  fail:
+    msg: "The openshift_pull_secret variable can not be empty!"
+  when: openshift_pull_secret == ""
+
+# FROM: https://github.com/openshift/microshift/blob/main/ansible/roles/install-microshift/tasks/main.yml#L110
+- name: copy pull-secret to node
+  become: true
+  copy:
+    content: "{{ openshift_pull_secret }}"
+    dest: "{{ registry_secret_path }}"
+    owner: root
+    group: root
+    mode: '0600'

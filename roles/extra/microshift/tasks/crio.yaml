@@ -1,0 +1,9 @@
+---
+- name: Install required system packages
+  become: true
+  yum:
+    name:
+      - cri-o
+      - cri-tools
+    state: present
+    enablerepo: microshift-deps-rpms

@@ -1,0 +1,30 @@
+---
+- name: Clone OLM operator-sdk
+  git:
+    repo: "{{ operator_sdk_url }}"
+    dest: "{{ repo_dir }}/operator-sdk"
+    version: "{{ operator_sdk_version }}"
+
+- name: Build Operator SDK
+  shell: |
+    make build
+  args:
+    chdir: "{{ repo_dir }}/operator-sdk"
+
+- name: Check if OLM is installed
+  shell: |
+    build/operator-sdk olm status
+  register: olm_status
+  failed_when:
+    - olm_status.rc != 0
+    - '"Failed to get OLM status: error getting installed OLM version" not in olm_status.stderr'
+  args:
+    chdir: "{{ repo_dir }}/operator-sdk"
+
+- name: install olm with sdk
+  shell: |
+    build/operator-sdk olm install
+  args:
+    chdir: "{{ repo_dir }}/operator-sdk"
+  when:
+    - olm_status.rc != 0

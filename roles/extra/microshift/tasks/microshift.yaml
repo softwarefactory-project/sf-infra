@@ -1,0 +1,24 @@
+---
+- name: Install microshift from Copr
+  block:
+    - name: Enable copr repository
+      become: true
+      shell: |
+        dnf copr enable -y @redhat-et/microshift
+
+    - name: Install microshift package
+      become: true
+      yum:
+        name: microshift
+        state: present
+  when: use_copr_microshift
+
+- name: Install Microshift from microshift repo
+  block:
+    - name: Install microshift package
+      become: true
+      yum:
+        name: microshift
+        state: present
+        enablerepo: microshift-rpms,microshift-deps-rpms
+  when: not use_copr_microshift

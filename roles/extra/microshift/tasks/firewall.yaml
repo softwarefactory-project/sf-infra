@@ -1,0 +1,25 @@
+---
+- name: Get package facts
+  package_facts:
+
+- name: Add exception to the firewall
+  block:
+    - name: Set ports
+      become: true
+      firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+      loop:
+        - 80/tcp
+        - 443/tcp
+        - 5353/udp
+
+    - name: Add exception to source
+      become: true
+      firewalld:
+        source: 10.42.0.0/16
+        zone: trusted
+        permanent: true
+        state: enabled
+  when: "'firewalld' in ansible_facts.packages"
