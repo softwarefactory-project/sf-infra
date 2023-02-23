@@ -26,4 +26,4 @@
         minute: "*/15"
         hour: "*"
         day: "*"
-        job: "/usr/local/bin/check-bup-backups.py {% if bup_container_name is defined %}--container {{ bup_container_name }}{% endif %} --config /var/lib/bup-backup-locations.json"
+        job: "/usr/local/bin/check-bup-backups.py {% if bup_container_name is defined %}--container {{ bup_container_name }}{% endif %} --config /var/lib/bup-backup-locations.json > /dev/null"

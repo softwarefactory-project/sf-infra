@@ -18,4 +18,4 @@
   cron:
     name: Get stack status
     minute: "*/5"
-    job: "/usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }}"
+    job: "/usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }} > /dev/null"

@@ -32,7 +32,7 @@
         hour: "0"
         weekday: "0"
         user:  "root"
-        job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ fqdn }} --webroot-path /var/www/html && /usr/bin/systemctl reload httpd"
+        job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ fqdn }} --webroot-path /var/www/html && /usr/bin/systemctl reload httpd > /dev/null"
 
     - name: Deploy SSL options file for letsencrypt
       copy:

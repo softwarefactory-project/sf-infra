@@ -263,7 +263,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: rdo-centos-stream
+          label: rdo-centos-8-stream
     files:
       - ^roles/infra-dlrn/dlrn-server/.*$
       - ^roles/drln/mariadb-replicated/.*$

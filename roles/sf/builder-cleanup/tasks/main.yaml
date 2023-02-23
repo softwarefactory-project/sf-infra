@@ -3,5 +3,12 @@
   cron:
     name: "Cleanup outdated fedora rawhide images"
     special_time: daily
-    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'Fedora-Cloud-Base-Rawhide*' -mtime +5 -delete"
+    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'Fedora-Cloud-Base-Rawhide*' -mtime +5 -delete > /dev/null"
+  become: yes
+
+- name: Cleanup outdated centos-9-stream images
+  cron:
+    name: "Cleanup outdated centos-9-stream images"
+    special_time: daily
+    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'CentOS-Stream-GenericCloud-9*' -mtime +5 -delete > /dev/null"
   become: yes

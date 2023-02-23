@@ -37,4 +37,4 @@
         minute: "*/30"
         hour: "*"
         day: "*"
-        job: '/usr/local/bin/afs-mirror-status.sh'
+        job: '/usr/local/bin/afs-mirror-status.sh > /dev/null'

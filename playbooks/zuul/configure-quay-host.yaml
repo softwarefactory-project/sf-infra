@@ -51,4 +51,4 @@
       cron:
         name: Renew registry certificate - Quay
         special_time: weekly
-        job: bash /var/lib/sf-infra/quay-renew.sh
+        job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null

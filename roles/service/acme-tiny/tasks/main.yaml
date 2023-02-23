@@ -121,7 +121,7 @@
 - name: Create cronjob for refreshing certs
   become: true
   cron:
-    job: /usr/local/bin/acme-tiny-refresh.sh no-reload
+    job: /usr/local/bin/acme-tiny-refresh.sh no-reload > /dev/null
     name: Run acme tiny refresh script
     special_time: weekly
 

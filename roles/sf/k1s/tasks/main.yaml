@@ -151,5 +151,5 @@
     user: "{{ k1s_user }}"
     minute: "0"
     hour: "2"
-    job: 'podman image prune'
+    job: 'podman image prune > /dev/null'
   become: true

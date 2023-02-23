@@ -2,6 +2,6 @@
   cron:
     name: Prune weak images
     special_time: "{{ pruning_time }}"
-    job: "podman image prune -f {{ extra_attributes }}"
+    job: "podman image prune -f {{ extra_attributes }} > /dev/null"
     user: "{{ user }}"
   become: true
