@@ -6,6 +6,12 @@
       name: "{{ backup_packages }}"
       state: installed
 
+  - name: Install python3-pyxattr
+    dnf:
+      name: python3-pyxattr
+      state: installed
+      enablerepo: powertools
+
   - name: Check for existing bup binary
     stat:
       path: "/usr/local/bin/bup"
