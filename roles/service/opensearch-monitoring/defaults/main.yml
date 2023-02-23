@@ -1,0 +1,6 @@
+---
+override_cert_perms: false
+elastic_exporter_container_uid: 65534
+elastic_exporter_container_gid: 65534
+elastic_exporter_system_uid: 1000
+elastic_exporter_system_gid: 1000

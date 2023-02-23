@@ -7,6 +7,8 @@ elasticsearch_maximum_heap_size: 2g
 
 opensearch_container_params: "--net host --pid host --memory 4g"
 
+# elasticsearch_exporter
+override_cert_perms: true
 
 # opensearch monitoring
 index:
