@@ -15,6 +15,7 @@
   synchronize:
     src: "{{ prometheus_configuration_dir }}/"
     dest: "/etc/prometheus/"
+    delete: yes
   register: _prom_config
 
 - include_role:
