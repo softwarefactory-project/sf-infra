@@ -10,6 +10,8 @@
   roles:
     - service/manage-accounts
     - system/generate-etc-hosts
+    - service/node-exporter
+    - system/update-host
   tasks:
     - name: "Install MTA"
       include_role:
