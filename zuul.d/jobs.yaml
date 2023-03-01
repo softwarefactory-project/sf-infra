@@ -111,6 +111,20 @@
         secret: bridge_ssh_key
 
 - job:
+    name: sf-infra-configure-bridge
+    parent: sf-infra-configure
+    description: Configure the bridge
+    vars:
+      sf_infra_play_name: site_bridge
+    files:
+      - playbooks/site_bridge.yaml
+      - playbooks/host_vars/bridge.softwarefactory-project.io.yaml
+      - playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml
+      - playbooks/group_vars/all
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+
+- job:
     name: sf-infra-configure-hosts-dlrn
     parent: sf-infra-configure
     description: Configure the DLRN hosts
@@ -345,6 +359,11 @@
             dependencies:
               - dhall-diff
               - name: sf-infra-configure-tenants
+                soft: true
+        - sf-infra-configure-bridge:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
                 soft: true
         - sf-infra-configure-hosts-sf:
             dependencies:
