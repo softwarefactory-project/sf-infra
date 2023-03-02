@@ -11,7 +11,6 @@
       - iproute-tc
       - git
       - golang
-      - rpm-ostree
     state: present
 
 - name: Add host to the hosts file
@@ -47,11 +46,4 @@
       net.ipv6.conf.all.disable_ipv6      = 1
       net.ipv6.conf.default.disable_ipv6  = 1
     dest: /etc/sysctl.d/10-k8s.conf
-  register: _k8s_sysctl
-
-- name: Restart sysctl service
-  become: true
-  service:
-    name: systemd-sysctl
-    state: restarted
-  when: _k8s_sysctl.changed
+  notify: Restart sysctl service

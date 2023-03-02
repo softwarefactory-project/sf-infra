@@ -1,6 +1,7 @@
 ---
 fqdn: microshift.dev
 openshift_pull_secret: ""
+registry_secret_path: /etc/crio/openshift-pull-secret
 disable_selinux: false
 hide_sensitive_logs: false
 setup_tools: true
@@ -16,18 +17,10 @@ opm_version: "4.6.1"
 helm_version: "v3.9.0"
 local_storage_version: "v0.0.22"
 
-registry_secret_path: /etc/crio/openshift-pull-secret
-
-repo_dir: "~{{ ansible_user }}/repos"
-packages_dir: "~{{ ansible_user }}/repos/rpms"
-microshift_dir: "{{ repo_dir }}/microshift"
-
 setup_olm: false
+repo_dir: "~{{ ansible_user }}/repos"
 operator_sdk_version: "v1.21.0"
 operator_sdk_url: "https://github.com/operator-framework/operator-sdk"
-
-setup_local_storage: false
-local_storage_config_dir: "{{ repo_dir }}/local-storage"
 
 create_pv: true
 pv_storageclass: manual

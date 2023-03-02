@@ -5,15 +5,6 @@
     path: ~{{ ansible_user }}/storage.yaml
     state: absent
 
-- name: Ensure that PV path directory exists
-  become: true
-  file:
-    path: "{{ pv_host_path }}"
-    state: directory
-    recurse: true
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-
 # FROM: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage
 - name: Add PV
   shell: |
@@ -22,7 +13,7 @@
     apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: "{{ pv_storageclass }}00{{ item }}"
+      name: "{{ pv_storageclass }}00{{ zj_pv_number }}"
       labels:
         type: local
     spec:
@@ -32,19 +23,30 @@
       accessModes:
         - ReadWriteOnce
       hostPath:
-        path: "{{ pv_host_path }}/pv00{{ item }}"
+        path: "{{ pv_host_path }}/pv00{{ zj_pv_number }}"
     EOF
   with_sequence: "{{ pv_count }}"
+  loop_control:
+    loop_var: zj_pv_number
+
+- name: Ensure that main PV path directory exists
+  become: true
+  file:
+    path: "{{ pv_host_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
 
 - name: Create PV directories
   become: true
   file:
-    path: "{{ pv_host_path }}/pv00{{ item }}"
+    path: "{{ pv_host_path }}/pv00{{ zj_pv_number }}"
     state: directory
     mode: "0777"
   with_sequence: "{{ pv_count }}"
+  loop_control:
+    loop_var: zj_pv_number
 
-- name: Run manifest
-  become: true
-  shell: |
-    /usr/local/bin/oc apply -f ~{{ ansible_user }}/storage.yaml
+- name: Run PV manifest
+  command: /usr/local/bin/oc apply -f ~{{ ansible_user }}/storage.yaml

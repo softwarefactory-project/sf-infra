@@ -1,5 +1,5 @@
 ---
-- name: Create openshift clinet bash completion
+- name: Create openshift client bash completion
   become: true
   shell: |
     /usr/local/bin/oc completion bash > /etc/bash_completion.d/oc

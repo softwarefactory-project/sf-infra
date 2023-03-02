@@ -1,11 +1,14 @@
 ---
+- name: Get service facts
+  service_facts:
+
 - name: Stop and disable zram0 device
   become: true
   systemd:
     name: dev-zram0.swap
     state: stopped
     enabled: false
-  ignore_errors: true
+  when: "'dev-zram0.swap' in services"
 
 - name: Stop and disable zram-setup process
   become: true
@@ -13,13 +16,14 @@
     name: systemd-zram-setup@zram0.service
     state: stopped
     enabled: false
-  ignore_errors: true
+  when: "'systemd-zram-setup@zram0' in services"
 
 - name: Disable zram
   become: true
   shell: |
     swapoff /dev/zram0; zramctl --reset /dev/zram0; zramctl
-  ignore_errors: true
+  register: _swap_status
+  failed_when: _swap_status.rc != 0
 
 - name: Remove zram packages
   become: true
@@ -41,5 +45,4 @@
     sed -i '/swap/d' /etc/fstab
 
 - name: Check current memory state
-  shell: |
-    free -m
+  command: free -m

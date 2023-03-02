@@ -3,17 +3,20 @@
   package_facts:
 
 - name: Add exception to the firewall
+  when: "'firewalld' in ansible_facts.packages"
   block:
     - name: Set ports
       become: true
       firewalld:
-        port: "{{ item }}"
+        port: "{{ zj_rule_details }}"
         permanent: true
         state: enabled
       loop:
         - 80/tcp
         - 443/tcp
         - 5353/udp
+      loop_control:
+        loop_var: zj_rule_details
 
     - name: Add exception to source
       become: true
@@ -22,4 +25,3 @@
         zone: trusted
         permanent: true
         state: enabled
-  when: "'firewalld' in ansible_facts.packages"

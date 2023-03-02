@@ -7,3 +7,22 @@
       - cri-tools
     state: present
     enablerepo: microshift-deps-rpms
+  notify: Restart crio
+
+- name: Get cri-o version
+  shell: |
+    rpm -qa --qf '%{VERSION}' cri-o
+  tags:
+    - skip_ansible_lint
+  register: _crio_version
+
+- name: Use only ipv4
+  become: true
+  get_url:
+    url: https://raw.githubusercontent.com/cri-o/cri-o/v{{ _crio_version.stdout }}/contrib/cni/11-crio-ipv4-bridge.conf
+    dest: /etc/cni/net.d/100-crio-bridge.conf
+    mode: "0644"
+  notify: Restart crio
+
+- name: Flush handlers
+  meta: flush_handlers

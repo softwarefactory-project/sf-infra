@@ -1,4 +1,9 @@
 ---
+- name: Check if pull-secret is provided when copr version is disabled
+  fail:
+    msg: "You need to provide pull-secret.txt content into the var!"
+  when: openshift_pull_secret == '' and not use_copr_microshift
+
 - name: Disable selinux
   include_tasks: selinux.yaml
   when: disable_selinux
@@ -19,28 +24,19 @@
 - name: Prepare cri-o
   include_tasks: crio.yaml
 
-- name: Post cri-o
-  include_tasks: post_crio.yaml
-
 - name: Prepare firewall
   include_tasks: firewall.yaml
 
-- name: Setup microshift - based on Copr
+- name: Setup Microshift
   include_tasks: microshift.yaml
-
-- name: Post job after microshift deployment
-  include_tasks: post_microshift.yaml
 
 - name: Provide credentials for restricted regitries
   include_tasks: registry_login.yaml
+  when: not use_copr_microshift
 
 - name: Setup OLM
   include_tasks: olm.yaml
   when: setup_olm
-
-- name: Setup Local Storage Provisioner
-  include_tasks: local-storage.yaml
-  when: setup_local_storage
 
 - name: Create persistent volume
   include_tasks: pv.yaml

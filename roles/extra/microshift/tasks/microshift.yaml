@@ -1,5 +1,6 @@
 ---
 - name: Install microshift from Copr
+  when: use_copr_microshift
   block:
     - name: Enable copr repository
       become: true
@@ -11,14 +12,38 @@
       yum:
         name: microshift
         state: present
-  when: use_copr_microshift
+      notify: Restart Microshift
 
-- name: Install Microshift from microshift repo
-  block:
-    - name: Install microshift package
-      become: true
-      yum:
-        name: microshift
-        state: present
-        enablerepo: microshift-rpms,microshift-deps-rpms
+- name: Install microshift package
+  become: true
+  yum:
+    name: microshift
+    state: present
+    enablerepo: microshift-rpms,microshift-deps-rpms
+  notify: Restart Microshift
   when: not use_copr_microshift
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Wait for kubeconfig file after deploying Microshift
+  become: true
+  wait_for:
+    path: /var/lib/microshift/resources/kubeadmin/kubeconfig
+    search_regex: microshift
+    delay: 5
+    timeout: 300
+
+- name: Create kube config directory
+  file:
+    path: ~/.kube
+    state: directory
+
+- name: Copy kubeconfig
+  become: true
+  copy:
+    src: /var/lib/microshift/resources/kubeadmin/kubeconfig
+    dest: "~{{ ansible_user }}/.kube/config"
+    remote_src: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

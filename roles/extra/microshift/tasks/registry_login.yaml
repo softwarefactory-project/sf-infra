@@ -6,8 +6,7 @@
     msg: "The openshift_pull_secret variable can not be empty!"
   when: openshift_pull_secret == ""
 
-# FROM: https://github.com/openshift/microshift/blob/main/ansible/roles/install-microshift/tasks/main.yml#L110
-- name: copy pull-secret to node
+- name: Copy pull-secret to node
   become: true
   copy:
     content: "{{ openshift_pull_secret }}"
