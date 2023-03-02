@@ -1,0 +1,25 @@
+---
+# FROM: https://github.com/openshift/microshift/blob/main/scripts/devenv-builder/configure-vm.sh#L88-L99
+- name: Setup repository - deps repo
+  become: true
+  copy:
+    content: |
+      [microshift-deps-rpms]
+      name=Puddle of Microshift deps RPMs
+      baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/dependencies/rpms/{{ microshift_version}}-el{{ ansible_distribution_major_version }}-beta/
+      enabled=0
+      gpgcheck=0
+      skip_if_unavailable=1
+    dest: /etc/yum.repos.d/microshift-deps.repo
+
+- name: Setup repository - Microshift
+  become: true
+  copy:
+    content: |
+      [microshift-rpms]
+      name=Puddle of Microshift RPMs
+      baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/microshift/ocp-dev-preview/latest-{{ microshift_version }}/el8/os/
+      enabled=0
+      gpgcheck=0
+      skip_if_unavailable=1
+    dest: /etc/yum.repos.d/microshift.repo

@@ -1,0 +1,12 @@
+---
+- name: Create openshift clinet bash completion
+  become: true
+  shell: |
+    /usr/local/bin/oc completion bash > /etc/bash_completion.d/oc
+
+# NOTE: The Openshift storage uses topolvm, that requires additional volume,
+# which is not necessary for us, due we mostly use that playbook for CI.
+- name: Delete openshift-storage
+  shell: |
+    /usr/local/bin/oc delete namespace openshift-storage
+  when: delete_openshift_storage

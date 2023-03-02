@@ -1,0 +1,50 @@
+---
+- name: Disable selinux
+  include_tasks: selinux.yaml
+  when: disable_selinux
+
+- name: Setup Microshift repository
+  include_tasks: repo.yaml
+
+- name: Prepare host
+  include_tasks: pre.yaml
+
+- name: Disable swap
+  include_tasks: swap.yaml
+
+- name: Setup tools
+  include_tasks: tools.yaml
+  when: setup_tools
+
+- name: Prepare cri-o
+  include_tasks: crio.yaml
+
+- name: Post cri-o
+  include_tasks: post_crio.yaml
+
+- name: Prepare firewall
+  include_tasks: firewall.yaml
+
+- name: Setup microshift - based on Copr
+  include_tasks: microshift.yaml
+
+- name: Post job after microshift deployment
+  include_tasks: post_microshift.yaml
+
+- name: Provide credentials for restricted regitries
+  include_tasks: registry_login.yaml
+
+- name: Setup OLM
+  include_tasks: olm.yaml
+  when: setup_olm
+
+- name: Setup Local Storage Provisioner
+  include_tasks: local-storage.yaml
+  when: setup_local_storage
+
+- name: Create persistent volume
+  include_tasks: pv.yaml
+  when: create_pv
+
+- name: Post jobs
+  include_tasks: post.yaml

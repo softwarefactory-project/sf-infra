@@ -1,0 +1,50 @@
+---
+- name: Remove storage config if present
+  become: true
+  file:
+    path: ~{{ ansible_user }}/storage.yaml
+    state: absent
+
+- name: Ensure that PV path directory exists
+  become: true
+  file:
+    path: "{{ pv_host_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+# FROM: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage
+- name: Add PV
+  shell: |
+    cat <<EOF >> ~{{ ansible_user }}/storage.yaml
+    ---
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: "{{ pv_storageclass }}00{{ item }}"
+      labels:
+        type: local
+    spec:
+      storageClassName: "{{ pv_storageclass }}"
+      capacity:
+        storage: 10Gi
+      accessModes:
+        - ReadWriteOnce
+      hostPath:
+        path: "{{ pv_host_path }}/pv00{{ item }}"
+    EOF
+  with_sequence: "{{ pv_count }}"
+
+- name: Create PV directories
+  become: true
+  file:
+    path: "{{ pv_host_path }}/pv00{{ item }}"
+    state: directory
+    mode: "0777"
+  with_sequence: "{{ pv_count }}"
+
+- name: Run manifest
+  become: true
+  shell: |
+    /usr/local/bin/oc apply -f ~{{ ansible_user }}/storage.yaml

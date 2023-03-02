@@ -1,0 +1,45 @@
+---
+- name: Stop and disable zram0 device
+  become: true
+  systemd:
+    name: dev-zram0.swap
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Stop and disable zram-setup process
+  become: true
+  systemd:
+    name: systemd-zram-setup@zram0.service
+    state: stopped
+    enabled: false
+  ignore_errors: true
+
+- name: Disable zram
+  become: true
+  shell: |
+    swapoff /dev/zram0; zramctl --reset /dev/zram0; zramctl
+  ignore_errors: true
+
+- name: Remove zram packages
+  become: true
+  yum:
+    name: zram-generator-defaults
+    state: absent
+
+- name: Touch zram-generator conf
+  become: true
+  file:
+    path: /etc/systemd/zram-generator.conf
+    state: touch
+
+- name: Disable swap
+  become: true
+  shell: |
+    # NOTE: yes, ensure twice that the swap is off.
+    swapoff -a; swapoff -a
+    sed -i '/swap/d' /etc/fstab
+
+- name: Check current memory state
+  shell: |
+    free -m

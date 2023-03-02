@@ -1,0 +1,92 @@
+---
+- name: Set PATH to local bin
+  shell: |
+    echo "PATH=\$PATH:/usr/local/bin" >> ~/.bashrc
+    echo "PATH=\$PATH:/usr/local/bin" | sudo tee -a /root/.bashrc
+
+- name: Get latest client
+  get_url:
+    url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz"
+    dest: "/tmp/openshift-client-linux.tar.gz"
+
+- name: Umpack the tar
+  become: true
+  shell: |
+    tar -xf openshift-client-linux.tar.gz -C /usr/local/bin oc kubectl
+  args:
+    chdir: /tmp
+
+- name: Download kompose tool
+  become: true
+  get_url:
+    url: "https://github.com/kubernetes/kompose/releases/download/{{ kompose_version }}/kompose-linux-amd64"
+    dest: /usr/local/bin/kompose
+    mode: '0755'
+
+- name: Download kustomize tool
+  get_url:
+    url: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F{{ kustomize_version }}/kustomize_{{ kustomize_version }}_linux_amd64.tar.gz"
+    dest: /tmp/kustomize.tar.gz
+    mode: '0644'
+
+- name: Unpack kustomize
+  shell: |
+    tar xaf kustomize.tar.gz
+  args:
+    chdir: /tmp/
+
+- name: Copy kustomize into the directory
+  become: true
+  copy:
+    src: /tmp/kustomize
+    dest: /usr/local/bin/kustomize
+    mode: '0755'
+    remote_src: true
+
+- name: Download kubebuilder tool
+  become: true
+  get_url:
+    url: "https://go.kubebuilder.io/dl/latest/linux/amd64"
+    dest: /usr/local/bin/kubebuilder
+    mode: '0755'
+
+- name: Download opm tool
+  get_url:
+    url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/opm/{{ opm_version }}/opm-linux-{{ opm_version }}.tar.gz"
+    dest: /tmp/opm.tar.gz
+    mode: '0755'
+
+- name: Unpack opm
+  shell: |
+    tar xaf opm.tar.gz
+  args:
+    chdir: /tmp/
+
+- name: Copy opm into the directory
+  become: true
+  copy:
+    src: /tmp/opm
+    dest: /usr/local/bin/opm
+    mode: '0755'
+    remote_src: true
+
+- name: Download helm tool
+  become: true
+  get_url:
+    url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+    dest: /tmp/helm.tar.gz
+    mode: '0644'
+
+- name: Unpack helm
+  shell: |
+    tar xaf helm.tar.gz
+  args:
+    chdir: /tmp/
+
+- name: Copy helm into the directory
+  become: true
+  copy:
+    src: /tmp/linux-amd64/helm
+    dest: /usr/local/bin/helm
+    mode: '0755'
+    remote_src: true
