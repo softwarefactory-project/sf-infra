@@ -42,5 +42,9 @@
   include_tasks: pv.yaml
   when: create_pv
 
+- name: Create standard-user and playground namespace
+  include_tasks: standard-user.yaml
+  when: standard_user
+
 - name: Post jobs
   include_tasks: post.yaml

@@ -9,6 +9,7 @@ Example deployment
 ```sh
 sudo dnf install -y ansible-core
 ansible-galaxy collection install community.general
+ansible-galaxy collection install community.crypto
 ```
 
 * Create ansible config:

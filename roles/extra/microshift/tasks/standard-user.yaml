@@ -1,0 +1,92 @@
+---
+- name: Check for user namespace
+  ansible.builtin.command: kubectl get namespace {{ standard_user.namespace }}
+  register: namespace_exists
+  ignore_errors: true
+
+- name: Create a new user namespace
+  ansible.builtin.command: kubectl create namespace {{ standard_user.namespace }}
+  when: namespace_exists.rc != 0
+
+- name: Create the {{ certs_dir }} directory
+  file:
+    path: "{{ certs_dir }}"
+    state: directory
+
+- name: Check for user cert
+  stat:
+    path: "{{ certs_dir }}/{{ standard_user.name }}.crt"
+  register: user_cert
+
+- name: Create user certs if not exists
+  block:
+    - name: Gen user private key
+      openssl_privatekey:
+        path: "{{ certs_dir }}/{{ standard_user.name }}.key"
+
+    - name: Create user cert requests
+      openssl_csr:
+        path: "{{ certs_dir }}/{{ standard_user.name }}.csr"
+        privatekey_path: "{{ certs_dir }}/{{ standard_user.name }}.key"
+        common_name: "{{ standard_user.name }}"
+
+    - name: Create user cert and sign with admin-kubeconfig-signer CA
+      become: true
+      openssl_certificate:
+        path: "{{ certs_dir }}/{{ standard_user.name }}.crt"
+        csr_path: "{{ certs_dir }}/{{ standard_user.name }}.csr"
+        ownca_path: /var/lib/microshift/certs/admin-kubeconfig-signer/ca.crt
+        ownca_privatekey_path: /var/lib/microshift/certs/admin-kubeconfig-signer/ca.key
+        provider: ownca
+
+    - name: Change owner for cert directory
+      become: true
+      file:
+        path: "{{ certs_dir }}/{{ standard_user.name }}.crt"
+        state: file
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+
+    - name: Amend kubeconfig to add new user
+      ansible.builtin.shell: >
+        kubectl config set-credentials {{ standard_user.name }}
+        --client-certificate=$(readlink -f {{ certs_dir }}/{{ standard_user.name }}.crt)
+        --client-key=$(readlink -f {{ certs_dir }}/{{ standard_user.name }}.key)
+      environment:
+        HOME: ""
+
+    - name: Amend kubeconfig to add new context
+      ansible.builtin.command: >
+        kubectl config set-context {{ standard_user.name }}
+        --cluster=microshift
+        --user={{ standard_user.name }}
+        --namespace={{ standard_user.namespace }}
+      environment:
+        HOME: ""
+
+    # https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles
+    - name: Add new RoleBinding for standard-user into playground namespace
+      copy:
+        content: |
+          ---
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: RoleBinding
+          metadata:
+            name: {{ standard_user.namespace }}-rb
+            namespace: {{ standard_user.namespace }}
+          subjects:
+          - kind: User
+            name: {{ standard_user.name }}
+            apiGroup: rbac.authorization.k8s.io
+          roleRef:
+            kind: ClusterRole
+            name: {{ standard_user.role }}
+            apiGroup: rbac.authorization.k8s.io
+        dest: ~{{ ansible_user }}/{{ standard_user.namespace }}-rb.yaml
+
+    - name: Apply new user manifest
+      ansible.builtin.command: >
+        kubectl apply -f {{ standard_user.namespace }}-rb.yaml
+        --namespace {{ standard_user.namespace }}
+
+  when: not user_cert.stat.exists
