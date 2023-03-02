@@ -12,7 +12,8 @@ container_images:
 
 tenant_builds:
   - tenant: rdoproject.org
-    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant/rdoproject.org
+    zuul_api_url:
+      - https://softwarefactory-project.io/zuul/api/tenant/rdoproject.org
     download: true
     download_dir: /mnt/logscraper/openstack
     es_username: logstash_rdoproject_org

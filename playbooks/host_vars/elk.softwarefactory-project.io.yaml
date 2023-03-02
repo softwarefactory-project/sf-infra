@@ -13,7 +13,8 @@ container_images:
 
 tenant_builds:
   - tenant: softwarefactory-project.io
-    zuul_api_url: https://softwarefactory-project.io/zuul/api/tenant/local
+    zuul_api_url:
+      - https://softwarefactory-project.io/zuul/api/tenant/local
     download: true
     download_dir: /mnt/logscraper/openstack
     es_username: logstash_softwarefactory_project_io
