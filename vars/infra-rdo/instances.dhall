@@ -29,7 +29,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.0`.image.name
           , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 100
           }
         , volumes =
@@ -48,7 +48,7 @@ let instances =
           , image = OS.CentOS.`7.0`.image.name
           , flavor = Some "ci.m1.large"
           , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 100
           }
         }
@@ -94,7 +94,7 @@ let instances =
           , image = OS.CentOS.`8.0`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
           , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 512
           }
         , volumes =
@@ -113,7 +113,7 @@ let instances =
           , image = OS.CentOS.`7.0`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
           , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk" ]
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 512
           }
         , volumes =
@@ -179,7 +179,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , auto_ip = Some True
-          , security_groups = [ "web", "hound", "internal" ]
+          , security_groups = [ "web", "hound", "internal", "apache_exporter" ]
           , volume_size = Some 10
           }
         , volumes =
@@ -208,7 +208,7 @@ let instances =
           , image = OS.CentOS.`8.1`.image.name
           , flavor = Some Flavors.`1vcpu_4gb`
           , auto_ip = Some True
-          , security_groups = [ "web", "rcn-share" ]
+          , security_groups = [ "web", "rcn-share", "apache_exporter" ]
           , volume_size = Some 50
           }
         , volumes =
@@ -229,7 +229,7 @@ let instances =
             (     Infra.Server::{
                   , image = OS.CentOS.`8.1`.image.name
                   , flavor = Some Flavors.`1vcpu_4gb`
-                  , security_groups = [ "web" ]
+                  , security_groups = [ "web", "apache_exporter" ]
                   , volume_size = Some 10
                   }
               //  Infra.Server.Ip "38.102.83.227"
@@ -258,7 +258,8 @@ let instances =
             (     Infra.Server::{
                   , image = OS.CentOS.`8-stream`.image.name
                   , flavor = Some Flavors.`4vcpus_8gb`
-                  , security_groups = [ "web", "opensearch", "internal" ]
+                  , security_groups =
+                    [ "web", "opensearch", "internal", "apache_exporter" ]
                   , volume_size = Some 50
                   }
               //  Infra.Server.Ip "38.102.83.14"
