@@ -5,6 +5,31 @@
     path: ~{{ ansible_user }}/storage.yaml
     state: absent
 
+- name: Ensure that main PV path directory exists
+  become: true
+  file:
+    path: "{{ pv_host_path }}"
+    state: directory
+    recurse: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    setype: container_file_t
+    selevel: s0
+
+- name: Create PV directories
+  become: true
+  file:
+    path: "{{ pv_host_path }}/pv00{{ zj_pv_number }}"
+    state: directory
+    mode: "0777"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    setype: container_file_t
+    selevel: s0
+  with_sequence: "{{ pv_count }}"
+  loop_control:
+    loop_var: zj_pv_number
+
 # FROM: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage
 - name: Add PV
   shell: |
@@ -25,25 +50,6 @@
       hostPath:
         path: "{{ pv_host_path }}/pv00{{ zj_pv_number }}"
     EOF
-  with_sequence: "{{ pv_count }}"
-  loop_control:
-    loop_var: zj_pv_number
-
-- name: Ensure that main PV path directory exists
-  become: true
-  file:
-    path: "{{ pv_host_path }}"
-    state: directory
-    recurse: true
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-
-- name: Create PV directories
-  become: true
-  file:
-    path: "{{ pv_host_path }}/pv00{{ zj_pv_number }}"
-    state: directory
-    mode: "0777"
   with_sequence: "{{ pv_count }}"
   loop_control:
     loop_var: zj_pv_number
