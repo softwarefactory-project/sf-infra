@@ -17,6 +17,7 @@
   register: olm_status
   args:
     chdir: "{{ repo_dir }}/operator-sdk"
+  failed_when: olm_status.rc not in [0, 1]
 
 - name: Install OLM with SDK
   shell: |
