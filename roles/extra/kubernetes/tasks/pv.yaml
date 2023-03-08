@@ -67,4 +67,5 @@
     loop_var: zj_pv_number
 
 - name: Run PV manifest
+  become: true
   command: kubectl apply -f {{ config_dir }}/storage.yaml
