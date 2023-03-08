@@ -24,5 +24,13 @@
     mode: "0644"
   notify: Restart crio
 
+- name: Apply container policy from crc
+  become: true
+  copy:
+    src: policy.json
+    dest: /etc/containers/policy.json
+  notify: Restart crio
+  when: overwrite_container_policy
+
 - name: Flush handlers
   meta: flush_handlers

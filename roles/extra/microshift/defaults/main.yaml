@@ -28,3 +28,4 @@ pv_host_path: "/mnt/data"
 pv_count: start=1 end=10
 
 delete_openshift_storage: true
+overwrite_container_policy: false
