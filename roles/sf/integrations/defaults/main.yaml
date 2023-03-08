@@ -1,6 +1,0 @@
----
-sf_repo: https://softwarefactory-project.io/kojifiles/repos/sf-master-el7-build/latest/x86_64/  # yamllint disable-line rule:line-length
-taiga:
-  - project: morucci-software-factory
-    credentials: sfbot0
-    sf_projects_regex: "DLRN|config|software-factory|repoxplorer|logreduce|rpms"
