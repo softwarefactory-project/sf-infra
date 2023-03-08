@@ -11,6 +11,7 @@
       - iproute-tc
       - git
       - golang
+      - python3-cryptography
     state: present
 
 - name: Add host to the hosts file

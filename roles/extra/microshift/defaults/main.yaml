@@ -27,5 +27,12 @@ pv_storageclass: manual
 pv_host_path: "/mnt/data"
 pv_count: start=1 end=10
 
+# This defines a Subject (by creating a client cert), a Namespace and a RoleBinding using role.
+certs_dir: "~{{ ansible_user }}/.certs"
+standard_user:
+  name: dev-admin
+  namespace: dev-admin
+  role: admin
+
 delete_openshift_storage: true
 overwrite_container_policy: false
