@@ -36,12 +36,12 @@
       spec:
         ipAddressPools:
         - default
-    dest: "{{ local_storage_config_dir }}/metallb-network-pool.yaml"
+    dest: "{{ config_dir }}/metallb-network-pool.yaml"
 
 - name: Apply manifest
   become: true
   shell: |
-    kubectl apply -f {{ local_storage_config_dir }}/metallb-network-pool.yaml
+    kubectl apply -f {{ config_dir }}/metallb-network-pool.yaml
 
 # NOTE: helpful link https://www.cloud-native-everything.com/ingress-and-metallb/
 # to verify that step: kubectl get svc -n ingress-nginx

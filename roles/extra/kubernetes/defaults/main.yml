@@ -24,6 +24,9 @@ service_cidr: 10.96.0.0/16
 
 # config
 calico_config_dir: /etc/kubernetes/calico
+config_dir: /etc/kubernetes
 
-# local storage
-local_storage_config_dir: /etc/kubernetes
+create_pv: true
+pv_storageclass: standard
+pv_host_path: "/mnt/data"
+pv_count: start=1 end=10

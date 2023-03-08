@@ -130,12 +130,12 @@
                 - name: webhook-cert
                   secret:
                     secretName: ingress-nginx-admission
-        dest: "{{ local_storage_config_dir }}/ingress-deployment-overwrite.yaml"
+        dest: "{{ config_dir }}/ingress-deployment-overwrite.yaml"
 
     - name: Overwrite ingress deployment
       become: true
       shell: |
-        kubectl apply -f {{ local_storage_config_dir }}/ingress-deployment-overwrite.yaml
+        kubectl apply -f {{ config_dir }}/ingress-deployment-overwrite.yaml
   when: not use_loadbalancer
 
 - name: Deploy ingress with LoadBalancer MetalLB
@@ -181,10 +181,10 @@
               app.kubernetes.io/instance: ingress-nginx
               app.kubernetes.io/name: ingress-nginx
             type: NodePort
-        dest: "{{ local_storage_config_dir }}/ingress-service-overwrite.yaml"
+        dest: "{{ config_dir }}/ingress-service-overwrite.yaml"
 
     - name: Overwrite ingress service
       become: true
       shell: |
-        kubectl apply -f {{ local_storage_config_dir }}/ingress-service-overwrite.yaml
+        kubectl apply -f {{ config_dir }}/ingress-service-overwrite.yaml
   when: use_loadbalancer

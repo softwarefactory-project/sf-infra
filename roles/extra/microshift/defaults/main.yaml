@@ -23,7 +23,7 @@ operator_sdk_version: "v1.21.0"
 operator_sdk_url: "https://github.com/operator-framework/operator-sdk"
 
 create_pv: true
-pv_storageclass: manual
+pv_storageclass: standard
 pv_host_path: "/mnt/data"
 pv_count: start=1 end=10
 

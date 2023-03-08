@@ -23,8 +23,9 @@
 - name: Setup Calico
   include_tasks: calico.yaml
 
-- name: Local path provisioner
-  include_tasks: local-storage.yaml
+- name: Create persistent volume
+  include_tasks: pv.yaml
+  when: create_pv
 
 - name: Setup ingress
   include_tasks: ingress.yaml
