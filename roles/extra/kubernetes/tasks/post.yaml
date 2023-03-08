@@ -1,1 +1,9 @@
 ---
+- name: Copy kubeconfig to {{ ansible_user }}
+  become: true
+  copy:
+    src: /root/.kube
+    dest: "~{{ ansible_user }}/"
+    remote_src: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

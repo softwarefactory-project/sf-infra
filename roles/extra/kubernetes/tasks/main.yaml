@@ -33,3 +33,6 @@
 - name: Deploy MetalLB
   include_tasks: metallb.yaml
   when: use_loadbalancer
+
+- name: Post tasks
+  include_tasks: post.yaml
