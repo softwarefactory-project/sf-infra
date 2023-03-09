@@ -32,15 +32,15 @@
     - name: Ensure MariaDB is reloaded if needed
       meta: flush_handlers
 
-    # commented to avoid
-    # Error granting privileges, invalid priv string: REQUIRESSL
-    # - name: Create replication user
-    #   mysql_user:
-    #     name: "{{ db_repl_user }}"
-    #     password: "{{ db_password }}"
-    #     priv: "*.*:REPLICATION SLAVE,REQUIRESSL"
-    #     state: present
-    #     host: "%"
+    - name: Create replication user
+      mysql_user:
+        name: "{{ db_repl_user }}"
+        password: "{{ db_password }}"
+        priv: "*.*:REPLICATION SLAVE"
+        state: present
+        host: "%"
+        tls_requires:
+          ssl:
 
     - name: Fetch master status
       mysql_info:
