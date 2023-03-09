@@ -74,6 +74,7 @@
   roles:
     - sf/openstack-simply-reporter
     - sf/zuul_cli_access
+    - sf/zookeeper-exporter
 
 - hosts: elk.softwarefactory-project.io
   roles:
@@ -82,11 +83,18 @@
     - service/opensearch-monitoring
     - system/volume
 
+# NOTE: Remove the tasks after merge
 - hosts: zk01.softwarefactory-project.io
-  vars:
-    zookeeper_tls_enabled: false
-  roles:
-    - sf/zookeeper-exporter
+  tasks:
+    - name: Stop zookeeper exporter
+      become: true
+      systemd:
+        name: zookeeper_exporter
+        state: stopped
+
+    - name: Remove zookeper exporter container
+      become: true
+      shell: podman rm zookeeper_exporter
 
 - hosts: fedora.softwarefactory-project.io
   roles:

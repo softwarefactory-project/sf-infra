@@ -25,7 +25,7 @@ let elasticsearch_exporter_list =
       , "elk.softwarefactory-project.io:9114"
       ]
 
-let zookeeper_server_list = [ "zk01.softwarefactory-project.io:9141" ]
+let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
 
 let -- | Keep in sync with site.yaml and zuul-weeder security group
     zuul-weeder =
