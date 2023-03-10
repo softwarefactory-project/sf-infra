@@ -1,6 +1,6 @@
 ---
 - name: Configure swap
-  become: yes
+  become: true
   block:
     - name: Format swap
       filesystem:
