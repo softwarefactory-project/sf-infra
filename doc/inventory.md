@@ -17,6 +17,7 @@ This project manages:
 * opensearch.rdoproject.org
 * backup.rdoproject.org
 * trunk.rdoproject.org
+* rdo-web-builder.int.osci.io
 * lists.rdoproject.org
 * baremetal03.rdoproject.org
 * mirror.regionone.ibm-bm3-nodepool.rdoproject.org
