@@ -200,6 +200,7 @@ servers:
       - monitoring
       - web
       - rdo-trunk
+      - apache_exporter
     volume_size: 100
   - auto_ip: true
     boot_from_volume: yes
@@ -213,6 +214,7 @@ servers:
       - monitoring
       - web
       - rdo-trunk
+      - apache_exporter
     volume_size: 100
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
@@ -239,6 +241,7 @@ servers:
       - monitoring
       - web
       - rdo-trunk
+      - apache_exporter
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
@@ -252,6 +255,7 @@ servers:
       - monitoring
       - web
       - rdo-trunk
+      - apache_exporter
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
@@ -294,6 +298,7 @@ servers:
       - web
       - hound
       - internal
+      - apache_exporter
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes
@@ -307,6 +312,7 @@ servers:
       - monitoring
       - web
       - rcn-share
+      - apache_exporter
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-1
@@ -320,6 +326,7 @@ servers:
       - common
       - monitoring
       - web
+      - apache_exporter
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes
@@ -347,6 +354,7 @@ servers:
       - web
       - opensearch
       - internal
+      - apache_exporter
     volume_size: 50
 subnets:
   - cidr: "192.168.240.0/24"

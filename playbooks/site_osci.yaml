@@ -9,6 +9,7 @@
 - hosts: www.rdoproject.org
   roles:
     - service/hostname
+    - service/apache-exporter
   tasks:
     - name: "Enable EPEL"
       package:

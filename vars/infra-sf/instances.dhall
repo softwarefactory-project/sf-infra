@@ -41,7 +41,12 @@ let tenant-instances =
             }
       ,     tenant-instance
         //  { name = "centos"
-            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.189")
+            , server = Some
+                (     Infra.Server.addSecurityGroups
+                        [ "apache_exporter" ]
+                        tenant-server
+                  //  Infra.Server.Ip "38.102.83.189"
+                )
             , volumes =
               [ Infra.Volume::{
                 , display_name = "centos-logs-data"
@@ -73,7 +78,8 @@ let instances =
           , auto_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups = [ "web", "pushprox-proxy", "prometheus" ]
+          , security_groups =
+            [ "web", "pushprox-proxy", "prometheus", "apache_exporter" ]
           }
         }
       , Instance::{

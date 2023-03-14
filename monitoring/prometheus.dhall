@@ -17,6 +17,15 @@ let apache_server_list =
       , "managesf.review.rdoproject.org:9117"
       , "fedora.softwarefactory-project.io:9117"
       , "mirror.regionone.vexxhost.rdoproject.org:9117"
+      , "trunk-centos7.rdoproject.org:9117"
+      , "trunk-centos8.rdoproject.org:9117"
+      , "centos8-rpm-packaging-ci.rdoproject.org:9117"
+      , "www.rdoproject.org:9117"
+      , "logserver.rdoproject.org:9117"
+      , "images.rdoproject.org:9117"
+      , "opensearch.rdoproject.org:9117"
+      , "centos.softwarefactory-project.io:9117"
+      , "prometheus.monitoring.softwarefactory-project.io:9117"
       ]
 
 let elasticsearch_exporter_list =
