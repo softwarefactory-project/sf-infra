@@ -75,7 +75,7 @@ dlrn_workers:
     distro: 'centos9'
     target: 'centos9-antelope'
     distgit_branch: 'antelope-rdo'
-    distro_branch: 'stable/antelope'
+    distro_branch: 'stable/2023.1'
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
