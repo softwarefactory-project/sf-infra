@@ -246,17 +246,6 @@ let instances =
             )
         }
       , Instance::{
-        , name = "integrations"
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , auto_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 20
-          , flavor = Some Flavors.`1vcpu_2gb`
-          }
-        }
-      , Instance::{
         , name = "image-builder"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`8.3`.connection

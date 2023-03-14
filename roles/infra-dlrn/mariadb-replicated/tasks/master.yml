@@ -33,7 +33,7 @@
       meta: flush_handlers
 
     - name: Create replication user
-      mysql_user:
+      community.mysql.mysql_user:
         name: "{{ db_repl_user }}"
         password: "{{ db_password }}"
         priv: "*.*:REPLICATION SLAVE"

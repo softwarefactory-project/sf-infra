@@ -44,11 +44,6 @@
     - service/apache-exporter
     - service/hostname
 
-# is this host still needed?
-- hosts: integrations.softwarefactory-project.io
-  roles:
-    - sf/integrations
-
 - hosts: prometheus.monitoring.softwarefactory-project.io
   pre_tasks:
     - name: Install requirements

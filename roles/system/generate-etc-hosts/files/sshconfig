@@ -145,10 +145,6 @@ Host koji.softwarefactory-project.io
     User centos
     Port 22
 
-Host integrations.softwarefactory-project.io
-    User centos
-    Port 22
-
 Host image-builder.softwarefactory-project.io
     User centos
     Port 22

@@ -34,7 +34,6 @@ This project manages:
 * zk01.softwarefactory-project.io
 * zs.softwarefactory-project.io
 * koji.softwarefactory-project.io
-* integrations.softwarefactory-project.io
 * image-builder.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * centos.softwarefactory-project.io
