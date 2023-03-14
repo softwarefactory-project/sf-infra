@@ -298,7 +298,7 @@ let vexxhost-instances =
         fqdn
         (instances # extra)
 
-let ospo-internal-vhosts = [] : List Text
+let ospo-internal-vhosts = [ "rdo-web-builder.int.osci.io" ]
 
 let ospo-external-vhosts = [ "lists.rdoproject.org" ]
 

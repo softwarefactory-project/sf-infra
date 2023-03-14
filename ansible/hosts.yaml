@@ -71,12 +71,17 @@ all:
     osci:
       hosts:
         lists.rdoproject.org: {}
+        rdo-web-builder.int.osci.io: {}
         www.rdoproject.org: {}
+    osci_internal_zone:
+      hosts:
+        rdo-web-builder.int.osci.io: {}
     osci_zone:
       children:
         osci_internal_zone: {}
       hosts:
         lists.rdoproject.org: {}
+        rdo-web-builder.int.osci.io: {}
     private-afs-mirror:
       hosts:
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
@@ -271,6 +276,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: /usr/libexec/platform-python
       ansible_user: centos
+    rdo-web-builder.int.osci.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo@soeru.osci.io -W %h:%p\""
+      ansible_user: root
     rpm-packaging-ci.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
