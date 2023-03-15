@@ -286,6 +286,9 @@ quay_organizations:
              66396137633462356464623965303536383961343461353731616538653865396239353262383630
              3830656264623139616533613438383731366335663062393066
       prune_days: 7
+    - name: podified-antelope-centos9
+      token: ""
+      prune_days: 7
 
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
