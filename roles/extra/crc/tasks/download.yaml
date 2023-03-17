@@ -1,19 +1,7 @@
 ---
 - name: Get latest CRC
-  get_url:
-    url: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/latest/crc-linux-amd64.tar.xz"
-    dest: "/tmp/crc-linux-amd64.tar.xz"
-
-- name: Umpack the crc tar
-  shell: |
-    tar --strip-components=1 -xaf  /tmp/crc-linux-amd64.tar.xz
-  args:
-    chdir: /tmp
-
-- name: Copy crc to bin dir
   become: true
-  copy:
-    src: /tmp/crc
-    dest: /usr/local/bin/crc
+  ansible.builtin.unarchive:
+    src: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ crc_version }}/crc-linux-amd64.tar.xz"
+    dest: /usr/local/bin
     remote_src: true
-    mode: "0755"

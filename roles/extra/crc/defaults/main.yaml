@@ -8,3 +8,9 @@ hide_sensitive_logs: false
 crc_debug: false
 crc_config_podman_runtime: false
 crc_config_consent_telemetry: "no"
+# NOTE(dpawlik): We will use <stable>-1 release because of the images
+# that are required after deploying the CRC.
+# NOTE: using "latest" might require to keep the pull-secret.txt after
+# creating the VM snapshot. Also the daily VM snapshot might not help
+# if the related CRC container image services would be updated.
+crc_version: "2.14.0"
