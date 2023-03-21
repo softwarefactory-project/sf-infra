@@ -21,6 +21,7 @@
     - service/acme-tiny
     - system/volume
     - service/apache-exporter
+    - system/users
 
 - hosts: image-builder.softwarefactory-project.io
   roles:
@@ -75,8 +76,8 @@
 
 - hosts: elk.softwarefactory-project.io
   roles:
-    - {name: 'logscraper', become: true}
-    - {name: 'logsender', become: true}
+    - { name: "logscraper", become: true }
+    - { name: "logsender", become: true }
     - service/opensearch-monitoring
     - system/volume
 
