@@ -30,3 +30,7 @@ firewall_rules:
       permanent: yes
       immediate: yes
       state: enabled
+    - port: '9117/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled
