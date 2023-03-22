@@ -9,7 +9,7 @@ RPM deployed from a Copr repository.
 * `listen-port`:  The address on which to expose the web interface and
                   generated Prometheus metrics. Defaults to: 9141.
 * `zookeeper_hosts`: Comma separated list of zookeeper servers.
-                     Defaults to: localhost: 2181
+                     Defaults to: localhost: 2281
 * `zookeeper_cert`: The TLS certiticate for Zookeeper client authentication.
                     Defaults to: '/etc/zookeeper/certs/localCA.pem'
 * `zookeeper_key`: The TLS key for Zookeeper client authentication.

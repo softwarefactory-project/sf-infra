@@ -159,7 +159,7 @@ scrape_configs:
   - job_name: zookeeper
     static_configs:
       - targets:
-          - zk01.softwarefactory-project.io:9141
+          - zs.softwarefactory-project.io:9141
   - job_name: dlrn
     metrics_path: /metrics
     relabel_configs:

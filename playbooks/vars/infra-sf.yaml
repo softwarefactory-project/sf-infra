@@ -307,7 +307,6 @@ servers:
       - monitoring
       - internal
       - zookeeper
-      - zookeeper_exporter
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2

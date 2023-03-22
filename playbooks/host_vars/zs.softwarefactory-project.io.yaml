@@ -1,3 +1,6 @@
 ---
 os_clouds:
   - vexxhost-nodepool-tripleo
+
+# zookeeper exporter
+zookeeper_hosts: 'zk01.softwarefactory-project.io:2281'
