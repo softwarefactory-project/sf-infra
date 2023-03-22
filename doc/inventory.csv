@@ -1,7 +1,5 @@
 Host,Cpu,Memory
 mirror.regionone.vexxhost.rdoproject.org,2,8
-centos8-rpm-packaging-ci.rdoproject.org,2,8
-rpm-packaging-ci.rdoproject.org,4,8
 quay.rdoproject.org,4,8
 trunk-centos8.rdoproject.org,4,16
 trunk-centos7.rdoproject.org,4,16

@@ -32,9 +32,7 @@ all:
         backup.rdoproject.org: {}
     dlrn:
       hosts:
-        centos8-rpm-packaging-ci.rdoproject.org: {}
         dlrn-db.rdoproject.org: {}
-        rpm-packaging-ci.rdoproject.org: {}
         trunk-centos7.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
@@ -170,10 +168,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
-    centos8-rpm-packaging-ci.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
     dlrn-db.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
@@ -281,10 +275,6 @@ all:
       ansible_python_interpreter: auto
       ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo@soeru.osci.io -W %h:%p\""
       ansible_user: root
-    rpm-packaging-ci.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     sf-container-worker-1.softwarefactory-project.io:
       ansible_host: '38.129.16.183'
       ansible_port: 22

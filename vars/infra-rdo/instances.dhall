@@ -23,36 +23,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "centos8-rpm-packaging-ci"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`8.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.0`.image.name
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
-          , volume_size = Some 100
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "centos8-rpm-packaging-swap"
-            , size = 8
-            , device = "/dev/vdb"
-            }
-          ]
-        }
-      , Instance::{
-        , name = "rpm-packaging-ci"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some "ci.m1.large"
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
-          , volume_size = Some 100
-          }
-        }
-      , Instance::{
         , name = "quay"
         , groups = [ "quay" ]
         , connection =
