@@ -1,7 +1,9 @@
 ---
-- name: Get latest CRC
+- name: Get CRC client - {{ crc_version }}
   become: true
   ansible.builtin.unarchive:
     src: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ crc_version }}/crc-linux-amd64.tar.xz"
     dest: /usr/local/bin
+    extra_opts:
+      - "--strip-components=1"
     remote_src: true
