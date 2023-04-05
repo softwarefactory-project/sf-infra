@@ -20,7 +20,6 @@ inventory:
   - etherpad
   - lodgeit
   - gitweb
-  - gerritbot
   - murmur
   - opensearch-dashboards
   - keycloak
