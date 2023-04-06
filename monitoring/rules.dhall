@@ -39,7 +39,11 @@ in  \(job-name : Text) ->
                   let prediction =
                         "predict_linear(node_filesystem_avail_bytes{job='${job-name}'}[1d], 3 * 24 * 3600)"
 
-                  in  Some "(${usage} < 50) and (${prediction} < 0)"
+                  let less_than_100G =
+                        "node_filesystem_size_bytes{job='${job-name}'} <= 1e+11"
+
+                  in  Some
+                        "(${usage} < 50) and (${prediction} < 0) and (${less_than_100G})"
               , for = Some "12h"
               , annotations = Some Prometheus.Annotations::{
                 , summary =
