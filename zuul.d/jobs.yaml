@@ -325,7 +325,7 @@
             nodeset:
               nodes:
                 - name: container
-                  label: zuul-worker-dhall
+                  label: zuul-worker-dhall-f37
         - prometheus-lint
         - sf-infra-molecule
         - sf-infra-grafana-dashboards:

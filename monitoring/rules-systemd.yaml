@@ -9,6 +9,13 @@ groups:
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
+      - alert: systemd_unit_inactive
+        annotations:
+          summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} is inactive"
+        expr: "node_systemd_unit_state{state='inactive'} > 0"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
       - alert: systemd_unit_flapping
         annotations:
           summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} is flapping"
