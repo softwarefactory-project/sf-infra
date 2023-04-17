@@ -8,7 +8,7 @@
 
     - name: Execute crc start command
       shell: |
-        /usr/local/bin/crc start {% if crc_debug %}--log-level debug{% endif %} &> crc-start.log
+        /usr/local/bin/crc start {% if crc_debug %}--log-level debug{% endif %} {{ crc_parameters }} &> ~/crc-start.log
   always:
     - name: Remove pull-secret.txt file
       file:
