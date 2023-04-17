@@ -36,4 +36,4 @@
       args:
         chdir: install_yamls
 
-  when: prepare_sfoperator | default(true)
+  when: prepare_local_storage

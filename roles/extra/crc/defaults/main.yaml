@@ -6,6 +6,9 @@ openshift_admin_password: 123456789
 hide_sensitive_logs: false
 
 crc_debug: false
+crc_parameters: "--memory 14000 --disk-size 80 --cpus 6"
+# Prepare
+prepare_local_storage: false
 crc_config_podman_runtime: false
 crc_config_consent_telemetry: "no"
 # NOTE(dpawlik): We will use <stable>-1 release because of the images
