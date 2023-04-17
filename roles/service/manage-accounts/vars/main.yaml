@@ -15,6 +15,7 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBH7d5MTSlwAKp8ejbd0GNq0YUVXIzSunGXhFigNgl1oqrTapJIsJ6aGv3p400al5YKWua3Z/DzNftkz8VfermnsWli6SJAhcYPY7SDMTlFXKyTKLbG+k917v1QdtA2g6RqlfvfGSfYj6VwA7bNKjosrceN6GI+9HqY9nLcclQZ1xCr+wNShpfQrqlYKYBnI6JG26c8HfE/H3vSHKRsry4cscx+BDTlurMPF72zdrNGvbbV6LMxY6gbLj3xrCof1GxjU0PbXEMBdePWMxFqRb9do8+iz5noHUUTIElGIpFA2z40mdZ5w1FQYt/rYa1ehNTO25nXXhFTYgn2Y+fQb25"
   jpena:
     name: "jpena"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
@@ -87,6 +88,7 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzSWK0/apjniWnXflcSQE+XNFDc4bWvgWnhhXj++Woc9/O7w/TrPh+3GPh7YUaNX01DVB6YgXevGTN3qm1abrKDDhlUKfuI3HTACnrd8eZQhcoyJ/SQUspbnrbQXFDU9QEmPcvZqHXtkt0Y0ihfN04Y3ba1iYkHfysFqxMvJiwYzdOcV8JD5kULkvd5hXYRxj/rSHl1k83XwKwL6adtabhgzSrsxYhCJ0LzecGN+3l3vZvhkfzV6m8YgGFMS9UpXsLzk1rbwKr8zVnj4sTgk817kGqnyrEkbCYFfiOduDnkvTSY34bJ3+LW7dsgwOiKi9KyIFt9YqVYqnIR5xovMF1 amoralej@key"
   weshay:
     name: "weshay"
+    state: "absent"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCs/fvCoMm/bOLehNLGEhWnMZfJndO4rK2Q8OOrYOAGKpMT5xiWZsPgxGai4vieZ2HmdyXBB2DX5g1FjwGJUWuxPRYT5vAQlseOfyTLqhkHaSmuWcpH6HuP+KvxWO9epyXP8pl7uZLsbVEr5207ER4bYLIg2bk2LRQqxnysG3t4VqbAV0V+YKrkkwwErsHDbLJyz2sqtJielpKZOCF+vFnzrUR3dmORZ4bchBnmf67CFAJqPd1zSU9Hn0fWZ5nVxJMk1o/bxqwIZ6E7a9Yw5bJl3ziGP5WfcSfati4LKGWI503SNwSWLOuL03j2LaLO3GgLSVFUo9eGT6KhN3dogWeaWXDDFvx+O0RfdZFL0+mRFl2Rz83QsJGFBm1JW2H1/W0vUxtXmZhUXFagSt75zh2AQPoatsYgUOCpC4qFSVRXFyZR0a1Q5JnqmtFrYDuIoMovdfelgKEnJ5xBNhmGLpJlRmSIiv4tRNYUvaU4fKnt/yLTtZNT+D7zM4KMUzNy8pqEbUugAGGxMlCs1YfzwOL4+OHxrDX5A5TlvTnjNBHmBWXDQJncXTewjTf1+6oLkGKHMSd8UsGjYTLWX1JepFcHUj5+SF5arVKz/gThvQlelpPzXZgK9MNUSKfU9GHQ79T14Kng9Cfx/BcUYsZmFmCgzj2M1neFD7M3kOFQ8PV2ow=="
   jcapitao:
