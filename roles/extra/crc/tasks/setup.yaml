@@ -12,9 +12,19 @@
     /usr/local/bin/crc config set preset podman
   when: crc_config_podman_runtime
 
-- name: Set additional parameters for crc
+- name: Set additional parameters for crc - telemetry
   shell: |
     /usr/local/bin/crc config set consent-telemetry {{ crc_config_consent_telemetry }}
+
+- name: Set additional parameters for crc - monitoring
+  shell: |
+    /usr/local/bin/crc config set enable-cluster-monitoring true
+  when: crc_config_cluster_monitoring
+
+- name: Set minimum required memory to run the CRC when monitoring enabled
+  shell: |
+    /usr/local/bin/crc config set memory 14336
+  when: crc_config_cluster_monitoring
 
 - name: Execute setup
   block:
