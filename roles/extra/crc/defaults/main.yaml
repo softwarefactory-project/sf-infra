@@ -12,6 +12,7 @@ prepare_local_storage: false
 crc_config_podman_runtime: false
 crc_config_consent_telemetry: "no"
 crc_config_cluster_monitoring: false
+crc_config_microshift_preset: false
 # NOTE(dpawlik): We will use <stable>-1 release because of the images
 # that are required after deploying the CRC.
 # NOTE: using "latest" might require to keep the pull-secret.txt after

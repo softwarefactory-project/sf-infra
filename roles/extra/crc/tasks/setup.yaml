@@ -26,6 +26,11 @@
     /usr/local/bin/crc config set memory 14336
   when: crc_config_cluster_monitoring
 
+- name: Set additional parameters for crc - enable microshift preset
+  shell: |
+    /usr/local/bin/crc config set preset microshift
+  when: crc_config_microshift_preset
+
 - name: Execute setup
   block:
     # NOTE: The secret is created here to prevent that someone can take the
