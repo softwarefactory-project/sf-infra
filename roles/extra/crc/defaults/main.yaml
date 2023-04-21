@@ -16,4 +16,4 @@ crc_config_consent_telemetry: "no"
 # NOTE: using "latest" might require to keep the pull-secret.txt after
 # creating the VM snapshot. Also the daily VM snapshot might not help
 # if the related CRC container image services would be updated.
-crc_version: "2.14.0"
+crc_version: "2.17.0"
