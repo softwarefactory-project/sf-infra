@@ -5,8 +5,7 @@ import openstack
 import os
 import pytz
 
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from dateutil import parser
 
 STACK_REPORT_STATE = ['create_complete', 'delete_failed',

@@ -60,12 +60,3 @@
     user: "{{ zuul_container_user }}"
     state: present
     key: "{{ cu_pubkey.stdout }}"
-
-- name: Prune images once per month
-  become: true
-  cron:
-    name: "Prune images"
-    minute: "30"
-    hour: "1"
-    user: "zuul"
-    job: 'echo "y" | podman image prune --all'
