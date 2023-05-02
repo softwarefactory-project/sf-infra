@@ -123,3 +123,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIgA4eGfos77YSFgVIDHXGROJufQm3Y906GY5ca/VyfC"
+  evallesp:
+    name: "evallesp"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5/W4WD9nKLLmapEZEVh3PYdbeWrIs0mw5FziJbd/IL evallesp@fedora"
