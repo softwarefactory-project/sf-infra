@@ -8,3 +8,5 @@ acme_domains:
   - domain: softwarefactory-project.io
     sf_gateway: true
     vhost_skip: true
+
+monitoring_host_url: https://prometheus.monitoring.softwarefactory-project.io
