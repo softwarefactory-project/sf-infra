@@ -31,7 +31,7 @@
 
     - name: Install puppeteer
       shell: |
-          npm install puppeteer@13.7.0
+          npm install puppeteer@20.2.1
       args:
         chdir: "{{ ansible_user_dir }}"
 
