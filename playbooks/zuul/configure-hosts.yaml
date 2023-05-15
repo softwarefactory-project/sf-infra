@@ -71,6 +71,13 @@
           no_log: yes
           when: vault is defined
 
+        - name: Copy openshift pull secret file
+          template:
+            src: ansible_crc_vars.yaml.j2
+            dest: ~/.ansible_crc_vars.yaml
+            mode: "0400"
+          no_log: true
+
         - name: Symlink ansible configuration file
           file:
             src: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"
