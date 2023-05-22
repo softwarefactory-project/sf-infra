@@ -1,0 +1,1153 @@
+{
+   "description": "Prow job success rate for OSP operators.",
+   "links": [
+      {
+         "tags": [
+            "overview"
+         ],
+         "title": "CI dashboard overview",
+         "type": "dashboards"
+      },
+      {
+         "tags": [
+            "prow-detail"
+         ],
+         "title": "Prow job detail",
+         "type": "dashboards"
+      }
+   ],
+   "panels": [
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate ci-framework",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-ci-framework*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ci-framework-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ci-framework-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators ci-framework",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate cinder-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-cinder-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 0
+         },
+         "id": 2,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-cinder-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-cinder-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators cinder-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate dataplane-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-dataplane-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 0
+         },
+         "id": 3,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-dataplane-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-dataplane-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators dataplane-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate edpm-ansible",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-edpm-ansible*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 0
+         },
+         "id": 4,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-edpm-ansible-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-edpm-ansible-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators edpm-ansible",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate glance-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-glance-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 16,
+            "y": 0
+         },
+         "id": 5,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-glance-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-glance-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators glance-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate horizon-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-horizon-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 20,
+            "y": 0
+         },
+         "id": 6,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-horizon-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-horizon-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators horizon-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate infra-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-infra-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 4
+         },
+         "id": 7,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-infra-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-infra-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators infra-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate install_yamls",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-install_yamls*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 4
+         },
+         "id": 8,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-install_yamls-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-install_yamls-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators install_yamls",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate ironic-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-ironic-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 4
+         },
+         "id": 9,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ironic-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ironic-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators ironic-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate keystone-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-keystone-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 4
+         },
+         "id": 10,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-keystone-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-keystone-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators keystone-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate manila-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-manila-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 16,
+            "y": 4
+         },
+         "id": 11,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-manila-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-manila-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators manila-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate mariadb-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-mariadb-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 20,
+            "y": 4
+         },
+         "id": 12,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-mariadb-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-mariadb-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators mariadb-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate neutron-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-neutron-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 8
+         },
+         "id": 13,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-neutron-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-neutron-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators neutron-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate nova-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-nova-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 8
+         },
+         "id": 14,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-nova-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-nova-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators nova-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate octavia-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-octavia-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 8
+         },
+         "id": 15,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-octavia-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-octavia-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators octavia-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate openstack-ansibleee-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-openstack-ansibleee-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 8
+         },
+         "id": 16,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-ansibleee-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-ansibleee-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators openstack-ansibleee-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate openstack-baremetal-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-openstack-baremetal-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 16,
+            "y": 8
+         },
+         "id": 17,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-baremetal-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-baremetal-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators openstack-baremetal-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate openstack-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-openstack-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 20,
+            "y": 8
+         },
+         "id": 18,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-openstack-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators openstack-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate osp-director-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-osp-director-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 12
+         },
+         "id": 19,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-osp-director-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-osp-director-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators osp-director-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate ovn-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-ovn-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 12
+         },
+         "id": 20,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ovn-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-ovn-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators ovn-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate placement-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-placement-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 12
+         },
+         "id": 21,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-placement-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-placement-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators placement-operator",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Prow job operators success rate telemetry-operator",
+         "fieldConfig": {
+            "defaults": {
+               "links": [
+                  {
+                     "title": "Prow link",
+                     "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-telemetry-operator*"
+                  }
+               ],
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 12
+         },
+         "id": 22,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-telemetry-operator-.*\", state=~\"success\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-telemetry-operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow operators telemetry-operator",
+         "type": "stat"
+      }
+   ],
+   "schemaVersion": 36,
+   "tags": [
+      "prow-success"
+   ],
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "Prow jobs operator success rate"
+}
