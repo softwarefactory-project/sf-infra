@@ -270,6 +270,22 @@ let instances =
             }
           ]
         }
+      , Instance::{
+        , name = "microshift"
+        , groups = [ "sf" ]
+        , connection = OS.CentOS.`9-stream`.connection
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`9-stream`.image.name
+                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , auto_ip = Some True
+                  , boot_from_volume = "yes"
+                  , volume_size = Some 100
+                  , security_groups = [ "web", "k8s-client" ]
+                  }
+              //  Infra.Server.Ip "38.102.83.100"
+            )
+        }
       ]
 
 let -- | A function to create external k1s worker

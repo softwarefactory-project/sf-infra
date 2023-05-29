@@ -155,6 +155,21 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "68e5d217f8777789cbe5c47cda8776f4acfefa3968b7cef751ba08f651d0cf5a"
                         }
                       }
+                    , `9-stream` =
+                      { connection = Infra.Connection::(     CentOS
+                                                         //  PyAuto
+                                                         //  { ansible_user =
+                                                                 "cloud-user"
+                                                             }
+                                                       )
+                      , image = Infra.Image::{
+                        , name = "centos-9-stream"
+                        , url =
+                            "https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20230605.0.x86_64.qcow2"
+                        , checksum =
+                            "6193a49c545425f99d23f59ea792f79a7a6b2e3557fc2d3f6d42c3e5274061de"
+                        }
+                      }
                     }
             , Fedora =
                 let Fedora = Py3 // { ansible_user = "fedora" }

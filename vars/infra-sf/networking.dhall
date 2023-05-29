@@ -83,6 +83,7 @@ let security_groups =
               }
             ]
           }
+        , { name = "k8s-client", rules = [ Infra.Rule::{ port = +6443 } ] }
         ]
 
 in  { networks = Some

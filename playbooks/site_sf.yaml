@@ -120,3 +120,11 @@
 - hosts: ibm-instance
   roles:
     - sf/hostname
+
+# - hosts: microshift.softwarefactory-project.io
+#   roles:
+#     - name: github.com/openstack-k8s-operators/ansible-microshift-role
+#       vars:
+#         fqdn: microshift.softwarefactory-project.io
+#         setup_olm: true
+#         use_copr_microshift: false

@@ -34,6 +34,7 @@ This project manages:
 * zs.softwarefactory-project.io
 * koji.softwarefactory-project.io
 * image-builder.softwarefactory-project.io
+* microshift.softwarefactory-project.io
 * fedora.softwarefactory-project.io
 * centos.softwarefactory-project.io
 * ansible.softwarefactory-project.io

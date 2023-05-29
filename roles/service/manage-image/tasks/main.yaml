@@ -1,28 +1,47 @@
 - name: Verify if image exists
-  os_image_facts:
+  openstack.cloud.image_info:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
     image: "{{ image.name }}"
+  register: openstack_image
 
-- when: openstack_image is none or
-        (openstack_image.owner_specified.openstack.sha256 is defined and
-        openstack_image.owner_specified.openstack.sha256 != image.checksum)
+- when: openstack_image.image is none
   block:
     - name: Ensure image cache directory exists
-      file:
+      ansible.builtin.file:
         path: "{{ tenant_config.image_cache_dir }}"
         state: directory
 
     - name: Download image
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ image.url }}"
         dest: "{{ tenant_config.image_cache_dir }}"
         checksum: "sha256:{{ image.checksum }}"
       register: image_download
 
+    - name: check image type
+      command: file "{{ image_download.dest }}"
+      changed_when: false
+      register: _image_type
+
+    - name: Convert qcow2 image if needed
+      block:
+        - name: Get basename
+          set_fact:
+            _image_basename: "{{ image_download.dest | splitext | first }}"
+
+        - name: Convert qcow2 to raw
+          command: "qemu-img convert -f qcow2 -O raw {{ _image_basename }}.qcow2 {{ _image_basename }}.raw"
+
+        - name: Ensure raw image will be updated
+          set_fact:
+            image_path: "{{ _image_basename }}.raw"
+
+      when: _image_type.stdout.find('QEMU QCOW Image')
+
     - name: Upload image
-      os_image:
+      openstack.cloud.image:
         cloud: "{{ cloud.name }}"
         auth:
           project_name: "{{ cloud.tenant | default(omit) }}"
@@ -30,7 +49,7 @@
         state: present
         container_format: "{{ image.container_format }}"
         disk_format: "{{ image.disk_format }}"
-        filename: "{{ image_download.dest }}"
+        filename: "{{ image_path | default(image_download.dest) }}"
         # NOTE(jpena): we do not have permissions yet in the cloud to set images to public
         is_public: no
         # TODO: Passing the checksum discards the image name from the query

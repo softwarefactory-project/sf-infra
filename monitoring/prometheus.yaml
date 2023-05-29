@@ -53,6 +53,7 @@ scrape_configs:
           - zs.softwarefactory-project.io:9100
           - koji.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
+          - microshift.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100
           - ansible.softwarefactory-project.io:9100
