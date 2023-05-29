@@ -1,0 +1,12 @@
+---
+- name: Create vhost for monitoring
+  become: true
+  when: monitoring_host_url is defined and monitoring_host_url
+  copy:
+    content: |
+      <Location "/monitoring">
+              RewriteEngine On
+              RewriteRule ^/(.*)$ {{ monitoring_host_url }}/ [R=301,L]
+      </Location>
+    dest: /etc/httpd/conf.d/monitoring.conf
+  notify: Reload httpd service

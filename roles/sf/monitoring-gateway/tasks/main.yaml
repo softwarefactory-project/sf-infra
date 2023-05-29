@@ -51,9 +51,9 @@
       <body>
       Welcome
       <ul>
-      <li><a href="/grafana/">grafana</a></li>
-      <li><a href="/prometheus">prometheus</a></li>
-      <li><a href="/alertmanager">alerts</a></li>
+      <li><a href="grafana/">grafana</a></li>
+      <li><a href="prometheus/">prometheus</a></li>
+      <li><a href="alertmanager/">alerts</a></li>
       </ul>
       </body>
       </html>
