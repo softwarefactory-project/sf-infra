@@ -148,8 +148,5 @@
 - name: Add periodic job to prune unused podman images
   cron:
     name: "podman-image-prune"
-    user: "{{ k1s_user }}"
-    minute: "0"
-    hour: "2"
-    job: 'podman image prune > /dev/null'
+    state: absent
   become: true
