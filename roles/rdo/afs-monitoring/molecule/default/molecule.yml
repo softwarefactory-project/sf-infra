@@ -5,7 +5,7 @@ driver:
   name: podman
 platforms:
   - name: instance
-    image: centos:7
+    image: centos:stream8
 provisioner:
   name: ansible
   lint:
