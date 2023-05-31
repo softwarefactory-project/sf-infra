@@ -109,6 +109,8 @@
         secret: ansible-vault
       - name: sshkey
         secret: bridge_ssh_key
+      - name: crc_secret
+        secret: crc-secret
 
 - job:
     name: sf-infra-configure-bridge
