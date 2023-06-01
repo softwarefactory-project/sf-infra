@@ -22,6 +22,8 @@
         match: True
       - src: /stats
         target: https://rdo.biterg.io/
+      - src: /repos/rdo-release-ussuri-1.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/ussuri/1.el8/noarch/rdo-release-ussuri-1.el8.noarch.rpm
       - src: "^/repos(.*)"
         target: "https://repos.fedorapeople.org/repos/openstack$1"
         match: True
