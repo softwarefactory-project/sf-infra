@@ -1,0 +1,9 @@
+fqdn: microshift.softwarefactory-project.io
+use_copr_microshift: false
+disk_file_sparsed: true
+standard_user: false
+create_pv: false
+disk_file_size: 80G
+setup_olm: true
+microshift_additional_addresses:
+      - "{{ fqdn }}"

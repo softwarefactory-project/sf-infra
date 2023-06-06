@@ -1,6 +1,18 @@
 ---
 - import_playbook: site_bridge.yaml
 
+- hosts: microshift.softwarefactory-project.io
+  tasks:
+    - name: Read file with openshift_pull_secret
+      ansible.builtin.include_vars:
+        file: ~/.ansible_crc_vars.yaml
+      no_log: yes
+      delegate_to: localhost
+
+    - name: Install microshift
+      ansible.builtin.include_role:
+        name: ~/src/github.com/openstack-k8s-operators/ansible-microshift-role
+
 - hosts: k1s
   roles:
     - sf/k1s
@@ -120,11 +132,3 @@
 - hosts: ibm-instance
   roles:
     - sf/hostname
-
-# - hosts: microshift.softwarefactory-project.io
-#   roles:
-#     - name: github.com/openstack-k8s-operators/ansible-microshift-role
-#       vars:
-#         fqdn: microshift.softwarefactory-project.io
-#         setup_olm: true
-#         use_copr_microshift: false

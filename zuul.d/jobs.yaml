@@ -100,6 +100,7 @@
       - name: software-factory/sf-infra
       - name: software-factory/ansible-role-elastic-recheck
       - name: opendev.org/openstack/ci-log-processing
+      - name: github.com/openstack-k8s-operators/ansible-microshift-role
     timeout: 3600
     vars:
       sf_infra_play_name: site
@@ -203,6 +204,9 @@
       - "^roles/service/.*$"
       - "^roles/system/.*$"
       - "^roles/sf/.*$"
+    secrets:
+      - name: crc_secret
+        secret: crc-secret
 
 - job:
     name: sf-infra-create-tripleo-standalone
