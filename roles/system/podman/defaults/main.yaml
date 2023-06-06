@@ -1,0 +1,3 @@
+---
+# set 1000MB in bytes
+log_size_max: 1048576000
