@@ -56,3 +56,21 @@ users:
       - "{{ admin_group }}"
     ssh_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGuW1BgAD3UsNOfxGdKaHZGWFl2+ez7tKQVZYGa+WrFWJchpT3fThOLciI71x0n0kUot9twuv+7w7/+1+daHksanVx8kNcsCT9OgTuBgS3pmOcxvcZTLNcSAwmENjf4HcbDrIYFvXGnQP3LASLfYJZxMBGFuB3kcXyhXO1I/+uH1EVTlFcJ/XyO5/IjXe/wHU+t26xNHddHbrZco0R6TGnwTWoqdjDM4KHg2tq58yiH6AYxMrSMk5Shgn40o6RG5XkjAf5WZRXckc1Djq5U9wdJhPt5BEu0m/hhm/0Zl2YT+RLTBfLj3AS2mio+qpDL/Unuf/irSKEZb16YY5BgRySAj/73lLfVqBWm4dE/ncB3gVraMnB9UYTPRe2yD9VPDzyXB1pZcEaTB0Xv3s59B01URksmfKTa20twZvG86+I02m7zcBVSWjz/9kIP3mp2/l92U5meCTe3pFMEbFsaQZsiohq3x+/lC3xFrHGte553QLREFrALDkB3T02jfAjwu0= fserucas@spaceship
+  msrb:
+    name: msrb
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNlw7GF+sLbhgKUVLc1UDEAUx/gBHSiBHl55y2kWpgmOZk73mTmTGu1c2E58esEqDgCWKW9trRiO2YZ2YWxXGML4foutmyVR+FeqJT6VQDeBgbHxFWP+5vHCVYlGhwoCwuPOWQHDHV4GwBJwl2z/qsfq0NAJ18b69CvGu3C9oR0NgcE6dkRPnH20HND7qgzkouD9YnkyD6pvFaBs5F/ycdFMifd9a2iIfED0DaUE4ATxSSs2Lpz/QuJc5y3feTEXRG2OOvgNsuhZoDYG6W1ECgkIYME9L/Ghe4waG966xELMfKEvPb99tccMhXfOH4Xz8MXjQjigpSqrv455/t098V
+  jkaluza:
+    name: jkaluza
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2CI++46SLPom4wEl6n0MeGwTJT5nAENoJmOG401qf+MAfLCXB/Na3fDOZiKwICRMCfBTh1XTmw8zigg4fw6rD5mmbn9xbUSOPI/ZjonJS9TaZIJBcqm7s/fX3Kcz4vtcudmAmv0OLWVQNeiNN7FqUwbShi1hapy18R6/HYGgaGzH/PEO42z7mUF4bms7C5Vf0z734cmHGN+UiPwTVTZRaTYMfei4LvJRzQ5JQJepxuVXVyzFkIsYHN+X0MHJKkdUvWO7gLWuYSK81PNKLSwYu2CHBxU8AwSdeaecKY/oUVcUiDTrjjR7lP4rKVYntKD4V1QD0wz+OmirgEZHrqk1gOWVv1OIfBQuen26Czrq7aZSwN+T0b7C5KWbHnKeFSZESb5Rk9DO8AD8Ri/KlKlLT8M33aTR3B9t9DuBHdpbNekd+fQBsMSlQnpY4heRK0rEFOcxUVkBYl16XVD1vIPLE/vOui8cwym2QMuU0vv4d/aRmO29AJ9VHRYjHf0oov60= jim@lenovo
+  afedorova:
+    name: afedorova
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9hl0PLsqC4wb3tKe5fqFRFbRWPoreI9b8wu2DKyGAweR5Kgj7QcZMlGJxMSzr2MB+qO+5n9OcQa1/auXqgwarhET3moLNBBPuepov73q92qT7GD7xNzfT3CcfVpmIK9/Bezl8Tb951jHCsCVWVdHqLuQrD4NPT4HGIlLyiF8vuxhL+A9coMcLrYVXZ8UnOvJEgsXURIXPuFmhhbkKJPCCSClsdvPwmWtIgxXhhibYwD6GjHM07ln3glzpN9Fogur+sBZVdUmdglflMwh7e0wTregTbgmb96NYm5c57V6WW/mkn5OvCVLc4wkDZt5aQdrMCNV3Ja2h7t37GZkZVqFpxSVn7bo+h8VsF373hxmUWlD+31kAiExeY1mEGTiySJI762JeGJpSRZ6gk4P8nQMXkPTt9BNSBmbNHFmEzCa/JFOSFT2xOrnI96QKYYPHJ2ANc+Qw+NO+/GOTpfEGwz5x+JB2G9P/LaSzh+zLNgojuJ3y4gnZH7zNjcWLKN62lxk=
