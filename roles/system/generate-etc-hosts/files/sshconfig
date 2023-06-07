@@ -145,6 +145,10 @@ Host image-builder.softwarefactory-project.io
     User centos
     Port 22
 
+Host microshift.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host fedora.softwarefactory-project.io
     User centos
     Port 22

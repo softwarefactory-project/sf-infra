@@ -33,6 +33,7 @@
       - python3-passlib
       - python3-pyOpenSSL
       - python3-openstackclient
+      - qemu-img
       - vim-enhanced
       - tmux
       - wget
