@@ -1,0 +1,65 @@
+- name: Check if Kubectl is able to query the server
+  ansible.builtin.command: >
+    kubectl get all
+
+- name: Create Namespace {{ sf_namespace }}
+  kubernetes.core.k8s:
+    state: present
+    kind: Namespace
+    name: "{{ sf_namespace }}"
+
+- name: Add Security Context Constraints to User
+  ansible.builtin.command: >
+    oc adm policy
+    add-scc-to-user
+    privileged system:serviceaccount:{{ sf_namespace }}:default
+
+- name: Create Catalog Source
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: CatalogSource
+      metadata:
+        name: "{{ sf_namespace }}-operator-catalog"
+        namespace: "{{ sf_catalog_namespace }}"
+      spec:
+        sourceType: grpc
+        image: quay.io/software-factory/sf-operator-catalog:latest
+        displayName: Software Factory Operator
+        publisher: Red Hat PCInfra DFG
+
+- name: Wait for Catalog Source to be ready
+  ansible.builtin.command: >
+    oc get catalogsources.operators.coreos.com
+    -n {{ sf_catalog_namespace }}
+    sf-operator-catalog
+    -o jsonpath='{.status.connectionState.lastObservedState}'
+  register: _catalogsource
+  retries: "{{ retries }}"
+  until:
+    - "'READY' in _catalogsource.stdout"
+
+- name: Create Catalog Subscription
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: sf-operator
+        namespace: "{{ sf_subscription_namespace }}"
+      spec:
+        channel: "{{ sf_subscription_channel }}"
+        name: sf-operator
+        source: sf-operator-catalog
+        sourceNamespace: "{{ sf_catalog_namespace }}"
+
+- name: Wait for Catalog Subscription be ready
+  ansible.builtin.command: >
+    oc get crd
+    -o jsonpath='{.items[*].metadata.name}'
+  register: _catalogsource
+  retries: "{{ retries }}"
+  until:
+    - "'softwarefactory-project.io' in _catalogsource.stdout"

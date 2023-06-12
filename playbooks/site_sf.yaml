@@ -13,6 +13,32 @@
       ansible.builtin.include_role:
         name: ~/src/github.com/openstack-k8s-operators/ansible-microshift-role
 
+    - name: Fetch Kubeconfig from Microshift Host
+      ansible.builtin.fetch:
+        src: /var/lib/microshift/resources/kubeadmin/{{ ansible_fqdn }}/kubeconfig
+        dest: ~/.kube/config
+        mode: "0600"
+      become: true
+
+    - name: Install kubernetes.core collection
+      ansible.builtin.command: >
+        ansible-galaxy collection install kubernetes.core
+      delegate_to: localhost
+
+    - name: Install Software Factory Catalog Source and Subscription
+      ansible.builtin.include_role:
+        name: sf/operator-catalog-sub
+
+    - name: Copy Software Factoy Manifest file
+      ansible.builtin.copy:
+        src: ../vars/infra-sf/sf_v1_softwarefactory.yaml
+        dest: /tmp/sf_v1_softwarefactory.yaml
+
+    - name: Install Software Factory
+      kubernetes.core.k8s:
+        state: present
+        src: /tmp/sf_v1_softwarefactory.yaml
+
 - hosts: k1s
   roles:
     - sf/k1s

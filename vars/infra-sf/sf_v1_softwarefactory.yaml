@@ -1,0 +1,15 @@
+---
+apiVersion: sf.softwarefactory-project.io/v1
+kind: SoftwareFactory
+metadata:
+  name: infra-team
+  namespace: sf
+spec:
+  fqdn: "sf.microshift.softwarefactory-project.io"
+  logserver:
+    loopDelay: 3600
+    retentionDays: 90
+    storage:
+      size: 10Gi
+  zuul:
+    gerritconns: []
