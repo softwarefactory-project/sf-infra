@@ -23,6 +23,7 @@
     - infra/ssh
     - service/node-exporter
     - system/update-host
+    - system/podman
 
 - hosts: backup-sf
   roles:

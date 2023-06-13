@@ -9,6 +9,7 @@
   roles:
     - service/node-exporter
     - system/update-host
+    - system/podman
 
 - hosts: backup-rdo
   roles:
