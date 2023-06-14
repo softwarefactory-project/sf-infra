@@ -194,13 +194,13 @@ let instances =
       , Instance::{
         , name = "k1s04"
         , groups = [ "k1s" ]
-        , connection = OS.Fedora.`35`.connection
+        , connection = OS.Fedora.`38`.connection
         , server = Some
             (     Infra.Server::{
-                  , image = OS.Fedora.`35`.image.name
+                  , image = OS.Fedora.`38`.image.name
+                  , flavor = Some Flavors.`4vcpus_8gb`
                   , network = "oci-private-network"
                   , security_groups = [ "hypervisor-oci", "cs-k1s" ]
-                  , flavor = Some Flavors.`4vcpus_8gb`
                   }
               //  Infra.Server.Ip "38.102.83.54"
             )

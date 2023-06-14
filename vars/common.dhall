@@ -248,6 +248,17 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "b5b9bec91eee65489a5745f6ee620573b23337cbb1eb4501ce200b157a01f3a0"
                         }
                       }
+                    , `38` =
+                      { connection = Infra.Connection::Fedora
+                      , image = Infra.Image::{
+                        , name = "fedora-38-1.6"
+                        , url =
+                                url
+                            ++  "38/Cloud/x86_64/images/Fedora-Cloud-Base-38-1.6.x86_64.qcow2"
+                        , checksum =
+                            "d334670401ff3d5b4129fcc662cf64f5a6e568228af59076cc449a4945318482"
+                        }
+                      }
                     }
             }
     }
