@@ -20,15 +20,40 @@
       - src: "^/blog/(.*)"
         target: "http://blogs.rdoproject.org/$1"
         match: True
-      - src: /stats
-        target: https://rdo.biterg.io/
+      - src: /repos/rdo-release.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/train/1/noarch/rdo-release-train-1.noarch.rpm
+      - src: /repos/rdo-release.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/yoga/1.el8/noarch/rdo-release-yoga-1.el8.noarch.rpm
+      - src: /repos/rdo-release.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/antelope/2.el9s/noarch/rdo-release-antelope-2.el9s.noarch.rpm
+      - src: /repos/rdo-release.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/antelope/2.el9s/noarch/rdo-release-antelope-2.el9s.noarch.rpm
+      - src: /repos/openstack-antelope/rdo-release-antelope.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/antelope/2.el9s/noarch/rdo-release-antelope-2.el9s.noarch.rpm
+      - src: /repos/openstack-antelope/rdo-release-antelope.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/antelope/2.el9s/noarch/rdo-release-antelope-2.el9s.noarch.rpm
+      - src: /repos/openstack-zed/rdo-release-zed.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/zed/2.el9s/noarch/rdo-release-zed-2.el9s.noarch.rpm
+      - src: /repos/openstack-zed/rdo-release-zed.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/zed/2.el9s/noarch/rdo-release-zed-2.el9s.noarch.rpm
+      - src: /repos/openstack-yoga/rdo-release-yoga.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/yoga/1.el8/noarch/rdo-release-yoga-1.el8.noarch.rpm
+      - src: /repos/openstack-yoga/rdo-release-yoga.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/yoga/2.el9s/noarch/rdo-release-yoga-2.el9s.noarch.rpm
+      - src: /repos/openstack-yoga/rdo-release-yoga.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/yoga/2.el9s/noarch/rdo-release-yoga-2.el9s.noarch.rpm
+      - src: /repos/openstack-xena/rdo-release-xena.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/xena/2.el8/noarch/rdo-release-xena-2.el8.noarch.rpm
+      - src: /repos/openstack-wallaby/rdo-release-wallaby.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/wallaby/2.el8/noarch/rdo-release-wallaby-2.el8.noarch.rpm
+      - src: /repos/openstack-victoria/rdo-release-victoria.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/victoria/4.el8/noarch/rdo-release-victoria-4.el8.noarch.rpm
       - src: /repos/openstack-ussuri/rdo-release-ussuri.el8.rpm
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/ussuri/4.el8/noarch/rdo-release-ussuri-4.el8.noarch.rpm
-      - src: /repos/rdo-release-ussuri-1.el8.rpm
-        target: https://cbs.centos.org/kojifiles/packages/rdo-release/ussuri/1.el8/noarch/rdo-release-ussuri-1.el8.noarch.rpm
-      - src: "^/repos(.*)"
-        target: "https://repos.fedorapeople.org/repos/openstack$1"
-        match: True
+      - src: /repos/openstack-train/rdo-release-train.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/train/1/noarch/rdo-release-train-1.noarch.rpm
+      - src: /repos/openstack-train/rdo-release-train.el8.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/train/4.el8/noarch/rdo-release-train-4.el8.noarch.rpm
     use_mod_speling: True
     # TODO: investigate why unsafe-eval is needed
     content_security_policy: "default-src 'none'; connect-src 'self'; font-src 'self' https://themes.googleusercontent.com; frame-src https://platform.twitter.com https://syndication.twitter.com; img-src 'self' data: https://pbs.twimg.com https://platform.twitter.com https://s1795.t.eloqua.com https://smtrcs.redhat.com https://syndication.twitter.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.syndication.twimg.com https://img.en25.com https://platform.twitter.com https://secure.eloqua.com https://secure.p01.eloqua.com https://static.redhat.com https://www.redhat.com; style-src 'self' 'unsafe-inline' https://platform.twitter.com"
