@@ -68,7 +68,8 @@
     # We can use http_service_name variable, to start the service, because
     # both have same name.
     - name: "Install {{ http_service_name }}"
-      package: "{{ http_service_name }}"
+      package:
+        name: "{{ http_service_name }}"
       when: http_service_name != 'standalone'
 
     - name: Start "{{ http_service_name }}"
