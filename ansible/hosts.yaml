@@ -95,6 +95,7 @@ all:
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         opensearch.rdoproject.org: {}
+        quay.rdoproject.org: {}
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}

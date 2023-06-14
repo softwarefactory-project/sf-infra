@@ -24,7 +24,7 @@ let instances =
         }
       , Instance::{
         , name = "quay"
-        , groups = [ "quay" ]
+        , groups = [ "quay", "rdo" ]
         , connection =
                 OS.CentOS.`8-stream`.connection
             //  { ansible_host = Some "38.129.56.158" }
