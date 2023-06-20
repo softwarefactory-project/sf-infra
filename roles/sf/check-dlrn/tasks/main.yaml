@@ -1,0 +1,24 @@
+---
+- name: get service facts
+  service_facts:
+
+- name: Ensure node_exporter service is deployed
+  fail:
+    msg: "node-exporter service is not here!"
+  when: ansible_facts.services["node-exporter.service"] is not defined
+
+- name: Copy DLRN state reporter
+  copy:
+    src: check-dlrn.py
+    dest: /usr/local/bin/check-dlrn.py
+    mode: '0755'
+  become: true
+
+- name: Setup cronjob for getting logs timestamp
+  cron:
+    name: Get last timestamp for node_exporter
+    minute: "30"
+    hour: "*"
+    user: root
+    job: "/usr/local/bin/check-dlrn.py --workers '{{ api_workers | difference(exclude_monitor_list | default([])) }}'"
+  become: true

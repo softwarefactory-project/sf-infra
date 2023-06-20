@@ -4,22 +4,15 @@ groups:
     rules:
       - alert: RDOTrunkRepoTooOld
         annotations:
-          summary: "No new builds in {{ $labels.worker }} for the last three days"
-        expr: "increase(dlrn_builds_total{instance=~'centos-.*'}[72h]) < 1"
+          summary: "No new activity in {{ $labels.worker }} for the last two hours"
+        expr: "time() - dlrn_last_update{instance=~'centos8-.*'} > 7200"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
       - alert: RDOTrunkRepoTooOld
         annotations:
-          summary: "No new builds in {{ $labels.worker }} for the last one day"
-        expr: "increase(dlrn_builds_total{instance=~'centos8-.*'}[24h]) < 1"
-        labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: warning
-      - alert: RDOTrunkRepoTooOld
-        annotations:
-          summary: "No new builds in {{ $labels.worker }} for the last one day"
-        expr: "increase(dlrn_builds_total{instance=~'centos9-.*'}[24h]) < 1"
+          summary: "No new activity in {{ $labels.worker }} for the last two hours"
+        expr: "time() - dlrn_last_update{instance=~'centos9-.*'} > 7200"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning

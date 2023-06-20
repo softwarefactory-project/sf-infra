@@ -14,6 +14,13 @@
   roles:
     - system/swap
     - service/apache-exporter
+    - service/node-exporter
+  tasks:
+    - name: Executing check-dlrn role
+      include_role:
+        name: sf/check-dlrn
+        apply:
+          become: yes
 
 - hosts: dlrn-db.rdoproject.org
   vars_files:
