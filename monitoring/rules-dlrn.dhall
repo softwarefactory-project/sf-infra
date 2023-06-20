@@ -6,10 +6,12 @@ in  Prometheus.RulesConfig::{
         , name = Some "dlrn.rules"
         , rules =
             let rule =
-                  \(worker : Text) ->
+                  \(exp : Text) ->
+                  \(time : Text) ->
+                  \(hours : Text) ->
                     Prometheus.AlertingRule::{
                     , alert = Some "RDOTrunkRepoTooOld"
-                    , expr = Some "time() - dlrn_last_update{instance=~'${worker}'} > 7200"
+                    , expr = Some "time() - dlrn_last_update{${exp}} > ${time}"
                     , labels = Some
                       { severity = "warning"
                       , lasttime = "{{ \$value | humanizeTimestamp }}"
@@ -17,13 +19,14 @@ in  Prometheus.RulesConfig::{
                     , annotations = Some
                       { description = None Text
                       , summary =
-                          "No new activity in {{ \$labels.worker }} for the last two hours"
+                          "No new activity in {{ \$labels.worker }} for the last ${hours} hours"
                       }
                     }
 
             in  Some
-                  [ rule "centos8-.*"
-                  , rule "centos9-.*"
+                  [ rule "index=~'centos8-.*'" "7200" "two"
+                  , rule "index=~'centos9-.*', index != 'centos9-master'" "7200" "two"
+                  , rule "index='centos9-master'" "25200" "seven"
                   ]
         }
       ]

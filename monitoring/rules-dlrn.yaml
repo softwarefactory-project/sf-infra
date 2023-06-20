@@ -5,14 +5,21 @@ groups:
       - alert: RDOTrunkRepoTooOld
         annotations:
           summary: "No new activity in {{ $labels.worker }} for the last two hours"
-        expr: "time() - dlrn_last_update{instance=~'centos8-.*'} > 7200"
+        expr: "time() - dlrn_last_update{index=~'centos8-.*'} > 7200"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
       - alert: RDOTrunkRepoTooOld
         annotations:
           summary: "No new activity in {{ $labels.worker }} for the last two hours"
-        expr: "time() - dlrn_last_update{instance=~'centos9-.*'} > 7200"
+        expr: "time() - dlrn_last_update{index=~'centos9-.*', index != 'centos9-master'} > 7200"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: warning
+      - alert: RDOTrunkRepoTooOld
+        annotations:
+          summary: "No new activity in {{ $labels.worker }} for the last seven hours"
+        expr: "time() - dlrn_last_update{index='centos9-master'} > 25200"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
