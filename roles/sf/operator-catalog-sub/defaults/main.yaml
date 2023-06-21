@@ -1,0 +1,6 @@
+---
+sf_namespace: sf
+sf_catalog_namespace: olm
+sf_subscription_namespace: operators
+sf_subscription_channel: preview
+retries: 10
