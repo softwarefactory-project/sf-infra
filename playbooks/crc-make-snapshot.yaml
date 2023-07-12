@@ -19,8 +19,8 @@
 # ansible-playbook -e "ansible_host_key_checking=False" -e "centos_release=9" playbooks/crc-make-snapshot.yaml
 #
 ### NOTE: c8s crc image will be removed soon.
-#
-# ansible-playbook -e "ansible_host_key_checking=False" -e "centos_release=8" -e "image_name=upstream-centos-8-stream-1687102218" playbooks/crc-make-snapshot.yaml
+### NOTE: the c8s image does not have cloud-init installed. You need to inject the bridgesf_ssh_pub key manualy via zuul-scheduler
+# ansible-playbook -e "ansible_host_key_checking=False" -e "centos_release=8" playbooks/crc-make-snapshot.yaml
 #
 # Additional variables:
 ### openstack - preparations ###
@@ -64,12 +64,23 @@
         msg: "There is already some server with name {{ vm_name }}. Please remove it first!"
       when: _old_server_info.servers != []
 
-    - name: Take newest image for {{ centos_release | default('9') }}
+    - name: Take newest image for Centos stream
       shell: |
         export OS_CLOUD={{ cloud_name }}
-        openstack image list -c Name -f value | grep cloud-centos-{{ centos_release | default('9') }}-stream-tripleo | head -n1
+        if [ "{{ centos_release | default('9') | int }}" -eq 9 ]; then
+            openstack image list -c Name -f value | grep cloud-centos-{{ centos_release | default('9') }}-stream-tripleo | head -n1
+        elif [ "{{ centos_release | default('9') | int }}" -eq 8 ]; then
+            openstack image list | grep -E 'upstream-centos-8-stream-[0-9]{10}' | awk '{print $4}' | sort | tail -n1
+        else
+            echo "Centos release was not specified!"
+            exit 1
+        fi
       register: base_centos_image
       when: image_name is not defined and not image_name
+
+    - name: "Print image that would be used for VM"
+      debug:
+        msg: "The VM will use {{ base_centos_image.stdout }} image"
 
     - name: Change finally_image_name var, if testing_kernel
       when: testing_kernel | default(false)
@@ -113,19 +124,13 @@
         msg: "Can not find ip address for server {{ vm_name }}. Too many vms available or cloud provider issue?"
       when: not server_info.servers[0].access_ipv4
 
-    - name: Add CRC host into the inventory - root
-      ansible.builtin.add_host:
-        hostname: crc.dev-root
-        ansible_ssh_host: "{{ server_info.servers[0].access_ipv4 }}"
-        ansible_ssh_port: 22
-        ansible_ssh_user: "root"
-
     - name: Add CRC host into the inventory
       ansible.builtin.add_host:
         hostname: crc.dev
         ansible_ssh_host: "{{ server_info.servers[0].access_ipv4 }}"
         ansible_ssh_port: 22
         ansible_ssh_user: "{{ image_ssh_user | default('zuul') }}"
+        ansible_python_interpreter: /usr/bin/python3
 
     - name: Wait for SSH to be up
       ansible.builtin.wait_for:
@@ -134,7 +139,7 @@
         delay: 10
 
 - name: Ensure cloud init is installed and is running
-  hosts: crc.dev-root
+  hosts: crc.dev
   tasks:
     - name: Ensure cloud init is installed
       become: true
@@ -307,7 +312,7 @@
         - name: Wait until the snapshot is done
           shell: |
             export OS_CLOUD={{ cloud_name }}
-            for r in {1..60}; do
+            for r in {1..200}; do
                 img_status=$(openstack image show {{ snapshot_name }} -c status -f value)
                 if [ $img_status != 'active' ]; then
                     echo "Image is still not active, sleeping..."
