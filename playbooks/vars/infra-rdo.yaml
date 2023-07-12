@@ -117,6 +117,8 @@ security_groups:
         remote_ip_prefix: "38.102.83.124/32"
       - port: 9114
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
+      - port: 9200
+        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: logstash
     rules:
       - port: 9998

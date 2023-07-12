@@ -68,6 +68,10 @@ let security_groups =
               , port = +9114
               , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
               }
+            , Infra.Rule::{
+              , port = +9200
+              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
+              }
             ]
           }
         , { name = "logstash"
