@@ -29,10 +29,11 @@
       - python3-cryptography
       - python3-netaddr
       - python3-lxml
-      - python3-openstacksdk
+      # NOTE: revert the commit when whe bridge host is upgraded to F38.
+      # - python3-openstacksdk
+      # - python3-openstackclient
       - python3-passlib
       - python3-pyOpenSSL
-      - python3-openstackclient
       - python3-kubernetes
       - python3-openshift
       - qemu-img
@@ -86,6 +87,22 @@
             src: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"
             dest: ~/.ansible.cfg
             state: link
+
+        - name: Ensure packages are removed
+          become: true
+          package:
+            name:
+              - python3-openstacksdk
+              - python3-openstackclient
+            state: absent
+
+        - name: Install openstackclient and openstacksdk via pip
+          become: true
+          pip:
+            name:
+              - openstacksdk==1.1.0
+              - python-openstackclient
+            state: present
 
         - name: Ensure packages are installed
           become: yes
