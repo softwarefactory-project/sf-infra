@@ -2,13 +2,17 @@
 - name: Create host directories
   become: yes
   file:
-    path: '{{ item }}'
+    path: '{{ item.path }}'
     state: directory
     recurse: yes
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
   loop:
-    - /etc/grafana/provisioning/datasources
-    - /etc/grafana/provisioning/dashboards
-    - /etc/grafana/secrets
+    - path: /etc/grafana/provisioning/datasources
+    - path: /etc/grafana/provisioning/dashboards
+    - path: /etc/grafana/secrets
+    - path: /var/lib/grafana
+      owner: 472
 
 - name: Install config files
   become: yes
@@ -67,6 +71,7 @@
     pod_param: >
       --network host
       -v /etc/grafana:/etc/grafana:Z
+      -v /var/lib/grafana/:/var/lib/grafana/:z
       {% if sf_grafana | default(False) %}
       -e GF_SECURITY_ADMIN_PASSWORD__FILE='/etc/grafana/secrets/admin_password'
       -e GF_SECURITY_ADMIN_USER__FILE='/etc/grafana/secrets/admin_user'

@@ -9,15 +9,18 @@ datasources:
    url: '{{ prometheus_public_url }}'
    version: 1
 {% if vexxhost_prometheus | default(False) %}
--  access: 'proxy'
-   editable: true
-   isDefault: false
-   name: 'prometheus-vexxhost'
-   orgId: 1
-   type: 'prometheus'
-   url: '{{ vexxhost_prometheus.url }}'
-   basicAuth: true
-   basicAuthUser: '{{ vexxhost_prometheus.user }}'
-   basicAuthPassword: '{{ vexxhost_prometheus.password }}'
-   version: 1
+- access: proxy
+  editable: true
+  isDefault: false
+  name: prometheus-vexxhost
+  orgId: 1
+  type: prometheus
+  url: '{{ vexxhost_prometheus.url }}'
+  basicAuth: true
+  basicAuthUser: '{{ vexxhost_prometheus.user }}'
+  withCredentials: false
+  secureJsonFields:
+    basicAuthPassword: "{{ vexxhost_prometheus.password }}"
+  readOnly: false
+  version: 1
 {% endif %}
