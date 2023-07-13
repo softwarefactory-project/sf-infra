@@ -17,6 +17,11 @@
       loop_control:
         loop_var: cloud
 
+    - name: Fail, when servers ip is empty
+      fail:
+        msg: "The servers ip list is empty!"
+      when: not servers_ip | to_yaml
+
     - name: Show servers ip
       debug:
         msg: "{{ servers_ip | to_yaml }}"
