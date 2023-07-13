@@ -24,3 +24,25 @@ datasources:
   readOnly: false
   version: 1
 {% endif %}
+{% if opensearch_rdo_zuul | default(False) %}
+- orgId: 1
+  name: opensearch-rdoproject-zuul
+  type: grafana-opensearch-datasource
+  access: proxy
+  url: https://opensearch.rdoproject.org/elasticsearch
+  database: '[zuul.rdoproject.org-]YYYY.MM.DD'
+  basicAuth: true
+  basicAuthUser: "{{ opensearch_rdo_zuul.user }}"
+  withCredentials: true
+  isDefault: false
+  jsonData:
+    database: zuul.rdoproject.org-*
+    flavor: opensearch
+    maxConcurrentShardRequests: 5
+    pplEnabled: true
+    timeField: '@timestamp'
+    version: 2.4.0
+  secureJsonFields:
+    basicAuthPassword: "{{ opensearch_rdo_zuul.password }}"
+  readOnly: false
+{% endif %}
