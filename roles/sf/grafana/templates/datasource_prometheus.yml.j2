@@ -30,9 +30,8 @@ datasources:
   type: grafana-opensearch-datasource
   access: proxy
   url: https://opensearch.rdoproject.org/elasticsearch
-  database: '[zuul.rdoproject.org-]YYYY.MM.DD'
   basicAuth: true
-  basicAuthUser: "{{ opensearch_rdo_readonly.user }}"
+  basicAuthUser: {{ opensearch_rdo_readonly.user }}
   withCredentials: true
   isDefault: false
   jsonData:
@@ -42,7 +41,9 @@ datasources:
     pplEnabled: true
     timeField: '@timestamp'
     version: 2.4.0
+  # NOTE: Set the password also via Web interface
   secureJsonFields:
-    basicAuthPassword: "{{ opensearch_rdo_readonly.password }}"
-  readOnly: false
+    basicAuthPassword: {{ opensearch_rdo_readonly.password }}
+  version: 7
+  editable: true
 {% endif %}
