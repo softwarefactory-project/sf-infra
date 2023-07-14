@@ -24,7 +24,7 @@ datasources:
   readOnly: false
   version: 1
 {% endif %}
-{% if opensearch_rdo_zuul | default(False) %}
+{% if opensearch_rdo_readonly | default(False) %}
 - orgId: 1
   name: opensearch-rdoproject-zuul
   type: grafana-opensearch-datasource
@@ -32,7 +32,7 @@ datasources:
   url: https://opensearch.rdoproject.org/elasticsearch
   database: '[zuul.rdoproject.org-]YYYY.MM.DD'
   basicAuth: true
-  basicAuthUser: "{{ opensearch_rdo_zuul.user }}"
+  basicAuthUser: "{{ opensearch_rdo_readonly.user }}"
   withCredentials: true
   isDefault: false
   jsonData:
@@ -43,6 +43,6 @@ datasources:
     timeField: '@timestamp'
     version: 2.4.0
   secureJsonFields:
-    basicAuthPassword: "{{ opensearch_rdo_zuul.password }}"
+    basicAuthPassword: "{{ opensearch_rdo_readonly.password }}"
   readOnly: false
 {% endif %}
