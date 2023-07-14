@@ -52,6 +52,11 @@
 
 - name: Combine server ips fact
   set_fact:
-    servers_ip: "{{ servers_ip + [{ 'name': item.openstack.name, 'ip': (item.openstack.public_v4 == '') | ternary(item.openstack.private_v4, item.openstack.public_v4) }] }}"
-  when: item.openstack is defined and servers_ip is defined
+    servers_ip: |
+      {{ servers_ip + [
+        { 'name': item.server.name,
+          'ip': item.server.addresses['private-network'] | default([]) | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'fixed') | map(attribute='addr') | join(''),
+          'floating_ip': item.server.addresses['oci-private-network'] | default(item.server.addresses['private-network']) | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'floating') | map(attribute='addr') | join(''),
+          'project_name': cloud.tenant | default(cloud.name) }] }}
+  when: item.server is defined and ('private-network' in item.server.addresses or 'oci-private-network' in item.server.addresses)
   loop: "{{ _servers.results }}"
