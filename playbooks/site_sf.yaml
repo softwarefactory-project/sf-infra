@@ -104,6 +104,7 @@
     - service/setup-ssl
     - sf/alert-manager
     - sf/blackbox-exporter
+    - system/generate-etc-hosts
     - sf/dnsmasq
     - sf/grafana
     - sf/monitoring-gateway

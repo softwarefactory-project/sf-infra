@@ -58,6 +58,7 @@ in  { certbot_plugin = "--apache"
     , prometheus_public_url = "https://{{ fqdn }}/prometheus"
     , pushprox_proxy_listen = ":8080"
     , pushprox_type = "proxy"
+    , manage_ssh_config = False
     , ssl_cert_options.cert1 =
       { domain = "{{ fqdn }}"
       , email = "softwarefactory-operations-team@redhat.com"

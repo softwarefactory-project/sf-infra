@@ -36,16 +36,6 @@
 
           dest: /etc/NetworkManager/dnsmasq.d/00-add-hosts.conf
 
-        - content: |
-            127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 {{ inventory_hostname }} {{ ansible_hostname }}
-            ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6 {{ inventory_hostname }} {{ ansible_hostname }}
-
-            {% for host in inventory_hosts_ip %}
-            {{ host.ip }} {{ host.name }}
-            {% endfor %}
-
-          dest: /etc/hosts
-
     - name: Restart NetworkManager if needed
       service:
         name: NetworkManager
