@@ -46,4 +46,24 @@ datasources:
     basicAuthPassword: {{ opensearch_rdo_readonly.password }}
   version: 7
   editable: true
+- orgId: 1
+  name: opensearch-rdoproject-logstash
+  type: grafana-opensearch-datasource
+  access: proxy
+  url: https://opensearch.rdoproject.org/elasticsearch
+  basicAuth: true
+  basicAuthUser: {{ opensearch_rdo_readonly.user }}
+  withCredentials: true
+  isDefault: false
+  jsonData:
+    database: logstash-rdoproject_org-*
+    flavor: opensearch
+    maxConcurrentShardRequests: 5
+    pplEnabled: true
+    timeField: '@timestamp'
+    version: 2.4.0
+  # NOTE: Set the password also via Web interface
+  secureJsonFields:
+    basicAuthPassword: {{ opensearch_rdo_readonly.password }}
+  editable: true
 {% endif %}
