@@ -67,3 +67,28 @@ datasources:
     basicAuthPassword: {{ opensearch_rdo_readonly.password }}
   editable: true
 {% endif %}
+{% if nextgen_openshift_prometheus | default(false) %}
+- orgId: 1
+  name: Prometheus-openshift
+  type: prometheus
+  access: proxy
+  url: {{ nextgen_openshift_prometheus.url }}
+  basicAuth: false
+  withCredentials: false
+  isDefault: false
+  jsonData:
+    exemplarTraceIdDestinations: []
+    httpHeaderName1: Authorization
+    httpMethod: POST
+    oauthPassThru: false
+    prometheusType: Thanos
+    tlsAuth: false
+    tlsAuthWithCACert: false
+    tlsSkipVerify: false
+  secureJsonFields:
+    # NOTE: Set the credentials via browser, where:
+    # Header: Authorization
+    # value: Bearer <token>
+    httpHeaderValue1: true
+  editable: true
+{% endif %}
