@@ -19,3 +19,7 @@ crc_config_microshift_preset: false
 # creating the VM snapshot. Also the daily VM snapshot might not help
 # if the related CRC container image services would be updated.
 crc_version: "2.17.0"
+
+modify_kubelet_systemd: true
+sf_infra_repo: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+sf_infra_repo_alt: /tmp/sf-infra

@@ -1,0 +1,29 @@
+---
+- name: Check if sf-infra project dir exists
+  ansible.builtin.stat:
+    path: "{{ sf_infra_repo }}"
+  register: _sf_infra_repo
+
+- name: Clone sf-infra repo if not exists
+  ansible.builtin.git:
+    repo: https://softwarefactory-project.io/r/software-factory/sf-infra
+    dest: "{{ sf_infra_repo_alt }}"
+    update: false
+  when: not _sf_infra_repo.stat.exists
+
+- name: Set fact for sf-infra repo path
+  ansible.builtin.set_fact:
+    sf_infra_repo_path: "{{ sf_infra_repo_alt }}"
+  when: not _sf_infra_repo.stat.exists
+
+- name: Get CRC IP
+  ansible.builtin.command: "crc ip"
+  register: crc_ip
+
+- name: Change the systemd parameters env params for Kubelet
+  ansible.builtin.command: >-
+    ansible-playbook -i {{ crc_ip.stdout }},
+    -u core
+    -e "ansible_ssh_private_key_file=~/.crc/machines/crc/id_ecdsa"
+    -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no'"
+    {{ sf_infra_repo_path | default(sf_infra_repo) }}/roles/extra/crc/kubelet_systemd.yaml

@@ -23,3 +23,7 @@
 
 - name: Add welcome information
   include_tasks: welcome.yaml
+
+- name: Modify kubelet systemd service options
+  include_tasks: kubelet.yaml
+  when: modify_kubelet_systemd
