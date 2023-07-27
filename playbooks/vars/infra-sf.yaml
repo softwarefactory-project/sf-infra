@@ -361,7 +361,7 @@ servers:
       - zuul-console
       - zuul-weeder
   - boot_from_volume: yes
-    flavor: "4vcpus_8gb"
+    flavor: "8vcpu_16GB"
     floating_ips:
       - '38.102.83.100'
     image: centos-9-stream
