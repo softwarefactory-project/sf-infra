@@ -277,7 +277,7 @@ let instances =
         , server = Some
             (     Infra.Server::{
                   , image = OS.CentOS.`9-stream`.image.name
-                  , flavor = Some Flavors.`4vcpus_8gb`
+                  , flavor = Some Flavors.`8vcpu_16GB`
                   , auto_ip = Some True
                   , boot_from_volume = "yes"
                   , volume_size = Some 100
