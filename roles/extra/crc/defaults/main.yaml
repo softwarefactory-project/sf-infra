@@ -21,5 +21,5 @@ crc_config_microshift_preset: false
 crc_version: "2.17.0"
 
 modify_kubelet_systemd: true
-sf_infra_repo: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+sf_infra_repo: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir | default(omit) }}"
 sf_infra_repo_alt: /tmp/sf-infra
