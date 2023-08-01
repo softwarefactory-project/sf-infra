@@ -213,6 +213,14 @@
             name: systemd-252-15.el9.x86_64
             allow_downgrade: true
 
+        - name: Exclude updating systemd package
+          become: true
+          ansible.builtin.lineinfile:
+            path: /etc/dnf/dnf.conf
+            regexp: '^exclude='
+            line: "exclude=systemd*"
+            create: true
+
         - name: Check if CPU vendor is Intel
           ansible.builtin.shell: |
             grep -qi intel /proc/cpuinfo
