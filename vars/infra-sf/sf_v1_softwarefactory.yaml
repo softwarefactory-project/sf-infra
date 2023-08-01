@@ -5,7 +5,7 @@ metadata:
   name: infra-team
   namespace: sf
 spec:
-  fqdn: "sf.microshift.softwarefactory-project.io"
+  fqdn: "microshift.softwarefactory-project.io"
   logserver:
     loopDelay: 3600
     retentionDays: 90
