@@ -203,6 +203,16 @@
               - qemu-kvm-common
             state: present
 
+        # NOTE: The systemd package 252.16 is not working well
+        # with the libvirt. More info:
+        # https://github.com/crc-org/crc/issues/3719
+        # https://github.com/systemd/systemd/issues/27953
+        - name: Downgrade systemd package
+          become: true
+          ansible.builtin.yum:
+            name: systemd-252-15.el9.x86_64
+            allow_downgrade: true
+
         - name: Check if CPU vendor is Intel
           ansible.builtin.shell: |
             grep -qi intel /proc/cpuinfo
