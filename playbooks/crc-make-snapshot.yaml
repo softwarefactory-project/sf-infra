@@ -218,7 +218,7 @@
           ansible.builtin.lineinfile:
             path: /etc/dnf/dnf.conf
             regexp: '^exclude='
-            line: "exclude=systemd*"
+            line: "exclude=systemd"
             create: true
 
         - name: Check if CPU vendor is Intel
