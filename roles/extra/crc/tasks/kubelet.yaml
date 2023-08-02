@@ -1,4 +1,10 @@
 ---
+- name: Install Ansible core package
+  become: true
+  ansible.builtin.dnf:
+    name: ansible-core
+    state: present
+
 - name: Check if sf-infra project dir exists
   ansible.builtin.stat:
     path: "{{ sf_infra_repo }}"
