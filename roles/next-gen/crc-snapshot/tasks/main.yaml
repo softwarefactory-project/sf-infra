@@ -1,0 +1,27 @@
+---
+- name: Create CRC snapshot log dir
+  become: true
+  ansible.builtin.file:
+    path: /var/log/crc-snapshot
+    state: directory
+    owner: centos
+    group: centos
+
+- name: Ensure sf-infra repo is up-to-date
+  ansible.builtin.git:
+    repo: https://softwarefactory-project.io/r/software-factory/sf-infra
+    dest: ~/sf-infra
+    update: true
+
+- name: Create crontab entry for generating weekly CRC image on Wendnesday
+  ansible.builtin.cron:
+    name: Creating weekly CRC image
+    weekday: 4
+    hour: 3
+    minute: 30
+    job: >
+      ansible-playbook
+      -e "ansible_host_key_checking=False"
+      -e "centos_release=8"
+      ~/sf-infra/playbooks/crc-make-snapshot.yaml
+      > /var/log/crc-snapshot/$(date +"%Y-%m-%d_%H-%M-%S")-crc.log

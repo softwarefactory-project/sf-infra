@@ -86,6 +86,7 @@
     # next gen tasks will be done on that host: it does not do a lot,
     # and it has many free storage.
     - next-gen/prepare-host
+    - next-gen/crc-snapshot
 
 - hosts: ze
   tasks:

@@ -19,7 +19,7 @@
 # ansible-playbook -e "ansible_host_key_checking=False" -e "centos_release=9" playbooks/crc-make-snapshot.yaml
 #
 ### NOTE: c8s crc image will be removed soon.
-### NOTE: the c8s image does not have cloud-init installed. You need to inject the bridgesf_ssh_pub key manualy via zuul-scheduler
+### NOTE: the c8s image does not have cloud-init installed. You need to inject the ssh_pub key manualy via zuul-scheduler
 # ansible-playbook -e "ansible_host_key_checking=False" -e "centos_release=8" playbooks/crc-make-snapshot.yaml
 #
 # Additional variables:
@@ -46,12 +46,13 @@
       ansible.builtin.set_fact:
         cloud_name: nodepool-tripleo
         flavor: ci.m1.xlarge
-        ssh_keypair_name: bridgesf
+        ssh_keypair_name: image-builder
         vm_name: infra-dfg-team-crc
         net_id: 7abff1a9-a103-46d0-979a-1f1e599f4f41
         finally_image_name: "centos-{{ centos_release | default('9') }}-stream-crc"
         snapshot_name: "infra-dfg-team-crc-snapshot"
-        bridgesf_ssh_pub: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHj3R7JGtLkSD9h+E6JNHGdZ+SStJx+wyQsE7DK41t+Au7mfTJb12zjxBO4OwzAJbVnudN86BPYI0aHuY7ZpZ8+yitcFOBxQdczcGNistIaOHNb7bp0aPpVTYkHEYo3IlsDgPYcMVsvwOpIIDfi8wSQo3p4FNTtOc9ulAeQ7UUl4uId7ILLGzpDhkRrb+hYetJw/e3Xkqz6BW/VFbw6Tb8DdgMGhNVflQNlPz1HB60zKxeoeRkrLg3lMO/LuFHr48MtWuQ4LR13fq/tw3XgzHIBU2LL107wTtZs3KqxdqEcs9+7gAaNtT9+rbMoQvF0E9viZn+vjHOAbfxgXUEsFt7
+        ssh_pub: ""
+        ssh_pub_path: ~/.ssh/id_ed25519.pub
 
     - name: Check if server already exists
       openstack.cloud.server_info:
@@ -87,6 +88,11 @@
       set_fact:
         finally_image_name: "centos-{{ centos_release }}-stream-crc-alt-kernel"
 
+    - name: Read public key if ssh_pub not provided
+      when: not ssh_pub
+      ansible.builtin.command: cat {{ ssh_pub_path }}
+      register: _ssh_pub_key
+
     - name: Create VM
       openstack.cloud.server:
         state: present
@@ -104,14 +110,14 @@
         config_drive: true
         security_groups:
           - default
-        # Add bridgesf pub key to the remote host
+        # Add image-builder pub key to the remote host
         userdata: |
           #cloud-config
           users:
             - default
             - name: "{{ image_ssh_user | default('zuul') }}"
               ssh_authorized_keys:
-                - "{{ bridgesf_ssh_pub }}"
+                - "{{ _ssh_pub_key.stdout | default(ssh_pub) }}"
 
     - name: Get server info
       openstack.cloud.server_info:
