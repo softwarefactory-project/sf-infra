@@ -38,6 +38,10 @@ opensearch_rdo_readonly:
   user: kibana_rdoproject_org
   password: rdoproject_org
 
+opensearch_softwarefactory_readonly:
+  user: kibana_softwarefactory_project_io
+  password: softwarefactory_project_io
+
 nextgen_openshift_prometheus:
   url: !vault |
     $ANSIBLE_VAULT;1.1;AES256
