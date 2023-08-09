@@ -1,0 +1,263 @@
+{
+   "description": "Detailed look on prow jobs building and testing openstack operators",
+   "links": [
+      {
+         "tags": [
+            "prow-success"
+         ],
+         "title": "Prow jobs operator success rate",
+         "type": "dashboards"
+      }
+   ],
+   "panels": [
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "Number of jobs for the selected operator with the selected result",
+         "gridPos": {
+            "h": 14,
+            "w": 17,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "interval": "1m",
+         "links": [
+            {
+               "targetBlank": true,
+               "title": "Prow page",
+               "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-$operator*&state=$result"
+            }
+         ],
+         "options": {
+            "legend": {
+               "displayMode": "table",
+               "placement": "right"
+            }
+         },
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum by (job_name) (\n  rate(\n    prowjobs{\n      job_name=~\"pull-ci-openstack-k8s-operators-$operator-.*\",\n      state=\"$result\"\n    }[8h]\n  )\n)*8*60*60\n",
+               "legendFormat": "{{job_name}}"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow $operator jobs $result detail",
+         "type": "timeseries"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 14,
+            "w": 7,
+            "x": 17,
+            "y": 0
+         },
+         "id": 2,
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-$operator-.*\", state=~\"$result\"}[8h]))/sum(rate(prowjobs{job_name=~\"pull-ci-openstack-k8s-operators-$operator-.*\", state=~\"success|aborted|failure\"}[8h]))*100"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow $operator $result rate",
+         "type": "stat"
+      }
+   ],
+   "schemaVersion": 36,
+   "tags": [
+      "prow-detail"
+   ],
+   "templating": {
+      "list": [
+         {
+            "current": {
+               "selected": false,
+               "text": "ci-framework",
+               "value": "ci-framework"
+            },
+            "name": "operator",
+            "options": [
+               {
+                  "selected": true,
+                  "text": "ci-framework",
+                  "value": "ci-framework"
+               },
+               {
+                  "selected": false,
+                  "text": "cinder-operator",
+                  "value": "cinder-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "dataplane-operator",
+                  "value": "dataplane-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "edpm-ansible",
+                  "value": "edpm-ansible"
+               },
+               {
+                  "selected": false,
+                  "text": "glance-operator",
+                  "value": "glance-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "horizon-operator",
+                  "value": "horizon-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "infra-operator",
+                  "value": "infra-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "install_yamls",
+                  "value": "install_yamls"
+               },
+               {
+                  "selected": false,
+                  "text": "ironic-operator",
+                  "value": "ironic-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "keystone-operator",
+                  "value": "keystone-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "manila-operator",
+                  "value": "manila-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "mariadb-operator",
+                  "value": "mariadb-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "neutron-operator",
+                  "value": "neutron-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "nova-operator",
+                  "value": "nova-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "octavia-operator",
+                  "value": "octavia-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "openstack-ansibleee-operator",
+                  "value": "openstack-ansibleee-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "openstack-baremetal-operator",
+                  "value": "openstack-baremetal-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "openstack-operator",
+                  "value": "openstack-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "osp-director-operator",
+                  "value": "osp-director-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "ovn-operator",
+                  "value": "ovn-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "placement-operator",
+                  "value": "placement-operator"
+               },
+               {
+                  "selected": false,
+                  "text": "telemetry-operator",
+                  "value": "telemetry-operator"
+               }
+            ],
+            "query": "ci-framework : ci-framework,cinder-operator : cinder-operator,dataplane-operator : dataplane-operator,edpm-ansible : edpm-ansible,glance-operator : glance-operator,horizon-operator : horizon-operator,infra-operator : infra-operator,install_yamls : install_yamls,ironic-operator : ironic-operator,keystone-operator : keystone-operator,manila-operator : manila-operator,mariadb-operator : mariadb-operator,neutron-operator : neutron-operator,nova-operator : nova-operator,octavia-operator : octavia-operator,openstack-ansibleee-operator : openstack-ansibleee-operator,openstack-baremetal-operator : openstack-baremetal-operator,openstack-operator : openstack-operator,osp-director-operator : osp-director-operator,ovn-operator : ovn-operator,placement-operator : placement-operator,telemetry-operator : telemetry-operator",
+            "type": "custom"
+         },
+         {
+            "current": {
+               "selected": false,
+               "text": "success",
+               "value": "success"
+            },
+            "name": "result",
+            "options": [
+               {
+                  "selected": true,
+                  "text": "success",
+                  "value": "success"
+               },
+               {
+                  "selected": false,
+                  "text": "aborted",
+                  "value": "aborted"
+               },
+               {
+                  "selected": false,
+                  "text": "failure",
+                  "value": "failure"
+               },
+               {
+                  "selected": false,
+                  "text": "pending",
+                  "value": "pending"
+               }
+            ],
+            "query": "success : success,aborted : aborted,failure : failure,pending : pending",
+            "type": "custom"
+         }
+      ]
+   },
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "Prow jobs operator detail"
+}

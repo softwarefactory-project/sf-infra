@@ -1,0 +1,175 @@
+{
+   "description": "POC of nextgen CI dashboard. Trying to cover all the CI process.",
+   "links": [
+      {
+         "tags": [
+            "prow-success"
+         ],
+         "title": "Prow jobs operator success rate",
+         "type": "dashboards"
+      },
+      {
+         "tags": [
+            "zuul-jobs"
+         ],
+         "title": "Zuul jobs detail",
+         "type": "dashboards"
+      }
+   ],
+   "panels": [
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "options": {
+            "content": "<h1 style=\"text-align: center;\">\n  Hive pool utilization\n</h1>\n<p style=\"text-align: center;\">\n  The dashboard is available in ci-grafana instance.\n</p>\n<div style=\"text-align:center\">\n  Follow this\n  <a href=\"https://grafana-route-ci-grafana.apps.ci.l2s4.p1.openshiftapps.com/d/e690fe42e276cd0fbccaed851464e92bfbe6335e/osp-hive-pools-utilization?orgId=1&refresh=1m)\">\n    link\n  </a>.\n</div>\n"
+         },
+         "title": "Hive status",
+         "type": "text"
+      },
+      {
+         "datasource": "Prometheus-SF EXTERNAL",
+         "description": "",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 0
+         },
+         "id": 2,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-SF EXTERNAL"
+               },
+               "expr": "sum (\n  rate(\n    zuul_nodepool_requests_state_by_label{\n      job=\"statsd_exporter\",state=\"fulfilled\"\n    }[8h]\n  )\n)/\nsum(\n  rate(\n    zuul_nodepool_requests_state_by_label{\n      job=\"statsd_exporter\",state=~\"canceled|fulfilled|requested|failed\"\n    }[8h]\n  )\n)*100\n"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Zuul jobs cummulative succes rate.",
+         "type": "stat"
+      },
+      {
+         "datasource": "Prometheus-openshift",
+         "description": "",
+         "fieldConfig": {
+            "defaults": {
+               "thresholds": {
+                  "steps": [
+                     {
+                        "color": "red",
+                        "value": 0
+                     },
+                     {
+                        "color": "yellow",
+                        "value": 75
+                     },
+                     {
+                        "color": "green",
+                        "value": 85
+                     }
+                  ]
+               },
+               "unit": "percent"
+            }
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 9
+         },
+         "id": 3,
+         "interval": "1m",
+         "targets": [
+            {
+               "datasource": {
+                  "type": "prometheus",
+                  "uid": "Prometheus-openshift"
+               },
+               "expr": "sum(\n  rate(\n    prowjobs{\n      job_name=~\"pull-ci-openstack-k8s-operators-.*\", state=\"success\"\n    }[8h]\n  )\n)/\nsum(\n  rate(\n    prowjobs{\n      job_name=~\"pull-ci-openstack-k8s-operators-.*\", state=~\"success|aborted|failure\"\n    }[8h]\n  )\n)*100\n"
+            }
+         ],
+         "timeFrom": "12h",
+         "title": "Prow jobs cummulative succes rate.",
+         "type": "stat"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 12,
+            "y": 9
+         },
+         "id": 4,
+         "options": {
+            "content": "<h1 style=\"text-align: center;\">Placeholder 1</h1>"
+         },
+         "title": "Placeholder 1",
+         "type": "text"
+      },
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "gridPos": {
+            "h": 9,
+            "w": 6,
+            "x": 18,
+            "y": 9
+         },
+         "id": 5,
+         "options": {
+            "content": "<h1 style=\"text-align: center;\">Placeholder 2</h1>"
+         },
+         "title": "Placeholder 2",
+         "type": "text"
+      }
+   ],
+   "schemaVersion": 36,
+   "tags": [
+      "overview"
+   ],
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "CI dashboard overview"
+}

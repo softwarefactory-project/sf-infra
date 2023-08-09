@@ -36,6 +36,10 @@
     - { name: 'apache-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/6483-elasticsearch/
     - { name: 'elasticsearch.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ci-dashboard-overview.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ci-dashboard-prow-detail.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ci-dashboard-prow-success.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ci-dashboard-zuul-jobs.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
