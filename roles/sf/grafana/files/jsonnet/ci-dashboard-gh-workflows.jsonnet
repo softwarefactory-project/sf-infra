@@ -4,6 +4,11 @@ local panel = grafonnet.panel;
 local txtPanel = panel.text;
 local common = import 'common.jsonnet';
 
+local linkOverview = common.dashboardLinkTag(
+  'CI dashboard overview',
+  'overview'
+);
+
 local workflowUrlTemplate = |||
   <a href='https://github.com/%s/%s/actions/workflows/%s' style='display: block; margin-bottom: 10px; font-size: 16px; text-decoration: none;'>
     <img src='https://github.com/%s/%s/actions/workflows/%s/badge.svg' alt='Cinder Operator image builder" style="max-width: 100%%;'>
@@ -45,6 +50,7 @@ local GhWorkflowPanel =
 dashboard.new('openstack-k8s-operators Workflows Status')
   + dashboard.withDescription('POC of nextgen CI workflows dashboard')
   + dashboard.withTags('gh-workflows')
+  + dashboard.withLinks([linkOverview])
   + dashboard.withPanels([
       GhWorkflowPanel,
 ])

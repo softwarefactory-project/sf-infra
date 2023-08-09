@@ -14,6 +14,13 @@
          ],
          "title": "Zuul jobs detail",
          "type": "dashboards"
+      },
+      {
+         "tags": [
+            "gh-workflows"
+         ],
+         "title": "Github workflows",
+         "type": "dashboards"
       }
    ],
    "panels": [
@@ -36,7 +43,7 @@
          "type": "text"
       },
       {
-         "datasource": "Prometheus-SF EXTERNAL",
+         "datasource": "prometheus",
          "description": "",
          "fieldConfig": {
             "defaults": {
@@ -71,7 +78,7 @@
             {
                "datasource": {
                   "type": "prometheus",
-                  "uid": "Prometheus-SF EXTERNAL"
+                  "uid": "prometheus"
                },
                "expr": "sum (\n  rate(\n    zuul_nodepool_requests_state_by_label{\n      job=\"statsd_exporter\",state=\"fulfilled\"\n    }[8h]\n  )\n)/\nsum(\n  rate(\n    zuul_nodepool_requests_state_by_label{\n      job=\"statsd_exporter\",state=~\"canceled|fulfilled|requested|failed\"\n    }[8h]\n  )\n)*100\n"
             }

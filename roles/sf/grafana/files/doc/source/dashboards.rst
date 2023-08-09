@@ -52,6 +52,12 @@ Zuul jobs
 Data source
   Elasticsearch
 
+================
+Github workflows
+================
+
+Text visualization dashboard that includes the status of the last workflow for each operator project under `openstack-k8s-operators <https://github.com/openstack-k8s-operators/>`_ organization. It doesn't include all the workflows for all projects, we are including just the ones with the following naming convention ``build-operator_name-.yaml`` Some projects doesn't contain this workflow file so they have been excluded.
+
 .. rubric:: Footnotes
 
 .. [#fn1] This dashboard is available in `ci-grafana <https://grafana-route-ci-grafana.apps.ci.l2s4.p1.openshiftapps.com/?orgId=1>`_ because the data source is not accessible from outside systems.
