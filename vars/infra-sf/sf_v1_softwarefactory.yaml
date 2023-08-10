@@ -5,11 +5,19 @@ metadata:
   name: infra-team
   namespace: sf
 spec:
-  fqdn: "microshift.softwarefactory-project.io"
+  config-location:
+    base-url: https://softwarefactory-project.io/r
+    name: microzuul-config
+    zuul-connection-name: sfio-gerrit
+  fqdn: microshift.softwarefactory-project.io
   logserver:
     loopDelay: 3600
     retentionDays: 90
     storage:
       size: 10Gi
   zuul:
-    gerritconns: []
+    gerritconns:
+      - name: sfio-gerrit
+        username: microzuul
+        hostname: softwarefactory-project.io
+        puburl: "https://softwarefactory-project.io/r"
