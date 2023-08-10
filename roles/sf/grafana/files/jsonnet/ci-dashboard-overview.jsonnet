@@ -3,7 +3,7 @@ local dashboard = grafonnet.dashboard;
 local panel = grafonnet.panel;
 local statPanel = panel.stat;
 local txtPanel = panel.text;
-local zuulTotData = 'Prometheus-SF EXTERNAL';
+local zuulTotData = 'prometheus';
 local prowTotData = 'Prometheus-openshift';
 local prometheusQuery = grafonnet.query.prometheus;
 local dashLink = grafonnet.dashboard.link;
@@ -36,6 +36,11 @@ local linkProwsuccess = common.dashboardLinkTag(
 local linkZuuljobs = common.dashboardLinkTag(
   'Zuul jobs detail',
   'zuul-jobs'
+);
+
+local linkGHworkflows = common.dashboardLinkTag(
+  'Github workflows',
+  'gh-workflows'
 );
 
 local hivePanel =
@@ -98,7 +103,7 @@ local phPanel2 =
 dashboard.new('CI dashboard overview')
   + dashboard.withDescription('POC of nextgen CI dashboard. Trying to cover all the CI process.')
   + dashboard.withTags('overview')
-  + dashboard.withLinks([linkProwsuccess, linkZuuljobs])
+  + dashboard.withLinks([linkProwsuccess, linkZuuljobs, linkGHworkflows])
   + dashboard.withPanels([
       hivePanel,
       zuulPanel,
