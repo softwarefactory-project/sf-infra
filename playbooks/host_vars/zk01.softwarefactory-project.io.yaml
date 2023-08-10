@@ -1,3 +1,4 @@
 ---
 container_images:
-  zookeeper_exporter: "docker.io/dabealu/zookeeper-exporter@sha256:6145a36fdc945a6bba8c66771aa45bba4c93ce3d71246478990a4ccbc2229899"
+  # v0.1.13
+  zookeeper_exporter: "docker.io/dabealu/zookeeper-exporter@sha256:86106fec315f24caccee437b59bcdbf968289ed0e4277ea27d6367944d1b01bd"
