@@ -178,5 +178,6 @@
       "to": "now"
    },
    "timezone": "utc",
-   "title": "CI dashboard overview"
+   "title": "CI dashboard overview",
+   "uid": "bce059749d61c1c247c303d0118d0d53"
 }

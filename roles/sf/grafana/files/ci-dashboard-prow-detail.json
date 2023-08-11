@@ -259,5 +259,6 @@
       "to": "now"
    },
    "timezone": "utc",
-   "title": "Prow jobs operator detail"
+   "title": "Prow jobs operator detail",
+   "uid": "85be25a111aea738a973c6912614a262"
 }

@@ -12,6 +12,10 @@ local queryRate = '8h';
 local common = import 'common.jsonnet';
 local operators = common.operators();
 
+local dashboardUid = {
+  uid: common.dashboardUniqueIds()['prow-detail']
+};
+
 local linkProwsuccess = common.dashboardLinkTag(
   'Prow jobs operator success rate',
   'prow-success'
@@ -102,3 +106,4 @@ dashboard.new('Prow jobs operator detail')
       jobDetail,
       jobStat,
     ])
+  + dashboardUid

@@ -9,6 +9,10 @@ local linkOverview = common.dashboardLinkTag(
   'overview'
 );
 
+local dashboardUid = {
+  uid: common.dashboardUniqueIds()['gh-workflows']
+};
+
 local workflowUrlTemplate = |||
   <a href='https://github.com/%s/%s/actions/workflows/%s' style='display: block; margin-bottom: 10px; font-size: 16px; text-decoration: none;'>
     <img src='https://github.com/%s/%s/actions/workflows/%s/badge.svg' alt='Cinder Operator image builder" style="max-width: 100%%;'>
@@ -53,4 +57,5 @@ dashboard.new('openstack-k8s-operators Workflows Status')
   + dashboard.withLinks([linkOverview])
   + dashboard.withPanels([
       GhWorkflowPanel,
-])
+  ])
+  + dashboardUid

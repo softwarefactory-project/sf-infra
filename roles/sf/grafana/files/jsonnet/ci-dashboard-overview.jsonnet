@@ -11,6 +11,10 @@ local queryRate = '8h';
 
 local common = import 'common.jsonnet';
 
+local dashboardUid = {
+  uid: common.dashboardUniqueIds()['overview']
+};
+
 local txtHivepanel =
   |||
     <h1 style="text-align: center;">
@@ -111,4 +115,4 @@ dashboard.new('CI dashboard overview')
       phPanel1,
       phPanel2,
     ])
-
+  + dashboardUid
