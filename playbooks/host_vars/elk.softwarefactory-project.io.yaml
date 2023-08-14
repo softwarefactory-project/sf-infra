@@ -9,7 +9,8 @@ external_elk:
 container_images:
   logscraper: quay.io/software-factory/logscraper:latest
   logsender: quay.io/software-factory/logscraper:latest
-  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:13a41e8ac8366a2ec1ffefea988095ab02a397c6f1df52934f3f403f9fe3a74c
+  # v1.6.0
+  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:e56e84e870fdd751a5d560405e56552f0dbbe58ee695d3ae219af1e564b8febf
 
 tenant_builds:
   - tenant: softwarefactory-project.io
