@@ -132,7 +132,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm1\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm1\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm1\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm1\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm1\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm1\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -218,7 +218,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm2\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm2\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm2\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm2\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm2\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm2\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -304,7 +304,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm3\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm3\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm3\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm3\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm3\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm3\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -390,7 +390,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm4\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm4\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm4\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm4\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm4\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm4\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -476,7 +476,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm5\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm5\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm5\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm5\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm5\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm5\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -562,7 +562,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm6\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm6\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm6\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm6\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm6\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm6\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -648,7 +648,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm7\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm7\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm7\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm7\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm7\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm7\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -734,7 +734,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm8\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm8\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm8\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm8\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm8\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm8\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -820,7 +820,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm9\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm9\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm9\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm9\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm9\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm9\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -906,7 +906,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm10\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm10\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm10\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm10\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm10\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm10\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -992,7 +992,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm11\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm11\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm11\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm11\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm11\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm11\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1078,7 +1078,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm12\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm12\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm12\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm12\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm12\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm12\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1164,7 +1164,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm13\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm13\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm13\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm13\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1251,7 +1251,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm14\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm14\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm14\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"kvm14\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm14\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"kvm14\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -5203,7 +5203,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5218,7 +5218,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5233,7 +5233,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5247,7 +5247,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5261,7 +5261,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5275,7 +5275,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm1\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm1\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5418,7 +5418,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5433,7 +5433,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5448,7 +5448,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5462,7 +5462,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5476,7 +5476,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5490,7 +5490,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm2\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm2\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5633,7 +5633,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5648,7 +5648,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5663,7 +5663,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5677,7 +5677,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5691,7 +5691,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5705,7 +5705,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm3\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm3\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5848,7 +5848,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5863,7 +5863,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5878,7 +5878,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5892,7 +5892,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5906,7 +5906,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5920,7 +5920,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm4\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm4\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6063,7 +6063,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6078,7 +6078,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6093,7 +6093,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6107,7 +6107,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6121,7 +6121,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6135,7 +6135,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm5\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm5\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6278,7 +6278,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6293,7 +6293,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6308,7 +6308,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6322,7 +6322,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6336,7 +6336,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6350,7 +6350,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm6\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm6\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6493,7 +6493,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6508,7 +6508,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6523,7 +6523,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6537,7 +6537,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6551,7 +6551,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6565,7 +6565,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm7\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm7\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6708,7 +6708,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6723,7 +6723,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6738,7 +6738,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6752,7 +6752,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6766,7 +6766,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6780,7 +6780,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm8\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm8\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6923,7 +6923,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6938,7 +6938,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6953,7 +6953,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6967,7 +6967,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6981,7 +6981,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6995,7 +6995,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm9\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm9\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7138,7 +7138,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7153,7 +7153,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7168,7 +7168,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7182,7 +7182,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7196,7 +7196,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7210,7 +7210,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm10\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm10\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7353,7 +7353,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7368,7 +7368,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7383,7 +7383,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7397,7 +7397,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7411,7 +7411,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7425,7 +7425,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm11\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm11\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7568,7 +7568,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7583,7 +7583,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7598,7 +7598,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7612,7 +7612,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7626,7 +7626,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7640,7 +7640,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm12\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm12\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7783,7 +7783,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7798,7 +7798,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7813,7 +7813,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7827,7 +7827,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7841,7 +7841,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7855,7 +7855,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7999,7 +7999,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm14\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"kvm14\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8016,7 +8016,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"kvm14\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"kvm14\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8033,7 +8033,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"kvm14\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"kvm14\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8049,7 +8049,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm14\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"kvm14\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8065,7 +8065,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm14\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"kvm14\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8080,7 +8080,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"kvm13\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11123,7 +11123,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm1\",job=\"$job\"}[$__range])*8",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm1\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11137,7 +11137,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm1\",job=\"$job\"}[$__range])*8",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm1\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11270,7 +11270,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm2\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm2\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11284,7 +11284,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm2\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm2\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11417,7 +11417,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm3\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm3\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11431,7 +11431,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm3\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm3\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11564,7 +11564,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm4\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm4\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11578,7 +11578,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm4\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm4\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11711,7 +11711,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm5\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm5\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11725,7 +11725,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm5\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm5\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11858,7 +11858,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm6\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm6\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -11872,7 +11872,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm6\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm6\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12005,7 +12005,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm7\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm7\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12019,7 +12019,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm7\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm7\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12152,7 +12152,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm8\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm8\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12166,7 +12166,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm8\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm8\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12299,7 +12299,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm9\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm9\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12313,7 +12313,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm9\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm9\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12446,7 +12446,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm10\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm10\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12460,7 +12460,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm10\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm10\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12593,7 +12593,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm11\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm11\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12607,7 +12607,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm11\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm11\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12740,7 +12740,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm12\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm12\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12754,7 +12754,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm12\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm12\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12887,7 +12887,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm13\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm13\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12901,7 +12901,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm13\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm13\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13035,7 +13035,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"kvm14\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"kvm14\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13051,7 +13051,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"kvm14\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"kvm14\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14696,7 +14696,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -14805,7 +14805,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -14914,7 +14914,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15023,7 +15023,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15132,7 +15132,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15241,7 +15241,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15350,7 +15350,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15459,7 +15459,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15568,7 +15568,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15677,7 +15677,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15786,7 +15786,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -15895,7 +15895,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16004,7 +16004,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16114,7 +16114,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16276,7 +16276,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16291,7 +16291,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm1\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16424,7 +16424,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16439,7 +16439,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm2\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16572,7 +16572,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16587,7 +16587,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm3\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16720,7 +16720,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16735,7 +16735,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm4\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16868,7 +16868,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16883,7 +16883,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm5\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17016,7 +17016,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17031,7 +17031,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm6\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17164,7 +17164,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17179,7 +17179,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm7\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17312,7 +17312,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17327,7 +17327,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm8\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17460,7 +17460,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17475,7 +17475,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm9\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17608,7 +17608,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17623,7 +17623,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm10\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17756,7 +17756,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17771,7 +17771,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm11\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17904,7 +17904,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17919,7 +17919,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm12\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18052,7 +18052,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18067,7 +18067,7 @@
                 "uid": "P54C0215FB640911F"
               },
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm13\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18201,7 +18201,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18218,7 +18218,7 @@
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_written_bytes_total{instance=\"kvm14\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",

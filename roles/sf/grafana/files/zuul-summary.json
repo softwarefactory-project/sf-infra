@@ -112,7 +112,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -190,7 +190,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -268,7 +268,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -346,7 +346,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -424,7 +424,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -502,7 +502,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -580,7 +580,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -658,7 +658,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -736,7 +736,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -814,7 +814,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -892,7 +892,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -970,7 +970,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1048,7 +1048,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))\n",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1126,7 +1126,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1204,7 +1204,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1282,7 +1282,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -1360,7 +1360,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
+              "expr": "(((count(count(node_cpu_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))) - avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])))) * 100) / count(count(node_cpu_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}) by (cpu))",
               "hide": false,
               "interval": "1m",
               "intervalFactor": 1,
@@ -5607,7 +5607,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5618,7 +5618,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5629,7 +5629,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5639,7 +5639,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5649,7 +5649,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5659,7 +5659,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5805,7 +5805,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5816,7 +5816,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -5827,7 +5827,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5837,7 +5837,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5847,7 +5847,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -5857,7 +5857,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6003,7 +6003,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6014,7 +6014,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6025,7 +6025,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6035,7 +6035,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6045,7 +6045,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6055,7 +6055,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6201,7 +6201,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6212,7 +6212,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6223,7 +6223,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6233,7 +6233,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6243,7 +6243,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6253,7 +6253,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6399,7 +6399,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6410,7 +6410,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6421,7 +6421,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6431,7 +6431,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6441,7 +6441,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6451,7 +6451,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6597,7 +6597,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6608,7 +6608,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6619,7 +6619,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6629,7 +6629,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6639,7 +6639,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6649,7 +6649,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6795,7 +6795,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6806,7 +6806,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -6817,7 +6817,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6827,7 +6827,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6837,7 +6837,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6847,7 +6847,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -6993,7 +6993,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7004,7 +7004,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7015,7 +7015,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7025,7 +7025,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7035,7 +7035,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7045,7 +7045,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7191,7 +7191,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7202,7 +7202,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7213,7 +7213,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7223,7 +7223,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7233,7 +7233,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7243,7 +7243,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7389,7 +7389,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7400,7 +7400,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7411,7 +7411,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7421,7 +7421,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7431,7 +7431,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7441,7 +7441,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7587,7 +7587,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7598,7 +7598,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7609,7 +7609,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7619,7 +7619,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7629,7 +7629,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7639,7 +7639,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7785,7 +7785,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7796,7 +7796,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7807,7 +7807,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7817,7 +7817,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7827,7 +7827,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7837,7 +7837,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -7983,7 +7983,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -7994,7 +7994,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8005,7 +8005,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8015,7 +8015,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8025,7 +8025,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8035,7 +8035,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8181,7 +8181,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8192,7 +8192,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8203,7 +8203,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8213,7 +8213,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8223,7 +8223,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8233,7 +8233,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8379,7 +8379,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8390,7 +8390,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8401,7 +8401,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8411,7 +8411,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8421,7 +8421,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8431,7 +8431,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8577,7 +8577,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8588,7 +8588,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8599,7 +8599,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8609,7 +8609,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8619,7 +8619,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8629,7 +8629,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8775,7 +8775,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=\"system\",instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=\"system\",instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8786,7 +8786,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='user',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='user',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -8797,7 +8797,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode='iowait',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode='iowait',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8807,7 +8807,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (instance)(rate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (instance)(irate(node_cpu_seconds_total{mode=~\".*irq\",instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8817,7 +8817,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum (rate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum (irate(node_cpu_seconds_total{mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -8827,7 +8827,7 @@
             },
             {
               "exemplar": true,
-              "expr": "sum by (mode)(rate(node_cpu_seconds_total{mode='idle',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])) * 100\n",
+              "expr": "sum by (mode)(irate(node_cpu_seconds_total{mode='idle',instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])) * 100\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12216,7 +12216,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12226,7 +12226,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12362,7 +12362,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12372,7 +12372,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12508,7 +12508,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12518,7 +12518,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12654,7 +12654,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12664,7 +12664,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12800,7 +12800,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12810,7 +12810,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12946,7 +12946,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -12956,7 +12956,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13092,7 +13092,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13102,7 +13102,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13238,7 +13238,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13248,7 +13248,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13384,7 +13384,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13394,7 +13394,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13530,7 +13530,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13540,7 +13540,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13676,7 +13676,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13686,7 +13686,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13822,7 +13822,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13832,7 +13832,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13968,7 +13968,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -13978,7 +13978,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14114,7 +14114,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14124,7 +14124,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14262,7 +14262,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14272,7 +14272,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14410,7 +14410,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14420,7 +14420,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14558,7 +14558,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_network_receive_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_receive_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -14568,7 +14568,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_network_transmit_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__range])*8\n",
+              "expr": "irate(node_network_transmit_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\"}[$__rate_interval])*8\n",
               "format": "time_series",
               "interval": "1m",
               "intervalFactor": 1,
@@ -16553,7 +16553,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16665,7 +16665,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16777,7 +16777,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -16889,7 +16889,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17001,7 +17001,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17113,7 +17113,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17225,7 +17225,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17337,7 +17337,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17449,7 +17449,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17561,7 +17561,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17673,7 +17673,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17785,7 +17785,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -17897,7 +17897,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18009,7 +18009,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18121,7 +18121,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18233,7 +18233,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18345,7 +18345,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_io_time_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__range])\n",
+              "expr": "irate(node_disk_io_time_seconds_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18497,7 +18497,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18508,7 +18508,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18645,7 +18645,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18656,7 +18656,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18793,7 +18793,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18804,7 +18804,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18941,7 +18941,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -18952,7 +18952,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19089,7 +19089,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19100,7 +19100,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19237,7 +19237,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19248,7 +19248,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19385,7 +19385,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19396,7 +19396,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"ze07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19533,7 +19533,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19544,7 +19544,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19681,7 +19681,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19692,7 +19692,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm02.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19829,7 +19829,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19840,7 +19840,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm03.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19977,7 +19977,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -19988,7 +19988,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm04.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20125,7 +20125,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20136,7 +20136,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm05.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20273,7 +20273,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20284,7 +20284,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm06.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20421,7 +20421,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20432,7 +20432,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm07.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20569,7 +20569,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20580,7 +20580,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zm08.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20717,7 +20717,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20728,7 +20728,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zs.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20865,7 +20865,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "rate(node_disk_read_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "irate(node_disk_read_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
@@ -20876,7 +20876,7 @@
             },
             {
               "exemplar": true,
-              "expr": "rate(node_disk_written_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__range])\n",
+              "expr": "rate(node_disk_written_bytes_total{instance=\"zk01.softwarefactory-project.io:9100\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])\n",
               "format": "time_series",
               "hide": false,
               "interval": "1m",
