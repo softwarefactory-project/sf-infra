@@ -325,5 +325,6 @@
       "to": "now"
    },
    "timezone": "utc",
-   "title": "Zuul jobs list"
+   "title": "Zuul jobs list",
+   "uid": "04fccc85664e06c980bafc41c6bb4ceb"
 }

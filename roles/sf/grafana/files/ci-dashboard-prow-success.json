@@ -1149,5 +1149,6 @@
       "to": "now"
    },
    "timezone": "utc",
-   "title": "Prow jobs operator success rate"
+   "title": "Prow jobs operator success rate",
+   "uid": "9895e2289c165d39dc5c4d4104ed01e6"
 }

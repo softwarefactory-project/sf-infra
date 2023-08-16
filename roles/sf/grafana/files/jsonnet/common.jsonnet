@@ -3,6 +3,15 @@ local prometheusQuery = grafonnet.query.prometheus;
 local dashLink = grafonnet.dashboard.link;
 
 {
+  dashboardUniqueIds():
+    {
+      'gh-workflows': std.md5('gh-workflows'),
+      'overview': std.md5('overview'),
+      'prow-detail': std.md5('prow-detail'),
+      'prow-success': std.md5('prow-success'),
+      'zuul-jobs': std.md5('zuul-jobs')
+    },
+
   operators():
     ['ci-framework',
      'cinder-operator',

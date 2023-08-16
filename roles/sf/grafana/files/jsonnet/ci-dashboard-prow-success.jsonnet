@@ -11,6 +11,10 @@ local queryRate = '8h';
 local prowPanelH = 4;
 local prowPanelW = 4;
 
+local dashboardUid = {
+  uid: common.dashboardUniqueIds()['prow-success']
+};
+
 //-- Link to the overview dashboard -----------------------
 local linkOverview = common.dashboardLinkTag(
   'CI dashboard overview',
@@ -63,3 +67,4 @@ dashboard.new('Prow jobs operator success rate')
     )
     for i in std.range(0, std.length(operators)-1)
   ])
+  + dashboardUid

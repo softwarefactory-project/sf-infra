@@ -10,6 +10,10 @@ local esQuery = grafonnet.query.elasticsearch;
 local datasource = 'opensearch-rdoproject-zuul';
 local common = import 'common.jsonnet';
 
+local dashboardUid = {
+  uid: common.dashboardUniqueIds()['zuul-jobs']
+};
+
 local queryElastic = 'project: "openstack-k8s-operators/*" AND build_type: "build"';
 local linkOverview = common.dashboardLinkTag(
   'CI dashboard overview',
@@ -198,4 +202,4 @@ dashboard.new('Zuul jobs list')
   + dashboard.withPanels([
       zuulJobList,
     ])
-
+  + dashboardUid
