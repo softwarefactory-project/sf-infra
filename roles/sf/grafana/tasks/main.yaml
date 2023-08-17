@@ -10,6 +10,7 @@
   loop:
     - path: /etc/grafana/provisioning/datasources
     - path: /etc/grafana/provisioning/dashboards
+    - path: /etc/grafana/provisioning/dashboards/ng-ci-dashboard
     - path: /etc/grafana/secrets
     - path: /var/lib/grafana
       owner: 472
@@ -36,11 +37,12 @@
     - { name: 'apache-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/6483-elasticsearch/
     - { name: 'elasticsearch.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ci-dashboard-overview.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ci-dashboard-prow-detail.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ci-dashboard-prow-success.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ci-dashboard-zuul-jobs.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ci-dashboard-gh-workflows.json', path: 'grafana/provisioning/dashboards' }
+    ####### NG CI DASHBOARD ########
+    - { name: 'ng-ci-dashboard/ci-dashboard-overview.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ng-ci-dashboard/ci-dashboard-prow-detail.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ng-ci-dashboard/ci-dashboard-prow-success.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ng-ci-dashboard/ci-dashboard-zuul-jobs.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'ng-ci-dashboard/ci-dashboard-gh-workflows.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
