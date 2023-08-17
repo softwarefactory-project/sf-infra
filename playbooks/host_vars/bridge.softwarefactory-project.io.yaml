@@ -5,3 +5,10 @@ prometheus_public_ip: 38.102.83.250
 prometheus_private_ip: 192.168.242.246
 # for tripleo-standalone
 ibm_bm3_ip: 169.60.49.226
+projects:
+  - infra-sf
+  - infra-rdo
+  - infra-tripleo
+  - nodepool-sf
+  - nodepool-rdo
+  - nodepool-tripleo

@@ -15,15 +15,17 @@ clouds:
     identity_api_version: 3
     image_format: 'raw'
     region_name: RegionOne
-  nodepool-tripleo:
+{% for project in projects %}
+  {{ project }}:
     auth:
       username: zuul
       password: {{ vexxhost_rdo.password }}
-      project_name: nodepool-tripleo
+      project_name: {{ project }}
       user_domain_name: Default
       project_domain_name: default
       auth_url: https://identity.rdo.mtl2.vexxhost.net/
     region_name: "RegionOne"
+{% endfor %}
   ibm-bm3-nodepool:
     auth:
       auth_url: https://169.60.49.226:13000
