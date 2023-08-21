@@ -103,6 +103,12 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGuW1BgAD3UsNOfxGdKaHZGWFl2+ez7tKQVZYGa+WrFWJchpT3fThOLciI71x0n0kUot9twuv+7w7/+1+daHksanVx8kNcsCT9OgTuBgS3pmOcxvcZTLNcSAwmENjf4HcbDrIYFvXGnQP3LASLfYJZxMBGFuB3kcXyhXO1I/+uH1EVTlFcJ/XyO5/IjXe/wHU+t26xNHddHbrZco0R6TGnwTWoqdjDM4KHg2tq58yiH6AYxMrSMk5Shgn40o6RG5XkjAf5WZRXckc1Djq5U9wdJhPt5BEu0m/hhm/0Zl2YT+RLTBfLj3AS2mio+qpDL/Unuf/irSKEZb16YY5BgRySAj/73lLfVqBWm4dE/ncB3gVraMnB9UYTPRe2yD9VPDzyXB1pZcEaTB0Xv3s59B01URksmfKTa20twZvG86+I02m7zcBVSWjz/9kIP3mp2/l92U5meCTe3pFMEbFsaQZsiohq3x+/lC3xFrHGte553QLREFrALDkB3T02jfAjwu0= fserucas@spaceship"
+  tcalanch:
+    name: "tcalanch"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDm23YKLTpcffvTMlNEp9uypcYUATkZQtg8JdXZAbK34ETN+hxeTsvvdhgDBw4zv71sEfqbr22+y6Vkvsq6cUDz4o8J0bD16b6xehyRxHnHwHVI8oYXFmJjL17ZAG6wkqGP+FeQ5gC1pUSD3T6017+W76+DI3J2dIVP8U1W5NzVo7RmHkYSeHD5roA6z1GpyQ7X7DK5eOh5OwmYGxusc4zLJUnzkmfdzu3g1wJu/jVY2ZbCFGjDsGWhd/F6u1NioXnAqAV18m4KPcDxdsdO33m4caVEsNt7hmJjnbLECjkGLz38dTN6ENtzV1BF6RySuZkQki+1jKkET3CLgxlN76UjgPV7mxzx9PxjMgtuvbtSfpjpx+yYX2SGuQnVPy8YPMOxRhxHcmtsAkMIIABOx1sga0qyDm84fdZul6DDEqaJTwU2vC6K2Vv+gl083bB8WOiDhaASRCUWwoDn+PSVO4vM5LzbOp/p0Inzg+cOXyA57nlEQBUZlVwOaV4QaHFOUgJ09druXqFD2Qktuzec7xxLSHmxZRc5Jlq0FdPLbG9A9aWsqbMCSt6KE4MTyAdwHHyvXjTY/7xGhddjNBxYUK30toWhdiFmulDWCQlklyZyuP6nq8dcsgfUezVfsawZVajr+AkbbpzJR9611QdEAnv6CNiib/ky4c43FXS/wCRE9w== tcalanch@redhat.com"
   gleboude:
     name: "gleboude"
     state: "absent"
