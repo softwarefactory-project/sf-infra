@@ -90,6 +90,13 @@ secret_key: !vault |
 
 # NOTE: Admin password needs to be at least 8 chars
 # NOTE: the email address needs to be unique
+# NOTE: To generate token for an organization, after creating a superuser
+# account, login into the Quay as this user, create new organization: "config",
+# then inside the organization "config", create new application "admin_token",
+# with "Administer Organization", "Administer Repositories", "Create Repositories",
+# "View all visible repositories", "Read/Write to any accessible repositories" and
+# "Administer User" permissions.
+#
 # Structure looks like:
 #  <user>:
 #    email: <unique email address>
