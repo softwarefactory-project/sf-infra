@@ -22,6 +22,10 @@
     echo -n "Adding router-ca to system certs to allow accessing the crc image registry"
     {{ _oc_bin.stdout }} extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator --confirm
     sudo cp -f tls.crt /etc/pki/ca-trust/source/anchors/crc-router-ca.pem
+  until: "'Unable to connect to the server' not in _login_user.stderr"
+  retries: 20
+  delay: 10
+  register: _login_user
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Update local certs
