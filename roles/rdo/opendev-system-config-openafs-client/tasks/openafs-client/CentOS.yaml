@@ -52,6 +52,7 @@
   yum:
     name:
       - kernel-devel
+      - kernel-headers
       - dkms
       - gcc
       - dkms-openafs
@@ -64,6 +65,7 @@
   dnf:
     name:
       - kernel-devel
+      - kernel-headers
       - dkms
       - gcc
       - dkms-openafs

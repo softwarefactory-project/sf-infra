@@ -73,6 +73,12 @@
       paths:
         - openafs-client
 
+- name: Ensure that openafs mod is enabled
+  become: true
+  community.general.modprobe:
+    name: openafs
+    state: present
+
 - name: Ensure openafs-client service running
   service:
     name: openafs-client
