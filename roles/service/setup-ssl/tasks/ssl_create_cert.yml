@@ -19,6 +19,11 @@
     path: "/etc/letsencrypt/live/{{ cert_item.value.domain }}"
   register: cert
 
+- name: Ensure cert webroot dir exists
+  ansible.builtin.file:
+    path: "{{ cert_item.value.webroot | default('/var/www/html') }}"
+    state: directory
+
 - name: Generate certificate
   command: "certbot certonly {{ certbot_plugin }} -m {{ cert_item.value.email }} --agree-tos -n -d {{ cert_item.value.domain }} {{ additional_params | default('') }}"
   when: not cert.stat.exists
