@@ -1,0 +1,52 @@
+---
+- name: Install required packages
+  become: true
+  ansible.builtin.yum:
+    name:
+      - ansible-core
+      # required to install openstackclient
+      - python36
+      - centos-release-openstack-yoga
+    state: present
+
+- name: Install openstackclient
+  become: true
+  ansible.builtin.yum:
+    name: python3-openstackclient
+    state: present
+
+- name: Create OpenStack clouds dir
+  ansible.builtin.file:
+    path: /home/centos/.config/openstack
+    state: directory
+    owner: centos
+    group: centos
+
+- name: Copy the clouds.yaml
+  when: vexxhost_rdo is defined and vexxhost_rdo
+  ansible.builtin.template:
+    src: clouds.yaml.j2
+    dest: /home/centos/.config/openstack/clouds.yaml
+    mode: "0400"
+    owner: centos
+    group: centos
+  no_log: true
+
+- name: Ensure Ansible galaxy collections are installed
+  become: true
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: community.crypto
+
+- name: Ensure ssh key exists
+  community.crypto.openssh_keypair:
+    path: /home/centos/.ssh/id_ed25519
+    type: ed25519
+
+- name: Ensure image-builder ssh pub key exists
+  openstack.cloud.keypair:
+    cloud: nodepool-tripleo
+    state: present
+    name: image-builder
+    public_key_file: /home/centos/.ssh/id_ed25519.pub
+  no_log: true

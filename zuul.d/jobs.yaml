@@ -207,6 +207,10 @@
     secrets:
       - name: crc_secret
         secret: crc-secret
+      # required for image-builder to deploy scripts for making crc
+      # image snapshot for next-gen.
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
 
 - job:
     name: sf-infra-create-tripleo-standalone

@@ -83,6 +83,9 @@
     - sf/podman-pruner
     # Keep in sync with zuul-weeder security group and prometheus dhall configuration
     - sf/zuul-weeder
+    # next gen tasks will be done on that host: it does not do a lot,
+    # and it has many free storage.
+    - next-gen/prepare-host
 
 - hosts: ze
   tasks:
