@@ -87,6 +87,7 @@
     # and it has many free storage.
     - next-gen/prepare-host
     - next-gen/crc-snapshot
+    - next-gen/cleanup-openstack-resources
 
 - hosts: ze
   tasks:

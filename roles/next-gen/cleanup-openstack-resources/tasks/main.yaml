@@ -1,0 +1,24 @@
+---
+- name: Copy cleanup script
+  become: true
+  ansible.builtin.copy:
+    src: cleanup-ports-next-gen.sh
+    dest: /usr/local/bin/cleanup-ports-next-gen.sh
+    mode: 0755
+
+- name: Create log directory for next-gen cleaner
+  become: true
+  ansible.builtin.file:
+    path: /var/log/next-gen-cleaner
+    state: directory
+    owner: centos
+    group: centos
+
+- name: Create crontab for cleaning leftovers
+  ansible.builtin.cron:
+    name: Cleanup nodepool tripleo project OpenStack resources
+    minute: "0"
+    hour: "5"
+    job: >
+      export OS_CLOUD=nodepool-tripleo;
+      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date '+%d-%m-%Y-%H_%M_%S').log
