@@ -11,10 +11,10 @@ local common = import 'common.jsonnet';
 local zuulCommon = import 'zuul-common.jsonnet';
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['openstack-k8s-operators-zuul-jobs']
+  uid: common.dashboardUniqueIds()['data-plane-zuul-jobs']
 };
 
-local queryElastic = 'project: "openstack-k8s-operators/*" AND build_type: "build"';
+local queryElastic = 'pipeline: "openstack-periodic-container" AND build_type: "build"';
 local linkOverview = common.dashboardLinkTag(
   'CI dashboard overview',
   'overview'
@@ -101,7 +101,7 @@ local setCustom(filterable, displaymode) =
 
 //-- Panel with zuul jobs from elastic --------------------
 local zuulJobList =
-  tablePanel.new('openstack-k8s-operators zuul jobs')
+  tablePanel.new('Dataplane Zuul jobs')
   + tablePanel.panelOptions.withDescription('Description')
   + tablePanel.queryOptions.withDatasource(datasource)
   + tablePanel.queryOptions.withTargets(common.zuulOpensearchTarget(datasource, queryElastic))
@@ -136,9 +136,9 @@ local zuulJobList =
 ;
 
 //-- dashboard with zull job panel ------------------------
-dashboard.new('openstack-k8s-operators zuul jobs list')
-  + dashboard.withDescription('List of Zuul Jobs under each repository of the openstack-k8s-operators repositories')
-  + dashboard.withTags('zuul-jobs')
+dashboard.new('Dataplane Zuul jobs list')
+  + dashboard.withDescription('List of data plane Zuul Jobs')
+  + dashboard.withTags('data-plane-zuul-jobs')
   + dashboard.withLinks([linkOverview])
   + dashboard.withPanels([
       zuulJobList,

@@ -1,6 +1,7 @@
 local grafonnet = import 'grafonnet-v9.4.0/main.libsonnet';
 local prometheusQuery = grafonnet.query.prometheus;
 local dashLink = grafonnet.dashboard.link;
+local esQuery = grafonnet.query.elasticsearch;
 
 {
   dashboardUniqueIds():
@@ -9,8 +10,17 @@ local dashLink = grafonnet.dashboard.link;
       'overview': std.md5('overview'),
       'prow-detail': std.md5('prow-detail'),
       'prow-success': std.md5('prow-success'),
-      'zuul-jobs': std.md5('zuul-jobs')
+      'openstack-k8s-operators-zuul-jobs': std.md5('openstack-k8s-operators-zuul-jobs'),
+      'data-plane-zuul-jobs': std.md5('data-plane-zuul-jobs')
     },
+
+  zuulOpensearchTarget(datasource, query):
+    esQuery.withQuery(query)
+    + esQuery.withDatasource(datasource)
+    + esQuery.withMetrics({type:"raw_data",settings:{size:"500",order:"desc",useTimeRange:true}})
+    + esQuery.withTimeField('@timestamp')
+    + esQuery.withQueryType('lucene')
+    + esQuery.withBucketAggs([]),
 
   operators():
     ['ci-framework',
