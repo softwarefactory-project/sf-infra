@@ -20,8 +20,9 @@
     hour: 3
     minute: 30
     job: >
+      export ANSIBLE_CONFIG=~/.ansible.cfg;
       ansible-playbook
       -e "ansible_host_key_checking=False"
-      -e "centos_release=8"
+      -e "centos_release=9"
       ~/sf-infra/playbooks/crc-make-snapshot.yaml
       > /var/log/crc-snapshot/$(date +"%Y-%m-%d_%H-%M-%S")-crc.log

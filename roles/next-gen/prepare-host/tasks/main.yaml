@@ -12,7 +12,9 @@
 - name: Install openstackclient
   become: true
   ansible.builtin.yum:
-    name: python3-openstackclient
+    name:
+      - python3-openstackclient
+      - python3-openstacksdk
     state: present
 
 - name: Create OpenStack clouds dir
@@ -32,11 +34,27 @@
     group: centos
   no_log: true
 
+- name: Copy openshift pull secret file
+  ansible.builtin.template:
+    src: ansible_crc_vars.yaml.j2
+    dest: ~/.ansible_crc_vars.yaml
+    mode: "0400"
+  no_log: true
+
+- name: Copy ansible.cfg file
+  ansible.builtin.copy:
+    src: ansible.cfg
+    dest: ~/.ansible.cfg
+
 - name: Ensure Ansible galaxy collections are installed
   become: true
   community.general.ansible_galaxy_install:
     type: collection
     name: community.crypto
+  loop:
+    - "community.crypto"
+    - "openstack.cloud"
+    - "ansible.posix"
 
 - name: Ensure ssh key exists
   community.crypto.openssh_keypair:
