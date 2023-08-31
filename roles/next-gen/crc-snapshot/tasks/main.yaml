@@ -12,6 +12,7 @@
     repo: https://softwarefactory-project.io/r/software-factory/sf-infra
     dest: ~/sf-infra
     update: true
+    force: true
 
 - name: Create crontab entry for generating weekly CRC image on Wendnesday
   ansible.builtin.cron:

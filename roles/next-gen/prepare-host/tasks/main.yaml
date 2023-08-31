@@ -35,11 +35,7 @@
   no_log: true
 
 - name: Copy openshift pull secret file
-  ansible.builtin.template:
-    src: ansible_crc_vars.yaml.j2
-    dest: ~/.ansible_crc_vars.yaml
-    mode: "0400"
-  no_log: true
+  ansible.builtin.include_tasks: gen-ansible-vars.yaml
   when: crc_secret is defined and crc_secret
 
 - name: Copy ansible.cfg file

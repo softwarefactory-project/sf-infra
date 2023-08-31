@@ -1,0 +1,7 @@
+---
+- name: Copy openshift pull secret file
+  ansible.builtin.template:
+    src: ansible_crc_vars.yaml.j2
+    dest: ~/.ansible_crc_vars.yaml
+    mode: "0400"
+  no_log: true
