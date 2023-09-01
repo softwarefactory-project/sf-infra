@@ -114,3 +114,18 @@ datasources:
     basicAuthPassword: {{ opensearch_softwarefactory_readonly.password }}
   editable: true
 {% endif %}
+- id: 13
+  orgId: 1
+  name: Graphite-opendev
+  type: graphite
+  access: proxy
+  url: https://graphite.opendev.org
+  basicAuth: false
+  withCredentials: false
+  isDefault: false
+  jsonData:
+    graphiteType: default
+    graphiteVersion: "1.1"
+  version: 8
+  readOnly: false
+  editable: true
