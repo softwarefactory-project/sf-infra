@@ -40,6 +40,7 @@
     dest: ~/.ansible_crc_vars.yaml
     mode: "0400"
   no_log: true
+  when: crc_secret is defined and crc_secret
 
 - name: Copy ansible.cfg file
   ansible.builtin.copy:
