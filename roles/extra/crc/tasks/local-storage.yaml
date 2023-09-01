@@ -1,19 +1,6 @@
 ---
 - name: Configure host for sf-operator
   block:
-    - name: Get home directory
-      shell: |
-        getent passwd "{{ ansible_user }}" | cut -d: -f6
-      register: user_home
-
-    - name: Copy oc binary
-      become: true
-      copy:
-        src: "{{ user_home.stdout }}/.crc/bin/oc/oc"
-        dest: "/usr/local/bin/oc"
-        mode: "0755"
-        remote_src: true
-
     - name: Ensure that oc is logged into Openshift
       shell: >
         /usr/local/bin/oc login
