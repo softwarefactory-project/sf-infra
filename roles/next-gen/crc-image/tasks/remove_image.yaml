@@ -1,0 +1,6 @@
+---
+- name: Remove old crc image
+  openstack.cloud.image:
+    cloud: "{{ cloud_name }}"
+    name: "{{ finally_image_name }}"
+    state: absent

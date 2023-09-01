@@ -1,0 +1,73 @@
+---
+- name: Update packages
+  become: true
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+
+- name: Ensure CentOS runs with selinux permissive
+  become: true
+  when: disable_selinux | default(false)
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+
+- name: Enable nested virtualization
+  when: nested_virtualization | default(true)
+  block:
+    - name: Install packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - qemu-kvm-common
+        state: present
+
+    - name: Check if CPU vendor is Intel
+      ansible.builtin.shell: |
+        grep -qi intel /proc/cpuinfo
+      ignore_errors: true
+      register: _intel_vendor
+
+    - name: Enable nested virtualization - Intel
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/kvm.conf
+        regexp: '^#options kvm_intel nested=1'
+        line: 'options kvm_intel nested=1'
+      when: _intel_vendor.rc == 0
+      register: _nested_intel
+
+    - name: Enable nested virtualization - AMD
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/kvm.conf
+        regexp: '^#options kvm_amd nested=1'
+        line: 'options kvm_amd nested=1'
+      when: _intel_vendor.rc == 1
+      register: _nested_amd
+
+- name: Reboot host if needed
+  become: true
+  ansible.builtin.reboot:
+  when: _nested_intel.changed or _nested_amd.changed
+
+- name: Wait for host to be configured after reboot
+  ansible.builtin.pause:
+    seconds: 10
+  when: _nested_intel.changed or _nested_amd.changed
+
+- name: Install packages - partially for TripleO
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - make
+      - git
+      - vim
+      - golang
+      - tar
+      - ansible-core
+      - skopeo
+      - sqlite
+      - jq
+      - podman
+    state: present

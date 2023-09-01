@@ -1,0 +1,31 @@
+---
+- name: Remove pull-secret file
+  ansible.builtin.file:
+    path: pull-secret.txt
+    state: absent
+
+- name: Ensure cloud-init is installed
+  become: true
+  ansible.builtin.yum:
+    name:
+      - cloud-init
+      - golang
+    state: present
+
+- name: Cleanup dnf cache
+  become: true
+  ansible.builtin.command: dnf clean all
+
+# dpawlik: for some reason, ssh local keys in /etc/ssh/ are not generated during start.
+- name: Create crontab entry to generate local ssh keys
+  become: true
+  ansible.builtin.copy:
+    content: |
+      @reboot root /usr/bin/ssh-keygen -A; systemctl start sshd
+    dest: /etc/cron.d/ssh_gen
+    mode: "0644"
+
+- name: Set proper selinux label
+  become: true
+  ansible.builtin.shell: |
+    /usr/bin/chcon system_u:object_r:system_cron_spool_t:s0 /etc/cron.d/ssh_gen

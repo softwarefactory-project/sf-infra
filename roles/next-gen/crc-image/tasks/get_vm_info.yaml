@@ -1,0 +1,25 @@
+---
+- name: Get server info
+  openstack.cloud.server_info:
+    cloud: "{{ cloud_name }}"
+    server: "{{ vm_name }}"
+  register: server_info
+
+- name: Fail when ip address not available
+  ansible.builtin.fail:
+    msg: "Can not find ip address for server {{ vm_name }}. Too many vms available or cloud provider issue?"
+  when: not server_info.servers[0].access_ipv4
+
+- name: Add CRC host into the inventory
+  ansible.builtin.add_host:
+    hostname: crc.dev
+    ansible_ssh_host: "{{ server_info.servers[0].access_ipv4 }}"
+    ansible_ssh_port: 22
+    ansible_ssh_user: "{{ image_ssh_user | default('zuul') }}"
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Wait for SSH to be up
+  ansible.builtin.wait_for:
+    host: "{{ server_info.servers[0].access_ipv4 }}"
+    port: 22
+    delay: 10

@@ -1,0 +1,44 @@
+---
+- name: Get content for provided ssh key path
+  when: ssh_pub_path is defined and ssh_pub_path
+  block:
+    - name: Check if provided ssh key exists
+      ansible.builtin.stat:
+        path: "{{ ssh_pub_path }}"
+      register: _ssh_pub_path_stat
+
+    - name: Fail when key does not exists
+      ansible.builtin.fail:
+        msg: "Provided {{ ssh_pub_path }} does not exists!"
+      when: not _ssh_pub_path_stat.stat.exists
+
+    - name: Read public key if ssh_pub not provided
+      ansible.builtin.command: cat {{ ssh_pub_path }}
+      register: _ssh_pub_path_key
+
+- name: Create VM
+  openstack.cloud.server:
+    state: present
+    cloud: "{{ cloud_name }}"
+    name: "{{ vm_name }}"
+    image: "{{ image_name | default(base_rhel_image.stdout) | default(base_centos_image.stdout) }}"
+    key_name: "{{ ssh_keypair_name }}"
+    timeout: 300
+    flavor: "{{ flavor }}"
+    nics:
+      - net-id: "{{ net_id }}"
+    meta:
+      hostname: crc.dev
+    wait: true
+    config_drive: true
+    security_groups:
+      - default
+    # Add image-builder pub key to the remote host.
+    # It will inject via cloud-init a host SSH pub key to have access
+    # to deploy the CRC instead of adding new SSH ke via virt-customize.
+    userdata: |
+      #cloud-config
+      users:
+        - default
+        - name: "{{ image_ssh_user | default('zuul') }}"
+          ssh_authorized_keys: {{ [_ssh_pub_path_key.stdout | default(''), ssh_pub_key | default('') ] | select('ne', '') | list }}
