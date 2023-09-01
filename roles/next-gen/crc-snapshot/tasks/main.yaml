@@ -26,4 +26,4 @@
       -e "ansible_host_key_checking=False"
       -e "centos_release=9"
       ~/sf-infra/playbooks/crc-make-snapshot.yaml
-      > /var/log/crc-snapshot/$(date +"%Y-%m-%d_%H-%M-%S")-crc.log
+      > /var/log/crc-snapshot/$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-crc.log

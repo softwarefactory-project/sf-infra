@@ -21,4 +21,4 @@
     hour: "5"
     job: >
       export OS_CLOUD=nodepool-tripleo;
-      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date '+%d-%m-%Y-%H_%M_%S').log
+      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S).log
