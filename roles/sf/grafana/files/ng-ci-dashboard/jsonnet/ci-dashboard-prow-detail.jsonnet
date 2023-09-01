@@ -38,12 +38,6 @@ local resultVar =
     ]
   );
 
-local prowJobLink = {
-  title: 'Prow page',
-  url: 'https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-$operator*&state=$result',
-  targetBlank: true
-};
-
 local tsQuery =
   |||
     sum by (job_name) (
@@ -64,7 +58,6 @@ local tsTarget =
   )
   + prometheusQuery.withLegendFormat("{{job_name}}");
 
-
 local jobDetail =
   tsPanel.new('Prow $operator jobs $result detail')
   + tsPanel.panelOptions.withDescription('Number of jobs for the selected operator with the selected result')
@@ -78,7 +71,7 @@ local jobDetail =
   + tsPanel.gridPos.withY(0)
   + tsPanel.options.legend.withDisplayMode('table')
   + tsPanel.options.legend.withPlacement('right')
-  + tsPanel.panelOptions.withLinks([prowJobLink])
+  + tsPanel.panelOptions.withLinks([common.prowPageLink('$operator', '$result')])
 ;
 
 local jobStat =
@@ -97,7 +90,7 @@ local jobStat =
 dashboard.new('Prow jobs operator detail')
   + dashboard.withDescription('Detailed look on prow jobs building and testing openstack operators')
   + dashboard.withTags('prow-detail')
-  + dashboard.withLinks([linkProwsuccess])
+  + dashboard.withLinks([common.prowPageLink('$operator', '$result'), linkProwsuccess])
   + dashboard.withVariables([
       operatorVar,
       resultVar

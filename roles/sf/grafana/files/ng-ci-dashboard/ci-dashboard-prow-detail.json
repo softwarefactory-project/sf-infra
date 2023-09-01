@@ -2,6 +2,10 @@
    "description": "Detailed look on prow jobs building and testing openstack operators",
    "links": [
       {
+         "title": "Prow $operator operator $result status link",
+         "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-$operator*&state=$result"
+      },
+      {
          "tags": [
             "prow-success"
          ],
@@ -23,8 +27,7 @@
          "interval": "1m",
          "links": [
             {
-               "targetBlank": true,
-               "title": "Prow page",
+               "title": "Prow $operator operator $result status link",
                "url": "https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-$operator*&state=$result"
             }
          ],

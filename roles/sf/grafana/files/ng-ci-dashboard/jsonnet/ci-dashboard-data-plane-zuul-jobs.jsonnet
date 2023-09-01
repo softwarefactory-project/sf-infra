@@ -104,7 +104,7 @@ local zuulJobList =
   tablePanel.new('Dataplane Zuul jobs')
   + tablePanel.panelOptions.withDescription('Description')
   + tablePanel.queryOptions.withDatasource(datasource)
-  + tablePanel.queryOptions.withTargets(common.zuulOpensearchTarget(datasource, queryElastic))
+  + tablePanel.queryOptions.withTargets(zuulCommon.zuulOpensearchTarget(datasource, queryElastic))
   + tablePanel.queryOptions.withInterval('1m')
   + tablePanel.queryOptions.withTimeFrom('12h')
   + tablePanel.queryOptions.withTransformations([

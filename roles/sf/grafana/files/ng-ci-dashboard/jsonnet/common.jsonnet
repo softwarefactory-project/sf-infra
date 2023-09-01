@@ -1,7 +1,6 @@
 local grafonnet = import 'grafonnet-v9.4.0/main.libsonnet';
 local prometheusQuery = grafonnet.query.prometheus;
 local dashLink = grafonnet.dashboard.link;
-local esQuery = grafonnet.query.elasticsearch;
 
 {
   dashboardUniqueIds():
@@ -13,14 +12,6 @@ local esQuery = grafonnet.query.elasticsearch;
       'openstack-k8s-operators-zuul-jobs': std.md5('openstack-k8s-operators-zuul-jobs'),
       'data-plane-zuul-jobs': std.md5('data-plane-zuul-jobs')
     },
-
-  zuulOpensearchTarget(datasource, query):
-    esQuery.withQuery(query)
-    + esQuery.withDatasource(datasource)
-    + esQuery.withMetrics({type:"raw_data",settings:{size:"500",order:"desc",useTimeRange:true}})
-    + esQuery.withTimeField('@timestamp')
-    + esQuery.withQueryType('lucene')
-    + esQuery.withBucketAggs([]),
 
   operators():
     ['ci-framework',
@@ -62,6 +53,18 @@ local esQuery = grafonnet.query.elasticsearch;
       datasource,
       self.queryStringRatio(variableStem, result, queryRate)
     ),
+
+  prowPageLink(operator, result):
+    {
+      url: std.format(
+        'https://prow.ci.openshift.org/?job=pull-ci-openstack-k8s-operators-%s*&state=%s',
+        [operator, result]
+      ),
+      title: std.format(
+        'Prow %s operator %s status link',
+        [operator, result]
+      )
+    },
 
   prowTotalQuery(rate):
     std.format(
