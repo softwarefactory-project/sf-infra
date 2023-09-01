@@ -75,6 +75,11 @@
           no_log: yes
           when: vault is defined
 
+        - name: Copy openshift pull secret file
+          ansible.builtin.include_role:
+            name: next-gen/prepare-host
+            tasks_from: gen-ansible-vars.yaml
+
         - name: Symlink ansible configuration file
           file:
             src: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"

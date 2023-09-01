@@ -204,6 +204,7 @@
       - "^roles/service/.*$"
       - "^roles/system/.*$"
       - "^roles/sf/.*$"
+      - "^roles/next-gen/.*$"
     secrets:
       - name: crc_secret
         secret: crc-secret
