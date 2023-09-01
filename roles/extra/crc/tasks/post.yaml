@@ -16,17 +16,34 @@
     eval $(crc oc-env); whereis oc | awk '{print $2}'
   register: _oc_bin
 
+- name: Copy oc binary
+  become: true
+  copy:
+    src: "{{ _oc_bin.stdout }}"
+    dest: "/usr/local/bin/oc"
+    mode: "0755"
+    remote_src: true
+
 - name: Login to the Openshift
   shell: |
-    {{ _oc_bin.stdout }} login -u kubeadmin -p "{{ openshift_admin_password }}" https://api.crc.testing:6443
-    echo -n "Adding router-ca to system certs to allow accessing the crc image registry"
-    {{ _oc_bin.stdout }} extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator --confirm
-    sudo cp -f tls.crt /etc/pki/ca-trust/source/anchors/crc-router-ca.pem
+    /usr/local/bin/oc login -u kubeadmin -p "{{ openshift_admin_password }}" https://api.crc.testing:6443
   until: "'Unable to connect to the server' not in _login_user.stderr"
   retries: 20
   delay: 10
   register: _login_user
   no_log: "{{ hide_sensitive_logs }}"
+
+- name: Add router-ca to system certs to allow accessing the crc image registry
+  shell: |
+    /usr/local/bin/oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator --confirm
+  no_log: "{{ hide_sensitive_logs }}"
+
+- name: Copy tls crt to ca-trust
+  become: true
+  copy:
+    src: "~{{ ansible_user | default('zuul') }}/tls.crt"
+    dest: /etc/pki/ca-trust/source/anchors/crc-router-ca.pem
+    remote_src: true
 
 - name: Update local certs
   become: true
