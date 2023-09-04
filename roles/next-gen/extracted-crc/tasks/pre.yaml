@@ -1,0 +1,6 @@
+---
+- name: Install required package
+  become: true
+  ansible.builtin.package:
+    name: "libguestfs"
+    state: present

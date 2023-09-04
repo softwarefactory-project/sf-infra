@@ -1,0 +1,45 @@
+---
+- name: Get guest etc dir
+  become: true
+  ansible.builtin.shell: |
+    find /mnt/ostree/deploy/rhcos/deploy -maxdepth 1 -type d | tail -n1
+  register: _etc_dir
+
+- name: Set fact guest directories facts
+  ansible.builtin.set_fact:
+    guest_etc_dir: "{{ _etc_dir.stdout }}/etc"
+    guest_local_dir: "/mnt/ostree/deploy/rhcos/var/usrlocal"
+    guest_home_dir: "/mnt/ostree/deploy/rhcos/var/home/core"
+
+- name: Create crc-pre service
+  become: true
+  ansible.builtin.copy:
+    src: crc-pre.service
+    dest: "{{ guest_etc_dir }}/systemd/system/crc-pre.service"
+    mode: "0644"
+
+- name: Create configure-pre-crc.sh
+  become: true
+  ansible.builtin.copy:
+    src: configure-pre-crc.sh
+    dest: "{{ guest_local_dir }}/bin/configure-pre-crc.sh"
+    mode: "0755"
+
+- name: Create symlink to service defaults
+  become: true
+  ansible.builtin.shell: |
+    cd {{ guest_etc_dir }}/systemd/system/default.target.wants
+    ln -s ../crc-pre.service .
+
+- name: Create temp file with ssh keys
+  ansible.builtin.copy:
+    src: ssh-auth-keys
+    dest: /tmp/ssh-auth-keys
+
+# NOTE: It is a workaround to provide SSH key to the extracted CRC image.
+# There was an atempt with lineinfile, but after spawning VM, there was
+# no key there, where the crc.qcow2 image have it.
+- name: Copy temp ssh keys into guestmount location
+  become: true
+  ansible.builtin.shell: |
+    cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys

@@ -1,0 +1,19 @@
+---
+- name: Remove directory for keeping crc qcow2 image
+  ansible.builtin.file:
+    path: "{{ sync_extracted_qcow2_dir }}"
+    state: absent
+
+- name: Create directory for crc qcow2 image
+  ansible.builtin.file:
+    path: "{{ sync_extracted_qcow2_dir }}"
+    state: directory
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+
+- name: Pull crc qcow2 image
+  fetch:
+    src: "{{ crc_bundle_dir }}/crc.qcow2"
+    dest: "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
+    flat: true
+  delegate_to: "{{ crc_host | default('crc.dev') }}"

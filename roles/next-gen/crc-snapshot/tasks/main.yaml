@@ -23,5 +23,6 @@
     job: >
       export ANSIBLE_CONFIG=~/.ansible.cfg;
       ansible-playbook
+      -e "ssh_pub_path=~/.ssh/id_ed25519.pub"
       ~/sf-infra/playbooks/crc-make-snapshot.yaml
       > /var/log/crc-snapshot/$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-crc.log

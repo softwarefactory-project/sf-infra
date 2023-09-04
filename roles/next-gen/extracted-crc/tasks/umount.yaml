@@ -1,0 +1,8 @@
+---
+- name: Run sync command
+  become: true
+  ansible.builtin.command: sync
+
+- name: Umount guestfish image
+  become: true
+  ansible.builtin.command: guestunmount /mnt

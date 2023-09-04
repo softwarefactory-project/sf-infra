@@ -5,26 +5,36 @@
 # More controled usage:
 # ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc-make-snapshot.yaml
 # More info: roles/next-gen/crc-image/README.md
+#
+# For extracted CRC version, add variable:
+# -e "extracted_crc=true"
 
 - name: Spawning a crc VM
   hosts: localhost
   tasks:
     - name: Set important facts
       ansible.builtin.set_fact:
-        cloud_name: nodepool-tripleo
-        flavor: ci.m1.xlarge
-        ssh_keypair_name: image-builder
-        vm_name: infra-dfg-team-crc
-        net_id: 7abff1a9-a103-46d0-979a-1f1e599f4f41
-        snapshot_name: "infra-dfg-team-crc-snapshot"
+        crc_host: crc.dev
+        cloud_name: "{{ cloud_name | default('nodepool-tripleo') }}"
+        flavor: "{{ flavor_name | default('ci.m1.xlarge') }}"
+        ssh_keypair_name: "{{ ssh_keypair_name | default('image-builder') }}"
+        net_id: "{{ net_id | default('7abff1a9-a103-46d0-979a-1f1e599f4f41') }}"
+        vm_name: "{{ vm_name | default('infra-dfg-team-crc') }}"
+        snapshot_name: "{{ snapshot_name | default('infra-dfg-team-crc-snapshot') }}"
         # Add ssh key
-        ssh_pub_key: ""
+        ssh_pub_key: "{{ ssk_pub_key | default('') }}"
         # Or set the path for ssh pub key
-        ssh_pub_path: ~/.ssh/id_ed25519.pub
+        ssh_pub_path: "{{ ssh_pub_path | default ('') }}"
         # can be: centos or rhel
         system_distro: "{{ system_distro | default('centos') }}"
         # for centos: 9, for rhel: 9-2
         system_release: "{{ system_release | default(9) }}"
+        #### FOR EXTRACTED VERSION ####
+        extracted_crc: "{{ extracted_crc | default(false) }}"
+        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted') }}"
+        # path for a place, where the crc extracted qcow2 image should be
+        # downloaded. NOTE: It should have at least 25 GB free space
+        sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
 
     - name: Check if there is already VM with such name
       ansible.builtin.include_role:
@@ -51,6 +61,11 @@
 - name: Deploy CRC
   hosts: crc.dev
   pre_tasks:
+    - name: Disable modify_kubelet_systemd when extracted crc
+      set_fact:
+        modify_kubelet_systemd: false
+      when: extracted_crc
+
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
         file: ~/.ansible_crc_vars.yaml
@@ -73,12 +88,37 @@
         name: next-gen/crc-image
         tasks_from: post_vm.yaml
 
+    - name: Create extracted CRC image
+      when: extracted_crc | default(false)
+      block:
+        - name: Sleep a while because of the marketplace
+          ansible.builtin.pause:
+            minutes: 10
+
+        - name: Extract the image and upload to the Cloud provider
+          ansible.builtin.include_role:
+            name: next-gen/extracted-crc
+
 - name: Making snapshot of CRC instance
   hosts: localhost
   tasks:
-    - name: Change CRC base image
+    - name: Create CRC snapshot or upload extracted image
       block:
-        - name: Make snapshot
+        - name: Download extracted CRC qcow2 image
+          when: extracted_crc | default(false)
+          block:
+            - name: Pull image to the host
+              ansible.builtin.include_role:
+                name: next-gen/extracted-crc
+                tasks_from: pull-image.yaml
+
+            - name: Upload to the Cloud provider
+              ansible.builtin.include_role:
+                name: next-gen/extracted-crc
+                tasks_from: create-image.yaml
+
+        - name: Make CRC base image snapshot
+          when: not extracted_crc | default(false)
           ansible.builtin.include_role:
             name: next-gen/crc-image
             tasks_from: make_snapshot.yaml
