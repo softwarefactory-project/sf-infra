@@ -10,6 +10,8 @@ spec:
     name: microzuul-config
     zuul-connection-name: sfio-gerrit
   fqdn: microshift.softwarefactory-project.io
+  letsEncrypt:
+    server: prod
   logserver:
     loopDelay: 3600
     retentionDays: 90
