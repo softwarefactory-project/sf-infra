@@ -28,6 +28,9 @@
         image: quay.io/software-factory/sf-operator-catalog:latest
         displayName: Software Factory Operator
         publisher: Red Hat PCInfra DFG
+        updateStrategy:
+          registryPoll:
+            interval: 15m
 
 - name: Wait for Catalog Source to be ready
   ansible.builtin.command: >
