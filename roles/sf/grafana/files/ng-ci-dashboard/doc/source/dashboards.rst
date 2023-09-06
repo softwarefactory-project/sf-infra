@@ -49,6 +49,13 @@ The respective operator and job result can be picked out from the drop down boxe
 Zuul jobs
 =========
 
+Dashboards are showing information about the following Zuul jobs:
+
+- Jobs under the `openstack-k8s-operators <https://github.com/openstack-k8s-operators/>`_ organization projects.
+- Current podified promotion jobs status.
+
+These jobs are running under the following `Zuul instance <https://review.rdoproject.org/zuul/status>`_.
+
 Data source
   Elasticsearch
 

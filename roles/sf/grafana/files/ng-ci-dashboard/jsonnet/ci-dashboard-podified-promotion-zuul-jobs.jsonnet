@@ -11,7 +11,7 @@ local common = import 'common.jsonnet';
 local zuulCommon = import 'zuul-common.jsonnet';
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['data-plane-zuul-jobs']
+  uid: common.dashboardUniqueIds()['podified-promotion-zuul-jobs']
 };
 
 local queryElastic = 'pipeline: "openstack-periodic-container" AND build_type: "build"';
@@ -101,7 +101,7 @@ local setCustom(filterable, displaymode) =
 
 //-- Panel with zuul jobs from elastic --------------------
 local zuulJobList =
-  tablePanel.new('Dataplane Zuul jobs')
+  tablePanel.new('current-podified promotion jobs status')
   + tablePanel.panelOptions.withDescription('Description')
   + tablePanel.queryOptions.withDatasource(datasource)
   + tablePanel.queryOptions.withTargets(zuulCommon.zuulOpensearchTarget(datasource, queryElastic))
@@ -136,9 +136,9 @@ local zuulJobList =
 ;
 
 //-- dashboard with zull job panel ------------------------
-dashboard.new('Dataplane Zuul jobs list')
-  + dashboard.withDescription('List of data plane Zuul Jobs')
-  + dashboard.withTags('data-plane-zuul-jobs')
+dashboard.new('current-podified promotion jobs status')
+  + dashboard.withDescription('List of current podified promotion Zuul Jobs')
+  + dashboard.withTags('current-podified-zuul-jobs')
   + dashboard.withLinks([linkOverview])
   + dashboard.withPanels([
       zuulJobList,

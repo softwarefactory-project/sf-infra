@@ -1,5 +1,5 @@
 {
-   "description": "List of data plane Zuul Jobs",
+   "description": "List of current podified promotion Zuul Jobs",
    "links": [
       {
          "tags": [
@@ -223,8 +223,8 @@
                "timeField": "@timestamp"
             }
          ],
-         "timeFrom": "12h",
-         "title": "Dataplane Zuul jobs",
+         "timeFrom": "48h",
+         "title": "current-podified promotion jobs status",
          "transformations": [
             {
                "id": "filterFieldsByName",
@@ -328,13 +328,13 @@
    ],
    "schemaVersion": 36,
    "tags": [
-      "data-plane-zuul-jobs"
+      "current-podified-zuul-jobs"
    ],
    "time": {
       "from": "now-6h",
       "to": "now"
    },
    "timezone": "utc",
-   "title": "Dataplane Zuul jobs list",
-   "uid": "98256adc5089d2c4dca75d87b1909ac9"
+   "title": "current-podified promotion jobs status",
+   "uid": "5366c11809da4a94d9fefd1b05bb97d3"
 }
