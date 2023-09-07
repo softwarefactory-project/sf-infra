@@ -1,4 +1,5 @@
 ---
+roles:
 - src: git+https://gitlab.com/osci/ansible-role-web_builder.git
   name: web_builder
 - src: git+https://gitlab.com/osci/ansible-role-msmtp.git
@@ -29,3 +30,6 @@
   name: httpd_wsgi
 - src: git+https://gitlab.com/osci/ansible-role-swap_file.git
   name: swap_file
+
+collections:
+- community.general
