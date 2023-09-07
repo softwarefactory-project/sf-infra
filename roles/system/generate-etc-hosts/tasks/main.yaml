@@ -10,9 +10,9 @@
       {% for host in inventory_hosts_ip %}{%
         if (ansible_host == 'prometheus.monitoring.softwarefactory-project.io' and host.name not in inventory_public_dns)
         or (ansible_host != 'prometheus.monitoring.softwarefactory-project.io') %}
-      {% if host.ip and host.project_name.endswith('-sf')  %}
+      {% if host.ip and 'project_name' in host and host.project_name.endswith('-sf')  %}
       {{ host.ip }} {{ host.name }}
-      {% elif host.floating_ip %}
+      {% elif 'floating_ip' in host and host.floating_ip %}
       {{ host.floating_ip }} {{ host.name }}
       {% endif %}
       {% endif %}{% endfor %}
