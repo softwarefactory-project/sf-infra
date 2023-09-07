@@ -1,0 +1,4 @@
+---
+crc_ansible_log_dir: /var/log/crc-snapshot
+crc_sf_infra_repo_dir: ~/sf-infra
+crc_extracted_crc: false

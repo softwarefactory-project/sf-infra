@@ -318,6 +318,22 @@
         - name: quay.dev
           label: cloud-centos-8-stream
 
+- job:
+    name: sf-infra-rebuild-crc-image
+    description: Rebuild a CRC image snapshot
+    run: playbooks/rebuild-crc-image.yaml
+    parent: sf-infra-base
+    semaphore: sf-infra
+    timeout: 7200
+    files:
+      - ^roles/extra/crc/.*$
+      - ^roles/next-gen/.*$
+    secrets:
+      - name: vexxhost_rdo
+        secret: vexxhost-rdo
+      - name: crc_secret
+        secret: crc-secret
+
 - project:
     check:
       jobs:
@@ -408,3 +424,7 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
+    post:
+      jobs:
+        # It will trigger non-extracted version
+        - sf-infra-rebuild-crc-image
