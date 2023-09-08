@@ -1,0 +1,6 @@
+---
+- name: Change snapshot name
+  shell: |
+    openstack image set {{ snapshot_name }} --name {{ finally_image_name }}
+  environment:
+    OS_CLOUD: "{{ cloud_name }}"

@@ -1,0 +1,23 @@
+---
+- name: Ensure cloud init is installed
+  become: true
+  ansible.builtin.dnf:
+    name: cloud-init
+    state: present
+  register: _cloud_init_install
+
+- name: Restart cloud init
+  become: true
+  ansible.builtin.systemd:
+    name: cloud-init
+    state: restarted
+    enabled: true
+  when: _cloud_init_install.changed
+
+- name: Reload NetworkManager
+  become: true
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: reloaded
+    enabled: true
+  when: _cloud_init_install.changed

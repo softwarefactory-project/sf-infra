@@ -1,0 +1,5 @@
+---
+system_distro: centos
+system_release: 9
+
+# NOTE: Please check default variables set in roles/extra/crc/defaults/main.yaml.

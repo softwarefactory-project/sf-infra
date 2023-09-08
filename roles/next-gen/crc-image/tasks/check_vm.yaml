@@ -1,0 +1,11 @@
+---
+- name: Check if server already exists
+  openstack.cloud.server_info:
+    cloud: "{{ cloud_name }}"
+    server: "{{ vm_name }}"
+  register: _old_server_info
+
+- name: Fail when server already exists
+  ansible.builtin.fail:
+    msg: "There is already some server with name {{ vm_name }}. Please remove it first!"
+  when: _old_server_info.servers != []

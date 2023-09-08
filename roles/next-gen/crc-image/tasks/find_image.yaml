@@ -1,0 +1,61 @@
+---
+- name: Search for newest image
+  when: image_name is not defined and not image_name
+  block:
+    - name: "Take newest image for Centos"
+      shell: >
+        set -e;
+        set -o pipefail;
+        openstack image list |
+        grep -iE "(upstream-centos-{{ system_release }}-stream-[0-9]{10}|cloud-centos-{{ system_release }}-stream-tripleo-[0-9]{10})" |
+        grep -i active |
+        sort -r -k4 |
+        head -n1 |
+        awk '{print $4}'
+      environment:
+        OS_CLOUD: "{{ cloud_name }}"
+      register: base_centos_image
+      when: system_distro | lower == 'centos'
+
+    - name: Fail if image is empty - centos
+      ansible.builtin.fail:
+        msg: "The image is empty for centos!"
+      when: system_distro | lower == 'centos' and not base_centos_image
+
+    - name: "Take newest image for RHEL"
+      shell: >
+        set -e;
+        set -o pipefail;
+        openstack image list |
+        grep -iE "(cloud-rhel-{{ system_release }}-[0-9]-[0-9]{10})" |
+        grep -i active |
+        sort -r -k4  |
+        head -n1 |
+        awk '{print $4}'
+      environment:
+        OS_CLOUD: "{{ cloud_name }}"
+      register: base_rhel_image
+      when: system_distro | lower == 'rhel'
+
+    - name: Fail if image is empty - rhel
+      ansible.builtin.fail:
+        msg: "The image is empty for rhel!"
+      when: system_distro | lower == 'rhel' and not base_rhel_image
+
+- name: Set finally image name for Centos
+  ansible.builtin.set_fact:
+    finally_image_name_centos: "{{ system_distro }}-{{ system_release }}-stream-crc"
+  when: system_distro | lower == 'centos'
+
+- name: Set finally image name for RHEL
+  ansible.builtin.set_fact:
+    finally_image_name_rhel: "cloud-{{ system_distro }}-{{ system_release }}-crc"
+  when: system_distro | lower == 'rhel'
+
+- name: Set finally image name
+  ansible.builtin.set_fact:
+    finally_image_name: "{{ finally_image_name_rhel | default(finally_image_name_centos) }}"
+
+- name: "Print image that would be used for VM - {{ finally_image_name }} "
+  debug:
+    msg: "The VM will use {{ image_name | default(base_rhel_image.stdout) | default(base_centos_image.stdout) }} image"
