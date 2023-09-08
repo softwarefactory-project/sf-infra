@@ -10,7 +10,7 @@ local dashLink = grafonnet.dashboard.link;
       'prow-detail': std.md5('prow-detail'),
       'prow-success': std.md5('prow-success'),
       'openstack-k8s-operators-zuul-jobs': std.md5('openstack-k8s-operators-zuul-jobs'),
-      'data-plane-zuul-jobs': std.md5('data-plane-zuul-jobs')
+      'podified-promotion-zuul-jobs': std.md5('podified-promotion-zuul-jobs'),
     },
 
   operators():
