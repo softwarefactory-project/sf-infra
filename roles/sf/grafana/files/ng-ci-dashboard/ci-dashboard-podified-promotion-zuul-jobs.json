@@ -94,7 +94,7 @@
                   "properties": [
                      {
                         "id": "custom.width",
-                        "value": 250
+                        "value": 280
                      }
                   ]
                },
@@ -107,6 +107,30 @@
                      {
                         "id": "custom.width",
                         "value": 90
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Project"
+                  },
+                  "properties": [
+                     {
+                        "id": "custom.width",
+                        "value": 100
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Tenant"
+                  },
+                  "properties": [
+                     {
+                        "id": "custom.width",
+                        "value": 100
                      }
                   ]
                },
@@ -143,6 +167,18 @@
                      {
                         "id": "custom.width",
                         "value": 105
+                     }
+                  ]
+               },
+               {
+                  "matcher": {
+                     "id": "byName",
+                     "options": "Pipeline"
+                  },
+                  "properties": [
+                     {
+                        "id": "custom.width",
+                        "value": 320
                      }
                   ]
                },
@@ -240,7 +276,8 @@
                         "log_url",
                         "tenant",
                         "message",
-                        "result"
+                        "result",
+                        "pipeline"
                      ]
                   }
                }
@@ -284,15 +321,16 @@
                      "End Time": 4,
                      "Start Time": 2,
                      "branch": 7,
-                     "build_type": 11,
+                     "build_type": 12,
                      "end_time": 5,
                      "job_name": 0,
                      "log_url": 6,
                      "message": 8,
+                     "pipeline": 10,
                      "project": 9,
                      "result": 1,
                      "start_time": 3,
-                     "tenant": 10
+                     "tenant": 11
                   }
                }
             },
@@ -306,6 +344,7 @@
                      "job_name": "Job",
                      "log_url": "Log URL",
                      "message": "Message",
+                     "pipeline": "Pipeline",
                      "project": "Project",
                      "result": "Status",
                      "start_time": "",

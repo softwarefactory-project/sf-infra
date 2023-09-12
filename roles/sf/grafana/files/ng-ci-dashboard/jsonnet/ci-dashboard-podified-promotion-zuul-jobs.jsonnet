@@ -35,7 +35,8 @@ local selectColumns =
           "log_url",
           "tenant",
           "message",
-          "result"
+          "result",
+          "pipeline",
         ]
       }
     })
@@ -60,15 +61,16 @@ local reorderColumns =
         "End Time": 4,
         "Start Time": 2,
         branch: 7,
-        build_type: 11,
+        build_type: 12,
         end_time: 5,
         job_name: 0,
         log_url: 6,
         message: 8,
         project: 9,
+        pipeline: 10,
         result: 1,
         start_time: 3,
-        tenant: 10,
+        tenant: 11,
       },
     })
 ;
@@ -87,7 +89,8 @@ local renameColumns =
         project: "Project",
         result: "Status",
         start_time: "",
-        tenant: "Tenant"
+        tenant: "Tenant",
+        pipeline: "Pipeline"
       }
     })
 ;
@@ -106,7 +109,7 @@ local zuulJobList =
   + tablePanel.queryOptions.withDatasource(datasource)
   + tablePanel.queryOptions.withTargets(zuulCommon.zuulOpensearchTarget(datasource, queryElastic))
   + tablePanel.queryOptions.withInterval('1m')
-  + tablePanel.queryOptions.withTimeFrom('12h')
+  + tablePanel.queryOptions.withTimeFrom('48h')
   + tablePanel.queryOptions.withTransformations([
       selectColumns,
       zuulCommon.epochToMs("start_time", "Start Time"),
@@ -119,11 +122,14 @@ local zuulJobList =
   + tablePanel.options.footer.TableFooterOptions.withEnablePagination(true)
   + zuulCommon.zuulStatusColorMappingOptions()
   + tablePanel.standardOptions.withOverrides([
-      zuulCommon.colWidth('Job', 250),
+      zuulCommon.colWidth('Job', 280),
       zuulCommon.colWidth('Status', 90),
+      zuulCommon.colWidth('Project', 100),
+      zuulCommon.colWidth('Tenant', 100),
       zuulCommon.colWidth('Start Time', 155),
       zuulCommon.colWidth('End Time', 155),
       zuulCommon.colWidth('Branch', 105),
+      zuulCommon.colWidth('Pipeline', 320),
       zuulCommon.colUnit('Start Time', 'dateTimeAsIso'),
       zuulCommon.colUnit('End Time', 'dateTimeAsIso'),
       zuulCommon.colUrl('Log URL'),
