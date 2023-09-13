@@ -1,0 +1,123 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: sf
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/metrics
+  - services
+  - endpoints
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: sf
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: sf
+spec:
+  enableAdminAPI: true
+  evaluationInterval: 30s
+  # empty namespace selector means current namespace only
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  portName: web
+  resources:
+    requests:
+      memory: 400Mi
+  ruleNamespaceSelector: {}
+  ruleSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  rules:
+    alert: {}
+  scrapeInterval: 30s
+  serviceAccountName: prometheus
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: sf
+spec:
+  ports:
+  - name: prometheus-web
+    nodePort: 30900
+    port: 9090
+    protocol: TCP
+    targetPort: web
+  selector:
+    prometheus: prometheus
+  type: NodePort
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: prometheus
+  namespace: sf
+spec:
+  host: prometheus.microshift.softwarefactory-project.io
+  path: /
+  port:
+    targetPort: 9090
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: prometheus
+    weight: 100
+  wildcardPolicy: None
