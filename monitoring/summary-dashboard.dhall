@@ -42,13 +42,10 @@ let gridExample =
              , { h = 4, w = 4, x = 0, y = 4 }
              ]
 
-let -- | update to https://raw.githubusercontent.com/weeezes/dhall-grafana/49a3ee4801cf64f479e3f0bad839a5dd8e5b4932/package.dhall
-    -- when https://github.com/weeezes/dhall-grafana/pull/35 and https://github.com/weeezes/dhall-grafana/pull/34
-    -- are merged
+let -- | This is from https://github.com/weeezes/dhall-grafana/pull/36
     Grafana =
-        ~/src/github.com/weeezes/dhall-grafana/package.dhall
-      ? https://raw.githubusercontent.com/TristanCacqueray/dhall-grafana/b3317adef2a738126540b12db77feee5e19a76ef/package.dhall
-          sha256:16fef0041e65521f4e547d15267c40f660725bf6badcfd36fa20182005904fa8
+      https://raw.githubusercontent.com/weeezes/dhall-grafana/07371ad984266063615189b07a58204aa76162a5/package.dhall
+        sha256:cdd8cf81f25b6bfb2099e2d1732309376e25a6d34139a6d018fc1d01cd0c48c0
 
 let cpuMetric =
       \(host : Text) ->
