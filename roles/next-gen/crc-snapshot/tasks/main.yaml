@@ -21,7 +21,7 @@
 
     - name: Create crontab entry for generating weekly CRC image on Wendnesday
       ansible.builtin.cron:
-        name: Creating weekly CRC image
+        name: Creating weekly CRC image - snapshot
         weekday: 4
         hour: 3
         minute: 30
@@ -41,7 +41,7 @@
 
     - name: Create crontab entry for generating weekly CRC extracted image on Wendnesday
       ansible.builtin.cron:
-        name: Creating weekly CRC image
+        name: Creating weekly CRC image - extracted image
         weekday: 4
         hour: 5
         minute: 30
