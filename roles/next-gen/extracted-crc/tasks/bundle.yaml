@@ -1,0 +1,17 @@
+---
+- name: Generate bundle
+  ansible.builtin.command: crc bundle generate
+
+- name: Get bundle name
+  ansible.builtin.shell: |
+    ls | grep crcbundle
+  register: _crcbundle_name
+
+- name: Create directory for extracting bundle
+  ansible.builtin.file:
+    path: "{{ crc_bundle_dir }}"
+    state: directory
+
+- name: Extract the CRC bundle
+  ansible.builtin.command: >
+    tar xafv {{ _crcbundle_name.stdout }} -C "{{ crc_bundle_dir }}" --strip-components 1

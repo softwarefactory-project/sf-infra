@@ -1,0 +1,16 @@
+[Unit]
+Description=Configure required service configuration files
+DefaultDependencies=no
+ConditionPathExists=/usr/local/bin/configure-pre-crc.sh
+Before=kubelet.service crc-dnsmasq.service
+After=NetworkManager.service network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=bash /usr/local/bin/configure-pre-crc.sh
+Type=oneshot
+TimeoutSec=60
+RemainAfterExit=yes
+
+[Install]
+WantedBy=kubelet.service

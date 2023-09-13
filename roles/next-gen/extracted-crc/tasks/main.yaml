@@ -1,0 +1,15 @@
+---
+- name: Install requirements
+  ansible.builtin.include_tasks: pre.yaml
+
+- name: Generate bundle
+  ansible.builtin.include_tasks: bundle.yaml
+
+- name: Mount extracted crc qcow2 image
+  ansible.builtin.include_tasks: mount.yaml
+
+- name: Modify image
+  ansible.builtin.include_tasks: modify.yaml
+
+- name: Umount qcow2 image
+  ansible.builtin.include_tasks: umount.yaml

@@ -1,0 +1,5 @@
+---
+- name: Mount via guestfish qcow2 image
+  become: true
+  ansible.builtin.command: >
+    guestmount -m /dev/sda4 -a "{{ crc_bundle_dir }}/crc.qcow2" --rw /mnt

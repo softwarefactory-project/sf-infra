@@ -3,3 +3,7 @@ system_distro: centos
 system_release: 9
 
 # NOTE: Please check default variables set in roles/extra/crc/defaults/main.yaml.
+
+# Extracted CRC
+extracted_crc: false
+extracted_crc_image_name_tmp: coreos-crc-extracted-tmp
