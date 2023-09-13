@@ -27,3 +27,6 @@
 - name: Modify kubelet systemd service options
   include_tasks: kubelet.yaml
   when: modify_kubelet_systemd
+
+- name: Run workarounds tasks
+  include_tasks: workarounds.yaml
