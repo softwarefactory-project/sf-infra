@@ -86,8 +86,15 @@
     # next gen tasks will be done on that host: it does not do a lot,
     # and it has many free storage.
     - next-gen/prepare-host
+    # Non extracted version
     - next-gen/crc-snapshot
     - next-gen/cleanup-openstack-resources
+  tasks:
+    - name: Create extracted CRC cronjob
+      vars:
+        crc_extracted_crc: true
+      include_role:
+        name: next-gen/crc-snapshot
 
 - hosts: ze
   tasks:
