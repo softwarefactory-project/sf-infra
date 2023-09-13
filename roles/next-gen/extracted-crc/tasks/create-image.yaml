@@ -7,6 +7,6 @@
     {{ extracted_crc_image_name_tmp }}
     --container-format bare
     --disk-format qcow2
-    --file "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
+    --file  $(realpath {{ sync_extracted_qcow2_dir }}/crc.qcow2)
   environment:
     OS_CLOUD: "{{ cloud_name }}"
