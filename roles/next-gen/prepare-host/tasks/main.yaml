@@ -47,7 +47,7 @@
   become: true
   community.general.ansible_galaxy_install:
     type: collection
-    name: community.crypto
+    name: "{{ item }}"
   loop:
     - "community.crypto"
     - "openstack.cloud"
