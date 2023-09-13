@@ -17,5 +17,6 @@
   become_user: root
   cron:
     name: Get stack status
-    minute: "*/5"
+    hour: "5"
+    minute: "20"
     job: "/usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }} > /dev/null"
