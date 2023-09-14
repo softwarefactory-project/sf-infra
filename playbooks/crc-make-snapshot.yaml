@@ -20,7 +20,7 @@
         ssh_keypair_name: "{{ ssh_keypair_name | default('image-builder') }}"
         net_id: "{{ net_id | default('7abff1a9-a103-46d0-979a-1f1e599f4f41') }}"
         vm_name: "{{ vm_name | default('infra-dfg-team-crc') }}"
-        snapshot_name: "{{ snapshot_name | default('infra-dfg-team-crc-snapshot') }}"
+        snapshot_name: "{{ snapshot_name | default('infra-dfg-team-crc-snapshot-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # Add ssh key
         ssh_pub_key: "{{ ssk_pub_key | default('') }}"
         # Or set the path for ssh pub key
@@ -31,7 +31,7 @@
         system_release: "{{ system_release | default(9) }}"
         #### FOR EXTRACTED VERSION ####
         extracted_crc: "{{ extracted_crc | default(false) }}"
-        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted') }}"
+        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
@@ -123,10 +123,15 @@
             name: next-gen/crc-image
             tasks_from: make_snapshot.yaml
 
-        - name: Remove old image
-          ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: remove_image.yaml
+# FIXME: Stop removing old images because of broken new images.
+# In the future, that task should list all images with a pattern,
+# and remove oldes image (but it should also check the config repository,
+# if the image is not set in label).
+#
+#        - name: Remove old image
+#          ansible.builtin.include_role:
+#            name: next-gen/crc-image
+#            tasks_from: remove_image.yaml
 
         - name: Rename snapshot image
           ansible.builtin.include_role:
