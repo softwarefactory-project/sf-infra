@@ -8,7 +8,7 @@
     group: "{{ ansible_user | default(ansible_user_id) }}"
 
 - name: Configure non extracted CRC script and cronjob
-  when: crc_extracted_crc | default(false)
+  when: not crc_extracted_crc | default(false)
   block:
     - name: Copy script for executing Ansible playbook for CRC image
       become: true
