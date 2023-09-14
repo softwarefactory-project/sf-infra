@@ -25,4 +25,4 @@ sf_infra_repo: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project
 sf_infra_repo_alt: /tmp/sf-infra
 
 # workarounds
-ensure_marketplace: true
+ensure_images: true
