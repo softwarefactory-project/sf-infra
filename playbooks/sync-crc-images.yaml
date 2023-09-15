@@ -1,0 +1,50 @@
+---
+# Basic usage:
+# ansible-playbook playbooks/sync-crc-images.yaml
+
+# Example playbook execution:
+#
+# ansible-playbook \
+#   -e "cloud_name=nodepool-tripleo" \
+#   -e "sync_extracted_qcow2_dir=/home/centos/crc-extracted" \
+#   -e "parent_remote_cloud_name=tripleo-ci" \
+#   -e "{'child_remote_cloud_names': [{'cloud_name': 'my-cloud', 'project_name': 'project1'}, {'cloud_name':'my-cloud-2', 'project_name': 'project1'}]}" \
+#   ./playbooks/sync-crc-images.yaml"
+
+- name: Spawning a crc VM
+  hosts: localhost
+  tasks:
+    - name: Set important facts
+      ansible.builtin.set_fact:
+        base_image_name: "{{ base_image_name | default('coreos-crc-extracted-') }}"
+        cloud_name: "{{ cloud_name | default('nodepool-tripleo') }}"
+        # path for a place, where the crc extracted qcow2 image should be
+        # downloaded. NOTE: It should have at least 25 GB free space
+        sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
+        # Main cloud which will have the image
+        parent_remote_cloud_name: "{{ parent_remote_cloud_name | default('') }}"
+        # Other clouds in the same OpenStack cluster, where the image will be shared
+        # That var contains list of dicsts: {"cloud_name":"project_name"},
+        # where:
+        #   cloud_name -> entry name in ~/.config/openstack/clouds.yaml file
+        #   project_name -> project name in OpenStack cluster. It will be also available
+        #                   in ~/.config/openstack/clouds.yaml for cloud_name.
+        child_remote_cloud_names: "{{ child_remote_cloud_names | default([{}]) }}"
+
+    - name: Check if remote clouds are set
+      when: not parent_remote_cloud_name
+      ansible.builtin.fail:
+        msg: "You need to set at least one cloud name in parent_remote_cloud_name var"
+
+    - name: Check if image already present and download newest one
+      ansible.builtin.include_role:
+        name: next-gen/sync-images
+
+    - name: Share image with other projects
+      ansible.builtin.include_role:
+        name: next-gen/sync-images
+        tasks_from: share_image.yaml
+      loop: "{{ child_remote_cloud_names }}"
+      loop_control:
+        loop_var: child_cloud_name
+      when: child_remote_cloud_names != [{}]
