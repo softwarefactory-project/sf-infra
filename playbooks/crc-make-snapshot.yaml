@@ -30,11 +30,16 @@
         # for centos: 9, for rhel: 9-2
         system_release: "{{ system_release | default(9) }}"
         #### FOR EXTRACTED VERSION ####
-        extracted_crc: "{{ extracted_crc | default(false) }}"
+        extracted_crc: "{{ extracted_crc | default(false) | bool }}"
         extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
+
+    - name: Print message when extracted version
+      debug:
+        msg: "The extracted version is ongoing..."
+      when: extracted_crc | bool
 
     - name: Check if there is already VM with such name
       ansible.builtin.include_role:
@@ -64,7 +69,7 @@
     - name: Disable modify_kubelet_systemd when extracted crc
       set_fact:
         modify_kubelet_systemd: false
-      when: extracted_crc
+      when: extracted_crc | bool
 
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
@@ -89,7 +94,7 @@
         tasks_from: post_vm.yaml
 
     - name: Create extracted CRC image
-      when: extracted_crc | default(false)
+      when: extracted_crc | default(false) | bool
       block:
         - name: Sleep a while because of the marketplace
           ansible.builtin.pause:
@@ -105,7 +110,7 @@
     - name: Create CRC snapshot or upload extracted image
       block:
         - name: Download extracted CRC qcow2 image
-          when: extracted_crc | default(false)
+          when: extracted_crc | default(false) | bool
           block:
             - name: Pull image to the host
               ansible.builtin.include_role:
@@ -118,7 +123,7 @@
                 tasks_from: create-image.yaml
 
         - name: Make CRC base image snapshot
-          when: not extracted_crc | default(false)
+          when: not extracted_crc | default(false) | bool
           ansible.builtin.include_role:
             name: next-gen/crc-image
             tasks_from: make_snapshot.yaml

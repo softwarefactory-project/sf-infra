@@ -1,6 +1,6 @@
 ---
 - name: Search for newest image
-  when: image_name is not defined and not image_name
+  when: not image_name | default(false)
   block:
     - name: "Take newest image for Centos"
       shell: >
