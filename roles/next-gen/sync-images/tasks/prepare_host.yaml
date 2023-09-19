@@ -1,0 +1,13 @@
+---
+- name: Create pull crc script
+  become: true
+  ansible.builtin.template:
+    src: pull-crc-image.sh.j2
+    dest: /usr/local/bin/pull-crc-image.sh
+    mode: "0755"
+
+- name: Create cronjob to pull image each day
+  ansible.builtin.cron:
+    name: Daily extracted image sync
+    hour: 8
+    job: /usr/local/bin/pull-crc-image.sh

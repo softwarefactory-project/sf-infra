@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -x
+
+SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
+UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
+ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-pull.log"}
+ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
+
+if [ -z "$SF_INFRA_REPO_DIR" ]; then
+    SF_INFRA_REPO_DIR="$(realpath {{ crc_sf_infra_repo_dir }})"
+fi
+
+if [ -d "$SF_INFRA_REPO_DIR" ]; then
+    cd "$SF_INFRA_REPO_DIR";
+    git reset --hard;
+    git pull
+else
+    git clone https://softwarefactory-project.io/r/software-factory/sf-infra "$SF_INFRA_REPO_DIR"
+fi
+
+ansible-playbook \
+    -e "cloud_name={{ cloud_name }}" \
+    -e "sync_extracted_qcow2_dir={{ sync_extracted_qcow2_dir }}" \
+    -e "parent_remote_cloud_name={{ parent_remote_cloud_name }}" \
+    -e "child_remote_cloud_names={{ child_remote_cloud_names }}" \
+    -e "sync_extracted_qcow2_dir={{ crc_sync_extracted_qcow2_dir }}" \
+    "$SF_INFRA_REPO_DIR/playbooks/sync-crc-images.yaml"
