@@ -276,6 +276,9 @@ quay_organizations:
              66313834313934653635613834633631336264396131643966323764653866303061316665306630
              6437316338663137346333363861616231396537616135666265
       prune_days: 7
+    - name: podified-master-centos9
+      token: ""
+      prune_days: 7
     - name: podified-zed-centos9
       token: !vault |
              $ANSIBLE_VAULT;1.1;AES256
