@@ -298,11 +298,14 @@ quay_organizations:
       prune_days: 7
 
 quay_pruner_dlrn_endpoints:
+  - api-centos9-antelope
   - api-centos9-bobcat
   - api-centos9-master-uc
   - api-centos8-train
   - api-centos8-wallaby
   - api-centos9-wallaby
+  - api-centos8-yoga
+  - api-centos9-yoga
   - api-centos9-zed
 
 quay_pruner_extended_keeplist:
