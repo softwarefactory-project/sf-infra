@@ -1,5 +1,6 @@
 ---
 - import_playbook: site_bridge.yaml
+- import_playbook: site_logreduce.yaml
 
 - hosts: microshift.softwarefactory-project.io
   tasks:
