@@ -51,12 +51,22 @@
   loop: "{{ tenant_config.volumes }}"
 
 - name: Combine server ips fact
-  set_fact:
-    servers_ip: |
-      {{ servers_ip + [
-        { 'name': item.server.name,
-          'ip': item.server.addresses['private-network'] | default([]) | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'fixed') | map(attribute='addr') | join(''),
-          'floating_ip': item.server.addresses['oci-private-network'] | default(item.server.addresses['private-network']) | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'floating') | map(attribute='addr') | join(''),
-          'project_name': cloud.tenant | default(cloud.name) }] }}
-  when: item.server is defined and ('private-network' in item.server.addresses or 'oci-private-network' in item.server.addresses)
-  loop: "{{ _servers.results }}"
+  become: true
+  blockinfile:
+    marker: ""
+    block: |
+      {% for server in _servers.results -%}
+      {% set ipaddress = [] -%}
+      {% set floating_address = [] -%}
+      {% for network in available_networks -%}
+      {% if network in server.server.addresses -%}
+      {{- ipaddress.append(server.server.addresses[network] | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'fixed') | map(attribute='addr') | join('')) -}}
+      {{- floating_address.append(server.server.addresses[network] | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'floating') | map(attribute='addr') | join('')) -}}
+      {% endif -%}
+      {% endfor -%}
+      - name: {{ server.server.name }}
+        ip: {{ ipaddress | first | default('') }}
+        floating_ip: {{ floating_address | first | default('') }}
+        project_name: {{ cloud.tenant | default(cloud.name) }}
+      {% endfor %}
+    path: "{{ temp_hosts_file }}"
