@@ -19,13 +19,16 @@
         owner: "{{ ansible_user | default(ansible_user_id) }}"
         group: "{{ ansible_user | default(ansible_user_id) }}"
 
-    - name: Create crontab entry for generating weekly CRC image on Wendnesday
+    - name: Create crontab entry for generating image twice per month
       ansible.builtin.cron:
-        name: Creating weekly CRC image - snapshot
-        weekday: 4
+        name: Creating CRC image on {{ item }} day - snapshot
+        day: "{{ item }}"
         hour: 3
         minute: 30
         job: /usr/local/bin/recreate-crc-snapshot.sh
+      loop:
+        - 14
+        - 28
 
 - name: Configure extracted CRC script and cronjob
   when: crc_extracted_crc | default(false)
@@ -39,10 +42,13 @@
         owner: "{{ ansible_user | default(ansible_user_id) }}"
         group: "{{ ansible_user | default(ansible_user_id) }}"
 
-    - name: Create crontab entry for generating weekly CRC extracted image on Wendnesday
+    - name: Create crontab entry for generating CRC extracted image twice per month
       ansible.builtin.cron:
-        name: Creating weekly CRC image - extracted image
-        weekday: 4
+        name: Creating CRC image on {{ item }} day - extracted image
+        day: "{{ item }}"
         hour: 5
         minute: 30
         job: /usr/local/bin/recreate-crc-extracted.sh
+      loop:
+        - 14
+        - 28
