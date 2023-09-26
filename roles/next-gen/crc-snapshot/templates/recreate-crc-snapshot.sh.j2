@@ -4,7 +4,7 @@ set -x
 
 SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
 UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
-ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-crc.log"}
+ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-{{ crc_cloud_name }}.log"}
 ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
 
 if [ -z "$SF_INFRA_REPO_DIR" ]; then
@@ -26,6 +26,7 @@ ANSIBLE_LOG_PATH="$ANSIBLE_LOG_PATH-extracted"
 
 ansible-playbook \
     -e "ansible_host_key_checking=False" \
+    -e "ansible_log_path=$ANSIBLE_LOG_PATH" \
     -e "cloud_name={{ crc_cloud_name }}" \
     -e "flavor_name={{ crc_flavor_name }}" \
     -e "ssh_keypair_name={{ crc_ssh_keypair_name }}" \
