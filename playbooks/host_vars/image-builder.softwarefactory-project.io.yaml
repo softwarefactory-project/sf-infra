@@ -8,3 +8,5 @@ crc_system_distro: centos
 crc_system_release: 9
 crc_sync_extracted_qcow2_dir: ~/extracted-crc
 crc_ansible_log_dir: /var/log/crc-snapshot
+cloud_names:
+  - nodepool-tripleo

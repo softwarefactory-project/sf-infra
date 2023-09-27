@@ -1,0 +1,3 @@
+---
+# List of the cloud definitions. You can find it in ~/.config/openstack/clouds.yaml
+cloud_names: []

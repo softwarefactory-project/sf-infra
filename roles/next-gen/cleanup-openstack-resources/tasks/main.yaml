@@ -1,4 +1,9 @@
 ---
+- name: Fail when cloud_names not set
+  when: not cloud_names
+  ansible.builtin.fail:
+    msg: "cloud_names variable needs to be set!"
+
 - name: Copy cleanup script
   become: true
   ansible.builtin.copy:
@@ -16,9 +21,12 @@
 
 - name: Create crontab for cleaning leftovers
   ansible.builtin.cron:
-    name: Cleanup nodepool tripleo project OpenStack resources
+    name: Cleanup {{ project }} project OpenStack resources
     minute: "0"
     hour: "5"
     job: >
-      export OS_CLOUD=nodepool-tripleo;
-      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S).log
+      export OS_CLOUD={{ project }};
+      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-{{ project }}.log
+  loop: "{{ cloud_names }}"
+  loop_control:
+    loop_var: project

@@ -1,7 +1,5 @@
 ---
 - name: Create new image
-  vars:
-    cloud_name: nodepool-tripleo
   ansible.builtin.shell: >
     openstack image create
     {{ extracted_crc_image_name_tmp }}

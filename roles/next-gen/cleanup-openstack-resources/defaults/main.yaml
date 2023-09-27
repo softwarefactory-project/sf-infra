@@ -1,0 +1,3 @@
+---
+# List of clouds entries defined in ~/.config/openstack/clouds.yaml to cleanup
+cloud_names: []
