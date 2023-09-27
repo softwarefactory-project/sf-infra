@@ -47,6 +47,7 @@
       # with few changed values.
     - { name: 'vexxhost/node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'vexxhost/vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'vexxhost/downstream-dashboard.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
