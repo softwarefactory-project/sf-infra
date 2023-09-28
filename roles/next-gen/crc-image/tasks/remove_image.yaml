@@ -1,14 +1,6 @@
 ---
 - name: Remove old crc image
-  when: not extracted_crc | default(false)
   openstack.cloud.image:
     cloud: "{{ cloud_name }}"
-    name: "{{ finally_image_name }}"
-    state: absent
-
-- name: Remove old crc image - crc extracted image
-  when: extracted_crc | default(false)
-  openstack.cloud.image:
-    cloud: "{{ cloud_name }}"
-    name: "{{ extracted_crc_final_image_name }}"
+    name: "{{ dest_image_name }}"
     state: absent

@@ -2,5 +2,5 @@
 - name: Rebuild CRC image
   hosts: image-builder.softwarefactory-project.io
   tasks:
-    - name: Trigger script for creating CRC snapshot
-      ansible.builtin.command: /usr/local/bin/recreate-crc-snapshot.sh
+    - name: Trigger script for creating CRC
+      ansible.builtin.command: /usr/local/bin/recreate-crc-images.sh

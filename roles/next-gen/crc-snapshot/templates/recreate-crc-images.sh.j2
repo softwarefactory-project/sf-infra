@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -x
+
+SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
+UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
+ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-{{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}.log"}
+ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
+
+if [ -z "$SF_INFRA_REPO_DIR" ]; then
+    SF_INFRA_REPO_DIR="$(realpath {{ crc_sf_infra_repo_dir }})"
+fi
+
+if [ -d "$SF_INFRA_REPO_DIR" ]; then
+    cd "$SF_INFRA_REPO_DIR";
+    git reset --hard;
+    git pull
+else
+    git clone https://softwarefactory-project.io/r/software-factory/sf-infra "$SF_INFRA_REPO_DIR"
+fi
+
+ansible-playbook \
+    -e "ansible_host_key_checking=False" \
+    -e "ansible_log_path=$ANSIBLE_LOG_PATH" \
+    -e "cloud_name={{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}" \
+    -e "flavor_name={{ cloud_def.crc_flavor_name | default(crc_flavor_name) }}" \
+    -e "ssh_keypair_name={{ cloud_def.crc_ssh_keypair_name | default(crc_ssh_keypair_name) }}" \
+    -e "net_id={{ cloud_def.crc_net_id | default(crc_net_id) }}" \
+    -e "ssh_pub_path={{ cloud_def.crc_ssh_pub_path | default(crc_ssh_pub_path) }}" \
+    -e "system_distro={{ cloud_def.crc_system_distro | default(crc_system_distro) }}" \
+    -e "system_release={{ cloud_def.crc_system_release | default(crc_system_release) }}" \
+    -e "extracted_crc={{ cloud_def.crc_extracted_crc | default(crc_extracted_crc) }}" \
+    -e "nested_crc={{ cloud_def.crc_nested_crc | default(crc_nested_crc) }}" \
+    -e "sync_extracted_qcow2_dir={{ cloud_def.crc_sync_extracted_qcow2_dir | default(crc_sync_extracted_qcow2_dir) }}" \
+    "$SF_INFRA_REPO_DIR/playbooks/crc-make-snapshot.yaml"

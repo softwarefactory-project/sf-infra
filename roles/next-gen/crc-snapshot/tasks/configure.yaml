@@ -1,0 +1,20 @@
+---
+- name: Copy script for executing Ansible playbook for CRC image
+  become: true
+  template:
+    src: recreate-crc-images.sh.j2
+    dest: /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}.sh
+    mode: "0755"
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+
+- name: Create crontab entry for generating image twice per month
+  ansible.builtin.cron:
+    name: Creating CRC image on {{ item }} day for {{ cloud_def.crc_cloud_name }}
+    day: "{{ item }}"
+    hour: 3
+    minute: 30
+    job: /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}.sh
+  loop:
+    - 14
+    - 28

@@ -25,7 +25,7 @@
     minute: "0"
     hour: "5"
     job: >
-      export OS_CLOUD={{ project }};
+      export OS_CLOUD={{ project.crc_cloud_name }};
       /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-{{ project }}.log
   loop: "{{ cloud_names }}"
   loop_control:

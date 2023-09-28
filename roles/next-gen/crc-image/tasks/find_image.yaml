@@ -41,21 +41,3 @@
       ansible.builtin.fail:
         msg: "The image is empty for rhel!"
       when: system_distro | lower == 'rhel' and not base_rhel_image
-
-- name: Set finally image name for Centos
-  ansible.builtin.set_fact:
-    finally_image_name_centos: "{{ system_distro }}-{{ system_release }}-stream-crc"
-  when: system_distro | lower == 'centos'
-
-- name: Set finally image name for RHEL
-  ansible.builtin.set_fact:
-    finally_image_name_rhel: "cloud-{{ system_distro }}-{{ system_release }}-crc"
-  when: system_distro | lower == 'rhel'
-
-- name: Set finally image name
-  ansible.builtin.set_fact:
-    finally_image_name: "{{ finally_image_name_rhel | default(finally_image_name_centos) }}"
-
-- name: "Print image that would be used for VM - {{ finally_image_name }} "
-  debug:
-    msg: "The VM will use {{ image_name | default(base_rhel_image.stdout) | default(base_centos_image.stdout) }} image"
