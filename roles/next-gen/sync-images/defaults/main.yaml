@@ -1,0 +1,6 @@
+---
+crc_sf_infra_repo_dir: ~/sf-infra
+crc_ansible_log_dir: /var/log/crc-snapshot
+crc_sync_extracted_qcow2_dir: ~/extracted-crc
+parent_remote_cloud_name: ''
+child_remote_cloud_names: []
