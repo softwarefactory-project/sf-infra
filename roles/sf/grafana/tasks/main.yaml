@@ -11,6 +11,8 @@
     - path: /etc/grafana/provisioning/datasources
     - path: /etc/grafana/provisioning/dashboards
     - path: /etc/grafana/provisioning/dashboards/ng-ci-dashboard
+    - path: /etc/grafana/provisioning/dashboards/opendev
+    - path: /etc/grafana/provisioning/dashboards/vexxhost
     - path: /etc/grafana/secrets
     - path: /var/lib/grafana
       owner: 472
@@ -24,11 +26,6 @@
     - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
     - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'zuul-summary.json', path: 'grafana/provisioning/dashboards' }
-      # NOTE: node_exporter_vexxhost is same dashboard as node_exporter, but
-      # with few changed values.
-      # After that, remember to set permissions!
-    - { name: 'node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'blackbox.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'DLRN.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/11442
@@ -43,6 +40,13 @@
     - { name: 'ng-ci-dashboard/ci-dashboard-prow-success.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'ng-ci-dashboard/ci-dashboard-zuul-jobs.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'ng-ci-dashboard/ci-dashboard-gh-workflows.json', path: 'grafana/provisioning/dashboards' }
+    ####### Opendev dashboards #########
+    - { name: 'opendev/afs.json', path: 'grafana/provisioning/dashboards' }
+    ####### Cloud provider #########
+      # NOTE: node_exporter_vexxhost is same dashboard as node_exporter, but
+      # with few changed values.
+    - { name: 'vexxhost/node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'vexxhost/vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
