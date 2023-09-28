@@ -185,6 +185,15 @@
       - "^roles/rdo/.*$"
 
 - job:
+    name: sf-infra-configure-logreduce
+    parent: sf-infra-configure
+    description: Install logreduce artifacts
+    vars:
+      sf_infra_play_name: logreduce/site_logreduce
+    files:
+      - "^playbooks/logreduce/.*$"
+
+- job:
     name: sf-infra-configure-hosts-sf
     parent: sf-infra-configure
     description: Configure the sf.io hosts
@@ -405,6 +414,11 @@
               - name: sf-infra-create-hosts
                 soft: true
         - sf-infra-configure-hosts-osci:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-configure-logreduce:
             dependencies:
               - dhall-diff
               - name: sf-infra-create-hosts
