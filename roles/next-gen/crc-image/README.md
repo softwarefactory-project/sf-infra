@@ -5,9 +5,7 @@
 - localhost got file "~/.ansible_crc_vars.yaml" that contains openshift_pull_secret var,
 - localhost spawns crc.dev instance
 - crc.dev is deploying crc
-- after crc is done, comming back to localhost that is executing snapshot withname {{ snapshot_name }}
-- when the snapshot is done, remove the {{ finally_image_name }} - usually it is "centos-{{ system_release }}-stream-crc"
-- change the "{{ snapshot_name }} to "centos-{{ system_release }}-stream-crc"
+- after crc is done, comming back to localhost that is executing snapshot with name {{ snapshot_name }}
 - remove the crc VM
 
 ## To setup the venv environment

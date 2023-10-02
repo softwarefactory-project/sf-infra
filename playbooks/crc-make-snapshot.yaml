@@ -1,4 +1,6 @@
 ---
+# NOTE: The playbook by default will create nested and extracted image.
+#
 # Basic usage:
 # ansible-playbook playbooks/crc-make-snapshot.yaml
 #
@@ -6,8 +8,8 @@
 # ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc-make-snapshot.yaml
 # More info: roles/next-gen/crc-image/README.md
 #
-# For extracted CRC version, add variable:
-# -e "extracted_crc=true"
+# Just create extracted CRC version, add variables:
+# -e "extracted_crc=true" -e "nested_crc=false"
 
 - name: Spawning a crc VM
   hosts: localhost
@@ -29,17 +31,14 @@
         system_distro: "{{ system_distro | default('centos') }}"
         # for centos: 9, for rhel: 9-2
         system_release: "{{ system_release | default(9) }}"
+        # should it create nested CRC image?
+        nested_crc: "{{ nested_crc | default(true) | bool }}"
         #### FOR EXTRACTED VERSION ####
-        extracted_crc: "{{ extracted_crc | default(false) | bool }}"
+        extracted_crc: "{{ extracted_crc | default(true) | bool }}"
         extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
-
-    - name: Print message when extracted version
-      debug:
-        msg: "The extracted version is ongoing..."
-      when: extracted_crc | bool
 
     - name: Check if there is already VM with such name
       ansible.builtin.include_role:
@@ -65,12 +64,7 @@
 # can be deployed in CI.
 - name: Deploy CRC
   hosts: crc.dev
-  pre_tasks:
-    - name: Disable modify_kubelet_systemd when extracted crc
-      set_fact:
-        modify_kubelet_systemd: false
-      when: extracted_crc | bool
-
+  tasks:
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
         file: ~/.ansible_crc_vars.yaml
@@ -85,63 +79,60 @@
       ansible.builtin.include_role:
         name: next-gen/crc-image
         tasks_from: configure_vm.yaml
-  roles:
-    - extra/crc
-  post_tasks:
+
+    - name: Run CRC deployment
+      ansible.builtin.include_role:
+        name: extra/crc
+
     - name: Ensure cloud init is installed and snapshot would be able to boot
       ansible.builtin.include_role:
         name: next-gen/crc-image
         tasks_from: post_vm.yaml
 
-    - name: Create extracted CRC image
-      when: extracted_crc | default(false) | bool
-      block:
-        - name: Sleep a while because of the marketplace
-          ansible.builtin.pause:
-            minutes: 10
-
-        - name: Extract the image and upload to the Cloud provider
-          ansible.builtin.include_role:
-            name: next-gen/extracted-crc
-
-- name: Making snapshot of CRC instance
+- name: Make snapshot of CRC instance
   hosts: localhost
   tasks:
-    - name: Create CRC snapshot or upload extracted image
+    - name: Create CRC snapshot
+      when: nested_crc | default(true) | bool
       block:
-        - name: Download extracted CRC qcow2 image
-          when: extracted_crc | default(false) | bool
-          block:
-            - name: Pull image to the host
-              ansible.builtin.include_role:
-                name: next-gen/extracted-crc
-                tasks_from: pull-image.yaml
-
-            - name: Upload to the Cloud provider
-              ansible.builtin.include_role:
-                name: next-gen/extracted-crc
-                tasks_from: create-image.yaml
-
+        # Create snapshot for nested version
         - name: Make CRC base image snapshot
-          when: not extracted_crc | default(false) | bool
           ansible.builtin.include_role:
             name: next-gen/crc-image
             tasks_from: make_snapshot.yaml
 
-# FIXME: Stop removing old images because of broken new images.
-# In the future, that task should list all images with a pattern,
-# and remove oldes image (but it should also check the config repository,
-# if the image is not set in label).
-#
-#        - name: Remove old image
-#          ansible.builtin.include_role:
-#            name: next-gen/crc-image
-#            tasks_from: remove_image.yaml
+      always:
+        - name: Delete instance when extracted version will be not done
+          when: not nested_crc | default(true) | bool
+          openstack.cloud.server:
+            name: "{{ vm_name }}"
+            cloud: "{{ cloud_name }}"
+            state: absent
 
-        - name: Rename snapshot image
+- name: Make extracted CRC image
+  hosts: crc.dev
+  tasks:
+    - name: Create extracted CRC image and upload to the Cloud provider
+      when: extracted_crc | default(true) | bool
+      ansible.builtin.include_role:
+        name: next-gen/extracted-crc
+
+- name: Download and push extracted image
+  hosts: localhost
+  tasks:
+    - name: Download extracted CRC qcow2 image
+      when: extracted_crc | default(true) | bool
+      block:
+        - name: Pull image to the host
           ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: rename_image.yaml
+            name: next-gen/extracted-crc
+            tasks_from: pull-image.yaml
+
+        - name: Upload to the Cloud provider
+          ansible.builtin.include_role:
+            name: next-gen/extracted-crc
+            tasks_from: create-image.yaml
+
       always:
         - name: Deleting instance
           openstack.cloud.server:

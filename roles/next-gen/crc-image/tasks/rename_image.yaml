@@ -1,19 +1,7 @@
 ---
-- name: Change snapshot name
-  when: not extracted_crc
+- name: Change {{ tmp_image_name }} image name to {{ dest_image_name }}
   shell: |
-    openstack image set {{ snapshot_name }} --name {{ finally_image_name }}
-  register: _image_set
-  failed_when:
-    - "'No Image found for' not in _image_set.stderr"
-    - _image_set.rc != 0
-  environment:
-    OS_CLOUD: "{{ cloud_name }}"
-
-- name: Change image name - crc extracted image
-  when: extracted_crc
-  shell: |
-    openstack image set {{ extracted_crc_image_name_tmp }} --name {{ extracted_crc_final_image_name }}
+    openstack image set {{ tmp_image_name }} --name {{ dest_image_name }}
   register: _image_set
   failed_when:
     - "'No Image found for' not in _image_set.stderr"
