@@ -22,7 +22,7 @@
         ssh_keypair_name: "{{ ssh_keypair_name | default('image-builder') }}"
         net_id: "{{ net_id | default('7abff1a9-a103-46d0-979a-1f1e599f4f41') }}"
         vm_name: "{{ vm_name | default('infra-dfg-team-crc') }}"
-        snapshot_name: "{{ snapshot_name | default(system_distro + '-' + system_release + '-stream-crc-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
+        snapshot_name: "{{ snapshot_name | default(system_distro + '-' + system_release + '-crc-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # Add ssh key
         ssh_pub_key: "{{ ssk_pub_key | default('') }}"
         # Or set the path for ssh pub key
