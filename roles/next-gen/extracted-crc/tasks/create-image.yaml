@@ -2,7 +2,7 @@
 - name: Create new image
   ansible.builtin.shell: >
     openstack image create
-    {{ extracted_crc_image_name_tmp }}
+    {{ extracted_crc_final_image_name }}
     --container-format bare
     --disk-format qcow2
     --file  $(realpath {{ sync_extracted_qcow2_dir }}/crc.qcow2)
