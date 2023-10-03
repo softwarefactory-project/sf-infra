@@ -4,7 +4,7 @@ set -x
 
 SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
 UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
-ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-pull.log"}
+ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-sync.log"}
 ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
 
 if [ -z "$SF_INFRA_REPO_DIR" ]; then
@@ -20,8 +20,7 @@ else
 fi
 
 ansible-playbook \
-    -e "cloud_name={{ cloud_name }}" \
-    -e "parent_remote_cloud_name={{ parent_remote_cloud_name }}" \
-    -e "child_remote_cloud_names={{ child_remote_cloud_names }}" \
+    -e "upstream_cloud_name={{ upstream_cloud_name }}" \
+    -e "remote_cloud_names={{ remote_cloud_names | replace(' ', '') }}" \
     -e "sync_extracted_qcow2_dir={{ crc_sync_extracted_qcow2_dir }}" \
     "$SF_INFRA_REPO_DIR/playbooks/sync-crc-images.yaml"
