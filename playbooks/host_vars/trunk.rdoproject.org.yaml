@@ -237,8 +237,8 @@ dlrn_workers:
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '47'
     symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
@@ -339,8 +339,8 @@ dlrn_workers:
     distgit_branch: 'victoria-rdo'
     distro_branch: 'stable/victoria'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos8-victoria', '/var/www/html/victoria/centos8']
@@ -363,8 +363,8 @@ dlrn_workers:
     distgit_branch: 'ussuri-rdo'
     distro_branch: 'stable/ussuri'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-ussuri', '/var/www/html/ussuri/centos8']
@@ -388,8 +388,8 @@ dlrn_workers:
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
