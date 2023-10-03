@@ -38,6 +38,7 @@
         dest: "/home/fedora/{{ cloud_image }}.qcow2"
       when: not _image.stat.exists
 
-    - include_tasks: tasks/standalone-configure.yaml
-      loop: "{{ standalone_deployments }}"
-      no_log: true
+    - name: Configure standalone deployment
+      command: ansible-playbook standalone-configure.yaml
+      args:
+        chdir: "~/src/softwarefactory-project.io/software-factory/sf-infra/playbooks/zuul"

@@ -1,4 +1,16 @@
 ---
+- name: "Create flavors on {{ item.cloud }}"
+  os_nova_flavor:
+    cloud: "{{ item.cloud }}"
+    name: "{{ flavor.name }}"
+    disk: "{{ flavor.disk | default(0) }}"
+    ram: "{{ flavor.ram | default(256) }}"
+    vcpus: "{{ flavor.vcpus | default(1) }}"
+    state: "{{ flavor.state | default('present') }}"
+  loop: "{{ flavors }}"
+  loop_control:
+    loop_var: flavor
+
 - name: "Add keypairs on {{ item.cloud }}"
   os_keypair:
     cloud: "{{ item.cloud }}"
@@ -64,6 +76,10 @@
         flavor: "{{ server.flavor }}"
         image: "{{ cloud_image }}"
         key_name: bridge
+        # don't wait for instance creation for there is issue when waiting for fip
+        # "msg": "Timeout waiting for the floating IP to be attached."
+        # but the fip is already attached
+        wait: false
         security_groups:
           - allow_ssh
         nics:

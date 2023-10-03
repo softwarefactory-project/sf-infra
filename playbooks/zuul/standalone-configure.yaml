@@ -1,0 +1,6 @@
+---
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+    - include_tasks: tasks/standalone-configure.yaml
+      loop: "{{ standalone_deployments }}"
+      no_log: true

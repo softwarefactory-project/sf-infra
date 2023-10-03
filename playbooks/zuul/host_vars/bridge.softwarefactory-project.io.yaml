@@ -6,7 +6,7 @@ standalone_deployments:
   - baremetal_name: ibm-bm3
     baremetal_ip: 169.60.49.226
     cloud: ibm-bm3-nodepool
-    password: "{{ ibm_bm3_nodepool.password }}"
+    password: "{{ ibm_bm3_nodepool.password | default('') }}"
     tripleo_repos_branch: wallaby
     namespace: quay.io/tripleowallaby
     name_prefix: openstack-
@@ -23,3 +23,47 @@ standalone_deployments:
       - name: ibm-bm3-zfgw.softwarefactory-project.io
         flavor: m1.small
         ip: 192.168.25.13
+flavors:
+  - name: afs
+    disk: 100
+    ram: 2048
+    vcpus: 2
+  - name: nodepool
+    disk: 80
+    ram: 8192
+    vcpus: 4
+# Overwrite flavors definition:
+# to match what we have on verxxhost
+# https://github.com/shiftstack/dev-install/blob/main/playbooks/prepare_stack.yaml#L76
+  - name: m1.large
+    disk: 80
+    ram: 8192
+    vcpus: 4
+  - name: m1.large.nodisk
+    disk: 0
+    ram: 8192
+    vcpus: 4
+  - name: m1.medium
+    disk: 40
+    ram: 4096
+    vcpus: 2
+  - name: m1.small
+    disk: 20
+    ram: 2048
+    vcpus: 1
+  - name: m1.tiny
+    disk: 10
+    ram: 1024
+    vcpus: 1
+  - name: m1.xlarge
+    disk: 40
+    ram: 16384
+    vcpus: 4
+  - name: m1.xlarge.nodisk
+    disk: 0
+    ram: 16384
+    vcpus: 4
+  - name: m1.large.nfv
+    state: absent
+  - name: m1.xlarge.nfv
+    state: absent

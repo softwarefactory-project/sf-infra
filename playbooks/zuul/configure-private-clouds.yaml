@@ -46,20 +46,6 @@
     - name: Save iptables rules
       command: /usr/libexec/iptables/iptables.init save
 
-    - name: Create flavors
-      os_nova_flavor:
-        cloud: standalone
-        name: "{{ item.name }}"
-        disk: "{{ item.disk | default(0) }}"
-        ram: "{{ item.ram | default(256) }}"
-        vcpus: "{{ item.vcpus | default(1) }}"
-        state: "{{ item.state | default('present') }}"
-      become: yes
-      become_user: stack
-      environment:
-        OS_CLOUD: standalone
-      loop: "{{ flavors }}"
-
 - hosts: baremetal03.rdoproject.org
   gather_facts: yes
   tasks:

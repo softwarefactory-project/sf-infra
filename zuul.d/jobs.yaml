@@ -242,7 +242,7 @@
     timeout: 3600
     files:
       - ^playbooks/zuul/configure-tripleo-standalone.yaml$
-      - ^playbooks/zuul/tasks/standalone-configure.yaml$
+      - ^playbooks/zuul/standalone-configure.yaml$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
     secrets:
       - name: ibm_bm3_nodepool
