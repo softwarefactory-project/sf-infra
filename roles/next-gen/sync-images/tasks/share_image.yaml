@@ -1,42 +1,37 @@
 ---
-- name: Fail if cloud_name or project_name is empty
-  when: "'cloud_name' not in child_cloud_name or 'project_name' not in child_cloud_name"
-  ansible.builtin.fail:
-    msg: >
-      Variable child_remote_cloud_names does not contain
-      list of dict with keys cloud_name or project_name
-
 # NOTE: only admin can set image to be public, but user is able to
 # share the image between tenants.
-- name: Set image to be shared
+- name: "Set image {{ newest_image_name }} in {{ remote_cloud.cloud_name }} cloud to be shared"
   ansible.builtin.shell: >
     openstack image set {{ newest_image_name }} --shared
   environment:
-    OS_CLOUD: "{{ parent_remote_cloud_name }}"
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
-- name: Ensure that image is in pending state
+- name: Add image to external project
+  ansible.builtin.shell: |
+    openstack image add project {{ newest_image_name }} {{ child_cloud_name.project_id }}
+  register: _img_add_project
+  failed_when: >
+    _img_add_project.rc not in [0,1] and
+    (('stderr' in _img_add_project and 'is duplicated for image' not in _img_add_project.stderr) or
+    'pending' not in _img_add_project.stdout)
+  environment:
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+
+- name: "Ensure that image {{ newest_image_name }} is in pending state in {{ remote_cloud.cloud_name }}"
   ansible.builtin.shell: >
     openstack image member list {{ parent_img_uuid }} -c Status -f value
   register: _img_member
+  environment:
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
 - name: Assert that image is in pending state
   ansible.builtin.assert:
     that:
-      - "'pending' in _img_member.stdout"
+      - "'pending' in _img_member.stdout or 'accepted' in _img_member.stdout"
 
-- name: Add image to external project
-  ansible.builtin.shell: |
-    openstack image add project {{ newest_image_name }} {{ child_cloud_name.project_name }}
-  register: _img_add_project
-  failed_when: >
-    _img_add_project.rc not in [0,1] or
-    ('stderr' in _img_add_project and 'is duplicated for image' not in _img_add_project.stderr) or
-    'pending' not in _img_member.stdout
-  environment:
-    OS_CLOUD: "{{ parent_remote_cloud_name }}"
-
-- name: Accept image in {{ child_cloud_name.cloud_name }}
+- name: Accept image in {{ child_cloud_name.name }}
   ansible.builtin.shell: |
     openstack image set --accept {{ parent_img_uuid }}
   environment:
-    OS_CLOUD: "{{ child_cloud_name.cloud_name }}"
+    OS_CLOUD: "{{ child_cloud_name.name }}"

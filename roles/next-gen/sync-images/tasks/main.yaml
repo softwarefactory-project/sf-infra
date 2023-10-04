@@ -8,13 +8,13 @@
     awk '{print $4}'
   register: _base_image
   environment:
-    OS_CLOUD: "{{ cloud_name }}"
+    OS_CLOUD: "{{ upstream_cloud_name }}"
 
 - name: Set fact for newest base image name
   ansible.builtin.set_fact:
     newest_image_name: "{{ _base_image.stdout }}"
 
-- name: Check if image {{ newest_image_name }} already exists in {{ parent_remote_cloud_name }}
+- name: Check if image {{ newest_image_name }} already exists in {{ remote_cloud.cloud_name }}
   ansible.builtin.shell: >
     openstack image show {{ newest_image_name }}
     -c checksum
@@ -22,7 +22,7 @@
   register: _parent_img_md5
   failed_when: _parent_img_md5.rc not in [0,1]
   environment:
-    OS_CLOUD: "{{ parent_remote_cloud_name }}"
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
 - name: Pull image to the host
   when: _parent_img_md5.rc == 1
@@ -43,7 +43,7 @@
         --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
       register: _image_save
       environment:
-        OS_CLOUD: "{{ cloud_name }}"
+        OS_CLOUD: "{{ upstream_cloud_name }}"
 
     - name: Make checksum for downloaded image
       ansible.builtin.shell: >
@@ -57,14 +57,14 @@
         -f value
       register: _remote_img_md5
       environment:
-        OS_CLOUD: "{{ cloud_name }}"
+        OS_CLOUD: "{{ upstream_cloud_name }}"
 
     - name: Assert that download image is same as remote
       ansible.builtin.assert:
         that:
           - _pull_img_md5.stdout == _remote_img_md5.stdout
 
-    - name: Push image {{ newest_image_name }} to {{ parent_remote_cloud_name }}
+    - name: Push image {{ newest_image_name }} to {{ remote_cloud.cloud_name }}
       ansible.builtin.shell: >
         openstack image create
         {{ newest_image_name }}
@@ -72,15 +72,23 @@
         --disk-format qcow2
         --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
       environment:
-        OS_CLOUD: "{{ parent_remote_cloud_name }}"
+        OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
 - name: Get image UUID
   ansible.builtin.shell: >
     openstack image show {{ newest_image_name }} -c id -f value
   environment:
-    OS_CLOUD: "{{ parent_remote_cloud_name }}"
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
   register: _parent_img_uuid
 
 - name: Set fact for parent image uuid
   ansible.builtin.set_fact:
     parent_img_uuid: "{{ _parent_img_uuid.stdout }}"
+
+- name: Share image with other projects
+  ansible.builtin.include_tasks:
+    file: share_image.yaml
+  loop: "{{ remote_cloud.child_cloud_names }}"
+  loop_control:
+    loop_var: child_cloud_name
+  when: remote_cloud.child_cloud_names

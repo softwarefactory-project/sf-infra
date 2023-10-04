@@ -1,13 +1,16 @@
 ---
-- name: Create pull crc script
+- name: "Create pull crc script for {{ remote_cloud.cloud_name }}"
   become: true
   ansible.builtin.template:
-    src: pull-crc-image.sh.j2
-    dest: /usr/local/bin/pull-crc-image.sh
+    src: "pull-crc-image.sh.j2"
+    dest: "/usr/local/bin/pull-crc-image-{{ remote_cloud.cloud_name }}.sh"
     mode: "0755"
+  loop: "{{ remote_cloud_names }}"
+  loop_control:
+    loop_var: remote_cloud
 
 - name: Create cronjob to pull image each day
   ansible.builtin.cron:
-    name: Daily extracted image sync
+    name: "Daily extracted image sync for {{ remote_cloud.cloud_name }}"
     hour: 8
-    job: /usr/local/bin/pull-crc-image.sh
+    job: "/usr/local/bin/pull-crc-image-{{ remote_cloud.cloud_name }}.sh"
