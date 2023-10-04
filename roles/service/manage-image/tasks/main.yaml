@@ -1,5 +1,5 @@
 - name: Verify if image exists
-  openstack.cloud.image_info:
+  os_image_info:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -41,7 +41,7 @@
       when: _image_type.stdout.find('QEMU QCOW Image')
 
     - name: Upload image
-      openstack.cloud.image:
+      os_image:
         cloud: "{{ cloud.name }}"
         auth:
           project_name: "{{ cloud.tenant | default(omit) }}"
