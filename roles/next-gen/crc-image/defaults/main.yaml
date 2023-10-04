@@ -6,4 +6,3 @@ system_release: 9
 
 # Extracted CRC
 extracted_crc: false
-extracted_crc_image_name_tmp: coreos-crc-extracted-tmp

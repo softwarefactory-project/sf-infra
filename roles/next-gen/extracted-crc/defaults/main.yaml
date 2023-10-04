@@ -5,4 +5,3 @@ crc_bundle_dir: "~{{ ansible_user | default(ansible_user_id) }}/crc_extracted"
 # Where the crc.qcow2 image should be pulled on localhost before
 # upload to the OpenStack cloud
 sync_extracted_qcow2_dir: "~{{ ansible_user | default(ansible_user_id) }}/crc_image_bundle"
-extracted_crc_image_name_tmp: coreos-crc-extracted-tmp
