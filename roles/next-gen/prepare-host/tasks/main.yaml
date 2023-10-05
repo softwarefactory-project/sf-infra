@@ -64,6 +64,5 @@
     state: present
     name: image-builder
     public_key_file: /home/centos/.ssh/id_ed25519.pub
-  no_log: true
   loop: "{{ cloud_names }}"
   when: "'crc_cloud_name' in item"
