@@ -10,6 +10,7 @@
   loop:
     - path: /etc/grafana/provisioning/datasources
     - path: /etc/grafana/provisioning/dashboards
+    - path: /etc/grafana/provisioning/dashboards/infra
     - path: /etc/grafana/provisioning/dashboards/ng-ci-dashboard
     - path: /etc/grafana/provisioning/dashboards/opendev
     - path: /etc/grafana/provisioning/dashboards/vexxhost
@@ -23,17 +24,21 @@
     src: '{{ item.name }}'
     dest: '/etc/{{ item.path }}/{{ item.name }}'
   loop:
+    # configuration file
     - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
-    - { name: 'node_exporter.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'zuul-summary.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'blackbox.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'DLRN.json', path: 'grafana/provisioning/dashboards' }
+    # dashboards
+    - { name: 'infra/node_exporter.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/zuul-summary.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/blackbox.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/DLRN.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/11442
-    - { name: 'zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/3894
-    - { name: 'apache-exporter.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/apache-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/6483-elasticsearch/
-    - { name: 'elasticsearch.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/elasticsearch.json', path: 'grafana/provisioning/dashboards' }
+      # Ported dashboard from downstream infra team
+    - { name: 'infra/downstream-dashboard.json', path: 'grafana/provisioning/dashboards' }
     ####### NG CI DASHBOARD ########
     - { name: 'ng-ci-dashboard/ci-dashboard-overview.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'ng-ci-dashboard/ci-dashboard-prow-detail.json', path: 'grafana/provisioning/dashboards' }
@@ -47,7 +52,7 @@
       # with few changed values.
     - { name: 'vexxhost/node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'vexxhost/vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'vexxhost/downstream-dashboard.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'vexxhost/downstream-dashboard-vexxhost.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates

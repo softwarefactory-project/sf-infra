@@ -48,7 +48,7 @@
     - name: Find all dashboards
       shell:
         cmd: |
-          for file in /etc/grafana/provisioning/dashboards/*.json; do cat $file | jq -r .title; done
+          find /etc/grafana/provisioning/dashboards/infra/ -type f -name '*.json' -print0 | xargs -0 -I {} jq -r .title {}
       register: dashboard_names
 
     - set_fact:

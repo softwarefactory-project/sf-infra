@@ -3,7 +3,8 @@
 -- or import the json manually: `dhall-to-json --file dashboard.dhall`
 --
 let Grafana =
-      https://raw.githubusercontent.com/weeezes/dhall-grafana/d8c7db7d0900607b60b1f371825bb766de66a940/package.dhall sha256:c79d299d53d930ec82f324d34eaa67bfabc7d90ff41ae881e854302c775462db
+      https://raw.githubusercontent.com/weeezes/dhall-grafana/07371ad984266063615189b07a58204aa76162a5/package.dhall
+        sha256:cdd8cf81f25b6bfb2099e2d1732309376e25a6d34139a6d018fc1d01cd0c48c0
 
 let datasource = Some (env:GRAFANA_DATASOURCE as Text ? "prometheus")
 

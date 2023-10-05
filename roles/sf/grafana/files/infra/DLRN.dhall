@@ -1,5 +1,5 @@
 -- | The DLRN grafana dashboard.
-let Prelude = ../../../../Infra/Prelude.dhall
+let Prelude = ../../../../../Infra/Prelude.dhall
 
 let Grafana = ./Grafana.dhall
 
