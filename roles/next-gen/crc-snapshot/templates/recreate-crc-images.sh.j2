@@ -4,8 +4,8 @@ set -x
 
 SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
 UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
-ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-{{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}.log"}
-ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
+export ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-{{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}.log"}
+export ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
 
 if [ -z "$SF_INFRA_REPO_DIR" ]; then
     SF_INFRA_REPO_DIR="$(realpath {{ crc_sf_infra_repo_dir }})"
@@ -21,7 +21,6 @@ fi
 
 ansible-playbook \
     -e "ansible_host_key_checking=False" \
-    -e "ansible_log_path=$ANSIBLE_LOG_PATH" \
     -e "cloud_name={{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}" \
     -e "flavor_name={{ cloud_def.crc_flavor_name | default(crc_flavor_name) }}" \
     -e "ssh_keypair_name={{ cloud_def.crc_ssh_keypair_name | default(crc_ssh_keypair_name) }}" \
