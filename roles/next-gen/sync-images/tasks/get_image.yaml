@@ -1,0 +1,142 @@
+---
+# NOTE: After merging change:
+# https://softwarefactory-project.io/r/c/software-factory/sf-infra/+/29699
+# normally the image name should be ending with "-latest", but
+# maybe in the future, we will need to push images with a date.
+# So let's keep that feature for now.
+- name: Sync images from upstream cloud
+  when: image_base_name.is_upstream | default(true) | bool
+  block:
+    - name: "Get image {{ image_base_name.name }} from upstream cloud"
+      ansible.builtin.shell: >
+        openstack image list |
+        grep "{{ image_base_name.name }}" |
+        sort -k4 -r |
+        head -n1 |
+        awk '{print $4}'
+      register: _base_image
+      environment:
+        OS_CLOUD: "{{ upstream_cloud_name }}"
+
+    - name: Set fact for newest base image name
+      ansible.builtin.set_fact:
+        newest_image_name: "{{ _base_image.stdout }}"
+
+    - name: "Get checksum of newest image - {{ newest_image_name }}"
+      ansible.builtin.shell: >
+        openstack image show {{ newest_image_name }}
+        -c checksum
+        -f value
+      register: _base_image_md5
+      environment:
+        OS_CLOUD: "{{ upstream_cloud_name }}"
+
+    - name: "Check if image {{ newest_image_name }} already exists in {{ remote_cloud.cloud_name }}"
+      ansible.builtin.shell: >
+        openstack image show {{ newest_image_name }}
+        -c checksum
+        -f value
+      register: _parent_img_md5
+      failed_when: >
+        _parent_img_md5.rc not in [0,1] or
+        'More than one Image exists with the name' in _parent_img_md5.stdout or
+        'More than one Image exists with the name' in _parent_img_md5.stderr
+      environment:
+        OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+
+    - name: Print a debug message when images are equal
+      when: _parent_img_md5 != _base_image_md5
+      ansible.builtin.debug:
+        msg: "Images are same!"
+
+    - name: Ensure dowload dir exists
+      ansible.builtin.file:
+        path: "{{ sync_extracted_qcow2_dir }}"
+        state: directory
+
+    # NOTE: Pull the image and push when:
+    # - image checksum from upstream is not equal what is in other parent cloud
+    - name: Pull image to the host
+      when: >
+        _parent_img_md5.rc == 1 or
+        _parent_img_md5.stdout != _base_image_md5.stdout
+      block:
+        - name: Remove old qcow2 image
+          ansible.builtin.file:
+            path: "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
+            state: absent
+
+        - name: Download image to the host - {{ newest_image_name }}
+          ansible.builtin.shell: >
+            openstack image save {{ newest_image_name }}
+            --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
+          register: _image_save
+          environment:
+            OS_CLOUD: "{{ upstream_cloud_name }}"
+
+        - name: Make checksum for downloaded image
+          ansible.builtin.shell: >
+            md5sum {{ sync_extracted_qcow2_dir }}/crc.qcow2 | awk '{print $1}'
+          register: _pull_img_md5
+
+        - name: Get remote image checksum
+          ansible.builtin.shell: >
+            openstack image show {{ newest_image_name }}
+            -c checksum
+            -f value
+          register: _remote_img_md5
+          environment:
+            OS_CLOUD: "{{ upstream_cloud_name }}"
+
+        - name: Assert that download image is same as remote
+          ansible.builtin.assert:
+            that:
+              - _pull_img_md5.stdout == _remote_img_md5.stdout
+
+        - name: Push image {{ newest_image_name }} to {{ remote_cloud.cloud_name }}
+          ansible.builtin.shell: >
+            openstack image create
+            {{ newest_image_name }}
+            --container-format bare
+            --disk-format qcow2
+            --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
+          environment:
+            OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+
+- name: Sync images in same cloud
+  when: not image_base_name.is_upstream | default(true) | bool
+  block:
+    - name: Get image from same cloud
+      ansible.builtin.shell: >
+        openstack image list |
+        grep "{{ image_base_name.name }}" |
+        sort -k4 -r |
+        head -n1 |
+        awk '{print $4}'
+      register: _base_image
+      environment:
+        OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+
+    - name: Set fact for newest base image name
+      ansible.builtin.set_fact:
+        newest_image_name: "{{ _base_image.stdout }}"
+
+### COMMON PART ###
+- name: Get image UUID
+  ansible.builtin.shell: >
+    openstack image show {{ newest_image_name }} -c id -f value
+  environment:
+    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+  register: _parent_img_uuid
+
+- name: Set fact for parent image uuid
+  ansible.builtin.set_fact:
+    parent_img_uuid: "{{ _parent_img_uuid.stdout }}"
+
+- name: Share image with other projects
+  ansible.builtin.include_tasks:
+    file: share_image.yaml
+  loop: "{{ remote_cloud.child_cloud_names }}"
+  loop_control:
+    loop_var: child_cloud_name
+  when: remote_cloud.child_cloud_names

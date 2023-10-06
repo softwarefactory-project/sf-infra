@@ -19,8 +19,16 @@ image between other projects.
          project_id: someuuid
        - name: my-cloud-2
          project_id: someuuid2
+     sync_images_base_names:
+       - name: "coreos-crc-extracted-latest"
+         is_upstream: true
+       - name: "rhel-9-crc-latest"
+         is_upstream: false
    - cloud_name: test
      child_cloud_names: []
+     sync_images_base_names:
+       - name: "some-image-<date>"
+         is_upstream: true
 ```
 
 Where:
@@ -43,6 +51,16 @@ Where:
                       - openstack server list -c ID -f value | head -n1 | xargs openstack server show -c project_id -f value
                       or
                       - openstack --debug server list | grep project_id
+   sync_images_base_names => list with dicts, where:
+        name => the "preffix", on which task will try to determinate which
+                image is the newest one (because we have a date suffix in the
+                image name, so by sorting images we can take newest one).
+                Normally it is: "coreos-crc-extracted-latest"
+        is_upstream => boolean value - it determinate if the image is on remote
+                       cloud and should be downloaded to the host, then
+                       pushed to the other OpenStack cloud or the image is
+                       in same OpenStack cluster. For example, it can be:
+                       "rhel-9-crc-".
 ```
 
 To get `project_id`, do:
@@ -57,7 +75,7 @@ Example playbook execution:
 ```sh
 ansible-playbook \
   -e "upstream_cloud_name=nodepool-tripleo" \
-  -e "{'remote_cloud_names': [{'cloud_name':'tripleo-ci', 'child_cloud_names': ['my-cloud','my-cloud-2']}, {'cloud_name':'test', 'child_cloud_names': []}]}" \
-  -e "sync_extracted_qcow2_dir=/home/centos/extracted-crc" \
+  -e "{'remote_cloud_names': [{'cloud_name':'tripleo-ci', 'child_cloud_names': ['my-cloud','my-cloud-2'],'sync_images_base_names':[{'name':'coreos-crc-extracted-','is_upstream':'true'},{'name':'rhel-9-crc-','is_upstream':'false'}]}, {'cloud_name':'test', 'child_cloud_names': []}]}" \
+  -e "sync_extracted_qcow2_dir=/home/centos/crc-extracted" \
   ./playbooks/crc/sync-crc-images.yaml"
 ```

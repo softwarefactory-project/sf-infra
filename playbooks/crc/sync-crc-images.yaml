@@ -8,7 +8,6 @@
   tasks:
     - name: Set important facts
       ansible.builtin.set_fact:
-        base_image_name: "{{ base_image_name | default('coreos-crc-extracted-') }}"
         upstream_cloud_name: "{{ upstream_cloud_name | default('nodepool-tripleo') }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
