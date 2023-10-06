@@ -23,7 +23,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
-    release: 'bobcat-uc'
+    release: 'caracal-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -54,7 +54,7 @@ dlrn_workers:
     cron_hour: '*/6'
     cron_minute: '5'
     symlinks: ['/var/www/html/centos9-head', '/var/www/html/centos9-master-head']
-    release: 'bobcat'
+    release: 'caracal'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -82,8 +82,7 @@ dlrn_workers:
     purge_hour: '2'
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-bobcat', '/var/www/html/bobcat/centos9']
-    # NOTE(jcapitao): set to 'bobcat' once the tag has been created in rdoinfo
-    release: 'bobcat-uc'
+    release: 'bobcat'
     baseurl: 'https://trunk.rdoproject.org/centos9-bobcat'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
