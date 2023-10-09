@@ -58,6 +58,6 @@ Example playbook execution:
 ansible-playbook \
   -e "upstream_cloud_name=nodepool-tripleo" \
   -e "{'remote_cloud_names': [{'cloud_name':'tripleo-ci', 'child_cloud_names': ['my-cloud','my-cloud-2']}, {'cloud_name':'test', 'child_cloud_names': []}]}" \
-  -e "sync_extracted_qcow2_dir=/home/centos/crc-extracted" \
-  ./playbooks/sync-crc-images.yaml"
+  -e "sync_extracted_qcow2_dir=/home/centos/extracted-crc" \
+  ./playbooks/crc/sync-crc-images.yaml"
 ```

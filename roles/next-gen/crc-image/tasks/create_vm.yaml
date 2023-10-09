@@ -21,7 +21,7 @@
     state: present
     cloud: "{{ cloud_name }}"
     name: "{{ vm_name }}"
-    image: "{{ image_name | default(base_rhel_image.stdout) | default(base_centos_image.stdout) }}"
+    image: "{{ image_name | default(base_image.stdout) }}"
     key_name: "{{ ssh_keypair_name }}"
     timeout: 300
     flavor: "{{ flavor }}"

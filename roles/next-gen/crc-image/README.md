@@ -20,13 +20,13 @@ ansible-galaxy collection install  community.general community.crypto ansible.po
 ## Run playbook with following command
 
 ```sh
-ansible-playbook playbooks/crc-make-snapshot.yaml
+ansible-playbook playbooks/crc/crc-make-snapshot.yaml
 ```
 
 NOTE: Centos 8 stream CRC image will be removed soon.
 
 ```sh
-ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=8" playbooks/crc-make-snapshot.yaml
+ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=8" playbooks/crc/crc-make-snapshot.yaml
 ```
 
 NOTE: The snapshot is using image: cloud-centos-9-stream-tripleo that is using
