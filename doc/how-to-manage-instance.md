@@ -39,7 +39,7 @@ Instance::{
 }
  ```
 
-To add an existting instance not deployed with sf-infra, do not add the `server`
+To add an existing instance not deployed with sf-infra, do not add the `server`
 part
 
  ```dhall
