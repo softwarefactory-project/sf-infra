@@ -1,0 +1,10 @@
+- name: Ensure dns nameservers are managed by Network Manager
+  ansible.builtin.command: "nmcli con mod 'Bond {{ item }}' ipv4.dns '1.1.1.1 8.8.8.8'"
+  loop:
+    - bond0
+    - bond1
+
+- name: Restart NetworkManager
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: restarted

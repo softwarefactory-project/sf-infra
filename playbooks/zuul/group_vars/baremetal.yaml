@@ -1,0 +1,40 @@
+flavors:
+  - name: afs
+    disk: 100
+    ram: 2048
+    vcpus: 2
+  - name: nodepool
+    disk: 80
+    ram: 8192
+    vcpus: 4
+# Overwrite flavors definition:
+# to match what we have on verxxhost
+# https://github.com/shiftstack/dev-install/blob/main/playbooks/prepare_stack.yaml#L76
+  - name: m1.large
+    disk: 80
+    ram: 8192
+    vcpus: 4
+  - name: m1.large.nodisk
+    disk: 0
+    ram: 8192
+    vcpus: 4
+  - name: m1.medium
+    disk: 40
+    ram: 4096
+    vcpus: 2
+  - name: m1.small
+    disk: 20
+    ram: 2048
+    vcpus: 1
+  - name: m1.tiny
+    disk: 10
+    ram: 1024
+    vcpus: 1
+  - name: m1.xlarge
+    disk: 40
+    ram: 16384
+    vcpus: 4
+  - name: m1.xlarge.nodisk
+    disk: 0
+    ram: 16384
+    vcpus: 4

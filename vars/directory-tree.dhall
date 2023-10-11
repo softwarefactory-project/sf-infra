@@ -66,6 +66,15 @@ let sshconfig =
                   ProxyJump baremetal03.rdoproject.org
               Host 192.168.25.13
                   ProxyJump baremetal03.rdoproject.org
+              Host 192.168.26.10
+                  ProxyJump baremetal04.rdoproject.org
+              Host 192.168.26.11
+                  ProxyJump baremetal04.rdoproject.org
+              Host 192.168.26.12
+                  ProxyJump baremetal04.rdoproject.org
+              Host 192.168.26.13
+                  ProxyJump baremetal04.rdoproject.org
+
 
               ''
           ++  Prelude.Text.concat

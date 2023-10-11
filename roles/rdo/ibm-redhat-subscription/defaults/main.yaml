@@ -1,0 +1,3 @@
+rhsm_config: "/etc/rhsm/rhsm.conf"
+activationkey: "activationkey"
+org_id: "org_id"

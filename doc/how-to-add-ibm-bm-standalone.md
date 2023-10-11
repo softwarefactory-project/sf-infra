@@ -59,7 +59,7 @@ in  mk_cloud baremetal02 # mk_cloud baremetal03
 3. update the configuration:
 
 `
-podman run --rm -it --volume $PWD:/workspace/sf-infra/:Z --volume ~/.cache:/workspace/.cache:Z quay.io/software-factory/zuul-worker-dhall /bin/bash -c "cd /workspace/sf-infra && make"
+$ make
 `
 
 4. create playbooks/host_vars/baremetal03.rdoproject.org.yaml with the available devices for nova:

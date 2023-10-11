@@ -91,4 +91,20 @@ let baremetal03 =
           , domain = prefix ++ "nodepool"
           }
 
-in  mk_cloud baremetal03
+let baremetal04 =
+      let prefix = "ibm-bm4-"
+
+      in  Cloud::{
+          , baremetal_name = "baremetal04." ++ rdo_domain
+          , baremetal_ip = "169.60.49.233"
+          , mirror_ip = "192.168.26.10"
+          , launcher_name = prefix ++ "nodepool-launcher"
+          , launcher_ip = "192.168.26.11"
+          , executor_name = prefix ++ "ze"
+          , executor_ip = "192.168.26.12"
+          , fingergw_name = prefix ++ "zfgw"
+          , fingergw_ip = "192.168.26.13"
+          , domain = prefix ++ "nodepool"
+          }
+
+in  mk_cloud baremetal03 # mk_cloud baremetal04

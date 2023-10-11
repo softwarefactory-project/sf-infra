@@ -39,6 +39,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
     nodeset:
       # This special job needs to run from a container
       nodes:
@@ -64,8 +66,12 @@
         secret: vexxhost-rdo
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
       - name: crc_secret
         secret: crc-secret
+      - name: rhel_tripleo_standalone
+        secret: rhel_tripleo_standalone
 
 - job:
     name: sf-infra-create-hosts
@@ -84,8 +90,12 @@
         secret: vexxhost-rdo
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
       - name: crc_secret
         secret: crc-secret
+      - name: rhel_tripleo_standalone
+        secret: rhel_tripleo_standalone
 
 - job:
     name: sf-infra-configure
@@ -110,6 +120,10 @@
         secret: vexxhost-rdo
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
+      - name: rhel_tripleo_standalone
+        secret: rhel_tripleo_standalone
       - name: vault
         secret: ansible-vault
       - name: sshkey
@@ -165,6 +179,7 @@
       - "^roles/service/.*$"
       - "^roles/system/.*$"
       - "^roles/osci/.*$"
+
 - job:
     name: sf-infra-configure-hosts-rdo
     parent: sf-infra-configure
@@ -233,6 +248,10 @@
     secrets:
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
+      - name: redhat_registry
+        secret: redhat_registry
 
 - job:
     name: sf-infra-configure-tripleo-standalone
@@ -248,6 +267,8 @@
     secrets:
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
 
 - job:
     name: sf-infra-configure-quay
@@ -265,6 +286,8 @@
         secret: vexxhost-rdo
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
+      - name: ibm_bm4_nodepool
+        secret: ibm-bm4-nodepool
       - name: vault
         secret: ansible-vault
 

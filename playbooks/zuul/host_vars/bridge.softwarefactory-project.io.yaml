@@ -9,6 +9,8 @@ projects:
   - nodepool-sf
   - nodepool-rdo
   - nodepool-tripleo
+redhat_registry_username: "{{ redhat_registry.username }}"
+redhat_registry_password: "{{ redhat_registry.password }}"
 standalone_deployments:
   - baremetal_name: ibm-bm3
     baremetal_ip: 169.60.49.226
@@ -17,6 +19,7 @@ standalone_deployments:
     tripleo_repos_branch: wallaby
     namespace: quay.io/tripleowallaby
     name_prefix: openstack-
+    hostonly_cidr: 192.168.25.0/24
     servers:
       - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
         flavor: afs
@@ -30,47 +33,21 @@ standalone_deployments:
       - name: ibm-bm3-zfgw.softwarefactory-project.io
         flavor: m1.small
         ip: 192.168.25.13
-flavors:
-  - name: afs
-    disk: 100
-    ram: 2048
-    vcpus: 2
-  - name: nodepool
-    disk: 80
-    ram: 8192
-    vcpus: 4
-# Overwrite flavors definition:
-# to match what we have on verxxhost
-# https://github.com/shiftstack/dev-install/blob/main/playbooks/prepare_stack.yaml#L76
-  - name: m1.large
-    disk: 80
-    ram: 8192
-    vcpus: 4
-  - name: m1.large.nodisk
-    disk: 0
-    ram: 8192
-    vcpus: 4
-  - name: m1.medium
-    disk: 40
-    ram: 4096
-    vcpus: 2
-  - name: m1.small
-    disk: 20
-    ram: 2048
-    vcpus: 1
-  - name: m1.tiny
-    disk: 10
-    ram: 1024
-    vcpus: 1
-  - name: m1.xlarge
-    disk: 40
-    ram: 16384
-    vcpus: 4
-  - name: m1.xlarge.nodisk
-    disk: 0
-    ram: 16384
-    vcpus: 4
-  - name: m1.large.nfv
-    state: absent
-  - name: m1.xlarge.nfv
-    state: absent
+  - baremetal_name: ibm-bm4
+    baremetal_ip: 169.60.49.233
+    cloud: ibm-bm4-nodepool
+    password: "{{ ibm_bm4_nodepool.password | default('') }}"
+    hostonly_cidr: 192.168.26.0/24
+    servers:
+      - name: mirror.regionone.ibm-bm4-nodepool.rdoproject.org
+        flavor: afs
+        ip: 192.168.26.10
+      - name: ibm-bm4-nodepool-launcher.softwarefactory-project.io
+        flavor: m1.medium
+        ip: 192.168.26.11
+      - name: ibm-bm4-ze.softwarefactory-project.io
+        flavor: m1.large
+        ip: 192.168.26.12
+      - name: ibm-bm4-zfgw.softwarefactory-project.io
+        flavor: m1.small
+        ip: 192.168.26.13

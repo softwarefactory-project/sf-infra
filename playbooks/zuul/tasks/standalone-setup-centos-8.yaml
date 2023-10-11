@@ -1,0 +1,32 @@
+- set_fact:
+    path: "/home/fedora/tripleo-standalone/{{ item.baremetal_name }}"
+
+- name: Create working directory
+  file:
+    path: "{{ path }}"
+    state: directory
+
+- name: "Checkout dev-install for {{ item.cloud }}"
+  git:
+    # original repo is: https://github.com/shiftstack/dev-install
+    # use nhicher repo to fix resolv.conf deletion issue
+    # https://github.com/shiftstack/dev-install/pull/191
+    repo: https://github.com/nhicher/dev-install.git
+    dest: "{{ path }}/dev-install"
+    version: ibmcloud
+
+- name: "Install templates for {{ item.cloud }}"
+  template:
+    src: local-overrides-centos-8.yaml.j2
+    dest: "{{ path }}/dev-install/local-overrides.yaml"
+    mode: 0640
+
+- name: "Generate config for {{ item.cloud }}"
+  command: "make config host={{ item.baremetal_ip}}"
+  args:
+    chdir: "{{ path }}/dev-install"
+
+- name: "Install osp for {{ item.cloud }}"
+  command: "make osp_full"
+  args:
+    chdir: "{{ path }}/dev-install"

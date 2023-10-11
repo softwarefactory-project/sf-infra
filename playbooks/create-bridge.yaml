@@ -38,11 +38,11 @@
       no_log: yes
 
     - name: Ensure sf-infra key pair exists
-      os_keypair:
+      openstack.cloud.keypair:
         cloud: "vexxhost-rdo"
         auth:
           project_name: "infra-sf"
-        state: "present"
+        state: "replace"
         name: "sf-infra-key"
         public_key_file: "{{ _infra_key.dest }}"
 

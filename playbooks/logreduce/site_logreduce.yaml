@@ -39,6 +39,13 @@
 - name: Install logreduce cli
   hosts: ze
   tasks:
+    - name: Create working directory
+      file:
+        path: /var/lib/log-classify
+        state: directory
+      become: true
+
+
     - name: Copy the assets
       synchronize:
         src: "logreduce/{{ logreduce_version }}/bin/"

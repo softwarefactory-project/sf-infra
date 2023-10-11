@@ -2,24 +2,23 @@ local_cloudname: {{ item.baremetal_name }}
 standalone_host: {{ item.baremetal_ip }}
 public_api: {{ item.baremetal_ip }}
 public_nic: bond1
-primary_nic_state: up
-rhsm_enabled: true
+tripleo_repos_branch: {{ item.tripleo_repos_branch }}
+standalone_extra_config:
+  octavia::wsgi::apache:workers: 4
+tripleo_repos_repo_branch: master
+cip_config:
+  - set:
+      namespace: {{ item.namespace }}
+      name_prefix: {{ item.name_prefix }}
+      tag: current-tripleo
 ceph_enabled: false
-redhat_registry_credentials:
-  username: "{{ redhat_registry_username }}"
-  password: "{{ redhat_registry_password }}"
-nodepool_password: "{{ item.password }}"
-hostonly_cidr: "{{ item.hostonly_cidr }}"
-neutron_mtu: 1500
-ctlplane_mtu: 1500
-hostonly_mtu: 1500
-public_mtu: 1500
 extra_heat_resource_registry:
   OS::TripleO::Services::HeatEngine: /usr/share/openstack-tripleo-heat-templates/deployment/heat/heat-engine-container-puppet.yaml
   OS::TripleO::Services::HeatApi: /usr/share/openstack-tripleo-heat-templates/deployment/heat/heat-api-container-puppet.yaml
-extra_heat_params:
-  ExtraFirewallRules:
-    '168 allow squid':
-      dport: 3128
-      proto: tcp
-      action: insert
+# for ibmcloud branch
+nm_dns: none
+primary_nic_state: up
+os_project: nodepool
+os_user: nodepool
+os_password: {{ item.password }}
+manage_cloudsyaml: false
