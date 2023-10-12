@@ -23,7 +23,7 @@
     name: "{{ vm_name }}"
     image: "{{ image_name | default(base_image.stdout) }}"
     key_name: "{{ ssh_keypair_name }}"
-    timeout: 300
+    timeout: 900
     flavor: "{{ flavor }}"
     nics:
       - net-id: "{{ net_id }}"
