@@ -101,17 +101,17 @@
   hosts: localhost
   tasks:
     - name: Create CRC snapshot
-      when: nested_crc | default(true) | bool
       block:
         # Create snapshot for nested version
         - name: Make CRC base image snapshot
+          when: nested_crc | default(true) | bool
           ansible.builtin.include_role:
             name: next-gen/crc-image
             tasks_from: make_snapshot.yaml
 
       always:
         - name: Delete instance when extracted version will be not done
-          when: not nested_crc | default(true) | bool
+          when: not extracted_crc | default(true) | bool
           openstack.cloud.server:
             name: "{{ vm_name }}"
             cloud: "{{ cloud_name }}"
