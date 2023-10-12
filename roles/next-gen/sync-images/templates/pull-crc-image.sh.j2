@@ -23,4 +23,4 @@ ansible-playbook \
     -e "upstream_cloud_name={{ upstream_cloud_name }}" \
     -e "remote_cloud_names={{ remote_cloud_names | replace(' ', '') }}" \
     -e "sync_extracted_qcow2_dir={{ crc_sync_extracted_qcow2_dir }}" \
-    "$SF_INFRA_REPO_DIR/playbooks/sync-crc-images.yaml"
+    "$SF_INFRA_REPO_DIR/playbooks/crc/sync-crc-images.yaml"

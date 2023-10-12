@@ -2,10 +2,10 @@
 # NOTE: The playbook by default will create nested and extracted image.
 #
 # Basic usage:
-# ansible-playbook playbooks/crc-make-snapshot.yaml
+# ansible-playbook playbooks/crc/crc-make-snapshot.yaml
 #
 # More controled usage:
-# ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc-make-snapshot.yaml
+# ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc/crc-make-snapshot.yaml
 # More info: roles/next-gen/crc-image/README.md
 #
 # Just create extracted CRC version, add variables:

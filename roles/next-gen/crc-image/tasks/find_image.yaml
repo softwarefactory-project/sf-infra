@@ -2,42 +2,40 @@
 - name: Search for newest image
   when: not image_name | default(false)
   block:
-    - name: "Take newest image for Centos"
+    - name: Set fact for recognize image when prefix provided
+      when: image_prefix | default(false)
+      ansible.builtin.set_fact:
+        img_regex: "{{ image_prefix }}"
+
+    - name: Set fact for recognize image when Centos
+      when: >
+        system_distro | default('') | lower == 'centos' and
+        not image_prefix | default(false)
+      ansible.builtin.set_fact:
+        img_regex: "(upstream-centos-{{ system_release }}-stream-[0-9]{10}|cloud-centos-{{ system_release }}-stream-tripleo-[0-9]{10})"
+
+    - name: Set fact for recognize image when RHEL
+      when: >
+        system_distro | default('') | lower == 'rhel' and
+        not image_prefix | default(false)
+      ansible.builtin.set_fact:
+        img_regex: "(cloud-rhel-{{ system_release }}-[0-9]-[0-9]{10})"
+
+    - name: "Take newest image for {{ img_regex }}"
       shell: >
         set -e;
         set -o pipefail;
         openstack image list |
-        grep -iE "(upstream-centos-{{ system_release }}-stream-[0-9]{10}|cloud-centos-{{ system_release }}-stream-tripleo-[0-9]{10})" |
+        grep -iE "{{ img_regex }}" |
         grep -i active |
         sort -r -k4 |
         head -n1 |
         awk '{print $4}'
       environment:
         OS_CLOUD: "{{ cloud_name }}"
-      register: base_centos_image
-      when: system_distro | lower == 'centos'
+      register: base_image
 
-    - name: Fail if image is empty - centos
+    - name: Fail if image is empty
       ansible.builtin.fail:
-        msg: "The image is empty for centos!"
-      when: system_distro | lower == 'centos' and not base_centos_image
-
-    - name: "Take newest image for RHEL"
-      shell: >
-        set -e;
-        set -o pipefail;
-        openstack image list |
-        grep -iE "(cloud-rhel-{{ system_release }}-[0-9]-[0-9]{10})" |
-        grep -i active |
-        sort -r -k4  |
-        head -n1 |
-        awk '{print $4}'
-      environment:
-        OS_CLOUD: "{{ cloud_name }}"
-      register: base_rhel_image
-      when: system_distro | lower == 'rhel'
-
-    - name: Fail if image is empty - rhel
-      ansible.builtin.fail:
-        msg: "The image is empty for rhel!"
-      when: system_distro | lower == 'rhel' and not base_rhel_image
+        msg: "The image name is empty!"
+      when: not base_image

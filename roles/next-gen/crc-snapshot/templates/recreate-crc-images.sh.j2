@@ -31,4 +31,4 @@ ansible-playbook \
     -e "extracted_crc={{ cloud_def.crc_extracted_crc | default(crc_extracted_crc) }}" \
     -e "nested_crc={{ cloud_def.crc_nested_crc | default(crc_nested_crc) }}" \
     -e "sync_extracted_qcow2_dir={{ cloud_def.crc_sync_extracted_qcow2_dir | default(crc_sync_extracted_qcow2_dir) }}" \
-    "$SF_INFRA_REPO_DIR/playbooks/crc-make-snapshot.yaml"
+    "$SF_INFRA_REPO_DIR/playbooks/crc/crc-make-snapshot.yaml"
