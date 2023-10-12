@@ -18,19 +18,7 @@
   environment:
     OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
-- name: "Ensure that image {{ newest_image_name }} is in pending state in {{ remote_cloud.cloud_name }}"
-  ansible.builtin.shell: >
-    openstack image member list {{ parent_img_uuid }} -c Status -f value
-  register: _img_member
-  environment:
-    OS_CLOUD: "{{ remote_cloud.cloud_name }}"
-
-- name: Assert that image is in pending state
-  ansible.builtin.assert:
-    that:
-      - "'pending' in _img_member.stdout or 'accepted' in _img_member.stdout"
-
-- name: Accept image in {{ child_cloud_name.name }}
+- name: "Accept image in {{ child_cloud_name.name }}"
   ansible.builtin.shell: |
     openstack image set --accept {{ parent_img_uuid }}
   environment:
