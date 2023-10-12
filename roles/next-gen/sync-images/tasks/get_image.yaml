@@ -66,6 +66,26 @@
             path: "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
             state: absent
 
+        # On pushing new latest image (after promotion) to other cloud,
+        # we will have an issue, that it will be many images with same name.
+        # That needs to be done only for images, that the promotion process
+        # is not done (promotion was done upstream, so images in upstream
+        # cloud are "renamed", but here on pushing new images, we need to change
+        # the name).
+        # In other words, nested images are done downstream and the promotion
+        # is done also downstream, so there should not be a situation, that
+        # there are many images with "-latest" suffix.
+        # From promote-crc-image.yaml.
+        - name: "Get current {{ newest_image_name }} image details for future rename"
+          openstack.cloud.image_info:
+            cloud: "{{ remote_cloud.cloud_name }}"
+            image: "{{ newest_image_name }}"
+          register: _previous_img_info
+
+        - name: Set fact with image timestamp
+          ansible.builtin.set_fact:
+            previous_img_timestamp: "{{ (_previous_img_info.images[0].created_at | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
+
         - name: Download image to the host - {{ newest_image_name }}
           ansible.builtin.shell: >
             openstack image save {{ newest_image_name }}
@@ -93,7 +113,7 @@
             that:
               - _pull_img_md5.stdout == _remote_img_md5.stdout
 
-        - name: Push image {{ newest_image_name }} to {{ remote_cloud.cloud_name }}
+        - name: "Push image {{ newest_image_name }} to {{ remote_cloud.cloud_name }}"
           ansible.builtin.shell: >
             openstack image create
             {{ newest_image_name }}
@@ -102,6 +122,19 @@
             --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
           environment:
             OS_CLOUD: "{{ remote_cloud.cloud_name }}"
+
+        - name: Set fact with date format
+          ansible.builtin.set_fact:
+            previous_img_to_date: "{{ '%Y-%m-%d-%H-%M' | strftime(previous_img_timestamp) }}"
+
+        - name: Change latest image name to time format
+          vars:
+            tmp_image_name: " {{ _previous_img_info.images[0].id }}"
+            dest_image_name: "{{ newest_image_name | replace('latest', '') }}{{ previous_img_to_date }}"
+            cloud_name: "{{ remote_cloud.cloud_name }}"
+          ansible.builtin.include_role:
+            name: next-gen/crc-image
+            tasks_from: rename_image
 
 - name: Sync images in same cloud
   when: not image_base_name.is_upstream | default(true) | bool
