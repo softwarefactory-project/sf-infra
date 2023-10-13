@@ -27,10 +27,10 @@ cloud_names:
     crc_ssh_pub_path: ~/.ssh/id_ed25519.pub
     crc_nested_crc: true
     crc_nested_final_image_prefix: centos-9-crc-latest
-    crc_nested_normal_image_prefix: centos-9-crc-
+    crc_nested_normal_image_prefix: centos-9-crc-[0-9-]{16}
     crc_extracted_crc: true
     crc_extracted_final_image_prefix: coreos-crc-extracted-latest
-    crc_extracted_normal_image_prefix: coreos-crc-extracted-
+    crc_extracted_normal_image_prefix: coreos-crc-extracted-[0-9-]{16}
 
   - crc_cloud_name: some-cloud-2
     crc_flavor_name: ci.m1.xlarge
@@ -39,7 +39,7 @@ cloud_names:
     crc_ssh_pub_path: ~/.ssh/id_ed25519.pub
     crc_nested_crc: true
     crc_nested_final_image_prefix: rhel-9-crc-latest
-    crc_nested_normal_image_prefix: rhel-9-crc-
+    crc_nested_normal_image_prefix: rhel-9-crc-[0-9-]{16}
     crc_extracted_crc: false
 ```
 
