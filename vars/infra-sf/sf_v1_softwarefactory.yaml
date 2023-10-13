@@ -18,6 +18,12 @@ spec:
     storage:
       size: 10Gi
   zuul:
+    oidcAuthenticators:
+      - name: keycloak_sfio
+        clientID: zuul-microshift
+        issuerID: https://softwarefactory-project.io/auth/realms/SF
+        realm: SF
+    defaultAuthenticator: keycloak_sfio
     gerritconns:
       - name: sfio-gerrit
         username: microzuul
