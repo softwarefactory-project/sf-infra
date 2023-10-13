@@ -129,14 +129,15 @@
   hosts: localhost
   tasks:
     - name: Download extracted CRC qcow2 image
-      when: extracted_crc | default(true) | bool
       block:
         - name: Pull image to the host
+          when: extracted_crc | default(true) | bool
           ansible.builtin.include_role:
             name: next-gen/extracted-crc
             tasks_from: pull-image.yaml
 
         - name: Upload to the Cloud provider
+          when: extracted_crc | default(true) | bool
           ansible.builtin.include_role:
             name: next-gen/extracted-crc
             tasks_from: create-image.yaml
