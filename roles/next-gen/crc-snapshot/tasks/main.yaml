@@ -7,7 +7,7 @@
     owner: "{{ ansible_user | default(ansible_user_id) }}"
     group: "{{ ansible_user | default(ansible_user_id) }}"
 
-- name: Create scripts and cron jobs
+- name: Create scripts for creating CRC images
   ansible.builtin.include_tasks: configure.yaml
   loop: "{{ cloud_names }}"
   loop_control:

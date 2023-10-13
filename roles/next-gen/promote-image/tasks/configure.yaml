@@ -1,0 +1,10 @@
+---
+- name: "Create promotion script for {{ cloud_def.crc_cloud_name }}"
+  become: true
+  ansible.builtin.template:
+    src: "promote-crc-image.sh.j2"
+    dest: "/usr/local/bin/promote-crc-image-{{ cloud_def.crc_cloud_name }}.sh"
+    mode: "0755"
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+  when: "{{ remote_cloud_names }}"
