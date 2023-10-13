@@ -9,7 +9,7 @@
     - name: Change latest image name to time format
       vars:
         tmp_image_name: " {{ final_image_prefix }}"
-        dest_image_name: "{{ normal_image_prefix }}{{ latest_img_to_date }}"
+        dest_image_name: "{{ final_image_prefix | replace('latest', '') }}{{ latest_img_to_date }}"
       ansible.builtin.include_role:
         name: next-gen/crc-image
         tasks_from: rename_image
