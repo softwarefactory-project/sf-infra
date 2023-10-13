@@ -1,0 +1,48 @@
+---
+- name: "Get {{ final_image_prefix }} image details"
+  openstack.cloud.image_info:
+    cloud: "{{ cloud_name }}"
+    image: "{{ final_image_prefix }}"
+  register: _latest_img
+
+- name: "Get latest image for prefix {{ normal_image_prefix }}"
+  vars:
+    image_prefix: "{{ normal_image_prefix }}"
+  ansible.builtin.include_role:
+    name: next-gen/crc-image
+    tasks_from: find_image
+
+- name: Set fact with newest image with time format
+  ansible.builtin.set_fact:
+    newest_image_name: "{{ base_image.stdout }}"
+
+# NOTE: base_image is a fact from find_image.yaml
+- name: "Get {{ normal_image_prefix }} image details"
+  openstack.cloud.image_info:
+    cloud: "{{ cloud_name }}"
+    image: "{{ newest_image_name }}"
+  register: _normal_img
+
+- name: Set fact with dates
+  ansible.builtin.set_fact:
+    normal_img_timestamp: "{{ (_normal_img.images[0].created_at | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
+    latest_img_timestamp: "{{ (_latest_img.images[0].created_at | default('1970-01-01T01:00:01Z') | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
+
+- name: Finish playbook when latest image is newer than image with timestamp
+  when: >
+    latest_img_timestamp and (
+    (latest_img_timestamp | int) > (normal_img_timestamp | int))
+  ansible.builtin.meta: end_play
+
+- name: Promote image
+  when: (latest_img_timestamp | int) < (normal_img_timestamp | int)
+  block:
+    - name: Create a VM
+      ansible.builtin.include_role:
+        name: next-gen/crc-image
+        tasks_from: create_vm.yaml
+
+    - name: Get VM info
+      ansible.builtin.include_role:
+        name: next-gen/crc-image
+        tasks_from: get_vm_info.yaml

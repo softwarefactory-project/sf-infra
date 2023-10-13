@@ -1,0 +1,30 @@
+---
+- name: Rename images
+  when: (latest_img_timestamp | int) < (normal_img_timestamp | int)
+  block:
+    - name: Set fact to replace latest image name to time format
+      ansible.builtin.set_fact:
+        latest_img_to_date: "{{ '%Y-%m-%d-%H-%M' | strftime(latest_img_timestamp) }}"
+
+    - name: Change latest image name to time format
+      vars:
+        tmp_image_name: " {{ final_image_prefix }}"
+        dest_image_name: "{{ normal_image_prefix }}{{ latest_img_to_date }}"
+      ansible.builtin.include_role:
+        name: next-gen/crc-image
+        tasks_from: rename_image
+
+    - name: Change new image with time format to latest
+      vars:
+        tmp_image_name: "{{ newest_image_name }}"
+        dest_image_name: "{{ final_image_prefix }}"
+      ansible.builtin.include_role:
+        name: next-gen/crc-image
+        tasks_from: rename_image
+
+  always:
+    - name: Delete instance
+      openstack.cloud.server:
+        name: "{{ vm_name }}"
+        cloud: "{{ cloud_name }}"
+        state: absent
