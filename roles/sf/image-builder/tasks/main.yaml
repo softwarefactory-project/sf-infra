@@ -3,6 +3,7 @@
     name:
       - podman
       - git
+      - libvirt-daemon
   become: true
 
 - name: Ensure that storage driver is overlay
@@ -15,23 +16,29 @@
 - name: Change mount program to fuse-overlays
   lineinfile:
     path: /etc/containers/storage.conf
-    regexp: '^#mount_program'
+    regexp: "^#mount_program"
     line: 'mount_program = "/usr/bin/fuse-overlayfs"'
   become: true
 
 - name: Create account
   user:
-    name: "{{ zuul_container_user }}"
-    home: "/home/{{ zuul_container_user }}"
+    name: "{{ item }}"
+    home: "/home/{{ item }}"
     shell: /bin/bash
   become: true
+  loop:
+    - "{{ zuul_container_user }}"
+    - "{{ microzuul_nodepool_user }}"
 
 - name: Create home dir
   file:
-    path: "/home/{{ zuul_container_user }}"
+    path: "/home/{{ item }}"
     state: directory
-    owner: "{{ zuul_container_user }}"
+    owner: "{{ item }}"
   become: true
+  loop:
+    - "{{ zuul_container_user }}"
+    - "{{ microzuul_nodepool_user }}"
 
 - name: Download container-update project key
   get_url:
@@ -60,3 +67,10 @@
     user: "{{ zuul_container_user }}"
     state: present
     key: "{{ cu_pubkey.stdout }}"
+
+- name: "Authorized {{ microzuul_nodepool_user }} executor"
+  become: true
+  authorized_key:
+    user: "{{ microzuul_nodepool_user }}"
+    state: present
+    key: "{{ microzuul_nodepool_key }}"
