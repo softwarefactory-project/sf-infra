@@ -1,0 +1,6 @@
+---
+- name: Create scripts for promoting CRC images
+  ansible.builtin.include_tasks: configure.yaml
+  loop: "{{ cloud_names }}"
+  loop_control:
+    loop_var: cloud_def
