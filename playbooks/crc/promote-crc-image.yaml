@@ -44,187 +44,26 @@
         name: next-gen/crc-image
         tasks_from: check_vm.yaml
 
-    - name: "Get {{ final_image_prefix }} image details"
-      openstack.cloud.image_info:
-        cloud: "{{ cloud_name }}"
-        image: "{{ final_image_prefix }}"
-      register: _latest_img
-
-    - name: "Get latest image for prefix {{ normal_image_prefix }}"
-      vars:
-        image_prefix: "{{ normal_image_prefix }}"
+    - name: Get latest images and its date
       ansible.builtin.include_role:
-        name: next-gen/crc-image
-        tasks_from: find_image
-
-    - name: Set fact with newest image with time format
-      ansible.builtin.set_fact:
-        newest_image_name: "{{ base_image.stdout }}"
-
-    # NOTE: base_image is a fact from find_image.yaml
-    - name: "Get {{ normal_image_prefix }} image details"
-      openstack.cloud.image_info:
-        cloud: "{{ cloud_name }}"
-        image: "{{ newest_image_name }}"
-      register: _normal_img
-
-    - name: Set fact with dates
-      ansible.builtin.set_fact:
-        normal_img_timestamp: "{{ (_normal_img.images[0].created_at | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
-        latest_img_timestamp: "{{ (_latest_img.images[0].created_at | default('1970-01-01T01:00:01Z') | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
-
-    - name: Finish playbook when latest image is newer than image with timestamp
-      when: >
-        latest_img_timestamp and (
-        (latest_img_timestamp | int) > (normal_img_timestamp | int))
-      ansible.builtin.meta: end_play
-
-    - name: Promote image
-      when: (latest_img_timestamp | int) < (normal_img_timestamp | int)
-      block:
-        - name: Create a VM
-          ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: create_vm.yaml
-
-        - name: Get VM info
-          ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: get_vm_info.yaml
+        name: next-gen/promote-image
 
 - name: Deploy CRC and run tests
   hosts: crc.dev
   vars:
     ansible_python_interpreter: /usr/libexec/platform-python
   tasks:
-    - name: Run tests on VM with newest image
-      block:
-        - name: Check if there is crc binary
-          stat:
-            path: /usr/local/bin/crc
-          register: _crc_bin
-
-        - name: Configure nested CRC
-          when: _crc_bin.stat.exists
-          block:
-            - name: Start CRC when image version is nested
-              ansible.builtin.shell: |
-                /usr/local/bin/crc start
-
-            - name: Create symlink for oc binary
-              become: true
-              ansible.builtin.file:
-                src: "~{{ image_ssh_user | default('zuul') }}/.crc/bin/oc/oc"
-                dest: /usr/bin/oc
-                state: link
-
-        - name: Check if platform-python is installed
-          stat:
-            path: /usr/libexec/platform-python
-          register: _platform_python
-
-        # NOTE: yes, first we need to update pip.
-        # Otherwise next task might fail.
-        - name: Update pip
-          when: _platform_python.stat.exists
-          become: true
-          ansible.builtin.command: |
-            /usr/libexec/platform-python -m pip install -U pip
-
-        - name: Update pip packages and install Ansible Core
-          when: _platform_python.stat.exists
-          ansible.builtin.command: >
-            /usr/libexec/platform-python -m pip install --user --force-reinstall {{ item }}
-          loop:
-            - "--upgrade setuptools"
-            - "setuptools_rust"
-            - "ansible-core"
-
-        - name: Clone OKO install_yamls project
-          ansible.builtin.git:
-            repo: https://github.com/openstack-k8s-operators/install_yamls
-            dest: install_yamls
-
-        - name: Clone RDO config project
-          ansible.builtin.git:
-            repo: https://github.com/rdo-infra/review.rdoproject.org-config
-            dest: rdo-config
-
-        - name: Check if there is already generated ssh key
-          ansible.builtin.stat:
-            path: ~/.ssh/id_ed25519.pub
-          register: _ssh_key
-
-        - name: Generate local ssh key
-          when: not _ssh_key.stat.exists
-          ansible.builtin.shell: |
-            ssh-keygen -ted25519 -q -N "" -f ~/.ssh/id_ed25519
-
-        - name: Add pub key into authorized
-          ansible.builtin.shell: |
-            cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
-
-        - name: Create inventory file
-          ansible.builtin.copy:
-            content: |
-              ---
-              all:
-                hosts:
-                  crc:
-                    ansible_port: 22
-                    ansible_host: 127.0.0.1
-            dest: inventory.yaml
-
-        - name: Run ansible playbook that will login and check is services are up
-          ansible.builtin.shell: >
-            ~/.local/bin/ansible-playbook
-            -i inventory.yaml
-            -e "{'crc': 'localhost'}"
-            -e "{'crc_secret': {'openshift_pull_secret': 'fake_pull_secret'}}"
-            -e "ansible_python_interpreter=/usr/libexec/platform-python"
-            -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
-            -e "ansible_host_key_checking=False"
-            rdo-config/playbooks/crc/ensure-marketplace.yaml
-          environment:
-            ANSIBLE_LOG_PATH: ansible-output.log
-
-        - name: Run tests
-          ansible.builtin.make:
-            chdir: install_yamls
-            target: certmanager
-          register: _install_yaml_out
+    - name: Install basic packages and run tests
+      ansible.builtin.include_role:
+        name: next-gen/promote-image
+        tasks_from: test-crc.yaml
 
 # NOTE: if we are here, it seems that the tests pass and
 # there was no FAIL or exit 1.
 - name: Rename images and do promotion
   hosts: localhost
   tasks:
-    - name: Rename images
-      when: (latest_img_timestamp | int) < (normal_img_timestamp | int)
-      block:
-        - name: Set fact to replace latest image name to time format
-          ansible.builtin.set_fact:
-            latest_img_to_date: "{{ '%Y-%m-%d-%H-%M' | strftime(latest_img_timestamp) }}"
-
-        - name: Change latest image name to time format
-          vars:
-            tmp_image_name: " {{ final_image_prefix }}"
-            dest_image_name: "{{ normal_image_prefix }}{{ latest_img_to_date }}"
-          ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: rename_image
-
-        - name: Change new image with time format to latest
-          vars:
-            tmp_image_name: "{{ newest_image_name }}"
-            dest_image_name: "{{ final_image_prefix }}"
-          ansible.builtin.include_role:
-            name: next-gen/crc-image
-            tasks_from: rename_image
-
-      always:
-        - name: Delete instance
-          openstack.cloud.server:
-            name: "{{ vm_name }}"
-            cloud: "{{ cloud_name }}"
-            state: absent
+    - name: Do promotion - change images name
+      ansible.builtin.include_role:
+        name: next-gen/promote-image
+        tasks_from: rename-images.yaml

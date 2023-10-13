@@ -1,0 +1,97 @@
+---
+- name: Run tests on VM with newest image
+  block:
+    - name: Check if there is crc binary
+      stat:
+        path: /usr/local/bin/crc
+      register: _crc_bin
+
+    - name: Configure nested CRC
+      when: _crc_bin.stat.exists
+      block:
+        - name: Start CRC when image version is nested
+          ansible.builtin.shell: |
+            /usr/local/bin/crc start
+
+        - name: Create symlink for oc binary
+          become: true
+          ansible.builtin.file:
+            src: "~{{ image_ssh_user | default('zuul') }}/.crc/bin/oc/oc"
+            dest: /usr/bin/oc
+            state: link
+
+    - name: Check if platform-python is installed
+      stat:
+        path: /usr/libexec/platform-python
+      register: _platform_python
+
+    # NOTE: yes, first we need to update pip.
+    # Otherwise next task might fail.
+    - name: Update pip
+      when: _platform_python.stat.exists
+      become: true
+      ansible.builtin.command: |
+        /usr/libexec/platform-python -m pip install -U pip
+
+    - name: Update pip packages and install Ansible Core
+      when: _platform_python.stat.exists
+      ansible.builtin.command: >
+        /usr/libexec/platform-python -m pip install --user --force-reinstall {{ item }}
+      loop:
+        - "--upgrade setuptools"
+        - "setuptools_rust"
+        - "ansible-core"
+
+    - name: Clone OKO install_yamls project
+      ansible.builtin.git:
+        repo: https://github.com/openstack-k8s-operators/install_yamls
+        dest: install_yamls
+
+    - name: Clone RDO config project
+      ansible.builtin.git:
+        repo: https://github.com/rdo-infra/review.rdoproject.org-config
+        dest: rdo-config
+
+    - name: Check if there is already generated ssh key
+      ansible.builtin.stat:
+        path: ~/.ssh/id_ed25519.pub
+      register: _ssh_key
+
+    - name: Generate local ssh key
+      when: not _ssh_key.stat.exists
+      ansible.builtin.shell: |
+        ssh-keygen -ted25519 -q -N "" -f ~/.ssh/id_ed25519
+
+    - name: Add pub key into authorized
+      ansible.builtin.shell: |
+        cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+
+    - name: Create inventory file
+      ansible.builtin.copy:
+        content: |
+          ---
+          all:
+            hosts:
+              crc:
+                ansible_port: 22
+                ansible_host: 127.0.0.1
+        dest: inventory.yaml
+
+    - name: Run ansible playbook that will login and check is services are up
+      ansible.builtin.shell: >
+        ~/.local/bin/ansible-playbook
+        -i inventory.yaml
+        -e "{'crc': 'localhost'}"
+        -e "{'crc_secret': {'openshift_pull_secret': 'fake_pull_secret'}}"
+        -e "ansible_python_interpreter=/usr/libexec/platform-python"
+        -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
+        -e "ansible_host_key_checking=False"
+        rdo-config/playbooks/crc/ensure-marketplace.yaml
+      environment:
+        ANSIBLE_LOG_PATH: ansible-output.log
+
+    - name: Run tests
+      ansible.builtin.make:
+        chdir: install_yamls
+        target: certmanager
+      register: _install_yaml_out
