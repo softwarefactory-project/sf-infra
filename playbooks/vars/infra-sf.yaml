@@ -212,6 +212,7 @@ security_groups:
   - name: k8s-client
     rules:
       - port: 6443
+      - port: 30000
 servers:
   - auto_ip: true
     boot_from_volume: yes

@@ -83,7 +83,14 @@ let security_groups =
               }
             ]
           }
-        , { name = "k8s-client", rules = [ Infra.Rule::{ port = +6443 } ] }
+        , { name = "k8s-client"
+          , rules =
+              let logreduce_service = +30000
+
+              in  [ Infra.Rule::{ port = +6443 }
+                  , Infra.Rule::{ port = logreduce_service }
+                  ]
+          }
         ]
 
 in  { networks = Some

@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logreduce
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: logreduce
+  name: logreduce
+  labels:
+    app.kubernetes.io/name: logreduce
+spec:
+  containers:
+    - name: logreduce
+      image: ghcr.io/logreduce/logreduce:latest
+      securityContext:
+        privileged: false
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        seccompProfile: { type: "RuntimeDefault" }
+        capabilities: { drop: ["ALL"] }
+      ports:
+        - containerPort: 3000
+          name: logreduce-web
+      volumeMounts:
+        - mountPath: /data
+          name: data-volume
+  volumes:
+    - name: data-volume
+      emptyDir:
+        sizeLimit: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: logreduce
+  name: logreduce
+spec:
+  selector:
+    app.kubernetes.io/name: logreduce
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: logreduce-web
+      nodePort: 30000
