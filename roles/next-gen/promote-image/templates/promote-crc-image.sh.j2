@@ -26,6 +26,8 @@ ansible-playbook \
     -e "final_image_prefix={{ cloud_def.crc_extracted_final_image_prefix | default('coreos-crc-extracted-latest') }}" \
     -e "normal_image_prefix={{ cloud_def.crc_extracted_normal_image_prefix | default('coreos-crc-extracted-') }}" \
     -e "cloud_name={{ cloud_def.crc_cloud_name }}" \
+    -e "net_id={{ cloud_def.crc_net_id }}" \
+    -e "flavor_name={{ cloud_def.crc_flavor_name }}" \
     -e "image_ssh_user=core" \
     "$SF_INFRA_REPO_DIR/playbooks/crc/promote-crc-image.yaml"
 {% endif %}
@@ -38,5 +40,7 @@ ansible-playbook \
     -e "normal_image_prefix={{ cloud_def.crc_extracted_normal_image_prefix | default('centos-9-crc-') }}" \
     -e "image_ssh_user=zuul" \
     -e "cloud_name={{ cloud_def.crc_cloud_name }}" \
+    -e "net_id={{ cloud_def.crc_net_id }}" \
+    -e "flavor_name={{ cloud_def.crc_flavor_name }}" \
     "$SF_INFRA_REPO_DIR/playbooks/crc/promote-crc-image.yaml"
 {% endif %}
