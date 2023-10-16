@@ -23,16 +23,17 @@
     allocation_pool_end: "{{ item.allocation_pool_end|default(omit) }}"
   loop: "{{ tenant_config.subnets | default([]) }}"
 
-- name: Create routers
-  os_router:
-    cloud: "{{ cloud.name }}"
-    auth:
-      project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('present') }}"
-    name: "{{ item.name }}"
-    network: "{{ item.network }}"
-    interfaces: "{{ item.interfaces }}"
-  loop: "{{ tenant_config.routers | default([]) }}"
+# Uncomment when network.rdo.mtl2.vexxhost.net/v2.0/routers no longer return 500 errors
+#- name: Create routers
+#  os_router:
+#    cloud: "{{ cloud.name }}"
+#    auth:
+#      project_name: "{{ cloud.tenant | default(omit) }}"
+#    state: "{{ item.state | default('present') }}"
+#    name: "{{ item.name }}"
+#    network: "{{ item.network }}"
+#    interfaces: "{{ item.interfaces }}"
+#  loop: "{{ tenant_config.routers | default([]) }}"
 
 - name: Create security groups
   os_security_group:
