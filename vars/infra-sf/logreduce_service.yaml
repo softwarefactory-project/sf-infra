@@ -21,6 +21,9 @@ spec:
         runAsNonRoot: true
         seccompProfile: { type: "RuntimeDefault" }
         capabilities: { drop: ["ALL"] }
+      env:
+        - name: LOGREDUCE_BASE_URL
+          value: "/logreduce/"
       ports:
         - containerPort: 3000
           name: logreduce-web
