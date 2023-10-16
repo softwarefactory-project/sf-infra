@@ -4,6 +4,7 @@
       - podman
       - git
       - libvirt-daemon
+      - libguestfs-tools
   become: true
 
 - name: Ensure that storage driver is overlay
