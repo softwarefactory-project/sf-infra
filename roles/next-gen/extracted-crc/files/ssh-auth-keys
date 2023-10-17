@@ -10,3 +10,5 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDU84vH1QOZ8G4v3big/1Eh7ErtQyAXCC2YyqBtaCoD
 
 # image-builder host - for re-creating CRC image
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIppNzjGx/3nYeinqak/o9UYgtC42kymxv/s3SxVXbJ3 centos@image-builder
+
+# Others - injected via curl 169.254.169.254
