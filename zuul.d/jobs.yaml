@@ -214,6 +214,7 @@
       - "^roles/system/.*$"
       - "^roles/sf/.*$"
       - "^roles/next-gen/.*$"
+      - "vars/infra-sf/sf_v1_softwarefactory.yaml"
 
 - job:
     name: sf-infra-create-tripleo-standalone
