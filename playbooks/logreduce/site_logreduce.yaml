@@ -10,11 +10,11 @@
   tasks:
     - name: Fetch the assets
       shell: |
-        if ! test -f logreduce/{{ logreduce_web_version }}/dist/logreduce-web.wasm; then
-          mkdir -p logreduce/{{ logreduce_web_version }}/dist-tmp;
-          cd logreduce/{{ logreduce_web_version }}/dist-tmp;
+        if ! test -f logreduce/{{ logreduce_version }}/dist/logreduce-web.wasm; then
+          mkdir -p logreduce/{{ logreduce_version }}/dist-tmp;
+          cd logreduce/{{ logreduce_version }}/dist-tmp;
           for ext in css js wasm; do
-            curl -OL https://unpkg.com/logreduce-web@{{ logreduce_web_version }}/logreduce-web.$ext
+            curl -OL https://unpkg.com/logreduce-web@{{ logreduce_version }}/logreduce-web.$ext
           done
           cd ..; mv dist-tmp dist
         fi
@@ -32,8 +32,8 @@
   tasks:
     - name: Copy the assets
       synchronize:
-        src: "logreduce/{{ logreduce_web_version }}/dist/"
-        dest: "/var/www/logs/logreduce-assets/{{ logreduce_web_version }}/"
+        src: "logreduce/{{ logreduce_version }}/dist/"
+        dest: "/var/www/logs/logreduce-assets/{{ logreduce_version }}/"
       become: true
 
 - name: Install logreduce cli
