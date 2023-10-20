@@ -14,7 +14,7 @@
 - name: Create log directory for next-gen cleaner
   become: true
   ansible.builtin.file:
-    path: /var/log/next-gen-cleaner
+    path: "{{ crc_cleaner_log_dir }}"
     state: directory
     owner: centos
     group: centos
@@ -26,7 +26,16 @@
     hour: "5"
     job: >
       export OS_CLOUD={{ project.crc_cloud_name }};
-      /usr/local/bin/cleanup-ports-next-gen.sh &> /var/log/next-gen-cleaner/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-{{ project.crc_cloud_name }}.log
+      /usr/local/bin/cleanup-ports-next-gen.sh &> {{ crc_cleaner_log_dir }}/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-{{ project.crc_cloud_name }}.log
   loop: "{{ cloud_names }}"
   loop_control:
     loop_var: project
+
+- name: Add logrotate file
+  become: true
+  ansible.builtin.template:
+    src: cleanup-ports-logrotate.j2
+    dest: /etc/logrotate.d/cleanup-ports
+    mode: "0644"
+    owner: root
+    group: root
