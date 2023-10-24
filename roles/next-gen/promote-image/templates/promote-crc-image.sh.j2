@@ -37,7 +37,7 @@ ansible-playbook \
 ansible-playbook \
     -e "ssh_pub_path={{ cloud_def.crc_ssh_pub_path | default('~/.ssh/id_ed25519.pub') }}" \
     -e "final_image_prefix={{ cloud_def.crc_nested_final_image_prefix | default('centos-9-crc-latest') }}" \
-    -e "normal_image_prefix={{ cloud_def.crc_extracted_normal_image_prefix | default('centos-9-crc-') }}" \
+    -e "normal_image_prefix={{ cloud_def.crc_nested_normal_image_prefix | default('centos-9-crc-') }}" \
     -e "image_ssh_user=zuul" \
     -e "cloud_name={{ cloud_def.crc_cloud_name }}" \
     -e "net_id={{ cloud_def.crc_net_id }}" \
