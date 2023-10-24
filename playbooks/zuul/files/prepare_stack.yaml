@@ -1,0 +1,174 @@
+---
+- hosts: standalone
+  become: true
+  become_user: stack
+  gather_facts: false
+  vars_files: vars/defaults.yaml
+  roles:
+    - network_info
+  name: Create OpenStack resources
+  tasks:
+    - name: Gather host environment variables
+      ansible.builtin.setup:
+        filter: ansible_env
+
+    - name: Create nodepool user without any admin privileges # noqa no-changed-when
+      ansible.builtin.shell: |
+        if ! openstack project show nodepool; then
+            openstack project create nodepool
+        fi
+        if ! openstack user show nodepool; then
+            openstack user create --password '{{ nodepool_password }}' nodepool
+        fi
+        for r in _member_ member; do
+            if openstack role show $r; then
+                openstack role add --user nodepool --project nodepool $r
+            fi
+        done
+
+        # Unlimited quota
+        openstack quota set \
+            --cores -1 \
+            --fixed-ips -1 \
+            --injected-file-size -1 \
+            --injected-files -1 \
+            --instances -1 \
+            --key-pairs -1 \
+            --properties -1 \
+            --ram -1 \
+            --server-groups -1 \
+            --server-group-members -1 \
+            --backups -1 \
+            --backup-gigabytes -1 \
+            --per-volume-gigabytes -1 \
+            --snapshots -1 \
+            --volumes -1 \
+            --floating-ips -1 \
+            --secgroup-rules -1 \
+            --secgroups -1 \
+            --networks -1 \
+            --subnets -1 \
+            --ports -1 \
+            --routers -1 \
+            --rbac-policies -1 \
+            --subnetpools -1 \
+            nodepool
+
+      environment:
+        OS_CLOUD: standalone
+
+    - name: Add swiftoperator role for nodepool user # noqa no-changed-when
+      ansible.builtin.command: openstack role add --user nodepool --project nodepool swiftoperator
+      environment:
+        OS_CLOUD: standalone
+      when: swiftoperator_enabled
+
+    - name: Create hostonly network # noqa no-changed-when
+      ansible.builtin.shell: |
+        if ! openstack network show hostonly; then
+            openstack network create --project nodepool --share --external --provider-physical-network hostonly --provider-network-type flat hostonly
+        fi
+        if ! openstack subnet show hostonly-subnet; then
+            openstack subnet create --project nodepool hostonly-subnet --subnet-range "{{ hostonly_cidr }}" \
+                --dhcp --gateway "{{ hostonly_gateway }}" \
+                --dns-nameserver "{{ network_info.dns | first }}" \
+                --allocation-pool "start={{ hostonly_fip_pool_start }},end={{ hostonly_fip_pool_end }}" \
+                --network hostonly
+        fi
+        if ! openstack subnet show hostonly-subnet-v6; then
+            openstack subnet create --project nodepool hostonly-subnet-v6 --subnet-range "{{ hostonly_v6_cidr }}" \
+                --dhcp --gateway "{{ hostonly_v6_gateway }}" \
+                --allocation-pool "start={{ hostonly_v6_fip_pool_start }},end={{ hostonly_v6_fip_pool_end }}" \
+                --network hostonly --ip-version 6 --ipv6-ra-mode dhcpv6-stateful --ipv6-address-mode dhcpv6-stateful
+        fi
+      environment:
+        OS_CLOUD: standalone
+
+    - name: Create basic security group which allows SSH # noqa no-changed-when
+      ansible.builtin.shell: |
+        if ! openstack security group show allow_ssh; then
+            openstack security group create allow_ssh --project nodepool
+            openstack security group rule create --protocol tcp --dst-port 22 --project nodepool allow_ssh
+        fi
+      environment:
+        OS_CLOUD: standalone
+
+    - name: Create basic security group which allows ping # noqa no-changed-when
+      ansible.builtin.shell: |
+        if ! openstack security group show allow_ping; then
+            openstack security group create allow_ping --project nodepool
+            openstack security group rule create --protocol icmp --project nodepool allow_ping
+            openstack security group rule create --protocol ipv6-icmp --project nodepool allow_ping
+        fi
+      environment:
+        OS_CLOUD: standalone
+
+    - name: Read clouds.yaml
+      ansible.builtin.slurp:
+        src: &cloudsyamlpath /home/stack/.config/openstack/clouds.yaml
+      register: cloudsyaml
+
+    - name: Parse cloud.yaml
+      ansible.builtin.set_fact:
+        cloudsyaml: "{{ cloudsyaml['content'] | b64decode | from_yaml }}"
+
+    - name: Extract standalone cloud config
+      ansible.builtin.set_fact:
+        standalone: "{{ cloudsyaml['clouds']['standalone'] }}"
+
+    - name: Add shiftstack entry to clouds.yaml
+      ansible.builtin.set_fact:
+        cloudsyaml: "{{ cloudsyaml | combine({'clouds': {'nodepool': nodepool}}, recursive=true) }}"
+      vars:
+        nodepool:
+          auth:
+            auth_url: "{{ standalone['auth']['auth_url'] }}"
+            password: "{{ nodepool_password }}"
+            project_domain_name: Default
+            project_name: nodepool
+            user_domain_name: Default
+            username: nodepool
+          cacert: "{{ standalone['cacert'] }}"
+          identity_api_version: "{{ standalone['identity_api_version'] }}"
+          volume_api_version: "{{ standalone['volume_api_version'] | default('3') }}"
+          region_name: "{{ standalone['region_name'] }}"
+
+    - name: Write updated clouds.yaml
+      ansible.builtin.copy:
+        dest: *cloudsyamlpath
+        content: "{{ cloudsyaml | to_nice_yaml }}"
+        mode: '755'
+
+    - name: Grab the CA certificate
+      when: ssl_enabled
+      block:
+        - name: Read CA certificate
+          ansible.builtin.slurp:
+            src: "{{ ssl_ca_cert_path }}"
+          register: ssl_ca_cert_output
+
+        - name: Set fact for CA cert
+          ansible.builtin.set_fact:
+            ssl_ca_cert: "{{ ssl_ca_cert_output['content'] | b64decode }}"
+
+- hosts: localhost
+  gather_facts: false
+  vars_files: vars/defaults.yaml
+  name: Get cacert
+  tasks:
+    - name: Load Ansible env
+      ansible.builtin.setup:
+        filter: ansible_env
+
+    - name: Configure cacert locally
+      when: ssl_enabled
+      block:
+        - name: Set local path of cacert
+          ansible.builtin.set_fact:
+            cacert_path: "{{ ansible_env.HOME }}/.config/openstack/{{ local_cloudname }}-ca.crt"
+
+        - name: Copy CA cert into local config directory
+          ansible.builtin.copy:
+            dest: "{{ cacert_path }}"
+            content: "{{ hostvars['standalone']['ssl_ca_cert'] }}"
+            mode: '644'

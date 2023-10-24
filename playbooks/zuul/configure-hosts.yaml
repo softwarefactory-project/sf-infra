@@ -80,6 +80,13 @@
             name: next-gen/prepare-host
             tasks_from: gen-ansible-vars.yaml
 
+        - name: Copy the rhel_secrets.yaml
+          template:
+            src: rhel_secrets.yaml.j2
+            dest: ~/.rhel_secrets.yaml
+            mode: "0400"
+          no_log: yes
+
         - name: Symlink ansible configuration file
           file:
             src: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"

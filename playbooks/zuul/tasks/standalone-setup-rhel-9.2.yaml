@@ -1,0 +1,46 @@
+- set_fact:
+    path: "/home/fedora/tripleo-standalone/{{ item.baremetal_name }}"
+
+- name: Create working directory
+  ansible.builtin.file:
+    path: "{{ path }}"
+    state: directory
+    recurse: yes
+
+- name: "Checkout dev-install for {{ item.cloud }}"
+  ansible.builtin.git:
+    repo: https://github.com/nhicher/dev-install
+    dest: "{{ path }}/dev-install"
+    force: yes
+
+- name: "Install templates for {{ item.cloud }}"
+  ansible.builtin.template:
+    src: ../templates/local-overrides.yaml.j2
+    dest: "{{ path }}/dev-install/local-overrides.yaml"
+    mode: 0640
+
+- name: "Generate config for {{ item.cloud }}"
+  community.general.make:
+    chdir: "{{ path }}/dev-install"
+    target: config
+    params:
+      host: "{{ item.baremetal_ip}}"
+
+- name: Copy playbook to prepare stack
+  ansible.builtin.copy:
+    src: ../files/prepare_stack.yaml
+    dest: "{{ path }}/dev-install/playbooks"
+
+- name: Run all needed target
+  community.general.make:
+    chdir: "{{ path }}/dev-install"
+    target: "{{ target }}"
+    make: /usr/bin/make
+  loop:
+    - local_requirements
+    - prepare_host
+    - network
+    - install_stack
+    - prepare_stack
+  loop_control:
+    loop_var: target

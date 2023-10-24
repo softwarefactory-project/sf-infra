@@ -1,15 +1,12 @@
 ---
-- name: "Create flavors on {{ item.cloud }}"
-  os_nova_flavor:
+- name: "Upload image {{ cloud_image }}"
+  os_image:
     cloud: "{{ item.cloud }}"
-    name: "{{ flavor.name }}"
-    disk: "{{ flavor.disk | default(0) }}"
-    ram: "{{ flavor.ram | default(256) }}"
-    vcpus: "{{ flavor.vcpus | default(1) }}"
-    state: "{{ flavor.state | default('present') }}"
-  loop: "{{ flavors }}"
-  loop_control:
-    loop_var: flavor
+    name: "{{ cloud_image }}"
+    container_format: bare
+    disk_format: qcow2
+    filename: "/home/fedora/{{ cloud_image }}.qcow2"
+    is_public: no
 
 - name: "Add keypairs on {{ item.cloud }}"
   os_keypair:
@@ -23,9 +20,10 @@
     state: present
     network_name: hostonly
     name: hostonly-subnet
-    cidr: 192.168.25.0/24
+    cidr: "{{ item.hostonly_cidr }}"
     dns_nameservers:
        - 1.1.1.1
+       - 8.8.8.8
 
 - name: "Create security group rules for default"
   os_security_group_rule:
@@ -79,6 +77,7 @@
         # don't wait for instance creation for there is issue when waiting for fip
         # "msg": "Timeout waiting for the floating IP to be attached."
         # but the fip is already attached
+        auto_ip: false
         wait: false
         security_groups:
           - allow_ssh

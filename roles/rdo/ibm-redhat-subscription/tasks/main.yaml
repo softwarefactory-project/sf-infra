@@ -1,0 +1,39 @@
+- name: Get baseurl on rhsm.conf
+  command: "awk '/baseurl/ {print $3}' {{ rhsm_config }}"
+  register: _baseurl
+  changed_when: false
+
+- name: Check if rhsm.conf.kat-backup exists
+  ansible.builtin.stat:
+    path: /etc/rhsm/rhsm.conf.kat-backup
+  register: _rhsm_config
+
+- name: Ensure we use rhsm.conf with cdn.redhat.com
+  block:
+    - name: Backup ibm rhsm.conf
+      ansible.builtin.copy:
+        src: "{{ rhsm_config }}"
+        dest: "{{ rhsm_config }}.ibm-backup"
+        remote_src: yes
+      when: _baseurl.stdout != "https://cdn.redhat.com"
+
+    - name: Unregister system from internal subscription
+      community.general.redhat_subscription:
+        state: absent
+      when: _baseurl.stdout != "https://cdn.redhat.com"
+
+    - name: Copy rhsm.conf.kat-backup to rhsm.conf
+      ansible.builtin.copy:
+        src: "{{ rhsm_config }}.kat-backup"
+        dest: "{{ rhsm_config }}"
+        remote_src: yes
+  when: _rhsm_config.stat.exists
+
+- name: Register system
+  community.general.redhat_subscription:
+    state: present
+    activationkey: "{{ activationkey }}"
+    org_id: "{{ org_id }}"
+    pool_ids: 2c94c3df880c49780188292012db67a2
+    force_register: yes
+  no_log: yes

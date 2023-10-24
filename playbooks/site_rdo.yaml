@@ -21,6 +21,22 @@
     - rdo/backup-monitoring
     - rdo/backup-srv
 
+- hosts: baremetal04.rdoproject.org
+  tasks:
+    - name: Read .rhel_secrets.yaml
+      ansible.builtin.include_vars:
+        file: ~/.rhel_secrets.yaml
+      delegate_to: localhost
+      no_log: yes
+
+    - name: Register system
+      ansible.builtin.include_role:
+        name: rdo/ibm-redhat-subscription
+
+    - name: Ensure external dns
+      ansible.builtin.include_role:
+        name: rdo/ibm-baremetal-setup
+
 - hosts: baremetal
   roles:
     - infra/ssh

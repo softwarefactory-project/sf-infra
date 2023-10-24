@@ -46,6 +46,18 @@
     - name: Save iptables rules
       command: /usr/libexec/iptables/iptables.init save
 
+    - name: Create flavors
+      shell: |
+        if ! openstack flavor show {{ flavor.name }}; then
+           openstack flavor create --ram {{ flavor.ram }} --disk {{ flavor.disk }} --vcpu {{ flavor.vcpus }} --public {{ flavor.name }}
+        fi
+      environment:
+        OS_CLOUD: standalone
+      loop: "{{ flavors }}"
+      loop_control:
+        loop_var: flavor
+      register: _output
+
 - hosts: baremetal03.rdoproject.org
   gather_facts: yes
   tasks:
@@ -67,6 +79,32 @@
         destination_port: 7979
         jump: DNAT
         to_destination: 192.168.25.13:7979
+        comment: PREROUTING rule for fingergw
+
+    - name: Save iptables rules
+      command: /usr/libexec/iptables/iptables.init save
+
+- hosts: baremetal04.rdoproject.org
+  gather_facts: yes
+  tasks:
+    - name: Forward finger port (7979) to ibm-zfgw
+      iptables:
+        chain: FORWARD
+        protocol: tcp
+        destination_port: 7979
+        destination: 192.168.26.13
+        jump: ACCEPT
+        comment: Forward rule for fingergw
+
+    - name: DNAT finger port (7979) to ibm-zfgw
+      iptables:
+        table: nat
+        chain: PREROUTING
+        in_interface: bond1
+        protocol: tcp
+        destination_port: 7979
+        jump: DNAT
+        to_destination: 192.168.26.13:7979
         comment: PREROUTING rule for fingergw
 
     - name: Save iptables rules
