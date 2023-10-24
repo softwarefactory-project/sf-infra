@@ -245,6 +245,8 @@
       - ^playbooks/zuul/templates/local-overrides.yaml.j2$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
       - ^playbooks/zuul/group_vars/baremetal.yaml$
+      - roles/rdo/ibm-redhat-subscription
+      - roles/rdo/ibm-baremetal-setup
     secrets:
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
@@ -264,11 +266,14 @@
       - ^playbooks/zuul/configure-tripleo-standalone.yaml$
       - ^playbooks/zuul/standalone-configure.yaml$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
+      - roles/rdo/ibm-shiftstack-squid
     secrets:
       - name: ibm_bm3_nodepool
         secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
+      - name: shiftstack_squid
+        secret: shiftstack_squid
 
 - job:
     name: sf-infra-configure-quay

@@ -109,3 +109,7 @@
 
     - name: Save iptables rules
       command: /usr/libexec/iptables/iptables.init save
+
+    - name: Configure squid service
+      ansible.builtin.include_role:
+        name: rdo/ibm-shiftstack-squid
