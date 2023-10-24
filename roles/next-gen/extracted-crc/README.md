@@ -39,10 +39,11 @@ set -x
 
 ### NOTE: Remember to run as a root ;)
 
-sudo guestmount -m /dev/sda4 -a crc.qcow2 --rw /mnt
-GUEST_ETC_DIR="$(sudo find /mnt/ostree/deploy/rhcos/deploy -maxdepth 1 -type d | tail -n1)/etc"
-GUEST_LOCAL_DIR=/mnt/ostree/deploy/rhcos/var/usrlocal
-GUEST_HOME_DIR=/mnt/ostree/deploy/rhcos/var/home/core
+sudo mkdir -p /mnt/extracted
+sudo guestmount -m /dev/sda4 -a crc.qcow2 --rw /mnt/extracted
+GUEST_ETC_DIR="$(sudo find /mnt/extracted/ostree/deploy/rhcos/deploy -maxdepth 1 -type d | tail -n1)/etc"
+GUEST_LOCAL_DIR=/mnt/extracted/ostree/deploy/rhcos/var/usrlocal
+GUEST_HOME_DIR=/mnt/extracted/ostree/deploy/rhcos/var/home/core
 
 cat << EOF > $GUEST_ETC_DIR/systemd/system/crc-pre.service
 [Unit]
@@ -131,5 +132,5 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIppNzjGx/3nYeinqak/o9UYgtC42kymxv/s3SxVXbJ3
 EOF
 
 sync
-sudo guestunmount /mnt
+sudo guestunmount /mnt/extracted
 ```

@@ -5,4 +5,5 @@
 
 - name: Umount guestfish image
   become: true
-  ansible.builtin.command: guestunmount /mnt
+  ansible.builtin.command: |
+    guestunmount {{ mount_point }}

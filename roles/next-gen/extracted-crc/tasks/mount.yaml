@@ -1,5 +1,11 @@
 ---
+- name: Ensure that mount point exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ mount_point }}"
+    state: directory
+
 - name: Mount via guestfish qcow2 image
   become: true
   ansible.builtin.command: >
-    guestmount -m /dev/sda4 -a "{{ crc_bundle_dir }}/crc.qcow2" --rw /mnt
+    guestmount -m /dev/sda4 -a "{{ crc_bundle_dir }}/crc.qcow2" --rw {{ mount_point }}
