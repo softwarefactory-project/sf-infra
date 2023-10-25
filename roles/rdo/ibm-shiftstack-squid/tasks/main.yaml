@@ -1,0 +1,44 @@
+---
+- name: Install, configure, and start Squid
+  block:
+    - name: Ensure /home/stack/squid
+      ansible.builtin.file:
+        path: "{{ squid_directory }}"
+        state: directory
+        mode: 0700
+
+    - name: Install squid.conf
+      ansible.builtin.copy:
+        src: squid.conf
+        dest: "{{ squid_directory }}/squid.conf"
+        mode: 0600
+
+
+    - name: Add htpasswd for squid
+      ansible.builtin.copy:
+        content: '{{ shiftstack_squid.htpasswd | default("") }}'
+        dest: "{{ squid_directory }}/htpasswd"
+        mode: 0600
+      no_log: yes
+  become: yes
+  become_user: stack
+
+- name: Get squid image
+  ansible.builtin.command: >-
+    podman create --net=host --name=squid
+    --volume /home/stack/squid/squid.conf:/etc/squid/squid.conf:z
+    --volume /home/stack/squid/htpasswd:/etc/squid/htpasswd:z
+    quay.io/emilien/squid:latest
+  become: yes
+
+- name: Setup squid container
+  ansible.builtin.shell: >-
+    podman generate systemd --name squid | sudo tee -a /etc/systemd/system/container-squid.service
+  become: yes
+
+- name: Create squid service
+  ansible.builtin.systemd:
+    name: container-squid
+    enabled: yes
+    daemon_reload: yes
+    state: started
