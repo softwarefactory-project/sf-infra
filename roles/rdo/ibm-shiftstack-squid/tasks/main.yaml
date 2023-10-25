@@ -23,22 +23,30 @@
   become: yes
   become_user: stack
 
-- name: Get squid image
-  ansible.builtin.command: >-
-    podman create --net=host --name=squid
-    --volume /home/stack/squid/squid.conf:/etc/squid/squid.conf:z
-    --volume /home/stack/squid/htpasswd:/etc/squid/htpasswd:z
-    quay.io/emilien/squid:latest
-  become: yes
+- name: Check if squid container exists
+  command: podman container exists squid
+  failed_when: false
+  register: _squid_container
 
-- name: Setup squid container
-  ansible.builtin.shell: >-
-    podman generate systemd --name squid | sudo tee -a /etc/systemd/system/container-squid.service
-  become: yes
+- name: Create squid container if it doesn't exist
+  block:
+    - name: Create squid container
+      ansible.builtin.command: >-
+        podman create --net=host --name=squid
+        --volume /home/stack/squid/squid.conf:/etc/squid/squid.conf:z
+        --volume /home/stack/squid/htpasswd:/etc/squid/htpasswd:z
+        quay.io/emilien/squid:latest
+      become: yes
 
-- name: Create squid service
-  ansible.builtin.systemd:
-    name: container-squid
-    enabled: yes
-    daemon_reload: yes
-    state: started
+    - name: Setup squid container
+      ansible.builtin.shell: >-
+        podman generate systemd --name squid | sudo tee -a /etc/systemd/system/container-squid.service
+      become: yes
+
+    - name: Create squid service
+      ansible.builtin.systemd:
+        name: container-squid
+        enabled: yes
+        daemon_reload: yes
+        state: started
+  when: _squid_container.rc != 0
