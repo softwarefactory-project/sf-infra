@@ -1,0 +1,9 @@
+{{ crc_ansible_log_dir }}/*log {
+    rotate 14
+    missingok
+    daily
+    notifempty
+    sharedscripts
+    compress
+    delaycompress
+}
