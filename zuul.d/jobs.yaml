@@ -254,6 +254,8 @@
         secret: ibm-bm4-nodepool
       - name: redhat_registry
         secret: redhat_registry
+      - name: shiftstack_openstack
+        secret: shiftstack_openstack
 
 - job:
     name: sf-infra-configure-tripleo-standalone
