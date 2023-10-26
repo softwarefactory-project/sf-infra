@@ -116,7 +116,7 @@
       ansible.builtin.set_fact:
         standalone: "{{ cloudsyaml['clouds']['standalone'] }}"
 
-    - name: Add shiftstack entry to clouds.yaml
+    - name: Add nodepool entry to clouds.yaml
       ansible.builtin.set_fact:
         cloudsyaml: "{{ cloudsyaml | combine({'clouds': {'nodepool': nodepool}}, recursive=true) }}"
       vars:
