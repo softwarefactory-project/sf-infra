@@ -70,7 +70,9 @@ if [ -n "$CDROM" ]; then
 
     if [ -f "$USERDATA_DIR/openstack/latest/user_data" ]; then
         grep -E "^\s*- (ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_DIR/openstack/latest/user_data" | sed 's/^\s*-\s*//' > "$USERDATA_KEY_DIR/userdata"
-        cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+        if ssh-keygen -l -f "$USERDATA_KEY_DIR/userdata"; then
+            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+        fi
     fi
 fi
 
@@ -83,7 +85,7 @@ if [ -n "$CLOUD_INIT_KEYS" ]; then
         curl -SL "$CLOUD_INIT_KEYS_URL/$AVAILABLE_KEY/openssh-key" > "$USERDATA_KEY_DIR/openssh-key"
 
         if [ -f "$USERDATA_KEY_DIR/openssh-key" ]; then
-            if grep -qE "(ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_KEY_DIR/openssh-key"; then
+            if ssh-keygen -l -f "$USERDATA_KEY_DIR/openssh-key"; then
                 cat "$USERDATA_KEY_DIR/openssh-key" | tee -a "${USER_DIR}/.ssh/authorized_keys"
             fi
         fi
