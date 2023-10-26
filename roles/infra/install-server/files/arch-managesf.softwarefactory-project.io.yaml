@@ -144,3 +144,24 @@ inventory:
   ip: 192.168.25.11
   roles:
   - nodepool-launcher
+
+- name: ibm-bm4-nodepool-launcher
+  private: true
+  use_public_ips: yes
+  ip: 192.168.26.11
+  roles:
+  - nodepool-launcher
+
+- name: ibm-bm4-ze
+  ip: 192.168.26.12
+  private: true
+  use_public_ips: yes
+  roles:
+  - zuul-executor
+
+- name: ibm-bm4-zfgw
+  ip: 192.168.26.13
+  private: true
+  use_public_ips: yes
+  roles:
+  - zuul-fingergw

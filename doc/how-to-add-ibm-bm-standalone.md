@@ -133,13 +133,7 @@ The crt will be installed by shiftstack/dev-install at the end of the openstack 
 9. Add Proxy jump for each ip (needed by ansible) on vars/directory-tree.dhall
 
 `
-Host 192.168.25.10
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.11
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.12
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.13
+Host 192.168.25.11 192.168.25.12 192.168.25.13
     ProxyJump baremetal03.rdoproject.org
 `
 
@@ -184,21 +178,28 @@ The first deployment on gate should failed on site_{sf,rdo} for instances need t
 
 1. Update arch in roles/infra/install-server/files/arch-managesf.softwarefactory-project.io.yaml
 
-note: ibm-zfgw is not supported on sf 3.7, no need to add it in the arch for now
 `
-- name: ibm-bm3-ze
-  ip: 192.168.25.12
+- name: ibm-bm4-nodepool-launcher
+  private: true
+  use_public_ips: yes
+  ip: 192.168.26.11
+  roles:
+  - nodepool-launcher
+
+- name: ibm-bm4-ze
+  ip: 192.168.26.12
   private: true
   use_public_ips: yes
   roles:
   - zuul-executor
 
-- name: ibm-bm3-nodepool-launcher
+- name: ibm-bm4-zfgw
+  ip: 192.168.26.13
   private: true
   use_public_ips: yes
-  ip: 192.168.25.11
   roles:
-  - nodepool-launcher
+  - zuul-fingergw
+
 `
 
 2. Add the new cert in playbooks/group_vars/ibm-baremetal-nodepool.yaml
@@ -245,6 +246,8 @@ Host ibm-bm3-zfgw*
 `
 
 4. commit and propose a review with the content to setup the cloud
+
+5. run sfconfig
 
 ## Add zuul and nodepool instances on sf.io
 

@@ -20,13 +20,7 @@
           Port 22
           Hostname 169.60.49.226
 
-      Host 192.168.25.11
-          ProxyJump baremetal03.rdoproject.org
-
-      Host 192.168.25.12
-          ProxyJump baremetal03.rdoproject.org
-
-      Host 192.168.25.13
+      Host 192.168.25.11 192.168.25.12 192.168.25.13
           ProxyJump baremetal03.rdoproject.org
 
       Host ibm-bm3-nodepool-launcher*
@@ -41,4 +35,23 @@
           ProxyJump baremetal03.rdoproject.org
           Hostname 192.168.25.13
 
+      Host baremetal04.rdoproject.org
+          User root
+          Port 22
+          Hostname 169.60.49.233
+
+      Host 192.168.26.11 192.168.26.12 192.168.26.13
+          ProxyJump baremetal04.rdoproject.org
+
+      Host ibm-bm4-nodepool-launcher*
+          ProxyJump baremetal04.rdoproject.org
+          Hostname 192.168.26.11
+
+      Host ibm-bm4-ze*
+          ProxyJump baremetal04.rdoproject.org
+          Hostname 192.168.26.12
+
+      Host ibm-bm4-zfgw*
+          ProxyJump baremetal04.rdoproject.org
+          Hostname 192.168.26.13
   when: ansible_fqdn == "managesf.softwarefactory-project.io"
