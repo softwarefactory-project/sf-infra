@@ -1,11 +1,14 @@
 #!/bin/bash
+
+set -x
+
 HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}' | head -n1)
 HOST_DEF_INT=$(ip -br -4 a sh | grep $HOST_IP | awk '{print $1}')
 ALL_DNS=$(nmcli -g IP4.DNS connection show $(nmcli connection show | grep $HOST_DEF_INT | awk -F '  ' '{print $2}'))
 DNS1=$(echo $ALL_DNS| cut -f1 -d'|')
 DNS2=$(echo $ALL_DNS| cut -f2 -d'|')
-USER_DIR=${USER_DIR:-$HOME}
-CLOUD_INIT_KEYS_URL=${CLOUD_INIT_KEYS_URL:-'http://169.254.169.254/1.0/meta-data/public-keys'}
+USER_DIR=${USER_DIR:-'/var/home/core'}
+CLOUD_INIT_KEYS_URL=${CLOUD_INIT_KEYS_URL:-'http://169.254.169.254/latest/meta-data/public-keys'}
 USERDATA_DIR=${USERDATA_DIR:-'/tmp/openstack-config-drive'}
 USERDATA_KEY_DIR=${USERDATA_KEY_DIR:-'/tmp/ssh-pub-keys'}
 
@@ -67,9 +70,7 @@ if [ -n "$CDROM" ]; then
 
     if [ -f "$USERDATA_DIR/openstack/latest/user_data" ]; then
         grep -E "^\s*- (ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_DIR/openstack/latest/user_data" | sed 's/^\s*-\s*//' > "$USERDATA_KEY_DIR/userdata"
-        if ssh-keygen -l -f "$USERDATA_KEY_DIR/userdata"; then
-            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
-        fi
+        cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
     fi
 fi
 
@@ -79,10 +80,12 @@ if [ -n "$CLOUD_INIT_KEYS" ]; then
     for k in $CLOUD_INIT_KEYS;
     do
         AVAILABLE_KEY=$(echo "$k" | cut -f1 -d"=")
-        curl -LO "$CLOUD_INIT_KEYS/$AVAILABLE_KEY/openssh-key"
+        curl -SL "$CLOUD_INIT_KEYS_URL/$AVAILABLE_KEY/openssh-key" > "$USERDATA_KEY_DIR/openssh-key"
 
-        if ssh-keygen -l -f openssh-key; then
-            cat openssh-key | tee -a "${USER_DIR}/.ssh/authorized_keys"
+        if [ -f "$USERDATA_KEY_DIR/openssh-key" ]; then
+            if grep -qE "(ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_KEY_DIR/openssh-key"; then
+                cat "$USERDATA_KEY_DIR/openssh-key" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+            fi
         fi
     done
 fi
