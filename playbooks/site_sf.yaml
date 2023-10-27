@@ -7,7 +7,7 @@
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
         file: ~/.ansible_crc_vars.yaml
-      no_log: yes
+      no_log: true
       delegate_to: localhost
 
     - name: Install microshift
