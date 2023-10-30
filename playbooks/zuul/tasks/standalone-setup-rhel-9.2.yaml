@@ -26,11 +26,6 @@
     params:
       host: "{{ item.baremetal_ip}}"
 
-- name: Copy playbook to prepare stack
-  ansible.builtin.copy:
-    src: ../files/prepare_stack.yaml
-    dest: "{{ path }}/dev-install/playbooks"
-
 - name: Run all needed target
   community.general.make:
     chdir: "{{ path }}/dev-install"
@@ -44,3 +39,13 @@
     - prepare_stack
   loop_control:
     loop_var: target
+
+- name: Copy playbook to setup nodepool tenant
+  ansible.builtin.copy:
+    src: ../files/nodepool-tenant.yaml
+    dest: "{{ path }}/dev-install/playbooks"
+
+- name: Setup nodepool tenant
+  command: ansible-playbook  -i inventory.yaml -e @local-overrides.yaml playbooks/nodepool-tenant.yaml
+  args:
+    chdir: "{{ path }}/dev-install"
