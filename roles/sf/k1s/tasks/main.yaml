@@ -1,3 +1,4 @@
+---
 # Configure the k1s service on fedora host
 # Based from https://softwarefactory-project.io/cgit/software-factory/sf-config/tree/ansible/roles/sf-hypervisor-k1s/tasks/setup.yml
 
@@ -150,3 +151,20 @@
     name: "podman-image-prune"
     state: absent
   become: true
+
+# NOTE: To increase/change zram swap immediately, do:
+# sudo swapoff -a
+# sudo zramctl /dev/zram0 -s 16G
+# sudo mkswap /dev/zram0
+# sudo swapon /dev/zram0
+- name: Create zram generator
+  when: ansible_facts.distribution | default('') | lower == "fedora"
+  become: true
+  copy:
+    content: |
+      [zram0]
+      zram-size = min(ram, {{ swap_size }})
+    dest: /etc/systemd/zram-generator.conf
+    mode: "0644"
+    owner: root
+    group: root
