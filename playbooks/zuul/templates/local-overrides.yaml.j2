@@ -9,6 +9,7 @@ redhat_registry_credentials:
   username: "{{ redhat_registry_username }}"
   password: "{{ redhat_registry_password }}"
 nodepool_password: "{{ item.password }}"
+openshift_password: "{{ shiftstack_openstack_password }}"
 hostonly_cidr: "{{ item.hostonly_cidr }}"
 neutron_mtu: 1500
 ctlplane_mtu: 1500
