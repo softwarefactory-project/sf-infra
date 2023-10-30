@@ -16,6 +16,7 @@ prometheus_monitored_services:
   - statsd_exporter
   - udp-multiplexer
   # sf.io
+  - crio
   - elasticsearch-exporter
   - etherpad
   - gearman
@@ -24,6 +25,8 @@ prometheus_monitored_services:
   - grafana
   - houndd
   - influxdb
+  - k1s
+  - k1s-fedora
   - kojid
   - kojira
   - logsender-rdoproject.org
@@ -33,6 +36,7 @@ prometheus_monitored_services:
   - logstash
   - managesf
   - mariadb
+  - microshift
   - nodepool-builder
   - nodepool-launcher
   - opensearch
