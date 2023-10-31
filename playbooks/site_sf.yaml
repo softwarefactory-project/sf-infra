@@ -70,20 +70,20 @@
         definition: "{{ lookup('file', '../vars/infra-sf/logreduce_service.yaml') | from_yaml_all }}"
       delegate_to: localhost
 
-- name: Setup logreduce redirection from the sf gateway
+- name: Setup LogJuicer redirection from the sf gateway
   hosts: managesf.softwarefactory-project.io
   tasks:
     - name: Ensure document root directory exists for rewrite config
       become: yes
       file:
-        path: "/var/www/logreduce"
+        path: "/var/www/logjuicer"
         state: directory
 
-    - name: Setup logreduce forward
+    - name: Setup LogJuicer forward
       become: yes
       copy:
         content: |
-          <Directory "/var/www/logreduce">
+          <Directory "/var/www/logjuicer">
             RewriteEngine On
             RewriteRule ^wsapi/(.*)$ ws://microshift.softwarefactory-project.io:30000/wsapi/$1 [P,L]
             RewriteRule ^(.*)$ http://microshift.softwarefactory-project.io:30000/$1 [P,L]
