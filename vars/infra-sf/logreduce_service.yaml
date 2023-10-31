@@ -22,8 +22,8 @@ spec:
         seccompProfile: { type: "RuntimeDefault" }
         capabilities: { drop: ["ALL"] }
       env:
-        - name: LOGREDUCE_BASE_URL
-          value: "/logreduce/"
+        - name: LOGJUICER_BASE_URL
+          value: "/logjuicer/"
       ports:
         - containerPort: 3000
           name: logreduce-web
