@@ -32,9 +32,9 @@ $ zuul-client --zuul-url https://softwarefactory-project.io/zuul encrypt \
     --infile /tmp/$cloud  >> zuul.d/secrets.yaml
 `
 
-2. add data for the cloud and in the *in* statement:
+2. add data for the cloud and in the *in* statement in vars/infra-rdo/ibm-baremetal.dhall:
 
-The ips should be updated, for all bm deployment share the same subnet
+Each cloud use a dedicated subnet 192.168.25.0/24, 192.168.26.0/24 ...
 
 `
 let baremetal03 =
@@ -54,6 +54,23 @@ let baremetal03 =
           }
 
 in  mk_cloud baremetal02 # mk_cloud baremetal03
+`
+
+Also add zookeeper security rule in vars/infra-sf/networking.dhall
+
+`
+        , { name = "zookeeper"
+          , rules =
+            [ Infra.Rule::{
+              , port = +2281
+              , remote_ip_prefix = Some "{{ ibm_bm2_ip }}/32"
+              }
+            , Infra.Rule::{
+              , port = +2281
+              , remote_ip_prefix = Some "{{ ibm_bm3_ip }}/32"
+              }
+            ]
+          }
 `
 
 3. update the configuration:
@@ -179,27 +196,26 @@ The first deployment on gate should failed on site_{sf,rdo} for instances need t
 1. Update arch in roles/infra/install-server/files/arch-managesf.softwarefactory-project.io.yaml
 
 `
-- name: ibm-bm4-nodepool-launcher
+- name: ibm-bm3-nodepool-launcher
   private: true
   use_public_ips: yes
-  ip: 192.168.26.11
+  ip: 192.168.25.11
   roles:
   - nodepool-launcher
 
-- name: ibm-bm4-ze
-  ip: 192.168.26.12
+- name: ibm-bm3-ze
+  ip: 192.168.25.12
   private: true
   use_public_ips: yes
   roles:
   - zuul-executor
 
-- name: ibm-bm4-zfgw
-  ip: 192.168.26.13
+- name: ibm-bm3-zfgw
+  ip: 192.168.25.13
   private: true
   use_public_ips: yes
   roles:
   - zuul-fingergw
-
 `
 
 2. Add the new cert in playbooks/group_vars/ibm-baremetal-nodepool.yaml
@@ -223,13 +239,7 @@ Host baremetal03.rdoproject.org
     Port 22
     Hostname 169.60.49.226
 
-Host 192.168.25.11
-    ProxyJump baremetal03.rdoproject.org
-
-Host 192.168.25.12
-    ProxyJump baremetal03.rdoproject.org
-
-Host 192.168.25.13
+Host 192.168.25.11 192.168.25.12 192.168.25.13
     ProxyJump baremetal03.rdoproject.org
 
 Host ibm-bm3-nodepool-launcher*
@@ -246,8 +256,6 @@ Host ibm-bm3-zfgw*
 `
 
 4. commit and propose a review with the content to setup the cloud
-
-5. run sfconfig
 
 ## Add zuul and nodepool instances on sf.io
 
@@ -277,6 +285,7 @@ Host ibm-bm3-zfgw*
    `
 3. run sfconfig to deploy the new hosts
 
+4.
 ## Add nodepool configuration
 
 1. on the config repo, create a new provider
@@ -312,5 +321,5 @@ let providers = [ Provider.openstack ../providers/ibm-bm3-nodepool.dhall ]
 5. update the configuration and commit:
 
 `
-podman run --rm -it --volume $PWD:/workspace/config/:Z --volume ~/.cache:/workspace/.cache:Z quay.io/software-factory/zuul-worker-dhall /bin/bash -c "cd /workspace/config && make"
+make
 `
