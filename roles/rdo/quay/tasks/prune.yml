@@ -35,8 +35,8 @@
 
 - name: Set logrorate config file
   become: true
-  copy:
-    src: quay_pruner.logrotate
+  template:
+    src: quay_pruner.logrotate.j2
     dest: /etc/logrotate.d/quay_pruner
     mode: "0644"
 
