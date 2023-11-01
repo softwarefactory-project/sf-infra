@@ -87,24 +87,24 @@
 - hosts: baremetal04.rdoproject.org
   gather_facts: yes
   tasks:
-    - name: Forward finger port (7979) to ibm-zfgw
+    - name: Forward finger port (7900) to ibm-zfgw
       iptables:
         chain: FORWARD
         protocol: tcp
-        destination_port: 7979
+        destination_port: 7900
         destination: 192.168.26.13
         jump: ACCEPT
         comment: Forward rule for fingergw
 
-    - name: DNAT finger port (7979) to ibm-zfgw
+    - name: DNAT finger port (7900) to ibm-zfgw
       iptables:
         table: nat
         chain: PREROUTING
         in_interface: bond1
         protocol: tcp
-        destination_port: 7979
+        destination_port: 7900
         jump: DNAT
-        to_destination: 192.168.26.13:7979
+        to_destination: 192.168.26.13:7900
         comment: PREROUTING rule for fingergw
 
     - name: Save iptables rules

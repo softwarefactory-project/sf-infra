@@ -156,32 +156,38 @@ Host 192.168.25.11 192.168.25.12 192.168.25.13
 
 10. Add security group rules for zuul-fingergw in playbooks/zuul/configure-private-clouds.yaml
 
+notes: for bm3 (before sf-config setup for zuul-fingergw), fingergw port is 7979, for others deploymnent it's 7900
+
 `
-- hosts: baremetal03.rdoproject.org
+- hosts: baremetal04.rdoproject.org
   gather_facts: yes
   tasks:
-    - name: Forward finger port (7979) to ibm-zfgw
+    - name: Forward finger port (7900) to ibm-zfgw
       iptables:
         chain: FORWARD
         protocol: tcp
-        destination_port: 7979
+        destination_port: 7900
         destination: 192.168.25.13
         jump: ACCEPT
         comment: Forward rule for fingergw
 
-    - name: DNAT finger port (7979) to ibm-zfgw
+    - name: DNAT finger port (7900) to ibm-zfgw
       iptables:
         table: nat
         chain: PREROUTING
         in_interface: bond1
         protocol: tcp
-        destination_port: 7979
+        destination_port: 7900
         jump: DNAT
-        to_destination: 192.168.25.13:7979
+        to_destination: 192.168.25.13:7900
         comment: PREROUTING rule for fingergw
 
     - name: Save iptables rules
       command: /usr/libexec/iptables/iptables.init save
+
+    - name: Configure squid service
+      ansible.builtin.include_role:
+        name: rdo/ibm-shiftstack-squid
 `
 
 11. commit and propose a review with the content to setup the cloud
@@ -276,12 +282,16 @@ Host ibm-bm3-zfgw*
      region_name: regionOne
      volume_api_version: '3'
    `
-2. Add the zuul executor zone in /etc/software-factory/custom-vars.yaml
+2. Add the zuul executor and fingergw zone in /etc/software-factory/custom-vars.yaml
 
    `
    zuul_executor_zone:
-     - hostname: ibm-bm3-ze
-       zone: ibm-bm3-nodepool
+     - hostname: ibm-bm4-ze
+       zone: ibm-bm4-nodepool
+   zuul_fingergw_zone:
+     - hostname: ibm-bm4-zfgw
+       zone: ibm-bm4-nodepool
+       gateway_hostname: 169.60.49.233
    `
 3. run sfconfig to deploy the new hosts
 
