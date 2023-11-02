@@ -241,7 +241,7 @@
     files:
       - ^playbooks/zuul/create-tripleo-standalone.yaml$
       - ^playbooks/zuul/configure-private-clouds.yaml$
-      - ^playbooks/zuul/tasks/standalone-setup.yaml$
+      - ^playbooks/zuul/tasks/standalone-setup.*
       - ^playbooks/zuul/templates/local-overrides.yaml.j2$
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
       - ^playbooks/zuul/group_vars/baremetal.yaml$
@@ -267,6 +267,7 @@
     files:
       - ^playbooks/zuul/configure-tripleo-standalone.yaml$
       - ^playbooks/zuul/standalone-configure.yaml$
+      - ^playbooks/zuul/tasks/standalone-configure.yaml
       - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
       - roles/rdo/ibm-shiftstack-squid
     secrets:
