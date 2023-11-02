@@ -25,28 +25,16 @@
        - 1.1.1.1
        - 8.8.8.8
 
-- name: "Security group, allow tcp/udp"
+- name: "Security group, allow tcp/udp/icmp"
   os_security_group_rule:
     cloud: "{{ item.cloud }}"
     state: present
     security_group: default
-    protocol: "{{ protocol }}"
     port_range_min: 1
     port_range_max: 65535
     remote_ip_prefix: 0.0.0.0/0
-  loop:
-    - tcp
-    - udp
-  loop_control:
-    loop_var: protocol
-
-- name: "Security group, allow icmp"
-  os_security_group_rule:
-    cloud: "{{ item.cloud }}"
-    state: present
-    security_group: default
-    protocol: icmp
-    remote_ip_prefix: 0.0.0.0/0
+  ignore_errors: yes
+  # note: added for https://github.com/ansible/ansible/issues/76039
 
 - name: Add ports and instances
   block:
