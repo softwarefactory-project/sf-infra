@@ -7,3 +7,35 @@ flavors:
     disk: 80
     ram: 8192
     vcpus: 4
+  - name: 12vcpu_24GB
+    disk: 400
+    ram: 24576
+    vcpus: 12
+  - name: 12vcpu_32GB
+    disk: 200
+    ram: 32768
+    vcpus: 12
+  - name: 16vcpu_32GB
+    disk: 200
+    ram: 32768
+    vcpus: 16
+  - name: 16vcpu_48GB
+    disk: 200
+    ram: 49152
+    vcpus: 16
+  - name: 16vcpu_64GB
+    disk: 200
+    ram: 65536
+    vcpus: 16
+  - name: 24vcpu_48GB
+    disk: 400
+    ram: 49152
+    vcpus: 24
+  - name: 8vcpu_16GB
+    disk: 400
+    ram: 16384
+    vcpus: 8
+  - name: 8vcpu_24GB
+    disk: 400
+    ram: 24576
+    vcpus: 8
