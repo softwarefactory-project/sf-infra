@@ -29,9 +29,8 @@
       - python3-cryptography
       - python3-netaddr
       - python3-lxml
-      # NOTE: revert the commit when whe bridge host is upgraded to F38.
-      # - python3-openstacksdk
-      # - python3-openstackclient
+      - python3-openstacksdk
+      - python3-openstackclient
       - python3-passlib
       - python3-pyOpenSSL
       - python3-kubernetes
@@ -93,21 +92,13 @@
             dest: ~/.ansible.cfg
             state: link
 
-        - name: Ensure packages are removed
-          become: true
-          package:
-            name:
-              - python3-openstacksdk
-              - python3-openstackclient
-            state: absent
-
-        - name: Install openstackclient and openstacksdk via pip
+        - name: Ensure  openstackclient and openstacksdk via pip are removed
           become: true
           pip:
             name:
               - openstacksdk==1.1.0
               - python-openstackclient
-            state: present
+            state: absent
 
         - name: Ensure packages are installed
           become: yes
