@@ -131,19 +131,19 @@ inventory:
   roles:
   - hypervisor-k1s
 
-- name: ibm-bm3-ze
-  ip: 192.168.25.12
-  private: true
-  use_public_ips: yes
-  roles:
-  - zuul-executor
+# - name: ibm-bm3-ze
+#   ip: 192.168.25.12
+#   private: true
+#   use_public_ips: yes
+#   roles:
+#   - zuul-executor
 
-- name: ibm-bm3-nodepool-launcher
-  private: true
-  use_public_ips: yes
-  ip: 192.168.25.11
-  roles:
-  - nodepool-launcher
+# - name: ibm-bm3-nodepool-launcher
+#   private: true
+#   use_public_ips: yes
+#   ip: 192.168.25.11
+#   roles:
+#   - nodepool-launcher
 
 - name: ibm-bm4-nodepool-launcher
   private: true
