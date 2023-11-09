@@ -13,10 +13,9 @@
         dest: "{{ squid_directory }}/squid.conf"
         mode: 0600
 
-
     - name: Add htpasswd for squid
       ansible.builtin.copy:
-        content: '{{ shiftstack_squid.htpasswd | default("") }}'
+        src: "~/.squid_htpasswd"
         dest: "{{ squid_directory }}/htpasswd"
         mode: 0600
       no_log: yes
