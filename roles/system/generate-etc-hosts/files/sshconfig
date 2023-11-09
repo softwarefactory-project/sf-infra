@@ -82,30 +82,6 @@ Host lists.rdoproject.org
     User root
     Port 22
 
-Host baremetal03.rdoproject.org
-    User root
-    Port 22
-    Hostname 169.60.49.226
-Host mirror.regionone.ibm-bm3-nodepool.rdoproject.org
-    User centos
-    Port 22
-    ProxyJump baremetal03.rdoproject.org
-    Hostname 192.168.25.10
-Host ibm-bm3-nodepool-launcher.softwarefactory-project.io
-    User centos
-    Port 22
-    ProxyJump baremetal03.rdoproject.org
-    Hostname 192.168.25.11
-Host ibm-bm3-ze.softwarefactory-project.io
-    User centos
-    Port 22
-    ProxyJump baremetal03.rdoproject.org
-    Hostname 192.168.25.12
-Host ibm-bm3-zfgw.softwarefactory-project.io
-    User centos
-    Port 22
-    ProxyJump baremetal03.rdoproject.org
-    Hostname 192.168.25.13
 Host baremetal04.rdoproject.org
     User root
     Port 22

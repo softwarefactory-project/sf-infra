@@ -23,7 +23,6 @@ all:
         managesf.softwarefactory-project.io: {}
     baremetal:
       hosts:
-        baremetal03.rdoproject.org: {}
         baremetal04.rdoproject.org: {}
     db_master:
       hosts:
@@ -39,14 +38,10 @@ all:
         trunk.rdoproject.org: {}
     ibm-baremetal-nodepool:
       hosts:
-        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
     ibm-instance:
       hosts:
-        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm3-ze.softwarefactory-project.io: {}
-        ibm-bm3-zfgw.softwarefactory-project.io: {}
         ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm4-ze.softwarefactory-project.io: {}
         ibm-bm4-zfgw.softwarefactory-project.io: {}
@@ -87,7 +82,6 @@ all:
         rdo-web-builder.int.osci.io: {}
     private-afs-mirror:
       hosts:
-        mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
     quay:
       hosts:
@@ -108,9 +102,6 @@ all:
         centos.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
-        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm3-ze.softwarefactory-project.io: {}
-        ibm-bm3-zfgw.softwarefactory-project.io: {}
         ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm4-ze.softwarefactory-project.io: {}
         ibm-bm4-zfgw.softwarefactory-project.io: {}
@@ -138,7 +129,6 @@ all:
         zs.softwarefactory-project.io: {}
     ze:
       hosts:
-        ibm-bm3-ze.softwarefactory-project.io: {}
         ibm-bm4-ze.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
@@ -167,11 +157,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: centos
-    baremetal03.rdoproject.org:
-      ansible_host: '169.60.49.226'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: root
     baremetal04.rdoproject.org:
       ansible_host: '169.60.49.233'
       ansible_port: 22
@@ -198,21 +183,6 @@ all:
       ansible_python_interpreter: python2
       ansible_user: centos
     fedora.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    ibm-bm3-nodepool-launcher.softwarefactory-project.io:
-      ansible_host: '192.168.25.11'
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    ibm-bm3-ze.softwarefactory-project.io:
-      ansible_host: '192.168.25.12'
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
-    ibm-bm3-zfgw.softwarefactory-project.io:
-      ansible_host: '192.168.25.13'
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
@@ -279,11 +249,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    mirror.regionone.ibm-bm3-nodepool.rdoproject.org:
-      ansible_host: '192.168.25.10'
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     mirror.regionone.ibm-bm4-nodepool.rdoproject.org:
       ansible_host: '192.168.26.10'
       ansible_port: 22
