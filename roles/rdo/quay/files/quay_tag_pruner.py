@@ -21,16 +21,11 @@ import os
 import requests
 import sys
 import time
+import urllib.parse
 import yaml
 
 from datetime import datetime
 from datetime import timedelta
-
-
-# We will be using the QUAY API endpoints from
-# https://docs.quay.io/api/swagger/
-
-REGISTRY_BASEURL = 'https://quay.rdoproject.org'
 
 
 def setup_logging(level):
@@ -72,6 +67,10 @@ def get_args():
     parser.add_argument('--keeplist', help='Comma-separated list of tags to'
                                            ' keep, even if older.',
                         default=None)
+    # We will be using the QUAY API endpoints from
+    # https://docs.quay.io/api/swagger/
+    parser.add_argument('--api-url', help='Registry API url.',
+                        default='https://quay.rdoproject.org/api/v1')
     parser.add_argument('--token', help='Access token with permissions on the'
                                         ' namespace.', required=True)
     parser.add_argument('namespace', help='Namespace to prune old tags in')
@@ -79,7 +78,7 @@ def get_args():
     return args
 
 
-def get_repos_by_namespace(namespace):
+def get_repos_by_namespace(namespace, api_url):
     done = False
     next_page = None
     return_repos = []
@@ -87,8 +86,9 @@ def get_repos_by_namespace(namespace):
     # We need to consider pagination in this request, but it is done
     # differently when compared to get_tags_by_repo :?
     while not done:
-        url = (REGISTRY_BASEURL +
-               '/api/v1/repository?namespace=%s&public=true' % namespace)
+        url = urllib.parse.urljoin(
+            api_url,
+            'repository?namespace=%s&public=true' % namespace)
         if next_page:
             url = url + '&next_page=%s' % next_page
 
@@ -107,16 +107,17 @@ def get_repos_by_namespace(namespace):
     return return_repos
 
 
-def get_tags_by_repo(namespace, repo):
+def get_tags_by_repo(namespace, repo, api_url):
     done = False
     page = 1
     return_tags = []
 
     # We need to consider pagination in this request
     while not done:
-        url = (REGISTRY_BASEURL +
-               '/api/v1/repository/%s/%s/tag/?onlyActiveTags=true&page=%s' %
-               (namespace, repo, page))
+        url = urllib.parse.urljoin(
+            api_url,
+            'repository/%s/%s/tag/?onlyActiveTags=true&page=%s' %
+            (namespace, repo, page))
         r = requests.get(url)
         r.raise_for_status()
         tags = json.loads(r.text)
@@ -133,9 +134,10 @@ def get_tags_by_repo(namespace, repo):
     return return_tags
 
 
-def expire_tag(namespace, repo, tag, exp_ts, token):
-    url = (REGISTRY_BASEURL +
-           '/api/v1/repository/%s/%s/tag/%s' % (namespace, repo, tag))
+def expire_tag(namespace, repo, tag, exp_ts, token, api_url):
+    url = urllib.parse.urljoin(
+        api_url,
+        'repository/%s/%s/tag/%s' % (namespace, repo, tag))
     r = requests.put(url,
                      headers={'content-type': 'application/json',
                               'Authorization': 'Bearer %s' % token},
@@ -174,10 +176,10 @@ def main():
     log.info("Deleting tags from %s older than %s days" % (args.namespace,
                                                            args.days))
 
-    repos = get_repos_by_namespace(args.namespace)
+    repos = get_repos_by_namespace(args.namespace, args.api_url)
     for repo in repos:
         log.debug("Found repo: %s" % repo['name'])
-        tags = get_tags_by_repo(args.namespace, repo['name'])
+        tags = get_tags_by_repo(args.namespace, repo['name'], args.api_url)
         for tag in tags:
             name = tag['name']
             if name not in keeplist:
@@ -202,7 +204,7 @@ def main():
                         if args.confirm:
                             expire_tag(args.namespace, repo['name'],
                                        name, int(TOMORROW.timestamp()),
-                                       args.token)
+                                       args.token, args.api_url)
                     except Exception as e:
                         log.error("Failed to expire tag %s:%s: %s" %
                                   (repo['name'], name, e))

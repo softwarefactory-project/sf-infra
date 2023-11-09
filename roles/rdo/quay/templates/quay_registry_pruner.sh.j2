@@ -5,7 +5,11 @@
 {% for org in organizations %}
 {% if 'prune_days' in org %}
 
-/usr/local/bin/quay_tag_pruner --days {{ org.prune_days }} --keeplist "$(/usr/local/bin/quay_tag_keeplist)" --token "{{ org.token }}" {{ org.name }} --confirm
+/usr/local/bin/quay_tag_pruner --api-url "{{ quay_api_url }}" \
+                               --days {{ org.prune_days }} \
+                               --keeplist "$(/usr/local/bin/quay_tag_keeplist)" \
+                               --token "{{ org.token }}" {{ org.name }} \
+                               --confirm
 
 {% endif %}
 {% endfor %}
