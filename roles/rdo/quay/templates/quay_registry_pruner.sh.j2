@@ -8,6 +8,7 @@
 /usr/local/bin/quay_tag_pruner --api-url "{{ quay_api_url }}" \
                                --days {{ org.prune_days }} \
                                --keeplist "$(/usr/local/bin/quay_tag_keeplist)" \
+                               --allow-empty-keeplist={{ quay_allow_empty_extended_keeplist }} \
                                --token "{{ org.token }}" {{ org.name }} \
                                --confirm
 

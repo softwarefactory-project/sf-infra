@@ -117,6 +117,10 @@ variables:
   tags. The pruning script will check the DLRN API endpoint for those tags,
   and add the tags and those hashed tags they point to to a keep list, so
   they will not be expired even if they are older than `prune_days`.
+- `quay_allow_empty_extended_keeplist`: Controls the behavior when users
+  submit an empty list of protected image tags. By default, the pruner script
+  rejects an empty list for protected image tags. Setting this value to `true`
+  enables the script to accept an empty list. Default value is `false`.
 
 This is an example configuration:
 

@@ -67,6 +67,10 @@ def get_args():
     parser.add_argument('--keeplist', help='Comma-separated list of tags to'
                                            ' keep, even if older.',
                         default=None)
+    parser.add_argument('--allow-empty-keeplist',
+                        help='Whether if it is valid passing'
+                             ' an empty keep-list.',
+                        default=False, type=bool)
     # We will be using the QUAY API endpoints from
     # https://docs.quay.io/api/swagger/
     parser.add_argument('--api-url', help='Registry API url.',
@@ -163,11 +167,13 @@ def main():
     TOMORROW = NOW + timedelta(days=1)
 
     keeplist = []
-    if args.keeplist is not None and len(args.keeplist) != 0:
-        keeplist = args.keeplist.split(',')
-    elif len(args.keeplist) == 0:
-        log.critical("An empty keeplist has been provided.")
-        sys.exit(1)
+    if args.keeplist is not None:
+        if len(args.keeplist) != 0:
+            keeplist = args.keeplist.split(',')
+        elif not args.allow_empty_keeplist:
+            log.critical('An empty keeplist has been provided.'
+                         ' Consider using --allow-empty-keeplist=True')
+            sys.exit(1)
     else:
         # If there are no keeplisted tags, we can remove more than we want
         log.critical("No keeplist has been provided.")

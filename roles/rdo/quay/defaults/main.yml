@@ -78,4 +78,6 @@ quay_pruner_dlrn_endpoints: []
 
 quay_pruner_extended_keeplist: []
 
+quay_allow_empty_extended_keeplist: false
+
 enable_mirror: true
