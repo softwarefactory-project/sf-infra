@@ -58,6 +58,7 @@ clair_psk_key: ''
 crda_url: ''
 
 # The following variables are used for the registry pruning
+quay_api_url: "https://quay.rdoproject.org/api/v1"
 quay_enable_prune: false
 
 quay_pruner_log_directory: /var/log/quay_tag_pruner
