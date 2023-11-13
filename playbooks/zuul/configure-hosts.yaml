@@ -29,8 +29,6 @@
       - python3-cryptography
       - python3-netaddr
       - python3-lxml
-      - python3-openstacksdk
-      - python3-openstackclient
       - python3-passlib
       - python3-pyOpenSSL
       - python3-kubernetes
@@ -96,9 +94,9 @@
           become: true
           pip:
             name:
-              - openstacksdk==1.1.0
+              - openstacksdk
               - python-openstackclient
-            state: absent
+            state: latest
 
         - name: Ensure packages are installed
           become: yes

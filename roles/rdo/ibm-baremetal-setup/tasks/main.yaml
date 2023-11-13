@@ -1,8 +1,35 @@
+- name: Remove unused packages
+  ansible.builtin.dnf:
+    name:
+      - mrmonitor
+      - storcli
+    state: absent
+
+- name: Check if /etc/init.d is a symlink
+  ansible.builtin.stat:
+    path: /etc/init.d
+  register: _etc_initd
+
+- name: Ensure /etc/init.d is a symlink to /etc/rc.d/init.d for initscripts
+  block:
+    - name: Move existing scripts on /etc/rc.d/init.d
+      ansible.builtin.command: rsync -av /etc/init.d/ /etc/rc.d/init.d/
+
+    - name: Create symlink
+      ansible.builtin.shell: rm -rf /etc/init.d && ln -s /etc/rc.d/init.d /etc/init.d
+  when:
+    - _etc_initd.stat.islnk is defined
+    - _etc_initd.stat.islnk == False
+
 - name: Ensure dns nameservers are managed by Network Manager
   ansible.builtin.command: "nmcli con mod 'Bond {{ item }}' ipv4.dns '1.1.1.1 8.8.8.8'"
   loop:
     - bond0
     - bond1
+
+- name: Ensure chkconfig package
+  ansible.builtin.dnf:
+    name: chkconfig
 
 - name: Restart NetworkManager
   ansible.builtin.systemd:

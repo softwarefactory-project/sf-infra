@@ -8,6 +8,10 @@
     path: /etc/rhsm/rhsm.conf.kat-backup
   register: _rhsm_config
 
+- name: Check rhel version
+  command: subscription-manager release
+  register: _rhel_version
+
 - name: Ensure we use rhsm.conf with cdn.redhat.com
   block:
     - name: Backup ibm rhsm.conf
@@ -37,3 +41,21 @@
     pool_ids: 2c94c3df880c49780188292012db67a2
     force_register: yes
   no_log: yes
+
+- name: Ensure system is up-to-date and rhel 9.2
+  command: dnf distrosync -y
+  when: "'Release: 9.2' not in _rhel_version.stdout"
+
+- name: Get kernel version
+  command: uname -a
+  register: _kernel
+
+- name: Ensure el9_2 kernel and remove el9_3 packages
+  block:
+    - name: Reboot if kernel is not el9_2
+      reboot:
+
+    - name: Remove el9_3 kernel
+      shell: rpm -qa | grep el9_3 | xargs -I pkg dnf remove -y pkg
+      ignore_errors: yes
+  when: "'el9_2' not in _kernel.stdout"

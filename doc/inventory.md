@@ -17,6 +17,11 @@ This project manages:
 * trunk.rdoproject.org
 * rdo-web-builder.int.osci.io
 * lists.rdoproject.org
+* baremetal03.rdoproject.org
+* mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+* ibm-bm3-nodepool-launcher.softwarefactory-project.io
+* ibm-bm3-ze.softwarefactory-project.io
+* ibm-bm3-zfgw.softwarefactory-project.io
 * baremetal04.rdoproject.org
 * mirror.regionone.ibm-bm4-nodepool.rdoproject.org
 * ibm-bm4-nodepool-launcher.softwarefactory-project.io

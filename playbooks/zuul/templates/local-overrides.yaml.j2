@@ -19,6 +19,7 @@ extra_heat_resource_registry:
   OS::TripleO::Services::HeatEngine: /usr/share/openstack-tripleo-heat-templates/deployment/heat/heat-engine-container-puppet.yaml
   OS::TripleO::Services::HeatApi: /usr/share/openstack-tripleo-heat-templates/deployment/heat/heat-api-container-puppet.yaml
 extra_heat_params:
+  NovaLibvirtCPUMode: "host-passthrough"
   ExtraFirewallRules:
     '168 allow squid':
       dport: 3128
