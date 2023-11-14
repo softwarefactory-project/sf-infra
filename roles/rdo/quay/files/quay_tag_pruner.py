@@ -91,7 +91,7 @@ def get_repos_by_namespace(namespace, api_url):
     # differently when compared to get_tags_by_repo :?
     while not done:
         url = urllib.parse.urljoin(
-            api_url,
+            api_url + '/',
             'repository?namespace=%s&public=true' % namespace)
         if next_page:
             url = url + '&next_page=%s' % next_page
@@ -119,7 +119,7 @@ def get_tags_by_repo(namespace, repo, api_url):
     # We need to consider pagination in this request
     while not done:
         url = urllib.parse.urljoin(
-            api_url,
+            api_url + '/',
             'repository/%s/%s/tag/?onlyActiveTags=true&page=%s' %
             (namespace, repo, page))
         r = requests.get(url)
@@ -140,7 +140,7 @@ def get_tags_by_repo(namespace, repo, api_url):
 
 def expire_tag(namespace, repo, tag, exp_ts, token, api_url):
     url = urllib.parse.urljoin(
-        api_url,
+        api_url + '/',
         'repository/%s/%s/tag/%s' % (namespace, repo, tag))
     r = requests.put(url,
                      headers={'content-type': 'application/json',
