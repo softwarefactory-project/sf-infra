@@ -20,7 +20,10 @@ spec:
   nodepool:
     builder:
       storage:
-        size: 30Gi
+        size: 35Gi
+  zookeeper:
+    storage:
+      size: 3Gi
   zuul:
     oidcAuthenticators:
       - name: keycloak_sfio
