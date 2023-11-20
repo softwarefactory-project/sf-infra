@@ -14,6 +14,7 @@
     - path: /etc/grafana/provisioning/dashboards/ng-ci-dashboard
     - path: /etc/grafana/provisioning/dashboards/opendev
     - path: /etc/grafana/provisioning/dashboards/vexxhost
+    - path: /etc/grafana/provisioning/dashboards/RDO
     - path: /etc/grafana/secrets
     - path: /var/lib/grafana
       owner: 472
@@ -53,6 +54,8 @@
     - { name: 'vexxhost/node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'vexxhost/vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'vexxhost/downstream-dashboard-vexxhost.json', path: 'grafana/provisioning/dashboards' }
+    ####### RDO dashboards #########
+    - { name: 'RDO/rdo-puppet-promotions-pipeline.json', path: 'grafana/provisioning/dashboards' }
   register: _grafana_config
 
 - name: Install config templates
