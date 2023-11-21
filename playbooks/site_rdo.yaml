@@ -21,7 +21,7 @@
     - rdo/backup-monitoring
     - rdo/backup-srv
 
-- hosts: baremetal04.rdoproject.org
+- hosts: baremetal
   tasks:
     - name: Read .rhel_secrets.yaml
       ansible.builtin.include_vars:
@@ -37,11 +37,13 @@
       ansible.builtin.include_role:
         name: rdo/ibm-baremetal-setup
 
-- hosts: baremetal
-  roles:
-    - infra/ssh
-    - system/volume
-    - service/node-exporter
+    - name: Ensure configuration roles
+      ansible.builtin.include_role:
+        name: "{{ item }}"
+      loop:
+        - infra/ssh
+        - system/volume
+        - service/node-exporter
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:

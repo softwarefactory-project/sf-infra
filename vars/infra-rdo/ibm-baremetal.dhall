@@ -107,4 +107,4 @@ let baremetal04 =
           , domain = prefix ++ "nodepool"
           }
 
-in  mk_cloud baremetal04
+in  mk_cloud baremetal03 # mk_cloud baremetal04

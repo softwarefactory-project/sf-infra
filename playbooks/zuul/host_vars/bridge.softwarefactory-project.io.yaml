@@ -17,9 +17,6 @@ standalone_deployments:
     baremetal_ip: 169.60.49.226
     cloud: ibm-bm3-nodepool
     password: "{{ ibm_bm3_nodepool.password | default('') }}"
-    tripleo_repos_branch: wallaby
-    namespace: quay.io/tripleowallaby
-    name_prefix: openstack-
     hostonly_cidr: 192.168.25.0/24
     servers:
       - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org

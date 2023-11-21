@@ -36,7 +36,6 @@
     - prepare_host
     - network
     - install_stack
-    - prepare_stack
   loop_control:
     loop_var: target
 
@@ -49,3 +48,9 @@
   command: ansible-playbook  -i inventory.yaml -e @local-overrides.yaml playbooks/nodepool-tenant.yaml
   args:
     chdir: "{{ path }}/dev-install"
+
+- name: Create openshift tenant
+  community.general.make:
+    chdir: "{{ path }}/dev-install"
+    target: prepare_stack
+    make: /usr/bin/make

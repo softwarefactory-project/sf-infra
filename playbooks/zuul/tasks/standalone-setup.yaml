@@ -7,14 +7,8 @@
 
 - name: "Install shiftstack for {{ item.cloud }}"
   block:
-    - name: Old setup for centos-8
-      include_tasks: standalone-setup-centos-8.yaml
-      when: item.cloud == "ibm-bm3-nodepool"
-
     - name: Setup for rhel-9
       include_tasks: standalone-setup-rhel-9.2.yaml
-      when: item.cloud != "ibm-bm3-nodepool"
-
   when: (_openstack_client.rc or _openstack_cloud_works.rc) == 1
 
 - name: "Check if hostonly network exists for {{ item.cloud }}"
