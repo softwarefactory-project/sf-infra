@@ -14,9 +14,9 @@ spec:
     server: prod
   logserver:
     loopDelay: 3600
-    retentionDays: 90
+    retentionDays: 15
     storage:
-      size: 12Gi
+      size: 13Gi
   nodepool:
     builder:
       storage:
