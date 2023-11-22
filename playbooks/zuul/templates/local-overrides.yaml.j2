@@ -4,6 +4,7 @@ public_api: {{ item.baremetal_ip }}
 public_nic: bond1
 primary_nic_state: up
 rhsm_enabled: true
+rhsm_ephemeral: false
 ceph_enabled: false
 redhat_registry_credentials:
   username: "{{ redhat_registry_username }}"
