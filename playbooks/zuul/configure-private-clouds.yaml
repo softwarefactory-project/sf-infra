@@ -1,25 +1,21 @@
-- hosts: bridge.softwarefactory-project.io
+- hosts: baremetal
+  gather_facts: yes
   tasks:
     - name: Download tripleo-ci users ssh keys
       get_url:
         url: https://raw.githubusercontent.com/rdo-infra/ci-config/master/ci-scripts/infra-setup/inventory/group_vars/all.yml
         dest: /tmp/common.yml
 
-- hosts: baremetal
-  gather_facts: yes
-  tasks:
-    - name: Set dns
-      copy:
-        content: |
-          nameserver 1.1.1.1
-          nameserver 8.8.8.8
-        dest: /etc/resolv.conf
-
     - name: Create tripleo user
       user:
         name: tripleo
 
-    - include_vars:
+    - name: Ensure ci_directory_path
+      set_fact:
+        ci_directory_path: "/var/lib/ansible"
+
+    - name: Load tripleo keys
+      include_vars:
         file: /tmp/common.yml
         name: tripleo
 
@@ -109,6 +105,19 @@
 
     - name: Save iptables rules
       command: /usr/libexec/iptables/iptables.init save
+
+    - name: Synchronize squid_htpasswd on bm4
+      ansible.builtin.synchronize:
+        src: "~/.squid_htpasswd"
+        dest: "/home/stack/.squid_htpasswd"
+      delegate_to: localhost
+
+    - name: Set owner, group and mode for .squid_htpasswd
+      ansible.builtin.file:
+        path: "/home/stack/.squid_htpasswd"
+        owner: stack
+        group: stack
+        mode: 0600
 
     - name: Configure squid service
       ansible.builtin.include_role:
