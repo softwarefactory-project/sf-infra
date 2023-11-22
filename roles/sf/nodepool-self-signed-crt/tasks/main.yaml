@@ -1,0 +1,32 @@
+- name: Install crt and restart nodepool services
+  become: yes
+  block:
+    - name: Install ca-certificates
+      ansible.builtin.package:
+        name: ca-certificates
+        state: present
+
+    - name: Install Ca file
+      ansible.builtin.copy:
+        dest: "/etc/pki/ca-trust/source/anchors/{{ item.ca_cert_name }}"
+        content: "{{ item.ca_cert }}"
+      loop: "{{ self_signed_certs }}"
+
+    - name: Update ca trust
+      ansible.builtin.command: "update-ca-trust"
+
+    - name: collect facts about system services
+      ansible.builtin.service_facts:
+      register: services_state
+
+    - name: Restart nodepool-builder
+      ansible.builtin.systemd_service:
+        name: nodepool-builder
+        state: restarted
+      when: "'nodepool-builder.service' in services_state.ansible_facts.services"
+
+    - name: Restart nodepool-launcher
+      ansible.builtin.systemd_service:
+        name: nodepool-launcher
+        state: restarted
+      when: "'nodepool-launcher.service' in services_state.ansible_facts.services"

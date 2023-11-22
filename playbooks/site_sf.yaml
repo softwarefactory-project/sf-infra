@@ -159,7 +159,7 @@
 - hosts: ibm-baremetal-nodepool
   roles:
     - service/apache-exporter
-    - sf/ca-trust
+    - sf/nodepool-self-signed-crt
 
 - hosts: ibm-instance
   roles:
