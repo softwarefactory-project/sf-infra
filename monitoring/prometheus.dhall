@@ -53,10 +53,6 @@ let dlrnapi_target_list =
       , "api-centos8-yoga"
       , "api-centos8-xena"
       , "api-centos8-wallaby"
-      , "api-centos8-victoria"
-      , "api-centos8-ussuri"
-      , "api-centos8-train"
-      , "api-centos-train"
       ]
 
 in  PrometheusConfig

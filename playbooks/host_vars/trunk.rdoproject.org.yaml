@@ -230,30 +230,6 @@ dlrn_workers:
     enable_brs_sync: true
     use_components: true
     mock_config: 'centos9preview.cfg.j2'
-  centos-train:
-    distro: 'centos7'
-    target: 'centos-train'
-    distgit_branch: 'train-rdo'
-    distro_branch: 'stable/train'
-    disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
-    purge_hour: '3'
-    purge_minute: '47'
-    symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
-    release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos7-train'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'mysql+pymysql://centos-train:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos_train?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: true
-    fallback_to_master: true
-    enable_deps_sync: true
-    enable_brs_sync: true
-#    rsyncdest: 'centos-train@54.81.116.189:/home/centos-train/data/repos'
-#    rsyncport: '3300'
-#   gerrit_user: 'rdo-trunk'
-#   gerrit_email: 'rdo-trunk@rdoproject.org'
-#   gerrit_topic: 'rdo-FTBFS-train'
   centos8-yoga:
     distro: 'centos8'
     target: 'centos8-yoga'
@@ -331,78 +307,4 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    use_components: true
-  centos8-victoria:
-    distro: 'centos8'
-    target: 'centos8-victoria'
-    distgit_branch: 'victoria-rdo'
-    distro_branch: 'stable/victoria'
-    disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
-    purge_hour: '3'
-    purge_minute: '37'
-    symlinks: ['/var/www/html/centos8-victoria', '/var/www/html/victoria/centos8']
-    release: 'victoria'
-    baseurl: 'https://trunk.rdoproject.org/centos8-victoria'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-victoria:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_victoria?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: false
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: true
-    enable_brs_sync: true
-    rsyncdest: 'centos8-victoria@3.87.151.16:/home/centos8-victoria/data/repos'
-    rsyncport: '3300'
-    use_components: true
-  centos8-ussuri:
-    distro: 'centos8'
-    target: 'centos8-ussuri'
-    distgit_branch: 'ussuri-rdo'
-    distro_branch: 'stable/ussuri'
-    disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
-    purge_hour: '3'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos8-ussuri', '/var/www/html/ussuri/centos8']
-    release: 'ussuri'
-    baseurl: 'https://trunk.rdoproject.org/centos8-ussuri'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos8-ussuri:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_ussuri?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: false
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#   gerrit_user: 'rdo-trunk'
-#   gerrit_email: 'rdo-trunk@rdoproject.org'
-#   gerrit_topic: 'rdo-FTBFS-ussuri'
-    use_components: true
-  centos8-train:
-    distro: 'centos8'
-    target: 'centos8-train'
-    distgit_branch: 'train-rdo'
-    distro_branch: 'stable/train'
-    disable_email: *disable_email
-    enable_cron: false
-    enable_purge: false
-    purge_hour: '3'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
-    release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos8-train'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://c8-train-compone:{{ dlrn_db_password }}@38.102.83.214/dlrn_centos8_train_components?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
-    mock_tmpfs_enable: false
-    fallback_to_master: true
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#    gerrit_user: 'rdo-trunk'
-#    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
-#    gerrit_topic: 'rdo-FTBFS-train'
     use_components: true
