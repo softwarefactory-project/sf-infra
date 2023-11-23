@@ -72,6 +72,8 @@
         secret: crc-secret
       - name: rhel_tripleo_standalone
         secret: rhel_tripleo_standalone
+      - name: shiftstack_squid
+        secret: shiftstack_squid
 
 - job:
     name: sf-infra-create-hosts
@@ -96,6 +98,8 @@
         secret: crc-secret
       - name: rhel_tripleo_standalone
         secret: rhel_tripleo_standalone
+      - name: shiftstack_squid
+        secret: shiftstack_squid
 
 - job:
     name: sf-infra-configure
@@ -124,6 +128,8 @@
         secret: ibm-bm4-nodepool
       - name: rhel_tripleo_standalone
         secret: rhel_tripleo_standalone
+      - name: shiftstack_squid
+        secret: shiftstack_squid
       - name: vault
         secret: ansible-vault
       - name: sshkey
@@ -265,8 +271,6 @@
         secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
-      - name: shiftstack_squid
-        secret: shiftstack_squid
 
 - job:
     name: sf-infra-configure-quay

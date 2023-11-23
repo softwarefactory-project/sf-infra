@@ -84,6 +84,13 @@
             mode: "0400"
           no_log: yes
 
+        - name: Copy the squid secrets
+          copy:
+            content: "{{ shiftstack_squid.secret }}"
+            dest: "~/.squid_htpasswd"
+            mode: "0400"
+          no_log: yes
+
         - name: Symlink ansible configuration file
           file:
             src: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"
