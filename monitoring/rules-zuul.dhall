@@ -41,6 +41,20 @@ in  Prometheus.RulesConfig::{
                   "Nodepool failed to provide {{ \$labels.label }} to Zuul"
               }
             }
+          , Prometheus.AlertingRule::{
+            , alert = Some "nodepool_high_failure_rate"
+            , expr = Some
+                "(sum(increase(zuul_nodepool_requests_total{state='failed'}[1h])) or sum(up) * 0) / (sum(increase(zuul_nodepool_requests_total{state='requested'}[1h])) or sum(up) * 0) > 0.1"
+            , labels = Some
+              { severity = "urgent"
+              , lasttime = "{{ \$value | humanizeTimestamp }}"
+              }
+            , annotations = Some
+              { description = None Text
+              , summary =
+                  "More than 10% of node requests have ended in failure in the last hour. Please check zuul's scheduler logs for NODE_FAILUREs."
+              }
+            }
           ]
         }
       ]

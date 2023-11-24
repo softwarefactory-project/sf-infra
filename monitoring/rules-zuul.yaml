@@ -24,3 +24,10 @@ groups:
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
+      - alert: nodepool_high_failure_rate
+        annotations:
+          summary: "More than 10% of node requests have ended in failure in the last hour. Please check zuul's scheduler logs for NODE_FAILUREs."
+        expr: "(sum(increase(zuul_nodepool_requests_total{state='failed'}[1h])) or sum(up) * 0) / (sum(increase(zuul_nodepool_requests_total{state='requested'}[1h])) or sum(up) * 0) > 0.1"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: urgent

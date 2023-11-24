@@ -74,6 +74,8 @@
         secret: rhel_tripleo_standalone
       - name: shiftstack_squid
         secret: shiftstack_squid
+      - name: slack_api_url
+        secret: slack_api_url
 
 - job:
     name: sf-infra-create-hosts
@@ -100,6 +102,8 @@
         secret: rhel_tripleo_standalone
       - name: shiftstack_squid
         secret: shiftstack_squid
+      - name: slack_api_url
+        secret: slack_api_url
 
 - job:
     name: sf-infra-configure
@@ -136,6 +140,9 @@
         secret: bridge_ssh_key
       - name: crc_secret
         secret: crc-secret
+      - name: slack_api_url
+        secret: slack_api_url
+
 
 - job:
     name: sf-infra-configure-bridge
