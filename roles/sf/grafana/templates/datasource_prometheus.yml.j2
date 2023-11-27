@@ -129,3 +129,16 @@ datasources:
   version: 8
   readOnly: false
   editable: true
+## GraphQL
+{% for release in ["wallaby"] -%}
+- orgId: 1
+  name: GraphQL Centos 9 {{ release }}
+  type: fifemon-graphql-datasource
+  access: proxy
+  url: https://trunk.rdoproject.org/api-centos9-{{ release }}/api/graphql
+  basicAuth: false
+  withCredentials: false
+  isDefault: false
+  readOnly: false
+  editable: true
+{% endfor %}

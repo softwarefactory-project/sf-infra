@@ -97,7 +97,7 @@
       -e GF_SECURITY_ADMIN_USER__FILE='/etc/grafana/secrets/admin_user'
       -e GF_AUTH_ANONYMOUS_ENABLED='true'
       -e GF_USERS_ALLOW_SIGN_UP='true'
-      -e "GF_INSTALL_PLUGINS=grafana-opensearch-datasource,marcusolsson-json-datasource"
+      -e "GF_INSTALL_PLUGINS=grafana-opensearch-datasource,marcusolsson-json-datasource,fifemon-graphql-datasource"
       {% endif %}
       {{ container_images['grafana'] | default('docker.io/grafana/grafana:latest') }}
     pod_config: "{{ _grafana_config }}"
