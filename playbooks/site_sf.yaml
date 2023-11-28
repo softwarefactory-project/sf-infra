@@ -2,72 +2,19 @@
 - import_playbook: site_bridge.yaml
 
 - hosts: microshift.softwarefactory-project.io
-  tasks:
-    - name: Read file with openshift_pull_secret
-      ansible.builtin.include_vars:
-        file: ~/.ansible_crc_vars.yaml
-      no_log: true
-      delegate_to: localhost
-
-    - name: Install microshift
-      ansible.builtin.include_role:
-        name: ~/src/github.com/openstack-k8s-operators/ansible-microshift-role
-
-    - name: Fetch Kubeconfig from Microshift Host
-      ansible.builtin.fetch:
-        src: /var/lib/microshift/resources/kubeadmin/{{ ansible_fqdn }}/kubeconfig
-        dest: /home/fedora/.kube/config
-        mode: "0600"
-        flat: yes
-      become: true
-
-    - name: Install Software Factory
-      block:
-        - name: Ensure Kubeconfig ownership
-          ansible.builtin.file:
-            path: /home/fedora/.kube/config
-            owner: fedora
-            group: fedora
-
-        - name: Install origin-clients
-          package:
-            name: origin-clients
-          become: yes
-
-        - name: Install kubernetes.core collection
-          ansible.builtin.command: >
-            ansible-galaxy collection install kubernetes.core
-
-        - name: Install Software Factory Catalog Source and Subscription
-          ansible.builtin.include_role:
-            name: sf/operator-catalog-sub
-
-        - name: Copy Software Factory Manifest file
-          ansible.builtin.copy:
-            src: ../vars/infra-sf/sf_v1_softwarefactory.yaml
-            dest: /tmp/sf_v1_softwarefactory.yaml
-
-        - name: Install Software Factory
-          kubernetes.core.k8s:
-            state: present
-            src: /tmp/sf_v1_softwarefactory.yaml
-
-        - name: Copy companion Prometheus Manifest file
-          ansible.builtin.copy:
-            src: ../vars/infra-sf/microshift_prometheus.yaml
-            dest: /tmp/microshift_prometheus.yaml
-
-        - name: Install companion Prometheus
-          kubernetes.core.k8s:
-            state: present
-            src: /tmp/microshift_prometheus.yaml
-      delegate_to: localhost
-
-    - name: Install logreduce service
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('file', '../vars/infra-sf/logreduce_service.yaml') | from_yaml_all }}"
-      delegate_to: localhost
+  pre_tasks:
+    - name: Install requirements
+      package:
+        name:
+          - python3
+          - python3-kubernetes
+      become: yes
+  roles:
+    - sf/setup-microshift
+    - sf/openshift/install-sf-operator
+    - sf/openshift/install-software-factory
+    - sf/openshift/install-prometheus
+    - sf/openshift/install-logjuicer
 
 - name: Setup LogJuicer redirection from the sf gateway
   hosts: managesf.softwarefactory-project.io
