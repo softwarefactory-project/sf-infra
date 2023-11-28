@@ -61,10 +61,16 @@
         _parent_img_md5.rc == 1 or
         _parent_img_md5.stdout != _base_image_md5.stdout
       block:
-        - name: Remove old qcow2 image
-          ansible.builtin.file:
+        - name: Check if crc qcow2 image already exists
+          ansible.builtin.stat:
             path: "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
-            state: absent
+          register: _present_crc_qcow2
+
+        - name: Generate md5sum for already present crc.qcow2 image
+          when: _present_crc_qcow2.stat.exists
+          ansible.builtin.shell: |
+            md5sum "{{ sync_extracted_qcow2_dir }}/crc.qcow2" | awk '{print $1}'
+          register: _present_crc_md5sum
 
         # On pushing new latest image (after promotion) to other cloud,
         # we will have an issue, that it will be many images with same name.
@@ -86,32 +92,40 @@
           ansible.builtin.set_fact:
             previous_img_timestamp: "{{ (_previous_img_info.images[0].created_at | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
 
-        - name: Download image to the host - {{ newest_image_name }}
-          ansible.builtin.shell: >
-            openstack image save {{ newest_image_name }}
-            --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
-          register: _image_save
-          environment:
-            OS_CLOUD: "{{ upstream_cloud_name }}"
+        - name: Pull image if present crc.qcow2 md5sum missmatch
+          when: _present_crc_md5sum.stdout != _base_image_md5
+          block:
+            - name: Remove old qcow2 image
+              ansible.builtin.file:
+                path: "{{ sync_extracted_qcow2_dir }}/crc.qcow2"
+                state: absent
 
-        - name: Make checksum for downloaded image
-          ansible.builtin.shell: >
-            md5sum {{ sync_extracted_qcow2_dir }}/crc.qcow2 | awk '{print $1}'
-          register: _pull_img_md5
+            - name: Download image to the host - {{ newest_image_name }}
+              ansible.builtin.shell: >
+                openstack image save {{ newest_image_name }}
+                --file {{ sync_extracted_qcow2_dir }}/crc.qcow2
+              register: _image_save
+              environment:
+                OS_CLOUD: "{{ upstream_cloud_name }}"
 
-        - name: Get remote image checksum
-          ansible.builtin.shell: >
-            openstack image show {{ newest_image_name }}
-            -c checksum
-            -f value
-          register: _remote_img_md5
-          environment:
-            OS_CLOUD: "{{ upstream_cloud_name }}"
+            - name: Make checksum for downloaded image
+              ansible.builtin.shell: >
+                md5sum {{ sync_extracted_qcow2_dir }}/crc.qcow2 | awk '{print $1}'
+              register: _pull_img_md5
 
-        - name: Assert that download image is same as remote
-          ansible.builtin.assert:
-            that:
-              - _pull_img_md5.stdout == _remote_img_md5.stdout
+            - name: Get remote image checksum
+              ansible.builtin.shell: >
+                openstack image show {{ newest_image_name }}
+                -c checksum
+                -f value
+              register: _remote_img_md5
+              environment:
+                OS_CLOUD: "{{ upstream_cloud_name }}"
+
+            - name: Assert that download image is same as remote
+              ansible.builtin.assert:
+                that:
+                  - _pull_img_md5.stdout == _remote_img_md5.stdout
 
         - name: "Push image {{ newest_image_name }} to {{ remote_cloud.cloud_name }}"
           ansible.builtin.shell: >
