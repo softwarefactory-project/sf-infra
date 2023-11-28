@@ -8,7 +8,7 @@
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('replace') }}"
+    state: "{{ item.state | default('present') }}"
     name: "{{ item.name }}"
     public_key: "{{ item.public_key }}"
   loop: "{{ tenant_config.keypairs }}"
