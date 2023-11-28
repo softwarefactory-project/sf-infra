@@ -4,7 +4,7 @@
     name: tenant_config
 
 - name: Provision keypairs
-  openstack.cloud.keypair:
+  os_keypair:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
