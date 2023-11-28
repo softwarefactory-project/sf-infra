@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+set -x
+set -o pipefail
+
+export OS_CLOUD={{ cloud_def.crc_cloud_name }}
+SKIP_LAST_IMAGE_COUNT={{ skip_last_image_count }}
+
+# skip last {{ skip_last_image_count }} images for being removed
+{% if cloud_def.crc_extracted_crc %}
+# extracted
+openstack image list | \
+    grep -E "{{ cloud_def.crc_extracted_normal_image_prefix | default('coreos-crc-extracted-') }}" | \
+    grep -v "latest" | \
+    sort -k 4 | \
+    head -n -$SKIP_LAST_IMAGE_COUNT | \
+    awk '{print $2}' | \
+    xargs openstack image remove
+{% endif %}
+
+{% if cloud_def.crc_nested_crc %}
+# nested
+openstack image list | \
+    grep -E "{{ cloud_def.crc_nested_normal_image_prefix | default('centos-9-crc-') }}" | \
+    grep -v "latest" | \
+    sort -k 4 | \
+    head -n -$SKIP_LAST_IMAGE_COUNT | \
+    awk '{print $2}' | \
+    xargs openstack image remove
+{% endif %}

@@ -1,0 +1,3 @@
+---
+# How many images without "latest" should be keeped and not removed
+skip_last_image_count: 2

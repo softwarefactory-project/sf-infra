@@ -10,3 +10,15 @@
   when:
     - remote_cloud_names
     - (cloud_def.crc_nested_crc | default(true) | bool) or (cloud_def.crc_extracted_crc | default(true) | bool)
+
+- name: Create old image pruner script
+  become: true
+  ansible.builtin.template:
+    src: "prune-crc-image.sh.j2"
+    dest: "/usr/local/bin/prune-crc-image-{{ cloud_def.crc_cloud_name }}.sh"
+    mode: "0755"
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+  when:
+    - remote_cloud_names
+    - (cloud_def.crc_nested_crc | default(true) | bool) or (cloud_def.crc_extracted_crc | default(true) | bool)
