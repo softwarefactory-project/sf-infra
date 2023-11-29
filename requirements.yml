@@ -32,5 +32,8 @@ roles:
     name: swap_file
 
 collections:
+  - ansible.posix
+  - community.crypto
   - community.general
+  - community.postgresql
   - kubernetes.core
