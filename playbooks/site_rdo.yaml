@@ -62,6 +62,24 @@
     - infra/ssh
 
 - hosts: managesf.review.rdoproject.org
+  tasks:
+    - name: Add gitiles to disallow in robot.txt
+      become: true
+      lineinfile:
+        path: /var/www/robots.txt
+        insertafter: '^Disallow: /r/gitweb/*'
+        line: 'Disallow: /r/plugins/gitiles'
+
+    - name: Add more user-agents to disallow in robot.txt
+      become: true
+      lineinfile:
+        path: /var/www/robots.txt
+        insertafter: '^User-agent: PetalBot'
+        line: |
+          User-agent: Amazonbot
+          User-agent: Yandex
+          User-agent: EtaoSpider
+          User-Agent: Bytespider
   roles:
     - infra/install-server
     - service/acme-tiny
