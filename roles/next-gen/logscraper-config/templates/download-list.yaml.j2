@@ -1,0 +1,293 @@
+---
+# NOTE: it is basic download-list.yaml config file:
+# https://opendev.org/openstack/ci-log-processing/src/branch/master/ansible/roles/logscraper/templates/download-list.yaml.j2
+# that includes next-gen logs.
+files:
+  # basic file
+  - name: testrepository.subunit
+    tags: []
+  - name: zuul-info/inventory.yaml
+    tags: []
+  - name: job-output.txt
+    tags:
+      - console
+      - console.html
+  # Devstack
+  - name: controller/logs/grenade.sh_log.txt
+    tags:
+      - console
+      - console.html
+      - grenade
+  - name: controller/logs/devstacklog.txt
+    tags:
+      - console
+      - console.html
+      - devstack
+  - name: controller/logs/devstacklog.txt.summary
+    tags:
+      - console
+      - console.html
+      - devstack_summary
+  - name: controller/logs/syslog.txt
+    tags:
+      - syslog
+  - name: controller/logs/performance.json
+    tags:
+      - performance
+      - devstack
+  - name: controller/logs/services.txt
+    tags:
+      - devstack
+  # Nova and Placement
+  - name: controller/logs/tempest_log.txt
+    tags:
+      - screen
+      - oslofmt
+      - tempest
+      - devstack
+  - name: controller/logs/screen-n-api.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-api-meta.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-cond-cell1.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-cond-cell2.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-novnc-cell1.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-novnc-cell2.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-cpu.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-sch.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-n-super-cond.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+  - name: controller/logs/screen-placement-api.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - placement
+  # Neutron
+  - name: controller/logs/screen-q-agt.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  - name: controller/logs/screen-q-dhcp.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  - name: controller/logs/screen-q-l3.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  - name: controller/logs/screen-q-metering.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  - name: controller/logs/screen-q-svc.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  - name: controller/logs/screen-q-ovn-metadata-agent.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+  # Keystone
+  - name: controller/logs/screen-keystone.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - keystone
+  # Cinder
+  - name: controller/logs/screen-c-api.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+  - name: controller/logs/screen-c-bak.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+  - name: controller/logs/screen-c-sch.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+  - name: controller/logs/screen-c-vol.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+  # Glance
+  - name: controller/logs/screen-g-api.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - glance
+  # TripleO
+  - name: logs/testrepository.subunit
+    tags:
+      - tempest
+      - tripleo
+  - name: logs/undercloud/home/zuul/overcloud_deploy.log.txt
+    tags:
+      - overcloud
+      - tripleo
+  - name: logs/undercloud/var/log/extra/logstash.txt
+    tags:
+      - console
+      - postci
+      - tripleo
+  - name: logs/undercloud/var/log/extra/errors.txt
+    tags:
+      - console
+      - errors
+      - tripleo
+  - name: logs/undercloud/var/log/tempest/tempest_run.log
+    tags:
+      - tempest
+      - tripleo
+  - name: logs/undercloud/var/log/extra/journal.txt
+    tags:
+      - tempest
+      - errors
+      - tripleo
+  # Multinode log results
+  - name: compute1/logs/syslog.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - syslog
+      - multinode
+  - name: compute1/logs/services.txt
+    tags:
+      - devstack
+      - multinode
+  - name: compute1/logs/screen-n-cpu.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - nova
+      - multinode
+  - name: compute1/logs/screen-q-agt.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+      - multinode
+  - name: compute1/logs/screen-q-l3.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+      - multinode
+  - name: compute1/logs/screen-q-dhcp.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - neutron
+      - multinode
+  - name: compute1/logs/screen-c-bak.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+      - multinode
+  - name: compute1/logs/screen-c-vol.txt
+    tags:
+      - screen
+      - oslofmt
+      - devstack
+      - cinder
+      - multinode
+  #################
+  # next-gen logs #
+  #################
+  # EDPM
+  - name: ci-framework-data/logs/bmaas_console_logs/edpm-compute-01_console.log
+    tags:
+      - edpm_bm
+  - name: ci-framework-data/logs/ci_make_000_run_input.log
+    tags:
+      - edpm_input
+  - name: ci-framework-data/logs/ci_make_001_run_openstack.log
+    tags:
+      - edpm_openstack
+  - name: ci-framework-data/logs/ci_make_002_run_openstack_deploy_prep.log
+    tags:
+      - edpm_prep
+  - name: ci-framework-data/logs/ci_make_003_run_netconfig_deploy.log
+    tags:
+      - edpm_netconfig
+  - name: ci-framework-data/logs/ci_make_004_run_edpm_baremetal_compute.log
+    tags:
+      - edpm_bm_compute
+  - name: ci-framework-data/logs/ci_make_005_run_edpm_deploy_baremetal.log
+    tags:
+      - edpm_deploy_bm
+  - name: ci-framework-data/logs/os_must_gather.log
+    tags:
+      - edpm_gather

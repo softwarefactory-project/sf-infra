@@ -1,0 +1,20 @@
+---
+- name: Re-create download-list.yaml file for logscraper
+  become: true
+  ansible.builtin.template:
+    src: download-list.yaml.j2
+    dest: /etc/logscraper/download-list-next-gen.yaml
+    owner: logscraper
+    group: logscraper
+    mode: '0644'
+  register: _download_list
+
+- name: Restart logscraper rdo and logsender rdo
+  when: _download_list.changed
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - logscraper-rdoproject.org
+    - logsender-rdoproject.org
