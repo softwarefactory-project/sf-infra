@@ -7,6 +7,8 @@ part_number: 1
 owner: root
 group: root
 lvm: false
+create_lv: true
+create_partition: true
 vg_name: ''
 lv_name: ''
 bind_mounts: []
