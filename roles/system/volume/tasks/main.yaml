@@ -68,7 +68,7 @@
 
     - name: Bind mount partitions
       include_tasks: bind_mounts.yaml
-      when: bind_mounts != []
+      when: not bind_mounts
 
     # Note: ofcourse, the partition module resizefs attribute doesn't work with xfs
     # because xfs needs a mountpoint, not a device
