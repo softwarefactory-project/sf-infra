@@ -45,30 +45,35 @@
         vg: '{{ vg_name }}'
         lv: '{{ lv_name }}'
         size: 100%VG
+      when: create_lv | bool
 
     - name: Define partition
       set_fact:
         partition: 'mapper/{{ vg_name }}-{{ lv_name }}'
+      when: create_partition | bool
   become: true
   when: lvm | bool
 
-- name: Create partition
-  filesystem:
-    fstype: '{{ filesystem | default("xfs") }}'
-    dev: '/dev/{{ partition }}'
-  when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
-  become: true
+- name: Create and mount partition
+  block:
+    - name: Create partition
+      filesystem:
+        fstype: '{{ filesystem | default("xfs") }}'
+        dev: '/dev/{{ partition }}'
+      when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
+      become: true
 
-- name: Mount partition
-  include_tasks: mount_partition.yaml
+    - name: Mount partition
+      include_tasks: mount_partition.yaml
 
-- name: Bind mount partitions
-  include_tasks: bind_mounts.yaml
-  when: bind_mounts != []
+    - name: Bind mount partitions
+      include_tasks: bind_mounts.yaml
+      when: bind_mounts != []
 
-# Note: ofcourse, the partition module resizefs attribute doesn't work with xfs
-# because xfs needs a mountpoint, not a device
-- name: "Auto resize xfs"
-  become: true
-  when: "filesystem | default('xfs') == 'xfs'"
-  shell: "xfs_growfs {{ mountpoint }}"
+    # Note: ofcourse, the partition module resizefs attribute doesn't work with xfs
+    # because xfs needs a mountpoint, not a device
+    - name: "Auto resize xfs"
+      become: true
+      when: "filesystem | default('xfs') == 'xfs'"
+      shell: "xfs_growfs {{ mountpoint }}"
+  when: create_partition | bool
