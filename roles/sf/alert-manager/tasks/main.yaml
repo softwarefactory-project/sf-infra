@@ -20,6 +20,7 @@
         smtp_require_tls: false
         smtp_smarthost: '{{ smtp_host }}:25'
         smtp_from: 'prometheus@{{ monitoring_host }}'
+        slack_api_url: '{{ slack_api_url }}'
       route:
         repeat_interval: 12h
         group_interval: 10m
@@ -29,11 +30,18 @@
           - match:
               severity: critical
             receiver: softwarefactory-operations-team
+          - match:
+              severity: urgent
+            receiver: slack-notifications
 
       receivers:
         - name: softwarefactory-operations-team
           email_configs:
             - to: softwarefactory-operations-team@redhat.com
+        - name: slack-notifications
+          slack_configs:
+          - channel: '#rhos-ops'
+            send_resolved: true
 
     dest: /etc/alertmanager/alertmanager.yml
   register: _am_config

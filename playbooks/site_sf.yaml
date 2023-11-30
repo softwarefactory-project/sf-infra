@@ -95,6 +95,11 @@
           - podman
           - dnsmasq
       become: yes
+    - name: get slack webhook URL
+      ansible.builtin.include_vars:
+        file: ~/.slack_api_url.yaml
+      delegate_to: localhost
+      no_log: yes
   roles:
     - service/firewalld
     - service/hostname
