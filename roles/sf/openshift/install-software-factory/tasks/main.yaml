@@ -1,0 +1,5 @@
+---
+- name: Install Software Factory
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ software_factory }}"

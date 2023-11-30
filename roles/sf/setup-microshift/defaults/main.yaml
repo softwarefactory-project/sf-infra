@@ -1,0 +1,3 @@
+---
+pull_secret_path: ~/.ansible_crc_vars.yaml
+ansible_microshift_role_dir: ~/src/github.com/openstack-k8s-operators/ansible-microshift-role

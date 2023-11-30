@@ -45,7 +45,7 @@
         publisher: Red Hat PCInfra DFG
         updateStrategy:
           registryPoll:
-            interval: 15m
+            interval: 5m
 
 - name: Wait for Catalog Source to be ready
   ansible.builtin.command: >

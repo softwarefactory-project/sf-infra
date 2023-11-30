@@ -1,0 +1,5 @@
+---
+- name: Install companion Prometheus
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'files/microshift_prometheus.yaml') | from_yaml_all }}"
