@@ -1,0 +1,6 @@
+---
+# https://github.com/cert-manager/openshift-routes
+- name: Install cert-manager/openshift-routes operator
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', 'files/deploy-resources.yaml') | from_yaml_all }}"
