@@ -44,10 +44,10 @@
       environment:
         OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
-    - name: Print a debug message when images are equal
+    - name: Print a debug message when images are not equal
       when: _parent_img_md5 != _base_image_md5
       ansible.builtin.debug:
-        msg: "Images are same!"
+        msg: "Images are not the same! ({{ _parent_img_md5 }} != {{ _base_image_md5 }} )"
 
     - name: Ensure dowload dir exists
       ansible.builtin.file:
@@ -91,6 +91,7 @@
         - name: Set fact with image timestamp
           ansible.builtin.set_fact:
             previous_img_timestamp: "{{ (_previous_img_info.images[0].created_at | replace('Z', '') | to_datetime('%Y-%m-%dT%H:%M:%S')).timestamp() | int }}"
+          when: _previous_img_info.images
 
         - name: Pull image if present crc.qcow2 md5sum missmatch
           when: _present_crc_md5sum.stdout != _base_image_md5
@@ -138,10 +139,12 @@
             OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
         - name: Set fact with date format
+          when: _previous_img_info.images and previous_img_timestamp
           ansible.builtin.set_fact:
             previous_img_to_date: "{{ '%Y-%m-%d-%H-%M' | strftime(previous_img_timestamp) }}"
 
         - name: Change latest image name to time format
+          when: _previous_img_info.images and previous_img_timestamp
           vars:
             tmp_image_name: " {{ _previous_img_info.images[0].id }}"
             dest_image_name: "{{ newest_image_name | replace('latest', '') }}{{ previous_img_to_date }}"
