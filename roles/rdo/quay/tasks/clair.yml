@@ -10,8 +10,8 @@
 
 - name: Set Clair service config
   template:
-    src: clair_config.yml.j2
-    dest: /var/data/clair/config/config.yml
+    src: clair_config.yaml.j2
+    dest: /var/data/clair/config/config.yaml
     mode: '0777'
 
 # NOTE: with host network, -p 6060:6060 is not needed.
@@ -25,4 +25,4 @@
       --restart=always
       -v /var/data/clair/config:/clair/config:Z
       {{ container_images['clair'] }}
-      -conf /clair/config/config.yml -mode combo
+      -conf /clair/config/config.yaml -mode combo

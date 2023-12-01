@@ -13,13 +13,15 @@ matcher:
   connstring: "postgres://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default('localhost') }}/clair?sslmode=disable"
   migrations: true
   max_conn_pool: 100
-  updater_sets:
-  - "alpine"
-  - "aws"
-  - "debian"
-  - "photon"
-  - "pyupio"
-  - "rhel"
+### FIXME: Uncomment when the Clair community will provide a patch for:
+### "unknown field "updater_sets""
+#  updater_sets:
+#  - "alpine"
+#  - "aws"
+#  - "debian"
+#  - "photon"
+#  - "pyupio"
+#  - "rhel"
   update_retention: 5
 matchers:
   names:
