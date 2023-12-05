@@ -16,10 +16,10 @@ postgresql_additional_parameters: "-c shared_buffers=256MB -c max_connections=20
 redis_password: 'strongpassword'
 
 container_images:
-  quay: quay.io/projectquay/quay:v3.7.10
-  postgresql: quay.io/software-factory/postgres:13.5-alpine3.14
-  clair: quay.io/projectquay/clair:4.3.5
-  redis: quay.io/software-factory/redis:6.2.4
+  quay: "quay.io/projectquay/quay:v3.10.0"
+  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
+  clair: "quay.io/projectquay/clair:4.7.2"
+  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
 
 quay_superusers:
   - admin
