@@ -16,7 +16,7 @@
       ansible.builtin.command: cat {{ ssh_pub_path }}
       register: _ssh_pub_path_key
 
-- name: Create VM
+- name: "Create {{ vm_name }} VM on {{ cloud_name }}"
   openstack.cloud.server:
     state: present
     cloud: "{{ cloud_name }}"
