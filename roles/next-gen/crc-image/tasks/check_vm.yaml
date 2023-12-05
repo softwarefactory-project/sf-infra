@@ -7,5 +7,5 @@
 
 - name: Fail when server already exists
   ansible.builtin.fail:
-    msg: "There is already some server with name {{ vm_name }}. Please remove it first!"
+    msg: "There is already some server with name {{ vm_name }} on cloud {{ cloud_name }}. Please remove it first!"
   when: _old_server_info.servers != []
