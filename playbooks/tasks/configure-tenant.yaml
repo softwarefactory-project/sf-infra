@@ -4,11 +4,11 @@
     name: tenant_config
 
 - name: Provision keypairs
-  os_keypair:
+  openstack.cloud.keypair:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('present') }}"
+    state: "{{ item.state | default('replace') }}"
     name: "{{ item.name }}"
     public_key: "{{ item.public_key }}"
   loop: "{{ tenant_config.keypairs }}"

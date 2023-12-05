@@ -23,7 +23,6 @@
   vars:
     bridge_packages:
       - ansible
-      - ara
       - cronie
       - dnsmasq
       - python3-cryptography
@@ -104,7 +103,7 @@
             dest: ~/.ansible.cfg
             state: link
 
-        - name: Ensure  openstackclient and openstacksdk via pip are removed
+        - name: Ensure  openstackclient and openstacksdk via pip
           become: true
           pip:
             name:
