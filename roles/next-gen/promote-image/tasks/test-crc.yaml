@@ -25,22 +25,37 @@
         path: /usr/libexec/platform-python
       register: _platform_python
 
-    # NOTE: yes, first we need to update pip.
-    # Otherwise next task might fail.
-    - name: Update pip
+    - name: Configure platform python
       when: _platform_python.stat.exists
-      become: true
-      ansible.builtin.command: |
-        /usr/libexec/platform-python -m pip install -U pip
+      block:
+        - name: Ensure pip is available
+          become: true
+          ansible.builtin.command: |
+            /usr/libexec/platform-python -m pip install pip
+          register: _pip_installed
+          ignore_errors: true
 
-    - name: Update pip packages and install Ansible Core
-      when: _platform_python.stat.exists
-      ansible.builtin.command: >
-        /usr/libexec/platform-python -m pip install --user --force-reinstall {{ item }}
-      loop:
-        - "--upgrade setuptools"
-        - "setuptools_rust"
-        - "ansible-core"
+        - name: Install python3 pip package when pip not available
+          when: "'No module named pip' in _pip_installed.stderr"
+          become: true
+          ansible.builtin.package:
+            name: python3-pip
+            state: present
+
+        # NOTE: yes, first we need to update pip.
+        # Otherwise next task might fail.
+        - name: Update pip
+          become: true
+          ansible.builtin.command: |
+            /usr/libexec/platform-python -m pip install -U pip
+
+        - name: Update pip packages and install Ansible Core
+          ansible.builtin.command: >
+            /usr/libexec/platform-python -m pip install --user --force-reinstall {{ item }}
+          loop:
+            - "--upgrade setuptools"
+            - "setuptools_rust"
+            - "ansible-core"
 
     - name: Clone OKO install_yamls project
       ansible.builtin.git:
