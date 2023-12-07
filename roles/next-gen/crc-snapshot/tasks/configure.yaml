@@ -8,7 +8,13 @@
       become: true
       template:
         src: recreate-crc-images.sh.j2
-        dest: /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}.sh
+        dest: /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.sh
         mode: "0755"
         owner: "{{ ansible_user | default(ansible_user_id) }}"
         group: "{{ ansible_user | default(ansible_user_id) }}"
+
+    - name: Ensure old script file is removed
+      become: true
+      ansible.builtin.file:
+        path: /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}.sh
+        state: absent

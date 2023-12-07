@@ -22,6 +22,7 @@
         ssh_keypair_name: "{{ ssh_keypair_name | default('image-builder') }}"
         net_id: "{{ net_id | default('7abff1a9-a103-46d0-979a-1f1e599f4f41') }}"
         vm_name: "{{ vm_name | default('infra-dfg-team-crc') }}"
+        crc_version: "{{ crc_version }}"
         # what name should have nested CRC image?
         snapshot_name: "{{ snapshot_name | default(system_distro + '-' + system_release + '-crc-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # Add ssh key
@@ -36,7 +37,7 @@
         nested_crc: "{{ nested_crc | default(true) | bool }}"
         #### FOR EXTRACTED VERSION ####
         extracted_crc: "{{ extracted_crc | default(true) | bool }}"
-        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
+        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + crc_version + '-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
@@ -47,6 +48,11 @@
         msg: >
           Can not continue. Variable nested_crc or extracted_crc needs
           to be set!
+
+    - name: Check if crc_version is set
+      when: not crc_version
+      ansible.builtin.fail:
+        msg: "The crc_version variable needs to be set!"
 
     - name: Check if there is already VM with such name
       ansible.builtin.include_role:
@@ -72,6 +78,8 @@
 # can be deployed in CI.
 - name: Deploy CRC
   hosts: crc.dev
+  vars:
+    crc_version: "{{ crc_version | default('2.19') }}"
   tasks:
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
@@ -88,7 +96,7 @@
         name: next-gen/crc-image
         tasks_from: configure_vm.yaml
 
-    - name: Run CRC deployment
+    - name: "Run CRC {{ crc_version }} deployment"
       ansible.builtin.include_role:
         name: extra/crc
 
