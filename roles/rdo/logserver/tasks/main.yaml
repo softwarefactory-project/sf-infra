@@ -25,3 +25,12 @@
     content: |
       <html><head><title>Logserver</title></head><body>Welcome to {{ fqdn }} logserver</body></html>
     dest: /var/www/logs/index.html
+
+# NOTE: default value is: cat /proc/sys/vm/min_free_kbytes => 67584
+- name: Increase min_free_kbytes
+  become: true
+  sysctl:
+    name: vm.min_free_kbytes
+    value: "135168"
+    state: present
+    reload: true
