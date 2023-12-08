@@ -36,10 +36,23 @@
     src: ssh-auth-keys
     dest: /tmp/ssh-auth-keys
 
+- name: Check if authorized_keys.d ignition file exists
+  become: true
+  ansible.builtin.stat:
+    path: "{{ guest_home_dir }}/.ssh/authorized_keys.d/ignition"
+  register: _authorized_keys_ignition
+
 # NOTE: It is a workaround to provide SSH key to the extracted CRC image.
 # There was an atempt with lineinfile, but after spawning VM, there was
 # no key there, where the crc.qcow2 image have it.
 - name: Copy temp ssh keys into guestmount location
+  when: not _authorized_keys_ignition.stat.exists
   become: true
   ansible.builtin.shell: |
     cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys
+
+- name: Copy temp ssh keys into guestmount location when ignition file available
+  when: _authorized_keys_ignition.stat.exists
+  become: true
+  ansible.builtin.shell: |
+    cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys.d/ignition
