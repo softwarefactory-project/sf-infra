@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+{% for cloud_def in cloud_names | default([]) %}
+# Cloud - {{ cloud_def.crc_cloud_name }}
+/usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.sh
+/usr/local/bin/promote-crc-image-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.sh
+{% endfor %}
+
+# sync images - all above jobs needs to be done!
+/usr/local/bin/sync-crc-images.sh
