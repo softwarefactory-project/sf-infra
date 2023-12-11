@@ -3,3 +3,9 @@
   kubernetes.core.k8s:
     state: present
     definition: "{{ software_factory }}"
+
+- name: Install Nodepool providers secrets
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ nodepool_providers_secrets }}"
+  no_log: true

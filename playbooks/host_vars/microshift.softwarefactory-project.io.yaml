@@ -7,6 +7,7 @@ disk_file_size: 80G
 setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
+
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
@@ -45,3 +46,45 @@ software_factory:
           username: microzuul
           hostname: softwarefactory-project.io
           puburl: "https://softwarefactory-project.io/r"
+
+vexxhost_nodepool_rdo_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  39383239636138393162646235343862373739633836626561616635353131343764666135336235
+  3831316434303335386565663061643738303237313531650a666461626462653034643166636235
+  38636137376261623039653830396462373536383936653533646333336661663031663639393864
+  6361383035303931650a353833663764666233313465383337356132326339353864633235373064
+  35393562316635316538383066303931386233343131373265316630633832336661
+clouds_yaml: |
+  ---
+  cache:
+    expiration:
+      server: 5
+      port: 5
+      floating-ip: 5
+  clouds:
+    vexxhost-nodepool-rdo:
+      metrics:
+        statsd:
+          prefix: 'openstack.api.vexxhost_nodepool_rdo'
+      regions:
+        - RegionOne
+      api_timeout: 60
+      auth:
+        username: nodepool
+        password: {{ vexxhost_nodepool_rdo_password }}
+        project_name: nodepool-rdo
+        project_domain_name: default
+        user_domain_name: default
+        auth_url: https://identity.rdo.mtl2.vexxhost.net/v3
+      image_format: "raw"
+      identity_api_version: 3
+
+nodepool_providers_secrets:
+  kind: Secret
+  apiVersion: v1
+  metadata:
+    name: nodepool-providers-secrets
+    namespace: sf
+  type: Opaque
+  data:
+    clouds.yaml: "{{ clouds_yaml | b64encode }}"
