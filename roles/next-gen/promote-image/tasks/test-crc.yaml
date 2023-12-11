@@ -35,12 +35,11 @@
           register: _pip_installed
           ignore_errors: true
 
-        - name: Install python3 pip package when pip not available
+        - name: Use get-pip script to install pip
           when: "'No module named pip' in _pip_installed.stderr"
           become: true
-          ansible.builtin.package:
-            name: python3-pip
-            state: present
+          ansible.builtin.shell: |
+            curl -SL https://bootstrap.pypa.io/get-pip.py | /usr/libexec/platform-python
 
         # NOTE: yes, first we need to update pip.
         # Otherwise next task might fail.
