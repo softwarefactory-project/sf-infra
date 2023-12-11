@@ -3,9 +3,11 @@
 set -e
 
 {% for cloud_def in cloud_names | default([]) %}
+{%- if 'crc_cloud_name' in cloud_def and 'crc_version' in cloud_def -%}
 # Cloud - {{ cloud_def.crc_cloud_name }}
 /usr/local/bin/recreate-crc-images-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.sh
 /usr/local/bin/promote-crc-image-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.sh
+{% endif %}
 {% endfor %}
 
 # sync images - all above jobs needs to be done!
