@@ -49,6 +49,12 @@ EOL
 
 sudo systemctl reload NetworkManager
 
+# NOTE: In new CRC version, the authorized_keys file path has been changed
+# to "$HOME/.ssh/authorized_keys.d/ignition".
+if [ -f "${USER_DIR}/.ssh/authorized_keys.d/ignition" ]; then
+    ln -s "$USER_DIR/.ssh/authorized_keys.d/ignition" "$USER_DIR/.ssh/authorized_keys"
+fi
+
 # inject alternative SSH keys
 mkdir -p "$USERDATA_KEY_DIR" && cd "$USERDATA_KEY_DIR"
 
