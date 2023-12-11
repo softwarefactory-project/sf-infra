@@ -17,6 +17,11 @@
       register: _ssh_pub_path_key
 
 - name: "Create {{ vm_name }} VM on {{ cloud_name }}"
+  register: _vm_status
+  until: |
+    "'details' in _vm_status.extra_data and 'Quota exceeded' not in _vm_status.extra_data.details"
+  retries: 10
+  delay: 60
   openstack.cloud.server:
     state: present
     cloud: "{{ cloud_name }}"
