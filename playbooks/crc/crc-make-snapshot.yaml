@@ -5,7 +5,7 @@
 # ansible-playbook playbooks/crc/crc-make-snapshot.yaml
 #
 # More controled usage:
-# ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc/crc-make-snapshot.yaml
+# ansible-playbook -e "crc_version=2.19.0" -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc/crc-make-snapshot.yaml
 # More info: roles/next-gen/crc-image/README.md
 #
 # Just create extracted CRC version, add variables:
@@ -23,8 +23,6 @@
         net_id: "{{ net_id | default('7abff1a9-a103-46d0-979a-1f1e599f4f41') }}"
         vm_name: "{{ vm_name | default('infra-dfg-team-crc') }}"
         crc_version: "{{ crc_version }}"
-        # what name should have nested CRC image?
-        snapshot_name: "{{ snapshot_name | default(system_distro + '-' + system_release + '-crc-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
         # Add ssh key
         ssh_pub_key: "{{ ssk_pub_key | default('') }}"
         # Or set the path for ssh pub key
@@ -35,12 +33,26 @@
         system_release: "{{ system_release | default(9) }}"
         # should it create nested CRC image?
         nested_crc: "{{ nested_crc | default(true) | bool }}"
-        #### FOR EXTRACTED VERSION ####
+        # should it create extracted CRC image?
         extracted_crc: "{{ extracted_crc | default(true) | bool }}"
-        extracted_crc_final_image_name: "{{ extracted_crc_final_image_name | default('coreos-crc-extracted-' + crc_version + '-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute ) }}"
+        crc_nested_final_image_prefix: "{{ crc_nested_final_image_prefix | default(system_distro + '-' + system_release + '-crc-' + crc_version + '-latest') }}"
+        crc_extracted_final_image_prefix: "{{ crc_extracted_final_image_prefix | default('coreos-crc-extracted' + crc_version + '-latest') }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
+
+    - name: Set facts for image naming
+      ansible.builtin.set_fact:
+        # what name should have nested CRC image?
+        nested_crc_snapshot_image_name: >
+          {{ crc_nested_final_image_prefix |
+          default(system_distro + '-' + system_release + '-crc-' + crc_version + '-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute) |
+          replace('latest', ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute) }}
+        #### FOR EXTRACTED VERSION ####
+        extracted_crc_image_name: >
+          {{ crc_extracted_final_image_prefix |
+          default('coreos-crc-extracted-' + crc_version + '-' + ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute) |
+          replace('latest', ansible_date_time.date + '-' + ansible_date_time.hour + '-' + ansible_date_time.minute) }}
 
     - name: Check if image type is set
       when: not (nested_crc | default(true) | bool) and not (extracted_crc | default(true) | bool)
