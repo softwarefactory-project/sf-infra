@@ -8,7 +8,7 @@
 - name: Wait until the snapshot is done
   shell: |
     for r in {1..200}; do
-        img_status=$(openstack image show {{ snapshot_name }} -c status -f value)
+        img_status=$(openstack image show {{ nested_crc_snapshot_image_name }} -c status -f value)
         if [ $img_status != 'active' ]; then
             echo "Image is still not active, sleeping..."
             sleep 10
