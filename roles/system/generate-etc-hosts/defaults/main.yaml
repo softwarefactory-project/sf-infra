@@ -1,1 +1,2 @@
 manage_ssh_config: yes
+sshconfig_file: sshconfig
