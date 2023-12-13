@@ -11,6 +11,7 @@
       become: yes
   roles:
     - sf/setup-microshift
+    - sf/k9s
     - sf/openshift/install-sf-operator
     - sf/openshift/install-software-factory
     - sf/openshift/install-cert-manager-openshift-routes
@@ -41,14 +42,14 @@
       become: true
       lineinfile:
         path: /var/www/robots.txt
-        insertafter: '^Disallow: /r/gitweb/*'
-        line: 'Disallow: /r/plugins/gitiles'
+        insertafter: "^Disallow: /r/gitweb/*"
+        line: "Disallow: /r/plugins/gitiles"
 
     - name: Add more user-agents to disallow in robot.txt
       become: true
       lineinfile:
         path: /var/www/robots.txt
-        insertafter: '^User-agent: PetalBot'
+        insertafter: "^User-agent: PetalBot"
         line: |
           User-agent: Amazonbot
           User-agent: Yandex

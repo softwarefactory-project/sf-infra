@@ -7,6 +7,7 @@ disk_file_size: 80G
 setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
+k9s_version: v0.29.1
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1

@@ -1,0 +1,10 @@
+---
+- name: Install k9s in ~/go/bin
+  ansible.builtin.command: go install github.com/derailed/k9s@{{ k9s_version}}
+
+- name: Create k9s link in /usr/bin
+  ansible.builtin.file:
+    src: "{{ ansible_user_dir }}/go/bin/k9s"
+    dest: /usr/bin/k9s
+    state: link
+  become: true
