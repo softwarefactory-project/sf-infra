@@ -2,9 +2,9 @@
 - name: "Create new image - {{ extracted_crc_image_name }}"
   ansible.builtin.shell: >
     openstack image create
-    {{ extracted_crc_image_name }}
     --container-format bare
     --disk-format qcow2
     --file  $(realpath {{ sync_extracted_qcow2_dir }}/crc.qcow2)
+    {{ extracted_crc_image_name }}
   environment:
     OS_CLOUD: "{{ cloud_name }}"
