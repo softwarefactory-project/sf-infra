@@ -1,5 +1,5 @@
 ---
-- name: Create new image
+- name: "Create new image - {{ extracted_crc_image_name }}"
   ansible.builtin.shell: >
     openstack image create
     {{ extracted_crc_image_name }}

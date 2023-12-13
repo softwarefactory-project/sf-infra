@@ -36,7 +36,7 @@
         # should it create extracted CRC image?
         extracted_crc: "{{ extracted_crc | default(true) | bool }}"
         crc_nested_final_image_prefix: "{{ crc_nested_final_image_prefix | default(system_distro + '-' + system_release + '-crc-' + crc_version + '-latest') }}"
-        crc_extracted_final_image_prefix: "{{ crc_extracted_final_image_prefix | default('coreos-crc-extracted' + crc_version + '-latest') }}"
+        crc_extracted_final_image_prefix: "{{ crc_extracted_final_image_prefix | default('coreos-crc-extracted-' + crc_version + '-latest') }}"
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
