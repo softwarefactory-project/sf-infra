@@ -1,3 +1,19 @@
+- name: Install requirements
+  block:
+    - name: Install epel for rhel system
+      ansible.builtin.package:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+      when:
+        - ansible_distribution == "RedHat"
+        - ansible_distribution_major_version == "9"
+
+    - name: Install python requirements
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-kubernetes
+  become: yes
+
 - name: Check if Kubectl is able to query the server
   ansible.builtin.command: >
     kubectl get all

@@ -2,13 +2,6 @@
 - import_playbook: site_bridge.yaml
 
 - hosts: microshift.softwarefactory-project.io
-  pre_tasks:
-    - name: Install requirements
-      package:
-        name:
-          - python3
-          - python3-kubernetes
-      become: yes
   roles:
     - sf/setup-microshift
     - sf/k9s
