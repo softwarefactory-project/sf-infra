@@ -9,3 +9,4 @@
     state: present
     definition: "{{ nodepool_providers_secrets }}"
   no_log: true
+  when: nodepool_providers_secrets is defined
