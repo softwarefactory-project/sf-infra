@@ -22,7 +22,7 @@
 - name: Setup ssh config
   become: yes
   copy:
-    src: sshconfig
+    src: "{{ sshconfig_file }}"
     mode: 0400
     owner: "{{ item.owner }}"
     dest: "{{ item.home }}/.ssh/config"
