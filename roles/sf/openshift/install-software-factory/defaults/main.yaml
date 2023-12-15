@@ -1,8 +1,9 @@
 ---
+sf_namespace: sf
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
   metadata:
     name: sf-name
-    namespace: sf-namespace
+    namespace: "{{ sf_namespace }}"
   spec: {}
