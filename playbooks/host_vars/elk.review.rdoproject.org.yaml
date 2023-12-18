@@ -38,5 +38,6 @@ tenant_builds:
     logsender_custom_ca_crt: /etc/pki/ca-trust/source/anchors/opensearch.pem
     performance_index_prefix: 'performance-rdoproject_org-'
     subunit_index_prefix: 'subunit-rdoproject_org-'
+    file_list: /etc/logscraper/download-list-next-gen.yaml
 
 zuul_scrapper_cron_job: ""
