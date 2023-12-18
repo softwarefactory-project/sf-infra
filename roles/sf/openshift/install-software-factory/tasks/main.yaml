@@ -1,4 +1,16 @@
 ---
+- name: Create Namespace {{ sf_namespace }}
+  kubernetes.core.k8s:
+    state: present
+    kind: Namespace
+    name: "{{ sf_namespace }}"
+
+- name: Add Security Context Constraints to User
+  ansible.builtin.command: >
+    oc adm policy
+    add-scc-to-user
+    privileged system:serviceaccount:{{ sf_namespace }}:default
+
 - name: Install Software Factory
   kubernetes.core.k8s:
     state: present
