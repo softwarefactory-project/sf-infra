@@ -1,111 +1,146 @@
 ---
-- name: Run tests on VM with newest image
+- name: Check if podman exists
+  ansible.builtin.command: |
+    which podman
+  register: _podman_binary
+
+- name: Fail when podman does not exists
+  when: _podman_binary.rc != 0
+  ansible.builtin.fail:
+    msg: "Podman is mandatory to run tests!"
+
+- name: Check if there is crc binary
+  stat:
+    path: /usr/local/bin/crc
+  register: _crc_bin
+
+- name: Clone OKO install_yamls project
+  ansible.builtin.git:
+    repo: https://github.com/openstack-k8s-operators/install_yamls
+    dest: install_yamls
+
+- name: Clone RDO config project
+  ansible.builtin.git:
+    repo: https://github.com/rdo-infra/review.rdoproject.org-config
+    dest: rdo-config
+
+- name: Check if there is already generated ssh key
+  ansible.builtin.stat:
+    path: "{{ ansible_user_dir }}/.ssh/id_ed25519.pub"
+  register: _ssh_key
+
+- name: Generate local ssh key
+  when: not _ssh_key.stat.exists
+  ansible.builtin.command: |
+    ssh-keygen -ted25519 -q -N "" -f "{{ ansible_user_dir }}/.ssh/id_ed25519"
+
+- name: Add pub key into authorized
+  ansible.builtin.shell: |
+    cat "{{ ansible_user_dir }}/.ssh/id_ed25519.pub" >> "{{ ansible_user_dir }}/.ssh/authorized_keys"
+
+- name: Configure nested CRC
+  when: _crc_bin.stat.exists
   block:
-    - name: Check if there is crc binary
-      stat:
-        path: /usr/local/bin/crc
-      register: _crc_bin
+    - name: Start CRC when image version is nested
+      ansible.builtin.command: |
+        /usr/local/bin/crc start
 
-    - name: Configure nested CRC
-      when: _crc_bin.stat.exists
-      block:
-        - name: Start CRC when image version is nested
-          ansible.builtin.shell: |
-            /usr/local/bin/crc start
-
-        - name: Create symlink for oc binary
-          become: true
-          ansible.builtin.file:
-            src: "~{{ image_ssh_user | default('zuul') }}/.crc/bin/oc/oc"
-            dest: /usr/bin/oc
-            state: link
-
-    - name: Check if platform-python is installed
-      stat:
-        path: /usr/libexec/platform-python
-      register: _platform_python
-
-    - name: Configure platform python
-      when: _platform_python.stat.exists
-      block:
-        - name: Ensure pip is available
-          become: true
-          ansible.builtin.command: |
-            /usr/libexec/platform-python -m pip install pip
-          register: _pip_installed
-          ignore_errors: true
-
-        - name: Use get-pip script to install pip
-          when: "'No module named pip' in _pip_installed.stderr"
-          become: true
-          ansible.builtin.shell: |
-            curl -SL https://bootstrap.pypa.io/get-pip.py | /usr/libexec/platform-python
-
-        # NOTE: yes, first we need to update pip.
-        # Otherwise next task might fail.
-        - name: Update pip
-          become: true
-          ansible.builtin.command: |
-            /usr/libexec/platform-python -m pip install -U pip
-
-        - name: Update pip packages and install Ansible Core
-          ansible.builtin.command: >
-            /usr/libexec/platform-python -m pip install --user --force-reinstall {{ item }}
-          loop:
-            - "--upgrade setuptools"
-            - "setuptools_rust"
-            - "ansible-core"
-
-    - name: Clone OKO install_yamls project
-      ansible.builtin.git:
-        repo: https://github.com/openstack-k8s-operators/install_yamls
-        dest: install_yamls
-
-    - name: Clone RDO config project
-      ansible.builtin.git:
-        repo: https://github.com/rdo-infra/review.rdoproject.org-config
-        dest: rdo-config
-
-    - name: Check if there is already generated ssh key
-      ansible.builtin.stat:
-        path: ~/.ssh/id_ed25519.pub
-      register: _ssh_key
-
-    - name: Generate local ssh key
-      when: not _ssh_key.stat.exists
-      ansible.builtin.shell: |
-        ssh-keygen -ted25519 -q -N "" -f ~/.ssh/id_ed25519
-
-    - name: Add pub key into authorized
-      ansible.builtin.shell: |
-        cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
-
-    - name: Create inventory file
+    - name: Create copy of oc binary
       ansible.builtin.copy:
-        content: |
-          ---
-          all:
-            hosts:
-              crc:
-                ansible_port: 22
-                ansible_host: 127.0.0.1
-        dest: inventory.yaml
+        src: "{{ ansible_user_dir }}/.crc/bin/oc/oc"
+        dest: "{{ ansible_user_dir }}/oc"
+        owner: "{{ ansible_user | default(ansible_user_id) }}"
+        group: "{{ ansible_user | default(ansible_user_id) }}"
+        mode: "0755"
+        remote_src: true
 
-    - name: Run ansible playbook that will login and check is services are up
-      ansible.builtin.shell: >
-        ~/.local/bin/ansible-playbook
-        -i inventory.yaml
-        -e "{'crc': 'localhost'}"
-        -e "{'crc_secret': {'openshift_pull_secret': 'fake_pull_secret'}}"
-        -e "ansible_python_interpreter=/usr/libexec/platform-python"
-        -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
-        -e "ansible_host_key_checking=False"
-        rdo-config/playbooks/crc/ensure-marketplace.yaml
-      environment:
-        ANSIBLE_LOG_PATH: ansible-output.log
+- name: Copy oc binary to main dir when extracted version
+  when: not _crc_bin.stat.exists
+  ansible.builtin.copy:
+    src: /usr/bin/oc
+    dest: /var/home/core/oc
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
+    mode: "0755"
+    remote_src: true
 
-    - name: Run tests
-      ansible.builtin.make:
-        chdir: install_yamls
-        target: certmanager
-      register: _install_yaml_out
+# Wait for crc-pre service to configure CRC
+- name: Login to the OpenShift
+  ansible.builtin.command: >
+    oc login
+    -u kubeadmin
+    -p "123456789"
+    https://api.crc.testing:6443
+    --insecure-skip-tls-verify=true
+  register: _openshift_login
+  until: _openshift_login.rc != 1
+  retries: 60
+  delay: 10
+
+- name: Replace OpenShift domain with ip address
+  ansible.builtin.replace:
+    path: "{{ ansible_user_dir }}/.kube/config"
+    regexp: "api.crc.testing:6443"
+    replace: "{{ ansible_default_ipv4.address }}:6443"
+
+- name: Create inventory file
+  ansible.builtin.copy:
+    content: |
+      ---
+      all:
+        hosts:
+          crc:
+            ansible_port: 22
+            ansible_host: {{ ansible_default_ipv4.address }}
+    dest: inventory.yaml
+
+- name: Ensure there is no already running test container
+  ansible.builtin.command: "{{ item }}"
+  loop:
+    - "podman stop -t1 test"
+    - "podman rm -f test"
+  ignore_errors: true
+
+- name: Create container to run tests
+  ansible.builtin.shell: >
+    podman create
+    --name test
+    -v "$(realpath {{ ansible_user_dir }}/.kube/):/root/.kube:z"
+    -v "$(realpath {{ ansible_user_dir }}/oc):/usr/bin/oc:z"
+    -v "$(realpath {{ ansible_user_dir }}/install_yamls):/root/install_yamls:z"
+    -v "$(realpath {{ ansible_user_dir }}/rdo-config):/root/rdo-config:z"
+    -v "$(realpath {{ ansible_user_dir }}/.ssh/id_ed25519):/root/.ssh/id_ed25519:z"
+    -v "$(realpath {{ ansible_user_dir }}/inventory.yaml):/root/inventory.yaml:z"
+    fedora:38
+    sleep inf
+
+- name: Start the container
+  ansible.builtin.command: >
+    podman start test
+
+- name: Install required packages
+  ansible.builtin.command: >
+    podman exec -it test
+    bash -c "yum install -y make python3-pip ansible-core jq"
+
+- name: Ensure oc binary has execute permissions
+  ansible.builtin.command: >
+    podman exec -it test chmod +x /usr/bin/oc
+
+- name: Run ansible playbook that will login and check is services are up
+  ansible.builtin.command: >
+    podman exec -it test
+    ansible-playbook
+    -i inventory.yaml
+    -e "{'crc': 'localhost'}"
+    -e "{'crc_secret': {'openshift_pull_secret': 'fake_pull_secret'}}"
+    -e "ansible_python_interpreter=/usr/libexec/platform-python"
+    -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
+    -e "ansible_host_key_checking=False"
+    /root/rdo-config/playbooks/crc/ensure-marketplace.yaml
+
+- name: Run tests
+  ansible.builtin.command: >
+    timeout 600
+    podman exec -it test
+    bash -c "cd /root/install_yamls && make certmanager"
