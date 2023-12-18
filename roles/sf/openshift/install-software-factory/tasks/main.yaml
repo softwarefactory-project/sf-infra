@@ -11,14 +11,21 @@
     add-scc-to-user
     privileged system:serviceaccount:{{ sf_namespace }}:default
 
-- name: Install Software Factory
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ software_factory }}"
-
 - name: Install Nodepool providers secrets
   kubernetes.core.k8s:
     state: present
     definition: "{{ nodepool_providers_secrets }}"
   no_log: true
   when: nodepool_providers_secrets is defined
+
+- name: Install Zuul connections secrets
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ item }}"
+  no_log: true
+  loop: "{{ zuul_connections_secrets }}"
+
+- name: Install Software Factory
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ software_factory }}"

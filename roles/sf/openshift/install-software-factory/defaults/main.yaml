@@ -7,3 +7,5 @@ software_factory:
     name: sf-name
     namespace: "{{ sf_namespace }}"
   spec: {}
+
+zuul_connections_secrets: []
