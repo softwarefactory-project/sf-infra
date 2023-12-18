@@ -129,14 +129,29 @@ datasources:
   version: 8
   readOnly: false
   editable: true
-{% if graphql_dlrn_releases is defined and graphql_dlrn_releases %}
-## GraphQL
-{% for release in graphql_dlrn_releases -%}
+## GraphQL Centos DLRN
+{% if graphql_dlrn_centos9_releases is defined and graphql_dlrn_centos9_releases %}
+{% for release in graphql_dlrn_centos9_releases -%}
 - orgId: 1
-  name: GraphQL Centos 9 {{ release }}
+  name: GraphQL Centos {{ release }}
   type: fifemon-graphql-datasource
   access: proxy
-  url: https://trunk.rdoproject.org/api-centos9-{{ release }}/api/graphql
+  url: https://trunk.rdoproject.org/api-{{ release }}/api/graphql
+  basicAuth: false
+  withCredentials: false
+  isDefault: false
+  readOnly: false
+  editable: true
+{% endfor %}
+{% endif %}
+## GraphQL RHEL DLRN
+{% if graphql_dlrn_rhel_releases is defined and graphql_dlrn_rhel_releases %}
+{% for release in graphql_dlrn_rhel_releases -%}
+- orgId: 1
+  name: GraphQL {{ release }}
+  type: fifemon-graphql-datasource
+  access: proxy
+  url: https://osp-trunk.hosted.upshift.rdu2.redhat.com/api-{{ release }}/api/graphql
   basicAuth: false
   withCredentials: false
   isDefault: false
