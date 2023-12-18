@@ -9,9 +9,6 @@
     group: root
 
 - name: Create weekly crontab job, that will do images
-  cron:
+  ansible.builtin.cron:
     name: Create CRC images, promote and sync on Tuesday morning
-    minute: "0"
-    hour: "3"
-    weekday: "2"
-    job: /usr/local/bin/do-crc-images.sh
+    state: absent
