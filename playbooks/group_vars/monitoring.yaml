@@ -58,9 +58,4 @@ graphql_dlrn_centos9_releases:
   - centos9-wallaby
   - centos9-antelope
 
-graphql_dlrn_rhel_releases:
-  - rhel9-osp18
-  - rhel9-osp17-1
-  - rhel9-osp17
-  - rhel8-osp17-1
-  - rhel8-osp16-2
+graphql_dlrn_rhel_releases: []
