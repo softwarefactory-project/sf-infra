@@ -25,9 +25,9 @@ software_factory:
       server: prod
     logserver:
       loopDelay: 3600
-      retentionDays: 15
+      retentionDays: 7
       storage:
-        size: 13Gi
+        size: 15Gi
     nodepool:
       builder:
         storage:
