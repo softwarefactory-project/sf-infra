@@ -163,6 +163,7 @@ let instances =
                   , network = "oci-private-network"
                   , security_groups = [ "hypervisor-oci" ]
                   , flavor = Some Flavors.`8vcpu_16GB`
+                  , state = Infra.Server.State.absent
                   }
               //  Infra.Server.Ip "38.102.83.186"
             )

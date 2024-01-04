@@ -14,7 +14,6 @@ prometheus.monitoring.softwarefactory-project.io,2,8
 elk.softwarefactory-project.io,4,16
 managesf.softwarefactory-project.io,4,16
 nodepool-builder.softwarefactory-project.io,2,8
-k1s02.softwarefactory-project.io,8,16
 zs.softwarefactory-project.io,2,8
 koji.softwarefactory-project.io,4,8
 image-builder.softwarefactory-project.io,1,2

@@ -295,7 +295,7 @@ servers:
       - monitoring
       - internal
       - hypervisor-oci
-    state: present
+    state: absent
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ips:
