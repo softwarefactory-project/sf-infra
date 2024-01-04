@@ -16,6 +16,7 @@ tenant_builds:
   - tenant: softwarefactory-project.io
     zuul_api_url:
       - https://softwarefactory-project.io/zuul/api/tenant/local
+      - https://microshift.softwarefactory-project.io/zuul/api/tenant/sf
     download: true
     download_dir: /mnt/logscraper/openstack
     es_username: logstash_softwarefactory_project_io
@@ -31,7 +32,7 @@ tenant_builds:
     es_port: 9200
     es_insecure: false
     es_index_prefix: 'logstash-softwarefactory_project_io-'
-    max_skipped: 200
+    max_skipped: 500
     logscraper_workers: 4
     logsender_workers: 4
     logsender_wait_time: 60
