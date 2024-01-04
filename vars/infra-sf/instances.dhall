@@ -57,13 +57,7 @@ let tenant-instances =
             }
       ,     tenant-instance
         //  { name = "ansible"
-            , server = Some
-                (     tenant-server
-                  //  Infra.Server.Ip "38.102.83.19"
-                  //  { state =
-                          let note = "force server creation" in Some "present"
-                      }
-                )
+            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.19")
             }
       ]
 

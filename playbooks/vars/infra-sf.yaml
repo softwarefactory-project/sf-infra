@@ -231,6 +231,7 @@ servers:
       - pushprox-proxy
       - prometheus
       - apache_exporter
+    state: present
     volume_size: 80
   - boot_from_volume: yes
     flavor: v1-standard-4
@@ -245,6 +246,7 @@ servers:
       - monitoring
       - internal
       - elk
+    state: present
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ips:
@@ -260,6 +262,7 @@ servers:
       - web
       - managesf
       - apache_exporter
+    state: present
     volume_size: 20
   - auto_ip: false
     boot_from_volume: yes
@@ -272,6 +275,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ips:
@@ -285,6 +289,7 @@ servers:
       - monitoring
       - internal
       - hypervisor-oci
+    state: present
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ips:
@@ -298,6 +303,7 @@ servers:
       - monitoring
       - internal
       - hypervisor-oci
+    state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:
@@ -312,6 +318,7 @@ servers:
       - internal
       - hypervisor-oci
       - cs-k1s
+    state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:
@@ -325,6 +332,7 @@ servers:
       - monitoring
       - internal
       - zookeeper
+    state: present
   - auto_ip: false
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -336,6 +344,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ips:
@@ -349,6 +358,7 @@ servers:
       - monitoring
       - internal
       - web
+    state: present
     volume_size: 80
   - auto_ip: true
     boot_from_volume: yes
@@ -363,6 +373,7 @@ servers:
       - internal
       - zuul-console
       - zuul-weeder
+    state: present
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ips:
@@ -377,6 +388,7 @@ servers:
       - internal
       - web
       - k8s-client
+    state: present
     volume_size: 100
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -393,6 +405,7 @@ servers:
       - elk
       - apache_exporter
       - web
+    state: present
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -408,6 +421,7 @@ servers:
       - internal
       - apache_exporter
       - web
+    state: present
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -435,6 +449,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -446,6 +461,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -457,6 +473,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -468,6 +485,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -479,6 +497,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -490,6 +509,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -501,6 +521,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -512,6 +533,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -523,6 +545,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -534,6 +557,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -545,6 +569,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -556,6 +581,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -567,6 +593,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -578,6 +605,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
   - auto_ip: false
     boot_from_volume: no
     flavor: "1vcpu_1gb"
@@ -589,6 +617,7 @@ servers:
       - common
       - monitoring
       - internal
+    state: present
 subnets:
   - cidr: "192.168.242.0/24"
     dns_nameservers:

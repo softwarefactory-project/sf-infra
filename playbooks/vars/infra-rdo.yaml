@@ -190,6 +190,7 @@ servers:
       - web
       - afs
       - apache_exporter
+    state: present
     volume_size: 200
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
@@ -203,6 +204,7 @@ servers:
       - common
       - monitoring
       - web
+    state: present
     volume_size: 50
   - auto_ip: true
     boot_from_volume: yes
@@ -217,6 +219,7 @@ servers:
       - web
       - rdo-trunk
       - apache_exporter
+    state: present
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
@@ -231,6 +234,7 @@ servers:
       - web
       - rdo-trunk
       - apache_exporter
+    state: present
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
@@ -246,6 +250,7 @@ servers:
       - managesf
       - internal
       - apache_exporter
+    state: present
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -260,6 +265,7 @@ servers:
       - monitoring
       - elk
       - internal
+    state: present
   - auto_ip: true
     boot_from_volume: yes
     flavor: v1-standard-2
@@ -274,6 +280,7 @@ servers:
       - hound
       - internal
       - apache_exporter
+    state: present
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes
@@ -288,6 +295,7 @@ servers:
       - web
       - rcn-share
       - apache_exporter
+    state: present
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-1
@@ -302,6 +310,7 @@ servers:
       - monitoring
       - web
       - apache_exporter
+    state: present
     volume_size: 10
   - auto_ip: true
     boot_from_volume: yes
@@ -314,6 +323,7 @@ servers:
       - common
       - monitoring
       - dlrn-db
+    state: present
     volume_size: 60
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
@@ -330,6 +340,7 @@ servers:
       - opensearch
       - internal
       - apache_exporter
+    state: present
     volume_size: 50
 subnets:
   - cidr: "192.168.240.0/24"

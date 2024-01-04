@@ -9,6 +9,6 @@
 , name : Text
 , network : Text
 , security_groups : List Text
-, state : Optional Text
+, state : ./State.dhall
 , volume_size : Optional Natural
 }

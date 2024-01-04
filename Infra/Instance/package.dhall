@@ -7,6 +7,7 @@ infrastructure component.
 { Type = ./Type.dhall
 , default = ./default.dhall
 , filter = ./filter.dhall
+, keepPresent = ./keepPresent.dhall
 , generate = ./generate.dhall
 , getName = ./getName.dhall
 , getNodeExporter = ./getNodeExporter.dhall

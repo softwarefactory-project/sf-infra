@@ -7,6 +7,6 @@
 , name = ""
 , network = "private-network"
 , security_groups = [] : List Text
-, state = None Text
+, state = (./State.dhall).present
 , volume_size = None Natural
 }
