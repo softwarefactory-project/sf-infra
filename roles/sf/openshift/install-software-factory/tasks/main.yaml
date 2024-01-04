@@ -11,6 +11,15 @@
     add-scc-to-user
     privileged system:serviceaccount:{{ sf_namespace }}:default
 
+# When this secret 'sf_ssl_cert' is set then sf-operator uses its content to setup Routes' TLS.
+- name: Install TLS Secret for the Route
+  kubernetes.core.k8s:
+    state: present
+    name: sf-ssl-cert
+    definition: "{{ sf_ssl_cert_secret }}"
+  no_log: true
+  when: sf_ssl_cert_secret is defined
+
 - name: Install Nodepool providers secrets
   kubernetes.core.k8s:
     state: present

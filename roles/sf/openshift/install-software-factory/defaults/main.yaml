@@ -9,3 +9,14 @@ software_factory:
   spec: {}
 
 zuul_connections_secrets: []
+#
+# sf_ssl_cert_secret:
+#   kind: Secret
+#   apiVersion: v1
+#   metadata:
+#     namespace: sf
+#   type: Opaque
+#   data:
+#     CA: ""
+#     crt: ""
+#     key: ""
