@@ -33,18 +33,22 @@
           - match:
               severity: critical
             receiver: softwarefactory-operations-team
+          {% if slack_api_url is defined and slack_api_url -%}
           - match:
               severity: urgent
             receiver: slack-notifications
+          {% endif %}
 
       receivers:
         - name: softwarefactory-operations-team
           email_configs:
             - to: softwarefactory-operations-team@redhat.com
+        {% if slack_api_url is defined and slack_api_url -%}
         - name: slack-notifications
           slack_configs:
           - channel: '#rhos-ops'
             send_resolved: true
+        {% endif %}
 
     dest: /etc/alertmanager/alertmanager.yml
   register: _am_config
