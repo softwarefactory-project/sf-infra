@@ -73,6 +73,15 @@ Also add zookeeper security rule in vars/infra-sf/networking.dhall
           }
 `
 
+Finally, add a rule for statsd in vars/infra-sf/rules/prometheus-statsd.dhall for the host
+
+`
+let ibm-bm3 = "169.60.49.226"
+
+in
+...
+    # Rule.integerMap (Rule.createUdpHost ibm-bm3) [ udp-multiplexer ]
+
 3. update the configuration:
 
 `
