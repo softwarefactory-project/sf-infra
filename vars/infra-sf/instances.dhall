@@ -154,16 +154,18 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "k1s02"
-        , groups = [ "sf" ]
-        , connection = OS.CentOS.`7.0`.connection
+        , name = "k1s05"
+        , groups = [ "k1s" ]
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some
             (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
+                  , image = OS.RHEL.`9.3`.image.name
                   , network = "oci-private-network"
+                  , auto_ip = Some True
                   , security_groups = [ "hypervisor-oci" ]
                   , flavor = Some Flavors.`8vcpu_16GB`
-                  , state = Infra.Server.State.absent
+                  , boot_from_volume = "yes"
+                  , volume_size = Some 100
                   }
               //  Infra.Server.Ip "38.102.83.186"
             )

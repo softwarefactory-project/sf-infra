@@ -150,8 +150,8 @@ Host nodepool-builder.softwarefactory-project.io
     User centos
     Port 22
 
-Host k1s02.softwarefactory-project.io
-    User centos
+Host k1s05.softwarefactory-project.io
+    User cloud-user
     Port 22
 
 Host k1s03.softwarefactory-project.io

@@ -286,16 +286,17 @@ servers:
     flavor: "8vcpu_16GB"
     floating_ips:
       - '38.102.83.186'
-    image: centos-7-1907
+    image: rhel-9.3
     key_name: sf-infra-key
-    name: k1s02.softwarefactory-project.io
+    name: k1s05.softwarefactory-project.io
     network: oci-private-network
     security_groups:
       - common
       - monitoring
       - internal
       - hypervisor-oci
-    state: absent
+    state: present
+    volume_size: 100
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ips:

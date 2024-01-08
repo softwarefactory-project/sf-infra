@@ -32,7 +32,7 @@ This project manages:
 * elk.softwarefactory-project.io
 * managesf.softwarefactory-project.io
 * nodepool-builder.softwarefactory-project.io
-* k1s02.softwarefactory-project.io
+* k1s05.softwarefactory-project.io
 * k1s03.softwarefactory-project.io
 * k1s04.softwarefactory-project.io
 * zk01.softwarefactory-project.io

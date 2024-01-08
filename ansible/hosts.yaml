@@ -58,6 +58,7 @@ all:
       hosts:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
+        k1s05.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
     monitoring:
       hosts:
@@ -246,6 +247,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    k1s05.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     koji.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
