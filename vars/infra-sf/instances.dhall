@@ -282,6 +282,12 @@ let instances =
                   }
               //  Infra.Server.Ip "38.102.83.100"
             )
+        , monitoring_urls =
+          [ "https://microshift.softwarefactory-project.io/zuul/"
+          , "https://microshift.softwarefactory-project.io/nodepool/builds/"
+          , "https://microshift.softwarefactory-project.io/nodepool/api/image-list"
+          , "https://microshift.softwarefactory-project.io/logs/"
+          ]
         }
       ]
 
