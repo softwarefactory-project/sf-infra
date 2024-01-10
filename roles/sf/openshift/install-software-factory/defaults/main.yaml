@@ -20,3 +20,13 @@ zuul_connections_secrets: []
 #     CA: ""
 #     crt: ""
 #     key: ""
+#
+# corporate_ca_certs:
+#   kind: ConfigMap
+#   apiVersion: v1
+#   metadata:
+#     namespace: sf
+#   data:
+#     corporate-ca.crt: |
+#       -----BEGIN CERTIFICATE-----
+#       -----END CERTIFICATE-----
