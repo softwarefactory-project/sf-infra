@@ -98,6 +98,8 @@ scrape_configs:
           - https://review.rdoproject.org
           - https://www.rdoproject.org/
           - https://opensearch.rdoproject.org/
+          - https://baremetal03.rdoproject.org
+          - https://baremetal04.rdoproject.org
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/r/config/server/version
           - https://softwarefactory-project.io/zuul/api/info
