@@ -32,7 +32,7 @@ let mk_baremetal =
           , ansible_host = Some ansible_host
           , ansible_python_interpreter = "auto"
           }
-        , monitoring_urls = [ "https://${name}" ]
+        , monitoring_urls_skip_cert_verify = [ "https://${name}" ]
         }
 
 let Cloud =

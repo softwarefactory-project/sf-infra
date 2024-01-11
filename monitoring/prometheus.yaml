@@ -98,8 +98,6 @@ scrape_configs:
           - https://review.rdoproject.org
           - https://www.rdoproject.org/
           - https://opensearch.rdoproject.org/
-          - https://baremetal03.rdoproject.org
-          - https://baremetal04.rdoproject.org
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/r/config/server/version
           - https://softwarefactory-project.io/zuul/api/info
@@ -112,6 +110,25 @@ scrape_configs:
           - https://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
+  - job_name: blackbox-skip-cert
+    metrics_path: /probe
+    params:
+      module:
+        - https_2xx_skip_verify
+    relabel_configs:
+      - source_labels:
+          - "__address__"
+        target_label: "__param_target"
+      - source_labels:
+          - "__param_target"
+        target_label: instance
+      - replacement: "127.0.0.1:9115"
+        target_label: "__address__"
+    scrape_interval: "5m"
+    static_configs:
+      - targets:
+          - https://baremetal03.rdoproject.org
+          - https://baremetal04.rdoproject.org
   - job_name: blackbox-auth
     metrics_path: /probe
     params:

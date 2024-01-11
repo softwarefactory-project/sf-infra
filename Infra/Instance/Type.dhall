@@ -3,6 +3,7 @@
 , groups : List Text
 , monitoring_auth_urls : List Text
 , monitoring_urls : List Text
+, monitoring_urls_skip_cert_verify : List Text
 , name : Text
 , node-exporter : Bool
 , server : Optional ../Server/Type.dhall

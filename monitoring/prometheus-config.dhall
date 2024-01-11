@@ -39,10 +39,29 @@ in  \(instances : List Infra.Instance.Type) ->
                   instances
               )
 
+      let web-list-skip-ssl-verify =
+            Prelude.List.concat
+              Text
+              ( Prelude.List.map
+                  Infra.Instance.Type
+                  (List Text)
+                  ( \(instance : Infra.Instance.Type) ->
+                      instance.monitoring_urls_skip_cert_verify
+                  )
+                  instances
+              )
+
       let url-target =
             optional-scrape
               (List/length Text web-list)
               [ (./scrape-configs.dhall).blackbox web-list ]
+
+      let url-target-no-cert-verify =
+            optional-scrape
+              (List/length Text web-list)
+              [ (./scrape-configs.dhall).blackbox-no-cert-verify
+                  web-list-skip-ssl-verify
+              ]
 
       let auth-web-list =
             Prelude.List.concat
@@ -86,5 +105,10 @@ in  \(instances : List Infra.Instance.Type) ->
             }
           , rule_files = Some rules
           , scrape_configs = Some
-              (node-target # url-target # auth-url-target # targets)
+              (   node-target
+                # url-target
+                # url-target-no-cert-verify
+                # auth-url-target
+                # targets
+              )
           }
