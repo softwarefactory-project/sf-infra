@@ -38,10 +38,11 @@ let dlrn =
         }
 
 let blackbox-scrape-config =
+      \(job_name : Text) ->
       \(modules : List Text) ->
       \(urls : List Text) ->
         Prometheus.ScrapeConfig::{
-        , job_name = Some "blackbox"
+        , job_name = Some job_name
         , static_configs = Some
           [ Prometheus.StaticConfig::{ targets = Some urls } ]
         , scrape_interval = Some "5m"
@@ -66,9 +67,10 @@ let blackbox-scrape-config =
 
 in  { static
     , dlrn
-    , blackbox = blackbox-scrape-config [ "https_2xx" ]
+    , blackbox = blackbox-scrape-config "blackbox" [ "https_2xx" ]
+    , blackbox-no-cert-verify =
+        blackbox-scrape-config "blackbox-skip-cert" [ "https_2xx_skip_verify" ]
     , blackbox-auth =
         \(auth-urls : List Text) ->
-              blackbox-scrape-config [ "http_4xx" ] auth-urls
-          //  { job_name = Some "blackbox-auth" }
+          blackbox-scrape-config "blackbox-auth" [ "http_4xx" ] auth-urls
     }

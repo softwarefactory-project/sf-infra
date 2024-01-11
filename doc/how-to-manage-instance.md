@@ -10,7 +10,7 @@ In sf-infra, an instance is a composition of:
 * a connection (how to connect to the server)
 * a list of ansible groups
 * some options for monitoring (node-exporter installation and configuration,
-  monitoring_auth_urls and monitoring_urls)
+  monitoring_auth_urls, monitoring_urls and monitoring_urls_skip_cert_verify)
 
 ### Hints
 
