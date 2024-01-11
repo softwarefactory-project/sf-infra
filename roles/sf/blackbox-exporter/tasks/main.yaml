@@ -11,6 +11,7 @@
   copy:
     src: blackbox.yml
     dest: /etc/blackbox/blackbox.yml
+  register: _blackbox_config
 
 - include_role:
     name: service/container
@@ -22,3 +23,4 @@
       {% if additional_cert_path %}-v {{ additional_cert_path }}:/etc/ssl/certs/custom-cert.crt:z{% endif %}
       {{ container_images['blackbox'] | default('quay.io/prometheus/black-box:latest') }}
       --config.file=/config/blackbox.yml
+    pod_config: "{{ _blackbox_config }}"

@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: '0644'
+  register: _mysqld_exporter
 
 - name: Create directories for SSL certs
   become: yes
@@ -55,3 +56,4 @@
       --collect.global_status
       --collect.binlog_size
       --collect.slave_status
+    pod_config: "{{ _mysqld_exporter }}"

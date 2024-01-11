@@ -22,6 +22,7 @@
   become: true
   notify:
     - restart statsd-exporter
+  register: _statsd_exporter
 
 - when:
     - ansible_distribution == "CentOS"
@@ -75,3 +76,4 @@
           {{ container_images['statsd_exporter'] | default('quay.io/prometheus/statsd-exporter:latest') }}
           --statsd.mapping-config=/tmp/statsd_mapping.yml
           --log.level=info
+        pod_config: "{{ _statsd_exporter }}"
