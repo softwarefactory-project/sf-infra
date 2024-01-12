@@ -2,9 +2,9 @@ let Rule = ../../../Infra/Rule/package.dhall
 
 let udp-multiplexer = +7000
 
-let ibm-bm3 = "169.60.49.226"
+let ibm-bm3 = "169.60.49.226/32"
 
-let ibm-bm4 = "169.60.49.233"
+let ibm-bm4 = "169.60.49.233/32"
 
 let vexxhost-infra-sf-private = "192.168.242.0/24"
 
