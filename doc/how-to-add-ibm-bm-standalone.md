@@ -163,37 +163,9 @@ Host 192.168.25.11 192.168.25.12 192.168.25.13
     ProxyJump baremetal03.rdoproject.org
 `
 
-10. Add security group rules for zuul-fingergw in playbooks/zuul/configure-private-clouds.yaml
-
-notes: for bm3 (before sf-config setup for zuul-fingergw), fingergw port is 7979, for others deploymnent it's 7900
+10. Add squid service for shiftstack team if needed on ./playbooks/zuul/configure-private-clouds.yaml
 
 `
-- hosts: baremetal04.rdoproject.org
-  gather_facts: yes
-  tasks:
-    - name: Forward finger port (7900) to ibm-zfgw
-      iptables:
-        chain: FORWARD
-        protocol: tcp
-        destination_port: 7900
-        destination: 192.168.25.13
-        jump: ACCEPT
-        comment: Forward rule for fingergw
-
-    - name: DNAT finger port (7900) to ibm-zfgw
-      iptables:
-        table: nat
-        chain: PREROUTING
-        in_interface: bond1
-        protocol: tcp
-        destination_port: 7900
-        jump: DNAT
-        to_destination: 192.168.25.13:7900
-        comment: PREROUTING rule for fingergw
-
-    - name: Save iptables rules
-      command: /usr/libexec/iptables/iptables.init save
-
     - name: Configure squid service
       ansible.builtin.include_role:
         name: rdo/ibm-shiftstack-squid

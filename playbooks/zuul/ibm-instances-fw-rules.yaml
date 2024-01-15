@@ -1,0 +1,56 @@
+- name: Forward node-exporter port
+  iptables:
+    chain: FORWARD
+    protocol: tcp
+    destination_port: '91{{ server.ip.split(".")[-1]}}'
+    destination: '{{ server.ip }}'
+    jump: ACCEPT
+    comment: 'Forward rule for {{ server.name }}'
+  loop: '{{ standalone_deployment.servers }}'
+  loop_control:
+    loop_var: server
+
+- name: DNAT node-exporter port
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: bond1
+    protocol: tcp
+    destination_port: '91{{ server.ip.split(".")[-1]}}'
+    jump: DNAT
+    to_destination: '{{ server.ip }}:9100'
+    comment: 'PREROUTING rule for {{ server.name }}'
+  loop: '{{ standalone_deployment.servers }}'
+  loop_control:
+    loop_var: server
+
+- name: Forward finger port (7979) to zfgw
+  iptables:
+    chain: FORWARD
+    protocol: tcp
+    destination_port: 7979
+    destination: '{{ server.ip }}'
+    jump: ACCEPT
+    comment: 'Forward rule for {{ server.name }}'
+  loop: '{{ standalone_deployment.servers }}'
+  loop_control:
+    loop_var: server
+  when: server.name | regex_search("zfgw")
+
+- name: DNAT finger port (7979) to zfgw
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: bond1
+    protocol: tcp
+    destination_port: 7979
+    jump: DNAT
+    to_destination: '{{ server.ip }}:7979'
+    comment: 'PREROUTING rule for {{ server.name }}'
+  loop: '{{ standalone_deployment.servers }}'
+  loop_control:
+    loop_var: server
+  when: server.name | regex_search("zfgw")
+
+- name: Save iptables rules
+  command: /usr/libexec/iptables/iptables.init save
