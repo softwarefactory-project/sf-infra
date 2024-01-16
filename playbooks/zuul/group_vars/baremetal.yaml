@@ -3,6 +3,10 @@ flavors:
     disk: 100
     ram: 2048
     vcpus: 2
+  - name: ci.m1.medium
+    disk: 40
+    ram: 4096
+    vcpus: 2
   - name: nodepool
     disk: 80
     ram: 8192
