@@ -10,10 +10,7 @@ in  Prometheus.RulesConfig::{
             , expr = Some
                 "time() - nodepool_dib_image_status_last_build > 172800"
             , for = Some "24h"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -23,10 +20,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "DibImageBuildFailed"
             , expr = Some "nodepool_dib_image_status_rc != 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary = "DIB image {{ \$labels.image }} build failed"
@@ -40,10 +34,7 @@ in  Prometheus.RulesConfig::{
           [ Prometheus.AlertingRule::{
             , alert = Some "NodepoolNodes"
             , expr = Some "nodepool_nodes{state='failed'} > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary = "Nodepool failed to spawn instance"
@@ -52,10 +43,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "NodepoolNodesByLabel"
             , expr = Some "nodepool_nodes_by_label{state='failed'} > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -65,10 +53,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "NodepoolNodesByProvider"
             , expr = Some "nodepool_nodes_by_provider{state='failed'} > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -79,10 +64,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "NodepoolLaunchByProvider"
             , expr = Some
                 "increase(nodepool_launch_by_provider{result!='ready'}[1m]) > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -93,10 +75,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "NodepoolLaunchByRequestor"
             , expr = Some
                 "increase(nodepool_launch_by_requestor{result!='ready'}[1m]) > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -106,10 +85,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "NodepoolLaunch"
             , expr = Some "increase(nodepool_launch{result!='ready'}[1m]) > 0"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =

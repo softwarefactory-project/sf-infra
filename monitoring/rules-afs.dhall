@@ -8,10 +8,7 @@ in  Prometheus.RulesConfig::{
           [ Prometheus.AlertingRule::{
             , alert = Some "AFSTooOld"
             , expr = Some "afs_mirror_sync_time{job='node'} < (time() - 86400)"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =

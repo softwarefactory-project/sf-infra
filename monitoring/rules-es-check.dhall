@@ -8,10 +8,7 @@ in  Prometheus.RulesConfig::{
           [ Prometheus.CriticalRule::{
             , alert = Some "OpensearchOutdatedMetrics"
             , expr = Some "time() - opensearch_last_update > 259200"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =

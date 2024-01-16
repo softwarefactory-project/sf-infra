@@ -39,8 +39,7 @@ let createRule =
         , alert = Some "SystemOutdatedPackages${name}"
         , for = Some "7d"
         , expr = Some rule
-        , labels = Some
-          { severity = "info", lasttime = "{{ \$value | humanizeTimestamp }}" }
+        , labels = Some Prometheus.infoLabel
         , annotations = Some
           { description = None Text
           , summary = "There are some packages to update in the ${name} infra!"

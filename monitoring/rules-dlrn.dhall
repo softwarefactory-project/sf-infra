@@ -12,10 +12,7 @@ in  Prometheus.RulesConfig::{
                     Prometheus.AlertingRule::{
                     , alert = Some "RDOTrunkRepoTooOld"
                     , expr = Some "time() - dlrn_last_update{${exp}} > ${time}"
-                    , labels = Some
-                      { severity = "warning"
-                      , lasttime = "{{ \$value | humanizeTimestamp }}"
-                      }
+                    , labels = Some Prometheus.warningLabel
                     , annotations = Some
                       { description = None Text
                       , summary =
