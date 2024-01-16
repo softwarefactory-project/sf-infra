@@ -32,28 +32,26 @@ $ zuul-client --zuul-url https://softwarefactory-project.io/zuul encrypt \
     --infile /tmp/$cloud  >> zuul.d/secrets.yaml
 `
 
-2. add data for the cloud and in the *in* statement in vars/infra-rdo/ibm-baremetal.dhall:
+2. add the clouds in vars/infra-rdo
 
-Each cloud use a dedicated subnet 192.168.25.0/24, 192.168.26.0/24 ...
+- each cloud use a dedicated subnet 192.168.25.0/24, 192.168.26.0/24 ...
+
+- create a file to define variables for the cloud vars/infra-rdo/baremetals/baremetal03.dhall
 
 `
-let baremetal03 =
-      let prefix = "ibm-bm3-"
+let baremetal = { name = "baremetal03.rdoproject.org", ip = "169.60.49.226" }
 
-      in  Cloud::{
-          , baremetal_name = "baremetal03." ++ rdo_domain
-          , baremetal_ip = "169.60.49.226"
-          , mirror_ip = "192.168.25.10"
-          , launcher_name = prefix ++ "nodepool-launcher"
-          , launcher_ip = "192.168.25.11"
-          , executor_name = prefix ++ "ze"
-          , executor_ip = "192.168.25.12"
-          , fingergw_name = prefix ++ "zfgw"
-          , fingergw_ip = "192.168.25.13"
-          , domain = prefix ++ "nodepool"
-          }
+let instances = ./mkInstances.dhall baremetal.name "ibm-bm3" "192.168.25"
 
-in  mk_cloud baremetal02 # mk_cloud baremetal03
+in  { baremetal, instances }
+`
+
+- add it on the *in* statement in vars/infra-rdo/ibm-baremetal.dhall:
+`
+in    [ mkBaremetal (./baremetals/baremetal03.dhall).baremetal ]
+    # mkInstances (./baremetals/baremetal03.dhall).instances
+    # [ mkBaremetal (./baremetals/baremetal04.dhall).baremetal ]
+    # mkInstances (./baremetals/baremetal04.dhall).instances
 `
 
 Also add zookeeper security rule in vars/infra-sf/networking.dhall
