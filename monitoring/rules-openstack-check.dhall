@@ -8,10 +8,7 @@ in  Prometheus.RulesConfig::{
           [ Prometheus.AlertingRule::{
             , alert = Some "StackCheckDeleteFailed"
             , expr = Some "stack_delete_failed > 3"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary = "There are at least 3 stacks in deleted_failed state"
@@ -28,10 +25,7 @@ in  Prometheus.RulesConfig::{
                 ''
                 port_down{is_old="True"} > 3
                 ''
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =

@@ -8,10 +8,7 @@ in  Prometheus.RulesConfig::{
           [ Prometheus.AlertingRule::{
             , alert = Some "BackupTooOld"
             , expr = Some "bup_last_backup{job='node'} < (time() - 259200)"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =

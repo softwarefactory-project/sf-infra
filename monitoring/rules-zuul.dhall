@@ -18,10 +18,7 @@ in  Prometheus.RulesConfig::{
           , Prometheus.AlertingRule::{
             , alert = Some "zuul_nodepool_requests_failed"
             , expr = Some "increase(zuul_nodepool_requests{state='failed'}[1m])"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary = "Nodepool failed to provide instance to Zuul"
@@ -31,10 +28,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "zuul_nodepool_requests_failed"
             , expr = Some
                 "increase(zuul_nodepool_requests_state_by_label{state='failed'}[1m])"
-            , labels = Some
-              { severity = "warning"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
               , summary =
@@ -45,10 +39,7 @@ in  Prometheus.RulesConfig::{
             , alert = Some "nodepool_high_failure_rate"
             , expr = Some
                 "(sum(increase(zuul_nodepool_requests_total{state='failed'}[1h])) or sum(up) * 0) / (sum(increase(zuul_nodepool_requests_total{state='requested'}[1h])) or sum(up) * 0) > 0.1"
-            , labels = Some
-              { severity = "urgent"
-              , lasttime = "{{ \$value | humanizeTimestamp }}"
-              }
+            , labels = Some Prometheus.urgentLabel
             , annotations = Some
               { description = None Text
               , summary =
