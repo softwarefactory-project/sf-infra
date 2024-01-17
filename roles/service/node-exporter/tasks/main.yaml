@@ -3,7 +3,7 @@
   become: yes
   user:
     name: node_exporter
-    shell: /sbin/nologing
+    shell: /sbin/nologin
     home: /var/lib/node_exporter
 
 - name: Create directory for textfile exporter
