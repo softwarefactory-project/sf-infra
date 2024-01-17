@@ -53,6 +53,7 @@
 - hosts: k1s05.softwarefactory-project.io
   roles:
     - system/rhel-subscription
+    - system/epel-release
 
 - hosts: k1s
   roles:

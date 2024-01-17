@@ -18,9 +18,8 @@
   when: certbot_install | default(true)
   block:
     - name: Install epel-release
-      package:
-        name:
-          - epel-release
+      ansible.builtin.include_role:
+        name: system/epel-release
       when: ansible_distribution != "Fedora"
 
     - name: Enable PowerTools repo in Centos 8 stream

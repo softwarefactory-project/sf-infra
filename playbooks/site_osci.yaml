@@ -10,12 +10,8 @@
   roles:
     - service/hostname
     - service/apache-exporter
+    - system/epel-release
   tasks:
-    - name: "Enable EPEL"
-      package:
-        name:
-          - epel-release
-      become: yes
     - name: "Deploy websites"
       include_role:
         name: osci/websites
@@ -27,12 +23,8 @@
 - hosts: rdo-web-builder.int.osci.io
   roles:
     - service/hostname
+    - system/epel-release
   tasks:
-    - name: "Enable EPEL"
-      package:
-        name:
-          - epel-release
-      become: yes
     - name: "Deploy websites"
       include_role:
         name: osci/websites
@@ -44,6 +36,7 @@
   become: yes
   roles:
     - service/hostname
+    - system/epel-release
   handlers:
     - name: "Clean YUM Metadata"
       command: yum clean metadata
@@ -51,11 +44,6 @@
         warn: no
 
   tasks:
-    - name: "Enable EPEL"
-      package:
-        name:
-          - epel-release
-
     - name: "Setup the OSPO/OSCI Infra repo"
       yum_repository:
         name: ospo_osci_infra

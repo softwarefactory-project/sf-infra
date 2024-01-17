@@ -1,0 +1,15 @@
+---
+- name: Try install epel-release if available
+  become: true
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+  ignore_errors: true
+  register: _epel_package
+
+- name: Install epel release
+  become: true
+  when: _epel_package.rc != 0
+  ansible.builtin.package:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present

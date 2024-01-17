@@ -18,9 +18,8 @@
         mode: 0755
 
     - name: Ensure EPEL repo is installed for CentOS 7
-      package:
-        name: epel-release
-        state: present
+      ansible.builtin.include_role:
+        name: system/epel-release
       when: (ansible_distribution == "CentOS" and ansible_distribution_major_version|int < 8)
 
     - name: Ensure jq and cronie are installed

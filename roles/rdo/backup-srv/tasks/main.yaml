@@ -1,10 +1,9 @@
 ---
 - name: Install epel-release
-  become: yes
-  package:
-    name: epel-release
+  ansible.builtin.include_role:
+    name: system/epel-release
 
-- name: Install packages from epel
+- name: Install packages
   become: yes
   package:
     name:
