@@ -181,6 +181,40 @@ scrape_configs:
     static_configs:
       - targets:
           - zs.softwarefactory-project.io:9141
+  - job_name: ibm-instances
+    static_configs:
+      - labels:
+          name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
+        targets:
+          - baremetal03.rdoproject.org:9010
+      - labels:
+          name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
+        targets:
+          - baremetal03.rdoproject.org:9011
+      - labels:
+          name: ibm-bm3-ze.softwarefactory-project.io
+        targets:
+          - baremetal03.rdoproject.org:9012
+      - labels:
+          name: ibm-bm3-zfgw.softwarefactory-project.io
+        targets:
+          - baremetal03.rdoproject.org:9013
+      - labels:
+          name: mirror.regionone.ibm-bm4-nodepool.rdoproject.org
+        targets:
+          - baremetal04.rdoproject.org:9010
+      - labels:
+          name: ibm-bm4-nodepool-launcher.softwarefactory-project.io
+        targets:
+          - baremetal04.rdoproject.org:9011
+      - labels:
+          name: ibm-bm4-ze.softwarefactory-project.io
+        targets:
+          - baremetal04.rdoproject.org:9012
+      - labels:
+          name: ibm-bm4-zfgw.softwarefactory-project.io
+        targets:
+          - baremetal04.rdoproject.org:9013
   - job_name: dlrn
     metrics_path: /metrics
     relabel_configs:

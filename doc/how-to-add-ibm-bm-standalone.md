@@ -41,9 +41,11 @@ $ zuul-client --zuul-url https://softwarefactory-project.io/zuul encrypt \
 `
 let baremetal = { name = "baremetal03.rdoproject.org", ip = "169.60.49.226" }
 
-let instances = ./mkInstances.dhall baremetal.name "ibm-bm3" "192.168.25"
+let subnet = "192.168.25"
 
-in  { baremetal, instances }
+let instances = ./mkInstances.dhall baremetal.name "ibm-bm3" subnet
+
+in  { baremetal, instances, subnet }
 `
 
 - add it on the *in* statement in vars/infra-rdo/ibm-baremetal.dhall:
@@ -239,8 +241,25 @@ Host ibm-bm3-zfgw*
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.13
 `
+4. Add config for prometheus in monitoring/node-exporter-ibm-instances.dhall
 
-4. commit and propose a review with the content to setup the cloud
+`
+...
+let baremetal03 = ../vars/infra-rdo/baremetals/baremetal03.dhall
+
+let baremetal04 = ../vars/infra-rdo/baremetals/baremetal04.dhall
+
+in    mkIbmInstancesRules
+        baremetal03.baremetal
+        baremetal03.subnet
+        baremetal03.instances
+    # mkIbmInstancesRules
+        baremetal04.baremetal
+        baremetal04.subnet
+        baremetal04.instances
+
+`
+5. commit and propose a review with the content to setup the cloud
 
 ## Add zuul and nodepool instances on sf.io
 
