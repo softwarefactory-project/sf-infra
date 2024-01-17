@@ -1,0 +1,27 @@
+---
+- name: Check rhel version
+  become: true
+  command: subscription-manager release
+  register: _rhel_version
+  ignore_errors: yes
+
+- name: Register, update  and reboot system
+  become: true
+  when: "'This system is not yet registered' in _rhel_version.stderr"
+  block:
+    - name: Register system
+      community.general.redhat_subscription:
+        state: present
+        activationkey: "{{ rhel_activationkey }}"
+        org_id: "{{ rhel_org_id }}"
+        pool_ids: "{{ rhel_pool_ids }}"
+        force_register: yes
+      no_log: yes
+
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+
+    - name: Reboot after initial upgrade
+      reboot:
