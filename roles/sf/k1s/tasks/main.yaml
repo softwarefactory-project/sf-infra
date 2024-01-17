@@ -168,3 +168,17 @@
     mode: "0644"
     owner: root
     group: root
+
+- name: Add motd info
+  become: true
+  ansible.builtin.copy:
+    content: |
+      ################################################
+
+      Welcome on K1S host!
+
+      Remember to use "{{ k1s_user }}" user to check k1s pods!
+
+      ################################################
+    dest: /etc/motd
+    mode: "0644"
