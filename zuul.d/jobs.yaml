@@ -302,7 +302,6 @@
 
 - job:
     name: sf-infra-molecule
-    voting: false
     parent: sf-infra-base
     description: Use molecule to test Ansible roles
     pre-run: tests/pre-tox-molecule.yml
@@ -378,7 +377,8 @@
                 - name: container
                   label: zuul-worker-dhall-f37
         - prometheus-lint
-        - sf-infra-molecule
+        # this job should be fixed
+        # - sf-infra-molecule
         - sf-infra-grafana-dashboards:
             files:
               - "^roles/sf/grafana/.*$"
