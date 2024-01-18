@@ -209,10 +209,6 @@ scrape_configs:
           - api-centos8-yoga
           - api-centos8-xena
           - api-centos8-wallaby
-  - job_name: weeder
-    static_configs:
-      - targets:
-          - image-builder.softwarefactory-project.io:9001
   - job_name: logscraper
     static_configs:
       - targets:
@@ -223,3 +219,18 @@ scrape_configs:
           - elk.review.rdoproject.org:9114
           - opensearch.rdoproject.org:9114
           - elk.softwarefactory-project.io:9114
+  - job_name: weeder
+    metrics_path: /weeder/metrics
+    static_configs:
+      - targets:
+          - softwarefactory-project.io
+  - job_name: logjuicer
+    metrics_path: /logjuicer/metrics
+    static_configs:
+      - targets:
+          - softwarefactory-project.io
+  - job_name: monocle
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - demo.changemetrics.io

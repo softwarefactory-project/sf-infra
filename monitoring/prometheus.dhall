@@ -36,10 +36,6 @@ let elasticsearch_exporter_list =
 
 let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
 
-let -- | Keep in sync with site.yaml and zuul-weeder security group
-    zuul-weeder =
-      [ "image-builder.softwarefactory-project.io:9001" ]
-
 let logscraper_server_list = [ "logscraper01.openstack.org:9128" ]
 
 let dlrnapi_target_list =
@@ -79,7 +75,12 @@ in  PrometheusConfig
       , ScrapeConfigs.static "apache" apache_server_list
       , ScrapeConfigs.static "zookeeper" zookeeper_server_list
       , ScrapeConfigs.dlrn dlrnapi_target_list
-      , ScrapeConfigs.static "weeder" zuul-weeder
       , ScrapeConfigs.static "logscraper" logscraper_server_list
       , ScrapeConfigs.static "elasticsearch" elasticsearch_exporter_list
+      ,     ScrapeConfigs.static "weeder" [ "softwarefactory-project.io" ]
+        //  { metrics_path = Some "/weeder/metrics" }
+      ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
+        //  { metrics_path = Some "/logjuicer/metrics" }
+      ,     ScrapeConfigs.static "monocle" [ "demo.changemetrics.io" ]
+        //  { metrics_path = Some "/metrics" }
       ]
