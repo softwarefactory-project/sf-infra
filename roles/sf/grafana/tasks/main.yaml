@@ -32,6 +32,7 @@
     - { name: 'infra/zuul-summary.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'infra/blackbox.json', path: 'grafana/provisioning/dashboards' }
     - { name: 'infra/DLRN.json', path: 'grafana/provisioning/dashboards' }
+    - { name: 'infra/EodBackstage.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/11442
     - { name: 'infra/zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
       # Dashboard: https://grafana.com/grafana/dashboards/3894

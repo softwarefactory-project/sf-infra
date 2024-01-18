@@ -22,7 +22,8 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
 	  playbooks/host_vars/backup.rdoproject.org.yaml
 
-DASHBOARDS = roles/sf/grafana/files/infra/DLRN.json
+DASHBOARDS = roles/sf/grafana/files/infra/DLRN.json \
+	  roles/sf/grafana/files/infra/EodBackstage.json
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
