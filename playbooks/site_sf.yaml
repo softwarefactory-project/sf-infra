@@ -50,6 +50,10 @@
           User-Agent: Bytespider
           User-Agent: AhrefsBot
 
+- hosts: k1s05.softwarefactory-project.io
+  roles:
+    - system/rhel-subscription
+
 - hosts: k1s
   roles:
     - sf/k1s
