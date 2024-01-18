@@ -302,6 +302,7 @@
 
 - job:
     name: sf-infra-molecule
+    voting: false
     parent: sf-infra-base
     description: Use molecule to test Ansible roles
     pre-run: tests/pre-tox-molecule.yml
