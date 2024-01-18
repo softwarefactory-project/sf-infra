@@ -44,6 +44,12 @@ let -- | Monocle
     monocle =
       "TODO"
 
+let -- | NodepoolNodeRequestFulfilledDelay
+    -- - What: the average delay a Node request is fulfilled by provider
+    -- - Why: watchout for external outage
+    nodepoolNodeRequestFulfilled =
+      "TODO"
+
 let -- |               System metrics              | --
     -- The main systems we operate (e.g. scheduler, logserver, databases).
     -- To keep the graph digest, replicated hosts like executor/merger are excluded
