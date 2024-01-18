@@ -133,6 +133,8 @@ let PrometheusTarget =
       }
 
 let mkPrometheusTarget =
+      \(base : Natural) ->
+      \(legendFormat : Text) ->
       \(expr : { index : Natural, value : Text }) ->
         { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
         , editorMode = "code"
@@ -141,10 +143,10 @@ let mkPrometheusTarget =
         , format = "time_series"
         , hide = False
         , instant = False
-        , legendFormat = "{{instance}}"
+        , legendFormat
         , interval = "10m"
         , range = True
-        , refId = "Q${Natural/show expr.index}"
+        , refId = "Q${Natural/show (base + expr.index)}"
         }
 
 let Prometheus =
@@ -337,8 +339,10 @@ let mkLucene =
 
 let mkPrometheusHelper =
       \(min : Optional Natural) ->
+      \(legend : Text) ->
+      \(err_exprs : List Text) ->
       \(title : Text) ->
-      \(exprs : List Text) ->
+      \(ok_exprs : List Text) ->
       \(unit : Text) ->
         PType.Prometheus
           { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
@@ -384,29 +388,47 @@ let mkPrometheusHelper =
             , tooltip = { mode = "multi", sort = "desc" }
             }
           , targets =
-              Prelude.List.map
-                { index : Natural, value : Text }
-                PrometheusTarget
-                mkPrometheusTarget
-                (Prelude.List.indexed Text exprs)
+                Prelude.List.map
+                  { index : Natural, value : Text }
+                  PrometheusTarget
+                  (mkPrometheusTarget 0 legend)
+                  (Prelude.List.indexed Text ok_exprs)
+              # Prelude.List.map
+                  { index : Natural, value : Text }
+                  PrometheusTarget
+                  ( mkPrometheusTarget
+                      (List/length Text ok_exprs)
+                      "${legend} error"
+                  )
+                  (Prelude.List.indexed Text err_exprs)
           , title
           , type = "timeseries"
           }
 
-let mkPrometheusMulti = mkPrometheusHelper (Some 0)
-
-let mkPrometheusZeroCentered = mkPrometheusHelper (None Natural)
-
-let mkPrometheus =
-      \(title : Text) ->
-      \(expr : Text) ->
-        mkPrometheusHelper (Some 0) title [ expr ]
-
 in  { mkSep
     , mkLucene
-    , mkPrometheus
-    , mkPrometheusMulti
-    , mkPrometheusZeroCentered
+    , mkPrometheus =
+        \(title : Text) ->
+        \(expr : Text) ->
+          mkPrometheusHelper
+            (Some 0)
+            "{{instance}}"
+            ([] : List Text)
+            title
+            [ expr ]
+    , mkPrometheusAppErr =
+        \(title : Text) ->
+        \(exprs : List Text) ->
+        \(err_exprs : List Text) ->
+          mkPrometheusHelper (Some 0) "{{job}}" err_exprs title exprs
+    , mkPrometheusApp =
+        \(title : Text) ->
+        \(exprs : List Text) ->
+          mkPrometheusHelper (Some 0) "{{job}}" ([] : List Text) title exprs
+    , mkPrometheusMulti =
+        mkPrometheusHelper (Some 0) "{{instance}}" ([] : List Text)
+    , mkPrometheusZeroCentered =
+        mkPrometheusHelper (None Natural) "{{instance}}" ([] : List Text)
     , mkDashboard
     , mkHosts = Prelude.Text.concatSep "|"
     }

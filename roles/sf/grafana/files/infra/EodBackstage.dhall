@@ -34,17 +34,36 @@ let -- | Nodepool
     nodepool =
       "TODO"
 
-let -- | Weeder
-    -- - What: the service memory usage and query number (from <https://softwarefactory-project.io/weeder/metrics>)
+let -- | Weeder / Monocle
+    -- - What: the service memory usage and query number
     -- - Why: check the service is running
-    weeder =
-      "TODO"
+    apps =
+      let requests =
+            Panels.mkPrometheusAppErr
+              "Users Requests"
+              [ "avg by (job) (increase(http_request[10m]))"
+              , "avg by (job) (increase(query{job=\"monocle\"}[10m]))"
+              ]
+              [ "avg by (job) (increase(http_request_error[10m]))" ]
+              ""
 
-let -- | Monocle
-    -- - What: the service memory usage and query count (from <https://demo.changemetrics.io/metrics>)
-    -- - Why: check the service is running
-    monocle =
-      "TODO"
+      let mem =
+            Panels.mkPrometheusApp
+              "Runtime Memory Usage"
+              [ "avg by (job) (ghc_gcdetails_live_bytes)"
+              , "avg by (job) (process_resident_memory_bytes{job=~\"logjuicer|logscraper\"})"
+              ]
+              "decbytes"
+
+      let cpu =
+            Panels.mkPrometheusApp
+              "Runtime CPU Usage"
+              [ "avg by (job) (rate(ghc_cpu_seconds_total[10m]))"
+              , "avg by (job) (rate(process_cpu_seconds_total{job=~\"logjuicer|logscraper\"}[10m]))"
+              ]
+              "percentunit"
+
+      in  [ requests, mem, cpu ]
 
 let -- |               System metrics              | --
     -- The main systems we operate (e.g. scheduler, logserver, databases).
@@ -108,11 +127,14 @@ let -- | CPU usage
         "avg by (instance) (rate(node_cpu_seconds_total{mode=~\"system|user\",instance=~\"${hosts}\"}[1h]))"
         "percentunit"
 
-let dashBoardWIP = Panels.mkDashboard "EOD - BackStage (WIP)" [ net ]
+let dashBoardWIP = Panels.mkDashboard "EOD - BackStage (WIP)" apps
 
 let dashBoard =
       Panels.mkDashboard
         "EOD - BackStage"
-        [ appSep, zuul, Panels.mkSep "Systems", mem, disk, net, cpu ]
+        (   [ appSep, zuul ]
+          # apps
+          # [ Panels.mkSep "Systems", mem, disk, net, cpu ]
+        )
 
 in  dashBoard
