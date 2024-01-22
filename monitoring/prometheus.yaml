@@ -185,35 +185,35 @@ scrape_configs:
       - labels:
           name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
         targets:
-          - baremetal03.rdoproject.org:9010
+          - baremetal03.rdoproject.org:9110
       - labels:
           name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
         targets:
-          - baremetal03.rdoproject.org:9011
+          - baremetal03.rdoproject.org:9111
       - labels:
           name: ibm-bm3-ze.softwarefactory-project.io
         targets:
-          - baremetal03.rdoproject.org:9012
+          - baremetal03.rdoproject.org:9112
       - labels:
           name: ibm-bm3-zfgw.softwarefactory-project.io
         targets:
-          - baremetal03.rdoproject.org:9013
+          - baremetal03.rdoproject.org:9113
       - labels:
           name: mirror.regionone.ibm-bm4-nodepool.rdoproject.org
         targets:
-          - baremetal04.rdoproject.org:9010
+          - baremetal04.rdoproject.org:9110
       - labels:
           name: ibm-bm4-nodepool-launcher.softwarefactory-project.io
         targets:
-          - baremetal04.rdoproject.org:9011
+          - baremetal04.rdoproject.org:9111
       - labels:
           name: ibm-bm4-ze.softwarefactory-project.io
         targets:
-          - baremetal04.rdoproject.org:9012
+          - baremetal04.rdoproject.org:9112
       - labels:
           name: ibm-bm4-zfgw.softwarefactory-project.io
         targets:
-          - baremetal04.rdoproject.org:9013
+          - baremetal04.rdoproject.org:9113
   - job_name: dlrn
     metrics_path: /metrics
     relabel_configs:

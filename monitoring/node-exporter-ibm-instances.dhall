@@ -19,7 +19,7 @@ let mkStaticConfig =
         let port = Text/replace "${subnet}." "" "${instance.ip}"
 
         in  Prometheus.StaticConfig::{
-            , targets = Some [ "${target.name}:90${port}" ]
+            , targets = Some [ "${target.name}:91${port}" ]
             , labels = Some
                 (Prometheus.Labels.mapText (toMap { name = instance.name }))
             }
