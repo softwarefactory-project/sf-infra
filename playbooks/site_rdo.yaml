@@ -51,12 +51,12 @@
     - rdo/afs-mirror
     - rdo/afs-monitoring
     - service/apache-exporter
-    - service/node-exporter
 
 - hosts: private-afs-mirror
   roles:
     - rdo/setup-ssl-self-signed
     - rdo/afs-mirror
+    - service/node-exporter
 
 - hosts: rdo
   roles:
