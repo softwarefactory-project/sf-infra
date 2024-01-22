@@ -53,7 +53,6 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ createRule SF.name SF.rule
           , createRule RDO.name RDO.rule
-          , createRule DLRN.name DLRN.rule
           , createRule OSCI.name OSCI.rule
           ]
         }

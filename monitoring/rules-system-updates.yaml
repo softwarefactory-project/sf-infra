@@ -20,15 +20,6 @@ groups:
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: info
-      - alert: SystemOutdatedPackagesDLRN
-        annotations:
-          summary: "There are some packages to update in the DLRN infra!"
-        expr: |
-          system_package_update{instance=~"(trunk.+|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"} > 0
-        for: "7d"
-        labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: info
       - alert: SystemOutdatedPackagesOSCI
         annotations:
           summary: "There are some packages to update in the OSCI infra!"
