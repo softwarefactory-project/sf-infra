@@ -11,6 +11,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-dlrn.yaml \
 	  monitoring/rules-http.yaml \
 	  monitoring/rules-node.yaml \
+	  monitoring/rules-ibm-instances.yaml \
 	  monitoring/rules-node_proxy.yaml \
 	  monitoring/rules-nodepool.yaml \
 	  monitoring/rules-systemd.yaml \

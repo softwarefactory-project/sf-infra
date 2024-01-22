@@ -11,6 +11,7 @@ global:
   scrape_timeout: "10s"
 rule_files:
   - rules-node.yaml
+  - rules-ibm-instances.yaml
   - rules-node_proxy.yaml
   - rules-http.yaml
   - rules-backup.yaml

@@ -56,6 +56,7 @@ in  PrometheusConfig
           (Infra.Instance.filter Infra.Instance.getNodeExporter vars.instances)
       )
       [ "rules-node.yaml"
+      , "rules-ibm-instances.yaml"
       , "rules-node_proxy.yaml"
       , "rules-http.yaml"
       , "rules-backup.yaml"
