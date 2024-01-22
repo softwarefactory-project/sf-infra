@@ -172,7 +172,7 @@ let Prometheus =
                   , stacking : { group : Text, mode : Text }
                   , thresholdsStyle : { mode : Text }
                   }
-              , min : Natural
+              , min : Optional Natural
               , thresholds :
                   { mode : Text
                   , steps : List { color : Text, value : Optional <> }
@@ -335,7 +335,8 @@ let mkLucene =
           , type = "timeseries"
           }
 
-let mkPrometheusMulti =
+let mkPrometheusHelper =
+      \(min : Optional Natural) ->
       \(title : Text) ->
       \(exprs : List Text) ->
       \(unit : Text) ->
@@ -364,7 +365,7 @@ let mkPrometheusMulti =
               , stacking = { group = "A", mode = "none" }
               , thresholdsStyle.mode = "off"
               }
-            , min = 0
+            , min
             , thresholds =
               { mode = "absolute"
               , steps = [ { color = "green", value = None <> } ]
@@ -392,16 +393,20 @@ let mkPrometheusMulti =
           , type = "timeseries"
           }
 
+let mkPrometheusMulti = mkPrometheusHelper (Some 0)
+
+let mkPrometheusZeroCentered = mkPrometheusHelper (None Natural)
+
 let mkPrometheus =
       \(title : Text) ->
       \(expr : Text) ->
-      \(unit : Text) ->
-        mkPrometheusMulti title [ expr ] unit
+        mkPrometheusHelper (Some 0) title [ expr ]
 
 in  { mkSep
     , mkLucene
     , mkPrometheus
     , mkPrometheusMulti
+    , mkPrometheusZeroCentered
     , mkDashboard
     , mkHosts = Prelude.Text.concatSep "|"
     }

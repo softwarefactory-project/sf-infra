@@ -441,6 +441,114 @@
               "mode": "off"
             }
           },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "bps"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(node_network_receive_bytes_total{instance=~\"zs.softwarefactory-project.io:9100|managesf.softwarefactory-project.io:9100|microshift.softwarefactory-project.io:9100|managesf.review.rdoproject.org:9100\", device=\"eth0\"}[$__rate_interval])*8",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10m",
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "Q0"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(node_network_transmit_bytes_total{instance=~\"zs.softwarefactory-project.io:9100|managesf.softwarefactory-project.io:9100|microshift.softwarefactory-project.io:9100|managesf.review.rdoproject.org:9100\", device=\"eth0\"}[$__rate_interval])*(-8)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10m",
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "Q1"
+        }
+      ],
+      "title": "Network Load (recv are positive, sent are negative)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "axisWidth": 96,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
           "min": 0,
           "thresholds": {
             "mode": "absolute",

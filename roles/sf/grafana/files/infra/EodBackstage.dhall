@@ -94,6 +94,17 @@ let -- | Disk usage
             ]
             "decbytes"
 
+let -- | Network usage
+    -- - What: the amount of data send/recv
+    -- - Why: watchout for DDOS
+    net =
+      Panels.mkPrometheusZeroCentered
+        "Network Load (recv are positive, sent are negative)"
+        [ "irate(node_network_receive_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*8"
+        , "irate(node_network_transmit_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*(-8)"
+        ]
+        "bps"
+
 let -- | CPU usage
     -- - What: the load average
     -- - Why: watchout for fork bomb
@@ -103,6 +114,11 @@ let -- | CPU usage
         "avg by (instance) (rate(node_cpu_seconds_total{mode=~\"system|user\",instance=~\"${hosts}\"}[1h]))"
         "percentunit"
 
-in  Panels.mkDashboard
-      "EOD - BackStage"
-      [ appSep, zuul, Panels.mkSep "Systems", mem, disk, cpu ]
+let dashBoardWIP = Panels.mkDashboard "EOD - BackStage (WIP)" [ net ]
+
+let dashBoard =
+      Panels.mkDashboard
+        "EOD - BackStage"
+        [ appSep, zuul, Panels.mkSep "Systems", mem, disk, net, cpu ]
+
+in  dashBoard
