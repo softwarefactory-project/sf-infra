@@ -51,6 +51,7 @@
     - rdo/afs-mirror
     - rdo/afs-monitoring
     - service/apache-exporter
+    - service/node-exporter
 
 - hosts: private-afs-mirror
   roles:
