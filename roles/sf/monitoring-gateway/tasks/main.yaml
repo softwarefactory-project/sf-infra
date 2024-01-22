@@ -1,7 +1,13 @@
 ---
-- name: Ensure packages
+- name: Ensure httpd
   package:
     name: httpd
+  become: yes
+
+- name: Ensure mod_ssl
+  package:
+    name: mod_ssl
+  when: ansible_distribution == "RedHat"
   become: yes
 
 - name: check for tls cert
@@ -58,7 +64,6 @@
       </body>
       </html>
     dest: /var/www/html/index.html
-
 
 - name: start httpd
   systemd:
