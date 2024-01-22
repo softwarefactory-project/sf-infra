@@ -1,5 +1,7 @@
 -- | EOD - Backstage
-
+--
+-- Run the following to auto-update on change: watchexec -e dhall "make ./roles/sf/grafana/files/infra/EodBackstage.json && grafdhall ./roles/sf/grafana/files/infra/EodBackstage.dhall"
+--
 -- Use the following dashboard to get an overview of the platform:
 -- <https://prometheus.monitoring.softwarefactory-project.io/grafana/d/T3wCl55Sk/eod-backstage?orgId=1>
 let Panels = ./Panels.dhall
@@ -66,9 +68,31 @@ let -- | Memory usage
     -- - Why: watchout for out of memory errors
     mem =
       Panels.mkPrometheus
-        "Available Memory (more is better)"
+        "Available Memory"
         "avg by (instance) (node_memory_MemFree_bytes{instance=~\"${hosts}\"})"
         "decbytes"
+
+let -- | Disk usage
+    -- - What: The amount of available disk space clamped
+    -- - Why: watchout for out of disk errors
+    disk =
+      let maxGB = 10
+
+      let maxStr = Natural/show (maxGB * 1024 * 1024 * 1024)
+
+      let mkQuery =
+            \(filter : Text) ->
+              "clamp_max(avg by(instance) (node_filesystem_avail_bytes{${filter}}), ${maxStr})"
+
+      in  Panels.mkPrometheusMulti
+            "Available Disk (max ${Natural/show maxGB} GB)"
+            [ mkQuery "instance=~\"${hosts}\", mountpoint=\"/\""
+            , mkQuery
+                "instance=\"logserver.rdoproject.org:9100\", mountpoint=\"/var/www/logs\""
+            , mkQuery
+                "instance=\"elk.softwarefactory-project.io:9100\", mountpoint=\"/mnt\""
+            ]
+            "decbytes"
 
 let -- | CPU usage
     -- - What: the load average
@@ -81,4 +105,4 @@ let -- | CPU usage
 
 in  Panels.mkDashboard
       "EOD - BackStage"
-      [ appSep, zuul, Panels.mkSep "Systems", mem, cpu ]
+      [ appSep, zuul, Panels.mkSep "Systems", mem, disk, cpu ]

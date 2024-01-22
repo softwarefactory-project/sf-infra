@@ -32,6 +32,18 @@ let OverrideDef =
           List { id : Text, value : { fixedColor : Text, mode : Text } }
       }
 
+let ColorDef = { name : Text, color : Text }
+
+let mkColorsOverrides =
+      \(color : ColorDef) ->
+        { matcher = { id = "byName", options = color.name }
+        , properties =
+          [ { id = "color"
+            , value = { fixedColor = color.color, mode = "fixed" }
+            }
+          ]
+        }
+
 let Lucene =
       { datasource : { type : Text, uid : Text }
       , fieldConfig :
@@ -106,6 +118,35 @@ let Lucene =
       , type : Text
       }
 
+let PrometheusTarget =
+      { datasource : { type : Text, uid : Text }
+      , editorMode : Text
+      , exemplar : Bool
+      , expr : Text
+      , format : Text
+      , hide : Bool
+      , instant : Bool
+      , legendFormat : Text
+      , range : Bool
+      , refId : Text
+      , interval : Text
+      }
+
+let mkPrometheusTarget =
+      \(expr : { index : Natural, value : Text }) ->
+        { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
+        , editorMode = "code"
+        , exemplar = False
+        , expr = expr.value
+        , format = "time_series"
+        , hide = False
+        , instant = False
+        , legendFormat = "{{instance}}"
+        , interval = "10m"
+        , range = True
+        , refId = "Q${Natural/show expr.index}"
+        }
+
 let Prometheus =
       { datasource : { type : Text, uid : Text }
       , fieldConfig :
@@ -150,20 +191,7 @@ let Prometheus =
               }
           , tooltip : { mode : Text, sort : Text }
           }
-      , targets :
-          List
-            { datasource : { type : Text, uid : Text }
-            , editorMode : Text
-            , exemplar : Bool
-            , expr : Text
-            , format : Text
-            , hide : Bool
-            , instant : Bool
-            , legendFormat : Text
-            , range : Bool
-            , refId : Text
-            , interval : Text
-            }
+      , targets : List PrometheusTarget
       , title : Text
       , type : Text
       }
@@ -203,22 +231,10 @@ let mkSep =
           , type = "row"
           }
 
-let ColorDef = { name : Text, color : Text }
-
-let mkColorsOverrides =
-      \(color : ColorDef) ->
-        { matcher = { id = "byName", options = color.name }
-        , properties =
-          [ { id = "color"
-            , value = { fixedColor = color.color, mode = "fixed" }
-            }
-          ]
-        }
-
 let mkLucene =
       \(title : Text) ->
       \(field : Text) ->
-      \(colors : List { name : Text, color : Text }) ->
+      \(colors : List ColorDef) ->
         PType.Lucene
           { datasource =
             { type = "grafana-opensearch-datasource"
@@ -319,9 +335,9 @@ let mkLucene =
           , type = "timeseries"
           }
 
-let mkPrometheus =
+let mkPrometheusMulti =
       \(title : Text) ->
-      \(expr : Text) ->
+      \(exprs : List Text) ->
       \(unit : Text) ->
         PType.Prometheus
           { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
@@ -367,26 +383,25 @@ let mkPrometheus =
             , tooltip = { mode = "multi", sort = "desc" }
             }
           , targets =
-            [ { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
-              , editorMode = "code"
-              , exemplar = False
-              , expr
-              , format = "time_series"
-              , hide = False
-              , instant = False
-              , legendFormat = "{{instance}}"
-              , interval = "10m"
-              , range = True
-              , refId = "A"
-              }
-            ]
+              Prelude.List.map
+                { index : Natural, value : Text }
+                PrometheusTarget
+                mkPrometheusTarget
+                (Prelude.List.indexed Text exprs)
           , title
           , type = "timeseries"
           }
 
+let mkPrometheus =
+      \(title : Text) ->
+      \(expr : Text) ->
+      \(unit : Text) ->
+        mkPrometheusMulti title [ expr ] unit
+
 in  { mkSep
     , mkLucene
     , mkPrometheus
+    , mkPrometheusMulti
     , mkDashboard
     , mkHosts = Prelude.Text.concatSep "|"
     }
