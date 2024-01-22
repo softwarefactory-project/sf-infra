@@ -10,6 +10,14 @@ let static =
           [ Prometheus.StaticConfig::{ targets = Some targets } ]
         }
 
+let targets =
+      \(name : Text) ->
+      \(targets : List Prometheus.StaticConfig.Type) ->
+        Prometheus.ScrapeConfig::{
+        , job_name = Some name
+        , static_configs = Some targets
+        }
+
 let dlrn =
       \(targets : List Text) ->
         Prometheus.ScrapeConfig::{
@@ -66,6 +74,7 @@ let blackbox-scrape-config =
         }
 
 in  { static
+    , targets
     , dlrn
     , blackbox = blackbox-scrape-config "blackbox" [ "https_2xx" ]
     , blackbox-no-cert-verify =

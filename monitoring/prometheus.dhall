@@ -73,6 +73,9 @@ in  PrometheusConfig
       , ScrapeConfigs.static "mysqld" db_server_list
       , ScrapeConfigs.static "apache" apache_server_list
       , ScrapeConfigs.static "zookeeper" zookeeper_server_list
+      , ScrapeConfigs.targets
+          "ibm-instances"
+          ./node-exporter-ibm-instances.dhall
       , ScrapeConfigs.dlrn dlrnapi_target_list
       , ScrapeConfigs.static "logscraper" logscraper_server_list
       , ScrapeConfigs.static "elasticsearch" elasticsearch_exporter_list
