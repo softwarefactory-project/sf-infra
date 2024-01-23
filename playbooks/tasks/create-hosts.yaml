@@ -26,7 +26,7 @@
     label: "{{ item.name }}"
   register: _servers
 
-- name: Create additional volumes
+- name: Create or delete additional volumes
   os_volume:
     cloud: "{{ cloud.name }}"
     auth:
@@ -49,6 +49,9 @@
     server: "{{ item.server }}"
     device: "{{ item.device | default(omit) }}"
   loop: "{{ tenant_config.volumes }}"
+  when:
+    - item.state is defined
+    - item.state != "absent"
 
 - name: Combine server ips fact
   become: true

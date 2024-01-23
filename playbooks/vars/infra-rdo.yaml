@@ -234,7 +234,7 @@ servers:
       - web
       - rdo-trunk
       - apache_exporter
-    state: present
+    state: absent
     volume_size: 512
   - auto_ip: true
     boot_from_volume: yes
@@ -371,6 +371,7 @@ volumes:
     display_name: trunk-centos7-swap
     server: trunk-centos7.rdoproject.org
     size: 8
+    state: absent
   - device: /dev/vdb
     display_name: elk-data
     server: elk.review.rdoproject.org

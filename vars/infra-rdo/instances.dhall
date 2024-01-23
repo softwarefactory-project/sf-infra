@@ -87,12 +87,14 @@ let instances =
           , auto_ip = Some True
           , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 512
+          , state = Infra.Server.State.absent
           }
         , volumes =
           [ Infra.Volume::{
             , display_name = "trunk-centos7-swap"
             , size = 8
             , device = "/dev/vdb"
+            , state = Some "absent"
             }
           ]
         }
@@ -184,7 +186,8 @@ let instances =
           , volume_size = Some 50
           }
         , volumes =
-          [ { display_name = "images-data"
+          [ Infra.Volume::{
+            , display_name = "images-data"
             , size = 1000
             , server = "images.rdoproject.org"
             , device = "/dev/vdb"

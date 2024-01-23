@@ -29,7 +29,6 @@ scrape_configs:
           - mirror.regionone.vexxhost.rdoproject.org:9100
           - quay.rdoproject.org:9100
           - trunk-centos8.rdoproject.org:9100
-          - trunk-centos7.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
           - elk.review.rdoproject.org:9100
           - logserver.rdoproject.org:9100
@@ -167,7 +166,6 @@ scrape_configs:
           - managesf.review.rdoproject.org:9117
           - fedora.softwarefactory-project.io:9117
           - mirror.regionone.vexxhost.rdoproject.org:9117
-          - trunk-centos7.rdoproject.org:9117
           - trunk-centos8.rdoproject.org:9117
           - www.rdoproject.org:9117
           - logserver.rdoproject.org:9117

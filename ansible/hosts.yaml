@@ -34,7 +34,6 @@ all:
     dlrn:
       hosts:
         dlrn-db.rdoproject.org: {}
-        trunk-centos7.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
     ibm-baremetal-nodepool:
@@ -321,10 +320,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: sf
-    trunk-centos7.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     trunk-centos8.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
