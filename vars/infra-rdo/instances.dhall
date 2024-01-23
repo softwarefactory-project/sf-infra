@@ -78,27 +78,6 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "trunk-centos7"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
-          , volume_size = Some 512
-          , state = Infra.Server.State.absent
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "trunk-centos7-swap"
-            , size = 8
-            , device = "/dev/vdb"
-            , state = Some "absent"
-            }
-          ]
-        }
-      , Instance::{
         , name = "managesf.review"
         , backup = Some Infra.Backup::{
           , run_sf_backup = True

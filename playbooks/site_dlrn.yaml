@@ -8,9 +8,7 @@
     - service/firewalld
     - infra-dlrn/dlrn-server
 
-- hosts:
-    - trunk-centos7.rdoproject.org
-    - trunk-centos8.rdoproject.org
+- hosts: trunk-centos8.rdoproject.org
   roles:
     - system/swap
     - service/apache-exporter

@@ -34,10 +34,6 @@ Host trunk-centos8.rdoproject.org
     User cloud-user
     Port 22
 
-Host trunk-centos7.rdoproject.org
-    User centos
-    Port 22
-
 Host managesf.review.rdoproject.org
     User centos
     Port 22
