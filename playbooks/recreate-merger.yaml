@@ -2,17 +2,17 @@
   becomes: true
   tasks:
     - name: Stop the service
-      service:
+      ansible.builtin.service:
         name: zuul-merger
         state: stopped
 
     - name: Delete the container
-      command: podman rm -f zuul-merger
+      ansible.builtin.command: podman rm -f zuul-merger
 
     - name: Recreate the container
-      command: /usr/local/bin/container-zuul-merger.sh
+      ansible.builtin.command: /usr/local/bin/container-zuul-merger.sh
 
     - name: Start the service
-      service:
+      ansible.builtin.service:
         name: zuul-merger
         state: started

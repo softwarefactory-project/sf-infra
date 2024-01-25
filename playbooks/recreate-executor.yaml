@@ -2,17 +2,17 @@
   becomes: true
   tasks:
     - name: Stop the service
-      service:
+      ansible.builtin.service:
         name: zuul-executor
         state: stopped
 
     - name: Delete the container
-      command: podman rm -f zuul-executor
+      ansible.builtin.command: podman rm -f zuul-executor
 
     - name: Recreate the container
-      command: /usr/local/bin/container-zuul-executor.sh
+      ansible.builtin.command: /usr/local/bin/container-zuul-executor.sh
 
     - name: Start the service
-      service:
+      ansible.builtin.service:
         name: zuul-executor
         state: started
