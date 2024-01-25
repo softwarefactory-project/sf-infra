@@ -1,7 +1,7 @@
 ---
 - name: Add information to the motd
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       ####################################
       Welcome on Openshift CRC deployment!
@@ -15,3 +15,7 @@
       Happy OpenShifting!
       ####################################
     dest: /etc/motd
+
+- name: Create a file with current build date
+  ansible.builtin.shell: |
+    date > image_build_date

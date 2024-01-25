@@ -56,3 +56,7 @@
   become: true
   ansible.builtin.shell: |
     cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys.d/ignition
+
+- name: Create a file with current build date
+  ansible.builtin.shell: |
+    date > {{ guest_home_dir }}/image_build_date
