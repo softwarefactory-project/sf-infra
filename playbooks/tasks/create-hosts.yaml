@@ -1,11 +1,11 @@
 ---
 - name: Include tenant configuration
-  include_vars:
+  ansible.builtin.include_vars:
     file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
 - name: Create servers
-  os_server:
+  openstack.cloud.server:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -27,7 +27,7 @@
   register: _servers
 
 - name: Create or delete additional volumes
-  os_volume:
+  openstack.cloud.volume:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -40,7 +40,7 @@
 # Attaching volumes with os_server only works at initial server creation
 # Use os_server_volume instead
 - name: Attach additional volumes
-  os_server_volume:
+  openstack.cloud.server_volume:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -55,7 +55,7 @@
 
 - name: Combine server ips fact
   become: true
-  blockinfile:
+  ansible.builtin.blockinfile:
     marker: ""
     block: |
       {% for server in _servers.results -%}
