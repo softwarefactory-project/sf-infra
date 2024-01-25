@@ -3,8 +3,6 @@
     name:
       - podman
       - git
-      - libvirt-daemon
-      - libguestfs-tools
   become: true
 
 - name: Ensure that storage driver is overlay
@@ -29,7 +27,6 @@
   become: true
   loop:
     - "{{ zuul_container_user }}"
-    - "{{ microzuul_nodepool_user }}"
 
 - name: Create home dir
   file:
@@ -39,7 +36,6 @@
   become: true
   loop:
     - "{{ zuul_container_user }}"
-    - "{{ microzuul_nodepool_user }}"
 
 - name: Download container-update project key
   get_url:
@@ -68,10 +64,3 @@
     user: "{{ zuul_container_user }}"
     state: present
     key: "{{ cu_pubkey.stdout }}"
-
-- name: "Authorized {{ microzuul_nodepool_user }} executor"
-  become: true
-  authorized_key:
-    user: "{{ microzuul_nodepool_user }}"
-    state: present
-    key: "{{ microzuul_nodepool_key }}"

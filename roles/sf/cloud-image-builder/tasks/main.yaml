@@ -1,0 +1,28 @@
+- ansible.builtin.set_fact:
+    guestfs_tools_package_name: guestfs-tools
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "9"
+
+- name: Install cloud builder requirements tools
+  ansible.builtin.package:
+    name:
+      - libvirt-daemon
+      - "{{ guestfs_tools_package_name }}"
+  become: true
+
+- name: Create cloud images builder accounts
+  become: true
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    home: "/home/{{ item.username }}"
+    shell: /bin/bash
+  loop: "{{ cloud_image_builder_users }}"
+
+- name: "Set cloud images builder accounts ssh authorized keys"
+  become: true
+  ansible.posix.authorized_key:
+    user: "{{ item.username }}"
+    state: present
+    key: "{{ item.ssh_key }}"
+  loop: "{{ cloud_image_builder_users }}"

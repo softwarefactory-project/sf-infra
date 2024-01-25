@@ -85,6 +85,7 @@
     - sf/podman-pruner
     # Keep in sync with zuul-weeder security group and prometheus dhall configuration
     - sf/zuul-weeder
+    - sf/cloud-image-builder
 
 - hosts: ze
   tasks:
