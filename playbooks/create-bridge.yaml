@@ -8,30 +8,30 @@
 - hosts: container
   tasks:
     - name: Deploy centos-release-openstack-victoria
-      package:
+      ansible.builtin.package:
         name: centos-release-openstack-victoria
         state: present
 
     - name: Deploy python3-openstacksdk
-      package:
+      ansible.builtin.package:
         name: python3-openstacksdk
         state: present
 
     - name: Create config directory
-      file:
+      ansible.builtin.file:
         path: "~/.config/openstack"
         recurse: true
         state: directory
 
     - name: Download sf-infra public key
-      get_url:
+      ansible.builtin.get_url:
         url: "https://softwarefactory-project.io/zuul/api/tenant/local/project-ssh-key/software-factory/sf-infra.pub"
         dest: "~/infra.pub"
         mode: "0440"
       register: _infra_key
 
     - name: Copy the clouds.yaml
-      template:
+      ansible.builtin.template:
         src: zuul/templates/clouds.yaml.j2
         dest: ~/.config/openstack/clouds.yaml
         mode: "0400"
@@ -47,7 +47,7 @@
         public_key_file: "{{ _infra_key.dest }}"
 
     - name: Create the bridge
-      os_server:
+      openstack.cloud.server:
         cloud: "vexxhost-rdo"
         auth:
           project_name: "infra-sf"
@@ -68,4 +68,4 @@
         volume_size: 20
 
     - name: Remove the clouds
-      shell: "shred ~/.config/openstack/clouds.yaml"
+      ansible.builtin.shell: "shred ~/.config/openstack/clouds.yaml"
