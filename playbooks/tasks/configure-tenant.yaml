@@ -1,5 +1,5 @@
 - name: Include tenant configuration
-  include_vars:
+  ansible.builtin.include_vars:
     file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
@@ -8,17 +8,19 @@
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('replace') }}"
-    name: "{{ item.name }}"
-    public_key: "{{ item.public_key }}"
+    state: "{{ keypair.state | default('replace') }}"
+    name: "{{ keypair.name }}"
+    public_key: "{{ keypair.public_key }}"
   loop: "{{ tenant_config.keypairs }}"
+  loop_control:
+    loop_var: keypair
 
 - name: Configure tenant networks
-  include_role:
+  ansible.builtin.include_role:
     name: service/manage-networking
 
 - name: Configure images
-  include_role:
+  ansible.builtin.include_role:
     name: service/manage-image
   loop: "{{ tenant_config.images }}"
   loop_control:
