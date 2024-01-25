@@ -1,8 +1,8 @@
-- include_vars:
+- ansible.builtin.include_vars:
     file: /etc/hosts.yaml
 
 - name: Create /etc/hosts
-  copy:
+  ansible.builtin.copy:
     content: |
       127.0.0.1   localhost {{ ansible_hostname }} {{ inventory_hostname }}
       ::1         localhost {{ ansible_hostname }} {{ inventory_hostname }}
@@ -21,7 +21,7 @@
 
 - name: Setup ssh config
   become: yes
-  copy:
+  ansible.builtin.copy:
     src: "{{ sshconfig_file }}"
     mode: 0400
     owner: "{{ item.owner }}"

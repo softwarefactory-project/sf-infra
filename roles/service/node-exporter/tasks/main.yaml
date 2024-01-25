@@ -1,13 +1,13 @@
 ---
 - name: Ensure node_exporter user exists
   become: yes
-  user:
+  ansible.builtin.user:
     name: node_exporter
     shell: /sbin/nologin
     home: /var/lib/node_exporter
 
 - name: Create directory for textfile exporter
-  file:
+  ansible.builtin.file:
     path: /var/lib/node_exporter/textfile_collector
     state: directory
     recurse: yes
@@ -18,18 +18,18 @@
 
 - name: Ensure that node-exporter package is removed
   become: yes
-  package:
+  ansible.builtin.package:
     name: golang-github-prometheus-node_exporter
     state: absent
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
 
 - name: Adding service suffix for prometheus_monitored_services
-  set_fact:
+  ansible.builtin.set_fact:
     prometheus_monitored_services: "{{ prometheus_monitored_services | union(prometheus_monitored_services_extra|default([])) | product(['.service']) | map('join') | list }}"
   when: prometheus_monitored_services is defined
 
 # NOTE(dpawlik) All systemd services should end with '.service'.
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: node-exporter

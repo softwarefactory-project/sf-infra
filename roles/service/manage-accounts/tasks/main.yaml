@@ -1,18 +1,18 @@
 - become: yes
   block:
     - name: Setup admin group
-      group:
+      ansible.builtin.group:
         name: "{{ admin_group }}"
         state: "present"
 
     - name: Setup additional groups
-      group:
+      ansible.builtin.group:
         name: "{{ item }}"
         state: "present"
       loop: "{{ bridge_groups }}"
 
     - name: Setup users
-      user:
+      ansible.builtin.user:
         name: "{{ item.value.name }}"
         append: "yes"
         groups: "{{ item.value.groups | default(omit) }}"
@@ -20,14 +20,14 @@
       with_dict: "{{ bridge_users }}"
 
     - name: Setup authorized keys for users
-      authorized_key:
+      ansible.builtin.authorized_key:
         user: "{{ item.0.key }}"
         key: "{{ item.1 }}"
       when: item.0.value.state | default('present') != 'absent'
       loop: "{{ q('subelements', q('dict', bridge_users), 'value.ssh_keys') }}"
 
     - name: Setup passwordless sudo for admin users
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: "/etc/sudoers.d/91-admin"
         create: "yes"
         mode: "0440"
@@ -38,7 +38,7 @@
         validate: "/usr/sbin/visudo -cf %s"
 
     - name: Setup extra authorized_keys for the fedora account
-      authorized_key:
+      ansible.builtin.authorized_key:
         user: fedora
         key: "{{ item }}"
       with_items: "{{ bridge_extra_ssh_keys }}"
