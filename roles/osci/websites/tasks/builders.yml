@@ -1,7 +1,7 @@
 ---
 
 - name: Create builder for the website
-  include_role:
+  ansible.builtin.include_role:
     name: web_builder
   vars:
     builder_name: "{{ website_name }}"
@@ -13,7 +13,7 @@
     cron_error_email: "{{ builder_error_email }}"
 
 - name: Create builder for the planet
-  include_role:
+  ansible.builtin.include_role:
     name: web_builder
   vars:
     builder_name: "{{ planet_name }}"
@@ -29,9 +29,8 @@
     rsync_location: "{{ hostvars[planet_sync_server]['planet_sync_path'] }}"
 
 - name: Install SMTP forwarding
-  include_role:
+  ansible.builtin.include_role:
     name: msmtp
   vars:
     smart_host: "{{ osci.mail_forwarder }}"
     disable_freeipa: true
-

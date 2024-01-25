@@ -1,12 +1,12 @@
 ---
 
 - name: create web builder's user
-  user:
+  ansible.builtin.user:
     name: "{{ websync_user }}"
     comment: "Web Builder User"
 
 - name: Create vhost for www.rdoproject.org
-  include_role:
+  ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
@@ -71,13 +71,13 @@
     content_security_policy: "default-src 'none'; connect-src 'self'; font-src 'self' https://themes.googleusercontent.com; frame-src https://platform.twitter.com https://syndication.twitter.com; img-src 'self' data: https://pbs.twimg.com https://platform.twitter.com https://s1795.t.eloqua.com https://smtrcs.redhat.com https://syndication.twitter.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.syndication.twimg.com https://img.en25.com https://platform.twitter.com https://secure.eloqua.com https://secure.p01.eloqua.com https://static.redhat.com https://www.redhat.com; style-src 'self' 'unsafe-inline' https://platform.twitter.com"
 
 - name: "Add RDO-specific mod_speling config"
-  copy:
+  ansible.builtin.copy:
     content: "CheckCaseOnly on\n"
     dest: /etc/httpd/conf.d/www.rdoproject.org.conf.d/mod_speling_rdo.conf
   notify: reload httpd
 
 - name: Create vhost for ask.rdoproject.org
-  include_role:
+  ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
@@ -85,7 +85,7 @@
     redirect: https://ask.openstack.org/en/questions/scope:unanswered/sort:age-desc/page:1/query:rdo/
 
 - name: Create vhost for docs.rdoproject.org
-  include_role:
+  ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
@@ -93,18 +93,18 @@
     redirect: https://www.rdoproject.org/documentation/
 
 - name: Install RDO Dashboards
-  include_role:
+  ansible.builtin.include_role:
     name: dashboards
   vars:
     website_domain: dashboards.rdoproject.org
 
 - name: create planet builder's user
-  user:
+  ansible.builtin.user:
     name: "{{ planet_sync_user }}"
     comment: "Planet Builder User"
 
 - name: Create vhost for planet.rdoproject.org
-  include_role:
+  ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
@@ -112,4 +112,3 @@
     document_root: "{{ planet_sync_path }}"
     document_root_group: "{{ planet_sync_user }}"
     content_security_policy: "default-src 'none'; img-src *; style-src 'self' 'unsafe-inline'"
-
