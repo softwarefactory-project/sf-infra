@@ -1,10 +1,10 @@
 - name: Check if /etc/logrotate.conf exists
-  stat:
+  ansible.builtin.stat:
     path: /etc/logrotate.conf
   register: logrotate
 
 - name: Ensure rotated logs are compressed
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/logrotate.conf
     regexp: '^compress'
     insertafter: '^#compress'

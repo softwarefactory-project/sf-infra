@@ -2,7 +2,7 @@
 - become: true
   block:
     - name: Deploy get-afs-mirror-state.sh
-      copy:
+      ansible.builtin.copy:
         src: get-afs-mirror-state.sh
         dest: /usr/local/bin/get-afs-mirror-state.sh
         owner: root
@@ -10,7 +10,7 @@
         mode: 0755
 
     - name: Deploy afs-mirror-status.sh
-      template:
+      ansible.builtin.template:
         src: afs-mirror-status.sh.j2
         dest: /usr/local/bin/afs-mirror-status.sh
         owner: root
@@ -23,14 +23,14 @@
       when: (ansible_distribution == "CentOS" and ansible_distribution_major_version|int < 8)
 
     - name: Ensure jq and cronie are installed
-      package:
+      ansible.builtin.package:
         name:
           - jq
           - cronie
         state: present
 
     - name: Create cron job
-      cron:
+      ansible.builtin.cron:
         name: check-afs-mirror
         user: root
         minute: "*/30"

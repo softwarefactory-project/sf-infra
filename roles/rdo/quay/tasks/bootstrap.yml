@@ -1,6 +1,6 @@
 ---
 - name: Fail when admin password is not set
-  fail:
+  ansible.builtin.fail:
     msg: "Please set admin user and set password with at least 8 chars!"
   when:
     - "'admin' not in quay_users"
@@ -12,14 +12,14 @@
 # NOTE: On first running, Quay service need to update database
 # tables, so the public.user table will not exists.
 - name: Wait for service to be running
-  wait_for:
+  ansible.builtin.wait_for:
     port: 443
     host: 0.0.0.0
     delay: 10
     timeout: 300
 
 - name: Check if user exists in quay
-  postgresql_query:
+  community.postgresql.postgresql_query:
     login_host: "{{ postgresql_host | default('localhost') }}"
     db: quay
     login_user: "{{ postgresql_user }}"
@@ -39,7 +39,7 @@
 - name: Bootstraping Quay service
   block:
     - name: Initialize user
-      uri:
+      ansible.builtin.uri:
         url: "https://0.0.0.0/api/v1/user/initialize"
         body_format: json
         body: "{{ lookup('template','bootstrap.json.j2') }}"
@@ -54,12 +54,12 @@
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Set token as fact
-      set_fact:
+      ansible.builtin.set_fact:
         admin_token: "{{ _admin_user.json.access_token }}"
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Copy token to the file
-      copy:
+      ansible.builtin.copy:
         content: |
           #!/bin/bash
           export ADMIN_TOKEN={{ admin_token }}

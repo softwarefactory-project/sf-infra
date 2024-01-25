@@ -1,7 +1,7 @@
 ---
 - name: Create cert dirs
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     owner: root
     group: root
@@ -15,7 +15,7 @@
 - name: Generate self signed cert
   block:
     - name: Check if self signed cert key already exists
-      stat:
+      ansible.builtin.stat:
         path: "/var/data/quay/certs/ssl.key"
       register: _priv_key
 
@@ -23,17 +23,17 @@
       become: true
       block:
         - name: Install required packages
-          package:
+          ansible.builtin.package:
             name: openssl
             state: present
 
         ### CA ###
         - name: Gen CA privkey
-          openssl_privatekey:
+          community.crypto.openssl_privatekey:
             path: /var/data/quay/certs/rootCA.key
 
         - name: Generate CA csr
-          openssl_csr:
+          community.crypto.openssl_csr:
             path: /var/data/quay/certs/rootCA.csr
             privatekey_path: /var/data/quay/certs/rootCA.key
             country_name: PL
@@ -54,7 +54,7 @@
               - keyCertSign
 
         - name: Generate selfsigned CA certificate
-          openssl_certificate:
+          community.crypto.x509_certificate:
             path: /var/data/quay/certs/rootCA.pem
             csr_path: /var/data/quay/certs/rootCA.csr
             privatekey_path: /var/data/quay/certs/rootCA.key
@@ -63,11 +63,11 @@
 
         ### Quay cert ###
         - name: Gen privkey
-          openssl_privatekey:
+          community.crypto.openssl_privatekey:
             path: /var/data/quay/certs/ssl.key
 
         - name: Generate Openssl CSR
-          openssl_csr:
+          community.crypto.openssl_csr:
             path: /var/data/quay/certs/ssl.csr
             privatekey_path: /var/data/quay/certs/ssl.key
             country_name: PL
@@ -95,7 +95,7 @@
               - clientAuth
 
         - name: Generate a self signed cert
-          openssl_certificate:
+          community.crypto.x509_certificate:
             path: /var/data/quay/certs/ssl.crt
             csr_path: /var/data/quay/certs/ssl.csr
             ownca_not_after: "+3650d"
@@ -104,7 +104,7 @@
             provider: ownca
 
         - name: Copy CA cert
-          copy:
+          ansible.builtin.copy:
             src: /var/data/quay/certs/rootCA.pem
             dest: /etc/pki/ca-trust/source/anchors/rootCA.pem
             mode: "0644"
@@ -113,25 +113,25 @@
             remote_src: true
 
         - name: Trust generated cert
-          command: update-ca-trust extract
+          ansible.builtin.command: update-ca-trust extract
 
         - name: Ensure CA cert has been added
-          shell: |
-            trust list | grep "{{ inventory_hostname }}"
+          ansible.builtin.shell: |
+            trust list | grep '{{ inventory_hostname }}'
           register: _ca_trust_list
 
         - name: Fail when CA not added
-          fail:
+          ansible.builtin.fail:
             msg: "Can not find self signed CA cert in trust list!"
           when: inventory_hostname not in _ca_trust_list.stdout
 
         - name: Create podman certs.d directory
-          file:
+          ansible.builtin.file:
             path: /etc/containers/certs.d/{{ inventory_hostname }}
             state: directory
 
         - name: Copy certs to quay config dir
-          shell: |
+          ansible.builtin.shell: |
             cp /var/data/quay/certs/ssl.crt /var/data/quay/config/ssl.cert && \
             cp /var/data/quay/certs/ssl.key /var/data/quay/config/ssl.key && \
             cp /var/data/quay/certs/rootCA.pem /var/data/quay/config/ca.crt && \
@@ -139,7 +139,7 @@
             cp /var/data/quay/certs/rootCA.pem /etc/containers/certs.d/{{ inventory_hostname }}/ca.crt
 
         - name: Copy certs to clair config dir
-          shell: |
+          ansible.builtin.shell: |
             cp /var/data/quay/certs/ssl.crt /var/data/clair/config/clair.cert && \
             cp /var/data/quay/certs/ssl.key /var/data/clair/config/clair.key && \
             chmod 0777 /var/data/clair/config/
@@ -151,13 +151,13 @@
   become: true
   block:
     - name: Copy certs to quay config dir
-      shell: |
+      ansible.builtin.shell: |
         cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/quay/config/ssl.cert && \
         cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/ssl.key && \
         chmod 0777 /var/data/quay/config/
 
     - name: Copy certs to clair config dir
-      shell: |
+      ansible.builtin.shell: |
         cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/quay/config/ssl.cert && \
         cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/ssl.key && \
         chmod 0777 /var/data/quay/config/

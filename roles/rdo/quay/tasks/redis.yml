@@ -1,14 +1,14 @@
 ---
 - name: Create redis directories
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/data/redis
     mode: '0777'
     recurse: true
 
     # NOTE: with host network, -p 6379:6379 is not needed.
 - name: Setup redis container
-  include_role:
+  ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: redis

@@ -33,7 +33,7 @@
       ansible.builtin.include_role:
         name: rdo/ibm-redhat-subscription
 
-    - name: Ensure external dns
+    - name: Base configuration
       ansible.builtin.include_role:
         name: rdo/ibm-baremetal-setup
 
@@ -66,14 +66,14 @@
   tasks:
     - name: Add gitiles to disallow in robot.txt
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/www/robots.txt
         insertafter: '^Disallow: /r/gitweb/*'
         line: 'Disallow: /r/plugins/gitiles'
 
     - name: Add more user-agents to disallow in robot.txt
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/www/robots.txt
         insertafter: '^User-agent: PetalBot'
         line: |
@@ -122,14 +122,14 @@
         mountpoint: "{{ partitions['quay']['mountpoint'] | default('') }}"
         vg_name: "{{ partitions['quay']['vg_name'] | default('') }}"
         lv_name: "{{ partitions['quay']['lv_name'] | default('') }}"
-      include_role:
+      ansible.builtin.include_role:
         name: system/volume
     - name: Setup Postgres partition
       vars:
         lvm: "{{ partitions['db']['lvm'] | default('') }}"
         device: "{{ partitions['db']['device'] | default('') }}"
         mountpoint: "{{ partitions['db']['mountpoint'] | default('') }}"
-      include_role:
+      ansible.builtin.include_role:
         name: system/volume
   roles:
     - service/hostname
@@ -152,7 +152,7 @@
         mountpoint: "{{ partitions['opensearch']['mountpoint'] | default('') }}"
         vg_name: "{{ partitions['opensearch']['vg_name'] | default('') }}"
         lv_name: "{{ partitions['opensearch']['lv_name'] | default('') }}"
-      include_role:
+      ansible.builtin.include_role:
         name: system/volume
   roles:
     - service/hostname

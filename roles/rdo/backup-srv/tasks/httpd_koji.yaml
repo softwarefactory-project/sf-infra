@@ -3,12 +3,12 @@
   become: yes
   block:
     - name: Add sfrepos user
-      user:
+      ansible.builtin.user:
         name: sfrepos
         state: present
 
     - name: Ensure sfrepos own sfkoji backup directory
-      file:
+      ansible.builtin.file:
         path: /mnt/data_backup/sfkoji
         state: directory
         mode: 0755
@@ -17,16 +17,16 @@
         setype: httpd_sys_content_t
 
     - name: Check for existing certificates
-      stat:
+      ansible.builtin.stat:
         path: "/etc/letsencrypt/live/{{ fqdn }}"
       register: cert
 
     - name: Generate certificate
-      command: "certbot certonly --standalone -m {{ email }} --agree-tos -n -d {{ fqdn }}"
+      ansible.builtin.command: "certbot certonly --standalone -m {{ email }} --agree-tos -n -d {{ fqdn }}"
       when: not cert.stat.exists
 
     - name: Create cron job for automatic cert renewal
-      cron:
+      ansible.builtin.cron:
         name: "Automatic SSL cert renew for {{ fqdn }}"
         minute: "30"
         hour: "0"
@@ -35,7 +35,7 @@
         job: " /usr/bin/certbot certonly -a webroot --keep-until-expiring -d {{ fqdn }} --webroot-path /var/www/html && /usr/bin/systemctl reload httpd > /dev/null"
 
     - name: Deploy SSL options file for letsencrypt
-      copy:
+      ansible.builtin.copy:
         src: options-ssl-apache.conf
         dest: /etc/letsencrypt/options-ssl-apache.conf
         owner: root
@@ -43,7 +43,7 @@
         mode: 0644
 
     - name: Create vhost configuration
-      template:
+      ansible.builtin.template:
         src: site.conf.j2
         dest: /etc/httpd/conf.d/site.conf
         owner: root
@@ -53,7 +53,7 @@
         - Restart httpd
 
     - name: Enable and start httpd
-      service:
+      ansible.builtin.service:
         name: "httpd"
         state: "started"
         enabled: "yes"

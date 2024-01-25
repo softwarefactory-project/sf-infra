@@ -1,12 +1,12 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: /etc/elasticsearch-exporter
     state: directory
     mode: 0644
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: elasticsearch-exporter

@@ -5,29 +5,29 @@
 
 - name: Install packages
   become: yes
-  package:
+  ansible.builtin.package:
     name:
       - ansible
       - certbot
 
 - name: Install bup
-  include_tasks: install.yaml
+  ansible.builtin.include_tasks: install.yaml
 
 - name: Setup httpd for koji
-  include_tasks: httpd_koji.yaml
+  ansible.builtin.include_tasks: httpd_koji.yaml
 
 - name: Setup jobs
   become: yes
   block:
     - name: Add MAILTO address in crontab
-      cron:
+      ansible.builtin.cron:
         name: MAILTO
         user: root
         env: yes
         value: softwarefactory-operations-team@redhat.com
 
     - name: Install playbooks
-      copy:
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "/var/lib/backup/{{ item }}"
       loop:
@@ -35,13 +35,13 @@
         - backup-koji.yaml
 
     - name: Generate variables files
-      template:
+      ansible.builtin.template:
         src: "backup.yaml.j2"
         dest: "/var/lib/backup/{{ item.filename }}.yaml"
       loop: "{{ servers }}"
 
     - name: Create crontab entries
-      cron:
+      ansible.builtin.cron:
         name: "Run backup for {{ item.filename }}"
         user: "root"
         minute: "0"
@@ -50,7 +50,7 @@
       loop: "{{ servers }}"
 
     - name: Add pruning of old backups to crontab
-      cron:
+      ansible.builtin.cron:
         name: "Remove {{ item.filename }} backups older than 6 months"
         special_time: weekly
         user: "root"

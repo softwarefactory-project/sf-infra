@@ -2,25 +2,25 @@
 - become: true
   block:
     - name: Dump the configurations
-      copy:
+      ansible.builtin.copy:
         content: "{{ bup_backup_locations | to_json }}"
         dest: /var/lib/bup-backup-locations.json
 
     - name: Deploy check-bup-backups.py
-      copy:
+      ansible.builtin.copy:
         src: check-bup-backups.py
         dest: /usr/local/bin/check-bup-backups.py
         mode: 0755
 
     - name: Ensure cronie is installed
-      package:
+      ansible.builtin.package:
         name:
           - cronie
           - python3
         state: present
 
     - name: Create cron job
-      cron:
+      ansible.builtin.cron:
         name: check-bup-backups
         user: root
         minute: "*/15"

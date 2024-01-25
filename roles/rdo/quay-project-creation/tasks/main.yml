@@ -1,7 +1,7 @@
 ---
 - name: Install required packages
   become: true
-  package:
+  ansible.builtin.package:
     name:
       - python3-pip
       - git
@@ -9,17 +9,17 @@
 
 - name: Ensure, that Quaytool is installed in latest version
   become: true
-  shell: |
+  ansible.builtin.shell: |
     pip3 install git+https://softwarefactory-project.io/r/software-factory/python-quay-tool
 
 - name: Read user token
-  include_tasks: read_token.yml
+  ansible.builtin.include_tasks: read_token.yml
   loop: "{{ quay_organizations | dict2items }}"
   loop_control:
     loop_var: user_organizations
 
 - name: Configure organizations
-  include_tasks: create_organization.yml
+  ansible.builtin.include_tasks: create_organization.yml
   loop: "{{ quay_organizations | dict2items }}"
   loop_control:
     loop_var: user_organizations

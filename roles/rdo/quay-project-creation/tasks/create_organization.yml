@@ -6,37 +6,37 @@
   block:
     - name: Read the token
       become: true
-      shell: |
+      ansible.builtin.shell: |
         grep -i admin_token /var/data/quay/config/{{ user_organizations.key }}_token | cut -f2 -d'='
       register: user_token
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Create organization
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/quaytool --api-url {{ quay_api_url }} --token {{ user_token.stdout }} --organization {{ item['name'] }} --create-organization {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Create robot user for user {{ user_organizations.key }}
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/quaytool --api-url {{ quay_api_url }} --token {{ user_token.stdout }} --organization {{ item['name'] }} --robot {{ robot_name }} --create-robot {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Create default permissions for the robot user - write permissions
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/quaytool --api-url {{ quay_api_url }} --token {{ user_token.stdout }} --organization {{ item['name'] }} --user {{ item['name'] }}+{{ robot_name }} --create-prototype {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Create creators team that will allow creating new repositories by robot
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/quaytool --api-url {{ quay_api_url }} --token {{ user_token.stdout }} --organization {{ item['name'] }} --team {{ team_name }} --create-team {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Add robot user to the team
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/quaytool --api-url {{ quay_api_url }} --token {{ user_token.stdout }} --organization {{ item['name'] }} --team {{ team_name }} --user {{ item['name'] }}+{{ robot_name }} --add-member {% if quay_insecure %} --insecure {% endif %}
       loop: "{{ user_organizations.value }}"
       no_log: "{{ hide_sensitive_logs }}"

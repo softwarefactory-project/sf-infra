@@ -3,47 +3,47 @@
   become: true
   block:
     - name: Install required package - Centos 7
-      package:
+      ansible.builtin.package:
         name: python2-cryptography
         state: present
       when: ansible_distribution_major_version|int < 8
 
     - name: Install required package - Centos stream
-      package:
+      ansible.builtin.package:
         name: python3-cryptography
         state: present
       when: ansible_distribution_major_version|int > 7
 
     - name: Install scl centos release when httpd24-httpd
-      package:
+      ansible.builtin.package:
         name: centos-release-scl
         state: present
       when: http_service_name == 'httpd24-httpd'
 
     - name: Install httpd and cronie
-      package:
+      ansible.builtin.package:
         name:
           - "{{ http_service_name }}"
           - cronie
 
     - name: Start httpd
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ http_service_name }}"
         enabled: yes
         state: started
 
     - name: Gen CA privkey
-      openssl_privatekey:
+      community.crypto.openssl_privatekey:
         path: "{{ ssl_private_path }}/{{ ca_cn }}.key"
 
     - name: Generate CA csr
-      openssl_csr:
+      community.crypto.openssl_csr:
         path: "{{ ssl_path }}/{{ ca_cn }}.csr"
         privatekey_path: "{{ ssl_private_path }}/{{ ca_cn }}.key"
         common_name: "{{ ca_cn }}"
 
     - name: Generate CA crt
-      openssl_certificate:
+      community.crypto.x509_certificate:
         path: "{{ ssl_path }}/{{ ca_cn }}.crt"
         csr_path: "{{ ssl_path }}/{{ ca_cn }}.csr"
         privatekey_path: "{{ ssl_private_path }}/{{ ca_cn }}.key"
@@ -51,17 +51,17 @@
         selfsigned_digest: sha256
 
     - name: Gen client privkey
-      openssl_privatekey:
+      community.crypto.openssl_privatekey:
         path: "{{ ssl_private_path }}/{{ client_cn }}.key"
 
     - name: Generate client csr
-      openssl_csr:
+      community.crypto.openssl_csr:
         path: "{{ ssl_path }}/{{ client_cn }}.csr"
         privatekey_path: "{{ ssl_private_path }}/{{ client_cn }}.key"
         common_name: "{{ client_cn }}"
 
     - name: Generate client crt signed with CA
-      openssl_certificate:
+      community.crypto.x509_certificate:
         path: "{{ ssl_path }}/{{ client_cn }}.crt"
         csr_path: "{{ ssl_path }}/{{ client_cn }}.csr"
         ownca_path: "{{ ssl_path }}/{{ ca_cn }}.crt"

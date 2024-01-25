@@ -1,6 +1,6 @@
 ---
 - name: Authorized backup node to run backup
   become: yes
-  authorized_key:
+  ansible.posix.authorized_key:
     user: root
     key: "{{ backup_pub_key }}"

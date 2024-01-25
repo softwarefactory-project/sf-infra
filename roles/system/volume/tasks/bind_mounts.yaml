@@ -1,5 +1,5 @@
 - name: Create source directories
-  file:
+  ansible.builtin.file:
     path: '{{ item.source }}'
     owner: '{{ item.owner | default("root") }}'
     group: '{{ item.group | default("root") }}'
@@ -8,7 +8,7 @@
   become: true
 
 - name: Create destination directories
-  file:
+  ansible.builtin.file:
     path: '{{ item.dest }}'
     owner: '{{ item.owner | default("root") }}'
     group: '{{ item.group | default("root") }}'
@@ -17,7 +17,7 @@
   become: true
 
 - name: Mount and bind volumes
-  mount:
+  ansible.builtin.mount:
     path: '{{ item.dest }}'
     src: '{{ item.source }}'
     opts: bind

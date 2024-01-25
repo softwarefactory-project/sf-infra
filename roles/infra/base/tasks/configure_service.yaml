@@ -1,11 +1,11 @@
 - name: Install package
-  package:
+  ansible.builtin.package:
     name: "{{ package.name }}"
     state: latest
   become: yes
 
 - name: Configure service with template
-  template:
+  ansible.builtin.template:
     src: "{{ package.config_template }}.j2"
     dest: "{{ package.dest }}"
   register: _config
@@ -13,7 +13,7 @@
   become: yes
 
 - name: Manage service
-  systemd:
+  ansible.builtin.systemd:
     state: "{%- if _config.changed -%} restarted {%- else -%} started {%- endif -%}"
     name: "{{ package.service }}"
     enabled: yes

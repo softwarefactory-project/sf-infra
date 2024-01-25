@@ -14,39 +14,39 @@
 #   under the License.
 
 - name: Setup required packages
-  include_tasks: setup.yml
+  ansible.builtin.include_tasks: setup.yml
 
 - name: Setup database
-  include_tasks: db.yml
+  ansible.builtin.include_tasks: db.yml
 
 - name: Setup redis
-  include_tasks: redis.yml
+  ansible.builtin.include_tasks: redis.yml
 
 - name: Setup certs
-  include_tasks: gen_certs.yml
+  ansible.builtin.include_tasks: gen_certs.yml
 
 - name: Setup clair
-  include_tasks: clair.yml
+  ansible.builtin.include_tasks: clair.yml
   when: enable_clair
 
 - name: Setup quay mirror
-  include_tasks: mirror.yml
+  ansible.builtin.include_tasks: mirror.yml
   when: enable_mirror
 
 - name: Setup quay
-  include_tasks: quay.yml
+  ansible.builtin.include_tasks: quay.yml
 
 - name: Bootstrap Quay
-  include_tasks: bootstrap.yml
+  ansible.builtin.include_tasks: bootstrap.yml
 
-- meta: flush_handlers
+- ansible.builtin.meta: flush_handlers
 
 - name: Get user passwords
-  include_tasks: get_user_pass.yml
+  ansible.builtin.include_tasks: get_user_pass.yml
   with_dict: "{{ quay_users }}"
   loop_control:
     loop_var: user_item
 
 - name: Set up image pruning script
-  include_tasks: prune.yml
+  ansible.builtin.include_tasks: prune.yml
   when: quay_enable_prune | default(false)

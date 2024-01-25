@@ -25,17 +25,17 @@
     - name: Enable PowerTools repo in Centos 8 stream
       block:
         - name: Remove Centos 8 PowerTools repo
-          file:
+          ansible.builtin.file:
             path: /etc/yum.repos.d/CentOS-PowerTools.repo
             state: absent
 
         - name: Install required packages
-          package:
+          ansible.builtin.package:
             name: dnf-plugins-core
             state: present
 
         - name: Enable Centos 8 PowerTools stream repository
-          shell: |
+          ansible.builtin.shell: |
             yum config-manager --set-enabled powertools
 
       when:
@@ -43,14 +43,14 @@
         - ansible_distribution_major_version == "8"
 
     - name: Install certbot
-      package:
+      ansible.builtin.package:
         name:
           - certbot
         state: present
         enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
 
     - name: Install python certboot library
-      package:
+      ansible.builtin.package:
         name: "{{ ( ansible_distribution_major_version == '7') | ternary('python2-certbot-apache', 'python3-certbot-apache' ) }}"
         state: present
         enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
@@ -59,7 +59,7 @@
         - http_service_name != 'standalone'
 
     - name: Install Centos scl when scl version set
-      package:
+      ansible.builtin.package:
         name: centos-release-scl
         state: present
       when: http_service_name == 'httpd24-httpd'
@@ -67,23 +67,23 @@
     # We can use http_service_name variable, to start the service, because
     # both have same name.
     - name: "Install {{ http_service_name }}"
-      package:
+      ansible.builtin.package:
         name: "{{ http_service_name }}"
       when: http_service_name != 'standalone'
 
     - name: Start "{{ http_service_name }}"
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ http_service_name }}"
         state: started
       when: http_service_name != 'standalone'
 
     # cronie, which provides crontab, might not be installed by default
     - name: Install cronie
-      package:
+      ansible.builtin.package:
         name: cronie
 
 - name: Generate lets encrypt SSLs
-  include_tasks: ssl_create_cert.yml
+  ansible.builtin.include_tasks: ssl_create_cert.yml
   with_dict: "{{ ssl_cert_options }}"
   loop_control:
     loop_var: cert_item
