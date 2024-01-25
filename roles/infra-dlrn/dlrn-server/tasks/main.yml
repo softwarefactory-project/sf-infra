@@ -3,14 +3,14 @@
   become: yes
   block:
     - name: Deploy DLRN
-      include_role:
+      ansible.builtin.include_role:
         name: dlrn
       vars:
         enable_https: "{{ dlrn_enable_https }}"
         sshd_port: "{{ dlrn_sshd_port | default(22) }}"
 
     - name: Apply override files, if needed
-      copy:
+      ansible.builtin.copy:
         src: "{{ item.value.source }}"
         dest: "{{ item.key }}"
       with_dict: "{{ dlrn_override_files }}"
@@ -19,7 +19,7 @@
       register: overrides
 
     - name: Create directories for MySQL SSL client certs
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: '0755'
@@ -28,21 +28,21 @@
         - /etc/mysql/ssl
 
     - name: Deploy client-cert.pem
-      copy:
+      ansible.builtin.copy:
         content: "{{ client_cert }}"
         dest: /etc/mysql/ssl/client-cert.pem
         mode: '0644'
       when: client_cert is defined
 
     - name: Deploy client-key.pem
-      copy:
+      ansible.builtin.copy:
         content: "{{ client_key }}"
         dest: /etc/mysql/ssl/client-key.pem
         mode: '0644'
       when: client_key is defined
 
     - name: Create DLRN admin users
-      include_role:
+      ansible.builtin.include_role:
         name: base
         tasks_from: users.yml
       vars:

@@ -1,12 +1,12 @@
 ---
 - name: Install Apache
-  package:
+  ansible.builtin.package:
     name: "{{ http_service_name }}"
   become: yes
 
 - name: Copy server status configuration file
   become: true
-  template:
+  ansible.builtin.template:
     src: server-status.conf.j2
     dest: "{{ apache_conf_dir }}/server-status.conf"
     owner: apache
@@ -14,7 +14,7 @@
   notify:
     - restart httpd service
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: apache_exporter

@@ -1,9 +1,9 @@
 - block:
     - name: Common tasks for master and replica
-      include_tasks: common.yml
+      ansible.builtin.include_tasks: common.yml
 
     - name: Set master_db fact from db_master hostvars
-      set_fact:
+      ansible.builtin.set_fact:
         master_db: "{{ hostvars[groups['db_master'][0]]['master_db'] }}"
 
     - name: Set log-bin in replication.cnf
@@ -34,8 +34,9 @@
         - Restart mariadb
 
     - name: Ensure MariaDB is reloaded if needed
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers
 
+    # TODO find which ansible module should be used now
     - name: Fetch replica status
       mysql_replication:
         mode: getslave
