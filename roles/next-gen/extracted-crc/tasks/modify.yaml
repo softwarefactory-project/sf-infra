@@ -58,5 +58,14 @@
     cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys.d/ignition
 
 - name: Create a file with current build date
+  become: true
   ansible.builtin.shell: |
     date > {{ guest_home_dir }}/image_build_date
+
+- name: Change owner and group for image_build_date
+  become: true
+  ansible.builtin.file:
+    path: "{{ guest_home_dir }}/image_build_date"
+    state: file
+    owner: 1000
+    group: 1000
