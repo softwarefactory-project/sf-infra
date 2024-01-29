@@ -1,7 +1,7 @@
 ---
 - name: Create crontab for periodical yum refresh
   become: true
-  cron:
+  ansible.builtin.cron:
     name: Check for new updates
     minute: "{{ 59|random }}"
     hour: "{{ 23 | random }}"

@@ -3,7 +3,7 @@
   gather_facts: yes
   pre_tasks:
     - name: Ensure hostname is correct
-      hostname:
+      ansible.builtin.hostname:
         name: bridge.softwarefactory-project.io
       become: yes
 
@@ -15,7 +15,7 @@
 
   tasks:
     - name: "Install MTA"
-      include_role:
+      ansible.builtin.include_role:
         name: postfix
         apply:
           become: yes

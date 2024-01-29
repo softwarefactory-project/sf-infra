@@ -3,18 +3,18 @@
 - become: yes
   block:
     - name: Ensure podman is installed
-      package:
+      ansible.builtin.package:
         name: podman
 
     - name: Check if container exists
-      command: "podman container exists {{ pod_name }}"
+      ansible.builtin.command: "podman container exists {{ pod_name }}"
       register: _container_exists
       failed_when: _container_exists.rc not in [0, 1]
       changed_when: false
 
     # This is not indepotent, manually delete the pod to force recreation
     - name: Write a recreation script
-      copy:
+      ansible.builtin.copy:
         content: |
           #!/bin/sh
           # re-run this if the container is removed
@@ -27,23 +27,23 @@
     - name: Check if service container should be recreated
       block:
         - name: Stop the service before recreation
-          service:
+          ansible.builtin.service:
             name: "{{ pod_name }}"
             state: stopped
 
         - name: Delete the old container
-          command: |
+          ansible.builtin.command: |
             podman rm {{ pod_name }}
       when:
         - _container_exists.rc == 0
         - _recreation_script.changed
 
     - name: Create container if needed
-      command: "/usr/local/bin/podman-{{ pod_name }}.sh"
+      ansible.builtin.command: "/usr/local/bin/podman-{{ pod_name }}.sh"
       when: _container_exists.rc == 1 or _recreation_script.changed
 
     - name: Install service file
-      copy:
+      ansible.builtin.copy:
         content: |
           [Unit]
           Description={{ pod_name }} service
@@ -67,14 +67,14 @@
       register: _container_service
 
     - name: Enable the service
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ pod_name }}"
         daemon-reload: "{% if _container_service is changed %}yes{% else %}no{% endif %}"
         state: started
         enabled: yes
 
     - name: Restart the service if needed
-      service:
+      ansible.builtin.service:
         name: "{{ pod_name }}"
         state: restarted
       when:
@@ -82,7 +82,7 @@
         - _container_exists.rc == 0 or _recreation_script.changed
 
 - name: Ensure service is active
-  command: "systemctl is-active {{ pod_name }}"
+  ansible.builtin.command: "systemctl is-active {{ pod_name }}"
   register: _container_active
   until:
     - _container_active.rc == 0
