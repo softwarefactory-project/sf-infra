@@ -1,5 +1,5 @@
 - name: Create networks
-  os_network:
+  openstack.cloud.network:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -9,7 +9,7 @@
   loop: "{{ tenant_config.networks | default([]) }}"
 
 - name: Create subnets
-  os_subnet:
+  openstack.cloud.subnet:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -23,8 +23,9 @@
     allocation_pool_end: "{{ item.allocation_pool_end|default(omit) }}"
   loop: "{{ tenant_config.subnets | default([]) }}"
 
+# TODO: investigate why this is commented
 # - name: Create routers
-#   os_router:
+#   openstack.cloud.router:
 #     cloud: "{{ cloud.name }}"
 #     auth:
 #       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -35,7 +36,7 @@
 #   loop: "{{ tenant_config.routers | default([]) }}"
 
 - name: Create security groups
-  os_security_group:
+  openstack.cloud.security_group:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -44,7 +45,7 @@
   loop: "{{ tenant_config.security_groups | default([]) }}"
 
 - name: Create security group rules
-  include_tasks: security_group_rule.yaml
+  ansible.builtin.include_tasks: security_group_rule.yaml
   loop: "{{ tenant_config.security_groups | default([]) }}"
   loop_control:
     loop_var: security_group

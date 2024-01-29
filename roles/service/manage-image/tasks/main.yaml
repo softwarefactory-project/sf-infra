@@ -1,5 +1,5 @@
 - name: Verify if image exists
-  os_image_info:
+  openstack.cloud.image_info:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
@@ -21,27 +21,26 @@
       register: image_download
 
     - name: check image type
-      command: file "{{ image_download.dest }}"
+      ansible.builtin.command: file "{{ image_download.dest }}"
       changed_when: false
       register: _image_type
 
     - name: Convert qcow2 image if needed
       block:
         - name: Get basename
-          set_fact:
+          ansible.builtin.set_fact:
             _image_basename: "{{ image_download.dest | splitext | first }}"
 
         - name: Convert qcow2 to raw
-          command: "qemu-img convert -f qcow2 -O raw {{ _image_basename }}.qcow2 {{ _image_basename }}.raw"
+          ansible.builtin.command: "qemu-img convert -f qcow2 -O raw {{ _image_basename }}.qcow2 {{ _image_basename }}.raw"
 
         - name: Ensure raw image will be updated
-          set_fact:
+          ansible.builtin.set_fact:
             image_path: "{{ _image_basename }}.raw"
-
       when: _image_type.stdout.find('QEMU QCOW Image')
 
     - name: Upload image
-      os_image:
+      openstack.cloud.image:
         cloud: "{{ cloud.name }}"
         auth:
           project_name: "{{ cloud.tenant | default(omit) }}"
