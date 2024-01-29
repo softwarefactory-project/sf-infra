@@ -6,28 +6,28 @@
     registry_host: "{{ inventory_hostname }}"
   tasks:
     - name: Get service facts
-      service_facts:
+      ansible.builtin.service_facts:
 
     - name: Replace cert
       block:
         - name: Stop Quay service
-          service:
+          ansible.builtin.service:
             name: quay
             state: stopped
 
         - name: Stop Clair service
-          service:
+          ansible.builtin.service:
             name: clair
             state: stopped
           when: "'clair' in services"
 
         - name: Run certbot
           become: true
-          shell: |
+          ansible.builtin.shell: |
             /usr/bin/certbot renew
 
         - name: Replace certs
-          shell: |
+          ansible.builtin.shell: |
             cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/quay/config/ssl.cert && \
             cp /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem /var/data/quay/config/ssl.key && \
             cp /etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem /var/data/clair/config/clair.cert && \
@@ -37,27 +37,27 @@
         # To avoid situation that container got previous certificates state,
         # recreate containers.
         - name: Remove Quay container
-          shell: "podman rm quay"
+          ansible.builtin.shell: "podman rm quay"
 
         - name: Remove Clair container
-          shell: "podman rm clair"
+          ansible.builtin.shell: "podman rm clair"
           when: "'clair' in services"
 
         - name: Recreate Quay container
-          shell: "/usr/local/bin/podman-quay.sh"
+          ansible.builtin.shell: "/usr/local/bin/podman-quay.sh"
 
         - name: Recreate Quay container
-          shell: "/usr/local/bin/podman-clair.sh"
+          ansible.builtin.shell: "/usr/local/bin/podman-clair.sh"
           when: "'clair' in services"
 
       always:
         - name: Restart Clair service
-          service:
+          ansible.builtin.service:
             name: clair
             state: restarted
           when: "'clair' in services"
 
         - name: Restart Quay service
-          service:
+          ansible.builtin.service:
             name: quay
             state: restarted
