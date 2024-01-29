@@ -1,5 +1,5 @@
 ---
-- import_playbook: site_bridge.yaml
+- ansible.builtin.import_playbook: site_bridge.yaml
 
 - hosts: dlrn:!dlrn-db.rdoproject.org
   vars_files:
@@ -15,7 +15,7 @@
     - service/node-exporter
   tasks:
     - name: Executing check-dlrn role
-      include_role:
+      ansible.builtin.include_role:
         name: sf/check-dlrn
         apply:
           become: yes

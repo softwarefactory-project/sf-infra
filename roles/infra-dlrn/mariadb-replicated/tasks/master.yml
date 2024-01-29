@@ -1,6 +1,6 @@
 - block:
     - name: Common tasks for master and replica
-      include_tasks: common.yml
+      ansible.builtin.include_tasks: common.yml
 
     - name: Set log-bin in replication.cnf
       ini_file:
@@ -30,7 +30,7 @@
         - Restart mariadb
 
     - name: Ensure MariaDB is reloaded if needed
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers
 
     - name: Create replication user
       community.mysql.mysql_user:
@@ -43,11 +43,11 @@
           ssl:
 
     - name: Fetch master status
-      mysql_info:
+      community.mysql.mysql_info:
         filter: master_status
       register: master_status
 
     - name: Store master status as fact
-      set_fact:
+      ansible.builtin.set_fact:
         master_db: "{{ master_status }}"
   become: yes

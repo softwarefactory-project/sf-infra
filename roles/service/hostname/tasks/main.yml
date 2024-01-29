@@ -1,14 +1,14 @@
 ---
 - name: Change hostname
   become: true
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
 
 # NOTE: if ansible_host is not set in hosts.yaml file, variable will
 # contain fqdn, which later will generate bad entry in /etc/hosts.
 - name: Ensure that correct hostname is set in hosts file base on ansible_host var
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: '/etc/hosts'
     regexp: "^{{ inventory_hostname }}.+$"
     line: "{{ ansible_host }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
@@ -16,7 +16,7 @@
 
 - name: Ensure that correct hostname is set base on interface ip address
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: '/etc/hosts'
     regexp: "^{{ inventory_hostname }}.+$"
     line: "{{ ansible_default_ipv4.address }} {{ inventory_hostname_short }} {{ inventory_hostname }}"
