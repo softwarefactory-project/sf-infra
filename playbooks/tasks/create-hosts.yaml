@@ -49,9 +49,6 @@
     server: "{{ item.server }}"
     device: "{{ item.device | default(omit) }}"
   loop: "{{ tenant_config.volumes }}"
-  when:
-    - item.state is defined
-    - item.state != "absent"
 
 - name: Combine server ips fact
   become: true
