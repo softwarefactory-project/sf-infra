@@ -1,3 +1,7 @@
 ---
 # List of the cloud definitions. You can find it in ~/.config/openstack/clouds.yaml
 cloud_names: []
+
+openstack_packages:
+  - openstacksdk==1.4.0
+  - python-openstackclient==5.8.0
