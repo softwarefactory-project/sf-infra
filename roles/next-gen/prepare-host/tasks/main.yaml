@@ -15,19 +15,19 @@
 
 - name: Create OpenStack clouds dir
   ansible.builtin.file:
-    path: "{{ lookup('env', 'HOME') }}/.config/openstack"
+    path: "{{ ansible_user_dir }}/.config/openstack"
     state: directory
-    owner: centos
-    group: centos
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
 
 - name: Copy the clouds.yaml
   when: vexxhost_rdo is defined and vexxhost_rdo
   ansible.builtin.template:
     src: clouds.yaml.j2
-    dest: "{{ lookup('env', 'HOME') }}/.config/openstack/clouds.yaml"
+    dest: "{{ ansible_user_dir }}/.config/openstack/clouds.yaml"
     mode: "0400"
-    owner: centos
-    group: centos
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
   no_log: true
 
 - name: Copy openshift pull secret file
@@ -51,7 +51,7 @@
 
 - name: Ensure ssh key exists
   community.crypto.openssh_keypair:
-    path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+    path: "{{ ansible_user_dir }}/.ssh/id_ed25519"
     type: ed25519
 
 - name: Ensure image-builder ssh pub key exists
@@ -59,6 +59,6 @@
     cloud: "{{ item.crc_cloud_name }}"
     state: present
     name: image-builder
-    public_key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519.pub"
+    public_key_file: "{{ ansible_user_dir }}/.ssh/id_ed25519.pub"
   loop: "{{ cloud_names }}"
   when: "'crc_cloud_name' in item"

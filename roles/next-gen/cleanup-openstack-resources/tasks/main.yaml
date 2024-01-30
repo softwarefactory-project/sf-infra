@@ -16,8 +16,8 @@
   ansible.builtin.file:
     path: "{{ crc_cleaner_log_dir }}"
     state: directory
-    owner: centos
-    group: centos
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
 
 - name: Create crontab for cleaning leftovers
   ansible.builtin.cron:
