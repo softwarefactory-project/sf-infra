@@ -4,17 +4,13 @@
   ansible.builtin.yum:
     name:
       - ansible-core
-      # required to install openstackclient
-      - python36
-      - centos-release-openstack-yoga
+      - python3-pip
     state: present
 
-- name: Install openstackclient
+- name: Install OpenStack libs
   become: true
-  ansible.builtin.yum:
-    name:
-      - python3-openstackclient
-      - python3-openstacksdk
+  ansible.builtin.pip:
+    name: "{{ openstack_packages }}"
     state: present
 
 - name: Create OpenStack clouds dir
