@@ -1,0 +1,3 @@
+cloud_image_builder_users: {}
+# guestfs_tools package name is libguestfs-tools on CentOS Stream
+guestfs_tools_package_name: libguestfs-tools
