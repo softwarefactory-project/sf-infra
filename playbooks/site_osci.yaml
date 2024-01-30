@@ -13,7 +13,7 @@
     - system/epel-release
   tasks:
     - name: "Deploy websites"
-      include_role:
+      ansible.builtin.include_role:
         name: osci/websites
         tasks_from: vhosts
         apply:
@@ -26,7 +26,7 @@
     - system/epel-release
   tasks:
     - name: "Deploy websites"
-      include_role:
+      ansible.builtin.include_role:
         name: osci/websites
         tasks_from: builders
         apply:
@@ -39,13 +39,13 @@
     - system/epel-release
   handlers:
     - name: "Clean YUM Metadata"
-      command: yum clean metadata
+      ansible.builtin.command: yum clean metadata
       args:
         warn: no
 
   tasks:
     - name: "Setup the OSPO/OSCI Infra repo"
-      yum_repository:
+      ansible.builtin.yum_repository:
         name: ospo_osci_infra
         description: "Copr repo for OSPO ComInfra Team"
         baseurl: "https://copr-be.cloud.fedoraproject.org/results/duck/osas-infra-team-rpm-repo/epel-{{ ansible_distribution_major_version }}-$basearch/"
@@ -58,10 +58,10 @@
       when: ansible_os_family == 'RedHat'
       notify: Clean YUM Metadata
 
-    - meta: flush_handlers
+    - ansible.builtin.meta: flush_handlers
 
     - name: "Deploy mailing-lists"
-      include_role:
+      ansible.builtin.include_role:
         name: osci/mailing_lists
       vars:
         # data_dev and ml_type are defined int he inventory
