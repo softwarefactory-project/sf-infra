@@ -1,6 +1,7 @@
 ---
-- name: Configure swap
+- name: Configure swap when swap_device
   become: true
+  when: swap_device and not swap_file
   block:
     - name: Format swap
       community.general.filesystem:
@@ -21,3 +22,40 @@
       when:
         - swap_fstab.changed
         - ansible_connection != 'podman'
+
+- name: Configure swap as a file
+  become: true
+  when: not swap_device and swap_file
+  block:
+    - name: Check if file already exist
+      ansible.builtin.stat:
+        path: "{{ swap_file }}"
+      register: _sw_file
+
+    - name: Create swap if not exists
+      when: not _sw_file.stat.exists
+      block:
+        - name: Create swap file
+          ansible.builtin.command: |
+            dd if=/dev/zero of={{ swap_file }} bs=1M count={{ swap_size }}
+
+        - name: Change permissions to the swap file
+          ansible.builtin.file:
+            path: "{{ swap_file }}"
+            owner: root
+            group: root
+            mode: "0600"
+
+        - name: Make swap
+          ansible.builtin.command: "mkswap {{ swap_file }}"
+
+        - name: Enable swap
+          ansible.builtin.command: "swapon {{ swap_file }}"
+
+        - name: Add swap to the fstab
+          ansible.builtin.mount:
+            fstype: swap
+            src: "{{ swap_file }}"
+            name: none
+            opts: sw
+            state: present

@@ -13,6 +13,9 @@ partitions:
     device: vdb
     mountpoint: '/var/lib/pgsql'
 
+swap_file: /swap
+swap_size: 2048
+
 # NOTE: We disable clair service due it was using a lot IOPS
 # on scanning the image content.
 enable_clair: false
