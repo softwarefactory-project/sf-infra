@@ -2,13 +2,14 @@
 
 set -x
 
-SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
-UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
+SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:-$1}
+CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
+UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:-'true'}
 export ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"/var/log/crc-snapshot/$(date +%d-%m-%Y-%H_%M_%S)-promote-{{ cloud_def.crc_cloud_name }}-{{ cloud_def.crc_version }}.log"}
 export ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
 
 if [ -z "$SF_INFRA_REPO_DIR" ]; then
-    SF_INFRA_REPO_DIR="$(realpath ~/sf-infra)"
+    SF_INFRA_REPO_DIR="$(realpath {{ crc_sf_infra_repo_dir }})"
 fi
 
 if [ -d "$SF_INFRA_REPO_DIR" ]; then
@@ -17,6 +18,10 @@ if [ -d "$SF_INFRA_REPO_DIR" ]; then
     git pull
 else
     git clone https://softwarefactory-project.io/r/software-factory/sf-infra "$SF_INFRA_REPO_DIR"
+fi
+
+if [ -d "$CRC_VENV_DIR" ]; then
+    source $CRC_VENV_DIR/bin/activate
 fi
 
 {% if cloud_def.crc_extracted_crc %}

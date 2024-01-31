@@ -3,11 +3,14 @@
 cloud_names: []
 
 openstack_packages:
-  # NOTE: on the old host we were using openstacksdk==1.4.0, but the Ansible version was
-  # 2.15.3. On current host, the Ansible version is 2.14.2, which is incompatible
-  # with openstacksdk, so it raises an error:
-  # "msg": "Incompatible openstacksdk library found:
-  # Version MUST be >=0.36 and <=0.98.999, but 1.4.0 is larger than maximum version 0.98.999."}
-  # Let's set the version what it expect.
-  - openstacksdk<= 0.98.999
+  - openstacksdk==1.4.0
   - python-openstackclient==5.8.0
+  - ansible-core==2.15.3
+
+ansible_collection:
+  - community.crypto
+  - openstack.cloud
+  - ansible.posix
+
+# You want to install libraries into venv
+crc_venv_dir: ""

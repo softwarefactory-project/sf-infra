@@ -3,11 +3,19 @@
   become: true
   ansible.builtin.yum:
     name:
-      - ansible-core
       - python3-pip
     state: present
 
-- name: Install OpenStack libs
+- name: Install OpenStack libs in venv
+  when: crc_venv_dir
+  ansible.builtin.pip:
+    name: "{{ openstack_packages }}"
+    state: present
+    virtualenv: "{{ crc_venv_dir }}"
+    virtualenv_command: python3 -m venv
+
+- name: Install OpenStack libs to system
+  when: not crc_venv_dir
   become: true
   ansible.builtin.pip:
     name: "{{ openstack_packages }}"
@@ -39,16 +47,22 @@
     src: ansible.cfg
     dest: ~/.ansible.cfg
 
-- name: Ensure Ansible galaxy collections are installed
+- name: Ensure Ansible galaxy collections are installed in the venv
+  when: crc_venv_dir
+  ansible.builtin.shell: |
+    {{ crc_venv_dir }}/bin/ansible-galaxy collection install {{ item }}
+  loop: "{{ ansible_collection }}"
+
+- name: Ensure Ansible galaxy collections are installed in the system
+  when: not crc_venv_dir
   become: true
   community.general.ansible_galaxy_install:
     type: collection
     name: "{{ item }}"
-  loop:
-    - "community.crypto"
-    - "openstack.cloud"
-    - "ansible.posix"
+  loop: "{{ ansible_collection }}"
 
+# NOTE: Make sure, that openstacksdk >=0.62.0 is installed on
+# the bridge or deploy host
 - name: Ensure ssh key exists
   community.crypto.openssh_keypair:
     path: "{{ ansible_user_dir }}/.ssh/id_ed25519"
