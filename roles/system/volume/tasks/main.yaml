@@ -1,21 +1,21 @@
 - name: Get hdd status
-  setup:
+  ansible.builtin.setup:
     gather_subset:
       - hardware
   register: _hardware
 
 - name: Define partition
-  set_fact:
+  ansible.builtin.set_fact:
     number: '{{ part_number | default("1") }}'
     partition: '{{ device }}{{ part_number }}'
 
 - name: Install parted
-  package:
+  ansible.builtin.package:
     name: parted
   become: true
 
 - name: Create partition
-  parted:
+  community.general.parted:
     device: '/dev/{{ device }}'
     number: 1
     state: present
@@ -27,28 +27,28 @@
 - name: Create volume group
   block:
     - name: Ensure requirements are present
-      package:
+      ansible.builtin.package:
         name: lvm2
 
     - name: Delete partitions
-      include_tasks: delete_partition.yaml
+      ansible.builtin.include_tasks: delete_partition.yaml
       loop: '{{ devices }}'
 
     - name: Create a volume group
-      lvg:
+      community.general.lvg:
         vg: '{{ vg_name }}'
         pvs: '{{ devices | join(",") }}'
         pesize: '32'
 
     - name: Create a logical volume
-      lvol:
+      community.general.lvol:
         vg: '{{ vg_name }}'
         lv: '{{ lv_name }}'
         size: 100%VG
       when: create_lv | bool
 
     - name: Define partition
-      set_fact:
+      ansible.builtin.set_fact:
         partition: 'mapper/{{ vg_name }}-{{ lv_name }}'
       when: create_partition | bool
   become: true
@@ -57,17 +57,17 @@
 - name: Create and mount partition
   block:
     - name: Create partition
-      filesystem:
+      community.general.filesystem:
         fstype: '{{ filesystem | default("xfs") }}'
         dev: '/dev/{{ partition }}'
       when: partition not in _hardware['ansible_facts']['ansible_device_links']['ids']
       become: true
 
     - name: Mount partition
-      include_tasks: mount_partition.yaml
+      ansible.builtin.include_tasks: mount_partition.yaml
 
     - name: Bind mount partitions
-      include_tasks: bind_mounts.yaml
+      ansible.builtin.include_tasks: bind_mounts.yaml
       when: bind_mounts
 
     # Note: ofcourse, the partition module resizefs attribute doesn't work with xfs
@@ -75,5 +75,5 @@
     - name: "Auto resize xfs"
       become: true
       when: "filesystem | default('xfs') == 'xfs'"
-      shell: "xfs_growfs {{ mountpoint }}"
+      ansible.builtin.shell: "xfs_growfs {{ mountpoint }}"
   when: create_partition | bool

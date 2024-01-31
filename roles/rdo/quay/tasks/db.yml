@@ -3,12 +3,12 @@
   become: true
   block:
     - name: Check if pgsql data dir exists
-      stat:
+      ansible.builtin.stat:
         path: /var/lib/pgsql/data
       register: pgsql_data_dir
 
     - name: Create host directories
-      file:
+      ansible.builtin.file:
         path: /var/lib/pgsql/data
         state: directory
         recurse: true
@@ -17,7 +17,7 @@
 
     # NOTE: with host network, -p 5432:5432 is not needed.
     - name: Setup Postgres container
-      include_role:
+      ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: postgresql
@@ -34,19 +34,19 @@
       no_log: "{{ hide_sensitive_logs }}"
 
     - name: Wait for postgresql service
-      wait_for:
+      ansible.builtin.wait_for:
         port: 5432
         host: 0.0.0.0
         delay: 10
         timeout: 300
 
     - name: Check if pg_trgm is enabled
-      shell: |
+      ansible.builtin.shell: |
         podman exec -it postgresql psql -U {{ postgresql_user }} -d quay -c 'SELECT *  FROM pg_extension;' | grep -q "pg_trgm"
       register: _pg_trgm_state
       ignore_errors: true
 
     - name: Ensure that pg_trgm module is enabled
-      shell: |
+      ansible.builtin.shell: |
         podman exec -it postgresql psql -U {{ postgresql_user }} -d quay -c 'CREATE EXTENSION pg_trgm;'
       when: _pg_trgm_state.rc == 1

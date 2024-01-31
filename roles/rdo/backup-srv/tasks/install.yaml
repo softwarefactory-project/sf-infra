@@ -2,37 +2,37 @@
 - name: Install bup
   block:
   - name: Install required packages
-    package:
+    ansible.builtin.package:
       name: "{{ backup_packages }}"
       state: installed
 
   - name: Install python3-pyxattr
-    dnf:
+    ansible.builtin.dnf:
       name: python3-pyxattr
       state: installed
       enablerepo: powertools
 
   - name: Check for existing bup binary
-    stat:
+    ansible.builtin.stat:
       path: "/usr/local/bin/bup"
     register: bup_exists
 
   - name: Create temporary directory for bup
-    tempfile:
+    ansible.builtin.tempfile:
       state: directory
       suffix: bup
     register: bup_path
     when: not bup_exists.stat.exists
 
   - name: Fetch and uncompress bup tarball
-    unarchive:
+    ansible.builtin.unarchive:
       src: "https://github.com/bup/bup/archive/{{ bup_version }}.tar.gz"
       dest: "{{ bup_path.path }}"
       remote_src: yes
     when: not bup_exists.stat.exists
 
   - name: Compile and install bup
-    shell:
+    ansible.builtin.shell:
       cmd: |
         ./configure
         make

@@ -5,12 +5,12 @@
 # NOTE: Remove below task after upgrade to 3.8
 - name: Determine OpenSearch setup
   become: true
-  stat:
+  ansible.builtin.stat:
     path: /etc/opensearch/certs/opensearch/opensearch-admin.crt
   register: _opensearch_crt
 
 - name: Add script for monitoring last logs
-  include_tasks: check_es.yaml
+  ansible.builtin.include_tasks: check_es.yaml
 
 - name: Configure elasticsearch exporter
-  include_tasks: elk_exporter.yaml
+  ansible.builtin.include_tasks: elk_exporter.yaml

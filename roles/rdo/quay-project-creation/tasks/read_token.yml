@@ -8,19 +8,19 @@
 # create organization "config", then create new application that
 # have all privileges.
 - name: Check if token file exists
-  stat:
+  ansible.builtin.stat:
     path: "/var/data/quay/config/{{ user_organizations.key }}_token"
   register: _config_file
 
 - name: Check if token exists in file
   become: true
-  shell: |
+  ansible.builtin.shell: |
     grep -iq admin_token /var/data/quay/config/{{ user_organizations.key }}_token
   register: token_exists
   no_log: "{{ hide_sensitive_logs }}"
   when: _config_file.stat.exists
 
 - name: Fail when token not available
-  fail:
+  ansible.builtin.fail:
     msg: "Can not find ADMIN_TOKEN in the {{ user_organizations.key }}_token file"
   when: _config_file.stat.exists and token_exists.rc != 0

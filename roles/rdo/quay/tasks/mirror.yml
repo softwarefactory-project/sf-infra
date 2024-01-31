@@ -3,7 +3,7 @@
   become: true
   block:
     - name: Create Quay mirror container
-      include_role:
+      ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: quay-mirror
@@ -18,7 +18,7 @@
       when: self_signed_certs
 
     - name: Create Quay mirror container - self signed certs
-      include_role:
+      ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: quay-mirror

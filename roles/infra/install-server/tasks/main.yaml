@@ -1,7 +1,7 @@
 ---
 - name: Copy install-server ssh key
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: "{{ sf_ssh_priv_key }}"
     dest: /root/.ssh/id_rsa
     mode: 0400
@@ -9,19 +9,19 @@
 
 - name: Copy gerrit logo
   become: yes
-  copy:
+  ansible.builtin.copy:
     src: "{{ ansible_fqdn }}-gerrit-logo.png"
     dest: /var/www/static/gerrit-logo.png
 
 - name: Copy gerrit theme
   become: yes
-  copy:
+  ansible.builtin.copy:
     src: "{{ ansible_fqdn }}-sftheme.js"
     dest: /var/lib/gerrit/plugins/sftheme.js
 
 - name: Copy the arch.yaml
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "arch-{{ ansible_fqdn }}.yaml"
     dest: /etc/software-factory/arch.yaml
 

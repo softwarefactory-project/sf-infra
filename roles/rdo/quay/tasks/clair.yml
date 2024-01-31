@@ -1,6 +1,6 @@
 ---
 - name: Create Clair DB
-  postgresql_db:
+  community.postgresql.postgresql_db:
     login_host: "{{ postgresql_host | default('localhost') }}"
     login_user: "{{ postgresql_user }}"
     login_password: "{{ postgresql_password }}"
@@ -9,14 +9,14 @@
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Set Clair service config
-  template:
+  ansible.builtin.template:
     src: clair_config.yaml.j2
     dest: /var/data/clair/config/config.yaml
     mode: '0777'
 
 # NOTE: with host network, -p 6060:6060 is not needed.
 - name: Create Clair container
-  include_role:
+  ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: clair

@@ -2,38 +2,38 @@
 - name: Preparation
   block:
     - name: Create directory
-      file:
+      ansible.builtin.file:
         path: "{{ afs_ssl_cert_dir }}/{{ inventory_hostname }}"
         state: directory
         mode: '0755'
 
     - name: Link SSL certificate
-      file:
+      ansible.builtin.file:
         src: "{{ afs_ssl_cert }}"
         dest: "{{ afs_ssl_cert_dir }}/{{ inventory_hostname }}/{{ inventory_hostname }}.cer"
         state: link
 
     - name: Link SSL certificate private key
-      file:
+      ansible.builtin.file:
         src: "{{ afs_ssl_private_key }}"
         dest: "{{ afs_ssl_cert_dir }}/{{ inventory_hostname }}/{{ inventory_hostname }}.key"
         state: link
 
     - name: Link SSL CA certificate
-      file:
+      ansible.builtin.file:
         src: "{{ afs_ssl_cacert }}"
         dest: "{{ afs_ssl_cert_dir }}/{{ inventory_hostname }}/ca.cer"
         state: link
 
     - name: Install packages
-      package:
+      ansible.builtin.package:
         name: "{{ afs_mirror_packages }}"
   become: yes
 
 - name: "Configure per region opendev mirrors"
   block:
     - name: Setup Kerberos client
-      include_role:
+      ansible.builtin.include_role:
         name: rdo/opendev-system-config-kerberos-client
       vars:
         kerberos_realm: 'OPENSTACK.ORG'
@@ -42,11 +42,11 @@
           - kdc03.openstack.org
           - kdc04.openstack.org
     - name: Setup OpenAFS client
-      include_role:
+      ansible.builtin.include_role:
         name: rdo/opendev-system-config-openafs-client
       vars:
         openafs_client_cache_size: "{{ afs_client_cache_size | default(10000000) }}" # 10GiB
     - name: Setup AFS mirror
-      include_role:
+      ansible.builtin.include_role:
         name: rdo/opendev-system-config-mirror
   become: yes

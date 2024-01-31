@@ -1,8 +1,8 @@
 - name: Install, configure and start services
-  include_tasks: configure_service.yaml
+  ansible.builtin.include_tasks: configure_service.yaml
   loop: "{{ package_list }}"
   loop_control:
     loop_var: package
 
 - name: Apply basic logrotate configuration
-  include_tasks: logrotate.yaml
+  ansible.builtin.include_tasks: logrotate.yaml

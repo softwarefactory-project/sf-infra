@@ -1,4 +1,5 @@
 ---
+# TODO find how to manage ini files
 - name: Set max log limit - new way
   become: true
   ini_file:
@@ -10,7 +11,7 @@
 
 - name: Set max log limit - legacy
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/containers/libpod.conf
     regexp: "^max_log_size"
     line: "max_log_size={{ log_size_max }}"

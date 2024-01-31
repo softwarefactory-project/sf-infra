@@ -1,5 +1,5 @@
 - name: Get baseurl on rhsm.conf
-  command: "awk '/baseurl/ {print $3}' {{ rhsm_config }}"
+  ansible.builtin.command: "awk '/baseurl/ {print $3}' {{ rhsm_config }}"
   register: _baseurl
   changed_when: false
 
@@ -9,7 +9,7 @@
   register: _rhsm_config
 
 - name: Check rhel version
-  command: subscription-manager release
+  ansible.builtin.command: subscription-manager release
   register: _rhel_version
 
 - name: Ensure we use rhsm.conf with cdn.redhat.com
@@ -43,19 +43,19 @@
   no_log: yes
 
 - name: Ensure system is up-to-date and rhel 9.2
-  command: dnf distrosync -y
+  ansible.builtin.command: dnf distrosync -y
   when: "'Release: 9.2' not in _rhel_version.stdout"
 
 - name: Get kernel version
-  command: uname -a
+  ansible.builtin.command: uname -a
   register: _kernel
 
 - name: Ensure el9_2 kernel and remove el9_3 packages
   block:
     - name: Reboot if kernel is not el9_2
-      reboot:
+      ansible.builtin.reboot:
 
     - name: Remove el9_3 kernel
-      shell: rpm -qa | grep el9_3 | xargs -I pkg dnf remove -y pkg
+      ansible.builtin.shell: rpm -qa | grep el9_3 | xargs -I pkg dnf remove -y pkg
       ignore_errors: yes
   when: "'el9_2' not in _kernel.stdout"

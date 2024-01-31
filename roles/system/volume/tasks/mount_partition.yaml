@@ -1,5 +1,5 @@
 - name: Create mountpoint
-  file:
+  ansible.builtin.file:
     path: '{{ mountpoint }}'
     owner: '{{ mount_owner | default("root") }}'
     group: '{{ mount_group | default("root") }}'
@@ -7,7 +7,7 @@
   become: true
 
 - name: Mount partition
-  mount:
+  ansible.builtin.mount:
     fstype: '{{ filesystem | default("xfs") }}'
     src: '/dev/{{ partition }}'
     path: '{{ mountpoint }}'

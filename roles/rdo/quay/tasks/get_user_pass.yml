@@ -1,6 +1,6 @@
 ---
 - name: Check if user exists in quay
-  postgresql_query:
+  community.postgresql.postgresql_query:
     login_host: "{{ postgresql_host | default('localhost') }}"
     db: quay
     login_user: "{{ postgresql_user }}"
@@ -12,7 +12,7 @@
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Wait for service to be running
-  wait_for:
+  ansible.builtin.wait_for:
     port: 443
     host: 0.0.0.0
     delay: 20
@@ -22,12 +22,12 @@
 - name: Configure user
   block:
     - name: Fail when admin token is not available
-      fail:
+      ansible.builtin.fail:
         msg: "No admin token provided: bootstrap is done, but token for admin in quay_users is not set"
       when: "admin_token is not defined and ('token' not in quay_users['admin'] or 'token' in quay_users['admin'] and not quay_users['admin']['token'])"
 
     - name: Create user {{ user_item.key }}
-      uri:
+      ansible.builtin.uri:
         url: "https://0.0.0.0/api/v1/superuser/users/"
         body_format: json
         body: "{{ lookup('template','user.json.j2') }}"
@@ -42,7 +42,7 @@
 
     - name: Write {{ user_item.key }} to a file
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: "/var/data/quay/config/{{ user_item.key }}_token"
         regexp: '^export USER_PASSWORD='
         line: 'export USER_PASSWORD="{{ _user_response.json.password }}"'
@@ -55,7 +55,7 @@
 
 - name: Create config file - set token
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/var/data/quay/config/{{ user_item.key }}_token"
     regexp: '^export ADMIN_TOKEN='
     line: 'export ADMIN_TOKEN={{ user_item.value.token }}'

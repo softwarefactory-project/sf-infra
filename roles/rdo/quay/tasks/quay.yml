@@ -1,7 +1,7 @@
 ---
 - name: Prepare storage data
   become: true
-  file:
+  ansible.builtin.file:
     path: /var/data/quay/{{ item }}
     mode: '0777'
     state: directory
@@ -14,7 +14,7 @@
     - config/extra_ca_certs
 
 - name: Copy config
-  template:
+  ansible.builtin.template:
     src: config.yaml.j2
     dest: /var/data/quay/config/config.yaml
     mode: '0777'
@@ -26,24 +26,24 @@
   block:
     - name: Copy ca cert
       become: true
-      shell: |
+      ansible.builtin.shell: |
         cp /var/data/quay/certs/rootCA.pem /var/data/quay/anchors/ca.crt
       when: self_signed_certs
 
     - name: Stop quay service before quay_config
-      service:
+      ansible.builtin.service:
         name: quay
         state: stopped
       ignore_errors: true
 
     - name: Stop config container, if config changed
-      shell: |
+      ansible.builtin.shell: |
         podman stop quay_config
       ignore_errors: true
 
     - name: Configure quay - ignore CN
       become: true
-      command: |
+      ansible.builtin.command: |
         podman run --rm \
           -d \
           -p 80:8080 \
@@ -64,7 +64,7 @@
 
     - name: Configure quay
       become: true
-      command: |
+      ansible.builtin.command: |
         podman run --rm \
           -d \
           -p 80:8080
@@ -83,19 +83,19 @@
       when: not self_signed_certs
 
     - name: Check if quay_config is working with official password
-      shell: |
+      ansible.builtin.shell: |
         curl -XGET http://{{ inventory_hostname }}:8080/api/v1/config --user quayadmin:password
       ignore_errors: true
 
     # NOTE: on starting quay container with config secret params,
     # the username will show in the logs.
     - name: Check if quay_config is working with alternative password
-      shell: |
+      ansible.builtin.shell: |
         curl -XGET http://{{ inventory_hostname }}:8080/api/v1/config --user quayconfig:secret
       ignore_errors: true
 
     - name: Fail when config setup enabled
-      fail:
+      ansible.builtin.fail:
         msg: "We don't want to pass CI job when initial_config is enabled!"
 
   when: initial_config
@@ -104,12 +104,12 @@
   become: true
   block:
     - name: Make sure that quay config container is not running
-      shell: |
+      ansible.builtin.shell: |
         podman stop quay_config && sleep 5
       ignore_errors: true
 
     - name: Create Quay container
-      include_role:
+      ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: quay
@@ -127,7 +127,7 @@
       when: not self_signed_certs
 
     - name: Create Quay container - ignore CN
-      include_role:
+      ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: quay
