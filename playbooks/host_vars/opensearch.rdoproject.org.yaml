@@ -2,8 +2,8 @@
 fqdn: opensearch.rdoproject.org
 setup_logstash: false
 
-elasticsearch_minimum_heap_size: 2g
-elasticsearch_maximum_heap_size: 2g
+opensearch_minimum_heap_size: 2g
+opensearch_maximum_heap_size: 2g
 
 opensearch_container_params: "--net host --pid host --memory 4g"
 
