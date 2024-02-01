@@ -23,4 +23,6 @@ infrastructure component.
 , setName = ./setName.dhall
 , textMap = ./textMap.dhall
 , updateServer = ./updateServer.dhall
+, show = ./show.dhall
+, mkMarkdownInventory = ./inventory.dhall
 }
