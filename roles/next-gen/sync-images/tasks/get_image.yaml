@@ -94,7 +94,7 @@
           when: _previous_img_info.images
 
         - name: Pull image if present crc.qcow2 md5sum missmatch
-          when: _present_crc_md5sum.stdout != _base_image_md5
+          when: not _present_crc_qcow2.stat.exists or (_present_crc_md5sum.stdout != _base_image_md5)
           block:
             - name: Remove old qcow2 image
               ansible.builtin.file:
