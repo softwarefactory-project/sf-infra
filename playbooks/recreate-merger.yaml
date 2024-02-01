@@ -1,5 +1,5 @@
 - hosts: undefined # set it to the desired hosts, e.g. zm01
-  becomes: true
+  become: true
   tasks:
     - name: Stop the service
       ansible.builtin.service:
