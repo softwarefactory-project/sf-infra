@@ -132,6 +132,7 @@
       ansible.builtin.include_role:
         name: system/volume
   roles:
+    - system/swap
     - service/hostname
     - service/setup-ssl
     - rdo/quay
