@@ -2,8 +2,9 @@
 
 set -x
 
-SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:$1}
-UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:'true'}
+SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:-$1}
+CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
+UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:-'true'}
 export ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-sync.log"}
 export ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
 
@@ -17,6 +18,10 @@ if [ -d "$SF_INFRA_REPO_DIR" ]; then
     git pull
 else
     git clone https://softwarefactory-project.io/r/software-factory/sf-infra "$SF_INFRA_REPO_DIR"
+fi
+
+if [ -d "$CRC_VENV_DIR" ]; then
+    source $CRC_VENV_DIR/bin/activate
 fi
 
 ansible-playbook \

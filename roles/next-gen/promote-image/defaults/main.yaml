@@ -1,3 +1,5 @@
 ---
 # How many images without "latest" should be keeped and not removed
 skip_last_image_count: 2
+
+crc_sf_infra_repo_dir: ~/sf-infra
