@@ -404,6 +404,22 @@ servers:
     state: present
     volume_size: 100
   - boot_from_volume: yes
+    flavor: "8vcpu_16GB"
+    floating_ips:
+      - '38.129.56.81'
+    image: centos-9-stream
+    key_name: sf-infra-key
+    name: microshift-infra.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - web
+      - k8s-client
+    state: present
+    volume_size: 100
+  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ips:
       - '38.102.83.40'
@@ -659,6 +675,10 @@ volumes:
     display_name: image-builder-data
     server: image-builder.softwarefactory-project.io
     size: 1000
+  - device: /dev/vdb
+    display_name: microshift-infra-data
+    server: microshift-infra.softwarefactory-project.io
+    size: 200
   - device: /dev/vdb
     display_name: logs-data
     server: fedora.softwarefactory-project.io

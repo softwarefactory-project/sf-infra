@@ -40,6 +40,7 @@ This project manages:
 * koji.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * image-builder.softwarefactory-project.io centos-8.3-2011 1vcpu_2gb
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
+* microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * fedora.softwarefactory-project.io centos-7-1907 v1-standard-2
 * centos.softwarefactory-project.io centos-7-1907 v1-standard-2
 * ansible.softwarefactory-project.io centos-7-1907 v1-standard-2

@@ -1,0 +1,11 @@
+fqdn: microshift-infra.softwarefactory-project.io
+delete_partitions: true
+wipe_partition_table: true
+vg_name: "rhel"
+create_lv: false
+create_partition: false
+lvm: true
+setup_olm: true
+microshift_additional_addresses:
+  - "{{ fqdn }}"
+k9s_version: v0.31.7

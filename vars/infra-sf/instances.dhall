@@ -289,6 +289,29 @@ let instances =
           , "https://microshift.softwarefactory-project.io/logs/"
           ]
         }
+      , Instance::{
+        , name = "microshift-infra"
+        , groups = [ "sf" ]
+        , connection = OS.CentOS.`9-stream`.connection
+        , server = Some
+            (     Infra.Server::{
+                  , image = OS.CentOS.`9-stream`.image.name
+                  , flavor = Some Flavors.`8vcpu_16GB`
+                  , auto_ip = Some True
+                  , boot_from_volume = "yes"
+                  , volume_size = Some 100
+                  , security_groups = [ "web", "k8s-client" ]
+                  }
+              //  Infra.Server.Ip "38.129.56.81"
+            )
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "microshift-infra-data"
+            , size = 200
+            , device = "/dev/vdb"
+            }
+          ]
+        }
       ]
 
 let -- | A function to create external k1s worker
