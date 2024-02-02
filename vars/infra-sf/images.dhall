@@ -11,6 +11,7 @@ in  { images =
       , OS.Fedora.`36`.image
       , OS.Fedora.`37`.image
       , OS.Fedora.`38`.image
+      , OS.Fedora.`39`.image
       , OS.CentOS.`9-stream`.image
       ]
     }

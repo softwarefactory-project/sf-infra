@@ -259,6 +259,17 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "d334670401ff3d5b4129fcc662cf64f5a6e568228af59076cc449a4945318482"
                         }
                       }
+                    , `39` =
+                      { connection = Infra.Connection::Fedora
+                      , image = Infra.Image::{
+                        , name = "fedora-39-1.5"
+                        , url =
+                                url
+                            ++  "39/Cloud/x86_64/images/Fedora-Cloud-Base-39-1.5.x86_64.qcow2"
+                        , checksum =
+                            "d334670401ff3d5b4129fcc662cf64f5a6e568228af59076cc449a4945318482"
+                        }
+                      }
                     }
             , RHEL =
                 let RHEL = { ansible_user = "cloud-user" }
