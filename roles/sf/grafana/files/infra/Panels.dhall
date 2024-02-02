@@ -107,7 +107,7 @@ let Lucene =
             , datasource : { type : Text, uid : Text }
             , format : Text
             , hide : Bool
-            , metrics : List { field : Text, id : Text, type : Text }
+            , metrics : List { id : Text, type : Text }
             , query : Text
             , queryType : Text
             , refId : Text
@@ -240,7 +240,7 @@ let mkLucene =
         PType.Lucene
           { datasource =
             { type = "grafana-opensearch-datasource"
-            , uid = "PB70ABCA42E2217E9"
+            , uid = "P40D65588D5AED374"
             }
           , fieldConfig =
             { defaults =
@@ -316,16 +316,11 @@ let mkLucene =
                 ]
               , datasource =
                 { type = "grafana-opensearch-datasource"
-                , uid = "PB70ABCA42E2217E9"
+                , uid = "P40D65588D5AED374"
                 }
               , format = "table"
               , hide = False
-              , metrics =
-                [ { field = "build_uuid.keyword"
-                  , id = "1"
-                  , type = "cardinality"
-                  }
-                ]
+              , metrics = [ { id = "1", type = "count" } ]
               , query = ""
               , queryType = "lucene"
               , refId = "A"

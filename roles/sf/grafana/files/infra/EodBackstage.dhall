@@ -17,7 +17,7 @@ let -- | Zuul
     zuul =
       Panels.mkLucene
         "Zuul Builds Activity"
-        "build_status.keyword"
+        "result.keyword"
         [ { name = "SUCCESS", color = "green" }
         , { name = "TIMED_OUT", color = "purple" }
         ]

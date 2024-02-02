@@ -17,7 +17,7 @@
     {
       "datasource": {
         "type": "grafana-opensearch-datasource",
-        "uid": "PB70ABCA42E2217E9"
+        "uid": "P40D65588D5AED374"
       },
       "fieldConfig": {
         "defaults": {
@@ -126,7 +126,7 @@
         {
           "bucketAggs": [
             {
-              "field": "build_status.keyword",
+              "field": "result.keyword",
               "id": "3",
               "settings": {
                 "min_doc_count": "1",
@@ -148,15 +148,14 @@
           ],
           "datasource": {
             "type": "grafana-opensearch-datasource",
-            "uid": "PB70ABCA42E2217E9"
+            "uid": "P40D65588D5AED374"
           },
           "format": "table",
           "hide": false,
           "metrics": [
             {
-              "field": "build_uuid.keyword",
               "id": "1",
-              "type": "cardinality"
+              "type": "count"
             }
           ],
           "query": "",
