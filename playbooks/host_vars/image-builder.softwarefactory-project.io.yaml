@@ -1,27 +1,4 @@
 ---
-# Cloud names is a variable that defines in which OpenStack cloud should
-# the next-gen pruner be running. That var also ensures that the image-builder
-# ssh key is available in OpenStack resources: openstack keypair show image-builder.
-# It is because we want to use cleaner script for many clouds on same host.
-cloud_names:
-  # NOTE: crc_images will be used to create scripts + crontab jobs.
-  # The rule is: common vars that are repeating in most crc_images
-  # can be set globaly, but you can overwrite it by setting
-  # same parameter in crc_images. For example:
-  # NOTE:
-  # The nodepool-tripleo cloud will have nested and extracted version
-  - crc_cloud_name: nodepool-tripleo
-    crc_flavor_name: ci.m1.xlarge
-    crc_ssh_keypair_name: image-builder
-    crc_net_id: 7abff1a9-a103-46d0-979a-1f1e599f4f41
-    crc_ssh_pub_path: ~/.ssh/id_ed25519.pub
-    crc_system_distro: centos
-    crc_system_release: 9
-    crc_sync_extracted_qcow2_dir: ~/extracted-crc
-    crc_ansible_log_dir: /var/log/crc-snapshot
-    crc_extracted_crc: true
-    crc_nested_crc: true
-
 cloud_image_builder_users:
   # microshift.sf.io nodepool-builder pods access
   - username: "nodepool"
