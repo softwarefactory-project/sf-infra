@@ -3,3 +3,4 @@
 cloud_names: []
 
 crc_cleaner_log_dir: /var/log/next-gen-cleaner
+crc_venv_dir: ""

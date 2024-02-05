@@ -1,12 +1,18 @@
 #!/bin/bash
 
 OS_CLOUD=${OS_CLOUD:-$1}
+CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
 DAY_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '1 day ago')" +%s)
 ZUUL_PREFFIX=${ZUUL_PREFFIX:-'zuul-ci'}
 
 if [ -z "${OS_CLOUD}" ]; then
     echo "You need to specify OS_CLOUD resource name. Can not continue"
     exit 1
+fi
+
+if [ -d "$CRC_VENV_DIR" ]; then
+    echo "Using venv: $CRC_VENV_DIR"
+    source $CRC_VENV_DIR/bin/activate
 fi
 
 # Remove port associated with router + remove router
