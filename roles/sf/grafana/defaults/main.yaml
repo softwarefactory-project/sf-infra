@@ -1,0 +1,20 @@
+---
+# The grafana_dashboard_directories will be used by the copy module to copy directories
+# from this current role files (sf-infra/roles/sf/grafana/files/*) to
+# /etc/grafana/provisioning/dashboards/.
+grafana_dashboard_directories:
+  # Dashboard: https://grafana.com/grafana/dashboards/11442
+  # Dashboard: https://grafana.com/grafana/dashboards/3894
+  # Dashboard: https://grafana.com/grafana/dashboards/6483-elasticsearch/
+  # Ported dashboard from downstream infra team
+  - infra
+  ####### NG CI DASHBOARD ########
+  - ng-ci-dashboard
+  ####### Opendev dashboards #########
+  - opendev
+  ####### Cloud provider #########
+  # NOTE: node_exporter_vexxhost is same dashboard as node_exporter, but
+  # with few changed values.
+  - vexxhost
+  ####### RDO dashboards #########
+  - RDO
