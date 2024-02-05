@@ -3,8 +3,9 @@
 cloud_names: []
 
 openstack_packages:
-  - openstacksdk==1.4.0
-  - python-openstackclient==5.8.0
+  - openstackclient==4.0.0
+  - openstacksdk==2.1.0
+  - python-openstackclient==6.5.0
   - ansible-core==2.15.3
 
 ansible_collection:
