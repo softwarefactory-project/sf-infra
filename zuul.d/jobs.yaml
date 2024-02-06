@@ -365,7 +365,7 @@
       jobs:
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
-        - linters:
+        - linters: &linters-job-config
             nodeset: linters-pod
             vars:
               linters:
@@ -391,12 +391,7 @@
       jobs:
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
-        - linters:
-            nodeset: linters-pod
-            vars:
-              linters:
-                - flake8
-                - yamllint
+        - linters: *linters-job-config
         - dhall-diff: *dhall-nodeset
         - sf-infra-create-bridge:
             dependencies:
