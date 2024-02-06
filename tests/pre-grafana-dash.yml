@@ -25,9 +25,8 @@
           - gtk3
           - libgbm
           - alsa-lib
-          - centos-release-openstack-victoria
 
     - name: Install Ansible locally
       package:
         name:
-          - ansible
+          - ansible-core
