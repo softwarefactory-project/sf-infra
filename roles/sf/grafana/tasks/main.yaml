@@ -10,63 +10,34 @@
   loop:
     - path: /etc/grafana/provisioning/datasources
     - path: /etc/grafana/provisioning/dashboards
-    - path: /etc/grafana/provisioning/dashboards/infra
-    - path: /etc/grafana/provisioning/dashboards/ng-ci-dashboard
-    - path: /etc/grafana/provisioning/dashboards/opendev
-    - path: /etc/grafana/provisioning/dashboards/vexxhost
-    - path: /etc/grafana/provisioning/dashboards/RDO
     - path: /etc/grafana/secrets
     - path: /var/lib/grafana
       owner: 472
 
-- name: Install config files
+- name: Install main dashboard configuration file
+  become: true
+  ansible.builtin.copy:
+    src: dashboards.yml
+    dest: /etc/grafana/provisioning/dashboards/dashboards.yml
+
+- name: Install dashboards
   become: yes
-  copy:
-    src: '{{ item.name }}'
-    dest: '/etc/{{ item.path }}/{{ item.name }}'
-  loop:
-    # configuration file
-    - { name: 'dashboards.yml', path: 'grafana/provisioning/dashboards' }
-    # dashboards
-    - { name: 'infra/node_exporter.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'infra/zuul-summary.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'infra/blackbox.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'infra/DLRN.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'infra/EodBackstage.json', path: 'grafana/provisioning/dashboards' }
-      # Dashboard: https://grafana.com/grafana/dashboards/11442
-    - { name: 'infra/zookeeper-exporter.json', path: 'grafana/provisioning/dashboards' }
-      # Dashboard: https://grafana.com/grafana/dashboards/3894
-    - { name: 'infra/apache-exporter.json', path: 'grafana/provisioning/dashboards' }
-      # Dashboard: https://grafana.com/grafana/dashboards/6483-elasticsearch/
-    - { name: 'infra/elasticsearch.json', path: 'grafana/provisioning/dashboards' }
-      # Ported dashboard from downstream infra team
-    - { name: 'infra/downstream-dashboard.json', path: 'grafana/provisioning/dashboards' }
-    ####### NG CI DASHBOARD ########
-    - { name: 'ng-ci-dashboard/ci-dashboard-overview.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ng-ci-dashboard/ci-dashboard-prow-detail.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ng-ci-dashboard/ci-dashboard-prow-success.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ng-ci-dashboard/ci-dashboard-zuul-jobs.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'ng-ci-dashboard/ci-dashboard-gh-workflows.json', path: 'grafana/provisioning/dashboards' }
-    ####### Opendev dashboards #########
-    - { name: 'opendev/afs.json', path: 'grafana/provisioning/dashboards' }
-    ####### Cloud provider #########
-      # NOTE: node_exporter_vexxhost is same dashboard as node_exporter, but
-      # with few changed values.
-    - { name: 'vexxhost/node_exporter-vexxhost.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'vexxhost/vexxhost-summary.json', path: 'grafana/provisioning/dashboards' }
-    - { name: 'vexxhost/downstream-dashboard-vexxhost.json', path: 'grafana/provisioning/dashboards' }
-    ####### RDO dashboards #########
-    - { name: 'RDO/rdo-puppet-promotions-pipeline.json', path: 'grafana/provisioning/dashboards' }
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/grafana/provisioning/dashboards/{{ item }}"
+  loop: "{{ grafana_dashboard_directories }}"
   register: _grafana_config
 
 - name: Install config templates
   become: yes
-  template:
+  ansible.builtin.template:
     src: '{{ item.name }}.j2'
     dest: '/etc/{{ item.path }}/{{ item.name }}'
   loop:
-    - { name: 'datasource_prometheus.yml', path: 'grafana/provisioning/datasources' }
-    - { name: 'grafana.ini', path: 'grafana'}
+    - name: datasource_prometheus.yml
+      path: grafana/provisioning/datasources
+    - name: grafana.ini
+      path: grafana
   register: _grafana_template
 
 # NOTE: Make a workaround for Zuul secret that variable is available for

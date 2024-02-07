@@ -20,14 +20,14 @@
                 grafana: "quay.io/software-factory/grafana-oss@sha256:1016f0f2612877830ab8f74acbc937fafad9df0b9db1c58c353aea3afd080e40"
             roles:
               - sf/grafana
-        dest: '{{ ansible_user_dir }}/deploy_grafana.yml'
+        dest: '/tmp/deploy_grafana.yml'
 
     - name: Deploy Grafana locally
       shell:
         cmd: |
-          ansible-playbook deploy_grafana.yml
+          ansible-playbook /tmp/deploy_grafana.yml
       environment:
-        ANSIBLE_CONFIG: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible"
+        ANSIBLE_CONFIG: "{{ ansible_user_dir }}/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/ansible/ansible.cfg"
 
     - name: Install puppeteer
       shell: |
