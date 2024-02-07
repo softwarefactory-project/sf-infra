@@ -1,0 +1,6 @@
+---
+- name: Configure environment
+  ansible.builtin.include_tasks: pre-grafana-dash.yaml
+
+- name: Run tests
+  ansible.builtin.include_tasks: grafana-dash.yaml

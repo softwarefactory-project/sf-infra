@@ -1,0 +1,21 @@
+---
+- name: "Find all {{ dashboard_dir }} dashboards"
+  shell:
+    cmd: |
+      find /etc/grafana/provisioning/dashboards/{{ dashboard_dir }}/ -type f -name '*.json' -print0 | xargs -0 -I {} jq -r .title {}
+  register: dashboard_names
+
+- set_fact:
+    dashboards: "{{ dashboard_names.stdout.split('\n') }}"
+
+- name: "Deploy puppeteer script for {{ dashboard_dir }}"
+  template:
+    src: grafana-screenshots.js.j2
+    dest: /tmp/test.js
+    mode: 0755
+
+- name: "Run puppeteer script for {{ dashboard_dir }}"
+  shell:
+    cmd: |
+      node test.js
+    chdir: /tmp
