@@ -90,27 +90,6 @@ let header =
       # This file is managed by the ./vars/directory-tree.dhall file.
       ''
 
-let mkInventory =
-      \(instances : List Infra.Instance.Type) ->
-        let Inventory =
-              Prelude.Text.concatSep
-                "\n"
-                ( Prelude.List.map
-                    Infra.Instance.Type
-                    Text
-                    Infra.Instance.show
-                    instances
-                )
-
-        in  ''
-            # Inventory
-
-            This project manages:
-
-            ${Inventory}
-
-            ''
-
 in  { doc.`inventory.md`
       = header ++ Infra.Instance.mkMarkdownInventory vars.instances
     , roles.system.generate-etc-hosts.files.sshconfig = header ++ sshconfig
