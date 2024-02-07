@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+secretGenerator:
+- name: minio-users
+  literals:
+    - MINIO_ROOT_USER={{ minio_root_user }}
+    - MINIO_ROOT_PASSWORD={{ minio_root_password }}
+    - MINIO_USER={{ minio_user }}
+    - MINIO_PASSWORD={{ minio_password }}
+    - LOKI_ACCESS_KEY={{ loki_access_key }}
+    - LOKI_SECRET_KEY={{ loki_secret_key }}
+  namespace: {{ minio_namespace }}
+
+patches:
+- target:
+    kind: Pod
+    name: minio
+  path: pod.yaml
+- target:
+    kind: Job
+    name: minio-user-setup
+  path: job.yaml
+- target:
+    kind: PersistentVolumeClaim
+    name: minio-pvc
+  path: pvc.yaml
