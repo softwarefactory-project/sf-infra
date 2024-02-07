@@ -1,7 +1,4 @@
 ---
-- include_vars:
-    file: /etc/hosts.yaml
-
 - block:
     - name: Make sure NetworkManager and dnsmasq are installed
       package:

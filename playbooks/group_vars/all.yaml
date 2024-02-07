@@ -93,6 +93,27 @@ install_server_sf_key: !vault |
 
 install_server_rdo_pub: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTymcS8y5uL4eqyDnkWuF83KyBuzIwQnYGl3BXlNFXg2Z9zjJL2ool+AKHF29vOhL5k6RXIWisMvmKEmjbWWvkUkbXDQjHUNEuEwnQjxzE1RKRhbcp0zM9HDRfTHwfw31k6Go8bXA4VwQWPk8AZJrfwUbhPTyxeYl5AToyqT2MzLzBYttOQ+tHg1UpqwE1GCXZ/tiZ+Ads8Co2i+1svB9tlD7Xio+dPcVnvdy318wgsPSlNWsrQqIsax6JHdfO9GqBZA8JEjakeh9wKD2ItqhQ6XVbGAtraavooCfhVOLWOpjQlYvuy7xMTWi6PECIgiQUNpCo5Pwk9ym3053riib1 service_rsa@rdoproject.org"
 
+# INFO: nhicher
+# theses variables are used by tasks/create-hosts.yaml
+# www.rdoproject.org should not be present on /etc/hosts but I don't know why
+infra_rdo_public_instances: >-
+  openstack --os-cloud infra-rdo server list
+  | grep -v 'www.rdoproject.org'
+  | awk '/ACTIVE/ {print $9,$4}'
+infra_sf_public_instances: >-
+  openstack --os-cloud infra-sf server list
+  | grep -vE 'zs|zm0?|ze0?|nodepool-builder'
+  | awk '/ACTIVE/ {print $9,$4}'
+# $8 is 'private-network=$private_ip' and should be splited
+infra_sf_private_instances: >-
+  openstack --os-cloud infra-sf server list
+  | grep -E 'zs|zm0?|ze0?|nodepool-builder'
+  | awk '/ACTIVE/ { split($8, ip, "="); print ip[2],$4}'
+managed_instances: >-
+  {{ infra_rdo_public_instances }}
+  && {{ infra_sf_public_instances }}
+  && {{ infra_sf_private_instances }}
+
 install_server_rdo_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           63653537613862636566396431363364313631653335393239346339323962393338656338363065
@@ -189,8 +210,6 @@ smtp_host: 'bridge.softwarefactory-project.io'
 smtp_domain: 'softwarefactory-project.io'
 monitoring_host: 'prometheus.monitoring.softwarefactory-project.io'
 monitoring_endpoint_url: 'https://{{ monitoring_host }}'
-inventory_public_dns:
-  - www.rdoproject.org
 
 container_images:
   # version: 1.6.1
