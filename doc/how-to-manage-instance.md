@@ -60,7 +60,7 @@ Then from the root directory, execute `make` to update the yaml files. This comm
 * doc/inventory.md: inventory documentation
 * monitoring/prometheus.yaml: to disable set the `node-exporter` instance attribute to False
 * playbooks/vars/$project.yaml: the ansible variables file for the project to deploy the instance
-* roles/system/generate-etc-hosts/files/sshconfig: the ssh_config file to connect from the deployment host to the instance
+* roles/bridge/generate-etc-hosts/files/sshconfig: the ssh_config file to connect from the deployment host to the instance
 
 ## Configure instance
 
