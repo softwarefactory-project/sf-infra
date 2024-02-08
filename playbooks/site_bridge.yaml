@@ -8,8 +8,8 @@
       become: yes
 
   roles:
+    - bridge/generate-etc-hosts
     - service/manage-accounts
-    - system/generate-etc-hosts
     - service/node-exporter
     - system/update-host
 

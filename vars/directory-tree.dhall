@@ -92,5 +92,5 @@ let header =
 
 in  { doc.`inventory.md`
       = header ++ Infra.Instance.mkMarkdownInventory vars.instances
-    , roles.system.generate-etc-hosts.files.sshconfig = header ++ sshconfig
+    , roles.bridge.generate-etc-hosts.files.sshconfig = header ++ sshconfig
     }

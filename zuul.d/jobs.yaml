@@ -155,6 +155,7 @@
       - playbooks/host_vars/bridge.softwarefactory-project.io.yaml
       - playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml
       - playbooks/group_vars/all
+      - "^roles/bridge/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"
 

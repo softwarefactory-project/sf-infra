@@ -121,12 +121,12 @@
       delegate_to: localhost
       no_log: yes
   roles:
+    - bridge/generate-etc-hosts
     - service/firewalld
     - service/hostname
     - service/setup-ssl
     - sf/alert-manager
     - sf/blackbox-exporter
-    - system/generate-etc-hosts
     - sf/dnsmasq
     - sf/grafana
     - sf/monitoring-gateway
