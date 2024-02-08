@@ -4,6 +4,7 @@
   ansible.builtin.yum:
     name:
       - python3-pip
+      - python3-libselinux
     state: present
 
 - name: Install OpenStack libs in venv
@@ -12,7 +13,7 @@
     name: "{{ openstack_packages }}"
     state: present
     virtualenv: "{{ crc_venv_dir }}"
-    virtualenv_command: python3 -m venv
+    virtualenv_command: python3 -m venv --system-site-packages
 
 - name: Install OpenStack libs to system
   when: not crc_venv_dir

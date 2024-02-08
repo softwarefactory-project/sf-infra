@@ -10,6 +10,7 @@ openstack_packages:
 
 ansible_collection:
   - community.crypto
+  - community.general
   - openstack.cloud
   - ansible.posix
 
