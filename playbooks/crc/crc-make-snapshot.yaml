@@ -40,6 +40,8 @@
         # path for a place, where the crc extracted qcow2 image should be
         # downloaded. NOTE: It should have at least 25 GB free space
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
+        crc_nested_custom_packages: "{{ crc_nested_custom_packages | default([]) }}"
+        crc_nested_custom_packages_disable_gpg: "{{ crc_nested_custom_packages_disable_gpg | default(false) }}"
 
     - name: Set facts for image naming
       ansible.builtin.set_fact:
@@ -107,6 +109,14 @@
       ansible.builtin.include_role:
         name: next-gen/crc-image
         tasks_from: configure_vm.yaml
+
+    - name: Install custom packages
+      become: true
+      ansible.builtin.yum:
+        name: "{{ crc_nested_custom_packages }}"
+        state: present
+        disable_gpg: "{{ crc_nested_custom_packages_disable_gpg | bool }}"
+      when: crc_nested_custom_packages
 
     - name: "Run CRC {{ crc_version }} deployment"
       ansible.builtin.include_role:
