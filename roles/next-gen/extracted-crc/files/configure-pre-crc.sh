@@ -21,19 +21,27 @@ if [ -z $DNS2 ]; then
     DNS2='8.8.8.8'
 fi
 
-cat << EOL | sudo tee /var/srv/dnsmasq.conf
-user=root
-port= 53
+if [ "$DNS1" == "$DNS2" ]; then
+    DNS2='1.1.1.1'
+fi
+
+if [ -f /var/srv/dnsmasq.conf ]; then
+    sed -i "s/192.168.130.11/$HOST_IP/g" /var/srv/dnsmasq.conf
+fi
+
+if [ -f /etc/dnsmasq.d/crc-dnsmasq.conf ]; then
+    sed -i "s/192.168.130.11/$HOST_IP/g" /etc/dnsmasq.d/crc-dnsmasq.conf
+
+    if grep -qv bind-interfaces /etc/dnsmasq.d/crc-dnsmasq.conf; then
+cat << EOL | sudo tee -a /etc/dnsmasq.d/crc-dnsmasq.conf
+# Add missing params
 bind-interfaces
-expand-hosts
-log-queries
-local=/crc.testing/
-domain=crc.testing
-address=/apps-crc.testing/$HOST_IP
-address=/api.crc.testing/$HOST_IP
-address=/api-int.crc.testing/$HOST_IP
-address=/crc-74q6p-master-0.crc.testing/192.168.126.11
+server=$DNS1
+server=$DNS2
 EOL
+    systemctl restart dnsmasq
+    fi
+fi
 
 cat << EOL | sudo tee /etc/resolv.conf
 nameserver $HOST_IP
