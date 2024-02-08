@@ -1,0 +1,522 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "CI Vote Aggregations per Releases",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 148,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "fifemon-graphql-datasource",
+        "uid": "P838AB84D8548FF47"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "color-background-solid",
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 433
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "URL"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "${__value.text}"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 233
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 176
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 154
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hash"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 289
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 476
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "false": {
+                        "color": "dark-red",
+                        "index": 1,
+                        "text": "FAILURE"
+                      },
+                      "true": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "SUCCESS"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.2.6",
+      "targets": [
+        {
+          "aliasBy": "",
+          "annotationTags": "",
+          "annotationText": "",
+          "annotationTitle": "",
+          "constant": 6.5,
+          "dataPath": "civoteAgg",
+          "datasource": {
+            "type": "fifemon-graphql-datasource",
+            "uid": "P838AB84D8548FF47"
+          },
+          "endTimePath": "endTime",
+          "groupBy": "",
+          "queryText": "query {\n civoteAgg {\n  Job:ciName\n  Hash:refHash\n  URL:ciUrl\n  Status:ciVote\n  InProgress:ciInProgress\n  Timestamp:timestamp\n  Notes:notes\n }\n}",
+          "refId": "A",
+          "timePath": "Time"
+        }
+      ],
+      "title": "CI Vote Aggregations Centos 9 Antelope",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Date",
+            "binary": {
+              "left": "Timestamp",
+              "operator": "*",
+              "reducer": "sum",
+              "right": "1000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "_Timestamp"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "Date"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Notes": true,
+              "Timestamp": true,
+              "_Timestamp": true
+            },
+            "indexByName": {
+              "Date": 1,
+              "_Hash": 3,
+              "_InProgress": 6,
+              "_Job": 2,
+              "_Status": 5,
+              "_Timestamp": 0,
+              "_URL": 4
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "fifemon-graphql-datasource",
+        "uid": "P33DCD9665A60DB8D"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "color-background-solid",
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 433
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "URL"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "${__value.text}"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 233
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 176
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 154
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hash"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 289
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 476
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "false": {
+                        "color": "dark-red",
+                        "index": 1,
+                        "text": "FAILURE"
+                      },
+                      "true": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "SUCCESS"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 3,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.2.6",
+      "targets": [
+        {
+          "aliasBy": "",
+          "annotationTags": "",
+          "annotationText": "",
+          "annotationTitle": "",
+          "constant": 6.5,
+          "dataPath": "civoteAgg",
+          "datasource": {
+            "type": "fifemon-graphql-datasource",
+            "uid": "P33DCD9665A60DB8D"
+          },
+          "endTimePath": "endTime",
+          "groupBy": "",
+          "queryText": "query {\n civoteAgg {\n  Job:ciName\n  Hash:refHash\n  URL:ciUrl\n  Status:ciVote\n  InProgress:ciInProgress\n  Timestamp:timestamp\n  Notes:notes\n }\n}",
+          "refId": "A",
+          "timePath": "Time"
+        }
+      ],
+      "title": "CI Vote Aggregations Centos 9 Wallaby",
+      "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Date",
+            "binary": {
+              "left": "Timestamp",
+              "operator": "*",
+              "reducer": "sum",
+              "right": "1000"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "_Timestamp"
+              ],
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "Date"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Notes": true,
+              "Timestamp": true,
+              "_Timestamp": true
+            },
+            "indexByName": {
+              "Date": 1,
+              "_Hash": 3,
+              "_InProgress": 6,
+              "_Job": 2,
+              "_Status": 5,
+              "_Timestamp": 0,
+              "_URL": 4
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-0m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "CI Vote Aggregations per Releases",
+  "uid": "14f05161339e85025d0c6857254b7153",
+  "version": 2,
+  "weekStart": ""
+}
