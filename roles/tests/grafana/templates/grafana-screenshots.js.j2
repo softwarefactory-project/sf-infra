@@ -8,11 +8,11 @@ const puppeteer = require('puppeteer');
   // later dashboards would be available
   await page.goto('http://localhost:3000/dashboards',  {waitUntil: 'networkidle0'});
   await page.click("[data-testid='data-testid Search section']")
-  // open infra dir
+  // open {{ dashboard_dir }} dir
   const elements = await page.$$('span[id*="section-header-label-"]');
   for (const element of elements) {
     const text = await element.evaluate(el => el.textContent);
-    if (text.includes('infra')) {
+    if (text.includes('{{ dashboard_dir }}')) {
       await element.click();
       break;
     }

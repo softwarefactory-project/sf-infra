@@ -331,8 +331,7 @@
     name: sf-infra-grafana-dashboards
     parent: sf-infra-base
     description: Deploy Grafana and take screenshots of all dashboards
-    pre-run: tests/pre-grafana-dash.yml
-    run: tests/grafana-dash.yml
+    run: tests/grafana.yaml
     post-run: tests/post-grafana-dash.yml
     required-projects:
       - name: software-factory/sf-infra
@@ -342,10 +341,7 @@
           label: cloud-centos-8-stream
     files:
       - ^roles/sf/grafana/.*$
-      - ^tests/grafana-dash.yml$
-      - ^tests/post-grafana-dash.yml$
-      - ^tests/pre-grafana-dash.yml$
-      - ^tests/templates/grafana-screenshots.js.j2$
+      - ^roles/tests-service/grafana/.*$
 
 - job:
     name: sf-infra-quay-check

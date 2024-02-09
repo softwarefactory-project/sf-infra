@@ -1,0 +1,29 @@
+---
+- name: Install puppeteer
+  shell: |
+      npm install puppeteer@20.2.1
+  args:
+    chdir: /tmp
+
+- name: Create log directory
+  file:
+    path: /tmp/log
+    state: directory
+    mode: '0755'
+
+- name: Create required dirs for Grafana
+  file:
+    path: "/etc/grafana/provisioning/{{ item }}"
+    state: directory
+  loop:
+    - dashboards
+    - datasources
+    - plugins
+  become: true
+
+- name: Run tests for Grafana dashboards
+  ansible.builtin.include_tasks:
+    file: run-tests.yaml
+  loop: "{{ test_dashboard_dirs }}"
+  loop_control:
+    loop_var: dashboard_dir

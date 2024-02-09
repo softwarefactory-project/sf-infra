@@ -3,7 +3,7 @@
   tasks:
     - name: Copy screenshot files
       synchronize:
-        src: "{{ ansible_user_dir }}/log/"
+        src: "/tmp/log/"
         dest: "{{ zuul.executor.log_root }}/log"
         mode: pull
         verify_host: true

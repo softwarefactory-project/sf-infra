@@ -1,0 +1,39 @@
+---
+- name: Check Grafana dashboards
+  hosts: all
+  tasks:
+    - name: Configure Grafana when Zuul
+      when: zuul is defined
+      block:
+        - name: Read monitoring host variables to get Grafana container_images value
+          ansible.builtin.include_vars:
+            file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml"
+
+        - name: Setup Grafana
+          vars:
+            grafana_server_root_url: http://localhost
+            prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+          ansible.builtin.include_role:
+            name: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/sf/grafana"
+
+        - name: Run Grafana tests
+          ansible.builtin.include_role:
+            name: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/tests/grafana"
+
+    - name: Configure Grafana when not running on Zuul
+      when: zuul is not defined
+      block:
+        - name: Read monitoring host variables to get Grafana container_images value
+          ansible.builtin.include_vars:
+            file: playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml
+
+        - name: Setup Grafana
+          vars:
+            grafana_server_root_url: http://localhost
+            prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+          ansible.builtin.include_role:
+            name: sf/grafana
+
+        - name: Run Grafana tests
+          ansible.builtin.include_role:
+            name: tests/test-grafana
