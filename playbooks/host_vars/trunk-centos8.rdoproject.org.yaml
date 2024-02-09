@@ -163,7 +163,7 @@ dlrn_workers:
     distgit_branch: 'yoga-rdo'
     distro_branch: 'stable/yoga'
     disable_email: *disable_email
-    enable_cron: false
+    enable_cron: *enable_cron
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '17'
@@ -247,7 +247,7 @@ dlrn_workers:
     distgit_branch: 'yoga-rdo'
     distro_branch: 'stable/yoga'
     disable_email: *disable_email
-    enable_cron: false
+    enable_cron: *enable_cron
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '37'
