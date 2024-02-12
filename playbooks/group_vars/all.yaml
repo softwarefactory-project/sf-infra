@@ -99,16 +99,16 @@ install_server_rdo_pub: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTymcS8y5uL4eqyDn
 infra_rdo_public_instances: >-
   openstack --os-cloud infra-rdo server list
   | grep -v 'www.rdoproject.org'
-  | awk '/ACTIVE/ {print $9,$4}'
+  | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 infra_sf_public_instances: >-
   openstack --os-cloud infra-sf server list
   | grep -vE 'zs|zm0?|ze0?|nodepool-builder'
-  | awk '/ACTIVE/ {print $9,$4}'
+  | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 # $8 is 'private-network=$private_ip' and should be splited
 infra_sf_private_instances: >-
   openstack --os-cloud infra-sf server list
   | grep -E 'zs|zm0?|ze0?|nodepool-builder'
-  | awk '/ACTIVE/ { split($8, ip, "="); print ip[2],$4}'
+  | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
 managed_instances: >-
   {{ infra_rdo_public_instances }}
   && {{ infra_sf_public_instances }}
