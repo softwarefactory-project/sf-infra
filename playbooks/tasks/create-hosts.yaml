@@ -4,47 +4,59 @@
     file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
+- name: Get servers info
+  openstack.cloud.server_info:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant | default(omit) }}"
+  register: _cloud
+
 - name: Create servers
+  when: not (_cloud.servers | regex_search(server.name))
   openstack.cloud.server:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('present') }}"
-    name: "{{ item.name }}"
-    image: "{{ item.image }}"
-    flavor: "{{ item.flavor }}"
-    key_name: "{{ item.key_name }}"
-    network: "{{ item.network | default(None) }}"
-    auto_ip: "{{ item.auto_ip | default(omit) }}"
-    floating_ips: "{{ item.floating_ips | default(omit) }}"
-    floating_ip_pools: "{{ item.floating_ip_pools | default(omit) }}"
-    security_groups: "{{ item.security_groups | default('default') }}"
-    boot_from_volume: "{{ item.boot_from_volume | default('no') }}"
-    volume_size: "{{ item.volume_size | default(0) }}"
+    state: "{{ server.state | default('present') }}"
+    name: "{{ server.name }}"
+    image: "{{ server.image }}"
+    flavor: "{{ server.flavor }}"
+    key_name: "{{ server.key_name }}"
+    network: "{{ server.network | default(None) }}"
+    auto_ip: "{{ server.auto_ip | default(omit) }}"
+    floating_ips: "{{ server.floating_ips | default(omit) }}"
+    security_groups: "{{ server.security_groups | default('default') }}"
+    boot_from_volume: "{{ server.boot_from_volume | default('no') }}"
+    volume_size: "{{ server.volume_size | default(0) }}"
   loop: "{{ tenant_config.servers }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ server.name }}"
+    loop_var: server
 
 - name: Create or delete additional volumes
   openstack.cloud.volume:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('present') }}"
-    display_name: "{{ item.display_name }}"
-    size: "{{ item.size }}"
+    state: "{{ volume.state | default('present') }}"
+    display_name: "{{ volume.display_name }}"
+    size: "{{ volume.size }}"
     wait: yes
   loop: "{{ tenant_config.volumes }}"
+  loop_control:
+    label: "{{ volume.display_name }}"
+    loop_var: volume
 
-# Attaching volumes with os_server only works at initial server creation
-# Use os_server_volume instead
 - name: Attach additional volumes
   openstack.cloud.server_volume:
     cloud: "{{ cloud.name }}"
     auth:
       project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ item.state | default('present') }}"
-    volume: "{{ item.display_name }}"
-    server: "{{ item.server }}"
-    device: "{{ item.device | default(omit) }}"
+    state: "{{ volume.state | default('present') }}"
+    volume: "{{ volume.display_name }}"
+    server: "{{ volume.server }}"
+    device: "{{ volume.device | default(omit) }}"
   loop: "{{ tenant_config.volumes }}"
+  loop_control:
+    label: "{{ volume.display_name }}"
+    loop_var: volume

@@ -131,7 +131,8 @@ let security_groups =
           }
         ]
 
-in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]
+in  { networks = Some
+      [ Infra.Network.create Common.external-network rdo_network.name ]
     , subnets = Some
       [ Infra.Subnet.create
           rdo_network.name
@@ -140,7 +141,7 @@ in  { networks = Some [ Infra.Network.create "public" rdo_network.name ]
       ]
     , routers = Some
       [     Infra.Router.create
-              "public"
+              Common.external-network
               rdo_network.name
               rdo_network.network_prefix
         //  backward-compat-name
