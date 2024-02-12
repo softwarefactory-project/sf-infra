@@ -14,7 +14,7 @@ metadata:
 spec:
   containers:
     - name: logreduce
-      image: ghcr.io/logjuicer/logjuicer:latest
+      image: ghcr.io/logjuicer/logjuicer:0.9.7
       securityContext:
         privileged: false
         allowPrivilegeEscalation: false
