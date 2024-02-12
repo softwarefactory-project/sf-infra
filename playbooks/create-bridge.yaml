@@ -53,7 +53,7 @@
           project_name: "infra-sf"
         state: "present"
         name: "bridge.softwarefactory-project.io"
-        image: "fedora-37-1.7"
+        image: "fedora-38-1.6"
         key_name: "sf-infra-key"
         flavor: "v1-standard-2"
         network: private-network

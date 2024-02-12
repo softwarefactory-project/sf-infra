@@ -62,7 +62,7 @@ let tenant-instances =
       ]
 
 let instances =
-      [ Instance::{ name = "bridge", connection = OS.Fedora.`33`.connection }
+      [ Instance::{ name = "bridge", connection = OS.Fedora.`38`.connection }
       , Instance::{
         , groups = [ "monitoring" ]
         , name = "prometheus.monitoring"
