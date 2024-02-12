@@ -8,9 +8,12 @@
   register: _crcbundle_name
 
 - name: Create directory for extracting bundle
+  become: true
   ansible.builtin.file:
     path: "{{ crc_bundle_dir }}"
     state: directory
+    owner: "{{ ansible_user | default(ansible_user_id) }}"
+    group: "{{ ansible_user | default(ansible_user_id) }}"
 
 - name: Extract the CRC bundle
   ansible.builtin.command: >
