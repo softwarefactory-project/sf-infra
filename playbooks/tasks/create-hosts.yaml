@@ -24,7 +24,6 @@
   loop: "{{ tenant_config.servers }}"
   loop_control:
     label: "{{ item.name }}"
-  register: _servers
 
 - name: Create or delete additional volumes
   openstack.cloud.volume:
@@ -49,26 +48,3 @@
     server: "{{ item.server }}"
     device: "{{ item.device | default(omit) }}"
   loop: "{{ tenant_config.volumes }}"
-
-- name: Combine server ips fact
-  become: true
-  ansible.builtin.blockinfile:
-    marker: ""
-    block: |
-      {% for server in _servers.results -%}
-      {% set ipaddress = [] -%}
-      {% set floating_address = [] -%}
-      {% for network in available_networks -%}
-      {% if 'server' in server and network in server.server.addresses -%}
-      {{- ipaddress.append(server.server.addresses[network] | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'fixed') | map(attribute='addr') | join('')) -}}
-      {{- floating_address.append(server.server.addresses[network] | selectattr('addr', 'defined') | selectattr('OS-EXT-IPS:type', 'match', 'floating') | map(attribute='addr') | join('')) -}}
-      {% endif -%}
-      {% endfor -%}
-      {% if 'server' in server -%}
-      - name: {{ server.server.name }}
-        ip: {{ ipaddress | first | default('') }}
-        floating_ip: {{ floating_address | first | default('') }}
-        project_name: {{ cloud.tenant | default(cloud.name) }}
-      {% endif -%}
-      {% endfor %}
-    path: "{{ temp_hosts_file }}"
