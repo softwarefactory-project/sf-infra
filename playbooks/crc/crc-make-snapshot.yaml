@@ -115,7 +115,7 @@
       ansible.builtin.yum:
         name: "{{ crc_nested_custom_packages }}"
         state: present
-        disable_gpg: "{{ crc_nested_custom_packages_disable_gpg | bool }}"
+        disable_gpg_check: "{{ crc_nested_custom_packages_disable_gpg | bool }}"
       when: crc_nested_custom_packages
 
     - name: "Run CRC {{ crc_version }} deployment"
