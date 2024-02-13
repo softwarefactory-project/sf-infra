@@ -50,9 +50,12 @@
         msg: "Images are not the same! ({{ _parent_img_md5 }} != {{ _base_image_md5 }} )"
 
     - name: Ensure dowload dir exists
+      become: true
       ansible.builtin.file:
         path: "{{ sync_extracted_qcow2_dir }}"
         state: directory
+        owner: "{{ ansible_user | default(ansible_user_id) }}"
+        group: "{{ ansible_user | default(ansible_user_id) }}"
 
     # NOTE: Pull the image and push when:
     # - image checksum from upstream is not equal what is in other parent cloud
