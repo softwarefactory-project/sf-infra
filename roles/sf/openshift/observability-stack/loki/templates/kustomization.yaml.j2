@@ -1,0 +1,115 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+secretGenerator:
+- name: loki-s3-secrets
+  literals:
+    - S3_ACCESS_KEY_ID={{ s3_config.access_key_id }}
+    - S3_BUCKETNAMES={{ s3_config.bucketnames }}
+    - S3_ENDPOINT={{ s3_config.endpoint }}
+    - S3_INSECURE={{  s3_config.insecure }}
+    - S3_REGION={{ s3_config.region }}
+    - S3_FORCEPATHSTYLE={{ s3_config.s3forcepathstyle }}
+    - S3_SECRET_ACCESS_KEY={{ s3_config.secret_access_key }}
+  namespace: {{ loki_namespace }}
+
+patches:
+- target:
+    kind: StatefulSet
+    name: loki-backend
+  path: statefulset-backend.yaml
+- target:
+    kind: ServiceAccount
+    name: loki-grafana-agent-operator
+  patch: |-
+    $patch: delete
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: loki-grafana-agent-operator
+      namespace: {{ loki_namespace }}
+- target:
+    kind: ServiceAccount
+    name: grafana-agent-test-sa
+  patch: |-
+    $patch: delete
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: grafana-agent-test-sa
+      namespace: {{ loki_namespace }}
+- target:
+    kind: ClusterRole
+    name: grafana-agent-test-cr
+  patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: grafana-agent-test-cr
+- target:
+    kind: ClusterRole
+    name: loki-grafana-agent-operator
+  patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: loki-grafana-agent-operator
+- target:
+    kind: ClusterRoleBinding
+    name: grafana-agent-test-crb
+  patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: grafana-agent-test-crb
+- target:
+    kind: ClusterRoleBinding
+    name: loki-grafana-agent-operator
+  patch: |-
+    $patch: delete
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: loki-grafana-agent-operator
+- target:
+    kind: Deployment
+    name: loki-grafana-agent-operator
+  patch: |-
+    $patch: delete
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: loki-grafana-agent-operator
+- target:
+    kind: GrafanaAgent
+    name: grafana-agent-test
+  patch: |-
+    $patch: delete
+    apiVersion: monitoring.grafana.com/v1alpha1
+    kind: GrafanaAgent
+    metadata:
+      name: grafana-agent-test
+- target:
+    kind: MetricsInstance
+    name: primary-test
+  patch: |-
+    $patch: delete
+    apiVersion: monitoring.grafana.com/v1alpha1
+    kind: MetricsInstance
+    metadata:
+      name: primary-test
+- target:
+    kind: Pod
+    name: grafana-agent-test-probe
+  patch: |-
+    $patch: delete
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: grafana-agent-test-probe

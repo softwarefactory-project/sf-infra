@@ -1,0 +1,77 @@
+---
+- name: Ensure namespace exists
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      kind: namespace
+      metadata:
+        name: "{{ loki_namespace }}"
+      labels:
+        name: "{{ loki_namespace }}"
+
+- name: Install grafana repo
+  ansible.builtin.shell: |
+    helm repo add grafana https://grafana.github.io/helm-charts
+
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/loki/base"
+        recurse: true
+        state: directory
+    - name: copy base manifest
+      ansible.builtin.copy:
+        dest: "{{ kustomize_dir }}/loki/base/kustomization.yaml"
+        src: "kustomization.yaml"
+    - name: create route manifest
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/loki/base/route.yaml"
+        src: "route.yaml.j2"
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/loki/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlays
+      ansible.builtin.copy:
+        dest: "{{ kustomize_dir }}/loki/overlay/statefulset-backend.yaml"
+        src: "statefulset-backend.yaml"
+    - name: copy templated overlays
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/loki/overlay/{{ item }}"
+        src: "{{ item }}.j2"
+      loop:
+        - kustomization.yaml
+
+- name: Generate Helm values
+  ansible.builtin.template:
+    dest: "{{ kustomize_dir }}/loki/base/chart-values.yaml"
+    src: "loki-helm-values.yaml.j2"
+
+- name: Generate Helm manifest
+  ansible.builtin.shell: |
+    helm template loki grafana/loki --values chart-values.yaml --namespace {{ loki_namespace }} > loki-helm-manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/loki/base"
+
+- name: Generate kustomized manifest
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/loki/"
+
+- name: Apply loki manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ loki_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/loki"
+
+- name: Add Security Context Constraints to loki serviceaccount
+  ansible.builtin.command: >
+    oc adm policy
+    add-scc-to-user
+    privileged system:serviceaccount:{{ loki_namespace }}:loki
