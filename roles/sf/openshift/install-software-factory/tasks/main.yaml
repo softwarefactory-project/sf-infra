@@ -1,15 +1,18 @@
 ---
-- name: Create Namespace {{ sf_namespace }}
-  kubernetes.core.k8s:
-    state: present
-    kind: Namespace
-    name: "{{ sf_namespace }}"
+- name: Setup namespace
+  when: sf_setup_namespace | bool
+  block:
+    - name: Create Namespace {{ sf_namespace }}
+      kubernetes.core.k8s:
+        state: present
+        kind: Namespace
+        name: "{{ sf_namespace }}"
 
-- name: Add Security Context Constraints to User
-  ansible.builtin.command: >
-    oc adm policy
-    add-scc-to-user
-    privileged system:serviceaccount:{{ sf_namespace }}:default
+    - name: Add Security Context Constraints to User
+      ansible.builtin.command: >
+        oc adm policy
+        add-scc-to-user
+        privileged system:serviceaccount:{{ sf_namespace }}:default
 
 # When this Secret 'sf-ssl-cert' is set then sf-operator uses its content to setup Routes' TLS.
 - name: Install TLS Secret for the Route
@@ -43,7 +46,36 @@
   no_log: true
   loop: "{{ zuul_connections_secrets }}"
 
-- name: Install Software Factory
+- name: Apply the SF Custom Resource
   kubernetes.core.k8s:
     state: present
     definition: "{{ software_factory }}"
+  when: not (sf_operator_standalone | bool)
+
+- name: Apply the SF Custom Resource (standalone)
+  when: sf_operator_standalone | bool
+  block:
+    - name: Ensure system packages
+      become: true
+      ansible.builtin.package:
+        name:
+          - golang-bin
+
+    - name: Ensure sf-operator repository
+      ansible.builtin.git:
+        repo: "https://softwarefactory-project.io/r/software-factory/sf-operator"
+        dest: ~/sf-operator
+        version: "{{ sf_operator_standalone_release }}"
+        force: true
+
+    - name: Copy the CR on the filesystem
+      ansible.builtin.copy:
+        content: "{{ software_factory }}"
+        dest: /tmp/sf_operator_cr.yaml
+
+    - name: Run the standalone command
+      ansible.builtin.shell: go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }} --cr /tmp/sf_operator_cr.yaml
+      args:
+        chdir: ~/sf-operator
+      environment:
+        KUBECONFIG: "{{ kube_config }}"

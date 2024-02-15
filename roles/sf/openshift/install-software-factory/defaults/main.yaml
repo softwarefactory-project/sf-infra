@@ -1,5 +1,9 @@
 ---
+kube_config: ~/.kube/config
 sf_namespace: sf
+sf_setup_namespace: true
+sf_operator_standalone: false
+sf_operator_standalone_release: master
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
