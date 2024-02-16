@@ -15,14 +15,12 @@ let instances =
         , name = "mirror.regionone.vexxhost"
         , groups = [ "afs-mirror", "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
-                  , security_groups = [ "web", "afs", "apache_exporter" ]
-                  , volume_size = Some 200
-                  }
-              //  Infra.Server.Ip "38.102.83.237"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , security_groups = [ "web", "afs", "apache_exporter" ]
+          , floating_ip = Some True
+          , volume_size = Some 200
+          }
         }
       , Instance::{
         , name = "quay"
@@ -30,15 +28,13 @@ let instances =
         , connection =
                 OS.CentOS.`8-stream`.connection
             //  { ansible_host = Some "38.129.56.158" }
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`8-stream`.image.name
-                  , flavor = Some Flavors.`4vcpus_8gb`
-                  , security_groups = [ "web" ]
-                  , volume_size = Some 50
-                  }
-              //  Infra.Server.Ip "38.129.56.158"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`8-stream`.image.name
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , floating_ip = Some True
+          , security_groups = [ "web" ]
+          , volume_size = Some 50
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "quay_db"
@@ -65,7 +61,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.0`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
-          , auto_ip = Some True
+          , floating_ip = Some True
           , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 512
           }
@@ -99,7 +95,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
           , flavor = Some Flavors.`2vcpus_8gb`
-          , auto_ip = Some True
+          , floating_ip = Some True
           , volume_size = Some 40
           , security_groups =
             [ "web", "managesf", "internal", "apache_exporter" ]
@@ -109,13 +105,11 @@ let instances =
         , name = "elk.review"
         , groups = [ "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
-                  , security_groups = [ "elk", "internal" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.136"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , security_groups = [ "elk", "internal" ]
+          , floating_ip = Some True
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
@@ -131,7 +125,7 @@ let instances =
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
-          , auto_ip = Some True
+          , floating_ip = Some True
           , security_groups = [ "web", "hound", "internal", "apache_exporter" ]
           , volume_size = Some 10
           }
@@ -160,7 +154,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
           , flavor = Some Flavors.`1vcpu_4gb`
-          , auto_ip = Some True
+          , floating_ip = Some True
           , security_groups = [ "web", "rcn-share", "apache_exporter" ]
           , volume_size = Some 50
           }
@@ -179,15 +173,13 @@ let instances =
         , connection =
                 OS.CentOS.`8.1`.connection
             //  { ansible_python_interpreter = "python3" }
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`8.1`.image.name
-                  , flavor = Some Flavors.`1vcpu_4gb`
-                  , security_groups = [ "web", "apache_exporter" ]
-                  , volume_size = Some 10
-                  }
-              //  Infra.Server.Ip "38.102.83.227"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`8.1`.image.name
+          , flavor = Some Flavors.`1vcpu_4gb`
+          , floating_ip = Some True
+          , security_groups = [ "web", "apache_exporter" ]
+          , volume_size = Some 10
+          }
         , monitoring_urls = [ "https://www.rdoproject.org/" ]
         }
       , Instance::{
@@ -197,7 +189,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
           , flavor = Some Flavors.`2vcpus_8gb`
-          , auto_ip = Some True
+          , floating_ip = Some True
           , security_groups = [ "dlrn-db" ]
           , volume_size = Some 60
           }
@@ -208,16 +200,14 @@ let instances =
         , connection =
                 OS.CentOS.`8-stream`.connection
             //  { ansible_host = Some "38.102.83.14" }
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`8-stream`.image.name
-                  , flavor = Some Flavors.`4vcpus_8gb`
-                  , security_groups =
-                    [ "web", "opensearch", "internal", "apache_exporter" ]
-                  , volume_size = Some 50
-                  }
-              //  Infra.Server.Ip "38.102.83.14"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`8-stream`.image.name
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , floating_ip = Some True
+          , security_groups =
+            [ "web", "opensearch", "internal", "apache_exporter" ]
+          , volume_size = Some 50
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "opensearch_data"

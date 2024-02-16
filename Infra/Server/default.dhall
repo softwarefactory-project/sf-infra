@@ -1,7 +1,6 @@
-{ auto_ip = Some False
-, boot_from_volume = "yes"
+{ boot_from_volume = "yes"
 , flavor = Some "v1-standard-2"
-, floating_ips = None (List Text)
+, floating_ip = None Bool
 , key_name = "sf-infra-key"
 , name = ""
 , network = "private-network"
