@@ -1,0 +1,61 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+positions:
+  filename: /opt/promtail/positions.yaml
+clients:
+  - url: {{ loki_url }}
+    tenant_id: {{ loki_tenant }}
+    basic_auth:
+      username: {{ loki_username }}
+      password: {{ loki_password }}
+{% if loki_tls is defined %}
+    tls_config:
+{% if loki_tls.ca_file is defined %}
+      ca_file: {{ loki_tls.ca_file }}
+{% endif %}
+{% if loki_tls.cert_file is defined %}
+      cert_file: {{ loki_tls.cert_file }}
+{% endif %}
+{% if loki_tls.key_file is defined %}
+      key_file: {{ loki_tls.key_file }}
+{% endif %}
+{% if loki_tls.insecure is defined %}
+      insecure_skip_verify: {{ loki_tls.insecure | string | lower }}
+{% endif %}
+{% endif %}
+
+scrape_configs:
+{% if is_openshift_node %}
+- job_name: pods
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: openshift_pod
+      host: {{ ansible_host }}
+      # /var/log/pods/<namespace>_<pod_name>_<pod_uid>/<container>/*
+      __path__: /var/log/pods/*/*/*log
+  pipeline_stages:
+  - match:
+      selector: '{job="openshift_pod"}'
+      stages:
+      - cri: {}
+      - regex:
+          source: filename
+          expression: '^/var/log/pods/(?P<namespace>[^_]+)_(?P<pod>[^_]+)_(?P<pod_uid>[^/]+)/(?P<container>[^/]+)/.*'
+      - labels:
+          namespace:
+          pod:
+          pod_uid:
+          container:
+{% endif %}
+- job_name: journal
+  journal:
+    max_age: 12h
+    labels:
+      job: systemd-journal
+      host: {{ ansible_host }}
+  relabel_configs:
+    - source_labels: ['__journal__systemd_unit']
+      target_label: 'unit'
