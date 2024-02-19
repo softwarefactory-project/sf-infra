@@ -19,6 +19,7 @@ let tenant-instance =
 let tenant-server =
       Infra.Server::{
       , image = OS.CentOS.`7.0`.image.name
+      , floating_ip = Some True
       , volume_size = Some 40
       , security_groups = [ "web" ]
       }
@@ -29,7 +30,7 @@ let tenant-instances =
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "elk", "apache_exporter" ]
-                    (tenant-server // Infra.Server.Ip "38.102.83.40")
+                    tenant-server
                 )
             , volumes =
               [ Infra.Volume::{
@@ -42,10 +43,9 @@ let tenant-instances =
       ,     tenant-instance
         //  { name = "centos"
             , server = Some
-                (     Infra.Server.addSecurityGroups
-                        [ "apache_exporter" ]
-                        tenant-server
-                  //  Infra.Server.Ip "38.102.83.189"
+                ( Infra.Server.addSecurityGroups
+                    [ "apache_exporter" ]
+                    tenant-server
                 )
             , volumes =
               [ Infra.Volume::{
@@ -55,10 +55,7 @@ let tenant-instances =
                 }
               ]
             }
-      ,     tenant-instance
-        //  { name = "ansible"
-            , server = Some (tenant-server // Infra.Server.Ip "38.102.83.19")
-            }
+      , tenant-instance // { name = "ansible", server = Some tenant-server }
       ]
 
 let instances =
@@ -69,7 +66,7 @@ let instances =
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`7.0`.image.name
-          , auto_ip = Some True
+          , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
           , security_groups =
@@ -80,14 +77,12 @@ let instances =
         , name = "elk"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
-                  , flavor = Some Flavors.`4vcpus_16gb`
-                  , security_groups = [ "elk" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.124"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
+          , floating_ip = Some True
+          , security_groups = [ "elk" ]
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "elk-data"
@@ -129,16 +124,14 @@ let instances =
           ]
         , groups = [ "sf", "install-server", "backup-sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
-                  , flavor = Some Flavors.`4vcpus_16gb`
-                  , boot_from_volume = "yes"
-                  , volume_size = Some 20
-                  , security_groups = [ "web", "managesf", "apache_exporter" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.76"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
+          , boot_from_volume = "yes"
+          , floating_ip = Some True
+          , volume_size = Some 20
+          , security_groups = [ "web", "managesf", "apache_exporter" ]
+          }
         }
       , Instance::{
         , name = "nodepool-builder"
@@ -157,18 +150,15 @@ let instances =
         , name = "k1s05"
         , groups = [ "k1s" ]
         , connection = OS.RHEL.`9.3`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.RHEL.`9.3`.image.name
-                  , network = "oci-private-network"
-                  , auto_ip = Some True
-                  , security_groups = [ "hypervisor-oci" ]
-                  , flavor = Some Flavors.`8vcpu_16GB`
-                  , boot_from_volume = "yes"
-                  , volume_size = Some 100
-                  }
-              //  Infra.Server.Ip "38.102.83.186"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , network = "oci-private-network"
+          , floating_ip = Some True
+          , security_groups = [ "hypervisor-oci" ]
+          , flavor = Some Flavors.`8vcpu_16GB`
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          }
         }
       , Instance::{
         , name = "k1s03"
@@ -178,42 +168,36 @@ let instances =
 
             in  [ "k1s" ]
         , connection = OS.Fedora.`35`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.Fedora.`35`.image.name
-                  , network = "oci-private-network"
-                  , security_groups = [ "hypervisor-oci" ]
-                  , flavor = Some Flavors.`8vcpu_16GB`
-                  }
-              //  Infra.Server.Ip "38.102.83.139"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.Fedora.`35`.image.name
+          , network = "oci-private-network"
+          , floating_ip = Some True
+          , security_groups = [ "hypervisor-oci" ]
+          , flavor = Some Flavors.`8vcpu_16GB`
+          }
         }
       , Instance::{
         , name = "k1s04"
         , groups = [ "k1s" ]
         , connection = OS.Fedora.`38`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.Fedora.`38`.image.name
-                  , flavor = Some Flavors.`4vcpus_8gb`
-                  , network = "oci-private-network"
-                  , security_groups = [ "hypervisor-oci", "cs-k1s" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.54"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.Fedora.`38`.image.name
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , network = "oci-private-network"
+          , floating_ip = Some True
+          , security_groups = [ "hypervisor-oci", "cs-k1s" ]
+          }
         }
       , Instance::{
         , name = "zk01"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , flavor = Some Flavors.`4vcpus_8gb`
-                  , image = OS.CentOS.`7.0`.image.name
-                  , security_groups = [ "zookeeper" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.232"
-            )
+        , server = Some Infra.Server::{
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , image = OS.CentOS.`7.0`.image.name
+          , floating_ip = Some True
+          , security_groups = [ "zookeeper" ]
+          }
         }
       , Instance::{
         , name = "zs"
@@ -231,16 +215,14 @@ let instances =
             [ "sf-master-el7", "sf-3.6-el7-release", "sf-3.5-el7-release" ]
           }
         , connection = OS.CentOS.`7.0`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`7.0`.image.name
-                  , boot_from_volume = "yes"
-                  , volume_size = Some 80
-                  , flavor = Some Flavors.`4vcpus_8gb`
-                  , security_groups = [ "web" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.102"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`7.0`.image.name
+          , boot_from_volume = "yes"
+          , floating_ip = Some True
+          , volume_size = Some 80
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , security_groups = [ "web" ]
+          }
         }
       , Instance::{
         , name = "image-builder"
@@ -249,7 +231,7 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.3`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
-          , auto_ip = Some True
+          , floating_ip = Some True
           , security_groups =
             [ "zuul-console"
             , let note =
@@ -271,17 +253,14 @@ let instances =
         , name = "microshift"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`9-stream`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`9-stream`.image.name
-                  , flavor = Some Flavors.`8vcpu_16GB`
-                  , auto_ip = Some True
-                  , boot_from_volume = "yes"
-                  , volume_size = Some 100
-                  , security_groups = [ "web", "k8s-client" ]
-                  }
-              //  Infra.Server.Ip "38.102.83.100"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`9-stream`.image.name
+          , flavor = Some Flavors.`8vcpu_16GB`
+          , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          , security_groups = [ "web", "k8s-client" ]
+          }
         , monitoring_urls =
           [ "https://microshift.softwarefactory-project.io/zuul/"
           , "https://microshift.softwarefactory-project.io/nodepool/builds/"
@@ -293,17 +272,14 @@ let instances =
         , name = "microshift-infra"
         , groups = [ "sf" ]
         , connection = OS.CentOS.`9-stream`.connection
-        , server = Some
-            (     Infra.Server::{
-                  , image = OS.CentOS.`9-stream`.image.name
-                  , flavor = Some Flavors.`8vcpu_16GB`
-                  , auto_ip = Some True
-                  , boot_from_volume = "yes"
-                  , volume_size = Some 100
-                  , security_groups = [ "web", "k8s-client" ]
-                  }
-              //  Infra.Server.Ip "38.129.56.81"
-            )
+        , server = Some Infra.Server::{
+          , image = OS.CentOS.`9-stream`.image.name
+          , flavor = Some Flavors.`8vcpu_16GB`
+          , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          , security_groups = [ "web", "k8s-client" ]
+          }
         , volumes =
           [ Infra.Volume::{
             , display_name = "microshift-infra-data"

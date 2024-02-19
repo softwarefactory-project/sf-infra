@@ -228,9 +228,9 @@ security_groups:
       - port: 6443
       - port: 30000
 servers:
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: prometheus.monitoring.softwarefactory-project.io
@@ -247,8 +247,7 @@ servers:
     volume_size: 80
   - boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ips:
-      - '38.102.83.124'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk.softwarefactory-project.io
@@ -261,8 +260,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ips:
-      - '38.102.83.76'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.softwarefactory-project.io
@@ -276,8 +274,7 @@ servers:
       - apache_exporter
     state: present
     volume_size: 20
-  - auto_ip: false
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
@@ -290,8 +287,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
-    floating_ips:
-      - '38.102.83.186'
+    floating_ip: true
     image: rhel-9.3
     key_name: sf-infra-key
     name: k1s05.softwarefactory-project.io
@@ -305,8 +301,7 @@ servers:
     volume_size: 100
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
-    floating_ips:
-      - '38.102.83.139'
+    floating_ip: true
     image: fedora-35-1.2
     key_name: sf-infra-key
     name: k1s03.softwarefactory-project.io
@@ -319,8 +314,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
-    floating_ips:
-      - '38.102.83.54'
+    floating_ip: true
     image: fedora-38-1.6
     key_name: sf-infra-key
     name: k1s04.softwarefactory-project.io
@@ -334,8 +328,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
-    floating_ips:
-      - '38.102.83.232'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: zk01.softwarefactory-project.io
@@ -346,8 +339,7 @@ servers:
       - internal
       - zookeeper
     state: present
-  - auto_ip: false
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
@@ -360,8 +352,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
-    floating_ips:
-      - '38.102.83.102'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: koji.softwarefactory-project.io
@@ -373,9 +364,9 @@ servers:
       - web
     state: present
     volume_size: 80
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: "1vcpu_2gb"
+    floating_ip: true
     image: centos-8.3-2011
     key_name: sf-infra-key
     name: image-builder.softwarefactory-project.io
@@ -389,8 +380,7 @@ servers:
     state: present
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
-    floating_ips:
-      - '38.102.83.100'
+    floating_ip: true
     image: centos-9-stream
     key_name: sf-infra-key
     name: microshift.softwarefactory-project.io
@@ -405,8 +395,7 @@ servers:
     volume_size: 100
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
-    floating_ips:
-      - '38.129.56.81'
+    floating_ip: true
     image: centos-9-stream
     key_name: sf-infra-key
     name: microshift-infra.softwarefactory-project.io
@@ -421,8 +410,7 @@ servers:
     volume_size: 100
   - boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ips:
-      - '38.102.83.40'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: fedora.softwarefactory-project.io
@@ -438,8 +426,7 @@ servers:
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ips:
-      - '38.102.83.189'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: centos.softwarefactory-project.io
@@ -454,8 +441,7 @@ servers:
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ips:
-      - '38.102.83.19'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: ansible.softwarefactory-project.io
@@ -467,8 +453,7 @@ servers:
       - web
     state: present
     volume_size: 40
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -479,8 +464,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -491,8 +475,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -503,8 +486,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -515,8 +497,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -527,8 +508,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -539,8 +519,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -551,8 +530,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -563,8 +541,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -575,8 +552,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -587,8 +563,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -599,8 +574,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -611,8 +585,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -623,8 +596,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key
@@ -635,8 +607,7 @@ servers:
       - monitoring
       - internal
     state: present
-  - auto_ip: false
-    boot_from_volume: no
+  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: centos-7-1907
     key_name: sf-infra-key

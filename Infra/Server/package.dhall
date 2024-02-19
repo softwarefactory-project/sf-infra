@@ -3,9 +3,7 @@
 
 A package to define OpenStack `Server`.
 -}
-{ Ip = ./Ip.dhall
-, Type = ./Type.dhall
-, FloatingIp = ./FloatingIp.dhall
+{ Type = ./Type.dhall
 , State = ./State.dhall
 , addSecurityGroups = ./addSecurityGroups.dhall
 , default = ./default.dhall

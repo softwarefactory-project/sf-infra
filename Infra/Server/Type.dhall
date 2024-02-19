@@ -1,8 +1,7 @@
--- | Set auto_ip to True to get a floating ip
-{ auto_ip : Optional Bool
-, boot_from_volume : Text
+-- | Set floating_ip to True to get a floating ip
+{ boot_from_volume : Text
 , flavor : Optional Text
-, floating_ips : Optional (List Text)
+, floating_ip : Optional Bool
 , image : Text
 , key_name : Text
 , name : Text

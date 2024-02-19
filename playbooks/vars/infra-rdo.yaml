@@ -178,8 +178,7 @@ security_groups:
 servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ips:
-      - '38.102.83.237'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
@@ -194,8 +193,7 @@ servers:
     volume_size: 200
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
-    floating_ips:
-      - '38.129.56.158'
+    floating_ip: true
     image: centos-8-stream
     key_name: sf-infra-key
     name: quay.rdoproject.org
@@ -206,9 +204,9 @@ servers:
       - web
     state: present
     volume_size: 50
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-4
+    floating_ip: true
     image: centos-8.0-1905
     key_name: sf-infra-key
     name: trunk-centos8.rdoproject.org
@@ -221,9 +219,9 @@ servers:
       - apache_exporter
     state: present
     volume_size: 512
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: managesf.review.rdoproject.org
@@ -239,8 +237,7 @@ servers:
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
-    floating_ips:
-      - '38.102.83.136'
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk.review.rdoproject.org
@@ -251,9 +248,9 @@ servers:
       - elk
       - internal
     state: present
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: logserver.rdoproject.org
@@ -267,9 +264,9 @@ servers:
       - apache_exporter
     state: present
     volume_size: 10
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-1
+    floating_ip: true
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: images.rdoproject.org
@@ -284,8 +281,7 @@ servers:
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-1
-    floating_ips:
-      - '38.102.83.227'
+    floating_ip: true
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: www.rdoproject.org
@@ -297,9 +293,9 @@ servers:
       - apache_exporter
     state: present
     volume_size: 10
-  - auto_ip: true
-    boot_from_volume: yes
+  - boot_from_volume: yes
     flavor: v1-standard-2
+    floating_ip: true
     image: centos-8.1-1911
     key_name: sf-infra-key
     name: dlrn-db.rdoproject.org
@@ -312,8 +308,7 @@ servers:
     volume_size: 60
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
-    floating_ips:
-      - '38.102.83.14'
+    floating_ip: true
     image: centos-8-stream
     key_name: sf-infra-key
     name: opensearch.rdoproject.org

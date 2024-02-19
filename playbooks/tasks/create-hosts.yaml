@@ -11,23 +11,10 @@
       project_name: "{{ cloud.tenant | default(omit) }}"
   register: _cloud
 
-- name: Create servers
-  when: not (_cloud.servers | regex_search(server.name))
-  openstack.cloud.server:
-    cloud: "{{ cloud.name }}"
-    auth:
-      project_name: "{{ cloud.tenant | default(omit) }}"
-    state: "{{ server.state | default('present') }}"
-    name: "{{ server.name }}"
-    image: "{{ server.image }}"
-    flavor: "{{ server.flavor }}"
-    key_name: "{{ server.key_name }}"
-    network: "{{ server.network | default(None) }}"
-    auto_ip: "{{ server.auto_ip | default(omit) }}"
-    floating_ips: "{{ server.floating_ips | default(omit) }}"
-    security_groups: "{{ server.security_groups | default('default') }}"
-    boot_from_volume: "{{ server.boot_from_volume | default('no') }}"
-    volume_size: "{{ server.volume_size | default(0) }}"
+- name: Create or delete servers
+  when:
+    - not (_cloud.servers | regex_search(server.name)) or ((_cloud.servers | regex_search(server.name)) and server.state == "absent")
+  ansible.builtin.include_tasks: manage-server.yaml
   loop: "{{ tenant_config.servers }}"
   loop_control:
     label: "{{ server.name }}"

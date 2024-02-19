@@ -1,0 +1,62 @@
+- name: Delete floating ip before deleting server
+  block:
+    - name: Get server info
+      openstack.cloud.server_info:
+        cloud: "{{ cloud.name }}"
+        auth:
+          project_name: "{{ cloud.tenant | default(omit) }}"
+        name: "{{ server.name }}"
+      register: _server
+
+    - name: Get floating ip for server if exists
+      set_fact:
+        floating_ip_address: "{{ _server.servers[0].addresses[server.network][1].addr }}"
+      ignore_errors: true
+      failed_when: false
+
+    - name: Detach and release fip
+      openstack.cloud.floating_ip:
+        cloud: "{{ cloud.name }}"
+        auth:
+          project_name: "{{ cloud.tenant | default(omit) }}"
+        state: absent
+        server: "{{ server.name }}"
+        floating_ip_address: "{{ floating_ip_address }}"
+        network: public
+        purge: true
+      when:
+        - floating_ip_address is defined
+  when:
+    - server.state == "absent"
+    - server.floating_ip is defined
+    - server.floating_ip
+
+- name: Create or delete server
+  openstack.cloud.server:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant | default(omit) }}"
+    state: "{{ server.state | default('present') }}"
+    name: "{{ server.name }}"
+    image: "{{ server.image }}"
+    flavor: "{{ server.flavor }}"
+    key_name: "{{ server.key_name }}"
+    auto_ip: false
+    network: "{{ server.network }}"
+    security_groups: "{{ server.security_groups | default('default') }}"
+    boot_from_volume: "{{ server.boot_from_volume | default('no') }}"
+    volume_size: "{{ server.volume_size | default(0) }}"
+
+- name: Create and attach fip
+  openstack.cloud.floating_ip:
+    cloud: "{{ cloud.name }}"
+    auth:
+      project_name: "{{ cloud.tenant | default(omit) }}"
+    state: present
+    server: "{{ server.name }}"
+    network: public
+    nat_destination: "{{ server.network }}"
+  when:
+    - server.state == "present"
+    - server.floating_ip is defined
+    - server.floating_ip
