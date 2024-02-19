@@ -1,0 +1,14 @@
+- job:
+    name: sf-infra-base-bash
+    nodeset:
+      nodes:
+        - name: container
+          label: zuul-worker-f37
+    run: playbooks/test-fqcn-script.yaml
+    abstract: true
+
+- job:
+    name: sf-infra-test-fqcn-fixer-script
+    parent: sf-infra-base-bash
+    vars:
+      infra_script: scripts/tests/test_ansible_fqcn_fixer.sh

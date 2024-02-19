@@ -1,0 +1,6 @@
+- hosts: all
+  vars:
+    target_file: "{{ zuul.project.src_dir }}/{{ infra_script }}"
+  tasks:
+    - name: Validate the script
+      command: "bash {{ target_file }}"
