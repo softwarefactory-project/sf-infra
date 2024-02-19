@@ -3,8 +3,8 @@
 - name: Preinstall EPEL and make
   package:
     name:
-      - epel-release
       - make
+      - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     state: present
   become: yes
 
@@ -30,38 +30,7 @@
     gpgcheck: '{{ openafs_client_yum_repo_gpg_check }}'
   become: yes
 
-# NOTE: dkms needs deltarpm package but it does not have it as
-# a dependency.
-- name: Install deltarpm package on CentOS 7
-  yum:
-    name:
-      - deltarpm
-    state: present
-  become: yes
-  when: ansible_distribution_version is version('8', '<')
-
-- name: Install deltarpm package on CentOS 8
-  dnf:
-    name:
-      - drpm
-    state: present
-  become: yes
-  when: ansible_distribution_version is version('8', '=')
-
-- name: Install kernel modules CentOS 7
-  yum:
-    name:
-      - kernel-devel
-      - kernel-headers
-      - dkms
-      - gcc
-      - dkms-openafs
-    enablerepo: epel  # dkms
-    state: present
-  become: yes
-  when: ansible_distribution_version is version('8', '<')
-
-- name: Install kernel modules CentOS 8
+- name: Install kernel modules
   dnf:
     name:
       - kernel-devel
@@ -72,7 +41,6 @@
     enablerepo: epel  # dkms
     state: present
   become: yes
-  when: ansible_distribution_version is version('8', '>=')
 
 - name: Install client
   yum:
