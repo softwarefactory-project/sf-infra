@@ -10,5 +10,22 @@
 - job:
     name: sf-infra-test-fqcn-fixer-script
     parent: sf-infra-base-bash
+    files:
+      - tox.ini
+      - scripts/ansible_fqcn_fixer.sh
+      - scripts/tests/test_ansible_fqcn_fixer.sh
     vars:
       infra_script: scripts/tests/test_ansible_fqcn_fixer.sh
+
+- job:
+    name: sf-infra-ensure-fqcn
+    files:
+      - ".*.yaml"
+      - ".*.yml"
+    parent: dhall-diff
+    vars:
+      render_command: bash -c "source scripts/ansible_fqcn_fixer.sh && main"
+    nodeset:
+      nodes:
+        - name: container
+          label: zuul-worker-fedora-stable
