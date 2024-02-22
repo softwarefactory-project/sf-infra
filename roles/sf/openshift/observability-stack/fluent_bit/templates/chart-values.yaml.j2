@@ -1,0 +1,210 @@
+kind: Deployment
+
+# replicaCount -- Only applicable if kind=Deployment
+replicaCount: 1
+
+image:
+  repository: cr.fluentbit.io/fluent/fluent-bit
+  tag:
+  digest:
+  pullPolicy: Always
+
+testFramework:
+  enabled: false
+
+serviceAccount:
+  create: false
+
+rbac:
+  create: false
+
+# OpenShift-specific configuration
+openShift:
+  enabled: true
+  securityContextConstraints:
+    # Create SCC for Fluent-bit and allow use it
+    create: false
+    name: ""
+    annotations: {}
+    # Use existing SCC in cluster, rather then create new one
+    existingName: ""
+
+podSecurityContext: {}
+#   fsGroup: 2000
+
+hostNetwork: false
+dnsPolicy: ClusterFirst
+
+dnsConfig: {}
+#   nameservers:
+#     - 1.2.3.4
+#   searches:
+#     - ns1.svc.cluster-domain.example
+#     - my.dns.search.suffix
+#   options:
+#     - name: ndots
+#       value: "2"
+#     - name: edns0
+
+hostAliases: []
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+service:
+  type: ClusterIP
+  port: 2020
+  loadBalancerClass:
+  loadBalancerSourceRanges: []
+  labels:
+    app: observability
+    run: fluentbit
+  # nodePort: 30020
+  # clusterIP: 172.16.10.1
+  annotations: {}
+#   prometheus.io/path: "/api/v1/metrics/prometheus"
+#   prometheus.io/port: "2020"
+#   prometheus.io/scrape: "true"
+
+serviceMonitor:
+  enabled: true
+  namespace: sf-observability
+  interval: 10s
+  scrapeTimeout: 10s
+  selector:
+    matchLabels:
+      app: observability
+      run: fluentbit
+
+dashboards:
+  enabled: false
+
+lifecycle: {}
+#   preStop:
+#     exec:
+#       command: ["/bin/sh", "-c", "sleep 20"]
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: http
+
+resources: {}
+
+## only available if kind is Deployment
+ingress:
+  enabled: false
+
+## only available if kind is Deployment
+autoscaling:
+  vpa:
+    enabled: false
+  enabled: false
+
+## only available if kind is Deployment
+podDisruptionBudget:
+  enabled: false
+  annotations: {}
+  maxUnavailable: "30%"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+labels:
+  app: observability
+  run: fluentbit
+
+annotations: {}
+
+podAnnotations: {}
+
+podLabels:
+  app: observability
+  run: fluentbit
+
+## How long (in seconds) a pods needs to be stable before progressing the deployment
+##
+minReadySeconds:
+
+## How long (in seconds) a pod may take to exit (useful with lifecycle hooks to ensure lb deregistration is done)
+##
+terminationGracePeriodSeconds:
+
+priorityClassName: ""
+
+env: []
+
+envFrom:
+  - secretRef:
+      name: fluentbit-config-secrets
+
+extraContainers: []
+
+flush: 1
+
+metricsPort: 2020
+
+extraPorts:
+  - port: 5140
+    containerPort: 5140
+    protocol: TCP
+    name: fb-http-input
+
+luaScripts: {}
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
+config:
+  service: |
+    [SERVICE]
+        Daemon Off
+        Flush 1
+        Log_Level info
+        Parsers_File /fluent-bit/etc/parsers.conf
+        Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port 2020
+        Health_Check On
+
+  ## https://docs.fluentbit.io/manual/pipeline/inputs
+  inputs: |
+    [INPUT]
+        Name http
+        Port 5140
+
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: ""
+
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  outputs: |
+    [OUTPUT]
+        name        loki
+        match       *
+        host        {{ fluentbit_loki_endpoint }}
+        port        {{ fluentbit_loki_port }}
+        tls         "{% if fluentbit_loki_tls.insecure %}off{% else %}on{% endif %}"
+        http_user   ${GATEWAY_USER}
+        http_passwd ${GATEWAY_PASSWORD}
+        tenant_id   ${LOKI_TENANT}
+
+        labels      namespace=$namespace, host=$nodename, application=$component, pod=$podname, job=sf_fluentbit, container=$container
+
+  ## https://docs.fluentbit.io/manual/pipeline/parsers
+  customParsers: ""
+
+
+logLevel: info

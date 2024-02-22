@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- fluentbit-helm-manifest.yaml
+
+labels:
+- includeSelectors: true
+  pairs:
+    app: observability
+    run: fluentbit

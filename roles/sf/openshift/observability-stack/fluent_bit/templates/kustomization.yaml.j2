@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+secretGenerator:
+- name: fluentbit-config-secrets
+  literals:
+    - GATEWAY_USER={{ loki_username }}
+    - GATEWAY_PASSWORD={{ loki_password }}
+    - LOKI_TENANT={{ loki_tenant }}
+  namespace: sf
+
+patches: []
