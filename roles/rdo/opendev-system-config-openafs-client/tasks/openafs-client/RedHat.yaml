@@ -6,6 +6,8 @@
       - make
       - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
     state: present
+    # apply only for http
+    disable_gpg_check: true
   become: yes
 
 - name: Create cache directory

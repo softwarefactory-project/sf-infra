@@ -8,6 +8,7 @@ let instance =
           , ip : Text
           , groups : List Text
           , proxy_jump : Optional Text
+          , ansible_user : Text
           }
       , default = {}
       }
@@ -23,9 +24,9 @@ let mkInstances =
               , groups = instance.groups
               , node-exporter = False
               , connection = Infra.Connection::{
-                , ansible_user = "centos"
+                , ansible_user = instance.ansible_user
                 , ansible_host = Some instance.ip
-                , ansible_python_interpreter = "python2"
+                , ansible_python_interpreter = "auto"
                 , proxy_jump = instance.proxy_jump
                 }
               }

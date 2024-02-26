@@ -83,7 +83,7 @@ Host baremetal03.rdoproject.org
     Port 22
     Hostname 169.60.49.226
 Host mirror.regionone.ibm-bm3-nodepool.rdoproject.org
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.10
