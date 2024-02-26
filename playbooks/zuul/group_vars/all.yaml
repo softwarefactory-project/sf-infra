@@ -1,3 +1,5 @@
+rhel_images:
+  - { name: rhel-9.3, filename: rhel-guest-image-9.3-20231120.0.x86_64.raw }
 standalone_deployments:
   - baremetal_name: ibm-bm3
     baremetal_ip: 169.60.49.226
@@ -8,6 +10,7 @@ standalone_deployments:
       - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
         flavor: afs
         ip: 192.168.25.10
+        image: rhel-9.3
       - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
         flavor: m1.medium
         ip: 192.168.25.11
