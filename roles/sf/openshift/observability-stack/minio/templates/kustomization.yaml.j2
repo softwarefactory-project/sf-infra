@@ -13,19 +13,25 @@ secretGenerator:
     - MINIO_PASSWORD={{ minio_password }}
     - LOKI_ACCESS_KEY={{ loki_access_key }}
     - LOKI_SECRET_KEY={{ loki_secret_key }}
+    - THANOS_ACCESS_KEY={{ thanos_access_key }}
+    - THANOS_SECRET_KEY={{ thanos_secret_key }}
   namespace: {{ minio_namespace }}
 
 configMapGenerator:
 - name: loki-envvars
   literals:
     - LOKI_EXPIRE_DAYS={{ loki_expire_days }}
-  namespace: {{ loki_namespace }}
+  namespace: {{ minio_namespace }}
+- name: thanos-envvars
+  literals:
+    - THANOS_EXPIRE_DAYS={{ thanos_expire_days }}
+  namespace: {{ minio_namespace }}
 
 patches:
 - target:
-    kind: Pod
+    kind: Deployment
     name: minio
-  path: pod.yaml
+  path: deployment.yaml
 - target:
     kind: Job
     name: minio-user-setup
