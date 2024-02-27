@@ -119,6 +119,7 @@ standalone_deployments:
       - name: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
         flavor: afs
         ip: 192.168.25.10
+        image: rhel-9.3
       - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
         flavor: m1.medium
         ip: 192.168.25.11

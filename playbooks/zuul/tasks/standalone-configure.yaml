@@ -1,6 +1,18 @@
 ---
+- name: "Upload rhel_images"
+  openstack.cloud.image:
+    cloud: "{{ item.cloud }}"
+    name: "{{ image.name  }}"
+    container_format: bare
+    disk_format: raw
+    filename: "/home/fedora/image_cache/{{ image.filename }}"
+    is_public: no
+  loop: "{{ rhel_images }}"
+  loop_control:
+    loop_var: image
+
 - name: "Upload image {{ cloud_image }}"
-  os_image:
+  openstack.cloud.image:
     cloud: "{{ item.cloud }}"
     name: "{{ cloud_image }}"
     container_format: bare
@@ -9,13 +21,13 @@
     is_public: no
 
 - name: "Add keypairs on {{ item.cloud }}"
-  os_keypair:
+  openstack.cloud.keypair:
     cloud: "{{ item.cloud }}"
     name: bridge
     public_key: "{{ keypair }}"
 
 - name: "Set dns for {{ item.cloud }}"
-  os_subnet:
+  openstack.cloud.subnet:
     cloud: "{{ item.cloud }}"
     state: present
     network_name: hostonly
@@ -26,7 +38,7 @@
        - 8.8.8.8
 
 - name: "Security group, allow tcp/udp/icmp"
-  os_security_group_rule:
+  openstack.cloud.security_group_rule:
     cloud: "{{ item.cloud }}"
     state: present
     security_group: default
@@ -39,7 +51,7 @@
 - name: Add ports and instances
   block:
     - name: "Create port {{ server.name }}"
-      os_port:
+      openstack.cloud.port:
         cloud: "{{ item.cloud }}"
         name: "{{ server.name }}"
         network: hostonly
@@ -52,11 +64,11 @@
         loop_var: server
 
     - name: "Create server {{ server.name }}"
-      os_server:
+      openstack.cloud.server:
         cloud: "{{ item.cloud }}"
         name: "{{ server.name }}"
         flavor: "{{ server.flavor }}"
-        image: "{{ cloud_image }}"
+        image: "{{ server.image | default(cloud_image) }}"
         key_name: bridge
         # don't wait for instance creation for there is issue when waiting for fip
         # "msg": "Timeout waiting for the floating IP to be attached."
