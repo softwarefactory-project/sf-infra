@@ -89,6 +89,100 @@ function build_patterns()
         yum_repository
     )
 
+    # Full qualified openstack cloud modules
+    local OPENSTACK_CLOUD=(
+        os_address_scope
+        os_auth
+        os_baremetal_deploy_template
+        os_baremetal_inspect
+        os_baremetal_node
+        os_baremetal_node_action
+        os_baremetal_node_info
+        os_baremetal_port
+        os_baremetal_port_info
+        os_catalog_service
+        os_catalog_service_info
+        os_coe_cluster
+        os_coe_cluster_template
+        os_compute_flavor
+        os_compute_flavor_access
+        os_compute_flavor_info
+        os_compute_service_info
+        os_config
+        os_dns_zone
+        os_dns_zone_info
+        os_endpoint
+        os_federation_idp
+        os_federation_idp_info
+        os_federation_mapping
+        os_federation_mapping_info
+        os_floating_ip
+        os_floating_ip_info
+        os_group_assignment
+        os_host_aggregate
+        os_identity_domain
+        os_identity_domain_info
+        os_identity_group
+        os_identity_group_info
+        os_identity_role
+        os_identity_role_info
+        os_identity_user
+        os_identity_user_info
+        os_image
+        os_image_info
+        os_keypair
+        os_keypair_info
+        os_keystone_federation_protocol
+        os_keystone_federation_protocol_info
+        os_lb_health_monitor
+        os_lb_listener
+        os_lb_member
+        os_lb_pool
+        os_loadbalancer
+        os_network
+        os_networks_info
+        os_neutron_rbac_policies_info
+        os_neutron_rbac_policy
+        os_object
+        os_object_container
+        os_port
+        os_port_info
+        os_project
+        os_project_info
+        os_quota
+        os_recordset
+        os_resource
+        os_resources
+        os_role_assignment
+        os_router
+        os_routers_info
+        os_security_group
+        os_security_group_info
+        os_security_group_rule
+        os_security_group_rule_info
+        os_server
+        os_server_action
+        os_server_group
+        os_server_info
+        os_server_metadata
+        os_server_volume
+        os_stack
+        os_stack_info
+        os_subnet
+        os_subnet_pool
+        os_subnets_info
+        os_volume
+        os_volume_backup
+        os_volume_backup_info
+        os_volume_info
+        os_volume_snapshot
+        os_volume_snapshot_info
+        os_volume_type
+        os_volume_type_access
+        os_volume_type_encryption
+        os_volume_type_info
+    )
+
     # Full qualified community modules
     local -A COMMUNITY=(
         [filesystem]="community.general.filesystem"
@@ -119,6 +213,13 @@ function build_patterns()
     local regex=""
     for module in "${BUILTINS[@]}"; do
         replacement="ansible.builtin.${module}"
+        regex="$(generate_regex_pattern ${module} ${replacement})"
+        patterns_replacements+=("-e")
+        patterns_replacements+=("${regex}")
+    done
+
+    for module in "${OPENSTACK_CLOUD[@]}"; do
+        replacement="openstack.cloud.${module#os_}"
         regex="$(generate_regex_pattern ${module} ${replacement})"
         patterns_replacements+=("-e")
         patterns_replacements+=("${regex}")
