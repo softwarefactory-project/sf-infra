@@ -258,7 +258,7 @@ function main()
 
     # Find YAML files in 'playbooks' and 'roles' directories and
     # iterate over each file to apply the sed patterns and replacements
-    find playbooks roles -name "*.yml" -o -name "*.yaml" -print0 |
+    find playbooks roles \( -name "*.yml" -o -name "*.yaml" \) -print0 |
         while IFS= read -r -d '' file; do
             sed -E -i "${patterns_replacements[@]}" "${file}"
         done
