@@ -8,6 +8,7 @@ let instance =
           , ip : Text
           , groups : List Text
           , proxy_jump : Optional Text
+          , ansible_user : Text
           }
       , default = {}
       }

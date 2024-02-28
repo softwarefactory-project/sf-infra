@@ -204,32 +204,32 @@ all:
     ibm-bm3-nodepool-launcher.softwarefactory-project.io:
       ansible_host: '192.168.25.11'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     ibm-bm3-ze.softwarefactory-project.io:
       ansible_host: '192.168.25.12'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     ibm-bm3-zfgw.softwarefactory-project.io:
       ansible_host: '192.168.25.13'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     ibm-bm4-nodepool-launcher.softwarefactory-project.io:
       ansible_host: '192.168.26.11'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     ibm-bm4-ze.softwarefactory-project.io:
       ansible_host: '192.168.26.12'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     ibm-bm4-zfgw.softwarefactory-project.io:
       ansible_host: '192.168.26.13'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     image-builder.softwarefactory-project.io:
       ansible_port: 22
@@ -286,12 +286,12 @@ all:
     mirror.regionone.ibm-bm3-nodepool.rdoproject.org:
       ansible_host: '192.168.25.10'
       ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     mirror.regionone.ibm-bm4-nodepool.rdoproject.org:
       ansible_host: '192.168.26.10'
       ansible_port: 22
-      ansible_python_interpreter: python2
+      ansible_python_interpreter: auto
       ansible_user: centos
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_port: 22

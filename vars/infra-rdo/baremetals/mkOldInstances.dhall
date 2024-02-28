@@ -9,7 +9,7 @@ in  \(baremetal : Text) ->
         , ip = "${subnet}.10"
         , groups = [ "private-afs-mirror" ]
         , proxy_jump = Some baremetal
-        , ansible_user = "cloud-user"
+        , ansible_user = "centos"
         }
       , { name = "${prefix}-nodepool-launcher.${sf_domain}"
         , ip = "${subnet}.11"
