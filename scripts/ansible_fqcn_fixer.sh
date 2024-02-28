@@ -33,7 +33,7 @@ function generate_regex_pattern() {
     # Exclude matches with an indentation larger than 10,
     # as they are likely false positives within literal Kubernetes
     # manifests
-    echo "s/^(\s{2,10}[-]\s|\s{2,10})${module}:\$/\1${replacement}:/g"
+    echo "s/^(-\s{1,2}|\s{2,10}[-]\s|\s{2,10})${module}:\$/\1${replacement}:/g"
 }
 
 # Construct patterns and replacements for the sed command
@@ -46,6 +46,8 @@ function build_patterns()
         add_host
         assert
         blockinfile
+        known_hosts
+        iptables
         command
         copy
         cron
@@ -207,6 +209,7 @@ function build_patterns()
     # Full qualified Kubernetes modules
     local -A KUBERNETES=(
         [k8s]="kubernetes.core.k8s"
+        [openshift_raw]="kubernetes.core.k8s"
     )
 
     local replacement=""

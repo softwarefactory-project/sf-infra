@@ -35,10 +35,13 @@ run_tests() {
                "          - replacement:" \
                "${description}"
 
+    test_regex "- key:" \
+               "- replacement:" \
+               "${description}"
     # Cases with no replacement
-    local test_case=" - key:"
+    test_case="key:"
     test_regex "${test_case}" "${test_case}" \
-               "No replacement: Indentation < 2 spaces"
+               "No replacement: Indentation < 2 spaces and not starting with '-'"
     test_case="            - key:"
     test_regex "${test_case}" "${test_case}" \
                "No replacement: Indentation > 10 spaces"
