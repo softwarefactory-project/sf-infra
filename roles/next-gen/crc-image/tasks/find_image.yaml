@@ -39,3 +39,6 @@
       ansible.builtin.fail:
         msg: "The image name is empty!"
       when: not base_image
+
+    - name: "Print base_image name - {{ base_image.stdout }}"
+      ansible.builtin.command: 'echo "{{ base_image.stdout }}"'

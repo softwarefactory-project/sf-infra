@@ -16,7 +16,7 @@
       ansible.builtin.command: cat {{ ssh_pub_path }}
       register: _ssh_pub_path_key
 
-- name: "Create {{ vm_name }} VM on {{ cloud_name }}"
+- name: "Create {{ vm_name }} VM base on image {{ image_name | default(base_image.stdout) }} on cloud {{ cloud_name }}"
   register: _vm_status
   until: |
     "'details' in _vm_status.extra_data and 'Quota exceeded' not in _vm_status.extra_data.details"
