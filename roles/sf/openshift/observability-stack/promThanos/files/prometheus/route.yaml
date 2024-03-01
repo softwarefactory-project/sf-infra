@@ -1,0 +1,19 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: prometheus
+  namespace: sf-observability
+spec:
+  host: prometheus.microshift.dev
+  path: /
+  port:
+    targetPort: 9090
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: prometheus-operated
+    weight: 100
+  wildcardPolicy: None

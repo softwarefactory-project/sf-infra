@@ -1,0 +1,15 @@
+nameReference:
+- kind: Secret
+  fieldSpecs:
+  - path: spec/thanos/objectStorageConfig/name
+    kind: Prometheus
+  - path: spec/additionalScrapeConfigs/name
+    kind: Prometheus
+  - path: spec/secrets
+    kind: Prometheus
+  - path: spec/volumes/secret/secretName
+    kind: Prometheus
+  - path: spec/volumesMounts/mountPath
+    kind: Prometheus
+  - path: spec/containers/env/value
+    kind: Prometheus
