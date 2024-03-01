@@ -1,5 +1,5 @@
 ---
-kube_config: ~/.kube/config
+kube_config: "{{ ansible_user_dir }}/.kube/config"
 sf_namespace: sf
 sf_setup_namespace: true
 sf_operator_standalone: false
