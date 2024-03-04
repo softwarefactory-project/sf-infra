@@ -27,6 +27,8 @@
         - minio-post-config.yaml
         - minio-pv.yaml
         - minio-service.yaml
+        - minio-scrapeconfig.yaml
+        - minio-prometheusrule.yaml
 
 - name: Prepare kustomize overlay
   block:
@@ -53,6 +55,6 @@
 
 - name: Apply minio manifest
   ansible.builtin.command: >
-    kubectl apply -f manifest.yaml
+    kubectl apply -f manifest.yaml --namespace {{ minio_namespace }}
   args:
     chdir: "{{ kustomize_dir }}/minio"

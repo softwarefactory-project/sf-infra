@@ -7,6 +7,8 @@ resources:
 - minio-post-config.yaml
 - minio-pv.yaml
 - minio-service.yaml
+- minio-scrapeconfig.yaml
+- minio-prometheusrule.yaml
 
 labels:
 - includeSelectors: true
