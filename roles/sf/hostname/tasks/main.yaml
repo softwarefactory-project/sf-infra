@@ -1,4 +1,4 @@
 - name: Set hostname
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ ansible_fqdn }}"
   become: yes

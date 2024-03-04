@@ -1,6 +1,6 @@
 ---
 - name: Change {{ tmp_image_name }} image name to {{ dest_image_name }}
-  shell: |
+  ansible.builtin.shell: |
     openstack image set {{ tmp_image_name }} --name {{ dest_image_name }}
   register: _image_set
   failed_when:

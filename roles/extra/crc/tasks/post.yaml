@@ -1,31 +1,31 @@
 ---
 - name: Get console credentials
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc console --credentials
   register: _crc_creds
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Write credentials output to the file
-  copy:
+  ansible.builtin.copy:
     content: "{{ _crc_creds.stdout }}"
     dest: crc-creds
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Get crc client path
-  shell: |
+  ansible.builtin.shell: |
     eval $(crc oc-env); whereis oc | awk '{print $2}'
   register: _oc_bin
 
 - name: Copy oc binary
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "{{ _oc_bin.stdout }}"
     dest: "/usr/local/bin/oc"
     mode: "0755"
     remote_src: true
 
 - name: Login to the Openshift
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/oc login -u kubeadmin -p "{{ openshift_admin_password }}" https://api.crc.testing:6443
   until: "'Unable to connect to the server' not in _login_user.stderr"
   retries: 20
@@ -34,28 +34,28 @@
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Add router-ca to system certs to allow accessing the crc image registry
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/oc extract secret/router-ca --keys=tls.crt -n openshift-ingress-operator --confirm
   no_log: "{{ hide_sensitive_logs }}"
 
 - name: Copy tls crt to ca-trust
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "~{{ ansible_user | default('zuul') }}/tls.crt"
     dest: /etc/pki/ca-trust/source/anchors/crc-router-ca.pem
     remote_src: true
 
 - name: Update local certs
   become: true
-  shell: update-ca-trust
+  ansible.builtin.shell: update-ca-trust
 
 - name: Add alias for oc
-  shell: |
+  ansible.builtin.shell: |
     echo "eval \$(crc oc-env)" >> ~/.bashrc
 
 - name: Setup kubernetes repository
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       [kubernetes]
       name=Kubernetes
@@ -67,7 +67,7 @@
 
 - name: Install required packages
   become: true
-  yum:
+  ansible.builtin.yum:
     name:
       - kubectl
     state: present

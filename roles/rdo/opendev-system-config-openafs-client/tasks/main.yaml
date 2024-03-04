@@ -1,5 +1,5 @@
 - name: Setup OS specific variable include
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -10,7 +10,7 @@
         - vars
 
 - name: Increase udp buffer sizes
-  copy:
+  ansible.builtin.copy:
     src: 99-afs-udp.conf
     dest: /etc/sysctl.d/99-afs-udp.conf
     owner: root
@@ -19,18 +19,18 @@
   become: yes
 
 - name: Check config path defined
-  fail:
+  ansible.builtin.fail:
     msg: "openafs_client_config_path not defined"
   when: not openafs_client_config_path
 
 - name: Create configuration directory
-  file:
+  ansible.builtin.file:
     path: '{{ openafs_client_config_path }}'
     state: directory
   become: yes
 
 - name: Install client base config files
-  template:
+  ansible.builtin.template:
     dest: '{{ openafs_client_config_path }}/{{ item }}'
     owner: root
     group: root
@@ -42,7 +42,7 @@
   become: yes
 
 - name: Install client templated config files
-  template:
+  ansible.builtin.template:
     dest: '{{ openafs_client_config_path }}/{{ item }}'
     owner: root
     group: root
@@ -54,7 +54,7 @@
   become: yes
 
 - name: Ensure cache location directory
-  file:
+  ansible.builtin.file:
     path: '{{ openafs_client_cache_directory }}'
     state: directory
     owner: root
@@ -80,7 +80,7 @@
     state: present
 
 - name: Ensure openafs-client service running
-  service:
+  ansible.builtin.service:
     name: openafs-client
     state: started
     enabled: yes

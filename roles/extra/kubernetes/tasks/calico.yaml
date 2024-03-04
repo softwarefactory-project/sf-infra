@@ -1,6 +1,6 @@
 ---
 - name: Check if Calico was not deployed earlier
-  stat:
+  ansible.builtin.stat:
     path: "{{ calico_config_dir }}/calicoctl.yaml"
   register: _calico_resource
 
@@ -8,12 +8,12 @@
   become: true
   block:
     - name: Make calico directory in Kubernedes directory
-      file:
+      ansible.builtin.file:
         path: "{{ calico_config_dir }}"
         state: directory
 
     - name: Get calico manifests
-      get_url:
+      ansible.builtin.get_url:
         url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/{{ item }}"
         dest: "/etc/kubernetes/calico/{{ item }}"
       loop:
@@ -22,16 +22,16 @@
 
     # https://projectcalico.docs.tigera.io/maintenance/image-options/alternate-registry
     - name: Replace repository from docker to quay.io
-      shell: |
+      ansible.builtin.shell: |
         sed -i 's#image: calico/ctl:#image: quay.io/calico/ctl:#g' {{ calico_config_dir }}/calicoctl.yaml
       when: replace_docker_registry
 
     - name: Install operator
-      shell: |
+      ansible.builtin.shell: |
         kubectl create -f /etc/kubernetes/calico/tigera-operator.yaml
 
     - name: Install custom resources
-      shell: |
+      ansible.builtin.shell: |
         kubectl create -f /etc/kubernetes/calico/calicoctl.yaml
 
   when: not _calico_resource.stat.exists

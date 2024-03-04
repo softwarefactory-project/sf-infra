@@ -1,26 +1,26 @@
 - name: Install tools
-  package:
+  ansible.builtin.package:
     name:
       - podman
       - git
   become: true
 
 - name: Ensure that storage driver is overlay
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/containers/storage.conf"
     regexp: '^driver\ =\ \"\w+\"$'
     line: 'driver = "overlay"'
   become: true
 
 - name: Change mount program to fuse-overlays
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/containers/storage.conf
     regexp: "^#mount_program"
     line: 'mount_program = "/usr/bin/fuse-overlayfs"'
   become: true
 
 - name: Create account
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     home: "/home/{{ item }}"
     shell: /bin/bash
@@ -29,7 +29,7 @@
     - "{{ zuul_container_user }}"
 
 - name: Create home dir
-  file:
+  ansible.builtin.file:
     path: "/home/{{ item }}"
     state: directory
     owner: "{{ item }}"
@@ -38,7 +38,7 @@
     - "{{ zuul_container_user }}"
 
 - name: Download container-update project key
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ zuul_container_update_key }}"
     dest: "/home/{{ zuul_container_user }}/container_update_key.pub"
     force: true
@@ -50,17 +50,17 @@
   become: true
 
 - name: get key contents
-  command: "cat /home/{{ zuul_container_user }}/container_update_key.pub"
+  ansible.builtin.command: "cat /home/{{ zuul_container_user }}/container_update_key.pub"
   register: cu_pubkey
   become: true
 
 - name: debug key
-  debug:
+  ansible.builtin.debug:
     msg: "{{ cu_pubkey }}"
 
 - name: "Authorized {{ zuul_container_user }} executor"
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ zuul_container_user }}"
     state: present
     key: "{{ cu_pubkey.stdout }}"

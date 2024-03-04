@@ -28,7 +28,7 @@
     - service/hostname
     - service/mysqld-exporter
   tasks:
-    - include_role:
+    - ansible.builtin.include_role:
         name: infra-dlrn/mariadb-replicated
         tasks_from: master.yml
 

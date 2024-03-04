@@ -1,7 +1,7 @@
 ---
 - name: Deploy ingress
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/{{ ingress_version }}/deploy/static/provider/baremetal/deploy.yaml
 
 - name: Deploy ingress with hostNetwork binding
@@ -14,7 +14,7 @@
     # - hostNetwork: true
     - name: Create script to overwrite deployment
       become: true
-      copy:
+      ansible.builtin.copy:
         content: |
           ---
           apiVersion: apps/v1
@@ -134,7 +134,7 @@
 
     - name: Overwrite ingress deployment
       become: true
-      shell: |
+      ansible.builtin.shell: |
         kubectl apply -f {{ config_dir }}/ingress-deployment-overwrite.yaml
   when: not use_loadbalancer
 
@@ -145,7 +145,7 @@
     # ports.
     - name: Create script to overwrite http and https ports
       become: true
-      copy:
+      ansible.builtin.copy:
         content: |
           ---
           apiVersion: v1
@@ -185,6 +185,6 @@
 
     - name: Overwrite ingress service
       become: true
-      shell: |
+      ansible.builtin.shell: |
         kubectl apply -f {{ config_dir }}/ingress-service-overwrite.yaml
   when: use_loadbalancer

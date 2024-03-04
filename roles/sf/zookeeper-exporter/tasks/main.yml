@@ -17,7 +17,7 @@
 # "4lw.commands.whitelist=mntr,ruok"
 # It not, zookeeper_exporter will raise error: warning:
 # "mntr" command isn't allowed at
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: zookeeper_exporter

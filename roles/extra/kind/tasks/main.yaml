@@ -1,36 +1,36 @@
 - name: Download kind
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/kubernetes-sigs/kind/releases/download/v0.17.0/kind-linux-amd64
     dest: /bin/kind
     mode: '0755'
     checksum: "sha256:a8c045856db33f839908b6acb90dc8ec397253ffdaef7baf058f5a542e009b9c"
 
 - name: Copy kind-config
-  template:
+  ansible.builtin.template:
     src: kind-config.yaml
     dest: /etc/kind-config.yaml
 
 - name: Create sharable host directory
-  file:
+  ansible.builtin.file:
     path: /home/fedora/src
     state: directory
 
 - name: Install packages
-  package:
+  ansible.builtin.package:
     name:
       - podman
       - kubernetes-client
 
 - name: Create cluster
-  command: kind create cluster --config files/kind-config.yaml
+  ansible.builtin.command: kind create cluster --config files/kind-config.yaml
   # we ignore error that happens when the cluster is already created
   failed_when: false
 
 - name: Setup ingress controller
-  command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+  ansible.builtin.command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
 - name: Copy create-kubeconfig script
-  copy:
+  ansible.builtin.copy:
     src: create-kubeconfig
     dest: /bin/create-kubeconfig
     mode: '0755'
@@ -39,7 +39,7 @@
 # https://opensearch.org/docs/opensearch/install/important-settings/
 - name: Set important settings for Opensearch container
   become: true
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.max_map_count
     value: "262144"
     state: present
@@ -50,7 +50,7 @@
 # NOTE(dpawlik): Default value for nofile is 1024.
 - name: Set limits for nofile
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/security/limits.conf
     line: '* - nofile 102400'
     insertbefore: '^# End of file'
@@ -59,7 +59,7 @@
  # NOTE(dpawlik): Default value for nproc is: 63844
 - name: Set limits for nproc
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/security/limits.conf
     line: '* - nproc unlimited'
     insertbefore: '^# End of file'
@@ -70,27 +70,27 @@
 # Current values for: max_user_watches: 524288,  max_user_instances=128
 - name: Set inode limits
   become: true
-  shell: |
+  ansible.builtin.shell: |
     sysctl -w fs.inotify.max_user_watches=5242880
     sysctl -w fs.inotify.max_user_instances=1280
 
 # NOTE: taking advice from https://github.com/kubernetes-sigs/kind/issues/2896#issuecomment-1226184890
 - name: Create containers configuration file if not exists
   become: true
-  file:
+  ansible.builtin.file:
     path: /etc/containers/containers.conf
     state: touched
 
 - name: Set the containers section
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/containers/containers.conf
     regexp: "^[containers]"
     line: "[containers]"
 
 - name: Set the podman limit
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/containers/containers.conf
     regexp: "^pids_limit"
     line: "pids_limit=0"

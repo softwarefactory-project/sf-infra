@@ -1,14 +1,14 @@
 ---
 - name: Check if kubernetes was not deployed earlier
   become: true
-  stat:
+  ansible.builtin.stat:
     path: /etc/kubernetes/admin.conf
   register: _k8s_config
 
 # More info: https://github.com/cri-o/cri-o/issues/6197
 - name: Modify policy json
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/containers/policy.json
     regexp: '^.*keyPaths.*'
     line: '                    "keyPath": "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"'
@@ -18,7 +18,7 @@
   become: true
   block:
     - name: Setup Kubernetes
-      shell: >
+      ansible.builtin.shell: >
         kubeadm init --pod-network-cidr={{ pod_network_cidr }}
         --service-cidr={{ service_cidr }}
         --skip-token-print &> ~/kubeadm.log
@@ -35,18 +35,18 @@
 #    kubeadm init --config=kubeadm.yaml &> ~/kubeadm.log
 
     - name: Create kube directory
-      file:
+      ansible.builtin.file:
         path: ~/.kube
         state: directory
 
     - name: Copy K8s config file
-      copy:
+      ansible.builtin.copy:
         src: /etc/kubernetes/admin.conf
         dest: ~/.kube/config
         remote_src: true
   always:
     - name: Get content from kubeadm log
-      shell: |
+      ansible.builtin.shell: |
         cat ~/kubeadm.log
 
   when: not _k8s_config.stat.exists

@@ -1,12 +1,12 @@
 ---
 - name: Enable newer nodejs module
   become: true
-  shell: |
+  ansible.builtin.shell: |
     dnf module enable -y nodejs:16
 
 - name: Ensure requirements are installed
   become: true
-  package:
+  ansible.builtin.package:
     name:
       - npm
       - jq

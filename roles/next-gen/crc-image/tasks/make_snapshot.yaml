@@ -1,12 +1,12 @@
 ---
 - name: "Create snapshot - {{ nested_crc_snapshot_image_name }}"
-  shell: |
+  ansible.builtin.shell: |
     openstack server image create {{ vm_name }} --name {{ nested_crc_snapshot_image_name }}
   environment:
     OS_CLOUD: "{{ cloud_name }}"
 
 - name: Wait until the snapshot is done
-  shell: |
+  ansible.builtin.shell: |
     for r in {1..200}; do
         img_status=$(openstack image show {{ nested_crc_snapshot_image_name }} -c status -f value)
         if [ $img_status != 'active' ]; then

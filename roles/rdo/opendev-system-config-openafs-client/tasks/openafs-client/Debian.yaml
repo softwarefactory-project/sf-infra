@@ -13,7 +13,7 @@
   become: yes
 
 - name: Install kernel headers dependency
-  package:
+  ansible.builtin.package:
     name:
       - linux-headers-{{ ansible_kernel }}
     state: present
@@ -31,7 +31,7 @@
   become: yes
 
 - name: Install client packages
-  package:
+  ansible.builtin.package:
     name:
       - openafs-client
       - openafs-krb5

@@ -15,7 +15,7 @@
 #
 
 - name: Copy statsd mapping file
-  copy:
+  ansible.builtin.copy:
     src: statsd_mapping.yml
     dest: "{{ map_config_file_path }}"
     mode: '0644'
@@ -29,17 +29,17 @@
     - not use_container
   block:
     - name: Install statsd_exporter from copr centos 7
-      yum:
+      ansible.builtin.yum:
         name: https://download.copr.fedorainfracloud.org/results/danpawlik/statsd_exporter/epel-7-x86_64/01360590-golang-github-prometheus-statsd_exporter/statsd_exporter-0.15.0-3.el7.x86_64.rpm
       when: ansible_distribution_major_version == '7'
 
     - name: Install statsd_exporter from copr centos 8
-      yum:
+      ansible.builtin.yum:
         name: https://download.copr.fedorainfracloud.org/results/danpawlik/statsd_exporter/epel-8-x86_64/01360590-golang-github-prometheus-statsd_exporter/statsd_exporter-0.15.0-3.el8.x86_64.rpm
       when: ansible_distribution_major_version == '8'
 
     - name: Add parameters to statsd_exporter
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/sysconfig/statsd_exporter
         regexp: '^OPTIONS='
         line: 'OPTIONS="--web.listen-address=:{{ listen_address }} --statsd.listen-udp=:{{ listen_udp_port }} --statsd.listen-tcp=:{{ listen_tcp_port }} --statsd.mapping-config={{ map_config_file_path }}"'
@@ -48,7 +48,7 @@
         - restart statsd-exporter
 
     - name: Start the service
-      service:
+      ansible.builtin.service:
         name: statsd_exporter
         state: started
         enabled: true
@@ -57,12 +57,12 @@
 - when: use_container
   block:
     - name: Remove statsd_exporter package
-      yum:
+      ansible.builtin.yum:
         name: statsd_exporter
         state: absent
       become: true
 
-    - include_role:
+    - ansible.builtin.include_role:
         name: service/container
       vars:
         pod_name: statsd_exporter

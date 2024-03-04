@@ -1,18 +1,18 @@
 ---
 - name: Ensure httpd
-  package:
+  ansible.builtin.package:
     name: httpd
   become: yes
 
 - name: Ensure mod_ssl
-  package:
+  ansible.builtin.package:
     name: mod_ssl
   when: ansible_distribution == "RedHat"
   become: yes
 
 - name: check for tls cert
   become: yes
-  stat:
+  ansible.builtin.stat:
     path: "/etc/letsencrypt/live/{{ fqdn }}/cert.pem"
   register: _tls_cert
 
@@ -24,7 +24,7 @@
     persistent: yes
 
 - name: setup vhost
-  template:
+  ansible.builtin.template:
     src: vhost.j2
     dest: /etc/httpd/conf.d/monitoring.vhost.conf
   become: yes
@@ -32,7 +32,7 @@
 
 - name: setup proxypass
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: |
       ProxyPreserveHost On
       ProxyRequests Off
@@ -51,7 +51,7 @@
 
 - name: setup index
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: |
       <html>
       <body>
@@ -66,7 +66,7 @@
     dest: /var/www/html/index.html
 
 - name: start httpd
-  systemd:
+  ansible.builtin.systemd:
     state: "{% if _vhost_config.changed %}restarted{% else %}started{% endif %}"
     name: httpd
     enabled: yes

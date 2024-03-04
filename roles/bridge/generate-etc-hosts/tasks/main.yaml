@@ -1,5 +1,5 @@
 - name: Collect instances ips
-  shell: "{{ managed_instances }}"
+  ansible.builtin.shell: "{{ managed_instances }}"
   register: _infra_instances
   delegate_to: localhost
   run_once: true

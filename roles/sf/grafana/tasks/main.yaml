@@ -1,7 +1,7 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: '{{ item.path }}'
     state: directory
     recurse: yes
@@ -44,19 +44,19 @@
 # zuul, but condition "when: sf_grafana is defined" does not pass.
 - name: Create admin secret file
   become: true
-  copy:
+  ansible.builtin.copy:
     content: '{{ sf_grafana.password }}'
     dest: /etc/grafana/secrets/admin_password
   when: "{{ sf_grafana | default(False) }}"
 
 - name: Create admin user file
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "{{ sf_grafana.user }}"
     dest: /etc/grafana/secrets/admin_user
   when: "{{ sf_grafana | default(False) }}"
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: grafana

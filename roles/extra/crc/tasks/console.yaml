@@ -1,19 +1,19 @@
 ---
 - name: Install required packages
   become: true
-  package:
+  ansible.builtin.package:
     name:
       - haproxy
       - policycoreutils-python-utils
     state: present
 
 - name: Get CRC ip address
-  shell: |
+  ansible.builtin.shell: |
     crc ip
   register: _crc_ip
 
 - name: Get domain
-  shell: |
+  ansible.builtin.shell: |
     oc get ingresses.config/cluster -o jsonpath={.spec.domain}
   register: _crc_domain
 
@@ -28,7 +28,7 @@
 
 - name: Create haproxy config
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       global
           log /dev/log local0
@@ -58,7 +58,7 @@
 
 - name: Restart service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: haproxy
     state: restarted
     enabled: true
@@ -66,7 +66,7 @@
   when: haproxy_status.changed
 
 - name: Generate local machine etc hosts template
-  copy:
+  ansible.builtin.copy:
     content: >
       # Generate /etc/host entry.
 

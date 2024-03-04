@@ -2,7 +2,7 @@
 - name: Configure host for sf-operator
   block:
     - name: Ensure that oc is logged into Openshift
-      shell: >
+      ansible.builtin.shell: >
         /usr/local/bin/oc login
         -u kubeadmin -p "{{ openshift_admin_password }}"
         https://api.crc.testing:6443 --insecure-skip-tls-verify=true
@@ -12,19 +12,19 @@
       register: _login_user
 
     - name: Get openstack install yaml repository
-      git:
+      ansible.builtin.git:
         repo: https://github.com/openstack-k8s-operators/install_yamls
         dest: install_yamls
         version: 62a3d19a9a38cc168bd4cc893529ce41ab6278f5
 
     - name: Replace local-storage with standard storageclass
-      shell: |
+      ansible.builtin.shell: |
         find . -type f -exec sed -i 's/local-storage/standard/g' {} \;
       args:
         chdir: install_yamls
 
     - name: Run gen-crc-pv-kustomize shell script
-      shell: |
+      ansible.builtin.shell: |
         make crc_storage
       args:
         chdir: install_yamls

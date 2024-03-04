@@ -3,14 +3,14 @@
   hosts: all
   tasks:
     - name: "Include pushprox for proxy"
-      include_role:
+      ansible.builtin.include_role:
         name: "pushprox"
       vars:
         pushprox_type: proxy
         pushprox_proxy_listen: ":8080"
 
     - name: "Include pushprox for client"
-      include_role:
+      ansible.builtin.include_role:
         name: "pushprox"
       vars:
         pushprox_type: client

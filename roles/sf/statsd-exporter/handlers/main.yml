@@ -15,7 +15,7 @@
 #
 
 - name: restart statsd-exporter
-  service:
+  ansible.builtin.service:
     name: "statsd_exporter"
     state: "restarted"
   become: true

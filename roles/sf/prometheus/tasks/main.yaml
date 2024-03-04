@@ -1,7 +1,7 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     mode: "{{ item.mode|default(omit) }}"
@@ -12,13 +12,13 @@
 
 - name: Create configuration file
   become: yes
-  synchronize:
+  ansible.builtin.synchronize:
     src: "{{ prometheus_configuration_dir }}/"
     dest: "/etc/prometheus/"
     delete: yes
   register: _prom_config
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: prometheus

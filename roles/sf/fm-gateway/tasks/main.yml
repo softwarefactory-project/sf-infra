@@ -1,7 +1,7 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     mode: "{{ item.mode|default(omit) }}"
@@ -10,7 +10,7 @@
 
 - name: Create configuration file
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: |
       amqp_url = "amqps://fedora:@rabbitmq.fedoraproject.org/%2Fpublic_pubsub"
 
@@ -61,7 +61,7 @@
     dest: /etc/fm-gateway/config.toml
   register: _fm_config
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: fm-gateway

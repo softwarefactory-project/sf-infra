@@ -1,7 +1,7 @@
 # EPEL is required for dkms to build the openafs kernel modules
 # make is required for the %post section of the dkms module installation
 - name: Preinstall EPEL and make
-  package:
+  ansible.builtin.package:
     name:
       - make
       - https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
@@ -11,7 +11,7 @@
   become: yes
 
 - name: Create cache directory
-  file:
+  ansible.builtin.file:
     path: /var/cache/openafs
     state: directory
     owner: root
@@ -25,7 +25,7 @@
 #  https://opendev.org/cgit/openstack/openstack-zuul-jobs/tree/zuul.d/jobs.yaml
 
 - name: Add AFS repo
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: openafs
     description: OpenStack AFS repo
     baseurl: '{{ openafs_client_yum_repo_url }}'
@@ -33,7 +33,7 @@
   become: yes
 
 - name: Install kernel modules
-  dnf:
+  ansible.builtin.dnf:
     name:
       - kernel-devel
       - kernel-headers
@@ -45,7 +45,7 @@
   become: yes
 
 - name: Install client
-  yum:
+  ansible.builtin.yum:
     name:
       - openafs-krb5
       - openafs-client

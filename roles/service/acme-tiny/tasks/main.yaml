@@ -1,13 +1,13 @@
 - name: Remove other lets encrypt tools
   become: true
-  package:
+  ansible.builtin.package:
     name:
       - lecm
       - certbot
     state: absent
 
 - name: Remove crontab jobs if available
-  cron:
+  ansible.builtin.cron:
     name: "{{ item }}"
     state: absent
   loop:
@@ -15,13 +15,13 @@
 
 - name: Install acme-tiny
   become: true
-  package:
+  ansible.builtin.package:
     name: acme-tiny
     state: present
 
 - name: "Ensure directory {{ acme_keys_dir }} exists"
   become: true
-  file:
+  ansible.builtin.file:
     mode: "0700"
     owner: root
     path: "{{ acme_keys_dir }}"
@@ -29,7 +29,7 @@
 
 - name: "Ensure directory {{ acme_certs_dir }} exists"
   become: true
-  file:
+  ansible.builtin.file:
     mode: "0755"
     owner: root
     path: "{{ acme_certs_dir }}"
@@ -37,28 +37,28 @@
 
 - name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/account.key"
   become: true
-  shell:
+  ansible.builtin.shell:
     cmd: "openssl genrsa --out {{ acme_keys_dir }}/account.key 4096"
     creates: "{{ acme_keys_dir }}/account.key"
 
 - name: "Run openssl genrsa 4096 for: {{ acme_keys_dir }}/{{ item.domain }}.key"
   become: true
   loop: "{{ acme_domains }}"
-  shell:
+  ansible.builtin.shell:
     cmd: "openssl genrsa --out {{ acme_keys_dir }}/{{ item.domain }}.key 4096"
     creates: "{{ acme_keys_dir }}/{{ item.domain }}.key"
 
 - name: 'Run openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj "/CN={{ item.domain }}" for: {{ acme_keys_dir }}/{{ item.domain }}.csr'
   become: true
   loop: "{{ acme_domains }}"
-  shell:
+  ansible.builtin.shell:
     cmd: 'openssl req -new -sha256 -key {{ acme_keys_dir }}/{{ item.domain }}.key -subj "/CN={{ item.domain }}" > {{ acme_keys_dir }}/{{ item.domain }}.csr'
     creates: "{{ acme_keys_dir }}/{{ item.domain }}.csr"
 
 - name: "Ensure directory {{ acme_challenges_dir }}/{{ item.domain }} exists"
   become: true
   loop: "{{ acme_domains }}"
-  file:
+  ansible.builtin.file:
     mode: "0755"
     owner: root
     path: "{{ acme_challenges_dir }}/{{ item.domain }}"
@@ -68,7 +68,7 @@
   become: true
   loop: "{{ acme_domains }}"
   when: "item.vhost_root is defined"
-  file:
+  ansible.builtin.file:
     mode: "0755"
     owner: "{{ acme_vhost_owner }}"
     path: "{{ item.vhost_root }}"
@@ -78,14 +78,14 @@
   become: true
   loop: "{{ acme_domains }}"
   register: "_cert_files"
-  stat:
+  ansible.builtin.stat:
     path: "{{ acme_certs_dir }}/{{ item.domain }}.pem"
 
 - name: Install vhost configuration
   become: true
   loop: "{{ acme_domains }}"
   register: "_vhost_conf"
-  template:
+  ansible.builtin.template:
     dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
   when: not item.vhost_skip|default(false)
@@ -93,7 +93,7 @@
 - name: Reload apache
   when: "_vhost_conf is changed"
   become: true
-  service:
+  ansible.builtin.service:
     name: httpd
     state: reloaded
 
@@ -101,26 +101,26 @@
 # We just need to know if the script should be executed now or it
 # can wait for crontab.
 - name: Check if cert was already created
-  stat:
+  ansible.builtin.stat:
     path: "{{ acme_certs_dir }}/{{ acme_domains[0] }}.pem"
   register: _acme_cert
 
 - name: Setup acme-tiny refresh script /usr/local/bin/acme-tiny-refresh.sh
   become: true
   register: "_acme_tiny_script"
-  template:
+  ansible.builtin.template:
     dest: /usr/local/bin/acme-tiny-refresh.sh
     mode: "0755"
     src: acme-tiny-refresh.sh
 
 - name: Run the acme-tiny script
   become: true
-  command: /usr/local/bin/acme-tiny-refresh.sh no-reload
+  ansible.builtin.command: /usr/local/bin/acme-tiny-refresh.sh no-reload
   when: "_acme_tiny_script is changed and not _acme_cert.stat.exists"
 
 - name: Create cronjob for refreshing certs
   become: true
-  cron:
+  ansible.builtin.cron:
     job: /usr/local/bin/acme-tiny-refresh.sh no-reload > /dev/null
     name: Run acme tiny refresh script
     special_time: weekly
@@ -129,14 +129,14 @@
   become: true
   loop: "{{ acme_domains }}"
   register: "_cert_files"
-  stat:
+  ansible.builtin.stat:
     path: "{{ acme_certs_dir }}/{{ item.domain }}.pem"
 
 - name: Install vhost configuration
   become: true
   loop: "{{ acme_domains }}"
   register: "_vhost_conf"
-  template:
+  ansible.builtin.template:
     dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
     src: vhost.conf
   when: not item.vhost_skip|default(false)
@@ -144,6 +144,6 @@
 - name: Reload apache
   when: "_vhost_conf is changed"
   become: true
-  service:
+  ansible.builtin.service:
     name: httpd
     state: reloaded

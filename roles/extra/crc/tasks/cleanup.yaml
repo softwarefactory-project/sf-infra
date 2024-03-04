@@ -2,7 +2,7 @@
 # From https://github.com/crc-org/snc/blob/master/snc.sh#L241
 # https://github.com/crc-org/snc/blob/master/pull-secret.yaml
 - name: Remove pull-secret.txt file
-  file:
+  ansible.builtin.file:
     path: "{{ openshift_pull_secret_path }}"
     state: absent
   register: _cleanup_pull_secret
@@ -10,7 +10,7 @@
 # Create empty pull-secret.yaml file
 # NOTE: base on https://github.com/crc-org/snc/blob/master/pull-secret.yaml
 - name: Create empty pull-secret
-  copy:
+  ansible.builtin.copy:
     content: |
       apiVersion: v1
       data:
@@ -24,7 +24,7 @@
     mode: '0644'
 
 - name: Create cleanup script
-  copy:
+  ansible.builtin.copy:
     content: |
       # ensure that user is logged
       /usr/local/bin/oc login -u kubeadmin -p "$(tail ~/crc-start.log  | grep -i password | head -1 | awk '{print $2}')"
@@ -35,7 +35,7 @@
 # NOTE: We don't want to wait until the machineconfig is updated.
 # Partially from sf-infra/roles/extra/crc/tasks/cleanup.yaml
 - name: Remove pull secret content from the OpenShift Cluster
-  shell: /tmp/cleanup-secret.sh
+  ansible.builtin.shell: /tmp/cleanup-secret.sh
   when: _cleanup_pull_secret.changed
   until: "'Unable to connect to the server' not in _login_user.stderr"
   retries: 20
