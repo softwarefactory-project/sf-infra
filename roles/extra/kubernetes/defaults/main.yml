@@ -17,6 +17,7 @@ ingress_version: controller-v1.5.1
 local_storage_version: v0.0.22
 metallb_version: v0.13.7
 replace_docker_registry: true
+kubernetes_repo_version: 1.29
 
 # Kubeadm
 pod_network_cidr: 10.244.0.0/16

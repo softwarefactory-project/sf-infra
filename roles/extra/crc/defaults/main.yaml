@@ -26,3 +26,4 @@ sf_infra_repo_alt: /tmp/sf-infra
 
 # workarounds
 ensure_images: true
+kubernetes_repo_version: 1.29
