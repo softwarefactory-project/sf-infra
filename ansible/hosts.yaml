@@ -292,7 +292,7 @@ all:
       ansible_host: '192.168.26.10'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     mirror.regionone.vexxhost.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
