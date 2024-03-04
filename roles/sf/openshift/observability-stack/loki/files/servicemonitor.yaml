@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    sf-monitoring: loki
+  name: loki-servicemonitor
+  namespace: sf-observability
+spec:
+  selector:
+    matchLabels:
+      app: observability
+      run: loki
+  endpoints:
+  - port: http-metrics
