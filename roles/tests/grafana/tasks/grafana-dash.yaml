@@ -1,18 +1,18 @@
 ---
 - name: Install puppeteer
-  shell: |
+  ansible.builtin.shell: |
       npm install puppeteer@20.2.1
   args:
     chdir: /tmp
 
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     path: /tmp/log
     state: directory
     mode: '0755'
 
 - name: Create required dirs for Grafana
-  file:
+  ansible.builtin.file:
     path: "/etc/grafana/provisioning/{{ item }}"
     state: directory
   loop:

@@ -1,18 +1,18 @@
 ---
 - name: check for tls cert
   become: yes
-  stat:
+  ansible.builtin.stat:
     path: "{{ le_base_path }}/{{ fqdn }}/cert.pem"
   register: _tls_cert
 
 - name: setup vhost
-  template:
+  ansible.builtin.template:
     src: vhost.j2
     dest: /etc/httpd/conf.d/logserver.vhost.conf
   become: yes
 
 - name: Create logs directory
-  file:
+  ansible.builtin.file:
     path: /var/www/logs
     state: directory
     owner: loguser
@@ -21,7 +21,7 @@
 
 - name: Setup index.html
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: |
       <html><head><title>Logserver</title></head><body>Welcome to {{ fqdn }} logserver</body></html>
     dest: /var/www/logs/index.html
@@ -29,7 +29,7 @@
 # NOTE: default value is: cat /proc/sys/vm/min_free_kbytes => 67584
 - name: Increase min_free_kbytes
   become: true
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.min_free_kbytes
     value: "135168"
     state: present

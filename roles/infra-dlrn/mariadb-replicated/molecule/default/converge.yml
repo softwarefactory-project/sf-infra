@@ -209,6 +209,6 @@
             -----END CERTIFICATE REQUEST-----
   tasks:
     - name: "Include mariadb-replicated"
-      include_role:
+      ansible.builtin.include_role:
         name: "mariadb-replicated"
         tasks_from: master.yml

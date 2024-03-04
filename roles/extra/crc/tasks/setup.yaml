@@ -1,33 +1,33 @@
 ---
 - name: Configure crc - disable telemetry
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set consent-telemetry no
 
 - name: Configure crc - set password
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set kubeadmin-password "{{ openshift_admin_password }}"
 
 - name: Enable podman runtime
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set preset podman
   when: crc_config_podman_runtime
 
 - name: Set additional parameters for crc - telemetry
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set consent-telemetry {{ crc_config_consent_telemetry }}
 
 - name: Set additional parameters for crc - monitoring
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set enable-cluster-monitoring true
   when: crc_config_cluster_monitoring
 
 - name: Set minimum required memory to run the CRC when monitoring enabled
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set memory 14336
   when: crc_config_cluster_monitoring
 
 - name: Set additional parameters for crc - enable microshift preset
-  shell: |
+  ansible.builtin.shell: |
     /usr/local/bin/crc config set preset microshift
   when: crc_config_microshift_preset
 
@@ -36,16 +36,16 @@
     # NOTE: The secret is created here to prevent that someone can take the
     # token.
     - name: Create pull-secret.txt file
-      include_tasks: secret.yaml
+      ansible.builtin.include_tasks: secret.yaml
 
     - name: Configure crc - set pull secret
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/crc config set pull-secret-file pull-secret.txt
 
     - name: Setup crc
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/crc setup {% if crc_debug %}--log-level debug{% endif %} &> crc-setup.log
   always:
     - name: Remove pull-secret.txt file
-      file:
+      ansible.builtin.file:
         path: "{{ openshift_pull_secret_path }}"

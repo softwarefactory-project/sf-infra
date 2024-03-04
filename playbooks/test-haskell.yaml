@@ -3,4 +3,4 @@
     target_file: "{{ zuul.project.src_dir }}/{{ infra_script }}"
   tasks:
     - name: Build the script
-      command: "ghc -Werror -Wall -threaded -rtsopts -with-rtsopts=-N -O2 {{ target_file }}"
+      ansible.builtin.command: "ghc -Werror -Wall -threaded -rtsopts -with-rtsopts=-N -O2 {{ target_file }}"

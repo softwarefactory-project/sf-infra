@@ -7,11 +7,11 @@
     #     dest: /tmp/common.yml
 
     - name: Create tripleo user
-      user:
+      ansible.builtin.user:
         name: tripleo
 
     - name: Ensure ci_directory_path
-      set_fact:
+      ansible.builtin.set_fact:
         ci_directory_path: "/var/lib/ansible"
 
     # - name: Load tripleo keys
@@ -28,7 +28,7 @@
     #   when: item.authorized_keys is defined
 
     - name: Add rule for monitoring
-      iptables:
+      ansible.builtin.iptables:
         chain: INPUT
         protocol: tcp
         destination_port: 9100
@@ -41,10 +41,10 @@
         rule_num: 61
 
     - name: Save iptables rules
-      command: /usr/libexec/iptables/iptables.init save
+      ansible.builtin.command: /usr/libexec/iptables/iptables.init save
 
     - name: Create flavors
-      shell: |
+      ansible.builtin.shell: |
         if ! openstack flavor show {{ flavor.name }}; then
            openstack flavor create --ram {{ flavor.ram }} --disk {{ flavor.disk }} --vcpu {{ flavor.vcpus }} --public {{ flavor.name }}
         fi

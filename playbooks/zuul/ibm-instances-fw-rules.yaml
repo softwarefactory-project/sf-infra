@@ -1,5 +1,5 @@
 - name: Forward node-exporter port
-  iptables:
+  ansible.builtin.iptables:
     chain: FORWARD
     protocol: tcp
     destination_port: '91{{ server.ip.split(".")[-1]}}'
@@ -11,7 +11,7 @@
     loop_var: server
 
 - name: DNAT node-exporter port
-  iptables:
+  ansible.builtin.iptables:
     table: nat
     chain: PREROUTING
     in_interface: bond1
@@ -25,7 +25,7 @@
     loop_var: server
 
 - name: Forward finger port (7979) to zfgw
-  iptables:
+  ansible.builtin.iptables:
     chain: FORWARD
     protocol: tcp
     destination_port: 7979
@@ -38,7 +38,7 @@
   when: server.name | regex_search("zfgw")
 
 - name: DNAT finger port (7979) to zfgw
-  iptables:
+  ansible.builtin.iptables:
     table: nat
     chain: PREROUTING
     in_interface: bond1
@@ -53,4 +53,4 @@
   when: server.name | regex_search("zfgw")
 
 - name: Save iptables rules
-  command: /usr/libexec/iptables/iptables.init save
+  ansible.builtin.command: /usr/libexec/iptables/iptables.init save

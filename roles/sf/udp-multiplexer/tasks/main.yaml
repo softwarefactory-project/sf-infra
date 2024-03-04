@@ -1,13 +1,13 @@
 - name: Create udp-multiplexer directory
   become: true
-  file:
+  ansible.builtin.file:
     path: /opt/udp-multiplexer
     state: directory
     mode: '0755'
 
 - name: Copy the source
   become: true
-  copy:
+  ansible.builtin.copy:
     src: udp-multiplexer.hs
     dest: /opt/udp-multiplexer/udp-multiplexer.hs
   register: _src
@@ -17,7 +17,7 @@
   vars:
     build_image: quay.io/software-factory/haskell-epel7
     build_command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -o /opt/udp-multiplexer/udp-multiplexer /opt/udp-multiplexer/udp-multiplexer.hs
-  command: >
+  ansible.builtin.command: >
     podman run -it --rm
       --volume /opt/udp-multiplexer:/opt/udp-multiplexer:Z
       {{ build_image }} {{ build_command }}
@@ -25,14 +25,14 @@
 
 - name: Create a symbolic link to udp-multiplexer bin
   become: true
-  file:
+  ansible.builtin.file:
     src: /opt/udp-multiplexer/udp-multiplexer
     dest: /usr/local/bin/udp-multiplexer
     state: link
 
 - name: Setup service
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       [Unit]
       Description=UDP Multiplexer service
@@ -52,7 +52,7 @@
 
 - name: Start service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: udp-multiplexer
     daemon-reload: true
     state: started

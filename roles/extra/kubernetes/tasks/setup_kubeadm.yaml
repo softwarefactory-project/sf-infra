@@ -1,7 +1,7 @@
 ---
 - name: Setup kubernetes repository
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       [kubernetes]
       name=Kubernetes
@@ -14,7 +14,7 @@
 
 - name: Install required packages
   become: true
-  yum:
+  ansible.builtin.yum:
     name:
       - kubelet
       - kubeadm
@@ -25,7 +25,7 @@
 
 - name: Enable kubelet service
   become: true
-  service:
+  ansible.builtin.service:
     name: kubelet
     state: started
     enabled: true

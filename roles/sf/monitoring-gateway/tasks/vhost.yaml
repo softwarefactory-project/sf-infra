@@ -2,7 +2,7 @@
 - name: Create vhost for monitoring
   become: true
   when: monitoring_host_url is defined and monitoring_host_url
-  copy:
+  ansible.builtin.copy:
     content: |
       <Location "/monitoring">
               RewriteEngine On

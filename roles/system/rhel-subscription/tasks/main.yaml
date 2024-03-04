@@ -1,7 +1,7 @@
 ---
 - name: Check rhel version
   become: true
-  command: subscription-manager release
+  ansible.builtin.command: subscription-manager release
   register: _rhel_version
   ignore_errors: yes
 
@@ -20,7 +20,7 @@
       no_log: yes
 
     - name: Disable 9.2 eus when system is not rhel-9.2
-      command: "subscription-manager repos --disable {{ item }}"
+      ansible.builtin.command: "subscription-manager repos --disable {{ item }}"
       loop:
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
@@ -34,4 +34,4 @@
         state: latest
 
     - name: Reboot after initial upgrade
-      reboot:
+      ansible.builtin.reboot:

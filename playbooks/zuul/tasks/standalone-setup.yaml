@@ -1,5 +1,5 @@
 - name: "Check if {{ item.cloud }} works"
-  command: "openstack --os-cloud {{ item.cloud }} server list"
+  ansible.builtin.command: "openstack --os-cloud {{ item.cloud }} server list"
   register: _openstack_cloud_works
   failed_when: _openstack_cloud_works.rc not in [0,1]
   no_log: yes
@@ -8,11 +8,11 @@
 - name: "Install shiftstack for {{ item.cloud }}"
   block:
     - name: Setup for rhel-9
-      include_tasks: standalone-setup-rhel-9.2.yaml
+      ansible.builtin.include_tasks: standalone-setup-rhel-9.2.yaml
   when: (_openstack_client.rc or _openstack_cloud_works.rc) == 1
 
 - name: "Check if hostonly network exists for {{ item.cloud }}"
-  command: >
+  ansible.builtin.command: >
     openstack --os-cloud {{ item.cloud }}
     network list --external -f value -c Name
   register: _get_external_network

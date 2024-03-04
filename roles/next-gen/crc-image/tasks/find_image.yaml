@@ -22,7 +22,7 @@
         img_regex: "(cloud-rhel-{{ system_release }}-[0-9]-[0-9]{10})"
 
     - name: "Take newest image for {{ img_regex }}"
-      shell: >
+      ansible.builtin.shell: >
         set -e;
         set -o pipefail;
         openstack image list |

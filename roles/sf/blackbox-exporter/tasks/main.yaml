@@ -1,19 +1,19 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: /etc/blackbox
     state: directory
     mode: 0644
 
 - name:  Copy blackbox config file
   become: yes
-  copy:
+  ansible.builtin.copy:
     src: blackbox.yml
     dest: /etc/blackbox/blackbox.yml
   register: _blackbox_config
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: blackbox-exporter

@@ -1,32 +1,32 @@
 ---
 # https://github.com/openstack-k8s-operators/install_yamls/tree/master/devsetup
 - name: Download crc
-  include_tasks: download.yaml
+  ansible.builtin.include_tasks: download.yaml
 
 - name: Prepare for setup
-  include_tasks: prepare.yaml
+  ansible.builtin.include_tasks: prepare.yaml
 
 - name: Setup crc
-  include_tasks: setup.yaml
+  ansible.builtin.include_tasks: setup.yaml
 
 - name: Start crc
-  include_tasks: start.yaml
+  ansible.builtin.include_tasks: start.yaml
 
 - name: Post crc step
-  include_tasks: post.yaml
+  ansible.builtin.include_tasks: post.yaml
 
 - name: Prepare local storage
-  include_tasks: local-storage.yaml
+  ansible.builtin.include_tasks: local-storage.yaml
 
 - name: Enable OpenShift Web Console
-  include_tasks: console.yaml
+  ansible.builtin.include_tasks: console.yaml
 
 - name: Add welcome information
-  include_tasks: welcome.yaml
+  ansible.builtin.include_tasks: welcome.yaml
 
 - name: Modify kubelet systemd service options
-  include_tasks: kubelet.yaml
+  ansible.builtin.include_tasks: kubelet.yaml
   when: modify_kubelet_systemd
 
 - name: Run workarounds tasks
-  include_tasks: workarounds.yaml
+  ansible.builtin.include_tasks: workarounds.yaml

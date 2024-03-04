@@ -5,19 +5,19 @@
     fs_type: xfs
   block:
     - name: "Create filesystem for Mailing-Lists data"
-      filesystem:
+      community.general.filesystem:
         fstype: "{{ fs_type }}"
         dev: "{{ data_dev }}"
 
     - name: "Mount filesystem for Mailing-Lists data"
-      mount:
+      ansible.builtin.mount:
         src: "{{ data_dev }}"
         path: "{{ data_path }}"
         fstype: "{{ fs_type }}"
         state: mounted
 
     - name: Add swap file
-      include_role:
+      ansible.builtin.include_role:
         name: swap_file
       vars:
         size: 1G
@@ -29,7 +29,7 @@
 - name: "Deploy Mailman 3"
   block:
     - name: "Install Mailing-Lists Server"
-      include_role:
+      ansible.builtin.include_role:
         name: mailing_lists_server
         public: yes
       vars:
@@ -56,7 +56,7 @@
         service_profile: medium
 
     - name: "Use the second disk for all Mailman3 database"
-      include_role:
+      ansible.builtin.include_role:
         name: data_movebind
       vars:
         src: /var/lib/pgsql
@@ -68,7 +68,7 @@
           - postgresql
 
     - name: "Use the second disk for all Mailman3 data"
-      include_role:
+      ansible.builtin.include_role:
         name: data_movebind
       vars:
         src: /var/lib/mailman3
@@ -79,7 +79,7 @@
           - httpd
 
     - name: "Use the second disk for all Hyperkitty+Postorius data"
-      include_role:
+      ansible.builtin.include_role:
         name: data_movebind
       vars:
         src: /var/www/mailman
@@ -90,7 +90,7 @@
           - httpd
 
     - name: Configure web access to old ML archives
-      copy:
+      ansible.builtin.copy:
         src: "old_ml_archives.conf"
         dest: "{{ _vhost_confdir }}/"
         owner: root
@@ -99,7 +99,7 @@
       notify: reload httpd
 
     - name: Install custom favicon
-      copy:
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ webapp_path }}/static-extra/"
         owner: root
@@ -112,7 +112,7 @@
       notify: Update static files
 
     - name: Install custom branded navbar template
-      copy:
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ webapp_path }}/templates/hyperkitty/"
         owner: root
@@ -128,7 +128,7 @@
 - name: "Deploy Extra Mail Settings"
   block:
     - name: "Install extra maps"
-      copy:
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "/etc/postfix/{{ item }}"
       with_items:
@@ -137,13 +137,13 @@
 
     # quick fix for SPAM generating a low Spamassassin score
     - name: "SPAM filtering"
-      copy:
+      ansible.builtin.copy:
         src: "sa_rdo_mls.cf"
         dest: "{{ sa_config_bits }}/10_rdo_mls.cf"
       notify: regenerate spamassassin configuration
 
     - name: "Discard very-likely SPAM"
-      blockinfile:
+      ansible.builtin.blockinfile:
         path: /etc/postfix/header_checks
         block: |
           /^X-Spam-Level: \*{8,}/ DISCARD
@@ -151,7 +151,7 @@
       notify: reload mail system
 
     - name: "Install Dovecot users"
-      copy:
+      ansible.builtin.copy:
         src: "users/"
         dest: /etc/dovecot/users/
 

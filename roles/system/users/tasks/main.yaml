@@ -1,11 +1,11 @@
 - name: Setup admin group
-  group:
+  ansible.builtin.group:
     name: "{{ admin_group }}"
     state: "present"
   become: yes
 
 - name: Setup users
-  user:
+  ansible.builtin.user:
     name: "{{ item.value.name }}"
     append: "yes"
     groups: "{{ item.value.groups }}"
@@ -14,7 +14,7 @@
   become: yes
 
 - name: Setup authorized keys for users
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.0.key }}"
     key: "{{ item.1 }}"
   when: item.0.value.state | default('present') != 'absent'
@@ -22,7 +22,7 @@
   become: yes
 
 - name: Setup passwordless sudo for admin users
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/sudoers.d/91-admin"
     create: "yes"
     mode: "0440"

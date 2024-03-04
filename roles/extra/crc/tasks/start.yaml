@@ -4,12 +4,12 @@
     # NOTE: The secret is created here to prevent that someone can take the
     # token.
     - name: Create pull-secret.txt file
-      include_tasks: secret.yaml
+      ansible.builtin.include_tasks: secret.yaml
 
     - name: Execute crc start command
-      shell: |
+      ansible.builtin.shell: |
         /usr/local/bin/crc start {% if crc_debug %}--log-level debug{% endif %} {{ crc_parameters }} &> ~/crc-start.log
   always:
     - name: Remove pull-secret.txt file
-      file:
+      ansible.builtin.file:
         path: "{{ openshift_pull_secret_path }}"

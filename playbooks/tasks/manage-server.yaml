@@ -9,7 +9,7 @@
       register: _server
 
     - name: Get floating ip for server if exists
-      set_fact:
+      ansible.builtin.set_fact:
         floating_ip_address: "{{ _server.servers[0].addresses[server.network][1].addr }}"
       ignore_errors: true
       failed_when: false

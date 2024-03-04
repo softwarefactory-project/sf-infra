@@ -1,6 +1,6 @@
 ---
 - name: Reload httpd service
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ http_service_name | default('httpd') }}"
     state: reloaded

@@ -4,7 +4,7 @@
   tasks:
     - name: Install mypy
       become: true
-      command: pip3 install mypy
+      ansible.builtin.command: pip3 install mypy
 
     - name: Validate the script
-      command: "mypy --strict {{ target_file }}"
+      ansible.builtin.command: "mypy --strict {{ target_file }}"

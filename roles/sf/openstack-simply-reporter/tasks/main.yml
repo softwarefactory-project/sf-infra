@@ -1,11 +1,11 @@
 ---
 - name: Setup virtual env on Centos 8
-  yum:
+  ansible.builtin.yum:
     name: python3-openstacksdk
   become: true
 
 - name: Copy openstack simply reporter
-  copy:
+  ansible.builtin.copy:
     src: openstack-simply-reporter.py
     dest: /usr/local/bin/openstack-simply-reporter.py
     mode: "0755"
@@ -15,7 +15,7 @@
 - name: Create cronjob
   become: true
   become_user: root
-  cron:
+  ansible.builtin.cron:
     name: Get stack status
     hour: "5"
     minute: "20"

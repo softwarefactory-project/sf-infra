@@ -1,4 +1,4 @@
-- set_fact:
+- ansible.builtin.set_fact:
     path: "/home/fedora/tripleo-standalone/{{ item.baremetal_name }}"
 
 - name: Create working directory
@@ -45,7 +45,7 @@
     dest: "{{ path }}/dev-install/playbooks"
 
 - name: Setup nodepool tenant
-  command: ansible-playbook  -i inventory.yaml -e @local-overrides.yaml playbooks/nodepool-tenant.yaml
+  ansible.builtin.command: ansible-playbook  -i inventory.yaml -e @local-overrides.yaml playbooks/nodepool-tenant.yaml
   args:
     chdir: "{{ path }}/dev-install"
 

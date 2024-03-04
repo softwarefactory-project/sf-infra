@@ -1,7 +1,7 @@
 ---
 - name: Untaint nodes
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl taint nodes --all {{ item }}
   ignore_errors: true
   loop:

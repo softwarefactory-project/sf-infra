@@ -1,16 +1,16 @@
 - name: Install pushprox-proxy
-  package:
+  ansible.builtin.package:
     name: pushprox-proxy
 
 - name: Configure listen address
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/sysconfig/pushprox-proxy"
     regexp: "^WEB_LISTEN"
     line: 'WEB_LISTEN="{{ pushprox_proxy_listen }}"'
   notify: "Restart pushprox-proxy"
 
 - name: Enable and start pushprox-proxy service
-  service:
+  ansible.builtin.service:
     name: pushprox-proxy
     enabled: yes
     state: started

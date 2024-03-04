@@ -10,7 +10,7 @@
     msg: "Podman is mandatory to run tests!"
 
 - name: Check if there is crc binary
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/crc
   register: _crc_bin
 

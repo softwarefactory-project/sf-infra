@@ -7,7 +7,7 @@
     # NOTE(jpena): if the bridge host is ever recreated, we will have to update this key
     bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIERYVOnPOy8XEwMaW+45yp7IcdW3B/ArPidfkWYLX/Jp"
   tasks:
-    - add_host:
+    - ansible.builtin.add_host:
         name: "{{ bridge_name }}"
         ansible_python_interpreter: python3
         ansible_host: "{{ bridge_ip }}"
@@ -15,21 +15,21 @@
         ansible_connection: ssh
         groups: bridge
 
-    - known_hosts:
+    - ansible.builtin.known_hosts:
         name: "{{ bridge_name }}"
         key: "{{ bridge_key }}"
 
 - hosts: bridge.softwarefactory-project.io
   tasks:
     - name: Synchronize src repos to workspace directory.
-      synchronize:
+      ansible.builtin.synchronize:
         dest: "~/src/"
         src: "{{ zuul.executor.src_root }}/"
       no_log: true
 
     - name: Create ansible registry renew log directory
       become: true
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         owner: fedora
@@ -39,7 +39,7 @@
         - /var/lib/sf-infra
 
     - name: Copy renew certificate script
-      copy:
+      ansible.builtin.copy:
         content: |
           cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra;
           export ANSIBLE_CONFIG=ansible/ansible.cfg;
@@ -48,7 +48,7 @@
         dest: /var/lib/sf-infra/quay-renew.sh
 
     - name: Create cron job for renewing certificate
-      cron:
+      ansible.builtin.cron:
         name: Renew registry certificate - Quay
         special_time: weekly
         job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null

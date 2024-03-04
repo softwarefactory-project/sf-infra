@@ -1,13 +1,13 @@
 - name: Install playbook and configure crontab
   block:
     - name: Install script to keep up to date config-project
-      copy:
+      ansible.builtin.copy:
         src: manage_upstream_config_repo.yaml
         dest: /opt/manage_upstream_config_repo.yaml
       become: yes
 
     - name: Install crontab to update project-config repo
-      cron:
+      ansible.builtin.cron:
         name: Update project-config repo
         hour: 1
         job: "systemd-cat ansible-playbook -i 'localhost,' /opt/manage_upstream_config_repo.yaml > /dev/null"

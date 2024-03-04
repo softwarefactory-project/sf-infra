@@ -1,7 +1,7 @@
 ---
 # TODO: ensure /etc/zuul is available
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: zuul-weeder

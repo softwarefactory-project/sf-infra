@@ -4,7 +4,7 @@
 
 - name: Add exception to the firewall
   become: true
-  firewalld:
+  ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
     state: enabled

@@ -23,7 +23,7 @@
   become_user: stack
 
 - name: Check if squid container exists
-  command: podman container exists squid
+  ansible.builtin.command: podman container exists squid
   failed_when: false
   register: _squid_container
 

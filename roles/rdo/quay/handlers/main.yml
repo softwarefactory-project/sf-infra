@@ -1,6 +1,6 @@
 ---
 - name: Restart quay registry when config changed
   become: true
-  service:
+  ansible.builtin.service:
     name: quay
     state: restarted

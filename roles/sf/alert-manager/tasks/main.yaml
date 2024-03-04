@@ -1,7 +1,7 @@
 ---
 - name: Create host directories
   become: yes
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     mode: "{{ item.mode|default(omit) }}"
@@ -12,7 +12,7 @@
 
 - name: Create configuration file
   become: yes
-  copy:
+  ansible.builtin.copy:
     content: |
       ---
       global:
@@ -53,7 +53,7 @@
     dest: /etc/alertmanager/alertmanager.yml
   register: _am_config
 
-- include_role:
+- ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: alertmanager

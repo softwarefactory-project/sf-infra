@@ -1,20 +1,20 @@
 ---
 - block:
     - name: Make sure NetworkManager and dnsmasq are installed
-      package:
+      ansible.builtin.package:
         name:
           - NetworkManager
           - dnsmasq
         state: present
 
     - name: Make sure NetworkManager service is enabled
-      service:
+      ansible.builtin.service:
         name: NetworkManager
         enabled: yes
         state: started
 
     - name: Configure dnsmasq
-      copy:
+      ansible.builtin.copy:
         content: "{{ item.content }}"
         dest: "{{ item.dest }}"
       register: _dnsmasq_config
@@ -34,7 +34,7 @@
           dest: /etc/NetworkManager/dnsmasq.d/00-add-hosts.conf
 
     - name: Restart NetworkManager if needed
-      service:
+      ansible.builtin.service:
         name: NetworkManager
         state: restarted
       when: _dnsmasq_config is changed

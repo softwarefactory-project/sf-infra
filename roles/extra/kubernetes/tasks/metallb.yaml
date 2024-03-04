@@ -2,20 +2,20 @@
 # https://metallb.universe.tf/installation/
 - name: Patch kube-proxy
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl get configmap kube-proxy -n kube-system -o yaml | \
     sed -e "s/strictARP: false/strictARP: true/" | \
     kubectl apply -f - -n kube-system
 
 - name: Deploy manifest
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_version }}/config/manifests/metallb-native.yaml
 
 # https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#a-pure-software-solution-metallb
 - name: Create sample ip network pool
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       ---
       apiVersion: metallb.io/v1beta1
@@ -40,14 +40,14 @@
 
 - name: Apply manifest
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl apply -f {{ config_dir }}/metallb-network-pool.yaml
 
 # NOTE: helpful link https://www.cloud-native-everything.com/ingress-and-metallb/
 # to verify that step: kubectl get svc -n ingress-nginx
 - name: Patch nginx controller service
   become: true
-  shell: |
+  ansible.builtin.shell: |
     kubectl -n ingress-nginx patch service ingress-nginx-controller -p '{"spec":{"type": "LoadBalancer", "externalTrafficPolicy":"Local"}}'
 
 # Next steps:

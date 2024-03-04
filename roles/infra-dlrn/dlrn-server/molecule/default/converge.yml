@@ -39,11 +39,11 @@
         mock_config: 'centos9preview.cfg.j2'
   tasks:
     - name: Pre-install some packages
-      package:
+      ansible.builtin.package:
         name:
           - openssh-server
           - cronie
 
     - name: Include role
-      include_role:
+      ansible.builtin.include_role:
         name: dlrn-server

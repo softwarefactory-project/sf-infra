@@ -2,13 +2,13 @@
 
 - name: Install dependencies
   become: true
-  package:
+  ansible.builtin.package:
     name: "xorg-x11-server-Xspice,openbox,xorg-x11-drv-libinput,tint2,xterm,tmux,podman,buildah,python3-pyyaml"
     state: present
 
 - name: Configure spice
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       Section "Device"
           Identifier "XSPICE"
@@ -59,98 +59,98 @@
 
 - name: Install script spice
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nsudo env SPICE_DEBUG_ALLOW_MC=1 Xspice :$SEAT --port \"5900${SEAT}\" --disable-ticketing > /dev/null"
     dest: /usr/local/bin/spice.sh
     mode: '0755'
 
 - name: Install script desktop
   become: true
-  copy:
+  ansible.builtin.copy:
     content: "#!/bin/bash -e\nSEAT=${SEAT:-$1}\nLD_LIBRARY_PATH= DISPLAY=:$SEAT sh -c \"tint2 & /usr/bin/openbox-session\""
     dest: /usr/local/bin/desktop.sh
     mode: '0755'
 
 - name: Create user dmsimard
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: dmsimard
 
 - name: Setup ssh key for dmsimard
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDDyXfFj44OTsJZnHbecbYrwA8zXuMiULb+o326maOh3wh5/6fk+MzivkUzJC2uZqAlKvBnNXsrb/07eV1gRjaIQBQJxaV9HQUwMNX7AkjkDzaMXVDjG/JOium90R23gVGMukzp9IamezUscAqAxVK+2C10k3tq8dZ/GeZfHl3NFGRHlIAXsJ/SIQoxJAEA0IQ/8Y50nR1Hp2mV2xsfxH9oZhLR/eiFdhJpNupdfw/oE9+vpCHS8SG88KGeLYbn+EhH6LSCD+6WNthF6oE7NANnScqn1Fl0ZpSd3RlRb+kDVKGqNxfB7EJTeimYvqaYmrTiTZTaTJua5Bj5yBTudqnBgdHCz3xMb2Nv2s2INNcJmP/CKpivYQ8AJs6cVlqRWnLJiNQQYCj+xAXBvY5T0Xq/qOhVifLiWZvZQOTHFWqFP9asZkrGa1mFWIaR9VPQY0FoYlUOT9t6J6TRbzktJIuP5AiOVoJLL6wjZuUMjghHfkYbqtyBqE4BbCY8YF3JSf8jx+9eWy+sD+dRwKXBCrGV0dNidioZR7ZJpBb6ye8wElebjPZizKhppsNpwtRxPfiAM52f55lXGD7IDpz9CZrOKUcV2uc3Rhl50u7T3psZfX7GysZvlnAH+Yr+UM+LPBAabXAfKlMnJp+SskLuOplTeQrvAwMluBmFnla8TnwnxQ=="
     user: dmsimard
 
 - name: Create user dpawlik
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: dpawlik
 
 - name: Setup ssh key for dpawlik
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsne3wzhPRzlzaOK1a2IeMAd9w2sMFsE6Q45g3q/j6q dpawlik@redhat.com"
     user: dpawlik
 
 - name: Create user fboucher
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: fboucher
 
 - name: Setup ssh key for fboucher
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDi8srMdr4EUBmEK8CGjOmUlEvC4bGZnmiATC3k5NxzcWC1pbT5JGLhAyMQr52FArWPV6qTs5cw/8JjBPv42Dhz8JxzLGVavXggzPdBWPKkGBMgZUiiolsGAPlZ0OAVGiQw61amQ0l/r7dumdlqNFpUTWwcLHYtZMG/RJWKAw9s3KhsQvPcIkzaJEDuanR426O4+qAmOBPD8veTWf3Gxdg4qqGYEBEEEvChyAFg0o83R1FsQMxtuox0CP4l5T6ecKHxJ0r9nym345KtgceavBAqraNJ2EOotAlPcDl/uXq2HzdV8kfOuxMso+AQvnKcHK6/JOsPepSwfGJabso8T+eyA8QoJ/LU2esFMjNCwUK0I4J9W0Tpy/2ZvJjZNnRfvS0ToRWcim0xSaGDsR17RpFe++oI9l+r3+kZGoyHeOqcz1WsRnBCd50OmcFWfXFA4cGZr91d9B6r3ZcGmnLci4yD6ikdd9qsacs7C1Tu0kJl8Wsp094YFt944AaaFYSAWJzw4/RW+QPeGAWKKieIdj4UzYGcn1Wi2j6odRDdWqq7Ei+Gy7PPtxaRALAdVVx4tDGkTPyEz1i/bGtec3Js06GrzPIBWitdg1uJumttZY//RVunevTkDT31cn295VWw/qe4J9fv+nUKRv+Xw+Q+nDLiP+6HkxL2q3UDjQOjYEY+Mw=="
     user: fboucher
 
 - name: Create user jpena
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: jpena
 
 - name: Setup ssh key for jpena
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwEtxKw9XCxQUsUsRDxOpSo8+9KpX8lOlL0q9owdAb3W2YHv5d4XSlkZ78h7hDORoGLbNFEILBWb3pOJ+uDn7u7EtpZlKYqlJh3diHYCZuUETpG5WBbUExfDLLolbDdiihJKD06Y6wu8vzaDZSxrRrMuRo1PjmzsHKtoV7qip5a+jnFqPtE+DHVh8GhZkY2Qhbji0+fv4JUSLvcrLEJUIE5XHLG0BniJsTQCu4R05rBzd2gfTet95B7LSw1dNObvIVb8dnJBCQ5IFKblOAZp3M0EKdjmNdSTjgLlorqMN1F0YMi6unrfimPyH5pzd1Rnf2Cr2gcT+M55hcueHp86Lh"
     user: jpena
 
 - name: Create user mhuin
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: mhuin
 
 - name: Setup ssh key for mhuin
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvgV8CDCv+p1wyShIJoT718icR6z5PuHDiHFuQSIYI246BUyWFParuaL75qfD8Dz7+AXnX+leC63mhU4nqzzzfocGxjCtvDUI9+hgcYaJyp4JbBQreGSHKcayZ7lG9Nnsy6YkpMZpx7a6/BgLMMq434osqibj59qus0L9q/oZHy2suJGUoeBT9Ohm82HPZU6Cuc4YYgG12h9A77YKRE4bd4TDTQWskxCkSyMv26U7DgNnR6fvpIGNLjdoykVL8BJPh11blpoUU5rJIp06Jpy7fqs1EsgkPiD0fuELS2KdkVO3j37Llq1YZbRJh7Ld+lp0fP9sz6xr/4V3dIMaFHgpx"
     user: mhuin
 
 - name: Create user nhicher
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: nhicher
 
 - name: Setup ssh key for nhicher
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcB2dFwG8DnJ12U3i/LFN2Llp825EK8K3j+Jht0/cBXDOQY2oNZLgqmuxGC65k6c2glSqboYMTwzfmLyZtBXKHIVSAP5m24vuBV+xwchR7GLQvtdAFz4Avu19GD8lGWszKjZN0QMlKJQd1YNtxjbZUxnApGlFhyMiwVkbOG87usIajQmRnPUhuN3lfMFXcBlbmupEWwIpueRshiypRlQBcYMfHnGpafDJfJ3vD2O2RvPfJy5FMktUdlJjBR75G2JO1alwOlfOhtYp5JBM0dUYYb5XexIMceCtemLTpQpU9lVxEdBKiweMzZS0v/JAxF3UKGCd/cabhQTZuMNZcgb2p"
     user: nhicher
 
 - name: Create user tdecacqu
   become: true
-  user:
+  ansible.builtin.user:
     group: wheel
     name: tdecacqu
 
 - name: Setup ssh key for tdecacqu
   become: true
-  authorized_key:
+  ansible.posix.authorized_key:
     key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOACTrxPG0N4m3ltLzeY2MMEDvRLN5utvWD78dtfvKSMsyPfpPjlmCjMFGIWeHmrl8iOZyUnu7triCKjljvDedwTFOQ1VN/KF53/sjLqZDUPE8IC8G2V5R7jnAmKmQNSrtsauZ+yOQdV9C0hff7RI5euPGYowunKXX5OOmx6zZ0abNs5pMYAS0XwsFYf2V5op4bb+sJVJQkTYu1Ezy643FH2gRubpFTC8B2LqQjzeoBougSbwRFhFMYG/0WskH/ITPXJUlUrsqwFZRhx6uLQUoFGtnE3mMHQT0365PAZYl2RfWTrfLUEvJD2BN0I3UrsfOFH0QGsCWkKlVn3vqc1otF+6hgNzhCmGNNylfjBotXy5R8DGvItj1wsnnfgYpfL3p8lhdBz6Kbntdd6Nz0BAJ0JNf24DdrFh5MEclNS55s4OwImLaWLvTfZ32RF/OvJ/sd4z8Km+bnWtfp0NfNGs+s/Kdz7KuH8VfgrsURBVoQpipQOYDck0He0JTt2DeIuIP8f36dBzjAwBUqsrkSsWDPTzYhQKoQ8ZPRba2lNgSmzQf/VLsgdp00i3On8SmGAxf9Ib/O+/RbKFhwwN5Y71DiiOvjc6UrYNHCnl+6gpGbpvpez37Qo7OZFPI2+nBQmDfpfgodpB6wQqec0d7qB0VeZYwwLJ5c7upqjq2Nz5t1w=="
     user: tdecacqu

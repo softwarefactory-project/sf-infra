@@ -1,5 +1,5 @@
 ---
-- import_playbook: site_bridge.yaml
+- ansible.builtin.import_playbook: site_bridge.yaml
 
 - hosts: microshift-infra.softwarefactory-project.io
   roles:
@@ -22,13 +22,13 @@
   tasks:
     - name: Ensure document root directory exists for rewrite config
       become: yes
-      file:
+      ansible.builtin.file:
         path: "/var/www/logjuicer"
         state: directory
 
     - name: Setup LogJuicer forward
       become: yes
-      copy:
+      ansible.builtin.copy:
         content: |
           <Directory "/var/www/logjuicer">
             RewriteEngine On
@@ -39,14 +39,14 @@
 
     - name: Add gitiles to disallow in robot.txt
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/www/robots.txt
         insertafter: "^Disallow: /r/gitweb/*"
         line: "Disallow: /r/plugins/gitiles"
 
     - name: Add more user-agents to disallow in robot.txt
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /var/www/robots.txt
         insertafter: "^User-agent: PetalBot"
         line: |
@@ -96,7 +96,7 @@
 - hosts: ze
   tasks:
     - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
-      yum:
+      ansible.builtin.yum:
         name: rpm-build
       become: yes
 
@@ -116,7 +116,7 @@
 - hosts: prometheus.monitoring.softwarefactory-project.io
   pre_tasks:
     - name: Install requirements
-      package:
+      ansible.builtin.package:
         name:
           - podman
           - dnsmasq

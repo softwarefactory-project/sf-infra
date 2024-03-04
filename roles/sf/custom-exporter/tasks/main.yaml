@@ -3,19 +3,19 @@
   become: yes
   block:
     - name: Copy the exporter
-      copy:
+      ansible.builtin.copy:
         src: exporter.py
         dest: /usr/local/bin/exporter
         mode: "0755"
       register: _exporter_tool
 
     - name: Setup configuration directory
-      file:
+      ansible.builtin.file:
         path: /etc/journald-exporter
         state: directory
 
     - name: Setup the systemd unit
-      copy:
+      ansible.builtin.copy:
         content: |
           [Unit]
           Description=Journald exporter service
@@ -32,7 +32,7 @@
       register: _exporter_service
 
     - name: Install dependencies
-      package:
+      ansible.builtin.package:
         name:
           - python3-prometheus_client
           - python3-cliff
@@ -40,11 +40,11 @@
           - python3-systemd
 
     - name: Install zuul_stats_client
-      pip:
+      ansible.builtin.pip:
         name: zuul_stats_client
 
     - name: Enable the service
-      systemd:
+      ansible.builtin.systemd:
         name: "journald-exporter"
         daemon-reload: "{% if _exporter_service is changed %}yes{% else %}no{% endif %}"
         state: started
@@ -52,7 +52,7 @@
 
 - name: Restart the service if needed
   become: yes
-  service:
+  ansible.builtin.service:
     name: "journald-exporter"
     state: restarted
   when:

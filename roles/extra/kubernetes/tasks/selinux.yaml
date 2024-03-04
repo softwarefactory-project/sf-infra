@@ -1,5 +1,5 @@
 ---
 - name: Disable selinux
   become: true
-  selinux:
+  ansible.posix.selinux:
     state: disabled

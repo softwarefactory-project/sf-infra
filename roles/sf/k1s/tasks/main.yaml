@@ -3,7 +3,7 @@
 # Based from https://softwarefactory-project.io/cgit/software-factory/sf-config/tree/ansible/roles/sf-hypervisor-k1s/tasks/setup.yml
 
 - name: Install requirements
-  package:
+  ansible.builtin.package:
     name:
       - podman
       - python3-cherrypy
@@ -15,12 +15,12 @@
   become: true
 
 - name: Create configuration group
-  group:
+  ansible.builtin.group:
     name: k1s
   become: true
 
 - name: Ensure user is in the group
-  user:
+  ansible.builtin.user:
     name: "{{ k1s_user }}"
     append: yes
     groups:
@@ -28,21 +28,21 @@
   become: true
 
 - name: Clone the software
-  git:
+  ansible.builtin.git:
     repo: https://pagure.io/software-factory/k1s
     dest: /usr/src/k1s
     update: no
   become: true
 
 - name: Clone the package
-  git:
+  ansible.builtin.git:
     repo: https://softwarefactory-project.io/r/rpms/k1s
     dest: /usr/src/k1s-distgit
     update: no
   become: true
 
 - name: Install the software
-  shell: |
+  ansible.builtin.shell: |
     if [ ! -f /usr/bin/k1s ]; then
         cd /usr/src/k1s;
         python3 setup.py develop --prefix /usr/ || exit 1
@@ -50,7 +50,7 @@
   become: true
 
 - name: Ensure mtu for default bridge
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/cni/net.d/87-podman.conflist
     regexp: '^\s*"mtu":.*'
     insertafter: '^\s*"bridge":.*'
@@ -60,7 +60,7 @@
   failed_when: false
 
 - name: Create config directory
-  file:
+  ansible.builtin.file:
     path: /etc/k1s
     mode: 0770
     state: directory
@@ -68,7 +68,7 @@
   become: true
 
 - name: Install certificates
-  copy:
+  ansible.builtin.copy:
     content: "{{ item.content }}"
     dest: "/etc/k1s/{{ item.dest }}.pem"
     mode: '0440'
@@ -88,7 +88,7 @@
   when: k1s_user == 'root'
   become: true
   block:
-    - copy:
+    - ansible.builtin.copy:
         content: |
           K1S_TOKEN={{ k1s_token|trim }}
           K1S_PORT={{ k1s_port }}
@@ -96,7 +96,7 @@
         dest: /etc/sysconfig/k1s
         mode: '0400'
       no_log: true
-    - copy:
+    - ansible.builtin.copy:
         remote_src: true
         src: /usr/src/k1s-distgit/k1s.service
         dest: /etc/systemd/system/k1s.service
@@ -106,8 +106,8 @@
   become: yes
   block:
     - name: ensure XDG is persisted
-      command: "loginctl enable-linger {{ k1s_user }}"
-    - copy:
+      ansible.builtin.command: "loginctl enable-linger {{ k1s_user }}"
+    - ansible.builtin.copy:
         remote_src: true
         content: |
           [Unit]
@@ -130,7 +130,7 @@
 
 - name: Start service
   when: k1s_user == 'root'
-  service:
+  ansible.builtin.service:
     name: k1s
     state: started
     enabled: yes
@@ -140,14 +140,14 @@
 - name: Start the user service
   when: k1s_user != 'root'
   become: yes
-  service:
+  ansible.builtin.service:
     name: "k1s-{{ k1s_user }}"
     state: started
     enabled: yes
     daemon-reload: true
 
 - name: Add periodic job to prune unused podman images
-  cron:
+  ansible.builtin.cron:
     name: "podman-image-prune"
     state: absent
   become: true
@@ -160,7 +160,7 @@
 - name: Create zram generator
   when: ansible_facts.distribution | default('') | lower == "fedora"
   become: true
-  copy:
+  ansible.builtin.copy:
     content: |
       [zram0]
       zram-size = min(ram, {{ swap_size }})

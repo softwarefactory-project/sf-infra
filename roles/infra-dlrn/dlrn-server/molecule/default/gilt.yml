@@ -1,10 +1,10 @@
 ---
-- git: https://github.com/rdo-infra/rdo-infra-playbooks
+- ansible.builtin.git: https://github.com/rdo-infra/rdo-infra-playbooks
   version: master
   files:
     - src: roles/rdo-infra/base
       dst: molecule/default/roles/base
-- git: https://github.com/rdo-infra/ansible-role-dlrn
+- ansible.builtin.git: https://github.com/rdo-infra/ansible-role-dlrn
   version: master
   files:
     - src: roles/dlrn/defaults

@@ -39,17 +39,17 @@
     name: ssl
 
 - name: Create mirror virtual host
-  template:
+  ansible.builtin.template:
     src: mirror.vhost.j2
     dest: /etc/apache2/sites-available/mirror.conf
 
 - name: Make sure default site disabled
-  command: a2dissite 000-default.conf
+  ansible.builtin.command: a2dissite 000-default.conf
   args:
     removes: /etc/apache2/sites-enabled/000-default.conf
 
 - name: Enable mirror virtual host
-  command: a2ensite mirror
+  ansible.builtin.command: a2ensite mirror
   args:
     creates: /etc/apache2/sites-enabled/mirror.conf
   notify:
