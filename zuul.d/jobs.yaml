@@ -363,6 +363,7 @@
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - sf-infra-test-fqcn-fixer-script
+        - sf-infra-ensure-fqcn
         - linters: &linters-job-config
             nodeset: linters-pod
             vars:
@@ -390,6 +391,7 @@
         - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - sf-infra-test-fqcn-fixer-script
+        - sf-infra-ensure-fqcn
         - linters: *linters-job-config
         - dhall-diff: *dhall-nodeset
         - sf-infra-create-bridge:
