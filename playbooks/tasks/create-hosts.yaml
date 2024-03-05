@@ -4,16 +4,7 @@
     file: "{{ cloud.tenant | default(cloud.name) }}.yaml"
     name: tenant_config
 
-- name: Get servers info
-  openstack.cloud.server_info:
-    cloud: "{{ cloud.name }}"
-    auth:
-      project_name: "{{ cloud.tenant | default(omit) }}"
-  register: _cloud
-
 - name: Create or delete servers
-  when:
-    - not (_cloud.servers | regex_search(server.name)) or ((_cloud.servers | regex_search(server.name)) and server.state == "absent")
   ansible.builtin.include_tasks: manage-server.yaml
   loop: "{{ tenant_config.servers }}"
   loop_control:
