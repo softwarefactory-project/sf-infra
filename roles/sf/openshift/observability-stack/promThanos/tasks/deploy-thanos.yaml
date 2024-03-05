@@ -1,0 +1,47 @@
+---
+- name: Install bitnami thanos repo
+  ansible.builtin.shell: |
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+
+- name: create base directory
+  ansible.builtin.file:
+    path: "{{ kustomize_dir }}/thanos/"
+    recurse: true
+    state: directory
+
+- name: Prepare templates
+  block:
+    - name: create helm chart values
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/thanos/chart-values.yaml"
+        src: "thanos/chart-values.yaml.j2"
+    - name: create route manifest
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/thanos/thanos-route.yaml"
+        src: "thanos/route.yaml.j2"
+
+- name: Generate helm manifest
+  ansible.builtin.shell: |
+    helm template thanos bitnami/thanos --values chart-values.yaml --namespace {{ observability_stack_namespace }} > thanos-manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/thanos"
+
+- name: Apply resources
+  ansible.builtin.command: >
+    kubectl apply -f {{ item }} --namespace {{ observability_stack_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/thanos"
+  loop:
+    - thanos-manifest.yaml
+    - thanos-route.yaml
+
+- name: Add Security Context Constraints to thanos serviceaccounts
+  ansible.builtin.command: >
+    oc adm policy
+    add-scc-to-user
+    privileged system:serviceaccount:{{ observability_stack_namespace }}:thanos-{{ item }}
+  loop:
+    - compactor
+    - query-frontend
+    - query
+    - storegateway

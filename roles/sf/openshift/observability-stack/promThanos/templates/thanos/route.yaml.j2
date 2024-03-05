@@ -1,0 +1,19 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: thanos
+  namespace: {{ observability_stack_namespace }}
+spec:
+  host: {{ thanos_public_HTTP_endpoint }}
+  path: {{ thanos_public_path }}
+  port:
+    targetPort: 9090
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: thanos-query-frontend
+    weight: 100
+  wildcardPolicy: None

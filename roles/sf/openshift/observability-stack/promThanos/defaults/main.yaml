@@ -21,3 +21,11 @@ prometheus_scrapeconfig_namespaces:
 prometheus_monitor_namespaces:
   - sf
   - "{{ observability_stack_namespace }}"
+thanos:
+  retention_raw: 15d
+  retention_5m: 30d
+  retention_1h: 365d
+  compactor_persistence: 2Gi
+  storegateway_persistence: 2Gi
+thanos_public_HTTP_endpoint: thanos.sfop.me
+thanos_public_path: "/"

@@ -33,8 +33,8 @@
         - route.yaml
     - name: create object storage config
       ansible.builtin.template:
-        dest:  "{{ kustomize_dir }}/prometheus/overlay/objstore.yaml"
-        src: "prometheus/objstore.yaml.j2"
+        dest:  "{{ kustomize_dir }}/prometheus/overlay/objstore.yml"
+        src: "prometheus/objstore.yml.j2"
       when: (thanos_storage is defined) and thanos_storage
 
 - name: Generate manifests

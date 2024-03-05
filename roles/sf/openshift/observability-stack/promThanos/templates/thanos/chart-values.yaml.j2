@@ -1,0 +1,40 @@
+existingObjstoreSecret: thanos-objectstore
+
+commonLabels:
+  app: observability
+  run: thanos
+
+query:
+  enabled: true
+  replicaCount: 1
+  dnsDiscovery:
+    sidecarsService: "prometheus-operated"
+    sidecarsNamespace: "{{ observability_stack_namespace }}"
+
+queryFrontEnd:
+  enabled: true
+  replicaCount: 1
+
+compactor:
+  replicaCount: 2
+  enabled: true
+  retentionResolutionRaw: "{{ thanos.retention_raw }}"
+  retentionResolution5m: "{{ thanos.retention_5m }}"
+  retentionResolution1h: "{{ thanos.retention_1h }}"
+  persistence:
+    enabled: true
+    size: "{{ thanos.compactor_persistence }}"
+
+storegateway:
+  enabled: true
+  persistence:
+    enabled: true
+    size: "{{ thanos.storegateway_persistence }}"
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    namespace: "{{ observability_stack_namespace }}"
+    enabled: true
+    labels:
+      sf-monitoring: thanos
