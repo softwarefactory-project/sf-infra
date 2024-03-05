@@ -32,7 +32,7 @@
     flavor: "{{ flavor }}"
     nics:
       - net-id: "{{ net_id }}"
-    ansible.builtin.meta:
+    meta:
       hostname: crc.dev
     wait: true
     config_drive: true
