@@ -14,6 +14,7 @@
       {{ host }}
       {% endfor %}
     dest: /etc/hosts
+  when: _infra_instances.stdout_lines | length > 0
   become: yes
 
 - name: Setup ssh config
