@@ -64,7 +64,7 @@ function build_patterns()
         include_tasks
         include_vars
         lineinfile
-        meta
+        # meta  ## Disabled: It causes false positives
         mount
         package
         pause
