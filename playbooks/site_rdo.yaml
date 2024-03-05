@@ -52,12 +52,9 @@
     - rdo/afs-monitoring
     - service/apache-exporter
 
-- hosts: mirror.regionone.ibm-bm3-nodepool.rdoproject.org
-  roles:
-    - system/rhel-subscription
-
 - hosts: private-afs-mirror
   roles:
+    - system/rhel-subscription
     - rdo/setup-ssl-self-signed
     - rdo/afs-mirror
     - service/node-exporter
