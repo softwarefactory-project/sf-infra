@@ -7,6 +7,8 @@ CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
 UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:-'true'}
 export ANSIBLE_LOG_PATH=${ANSIBLE_LOG_PATH:-"{{ crc_ansible_log_dir }}/$(date +%d-%m-%Y-%H_%M_%S)-{{ cloud_def.crc_cloud_name | default(crc_cloud_name) }}-{{ cloud_def.crc_version }}.log"}
 export ANSIBLE_CONFIG=${ANSIBLE_CONFIG:-'~/.ansible.cfg'}
+export EXTRACTED_CRC=${EXTRACTED_CRC:-"{{ cloud_def.crc_extracted_crc | default(crc_extracted_crc) }}"}
+export NESTED_CRC=${NESTED_CRC:-"{{ cloud_def.crc_nested_crc | default(crc_nested_crc) }}"}
 
 if [ -z "$SF_INFRA_REPO_DIR" ]; then
     SF_INFRA_REPO_DIR="$(realpath {{ crc_sf_infra_repo_dir }})"
@@ -34,8 +36,8 @@ ansible-playbook \
     -e "system_distro={{ cloud_def.crc_system_distro | default(crc_system_distro) }}" \
     -e "system_release={{ cloud_def.crc_system_release | default(crc_system_release) }}" \
     -e "crc_version={{ cloud_def.crc_version }}" \
-    -e "extracted_crc={{ cloud_def.crc_extracted_crc | default(crc_extracted_crc) }}" \
-    -e "nested_crc={{ cloud_def.crc_nested_crc | default(crc_nested_crc) }}" \
+    -e "extracted_crc=$EXTRACTED_CRC" \
+    -e "nested_crc=$NESTED_CRC" \
     -e "sync_extracted_qcow2_dir={{ cloud_def.crc_sync_extracted_qcow2_dir | default(crc_sync_extracted_qcow2_dir) }}" \
     -e "crc_nested_custom_packages={{ cloud_def.crc_nested_custom_packages | default([]) }}" \
     -e "crc_nested_custom_packages_disable_gpg={{ cloud_def.crc_nested_custom_packages_disable_gpg | default(false) }}" \
