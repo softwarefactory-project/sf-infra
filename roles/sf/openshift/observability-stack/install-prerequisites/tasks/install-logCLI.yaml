@@ -1,0 +1,48 @@
+---
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - unzip
+      - zip
+
+- name: Check for logcli
+  stat:
+    path: /usr/local/bin/logcli
+  register: logcli_stat
+
+- name: Install logcli
+  block:
+    - ansible.builtin.unarchive:
+        src: "{{ logcli_release_url }}"
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: u+x
+    - ansible.builtin.command:
+        mv logcli-linux-amd64 logcli
+      args:
+        chdir: /usr/local/bin
+  become: true
+  when: not logcli_stat.stat.exists
+
+- name: Ensure logcli is at proper version
+  when: logcli_stat.stat.exists
+  block:
+    - name: Get logcli's version
+      ansible.builtin.command:
+        logcli --version
+      register: logcli_current_version
+    - name: Update logcli
+      ansible.builtin.unarchive:
+        src: "{{ logcli_release_url }}"
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: u+x
+      become: true
+      when: logcli_version not in logcli_current_version.stdout
+    - ansible.builtin.command:
+        mv logcli-linux-amd64 logcli
+      args:
+        chdir: /usr/local/bin
+      become: true
+      when: logcli_version not in logcli_current_version.stderr
