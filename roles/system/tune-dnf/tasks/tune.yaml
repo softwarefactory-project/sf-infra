@@ -1,0 +1,9 @@
+---
+- name: Change options
+  become: true
+  community.general.ini_file:
+    path: "{{ config_path }}"
+    section: main
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  loop: "{{ dnf_options }}"

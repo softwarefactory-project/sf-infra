@@ -3,10 +3,8 @@
 
 - hosts: rdo
   roles:
+    - system/tune-dnf
     - infra/base
-
-- hosts: rdo
-  roles:
     - service/node-exporter
     - system/update-host
     - system/podman

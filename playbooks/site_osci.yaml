@@ -3,6 +3,7 @@
 
 - hosts: osci
   roles:
+    - system/tune-dnf
     - service/node-exporter
     - system/update-host
 

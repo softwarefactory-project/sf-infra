@@ -1,0 +1,17 @@
+---
+- name: Check if dnf.conf exists
+  ansible.builtin.stat:
+    path: /etc/dnf/dnf.conf
+  register: _dnf_conf
+
+- name: Tune options - dnf.conf
+  vars:
+    config_path: /etc/dnf/dnf.conf
+  ansible.builtin.include_tasks: tune.yaml
+  when: _dnf_conf.stat.exists
+
+- name: Tune options - yum.conf
+  vars:
+    config_path: /etc/yum.conf
+  ansible.builtin.include_tasks: tune.yaml
+  when: not _dnf_conf.stat.exists
