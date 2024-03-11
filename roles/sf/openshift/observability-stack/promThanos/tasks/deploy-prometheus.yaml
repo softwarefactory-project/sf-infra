@@ -43,8 +43,29 @@
   args:
     chdir: "{{ kustomize_dir }}/prometheus/"
 
-- name: Apply loki manifest
+- name: Apply prometheus manifest
   ansible.builtin.command: >
     kubectl apply -f manifest.yaml --namespace {{ observability_stack_namespace }}
   args:
     chdir: "{{ kustomize_dir }}/prometheus"
+
+- name: ensure scrape configs directory
+  ansible.builtin.file:
+    path: "{{ kustomize_dir }}/prometheus/scrape_configs"
+    recurse: true
+    state: directory
+  when: prometheus_federation is defined and (prometheus_federation|length>0)
+
+- name: create federation scrape config manifests
+  ansible.builtin.template:
+    dest: "{{ kustomize_dir }}/prometheus/scrape_configs/{{ item.name }}.yaml"
+    src: "prometheus/scrapeconfig-federation.yaml.j2"
+  when: prometheus_federation is defined and (prometheus_federation|length>0)
+  loop: "{{ prometheus_federation }}"
+
+- name: Apply federation scrape config manifests
+  ansible.builtin.command: >
+    kubectl apply -f . --namespace {{ observability_stack_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/prometheus/scrape_configs/"
+  when: prometheus_federation is defined and (prometheus_federation|length>0)

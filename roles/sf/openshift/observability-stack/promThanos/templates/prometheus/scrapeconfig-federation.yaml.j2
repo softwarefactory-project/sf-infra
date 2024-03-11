@@ -1,0 +1,27 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: {{ item.name }}
+  labels:
+    sf-monitoring: scrape-configs
+spec:
+  honorLabels: true
+  honorTimestamps: true
+  metricsPath: '{{ item.metrics_path }}'
+  params:
+      match[]:
+      - '{job!=""}'
+  scheme: {{ item.scheme }}
+  tlsConfig:
+    insecureSkipVerify: {{ item.insecure }}
+{% if item.ca is defined %}
+    ca: {{ item.ca }}
+{% endif %}
+  staticConfigs:
+    - labels:
+        job: prometheus-federation
+      targets:
+{% for target in item.targets %}
+        - {{ target }}
+{% endfor %}
