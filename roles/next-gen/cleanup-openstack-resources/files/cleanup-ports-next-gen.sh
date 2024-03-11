@@ -30,7 +30,7 @@ for router in $(openstack router list | grep "$ZUUL_PREFFIX-subnet" | awk '{prin
 done
 
 # Unset trunk ports networks
-for trunk_network in $(openstack network trunk list | grep "$ZUUL_PREFFIX-trunk-compute" | awk '{print $2}'); do
+for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFFIX-trunk|default-trunk" | awk '{print $2}'); do
     NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c updated_at -f value)" +%s);
     echo "Trunk network $trunk_network date is: $(date -d@$NETWORK_DATE)"
     if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
@@ -44,7 +44,7 @@ for trunk_network in $(openstack network trunk list | grep "$ZUUL_PREFFIX-trunk-
 done
 
 # Remove ports connected to network, then remove subnets for network and later delete network
-for network in $(openstack network list | grep "$ZUUL_PREFFIX-net" | awk '{print $2}'); do
+for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cifmw|internal-api-cifmw|storage-cifmw|tenant-cifmw" | awk '{print $2}'); do
     NETWORK_DATE=$(date -d "$(openstack network show "$network" -c updated_at -f value)" +%s);
     echo "Network date for $network is $(date -d@$NETWORK_DATE)"
     if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
