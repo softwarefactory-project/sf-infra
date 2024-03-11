@@ -133,6 +133,6 @@
   ansible.builtin.cron:
     name: Apache cache cleanup
     state: present
-    job: /usr/bin/flock -n /var/run/htcacheclean.lock /usr/bin/htcacheclean -n -p {{ cache_root }} -t -l 70200M > /dev/null
+    job: if [ -f /opt/rh/httpd24/enable ]; then source /opt/rh/httpd24/enable; fi; /usr/bin/flock -n /var/run/htcacheclean.lock htcacheclean -n -p {{ cache_root }} -t -l 70200M > /dev/null
     minute: '0'
-    hour: '*'
+    hour: '2'
