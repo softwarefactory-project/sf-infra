@@ -21,4 +21,6 @@ gateway_user: sf-observability
 gateway_password: observability-sf
 loki_public_HTTP_endpoint: loki.microshift-infra.softwarefactory-project.io
 
+loki_expire_days: "28"
+
 kustomize_dir: "~/deployments/observability-stack"

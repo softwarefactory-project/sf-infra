@@ -9,5 +9,7 @@ minio_password: password
 loki_access_key: abcdefghij0123456789
 loki_secret_key: 0123456789abcdefghij0123456789abcdefghij
 minio_namespace: sf-observability
+loki_expire_days: "28"
+loki_namespace: sf-observability
 
 kustomize_dir: "~/deployments/observability-stack"

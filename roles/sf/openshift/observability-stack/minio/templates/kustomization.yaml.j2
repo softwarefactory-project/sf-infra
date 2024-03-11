@@ -15,6 +15,12 @@ secretGenerator:
     - LOKI_SECRET_KEY={{ loki_secret_key }}
   namespace: {{ minio_namespace }}
 
+configMapGenerator:
+- name: loki-envvars
+  literals:
+    - LOKI_EXPIRE_DAYS={{ loki_expire_days }}
+  namespace: {{ loki_namespace }}
+
 patches:
 - target:
     kind: Pod
