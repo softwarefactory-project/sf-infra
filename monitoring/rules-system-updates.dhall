@@ -12,7 +12,7 @@ let RDO =
       { name = "RDO"
       , rule =
           ''
-          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):9100"} and system_package_update{instance!~"(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
+          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):(9100|9111|9112|9113)"} and system_package_update{instance!~"(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
           ''
       }
 
