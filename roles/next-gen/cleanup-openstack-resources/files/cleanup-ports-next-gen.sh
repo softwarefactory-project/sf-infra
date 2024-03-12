@@ -17,7 +17,7 @@ fi
 
 # Remove port associated with router + remove router
 for router in $(openstack router list | grep "$ZUUL_PREFFIX-subnet" | awk '{print $2}'); do
-    ROUTER_DATE=$(date -d "$(openstack router show "$router" -c updated_at -f value  )" +%s);
+    ROUTER_DATE=$(date -d "$(openstack router show "$router" -c created_at -f value  )" +%s);
     echo "Router: $router date is: $(date -d@$ROUTER_DATE)"
     if [ "$DAY_AGO" -gt "$ROUTER_DATE" ]; then
         echo "Doing router: $router";
@@ -31,7 +31,7 @@ done
 
 # Unset trunk ports networks
 for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFFIX-trunk|default-trunk" | awk '{print $2}'); do
-    NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c updated_at -f value)" +%s);
+    NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c created_at -f value)" +%s);
     echo "Trunk network $trunk_network date is: $(date -d@$NETWORK_DATE)"
     if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
         echo "Unset trunk ports for network: $trunk_network"
@@ -45,7 +45,7 @@ done
 
 # Remove ports connected to network, then remove subnets for network and later delete network
 for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cifmw|internal-api-cifmw|storage-cifmw|tenant-cifmw" | awk '{print $2}'); do
-    NETWORK_DATE=$(date -d "$(openstack network show "$network" -c updated_at -f value)" +%s);
+    NETWORK_DATE=$(date -d "$(openstack network show "$network" -c created_at -f value)" +%s);
     echo "Network date for $network is $(date -d@$NETWORK_DATE)"
     if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
         # It can happen, that someone got hold node for more than 12 hours,
@@ -75,7 +75,7 @@ for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cif
 done
 
 for port in $(openstack port list | grep -i down | awk '{print $2}'); do
-    PORT_DATE=$(date -d "$(openstack port show -c updated_at -f value $port)" +%s);
+    PORT_DATE=$(date -d "$(openstack port show -c created_at -f value $port)" +%s);
     echo "Port date $port is $(date -d@$PORT_DATE) ($OS_CLOUD)"
     if [ "$DAY_AGO" -gt "$PORT_DATE" ]; then
         echo "Deleting port $port"
