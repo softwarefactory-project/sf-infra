@@ -1,0 +1,28 @@
+---
+- name: Check if the grafana operator is already present
+  ansible.builtin.command: >
+    oc get crd
+    -o jsonpath='{.items[*].metadata.name}'
+  register: _crds
+
+- name: Install the Grafana Operator
+  when: "'grafanas.grafana.integreatly.org' not in _crds.stdout"
+  block:
+  - name: Subscribe to Grafana Operator via OLM
+    ansible.builtin.command: >
+      kubectl apply -f https://operatorhub.io/install/grafana-operator.yaml
+
+  - name: Add Security Context Constraints to grafana operator serviceaccount
+    ansible.builtin.command: >
+      oc adm policy
+      add-scc-to-user
+      privileged system:serviceaccount:operators:grafana-operator
+
+  - name: Wait for Catalog Subscription be ready
+    ansible.builtin.command: >
+      oc get crd
+      -o jsonpath='{.items[*].metadata.name}'
+    register: _catalogsource
+    retries: 60
+    until:
+      - "'grafanas.grafana.integreatly.org' in _catalogsource.stdout"

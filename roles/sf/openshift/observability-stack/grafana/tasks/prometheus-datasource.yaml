@@ -1,0 +1,20 @@
+---
+- name: Create datasource subdir
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/grafana/datasources/{{ prometheus_ds_name }}"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/grafana/datasources/{{ prometheus_ds_name }}/manifest.yaml"
+        src: "dataSource/prometheus/{{ item }}.j2"
+      loop:
+        - prometheus.yaml
+
+- name: Apply datasource manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ grafana_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/grafana/datasources/{{ prometheus_ds_name }}"

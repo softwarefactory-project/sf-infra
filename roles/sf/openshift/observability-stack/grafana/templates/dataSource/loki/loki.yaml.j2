@@ -1,0 +1,32 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: loki-{{ loki_ds_name }}
+spec:
+  valuesFrom:
+    - targetPath: "secureJsonData.basicAuthPassword"
+      valueFrom:
+        secretKeyRef:
+          name: loki-{{ loki_ds_name }}-secrets
+          key: LOKI_PASSWORD
+    - targetPath: "secureJsonData.httpHeaderValue1"
+      valueFrom:
+        secretKeyRef:
+          name: loki-{{ loki_ds_name }}-secrets
+          key: LOKI_TENANT
+  instanceSelector:
+    matchLabels:
+      datasources: sf-observability
+  datasource:
+    name: "{{ loki_ds_name }}"
+    isDefault: false
+    type: loki
+    access: proxy
+    url: {{ loki_HTTP_endpoint }}
+    basicAuth: true
+    basicAuthUser: {{ loki_username }}
+    jsonData:
+      httpHeaderName1: X-Scope-OrgId
+    secureJsonData:
+      httpHeaderValue1: ${LOKI_TENANT}
+      basicAuthPassword: ${LOKI_PASSWORD}
