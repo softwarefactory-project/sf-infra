@@ -79,6 +79,15 @@ for port in $(openstack port list | grep -i down | awk '{print $2}'); do
     echo "Port date $port is $(date -d@$PORT_DATE) ($OS_CLOUD)"
     if [ "$DAY_AGO" -gt "$PORT_DATE" ]; then
         echo "Deleting port $port"
-        openstack port delete "$port";
+        ERROR=$(openstack port delete "$port" 2>&1)
+        if [ "$?" -ne 0 ]; then
+            if echo "$ERROR" | grep -q "is currently a parent port for trunk"; then
+                trunk_network=$(echo "$ERROR" | grep -oP "trunk \K[0-9a-fA-F-]{36}")
+                echo "Removing trunk network $trunk_network that belongs to $port"
+                openstack network trunk delete "$trunk_network"
+                echo "Removing once again port $port"
+                openstack port delete "$port"
+            fi
+        fi;
     fi;
 done
