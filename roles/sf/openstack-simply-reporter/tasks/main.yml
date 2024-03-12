@@ -12,11 +12,11 @@
   become: true
 
 # NOTE: Only root has clouds information
-- name: Create cronjob
+- name: Create cronjob for checking OpenStack resource leftovers
   become: true
   become_user: root
   ansible.builtin.cron:
     name: Get stack status
-    hour: "5"
+    hour: "6"
     minute: "20"
     job: "/usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }} > /dev/null"
