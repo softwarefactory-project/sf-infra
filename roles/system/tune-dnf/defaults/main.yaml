@@ -1,0 +1,9 @@
+---
+dnf_options:
+  - option: max_parallel_downloads
+    value: 8
+  - option: fastestmirror
+    value: "True"
+  # NOTE: Enable minrate when all hosts are updated
+  #  - option: minrate
+  #    value: "2M"

@@ -68,6 +68,7 @@
 
 - hosts: sf
   roles:
+    - system/tune-dnf
     - infra/base
     - infra/ssh
     - service/node-exporter
