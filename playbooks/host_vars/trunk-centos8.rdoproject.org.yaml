@@ -93,7 +93,7 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    gerrit_user: 'rdo-trunk'
+    #gerrit_user: 'rdo-trunk'
     gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     #gerrit_topic: 'rdo-FTBFS-caracal-cs9'
     rsyncdest: 'centos9-caracal@3.87.151.16:/home/centos9-caracal/data/repos'
