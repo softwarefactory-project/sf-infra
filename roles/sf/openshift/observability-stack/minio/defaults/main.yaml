@@ -1,0 +1,13 @@
+---
+minio_version: RELEASE.2024-02-06T21-36-22Z
+minio_capacity: 50Gi
+minio_root_user: root
+minio_user: backend
+# randomize these
+minio_root_password: password
+minio_password: password
+loki_access_key: abcdefghij0123456789
+loki_secret_key: 0123456789abcdefghij0123456789abcdefghij
+minio_namespace: sf-observability
+
+kustomize_dir: "~/deployments/observability-stack"

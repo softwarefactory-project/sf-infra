@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-post-setup
+  namespace: sf-observability
+data:
+  post-setup.sh: |
+    #!/bin/bash
+    until mc alias set rootminio http://minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
+    do
+      sleep 5
+    done
+    mc admin user add rootminio $MINIO_USER $MINIO_PASSWORD
+    mc admin policy attach rootminio readwrite --user $MINIO_USER
+    mc admin user svcacct add --access-key "$LOKI_ACCESS_KEY" --secret-key "$LOKI_SECRET_KEY" --description "Loki service account" rootminio $MINIO_USER
+    mc alias set userminio http://minio:9000 $MINIO_USER $MINIO_PASSWORD
+    # create loki bucket
+    mc mb --ignore-existing userminio/loki
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: sf-observability
+  name: minio-user-setup
+spec:
+  template:
+    spec:
+      containers:
+        - name: mc
+          image: quay.io/minio/minio:latest
+          command:
+            - /script/post-setup.sh
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: MINIO_ROOT_PASSWORD
+            - name: MINIO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: MINIO_USER
+            - name: MINIO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: MINIO_PASSWORD
+            - name: LOKI_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: LOKI_ACCESS_KEY
+            - name: LOKI_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-users
+                  key: LOKI_SECRET_KEY
+          volumeMounts:
+            - name: script
+              mountPath: "/script"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: script
+          configMap:
+            name: minio-post-setup
+            defaultMode: 0777
+      restartPolicy: Never

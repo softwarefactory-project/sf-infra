@@ -1,0 +1,58 @@
+---
+# - name: Ensure namespace exists
+#   kubernetes.core.k8s:
+#     state: present
+#     definition:
+#       kind: namespace
+#       metadata:
+#         name: "{{ minio_namespace }}"
+#       labels:
+#         name: "{{ minio_namespace }}"
+
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/minio/base"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.copy:
+        dest: "{{ kustomize_dir }}/minio/base/{{ item }}"
+        src: "{{ item }}"
+      loop:
+        - kustomization.yaml
+        - minio-namespace.yaml
+        - minio-pod.yaml
+        - minio-post-config.yaml
+        - minio-pv.yaml
+        - minio-service.yaml
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/minio/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlays
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/minio/overlay/{{ item }}"
+        src: "{{ item }}.j2"
+      loop:
+        - kustomization.yaml
+        - pod.yaml
+        - job.yaml
+        - pvc.yaml
+
+- name: Generate manifests
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/minio/"
+
+- name: Apply minio manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/minio"

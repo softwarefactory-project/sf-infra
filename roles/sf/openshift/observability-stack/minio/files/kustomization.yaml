@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- minio-namespace.yaml
+- minio-pod.yaml
+- minio-post-config.yaml
+- minio-pv.yaml
+# - minio-secrets.yaml
+- minio-service.yaml
+
+labels:
+- includeSelectors: true
+  pairs:
+    app: observability
+    run: minio
