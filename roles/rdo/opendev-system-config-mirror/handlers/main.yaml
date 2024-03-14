@@ -1,12 +1,12 @@
 - name: restart apache2
-  ansible.builtin.service:
+  service:
     name: apache2
     state: restarted
   when: ansible_os_family == "Debian"
   listen: "restart apache"
 
 - name: restart httpd
-  ansible.builtin.service:
+  service:
     name: httpd
     state: restarted
     enabled: true
@@ -14,7 +14,7 @@
   listen: "restart apache"
 
 - name: restart httpd scl
-  ansible.builtin.service:
+  service:
     name: httpd24-httpd
     state: restarted
     enabled: true

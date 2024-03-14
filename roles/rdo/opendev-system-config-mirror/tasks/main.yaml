@@ -1,5 +1,5 @@
 - name: Get OS specific package variables
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files: "{{ distro_lookup_path }}"
@@ -7,46 +7,46 @@
         - vars
 
 - name: Check AFS mounted
-  ansible.builtin.stat:
+  stat:
     path: "/afs/openstack.org/mirror"
   register: afs_mirror
 - name: Sanity check AFS
-  ansible.builtin.assert:
+  assert:
     that:
       - afs_mirror.stat.exists
 
 - name: Setup Apache with scl
   block:
     - name: Install base packages if defined
-      ansible.builtin.package:
+      package:
         name: centos-release-scl
         state: present
 
     - name: Remove old Apache packages
-      ansible.builtin.package:
+      package:
         name: "{{ old_apache_packages }}"
         state: absent
 
     - name: Remove Apache config directory
-      ansible.builtin.file:
+      file:
         path: /etc/httpd
         state: absent
   when: use_scl | default(False)
 
 - name: Install apache packages
-  ansible.builtin.package:
+  package:
     name: '{{ apache_packages }}'
     state: present
 
 - name: Apache webroot
-  ansible.builtin.file:
+  file:
     path: '{{ www_base }}'
     state: directory
     owner: root
     group: root
 
 - name: Apache www root
-  ansible.builtin.file:
+  file:
     path: '{{ www_root }}'
     state: directory
     owner: root
@@ -54,7 +54,7 @@
     mode: '0755'
 
 - name: AFS content symlinks
-  ansible.builtin.file:
+  file:
     src: '{{ mirror_root }}/{{ item }}'
     dest: '{{ www_root }}/{{ item }}'
     state: link
@@ -82,7 +82,7 @@
     - yum-puppetlabs
 
 - name: Install robots.txt
-  ansible.builtin.copy:
+  copy:
     src: robots.txt
     dest: '{{ www_root }}'
     owner: root
@@ -90,7 +90,7 @@
     mode: 0444
 
 - name: Install wheel_header.html
-  ansible.builtin.copy:
+  copy:
     src: wheel_header.html
     dest: '{{ www_base }}'
     owner: root
@@ -98,7 +98,7 @@
     mode: 0444
 
 - name: Apache proxy cache
-  ansible.builtin.file:
+  file:
     path: '{{ cache_root }}'
     owner: '{{ www_user }}'
     group: '{{ www_user }}'
@@ -106,14 +106,14 @@
     state: directory
 
 - name: Set mirror servername and alias
-  ansible.builtin.set_fact:
+  set_fact:
     apache_server_name: '{{ inventory_hostname }}'
     # Strip the numeric host value (like mirror01.region.provider.o.o
     # becomes mirror.region...)  for the serveralias
     apache_server_alias: '{{ inventory_hostname | regex_replace("^mirror\d\d\.", "mirror.") }}'
 
 - name: Copy apache tuning
-  ansible.builtin.copy:
+  copy:
     src: apache-connection-tuning
     dest: "{{ apache_conf_dir }}/connection-tuning.conf"
     owner: root
@@ -130,7 +130,7 @@
 
 # Clean apache cache once an hour, keep size down to 70GiB.
 - name: Proxy cleanup cron job
-  ansible.builtin.cron:
+  cron:
     name: Apache cache cleanup
     state: present
     job: if [ -f /opt/rh/httpd24/enable ]; then source /opt/rh/httpd24/enable; fi; /usr/bin/flock -n /var/run/htcacheclean.lock htcacheclean -n -p {{ cache_root }} -t -l 70200M > /dev/null

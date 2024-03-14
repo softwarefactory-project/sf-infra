@@ -18,7 +18,7 @@
 
 - name: enable httpd proxy
   become: yes
-  seboolean:
+  ansible.posix.seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes

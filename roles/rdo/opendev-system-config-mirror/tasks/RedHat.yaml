@@ -1,5 +1,5 @@
 - name: Workaround for missing macro definition in CentOS 7
-  ansible.builtin.copy:
+  copy:
     content: 'LoadModule macro_module modules/mod_macro.so'
     dest: "{{ apache_dir }}/conf.modules.d/00-macro.conf"
   when:
@@ -8,13 +8,13 @@
     - not use_scl | default(False)
 
 - name: Create mirror virtual host
-  ansible.builtin.template:
+  template:
     src: mirror.vhost.j2
     dest: "{{ apache_conf_dir }}/mirror.conf"
   notify: restart apache
 
 - name: Install required SELinux binaries
-  ansible.builtin.package:
+  package:
     name: "{{ selinux_required_packages }}"
     state: present
 
@@ -29,7 +29,7 @@
     loop_var: port
 
 - name: Remove configuration for default welcome page
-  ansible.builtin.file:
+  file:
     path: "{{ apache_conf_dir }}/welcome.conf"
     state: absent
   notify: restart apache

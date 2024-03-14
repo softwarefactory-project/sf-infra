@@ -1,6 +1,6 @@
 ---
 - name: Get package facts
-  package_facts:
+  ansible.builtin.package_facts:
 
 - name: Add exception to the firewall
   become: true
