@@ -20,7 +20,7 @@
 # From https://crc.dev/crc/#setting-up-remote-server_gsg
 - name: Set SELinux
   become: true
-  seport:
+  ansible.builtin.seport:
     ports: 6443
     proto: tcp
     setype: http_port_t

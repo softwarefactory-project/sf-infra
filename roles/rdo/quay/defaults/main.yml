@@ -69,7 +69,7 @@ quay_pruner_log_directory: /var/log/quay_tag_pruner
 #       token: <robot token>
 #       prune_days: <retention days>
 quay_organizations:
-  ansible.builtin.user:
+  user:
     - name: tripleomaster
       token: 'testtoken'
       prune_days: 7

@@ -1,7 +1,7 @@
 # EPEL is required for dkms to build the openafs kernel modules
 # make is required for the %post section of the dkms module installation
 - name: Preinstall EPEL and make
-  ansible.builtin.package:
+  package:
     name:
       - epel-release
       - make
@@ -9,7 +9,7 @@
   become: yes
 
 - name: Create cache directory
-  ansible.builtin.file:
+  file:
     path: /var/cache/openafs
     state: directory
     owner: root
@@ -23,7 +23,7 @@
 #  https://opendev.org/cgit/openstack/openstack-zuul-jobs/tree/zuul.d/jobs.yaml
 
 - name: Add AFS repo
-  ansible.builtin.yum_repository:
+  yum_repository:
     name: openafs
     description: OpenStack AFS repo
     baseurl: '{{ openafs_client_yum_repo_url }}'
@@ -33,15 +33,15 @@
 # NOTE: dkms needs deltarpm package but it does not have it as
 # a dependency.
 - name: Install deltarpm package on CentOS 7
-  ansible.builtin.yum:
+  yum:
     name:
       - deltarpm
     state: present
   become: yes
   when: ansible_distribution_version is version('8', '<')
 
-- name: Install deltarpm package on CentOS 8 and newer
-  ansible.builtin.dnf:
+- name: Install deltarpm package on CentOS 8
+  dnf:
     name:
       - drpm
     state: present
@@ -49,7 +49,7 @@
   when: ansible_distribution_version is version('8', '=')
 
 - name: Install kernel modules CentOS 7
-  ansible.builtin.yum:
+  yum:
     name:
       - kernel-devel
       - kernel-headers
@@ -62,7 +62,7 @@
   when: ansible_distribution_version is version('8', '<')
 
 - name: Install kernel modules CentOS 8
-  ansible.builtin.dnf:
+  dnf:
     name:
       - kernel-devel
       - kernel-headers
@@ -75,7 +75,7 @@
   when: ansible_distribution_version is version('8', '>=')
 
 - name: Install client
-  ansible.builtin.yum:
+  yum:
     name:
       - openafs-krb5
       - openafs-client

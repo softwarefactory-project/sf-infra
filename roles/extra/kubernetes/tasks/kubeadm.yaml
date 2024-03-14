@@ -23,17 +23,6 @@
         --service-cidr={{ service_cidr }}
         --skip-token-print &> ~/kubeadm.log
 
-### ALTERNATIVE WAY ###
-#- name: Generate default configuration file
-#  become: true
-#  shell: |
-#    kubeadm config print init-defaults > kubeadm.yaml
-#
-#- name: Setup Kubernetes
-#  become: true
-#  shell: |
-#    kubeadm init --config=kubeadm.yaml &> ~/kubeadm.log
-
     - name: Create kube directory
       ansible.builtin.file:
         path: ~/.kube

@@ -1,2 +1,2 @@
-- ansible.builtin.fail:
+- fail:
     msg: "Platform currently unsupported"

@@ -67,10 +67,13 @@ function build_patterns()
         # meta  ## Disabled: It causes false positives
         mount
         package
+        package_facts
         pause
         pip
         reboot
         replace
+        rpm_key
+        seport
         service
         service_facts
         set_fact
@@ -187,6 +190,7 @@ function build_patterns()
 
     # Full qualified community modules
     local -A COMMUNITY=(
+        [apache2_module]="community.general.apache2_module"
         [filesystem]="community.general.filesystem"
         [mysql_db]="community.mysql.mysql_db"
         [mysql_info]="community.mysql.mysql_info"
@@ -202,6 +206,7 @@ function build_patterns()
     local -A ANSIBLE_POSIX=(
         [authorized_key]="ansible.posix.authorized_key"
         [firewalld]="ansible.posix.firewalld"
+        [seboolean]="ansible.posix.seboolean"
         [selinux]="ansible.posix.selinux"
         [sysctl]="ansible.posix.sysctl"
     )
