@@ -38,6 +38,7 @@ ansible-playbook \
     -e "crc_version={{ cloud_def.crc_version }}" \
     -e "extracted_crc=$EXTRACTED_CRC" \
     -e "nested_crc=$NESTED_CRC" \
+    -e "crc_use_crc_bundle={{ cloud_def.crc_use_crc_bundle | default(crc_use_crc_bundle) }}" \
     -e "sync_extracted_qcow2_dir={{ cloud_def.crc_sync_extracted_qcow2_dir | default(crc_sync_extracted_qcow2_dir) }}" \
     -e "crc_nested_custom_packages={{ cloud_def.crc_nested_custom_packages | default([]) }}" \
     -e "crc_nested_custom_packages_disable_gpg={{ cloud_def.crc_nested_custom_packages_disable_gpg | default(false) }}" \

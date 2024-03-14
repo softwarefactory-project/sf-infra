@@ -1,6 +1,7 @@
 ---
 # Where the *.crcbundle file should be extracted on crc.dev host
 crc_bundle_dir: "~{{ ansible_user | default(ansible_user_id) }}/crc_extracted"
+crc_use_crc_bundle: true
 
 # Where the crc.qcow2 image should be pulled on localhost before
 # upload to the OpenStack cloud

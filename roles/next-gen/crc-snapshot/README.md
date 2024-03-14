@@ -78,4 +78,5 @@ Where:
   crc_extracted_crc                 => should it create an extracted CRC image?
   crc_extracted_final_image_prefix  => what name should finally have the extracted CRC image
   crc_extracted_normal_image_prefix => regex of the old extracted CRC image. Will be used in future promotion
+  crc_use_crc_bundle                => should it use `crc bundle generate` command to generate crc.qcow2 image?
 ```

@@ -35,6 +35,7 @@
         nested_crc: "{{ nested_crc | default(true) | bool }}"
         # should it create extracted CRC image?
         extracted_crc: "{{ extracted_crc | default(true) | bool }}"
+        crc_use_crc_bundle: "{{ crc_use_crc_bundle | default(true) | bool }}"
         crc_nested_final_image_prefix: "{{ crc_nested_final_image_prefix | default(system_distro + '-' + system_release + '-crc-' + crc_version + '-latest') }}"
         crc_extracted_final_image_prefix: "{{ crc_extracted_final_image_prefix | default('coreos-crc-extracted-' + crc_version + '-latest') }}"
         # path for a place, where the crc extracted qcow2 image should be
@@ -149,8 +150,10 @@
 
 - name: Make extracted CRC image
   hosts: crc.dev
+  vars:
+    crc_use_crc_bundle: "{{ crc_use_crc_bundle | bool }}"
   tasks:
-    - name: Create extracted CRC image and upload to the Cloud provider
+    - name: "Create extracted CRC image and upload to the Cloud provider by using crc bundle generate command {{ crc_use_crc_bundle }}"
       when: extracted_crc | default(true) | bool
       ansible.builtin.include_role:
         name: next-gen/extracted-crc
