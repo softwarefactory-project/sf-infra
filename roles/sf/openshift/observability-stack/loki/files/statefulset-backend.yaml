@@ -1,0 +1,12 @@
+- op: replace
+  path: /spec/template/spec/containers/0/image
+  value: quay.io/kiwigrid/k8s-sidecar:1.25.4
+- op: replace
+  path: /spec/template/spec/containers/0/securityContext
+  value:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
