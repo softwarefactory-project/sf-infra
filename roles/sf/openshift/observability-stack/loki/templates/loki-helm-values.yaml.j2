@@ -314,7 +314,16 @@ loki:
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config for more info on how to configure schemas
   schemaConfig: {}
   # -- Check https://grafana.com/docs/loki/latest/configuration/#ruler for more info on configuring ruler
-  rulerConfig: {}
+  rulerConfig:
+    wal:
+      dir: /loki/ruler-wal
+    storage:
+      type: local
+      local:
+        directory: /rules
+{% endraw %}
+    rule_path: /rules/{{ loki_tenant }}
+{% raw %}
   # -- Structured loki configuration, takes precedence over `loki.config`, `loki.schemaConfig`, `loki.storageConfig`
   structuredConfig: {}
   # -- Additional query scheduler config
@@ -1005,4 +1014,10 @@ gateway:
 networkPolicy:
   # -- Specifies whether Network Policies should be created
   enabled: false
+# This is used to manage loki alert rules
+sidecar:
+  rules:
+    label: loki_rule
+    labelValue: ""
 {% endraw %}
+    folder: /rules/{{ loki_tenant }}

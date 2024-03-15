@@ -21,6 +21,10 @@ spec:
   staticConfigs:
     - labels:
         job: prometheus-federation
+        federation_origin: {{ item.name }}
+{% for label in item.labels %}
+        {{ label.key }}: {{ label.value }}
+{% endfor %}
       targets:
 {% for target in item.targets %}
         - {{ target }}

@@ -28,6 +28,7 @@ prometheus_federation:
     metrics_path: prometheus/federate
     scheme: HTTPS
     insecure: "false"
+    labels: []
   - name: prometheus-oldgen-downstream-static-config
     targets:
     - monitoring.sf.hosted.upshift.rdu2.redhat.com
@@ -35,12 +36,16 @@ prometheus_federation:
     scheme: HTTPS
     # TODO either provide CA or move metrics collection to observability stack prometheus
     insecure: "true"
+    labels: []
   - name: prometheus-microshift-sfio-static-config
     targets:
     - prometheus.microshift.softwarefactory-project.io
     metrics_path: federate
     scheme: HTTPS
     insecure: "false"
+    labels:
+      - key: cluster
+        value: microshift.softwarefactory-project.io
 thanos:
   retention_raw: 15d
   retention_5m: 30d
