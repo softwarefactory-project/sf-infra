@@ -33,7 +33,7 @@ This project manages:
 * managesf.softwarefactory-project.io centos-7-1907 v1-standard-4
 * nodepool-builder.softwarefactory-project.io centos-7-1907 v1-standard-2
 * k1s05.softwarefactory-project.io rhel-9.3 8vcpu_16GB
-* k1s03.softwarefactory-project.io fedora-35-1.2 8vcpu_16GB
+* k1s03.softwarefactory-project.io rhel-9.3 8vcpu_16GB
 * k1s04.softwarefactory-project.io fedora-38-1.6 4vcpus_8gb
 * zk01.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * zs.softwarefactory-project.io centos-7-1907 v1-standard-2

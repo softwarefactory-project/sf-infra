@@ -162,18 +162,16 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups =
-            let note =
-                  "Here we use the k1s group because this host is not managed by sfconfig"
-
-            in  [ "k1s" ]
-        , connection = OS.Fedora.`35`.connection
+        , groups = [ "k1s" ]
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
-          , image = OS.Fedora.`35`.image.name
+          , image = OS.RHEL.`9.3`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
           , security_groups = [ "hypervisor-oci" ]
           , flavor = Some Flavors.`8vcpu_16GB`
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
           }
         }
       , Instance::{

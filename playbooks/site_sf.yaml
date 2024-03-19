@@ -56,7 +56,7 @@
           User-Agent: Bytespider
           User-Agent: AhrefsBot
 
-- hosts: k1s05.softwarefactory-project.io
+- hosts: k1s03.softwarefactory-project.io:k1s05.softwarefactory-project.io
   roles:
     - system/rhel-subscription
     - system/epel-release

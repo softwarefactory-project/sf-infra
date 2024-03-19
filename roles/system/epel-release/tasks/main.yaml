@@ -4,18 +4,27 @@
 
 - name: Install epel when not installed
   when: "'epel-release' not in ansible_facts.packages"
+  become: true
   block:
     - name: Try install epel-release if available
-      become: true
       ansible.builtin.package:
         name: epel-release
         state: present
       ignore_errors: true
+
+    - name: Check if epel-release package is installed
+      ansible.builtin.command: rpm -q epel-release
+      ignore_errors: true
       register: _epel_package
 
+    - name: Import a key from a epel repo
+      when: _epel_package.rc != 0
+      ansible.builtin.rpm_key:
+        state: present
+        key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+
     - name: Install epel release
-      become: true
-      when: "'rc' in _epel_package and _epel_package.rc != 0"
+      when: _epel_package.rc != 0
       ansible.builtin.package:
         name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present

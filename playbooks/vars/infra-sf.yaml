@@ -302,7 +302,7 @@ servers:
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ip: true
-    image: fedora-35-1.2
+    image: rhel-9.3
     key_name: sf-infra-key
     name: k1s03.softwarefactory-project.io
     network: oci-private-network
@@ -312,6 +312,7 @@ servers:
       - internal
       - hypervisor-oci
     state: present
+    volume_size: 100
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true

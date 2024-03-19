@@ -241,8 +241,8 @@ all:
       ansible_user: centos
     k1s03.softwarefactory-project.io:
       ansible_port: 22
-      ansible_python_interpreter: python3
-      ansible_user: fedora
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     k1s04.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3
