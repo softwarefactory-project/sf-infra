@@ -21,7 +21,6 @@ inventory:
   - lodgeit
   - gitweb
   - murmur
-  - opensearch-dashboards
   - keycloak
   - firehose
   - grafana
@@ -31,10 +30,8 @@ inventory:
   ip: 192.168.242.144
   roles:
   - logserver
-  - opensearch
   - influxdb
   - hound
-  - log-processing
 
 - name: nodepool-builder
   ip: 192.168.242.73
