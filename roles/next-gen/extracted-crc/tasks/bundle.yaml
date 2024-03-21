@@ -1,12 +1,4 @@
 ---
-- name: Generate bundle
-  ansible.builtin.command: crc bundle generate
-
-- name: Get bundle name
-  ansible.builtin.shell: |
-    ls | grep crcbundle
-  register: _crcbundle_name
-
 - name: Create directory for extracting bundle
   become: true
   ansible.builtin.file:
@@ -15,6 +7,54 @@
     owner: "{{ ansible_user | default(ansible_user_id) }}"
     group: "{{ ansible_user | default(ansible_user_id) }}"
 
-- name: Extract the CRC bundle
-  ansible.builtin.command: >
-    tar xafv {{ _crcbundle_name.stdout }} -C "{{ crc_bundle_dir }}" --strip-components 1
+- name: Use bundle solution
+  when: crc_use_crc_bundle | bool
+  block:
+    - name: Generate bundle
+      ansible.builtin.command: crc bundle generate
+
+    - name: Get bundle name
+      ansible.builtin.shell: |
+        ls | grep crcbundle
+      register: _crcbundle_name
+
+    - name: Extract the CRC bundle
+      ansible.builtin.command: >
+        tar xafv {{ _crcbundle_name.stdout }} -C "{{ crc_bundle_dir }}" --strip-components 1
+
+- name: Use direct commands
+  when: not crc_use_crc_bundle | bool
+  block:
+    - name: Login to the CRC
+      ansible.builtin.shell: >
+        /usr/local/bin/oc login
+        -u kubeadmin
+        -p "$(tail ~/crc-start.log  | grep -i password | head -1 | awk '{print $2}')"
+
+    # https://github.com/crc-org/crc/blob/main/pkg/crc/cluster/cluster.go#L229
+    - name: Replace secret
+      ansible.builtin.shell: >
+        oc patch secret pull-secret
+        -p '{"data":{".dockerconfigjson":"e30K"}}'
+        -n openshift-config
+        --type merge
+
+    # FIXME: Try first not to run: virsh destroy crc
+    - name: Stop virsh instance
+      become: true
+      ansible.builtin.command: virsh shutdown crc
+
+    - name: Ensure that the instance is shutoff
+      become: true
+      ansible.builtin.command: virsh list --all
+      register: _virsh_result
+      until: "'shut off' in _virsh_result.stdout"
+      retries: 30
+      delay: 10
+
+    - name: Create qcow2 image
+      ansible.builtin.shell: >
+        qemu-img convert
+        -f qcow2
+        -O qcow2 {{ ansible_user_dir }}/.crc/machines/crc/crc.qcow2
+        {{ crc_bundle_dir }}/crc.qcow2

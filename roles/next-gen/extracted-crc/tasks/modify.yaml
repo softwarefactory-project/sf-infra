@@ -10,6 +10,7 @@
     guest_etc_dir: "{{ _etc_dir.stdout }}/etc"
     guest_local_dir: "{{ mount_point }}/ostree/deploy/rhcos/var/usrlocal"
     guest_home_dir: "{{ mount_point }}/ostree/deploy/rhcos/var/home/core"
+    guest_var_dir: "{{ mount_point }}/ostree/deploy/rhcos/var/lib"
 
 - name: Create crc-pre service
   become: true
@@ -69,3 +70,12 @@
     state: file
     owner: 1000
     group: 1000
+
+# NOTE: ensure that the file "/var/lib/kubelet/config.json" contains: {"data":{".dockerconfigjson":"e30K"}}
+- name: Ensure that the config json is empty
+  when: not crc_use_crc_bundle
+  become: true
+  ansible.builtin.copy:
+    content: |
+      {"data":{".dockerconfigjson":"e30K"}}
+    dest: "{{ guest_var_dir }}/kubelet/config.json"
