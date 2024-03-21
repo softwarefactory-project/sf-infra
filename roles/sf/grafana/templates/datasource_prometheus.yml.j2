@@ -161,3 +161,6 @@ datasources:
     tlsSkipVerify: true
 {% endfor %}
 {% endif %}
+{% if additional_datasources is defined and additional_datasources %}
+{{ additional_datasources | to_yaml }}
+{% endif %}
