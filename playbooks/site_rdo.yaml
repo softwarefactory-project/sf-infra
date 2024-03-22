@@ -108,7 +108,6 @@
     - system/volume
     - {name: 'logscraper', become: true}
     - {name: 'logsender', become: true}
-    - service/opensearch-monitoring
     - next-gen/logscraper-config
 
 - hosts: quay.rdoproject.org
