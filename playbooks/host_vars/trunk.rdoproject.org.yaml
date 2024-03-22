@@ -43,7 +43,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-master:
     distro: 'centos9'
     target: 'centos9-master'
@@ -69,7 +69,7 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-caracal:
     distro: 'centos9'
     target: 'centos9-caracal'
@@ -235,7 +235,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-xena:
     distro: 'centos9'
     target: 'centos9-xena'
@@ -258,7 +258,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos8-yoga:
     distro: 'centos8'
     target: 'centos8-yoga'

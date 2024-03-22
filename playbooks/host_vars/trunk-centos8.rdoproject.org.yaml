@@ -39,7 +39,7 @@ dlrn_workers:
     rsyncdest: 'centos9-master-uc@3.87.151.16:/home/centos9-master-uc/data/repos'
     rsyncport: '3300'
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-master:
     distro: 'centos9'
     target: 'centos9-master'
@@ -70,7 +70,7 @@ dlrn_workers:
     rsyncdest: 'centos9-master@3.87.151.16:/home/centos9-master/data/repos'
     rsyncport: '3300'
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-caracal:
     distro: 'centos9'
     target: 'centos9-caracal'
@@ -241,7 +241,7 @@ dlrn_workers:
     rsyncdest: 'centos9-wallaby@3.87.151.16:/home/centos9-wallaby/data/repos'
     rsyncport: '3300'
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos9-xena:
     distro: 'centos9'
     target: 'centos9-xena'
@@ -269,7 +269,7 @@ dlrn_workers:
     rsyncdest: 'centos9-xena@3.87.151.16:/home/centos9-xena/data/repos'
     rsyncport: '3300'
     use_components: true
-    mock_config: 'centos9preview.cfg.j2'
+    mock_config: 'centos9stream.cfg.j2'
   centos8-yoga:
     distro: 'centos8'
     target: 'centos8-yoga'
