@@ -1,0 +1,15 @@
+[Unit]
+Description=Promtail service
+After=network.target
+[Service]
+Type=simple
+{% if is_openshift_node %}
+# TODO access to /var/log/pods/* is restricted to root, belonging to the "adm" group isn't enough
+# Until this can be fixed, run promtail as root.
+User=root
+{% else %}
+User=promtail
+{% endif %}
+ExecStart=/opt/promtail/promtail-linux-amd64 -config.file /etc/promtail/promtail.yaml
+[Install]
+WantedBy=multi-user.target
