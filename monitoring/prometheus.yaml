@@ -94,7 +94,6 @@ scrape_configs:
       - targets:
           - https://quay.rdoproject.org/
           - https://review.rdoproject.org/zuul/api/info
-          - https://review.rdoproject.org/analytics/app/kibana
           - https://review.rdoproject.org
           - https://www.rdoproject.org/
           - https://opensearch.rdoproject.org/

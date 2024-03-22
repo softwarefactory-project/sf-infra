@@ -84,7 +84,6 @@ let instances =
             let note = "TODO: move urls to relevant instance"
 
             in  [ "https://review.rdoproject.org/zuul/api/info"
-                , "https://review.rdoproject.org/analytics/app/kibana"
                 , "https://review.rdoproject.org"
                 ]
         , monitoring_auth_urls =
