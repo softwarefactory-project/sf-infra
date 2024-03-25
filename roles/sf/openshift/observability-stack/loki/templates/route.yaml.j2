@@ -10,6 +10,7 @@ metadata:
   namespace: sf-observability
 spec:
   host: {{ loki_public_HTTP_endpoint }}
+  path: {{ loki_public_path }}
   port:
     targetPort: http
   to:

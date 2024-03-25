@@ -1,7 +1,8 @@
 ---
 promtail_version: "v2.9.4"
-loki_public_HTTP_endpoint: loki.microshift-infra.softwarefactory-project.io
-loki_url: "https://{{ loki_public_HTTP_endpoint }}/loki/api/v1/push"
+loki_public_HTTP_endpoint: microshift-infra.softwarefactory-project.io
+loki_public_path: "/loki"
+loki_url: 'https://{{ loki_public_HTTP_endpoint }}{{ loki_public_path | regex_replace("^(.*)/$", "\1") }}/loki/api/v1/push'
 loki_tenant: upstream
 loki_username: sf-observability
 loki_password: observability-sf
