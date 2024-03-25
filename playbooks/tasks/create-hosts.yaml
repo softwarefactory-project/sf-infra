@@ -26,9 +26,7 @@
     loop_var: volume
 
 - name: Attach additional volumes
-  when:
-    - volume.state is defined
-    - volume.state != "absent"
+  when: volume.state is not defined or (volume.state is defined and volume.state != "absent")
   openstack.cloud.server_volume:
     cloud: "{{ cloud.name }}"
     auth:
