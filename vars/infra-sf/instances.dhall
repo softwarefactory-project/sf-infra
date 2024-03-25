@@ -148,7 +148,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s05"
-        , groups = [ "k1s" ]
+        , groups = [ "k1s", "k1s-rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -162,7 +162,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups = [ "k1s" ]
+        , groups = [ "k1s", "k1s-rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -176,14 +176,16 @@ let instances =
         }
       , Instance::{
         , name = "k1s04"
-        , groups = [ "k1s" ]
-        , connection = OS.Fedora.`38`.connection
+        , groups = [ "k1s", "k1s-rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
-          , image = OS.Fedora.`38`.image.name
-          , flavor = Some Flavors.`4vcpus_8gb`
+          , image = OS.RHEL.`9.3`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
           , security_groups = [ "hypervisor-oci", "cs-k1s" ]
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
           }
         }
       , Instance::{

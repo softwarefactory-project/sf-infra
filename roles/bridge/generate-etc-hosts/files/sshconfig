@@ -155,7 +155,7 @@ Host k1s03.softwarefactory-project.io
     Port 22
 
 Host k1s04.softwarefactory-project.io
-    User fedora
+    User cloud-user
     Port 22
 
 Host zk01.softwarefactory-project.io
