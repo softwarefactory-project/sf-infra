@@ -157,7 +157,10 @@ loki:
           service: {{ .service }}
     {{- end }}
     {{- end }}
-
+{% endraw %}
+    chunk_store_config:
+      max_look_back_period: ${LOKI_EXPIRE_DAYS:-28}d
+{% raw %}
     {{- if .Values.loki.schemaConfig }}
     schema_config:
     {{- toYaml .Values.loki.schemaConfig | nindent 2}}

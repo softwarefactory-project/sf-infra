@@ -17,6 +17,8 @@ data:
     mc alias set userminio http://minio:9000 $MINIO_USER $MINIO_PASSWORD
     # create loki bucket
     mc mb --ignore-existing userminio/loki
+    # set data retention policy
+    mc ilm rule add --expire-days $LOKI_EXPIRE_DAYS userminio/loki
 ---
 apiVersion: batch/v1
 kind: Job
@@ -31,37 +33,11 @@ spec:
           image: quay.io/minio/minio:latest
           command:
             - /script/post-setup.sh
-          env:
-            - name: MINIO_ROOT_USER
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: MINIO_ROOT_USER
-            - name: MINIO_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: MINIO_ROOT_PASSWORD
-            - name: MINIO_USER
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: MINIO_USER
-            - name: MINIO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: MINIO_PASSWORD
-            - name: LOKI_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: LOKI_ACCESS_KEY
-            - name: LOKI_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: minio-users
-                  key: LOKI_SECRET_KEY
+          envFrom:
+            - secretRef:
+                name: minio-users
+            - configMapRef:
+                name: loki-envvars
           volumeMounts:
             - name: script
               mountPath: "/script"

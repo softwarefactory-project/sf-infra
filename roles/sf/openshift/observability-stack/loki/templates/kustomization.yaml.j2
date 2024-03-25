@@ -16,6 +16,12 @@ secretGenerator:
     - S3_SECRET_ACCESS_KEY={{ s3_config.secret_access_key }}
   namespace: {{ loki_namespace }}
 
+configMapGenerator:
+- name: loki-envvars
+  literals:
+    - LOKI_EXPIRE_DAYS={{ loki_expire_days }}
+  namespace: {{ loki_namespace }}
+
 patches:
 - target:
     kind: StatefulSet
