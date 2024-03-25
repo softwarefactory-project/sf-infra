@@ -1,0 +1,51 @@
+---
+- name: Install fluent repo
+  ansible.builtin.shell: |
+    helm repo add fluent https://fluent.github.io/helm-charts
+
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/fluentbit/base"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.copy:
+        dest: "{{ kustomize_dir }}/fluentbit/base/{{ item }}"
+        src: "{{ item }}"
+      loop:
+        - kustomization.yaml
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/fluentbit/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlays
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/fluentbit/overlay/{{ item }}"
+        src: "{{ item }}.j2"
+      loop:
+        - kustomization.yaml
+        - chart-values.yaml
+
+- name: Generate helm manifest
+  ansible.builtin.shell: |
+    helm template fluent-bit fluent/fluent-bit --values overlay/chart-values.yaml --namespace {{ sf_namespace }} > base/fluentbit-helm-manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/fluentbit"
+
+- name: Generate manifests
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/fluentbit/"
+
+- name: Apply fluentbit manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ sf_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/fluentbit/"

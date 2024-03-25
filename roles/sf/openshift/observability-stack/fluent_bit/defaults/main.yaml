@@ -1,0 +1,11 @@
+---
+fluentbit_loki_endpoint: loki.microshift-infra.softwarefactory-project.io
+fluentbit_loki_port: "443"
+loki_tenant: upstream
+loki_username: sf-observability
+loki_password: observability-sf
+fluentbit_loki_tls:
+  insecure: true
+sf_namespace: sf
+
+kustomize_dir: "~/deployments/observability-stack"
