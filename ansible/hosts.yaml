@@ -101,7 +101,6 @@ all:
       hosts:
         backup.rdoproject.org: {}
         elk.review.rdoproject.org: {}
-        images.rdoproject.org: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
@@ -237,10 +236,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: centos
     image-builder.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: centos
-    images.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
