@@ -94,15 +94,6 @@
     - system/volume
     - service/apache-exporter
 
-- hosts: images.rdoproject.org
-  roles:
-    - service/hostname
-    - system/volume
-    - service/setup-ssl
-    - service/firewalld
-    - service/apache-exporter
-    - {role: image-server, become: true}
-
 - hosts: elk.review.rdoproject.org
   roles:
     - system/volume

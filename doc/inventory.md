@@ -9,7 +9,6 @@ This project manages:
 * managesf.review.rdoproject.org centos-7-1907 v1-standard-2
 * elk.review.rdoproject.org centos-7-1907 v1-standard-2
 * logserver.rdoproject.org centos-7-1907 v1-standard-2
-* images.rdoproject.org centos-8.1-1911 v1-standard-1
 * www.rdoproject.org centos-8.1-1911 v1-standard-1
 * dlrn-db.rdoproject.org centos-8.1-1911 v1-standard-2
 * opensearch.rdoproject.org centos-8-stream 4vcpus_8gb

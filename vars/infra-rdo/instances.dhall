@@ -147,28 +147,6 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "images"
-        , groups = [ "rdo" ]
-        , connection = OS.CentOS.`8.1`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.1`.image.name
-          , flavor = Some Flavors.`1vcpu_4gb`
-          , floating_ip = Some True
-          , security_groups = [ "web", "rcn-share", "apache_exporter" ]
-          , volume_size = Some 50
-          , state = < absent | present >.absent
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "images-data"
-            , size = 1000
-            , server = "images.rdoproject.org"
-            , device = "/dev/vdb"
-            , state = Some "absent"
-            }
-          ]
-        }
-      , Instance::{
         , name = "www"
         , groups = [ "osci" ]
         , connection =
