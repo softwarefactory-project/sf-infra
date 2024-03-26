@@ -13,12 +13,19 @@ data:
     done
     mc admin user add rootminio $MINIO_USER $MINIO_PASSWORD
     mc admin policy attach rootminio readwrite --user $MINIO_USER
-    mc admin user svcacct add --access-key "$LOKI_ACCESS_KEY" --secret-key "$LOKI_SECRET_KEY" --description "Loki service account" rootminio $MINIO_USER
     mc alias set userminio http://minio:9000 $MINIO_USER $MINIO_PASSWORD
+    # loki
+    mc admin user svcacct add --access-key "$LOKI_ACCESS_KEY" --secret-key "$LOKI_SECRET_KEY" --description "Loki service account" rootminio $MINIO_USER
     # create loki bucket
     mc mb --ignore-existing userminio/loki
     # set data retention policy
     mc ilm rule add --expire-days $LOKI_EXPIRE_DAYS userminio/loki
+    # thanos
+    mc admin user svcacct add --access-key "$THANOS_ACCESS_KEY" --secret-key "$THANOS_SECRET_KEY" --description "thanos service account" rootminio $MINIO_USER
+    # create thanos bucket
+    mc mb --ignore-existing userminio/thanos
+    # set data retention policy
+    mc ilm rule add --expire-days $THANOS_EXPIRE_DAYS userminio/thanos
 ---
 apiVersion: batch/v1
 kind: Job
@@ -26,6 +33,8 @@ metadata:
   namespace: sf-observability
   name: minio-user-setup
 spec:
+  # Let the job up for 2 hours after completion if debugging is needed
+  ttlSecondsAfterFinished: 7200
   template:
     spec:
       containers:
@@ -38,6 +47,8 @@ spec:
                 name: minio-users
             - configMapRef:
                 name: loki-envvars
+            - configMapRef:
+                name: thanos-envvars
           volumeMounts:
             - name: script
               mountPath: "/script"

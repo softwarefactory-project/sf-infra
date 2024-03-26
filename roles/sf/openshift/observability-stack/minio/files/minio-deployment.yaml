@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: sf-observability
+  labels:
+    app: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        resources: {}
+        image: quay.io/minio/minio:latest
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - minio server /data --console-address :9090
+        env:
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: minio-users
+              key: MINIO_ROOT_USER
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: minio-users
+              key: MINIO_ROOT_PASSWORD
+        ports:
+          - name: minio-console
+            containerPort: 9090
+          - name: minio-s3
+            containerPort: 9000
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - mountPath: /data
+          name: minio-data
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /minio/health/live
+            port: minio-s3
+            scheme: HTTP
+          initialDelaySeconds: 120
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 10
+      restartPolicy: Always
+      volumes:
+      - name: minio-data
+        persistentVolumeClaim:
+          claimName: minio-pvc

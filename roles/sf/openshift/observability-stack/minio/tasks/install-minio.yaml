@@ -23,7 +23,7 @@
       loop:
         - kustomization.yaml
         - minio-namespace.yaml
-        - minio-pod.yaml
+        - minio-deployment.yaml
         - minio-post-config.yaml
         - minio-pv.yaml
         - minio-service.yaml
@@ -41,7 +41,7 @@
         src: "{{ item }}.j2"
       loop:
         - kustomization.yaml
-        - pod.yaml
+        - deployment.yaml
         - job.yaml
         - pvc.yaml
 
