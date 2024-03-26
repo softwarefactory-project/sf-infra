@@ -277,7 +277,7 @@ servers:
       - web
       - rcn-share
       - apache_exporter
-    state: present
+    state: absent
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-1
@@ -367,6 +367,7 @@ volumes:
     display_name: images-data
     server: images.rdoproject.org
     size: 1000
+    state: absent
   - device: /dev/vdb
     display_name: opensearch_data
     server: opensearch.rdoproject.org

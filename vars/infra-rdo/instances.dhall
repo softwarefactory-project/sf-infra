@@ -156,6 +156,7 @@ let instances =
           , floating_ip = Some True
           , security_groups = [ "web", "rcn-share", "apache_exporter" ]
           , volume_size = Some 50
+          , state = < absent | present >.absent
           }
         , volumes =
           [ Infra.Volume::{
@@ -163,6 +164,7 @@ let instances =
             , size = 1000
             , server = "images.rdoproject.org"
             , device = "/dev/vdb"
+            , state = Some "absent"
             }
           ]
         }
