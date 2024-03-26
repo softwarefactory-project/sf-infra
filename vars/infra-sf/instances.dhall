@@ -110,18 +110,12 @@ let instances =
                 , "https://ansible.softwarefactory-project.io/zuul/api/info"
                 , "https://fedora.softwarefactory-project.io/zuul/api/info"
                 , "https://www.softwarefactory-project.io"
-                , "https://images.rdoproject.org"
                 , "https://lists.rdoproject.org"
                 , "https://logserver.rdoproject.org"
                 , "https://mirror.regionone.vexxhost.rdoproject.org"
                 , "https://trunk.rdoproject.org"
                 , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
-        , monitoring_auth_urls =
-          [ "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
-          , "https://softwarefactory-project.io/elasticsearch/"
-          , "https://softwarefactory-project.io/analytics/api/licensing/info"
-          ]
         , groups = [ "sf", "install-server", "backup-sf" ]
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{

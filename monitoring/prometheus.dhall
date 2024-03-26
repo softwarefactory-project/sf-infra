@@ -20,17 +20,12 @@ let apache_server_list =
       , "trunk-centos8.rdoproject.org:9117"
       , "www.rdoproject.org:9117"
       , "logserver.rdoproject.org:9117"
-      , "images.rdoproject.org:9117"
       , "opensearch.rdoproject.org:9117"
       , "centos.softwarefactory-project.io:9117"
       , "prometheus.monitoring.softwarefactory-project.io:9117"
       ]
 
-let elasticsearch_exporter_list =
-      [ "elk.review.rdoproject.org:9114"
-      , "opensearch.rdoproject.org:9114"
-      , "elk.softwarefactory-project.io:9114"
-      ]
+let elasticsearch_exporter_list = [ "opensearch.rdoproject.org:9114" ]
 
 let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
 

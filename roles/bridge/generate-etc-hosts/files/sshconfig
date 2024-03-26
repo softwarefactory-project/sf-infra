@@ -46,10 +46,6 @@ Host logserver.rdoproject.org
     User centos
     Port 22
 
-Host images.rdoproject.org
-    User centos
-    Port 22
-
 Host www.rdoproject.org
     User centos
     Port 22

@@ -269,21 +269,6 @@ servers:
     floating_ip: true
     image: centos-8.1-1911
     key_name: sf-infra-key
-    name: images.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - rcn-share
-      - apache_exporter
-    state: absent
-    volume_size: 50
-  - boot_from_volume: yes
-    flavor: v1-standard-1
-    floating_ip: true
-    image: centos-8.1-1911
-    key_name: sf-infra-key
     name: www.rdoproject.org
     network: private-network
     security_groups:
@@ -363,11 +348,6 @@ volumes:
     display_name: logs-data03
     server: logserver.rdoproject.org
     size: 1000
-  - device: /dev/vdb
-    display_name: images-data
-    server: images.rdoproject.org
-    size: 1000
-    state: absent
   - device: /dev/vdb
     display_name: opensearch_data
     server: opensearch.rdoproject.org

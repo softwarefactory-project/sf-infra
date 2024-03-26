@@ -102,7 +102,6 @@ scrape_configs:
           - https://ansible.softwarefactory-project.io/zuul/api/info
           - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
-          - https://images.rdoproject.org
           - https://lists.rdoproject.org
           - https://logserver.rdoproject.org
           - https://mirror.regionone.vexxhost.rdoproject.org
@@ -149,9 +148,6 @@ scrape_configs:
     static_configs:
       - targets:
           - "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
-          - "https://softwarefactory-project.io/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
-          - https://softwarefactory-project.io/elasticsearch/
-          - https://softwarefactory-project.io/analytics/api/licensing/info
   - job_name: statsd_exporter
     scrape_interval: "5m"
     static_configs:
@@ -173,7 +169,6 @@ scrape_configs:
           - trunk-centos8.rdoproject.org:9117
           - www.rdoproject.org:9117
           - logserver.rdoproject.org:9117
-          - images.rdoproject.org:9117
           - opensearch.rdoproject.org:9117
           - centos.softwarefactory-project.io:9117
           - prometheus.monitoring.softwarefactory-project.io:9117
@@ -250,9 +245,7 @@ scrape_configs:
   - job_name: elasticsearch
     static_configs:
       - targets:
-          - elk.review.rdoproject.org:9114
           - opensearch.rdoproject.org:9114
-          - elk.softwarefactory-project.io:9114
   - job_name: weeder
     metrics_path: /weeder/metrics
     static_configs:
