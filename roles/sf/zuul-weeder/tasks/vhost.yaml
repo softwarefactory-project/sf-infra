@@ -1,0 +1,14 @@
+- name: Install vhost and restart httpd
+  become: yes
+  block:
+    - name: Install vhost configuration file
+      ansible.builtin.template:
+        src: vhost.j2
+        dest: /etc/httpd/conf.d/zuul_weeder.conf
+      register: _vhost
+
+    - name: Restart httpd if needed
+      ansible.builtin.systemd:
+        state: restarted
+        name: httpd
+      when: _vhost.changed

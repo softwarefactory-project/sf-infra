@@ -113,6 +113,10 @@
       ansible.builtin.include_role:
         name: sf/monitoring-gateway
         tasks_from: vhost.yaml
+    - name: Add zuul_weeder proxypass
+      ansible.builtin.include_role:
+        name: sf/zuul-weeder
+        tasks_from: vhost.yaml
 
 - hosts: prometheus.monitoring.softwarefactory-project.io
   pre_tasks:

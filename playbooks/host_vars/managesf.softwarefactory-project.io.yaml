@@ -10,3 +10,4 @@ acme_domains:
     vhost_skip: true
 
 monitoring_host_url: https://prometheus.monitoring.softwarefactory-project.io
+weeder_host: image-builder.softwarefactory-project.io
