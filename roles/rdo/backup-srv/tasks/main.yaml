@@ -7,7 +7,7 @@
   become: yes
   ansible.builtin.package:
     name:
-      - ansible
+      - ansible-core
       - certbot
 
 - name: Install bup
