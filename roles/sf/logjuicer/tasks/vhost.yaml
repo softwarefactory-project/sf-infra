@@ -1,0 +1,20 @@
+- name: Install vhost and restart httpd
+  become: yes
+  block:
+    - name: Install vhost configuration file
+      ansible.builtin.template:
+        src: vhost.j2
+        dest: /etc/httpd/conf.d/logjuicer.conf
+      register: _vhost
+
+    - name: Ensure working directory
+      ansible.builtin.file:
+        path: /var/www/logjuicer
+        state: directory
+        mode: 0755
+
+    - name: Restart httpd if needed
+      ansible.builtin.systemd:
+        state: restarted
+        name: httpd
+      when: _vhost.changed
