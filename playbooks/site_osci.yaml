@@ -20,7 +20,7 @@
         apply:
           become: yes
 
-# after www.rdoproject.org
+# After www.rdoproject.org
 - hosts: rdo-web-builder.int.osci.io
   roles:
     - service/hostname
