@@ -1,0 +1,50 @@
+---
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/prometheus/base"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.copy:
+        dest: "{{ kustomize_dir }}/prometheus/base/{{ item }}"
+        src: "prometheus/{{ item }}"
+      loop:
+        - kustomization.yaml
+        - kustomizeconfig.yaml
+        - prometheus.yaml
+        - route.yaml
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/prometheus/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlays
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/prometheus/overlay/{{ item }}"
+        src: "prometheus/{{ item }}.j2"
+      loop:
+        - kustomization.yaml
+        - prometheus.yaml
+        - route.yaml
+    - name: create object storage config
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/prometheus/overlay/objstore.yaml"
+        src: "prometheus/objstore.yaml.j2"
+      when: (thanos_storage is defined) and thanos_storage
+
+- name: Generate manifests
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/prometheus/"
+
+- name: Apply loki manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ observability_stack_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/prometheus"

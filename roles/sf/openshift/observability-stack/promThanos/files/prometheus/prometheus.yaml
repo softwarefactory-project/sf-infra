@@ -1,0 +1,43 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: sf-observability
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  thanos: {}
+  enableAdminAPI: true
+  evaluationInterval: 30s
+  # empty namespace selector means current namespace only
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  portName: web
+  resources:
+    requests:
+      memory: 400Mi
+  ruleNamespaceSelector: {}
+  ruleSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  rules:
+    alert: {}
+  scrapeInterval: 30s
+  serviceAccountName: prometheus
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  scrapeConfigNamespaceSelector: {}
+  scrapeConfigSelector:
+    matchExpressions:
+    - key: sf-monitoring
+      operator: Exists
+  configMaps: []

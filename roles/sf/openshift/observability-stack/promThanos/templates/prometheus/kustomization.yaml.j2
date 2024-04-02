@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+{% if (thanos_storage is defined) and thanos_storage %}
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+- name: thanos-objectstore
+  files:
+    - objstore.yaml
+{% endif %}
+
+patches:
+- target:
+    kind: Route
+    name: prometheus
+  path: route.yaml
+- target:
+    kind: Prometheus
+    name: prometheus
+  path: prometheus.yaml

@@ -1,0 +1,7 @@
+type: S3
+config:
+  endpoint: "{{ thanos_storage.endpoint }}"
+  bucket: "{{ thanos_storage.bucketname }}"
+  access_key: "{{ thanos_storage.access_key_id }}"
+  secret_key: "{{ thanos_storage.secret_access_key }}"
+  insecure: {{ thanos_storage.insecure }}

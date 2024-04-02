@@ -1,0 +1,23 @@
+thanos_storage:
+  endpoint: http://minio:9000
+  bucketname: thanos
+  insecure: true
+  access_key_id: abcdefghij0123456789
+  secret_access_key: 0123456789abcdefghij0123456789abcdefghij
+# A list of configmap names;  these configmaps will be mounted
+# on the prometheus pod so that their contents can be referenced
+# in ScrapeConfigs CRs.
+prometheus_scrape_configmaps: []
+# Assume the existence of a service account with the proper ACLs
+# on the namespace, so that the instance can watch config resources.
+prometheus_serviceaccount_name: prometheus
+observability_stack_namespace: sf-observability
+prometheus_public_HTTP_endpoint: prometheus.sfop.me
+prometheus_public_path: "/"
+# namespaces to monitor for scrapeconfigs, default to observability_stack_namespace
+prometheus_scrapeconfig_namespaces:
+  - "{{ observability_stack_namespace }}"
+# namespaces to monitor for pod/service monitors, default to sf and observability_stack_namespace
+prometheus_monitor_namespaces:
+  - sf
+  - "{{ observability_stack_namespace }}"

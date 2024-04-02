@@ -1,0 +1,6 @@
+- op: replace
+  path: /spec/host
+  value: {{ prometheus_public_HTTP_endpoint }}
+- op: replace
+  path: /spec/path
+  value: {{ prometheus_public_path }}

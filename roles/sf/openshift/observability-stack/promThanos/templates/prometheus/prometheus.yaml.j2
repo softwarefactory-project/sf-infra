@@ -1,0 +1,55 @@
+- op: replace
+  path: /spec/serviceAccountName
+  value: {{ prometheus_serviceaccount_name }}
+{% if (prometheus_scrapeconfig_namespaces is defined) and prometheus_scrapeconfig_namespaces %}
+- op: replace
+  path: /spec/scrapeConfigNamespaceSelector
+  value:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values:
+{% for ns in prometheus_scrapeconfig_namespaces %}
+        - {{ ns }}
+{% endfor %}
+{% endif %}
+{% if (prometheus_monitor_namespaces is defined) and prometheus_monitor_namespaces %}
+- op: replace
+  path: /spec/serviceMonitorNamespaceSelector
+  value:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values:
+{% for ns in prometheus_monitor_namespaces %}
+        - {{ ns }}
+{% endfor %}
+{% endif %}
+{% if (prometheus_monitor_namespaces is defined) and prometheus_monitor_namespaces %}
+- op: replace
+  path: /spec/podMonitorNamespaceSelector
+  value:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values:
+{% for ns in prometheus_monitor_namespaces %}
+        - {{ ns }}
+{% endfor %}
+{% endif %}
+{% if (prometheus_scrape_configmaps is defined) and prometheus_scrape_configmaps %}
+- op: replace
+  path: /spec/configMaps
+  value:
+{% for cm in prometheus_scrape_configmaps %}
+    - {{ cm }}
+{% endfor %}
+{% endif %}
+{% if (thanos_storage is defined) and thanos_storage %}
+- op: replace
+  path: /spec/thanos
+  value:
+    objectStorageConfig:
+      name: thanos-objectstore
+      key: objstore.yaml
+{% endif %}
