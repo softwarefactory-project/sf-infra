@@ -76,21 +76,13 @@
     dest: /etc/httpd/conf.d/www.rdoproject.org.conf.d/mod_speling_rdo.conf
   notify: reload httpd
 
-- name: Create vhost for ask.rdoproject.org
-  ansible.builtin.include_role:
-    name: httpd
-    tasks_from: vhost
-  vars:
-    website_domain: ask.rdoproject.org
-    redirect: https://ask.openstack.org/en/questions/scope:unanswered/sort:age-desc/page:1/query:rdo/
-
 - name: Create vhost for docs.rdoproject.org
   ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
     website_domain: docs.rdoproject.org
-    redirect: https://www.rdoproject.org/documentation/
+    redirect: https://www.rdoproject.org/documentation/books/
 
 - name: Install RDO Dashboards
   ansible.builtin.include_role:
