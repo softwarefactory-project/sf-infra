@@ -1,2 +1,3 @@
 ---
 listen_port: 9001
+weeder_host: localhost

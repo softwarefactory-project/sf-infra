@@ -1,0 +1,4 @@
+<Location "/weeder">
+    ProxyPass http://{{ weeder_host }}:{{ listen_port }} nocanon
+    ProxyPassReverse http://{{ weeder_host }}:{{ listen_port }}
+</Location>
