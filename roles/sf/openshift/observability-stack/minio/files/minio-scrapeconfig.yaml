@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: minio-static-config
+  namespace: sf-observability
+  labels:
+    sf-monitoring: minio
+spec:
+  staticConfigs:
+    - labels:
+        job: sf-observability/minio
+      targets:
+        - "minio:9000"
+  metricsPath: "/minio/v2/metrics/cluster"
+  scheme: HTTP
