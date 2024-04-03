@@ -49,7 +49,7 @@ bridge_users:
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOACTrxPG0N4m3ltLzeY2MMEDvRLN5utvWD78dtfvKSMsyPfpPjlmCjMFGIWeHmrl8iOZyUnu7triCKjljvDedwTFOQ1VN/KF53/sjLqZDUPE8IC8G2V5R7jnAmKmQNSrtsauZ+yOQdV9C0hff7RI5euPGYowunKXX5OOmx6zZ0abNs5pMYAS0XwsFYf2V5op4bb+sJVJQkTYu1Ezy643FH2gRubpFTC8B2LqQjzeoBougSbwRFhFMYG/0WskH/ITPXJUlUrsqwFZRhx6uLQUoFGtnE3mMHQT0365PAZYl2RfWTrfLUEvJD2BN0I3UrsfOFH0QGsCWkKlVn3vqc1otF+6hgNzhCmGNNylfjBotXy5R8DGvItj1wsnnfgYpfL3p8lhdBz6Kbntdd6Nz0BAJ0JNf24DdrFh5MEclNS55s4OwImLaWLvTfZ32RF/OvJ/sd4z8Km+bnWtfp0NfNGs+s/Kdz7KuH8VfgrsURBVoQpipQOYDck0He0JTt2DeIuIP8f36dBzjAwBUqsrkSsWDPTzYhQKoQ8ZPRba2lNgSmzQf/VLsgdp00i3On8SmGAxf9Ib/O+/RbKFhwwN5Y71DiiOvjc6UrYNHCnl+6gpGbpvpez37Qo7OZFPI2+nBQmDfpfgodpB6wQqec0d7qB0VeZYwwLJ5c7upqjq2Nz5t1w=="
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINFW8lYSVF4cU/RYLHgm698ZwbF5jaVgQ549pwHD1PUg"
   zcaplovi:
     name: "zcaplovi"
     state: "absent"
