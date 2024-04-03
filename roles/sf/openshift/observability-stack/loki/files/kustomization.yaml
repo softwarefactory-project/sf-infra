@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
 - loki-helm-manifest.yaml
 - route.yaml
+- servicemonitor.yaml
+- prometheusrule.yaml
 
 labels:
 - includeSelectors: true

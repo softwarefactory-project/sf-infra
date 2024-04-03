@@ -22,8 +22,12 @@
         state: directory
     - name: copy base manifest
       ansible.builtin.copy:
-        dest: "{{ kustomize_dir }}/loki/base/kustomization.yaml"
-        src: "kustomization.yaml"
+        dest: "{{ kustomize_dir }}/loki/base/{{ item }}"
+        src: "{{ item }}"
+      loop:
+        - kustomization.yaml
+        - servicemonitor.yaml
+        - prometheusrule.yaml
     - name: create route manifest
       ansible.builtin.template:
         dest: "{{ kustomize_dir }}/loki/base/route.yaml"

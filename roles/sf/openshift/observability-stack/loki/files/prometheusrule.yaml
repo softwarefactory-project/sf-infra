@@ -1,0 +1,26 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    sf-monitoring: loki.rules
+  name: loki.rules
+spec:
+  groups:
+  - name: loki-alerts
+    rules:
+    - alert: LokiRequestsErrors
+      expr: sum(rate(loki_request_duration_seconds_count{status_code=~"5.."}[2m])) by (job, route) * 100 / sum(rate(loki_request_duration_seconds_count[2m])) by (job, route) > 10
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        summary: "{{ $labels.job }} {{ $labels.route }} is experiencing {{ printf $value }}% errors"
+        description: "API errors"
+    - alert: LokiRequestsPanics
+      expr: sum(increase(loki_panic_total[10m])) by (job) > 0
+      labels:
+        severity: critical
+      annotations:
+        summary: "{{ $labels.job }} is experiencing {{ printf $value }} panics"
+        description: "Loki panics"
