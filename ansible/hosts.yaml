@@ -30,7 +30,7 @@ all:
         bridge.softwarefactory-project.io: {}
     db_master:
       hosts:
-        dlrn-db.rdoproject.org: {}
+        dlrn-db-centos9.rdoproject.org: {}
     db_replica:
       hosts:
         backup.rdoproject.org: {}

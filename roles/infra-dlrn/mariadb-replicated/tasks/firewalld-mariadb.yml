@@ -1,0 +1,38 @@
+- become: true
+  block:
+    - name: Create mariadb firewalld zone
+      ansible.posix.firewalld:
+        zone: mariadb
+        permanent: true
+        state: present
+
+    - name: Add trunk servers to mariadb firewalld zone
+      ansible.posix.firewalld:
+        zone: mariadb
+        permanent: true
+        state: enabled
+        source: "{{ item }}"
+      with_items:
+        - "{{ ip_trunk_builder }}"
+        - "{{ ip_trunk_server }}"
+        - "{{ ip_db_master }}"
+
+    - name: Reload firewalld
+      ansible.builtin.command: "firewall-cmd --reload"
+      changed_when: false
+
+    - name: Allow mariadb port in mariadb zone
+      ansible.posix.firewalld:
+        zone: mariadb
+        port: "3306/tcp"
+        permanent: true
+        immediate: true
+        state: enabled
+
+    - name: Allow ssh port in mariadb zone
+      ansible.posix.firewalld:
+        zone: mariadb
+        service: ssh
+        permanent: true
+        immediate: true
+        state: enabled
