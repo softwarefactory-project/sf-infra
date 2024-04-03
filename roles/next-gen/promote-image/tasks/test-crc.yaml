@@ -137,7 +137,7 @@
     -e "ansible_python_interpreter=/usr/libexec/platform-python"
     -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
     -e "ansible_host_key_checking=False"
-    /root/rdo-config/playbooks/crc/ensure-marketplace.yaml
+    /root/rdo-config/playbooks/crc/inject-pull-secret.yaml
 
 - name: Run tests
   ansible.builtin.command: >
