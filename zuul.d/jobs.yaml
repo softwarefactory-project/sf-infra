@@ -187,6 +187,7 @@
       - "^playbooks/host_vars/lists.rdoproject.org/.*$"
       - "^playbooks/host_vars/rdo-web-builder.int.osci.io/.*$"
       - "^playbooks/host_vars/www.rdoproject.org/.*$"
+      - "^playbooks/group_vars/osci/.*$"
       - "^playbooks/group_vars/osci_internal_zone/.*$"
       - "^playbooks/group_vars/osci_zone/.*$"
       - "^roles/infra/.*$"

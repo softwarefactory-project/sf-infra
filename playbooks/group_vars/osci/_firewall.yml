@@ -1,5 +1,5 @@
 ---
-# hosts managed by OSCI use firewalld and firewalld is installed and enabled by default on RH systems
+# Hosts managed by OSCI use firewalld and firewalld is installed and enabled by default on RH systems
 # which causes all ports to be closed. Enable firewall management in all OSCI managed hosts.
 # this also protects from inside threats (nearby powned VMs) and protects services listening on more
 # than loclahost by default
