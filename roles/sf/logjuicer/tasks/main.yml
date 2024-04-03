@@ -1,0 +1,11 @@
+---
+- ansible.builtin.include_role:
+    name: service/container
+  vars:
+    pod_name: logjuicer
+    pod_param: >
+      --publish {{ host_port }}:{{ container_port }}
+      --volume /etc/pki:/etc/pki:ro
+      --volume logjuicer:/data
+      --env LOGJUICER_BASE_URL=/logjuicer/
+      ghcr.io/logjuicer/logjuicer

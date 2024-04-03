@@ -11,3 +11,4 @@ acme_domains:
 
 monitoring_host_url: https://prometheus.monitoring.softwarefactory-project.io
 weeder_host: image-builder.softwarefactory-project.io
+logjuicer_host: microshift.softwarefactory-project.io
