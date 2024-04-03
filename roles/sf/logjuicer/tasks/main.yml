@@ -5,7 +5,7 @@
     pod_name: logjuicer
     pod_param: >
       --publish {{ host_port }}:{{ container_port }}
-      --volume /etc/pki:/etc/pki:ro
+      --volume: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem:/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
       --volume logjuicer:/data
       --env LOGJUICER_BASE_URL=/logjuicer/
       ghcr.io/logjuicer/logjuicer
