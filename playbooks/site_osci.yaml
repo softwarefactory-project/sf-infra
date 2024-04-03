@@ -20,11 +20,11 @@
         apply:
           become: yes
 
-    - name: Disable firewalld
+    - name: Enable firewalld
       ansible.builtin.systemd_service:
         name: firewalld
-        state: stopped
-        enabled: false
+        state: started
+        enabled: true
       become: yes
 
 # After www.rdoproject.org
