@@ -19,7 +19,6 @@
 
 - job:
     name: sf-infra-ensure-fqcn
-    voting: false
     files:
       - ".*.yaml"
       - ".*.yml"
