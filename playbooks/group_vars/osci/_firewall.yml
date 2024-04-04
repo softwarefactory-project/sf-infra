@@ -5,3 +5,13 @@
 # than loclahost by default
 manage_firewall: True
 
+# Enable Prometheus exporters: node-exporter and apache-exporter
+firewall_rules:
+  - immediate: yes
+    permanent: yes
+    port: "9100/tcp"
+    state: enabled
+  - immediate: yes
+    permanent: yes
+    port: "9117/tcp"
+    state: enabled

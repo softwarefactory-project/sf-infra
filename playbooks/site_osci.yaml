@@ -12,6 +12,7 @@
     - service/hostname
     - service/apache-exporter
     - system/epel-release
+    - service/firewalld
   tasks:
     - name: "Deploy websites"
       ansible.builtin.include_role:
