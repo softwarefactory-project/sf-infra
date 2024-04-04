@@ -7,12 +7,14 @@
   roles:
     - service/firewalld
     - infra-dlrn/dlrn-server
+    - system/journald
 
 - hosts: trunk-centos8.rdoproject.org
   roles:
     - system/swap
     - service/apache-exporter
     - service/node-exporter
+    - system/journald
   tasks:
     - name: Executing check-dlrn role
       ansible.builtin.include_role:
@@ -27,6 +29,7 @@
     - service/firewalld
     - service/hostname
     - service/mysqld-exporter
+    - system/journald
   tasks:
     - ansible.builtin.include_role:
         name: infra-dlrn/mariadb-replicated

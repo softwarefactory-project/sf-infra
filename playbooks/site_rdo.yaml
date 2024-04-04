@@ -8,6 +8,7 @@
     - service/node-exporter
     - system/update-host
     - system/podman
+    - system/journald
 
 - hosts: backup-rdo
   roles:
