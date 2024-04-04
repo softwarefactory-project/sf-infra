@@ -1,7 +1,17 @@
 ---
 # TODO: ensure /etc/zuul is available
 
-- ansible.builtin.include_role:
+- name: Ensure zookeeper host is on /etc/hosts
+  ansible.builtin.lineinfile:
+    dest: "/etc/hosts"
+    regexp: "^{{ zookeeper_instance.ip }} {{ zookeeper_instance.host }}.*"
+    line: "{{ zookeeper_instance.ip }} {{ zookeeper_instance.host }}"
+    state: present
+  become: yes
+  register: hosts_updated
+
+- name: Create container
+  ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: zuul-weeder
@@ -11,3 +21,10 @@
       -v /etc/zuul:/etc/zuul:ro
       -e "WEEDER_ROOT_URL=/weeder/"
       quay.io/software-factory/zuul-weeder:latest
+
+- name: Restart service if /etc/hosts is updated
+  ansible.builtin.systemd:
+    state: restarted
+    name: zuul-weeder
+  become: yes
+  when: hosts_updated.changed

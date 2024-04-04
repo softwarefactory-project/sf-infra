@@ -1,3 +1,6 @@
 ---
 listen_port: 9001
 weeder_host: localhost
+zookeeper_instance:
+  host: localhost
+  ip: 127.0.0.1
