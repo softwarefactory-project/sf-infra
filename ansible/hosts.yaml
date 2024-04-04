@@ -25,6 +25,9 @@ all:
       hosts:
         baremetal03.rdoproject.org: {}
         baremetal04.rdoproject.org: {}
+    bridge:
+      hosts:
+        bridge.softwarefactory-project.io: {}
     db_master:
       hosts:
         dlrn-db.rdoproject.org: {}
