@@ -79,3 +79,12 @@
     content: |
       {"data":{".dockerconfigjson":"e30K"}}
     dest: "{{ guest_var_dir }}/kubelet/config.json"
+
+- name: Copy machineconfigpool dir
+  become: true
+  ansible.builtin.copy:
+    src: "{{ crc_bundle_dir }}/machineconfigpool"
+    dest: "{{ guest_home_dir }}/"
+    owner: 1000
+    group: 1000
+    remote_src: true

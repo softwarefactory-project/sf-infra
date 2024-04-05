@@ -2,7 +2,7 @@
 - name: Create directory for extracting bundle
   become: true
   ansible.builtin.file:
-    path: "{{ crc_bundle_dir }}"
+    path: "{{ crc_bundle_dir }}/machineconfigpool"
     state: directory
     owner: "{{ ansible_user | default(ansible_user_id) }}"
     group: "{{ ansible_user | default(ansible_user_id) }}"
@@ -10,8 +10,15 @@
 - name: Use bundle solution
   when: crc_use_crc_bundle | bool
   block:
+    - name: Get machineconfigpool
+      ansible.builtin.shell: |
+        for mc in $(oc get mc --no-headers  | awk '{print $1}'); do
+            oc get mc $mc -o yaml > {{ crc_bundle_dir }}/machineconfigpool/$mc.yaml
+        done
+
     - name: Generate bundle
-      ansible.builtin.command: crc bundle generate
+      ansible.builtin.shell: |
+        crc bundle generate --log-level debug | tee {{ ansible_user_dir }}/bundle-generate-log
 
     - name: Get bundle name
       ansible.builtin.shell: |
@@ -22,6 +29,8 @@
       ansible.builtin.command: >
         tar xafv {{ _crcbundle_name.stdout }} -C "{{ crc_bundle_dir }}" --strip-components 1
 
+# NOTE: The solution below is from time to time not working (kubelet service
+# does not want to start) on the our CI, where it pass normally during my tests.
 - name: Use direct commands
   when: not crc_use_crc_bundle | bool
   block:
