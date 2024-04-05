@@ -3,22 +3,20 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   labels:
-    app: observability
-    component: gateway
-    run: loki
-  name: loki-gateway
+    app: minio
+  name: minio-route
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
-  host: {{ loki_public_HTTP_endpoint }}
-  path: {{ loki_public_path }}
+  host: {{ minio_public_HTTP_endpoint }}
+  path: {{ minio_public_path }}
   port:
-    targetPort: http
+    targetPort: minio-api
   to:
     kind: Service
-    name: loki-gateway
+    name: minio
     weight: 100
   wildcardPolicy: None

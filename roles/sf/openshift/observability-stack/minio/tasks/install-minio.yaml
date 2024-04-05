@@ -29,6 +29,12 @@
         - minio-service.yaml
         - minio-scrapeconfig.yaml
         - minio-prometheusrule.yaml
+    - name: Copy routes
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/minio/base/{{ item }}"
+        soure: "{{ item }}.j2"
+      loop:
+        - route-api.yaml
 
 - name: Prepare kustomize overlay
   block:

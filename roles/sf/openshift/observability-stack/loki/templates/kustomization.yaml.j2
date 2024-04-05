@@ -4,6 +4,9 @@ kind: Kustomization
 resources:
 - ../base
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 secretGenerator:
 - name: loki-s3-secrets
   literals:

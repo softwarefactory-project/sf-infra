@@ -4,14 +4,16 @@ kind: Route
 metadata:
   name: prometheus
   namespace: sf-observability
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /
 spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
   host: prometheus.microshift.dev
   path: /
   port:
     targetPort: 9090
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
   to:
     kind: Service
     name: prometheus-operated
