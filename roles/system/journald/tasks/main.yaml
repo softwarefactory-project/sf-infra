@@ -1,0 +1,20 @@
+---
+- name: Change journald size
+  become: true
+  ansible.builtin.lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "{{ item.regex }}"
+    line: "{{ item.line }}"
+  loop:
+    - regex: "^#SystemMaxUse="
+      line: "SystemMaxUse={{ systemMaxUse }}"
+    - regex: "^#SystemMaxFileSize="
+      line: "SystemMaxFileSize={{ systemMaxFileSize }}"
+  register: _journal_conf
+
+- name: Restart systemd-journald if needed
+  become: true
+  when: _journal_conf.changed
+  ansible.builtin.systemd_service:
+    name: systemd-journald
+    state: restarted

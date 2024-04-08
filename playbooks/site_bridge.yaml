@@ -12,6 +12,7 @@
     - service/manage-accounts
     - service/node-exporter
     - system/update-host
+    - system/journald
 
   tasks:
     - name: "Install MTA"
