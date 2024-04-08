@@ -21,6 +21,26 @@ prometheus_scrapeconfig_namespaces:
 prometheus_monitor_namespaces:
   - sf
   - "{{ observability_stack_namespace }}"
+prometheus_federation:
+  - name: prometheus-oldgen-upstream-static-config
+    targets:
+    - prometheus.monitoring.softwarefactory-project.io
+    metrics_path: prometheus/federate
+    scheme: HTTPS
+    insecure: "false"
+  - name: prometheus-oldgen-downstream-static-config
+    targets:
+    - monitoring.sf.hosted.upshift.rdu2.redhat.com
+    metrics_path: prometheus/federate
+    scheme: HTTPS
+    # TODO either provide CA or move metrics collection to observability stack prometheus
+    insecure: "true"
+  - name: prometheus-microshift-sfio-static-config
+    targets:
+    - prometheus.microshift.softwarefactory-project.io
+    metrics_path: federate
+    scheme: HTTPS
+    insecure: "false"
 thanos:
   retention_raw: 15d
   retention_5m: 30d
