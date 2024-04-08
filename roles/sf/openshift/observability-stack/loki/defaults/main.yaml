@@ -23,4 +23,6 @@ loki_public_HTTP_endpoint: loki.microshift-infra.softwarefactory-project.io
 loki_public_path: "/"
 loki_expire_days: "28"
 
+loki_tenant: upstream
+
 kustomize_dir: "~/deployments/observability-stack"
