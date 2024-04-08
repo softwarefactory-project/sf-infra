@@ -1,0 +1,50 @@
+---
+- name: create base dir
+  ansible.builtin.file:
+    path: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}"
+    recurse: true
+    state: directory
+
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}/base"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}/base/{{ item.dest }}"
+        src: "dataSource/loki/{{ item.src }}.j2"
+      loop:
+        - src: loki.yaml
+          dest: datasource.yaml
+        - src: base-kustomization.yaml
+          dest: kustomization.yaml
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlay manifests
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}/overlay/{{ item.dest }}"
+        src: "dataSource/loki/{{ item.src }}.j2"
+      loop:
+        - src: overlay-kustomization.yaml
+          dest: kustomization.yaml
+
+- name: Generate manifests
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}"
+
+- name: Apply datasource manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ grafana_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/grafana/datasources/loki-{{ loki_ds_name }}"

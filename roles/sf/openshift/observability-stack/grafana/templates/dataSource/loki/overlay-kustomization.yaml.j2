@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+- name: loki-{{ loki_ds_name }}-secrets
+  literals:
+    - LOKI_PASSWORD={{ loki_password }}
+    - LOKI_TENANT={{ loki_tenant }}
+
+patches: []

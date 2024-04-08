@@ -1,0 +1,46 @@
+---
+- name: Prepare kustomize base
+  block:
+    - name: create base dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/grafana/base"
+        recurse: true
+        state: directory
+    - name: copy base manifests
+      ansible.builtin.template:
+        dest: "{{ kustomize_dir }}/grafana/base/{{ item.dest }}"
+        src: "grafanaInstance/{{ item.src }}.j2"
+      loop:
+        - src: base-kustomization.yaml
+          dest: kustomization.yaml
+        - src: grafana.yaml
+          dest: grafana.yaml
+        - src: route.yaml
+          dest: route.yaml
+
+- name: Prepare kustomize overlay
+  block:
+    - name: create overlay dir
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}/grafana/overlay"
+        recurse: true
+        state: directory
+    - name: copy overlays
+      ansible.builtin.template:
+        dest:  "{{ kustomize_dir }}/grafana/overlay/{{ item.dest }}"
+        src: "grafanaInstance/{{ item.src }}.j2"
+      loop:
+        - dest: kustomization.yaml
+          src: overlay-kustomization.yaml
+
+- name: Generate manifests
+  ansible.builtin.shell: |
+    kustomize build ./overlay > manifest.yaml
+  args:
+    chdir: "{{ kustomize_dir }}/grafana/"
+
+- name: Apply Grafana manifest
+  ansible.builtin.command: >
+    kubectl apply -f manifest.yaml --namespace {{ grafana_namespace }}
+  args:
+    chdir: "{{ kustomize_dir }}/grafana"

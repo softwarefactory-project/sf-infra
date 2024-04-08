@@ -1,0 +1,23 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: {{ prometheus_ds_name }}
+  labels:
+    app: observability
+    run: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      datasources: sf-observability
+  datasource:
+    name: {{ prometheus_ds_name }}
+    type: prometheus
+    access: proxy
+    url: {{ prometheus_HTTP_endpoint }}
+    isDefault: false
+    basicAuth: false
+    jsonData:
+      "tlsSkipVerify": {{ prometheus_insecure }}
+      prometheusType: {{ prometheus_type }}
+    secureJsonData: {}
