@@ -6,17 +6,17 @@ metadata:
     app: minio
     # TODO: this is specific to gpc. This should be set as extra vars
     shard: internal
-  name: minio-route-api
+  name: minio-route-console
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
-  host: {{ minio_public_HTTP_api_endpoint }}
-  path: {{ minio_public_api_path }}
+  host: {{ minio_public_HTTP_console_endpoint }}
+  path: {{ minio_public_console_path }}
   port:
-    targetPort: minio-api
+    targetPort: minio-console
   to:
     kind: Service
     name: minio

@@ -4,6 +4,8 @@ metadata:
   name: minio-static-config
   labels:
     sf-monitoring: minio
+    app: observability
+    run: minio
 spec:
   staticConfigs:
     - labels:
