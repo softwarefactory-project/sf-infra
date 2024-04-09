@@ -4,6 +4,9 @@ kind: Kustomization
 resources:
 - ../base
 
+generatorOptions:
+  disableNameSuffixHash: true
+
 secretGenerator:
 - name: minio-users
   literals:

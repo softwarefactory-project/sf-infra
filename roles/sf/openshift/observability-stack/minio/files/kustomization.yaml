@@ -9,6 +9,7 @@ resources:
 - minio-service.yaml
 - minio-scrapeconfig.yaml
 - minio-prometheusrule.yaml
+- route-api.yaml
 
 labels:
 - includeSelectors: true

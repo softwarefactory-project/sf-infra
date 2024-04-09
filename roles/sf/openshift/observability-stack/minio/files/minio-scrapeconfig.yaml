@@ -2,7 +2,6 @@ apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
   name: minio-static-config
-  namespace: sf-observability
   labels:
     sf-monitoring: minio
 spec:

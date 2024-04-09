@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: minio-post-setup
-  namespace: sf-observability
+
 data:
   post-setup.sh: |
     #!/bin/bash
@@ -30,7 +30,6 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  namespace: sf-observability
   name: minio-user-setup
 spec:
   # Let the job up for 2 hours after completion if debugging is needed

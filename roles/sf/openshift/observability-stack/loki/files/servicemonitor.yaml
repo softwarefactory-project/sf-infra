@@ -4,7 +4,6 @@ metadata:
   labels:
     sf-monitoring: loki
   name: loki-servicemonitor
-  namespace: sf-observability
 spec:
   selector:
     matchLabels:
