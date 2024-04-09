@@ -27,7 +27,7 @@ This project manages:
 * ibm-bm4-ze.softwarefactory-project.io 
 * ibm-bm4-zfgw.softwarefactory-project.io 
 * bridge.softwarefactory-project.io 
-* prometheus.monitoring.softwarefactory-project.io centos-7-1907 v1-standard-2
+* prometheus.monitoring.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * elk.softwarefactory-project.io centos-7-1907 v1-standard-4
 * managesf.softwarefactory-project.io centos-7-1907 v1-standard-4
 * nodepool-builder.softwarefactory-project.io centos-7-1907 v1-standard-2

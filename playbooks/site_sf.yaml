@@ -1,6 +1,14 @@
 ---
 - ansible.builtin.import_playbook: site_bridge.yaml
 
+- hosts: rhel
+  roles:
+    - system/rhel-subscription
+
+- hosts: epel
+  roles:
+    - system/epel-release
+
 - hosts: microshift-infra.softwarefactory-project.io
   roles:
     - system/volume
@@ -16,11 +24,6 @@
     - sf/openshift/install-cert-manager-openshift-routes
     - sf/openshift/install-prometheus
     - sf/openshift/install-logjuicer
-
-- hosts: k1s0*.softwarefactory-project.io
-  roles:
-    - system/rhel-subscription
-    - system/epel-release
 
 - hosts: k1s
   roles:
@@ -116,14 +119,18 @@
     - bridge/generate-etc-hosts
     - service/firewalld
     - service/hostname
+    # sf/monitoring-gateway is included to setup vhost on port 80 for service/setup-ssl
+    - sf/monitoring-gateway
     - service/setup-ssl
     - sf/alert-manager
     - sf/blackbox-exporter
     - sf/dnsmasq
     - sf/grafana
+    # sf/monitoring-gateway is included here to setup vhost on 80 + 443
     - sf/monitoring-gateway
     - sf/prometheus
-    - sf/pushprox
+    # pushprox is disabled for no package exist for epel-9
+    # - sf/pushprox
     - sf/statsd-exporter
     - sf/udp-multiplexer
     - service/apache-exporter

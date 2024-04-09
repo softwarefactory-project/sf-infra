@@ -36,6 +36,11 @@ all:
         dlrn-db.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
+    epel:
+      hosts:
+        k1s03.softwarefactory-project.io: {}
+        k1s04.softwarefactory-project.io: {}
+        k1s05.softwarefactory-project.io: {}
     ibm-baremetal-nodepool:
       hosts:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
@@ -106,6 +111,12 @@ all:
         mirror.regionone.vexxhost.rdoproject.org: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
+    rhel:
+      hosts:
+        k1s03.softwarefactory-project.io: {}
+        k1s04.softwarefactory-project.io: {}
+        k1s05.softwarefactory-project.io: {}
+        prometheus.monitoring.softwarefactory-project.io: {}
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -308,8 +319,8 @@ all:
       ansible_user: centos
     prometheus.monitoring.softwarefactory-project.io:
       ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     quay.rdoproject.org:
       ansible_host: '38.129.56.158'
       ansible_port: 22

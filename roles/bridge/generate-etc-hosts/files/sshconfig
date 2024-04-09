@@ -127,7 +127,7 @@ Host bridge.softwarefactory-project.io
     Port 22
 
 Host prometheus.monitoring.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host elk.softwarefactory-project.io

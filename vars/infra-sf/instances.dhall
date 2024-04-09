@@ -61,11 +61,11 @@ let tenant-instances =
 let instances =
       [ Instance::{ name = "bridge", connection = OS.Fedora.`39`.connection }
       , Instance::{
-        , groups = [ "monitoring" ]
+        , groups = [ "monitoring", "rhel" ]
         , name = "prometheus.monitoring"
-        , connection = OS.CentOS.`7.0`.connection
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
+          , image = OS.RHEL.`9.3`.image.name
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
@@ -142,7 +142,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s05"
-        , groups = [ "k1s", "k1s-rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -156,7 +156,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups = [ "k1s", "k1s-rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -170,7 +170,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s04"
-        , groups = [ "k1s", "k1s-rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
