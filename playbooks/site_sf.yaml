@@ -133,6 +133,7 @@
     # - sf/pushprox
     - sf/statsd-exporter
     - sf/udp-multiplexer
+    - service/node-exporter
     - service/apache-exporter
 
 - hosts: zs.softwarefactory-project.io
