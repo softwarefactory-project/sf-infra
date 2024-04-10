@@ -83,17 +83,6 @@
     regexp: "api.crc.testing:6443"
     replace: "{{ ansible_default_ipv4.address }}:6443"
 
-- name: Create inventory file
-  ansible.builtin.copy:
-    content: |
-      ---
-      all:
-        hosts:
-          crc:
-            ansible_port: 22
-            ansible_host: {{ ansible_default_ipv4.address }}
-    dest: inventory.yaml
-
 - name: Ensure there is no already running test container
   ansible.builtin.command: "{{ item }}"
   loop:
@@ -110,7 +99,6 @@
     -v "$(realpath {{ ansible_user_dir }}/install_yamls):/root/install_yamls:z"
     -v "$(realpath {{ ansible_user_dir }}/rdo-config):/root/rdo-config:z"
     -v "$(realpath {{ ansible_user_dir }}/.ssh/id_ed25519):/root/.ssh/id_ed25519:z"
-    -v "$(realpath {{ ansible_user_dir }}/inventory.yaml):/root/inventory.yaml:z"
     fedora:38
     sleep inf
 
@@ -127,17 +115,35 @@
   ansible.builtin.command: >
     podman exec -it test chmod +x /usr/bin/oc
 
+# NOTE: The machineconfigpool fix require to use another playbook proposed in
+# https://review.rdoproject.org/r/c/config/+/52775
+# That feature would be checked later.
 - name: Run ansible playbook that will login and check is services are up
   ansible.builtin.command: >
     podman exec -it test
     ansible-playbook
-    -i inventory.yaml
+    -i {{ ansible_default_ipv4.address }},
+    -e "ansible_user=core"
     -e "{'crc': 'localhost'}"
-    -e "{'crc_secret': {'openshift_pull_secret': 'fake_pull_secret'}}"
     -e "ansible_python_interpreter=/usr/libexec/platform-python"
-    -e "{'crc_secret':{'openshift_pull_secret':'fakepullsecret'}}"
     -e "ansible_host_key_checking=False"
     /root/rdo-config/playbooks/crc/inject-pull-secret.yaml
+
+- name: Remove pods in openshift-marketplace that are not Running or Completed
+  ansible.builtin.shell: |
+    for retry in {1..10}; do
+        broken_pods=$(oc get pods -n openshift-marketplace --no-headers | grep -viE 'running|completed|init' | awk '{print $1}')
+        if [ -n "$broken_pods" ]; then
+            echo "Retry... $retry"
+            for i in $broken_pods; do
+                oc -n openshift-marketplace delete pod "$i";
+            done
+            sleep 10
+        else
+            echo "All marketplace pods are fine"
+            break
+        fi
+    done
 
 - name: Run tests
   ansible.builtin.command: >
