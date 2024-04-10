@@ -21,3 +21,5 @@ kustomize_dir: "~/deployments/observability-stack"
 minio_public_HTTP_api_endpoint: minio.microshift.dev
 # minio doesn't seem to play well with subpaths, this should be left as "/"
 minio_public_api_path: /
+minio_public_HTTP_console_endpoint: minio.microshift.dev
+minio_public_console_path: /console

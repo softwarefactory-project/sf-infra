@@ -3,7 +3,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: minio-post-setup
-
+  labels:
+    app: observability
+    run: minio
 data:
   post-setup.sh: |
     #!/bin/bash
@@ -31,10 +33,17 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: minio-user-setup
+  labels:
+    app: observability
+    run: minio-post-config-job
 spec:
   # Let the job up for 2 hours after completion if debugging is needed
   ttlSecondsAfterFinished: 7200
   template:
+    metadata:
+      labels:
+        app: observability
+        run: minio-post-config-job
     spec:
       containers:
         - name: mc

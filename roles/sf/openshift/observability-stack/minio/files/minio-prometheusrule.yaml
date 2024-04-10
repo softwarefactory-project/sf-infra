@@ -4,6 +4,8 @@ kind: PrometheusRule
 metadata:
   labels:
     sf-monitoring: minio.rules
+    app: observability
+    run: minio
   name: minio.rules
 spec:
   groups:

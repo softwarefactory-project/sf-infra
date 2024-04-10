@@ -4,7 +4,8 @@ kind: Deployment
 metadata:
   name: minio
   labels:
-    app: minio
+    app: observability
+    run: minio
 spec:
   selector:
     matchLabels:
