@@ -1,0 +1,76 @@
+- hosts: bridge
+  gather_facts: no
+  tasks:
+    - name: "Get sha256 of /etc/zuul/zuul.conf on {{ scheduler }}"
+      stat:
+        path: /etc/zuul/zuul.conf
+        checksum_algorithm: sha256
+        get_checksum: yes
+      become: yes
+      register: _scheduler_checksum
+      delegate_to: "{{ scheduler }}"
+
+    - name: "Get sha256 of /etc/zuul/zuul.conf on {{ zuul_weeder }}"
+      stat:
+        path: /etc/zuul/zuul.conf
+        checksum_algorithm: sha256
+        get_checksum: yes
+      become: yes
+      register: _zuul_weeder_checksum
+      delegate_to: "{{ zuul_weeder }}"
+
+    - name: "Sync data between {{ scheduler }} and {{ zuul_weeder }}"
+      when: _scheduler_checksum.stat.checksum != _zuul_weeder_checksum.stat.checksum
+      block:
+        - name: "Ensure data on {{ scheduler }} are accessible"
+          block:
+            - name: Copy zuul config for sync
+              ansible.builtin.command: rsync -a /etc/zuul/ /tmp/zuul/
+
+            - name: Ensure directory is owned by centos for rsync
+              file:
+                path: /tmp/zuul
+                owner: centos
+                group: centos
+                recurse: yes
+          become: yes
+          delegate_to: "{{ scheduler }}"
+
+        - name: "Get zuul config from {{ scheduler }}"
+          ansible.builtin.command: "rsync -a {{ scheduler }}:/tmp/zuul/ /tmp/zuul/"
+
+        - name: "Sync zuul config to {{ zuul_weeder }}"
+          ansible.builtin.command: "rsync -av /tmp/zuul/ {{ zuul_weeder }}:/tmp/zuul/"
+
+        - name: "Ensure data on {{ zuul_weeder }} are accessible"
+          block:
+            - name: Copy zuul config for zuul-weeder
+              ansible.builtin.command: rsync -a /tmp/zuul/ /etc/zuul/
+
+            - name: Ensure directory is owned by root
+              ansible.builtin.file:
+                path: /etc/zuul
+                owner: root
+                group: root
+                recurse: yes
+
+            - name: Restart zuul-weeder
+              ansible.builtin.systemd:
+                name: zuul-weeder
+                state: restarted
+          become: yes
+          delegate_to: "{{ zuul_weeder }}"
+
+        - name: "Delete data on {{ scheduler }}"
+          ansible.builtin.file:
+            path: /tmp/zuul
+            state: absent
+          become: yes
+          delegate_to: "{{ scheduler }}"
+
+        - name: "Delete data on {{ zuul_weeder }}"
+          ansible.builtin.file:
+            path: /tmp/zuul
+            state: absent
+          become: yes
+          delegate_to: "{{ zuul_weeder }}"

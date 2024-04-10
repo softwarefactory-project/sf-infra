@@ -59,6 +59,20 @@
     - sf/zuul-weeder
     - sf/cloud-image-builder
 
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+    - name: Synchronize zuul config for zuul-weeder service
+      ansible.builtin.command: >
+        ansible-playbook --extra-vars 'scheduler={{ scheduler }} zuul_weeder={{ zuul_weeder }}'
+        tasks/zuul-weeder-sync-zuul-config.yaml
+      register: _debug_zuul_weeder
+      vars:
+        scheduler: zs.softwarefactory-project.io
+        zuul_weeder: image-builder.softwarefactory-project.io
+
+    - ansible.builtin.debug:
+        var: _debug_zuul_weeder.stdout_lines
+
 - hosts: ze
   tasks:
     - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
