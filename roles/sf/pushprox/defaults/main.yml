@@ -1,4 +1,0 @@
----
-pushprox_type: proxy
-pushprox_proxy_url: http://www.example.com:8080
-pushprox_proxy_listen: ":8080"

@@ -37,10 +37,6 @@ firewall_rules:
     state: enabled
   - immediate: yes
     permanent: yes
-    rich_rule: rule family=ipv4 source address=8.43.84.248/32 port port=8080 protocol=tcp accept
-    state: enabled
-  - immediate: yes
-    permanent: yes
     rich_rule: rule family=ipv4 source address=38.102.83.0/24 port port=7000 protocol=udp accept
     state: enabled
   - immediate: yes
@@ -74,8 +70,6 @@ podman_gw_ip: '10.88.0.1'
 podman_network: "10.88.0.0/16"
 prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
 prometheus_public_url: "https://{{ fqdn }}/prometheus"
-pushprox_proxy_listen: ":8080"
-pushprox_type: proxy
 ssl_cert_options:
   cert1:
     domain: "{{ fqdn }}"

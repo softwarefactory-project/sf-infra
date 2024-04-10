@@ -323,7 +323,6 @@
       - ^roles/rdo/backup-monitoring/.*$
       - ^roles/service/firewalld/.*$
       - ^roles/service/opensearch-monitoring/.*$
-      - ^roles/sf/pushprox/.*$
       - ^roles/system/swap/.*$
       - ^tests/.*molecule.yml$
       - ^tox.ini$

@@ -129,8 +129,6 @@
     # sf/monitoring-gateway is included here to setup vhost on 80 + 443
     - sf/monitoring-gateway
     - sf/prometheus
-    # pushprox is disabled for no package exist for epel-9
-    # - sf/pushprox
     - sf/statsd-exporter
     - sf/udp-multiplexer
     - service/node-exporter
