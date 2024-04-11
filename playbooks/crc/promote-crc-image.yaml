@@ -16,6 +16,12 @@
 #       -e "final_image_prefix=centos-9-crc-latest" \
 #       playbooks/crc/promote-crc-image.yaml
 #
+# The ~/.ansible_crc_vars.yaml contains a pull-secret.txt generated
+# on https://cloud.redhat.com/openshift/create/local.
+# The variable looks like:
+#
+#   openshift_pull_secret: |
+#     {"auths":{"cloud.openshift.com": { (...)
 
 - name: Recognize newest image and spawn CRC VM
   hosts: localhost
@@ -53,6 +59,18 @@
   vars:
     ansible_python_interpreter: /usr/libexec/platform-python
   tasks:
+    - name: Read file with openshift_pull_secret
+      ansible.builtin.include_vars:
+        file: ~/.ansible_crc_vars.yaml
+      delegate_to: localhost
+
+    - name: Set pull-secret.txt in kubelect config.json
+      become: true
+      ansible.builtin.copy:
+        content: |
+          {{ openshift_pull_secret }}
+        dest: /var/lib/kubelet/config.json
+
     - name: Install basic packages and run tests
       ansible.builtin.include_role:
         name: next-gen/promote-image
