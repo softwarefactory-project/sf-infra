@@ -64,8 +64,15 @@
         file: ~/.ansible_crc_vars.yaml
       delegate_to: localhost
 
+    - name: Check if version is extracted
+      become: true
+      ansible.builtin.stat:
+        path: /var/lib/kubelet/config.json
+      register: _kubelet_config
+
     - name: Set pull-secret.txt in kubelect config.json
       become: true
+      when: _kubelet_config.stat.exists
       ansible.builtin.copy:
         content: |
           {{ openshift_pull_secret }}
