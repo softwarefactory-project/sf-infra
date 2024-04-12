@@ -132,7 +132,7 @@
 - name: Remove pods in openshift-marketplace that are not Running or Completed
   ansible.builtin.shell: |
     for retry in {1..10}; do
-        broken_pods=$(oc get pods -n openshift-marketplace --no-headers | grep -viE 'running|completed|init' | awk '{print $1}')
+        broken_pods=$(oc get pods -n openshift-marketplace --no-headers | grep -viE 'running|completed|init|pending' | awk '{print $1}')
         if [ -n "$broken_pods" ]; then
             echo "Retry... $retry"
             for i in $broken_pods; do
