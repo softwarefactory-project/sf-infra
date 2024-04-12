@@ -10,9 +10,3 @@ resources:
 # - minio-prometheusrule.yaml
 - route-api.yaml
 - route-console.yaml
-
-labels:
-- includeSelectors: true
-  pairs:
-    app: observability
-    run: minio

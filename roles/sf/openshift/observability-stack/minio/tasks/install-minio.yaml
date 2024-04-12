@@ -1,14 +1,4 @@
 ---
-# - name: Ensure namespace exists
-#   kubernetes.core.k8s:
-#     state: present
-#     definition:
-#       kind: namespace
-#       metadata:
-#         name: "{{ minio_namespace }}"
-#       labels:
-#         name: "{{ minio_namespace }}"
-
 - name: Prepare kustomize base
   block:
     - name: create base dir
