@@ -67,10 +67,7 @@ loki:
   revisionHistoryLimit: 10
   # -- The SecurityContext for Loki pods
   podSecurityContext:
-    fsGroup: 10001
-    runAsGroup: 10001
     runAsNonRoot: true
-    runAsUser: 10001
   # -- The SecurityContext for Loki containers
   containerSecurityContext:
     readOnlyRootFilesystem: true
@@ -417,7 +414,7 @@ monitoring:
     # -- If enabled, create PrometheusRule resource with Loki recording rules
     enabled: false
     # -- Include alerting rules
-    alerting: true
+    alerting: false
     # -- Specify which individual alerts should be disabled
     # -- Instead of turning off each alert one by one, set the .monitoring.rules.alerting value to false instead.
     # -- If you disable all the alerts and keep .monitoring.rules.alerting set to true, the chart will fail to render.
@@ -903,10 +900,7 @@ gateway:
   extraVolumeMounts: []
   # -- The SecurityContext for gateway containers
   podSecurityContext:
-    fsGroup: 101
-    runAsGroup: 101
     runAsNonRoot: true
-    runAsUser: 101
   # -- The SecurityContext for gateway containers
   containerSecurityContext:
     seccompProfile:

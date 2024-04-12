@@ -1,14 +1,4 @@
 ---
-- name: Ensure namespace exists
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      kind: namespace
-      metadata:
-        name: "{{ loki_namespace }}"
-      labels:
-        name: "{{ loki_namespace }}"
-
 - name: Install grafana repo
   ansible.builtin.shell: |
     helm repo add grafana https://grafana.github.io/helm-charts
