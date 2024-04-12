@@ -14,7 +14,8 @@ spec:
   template:
     metadata:
       labels:
-        app: minio
+        app: observability
+        run: minio
     spec:
       containers:
       - name: minio
