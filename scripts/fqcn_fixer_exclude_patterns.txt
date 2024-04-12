@@ -1,0 +1,10 @@
+# Skip upstream files from the RDO role
+roles/rdo/opendev-system-config-
+# We don't use this role: touching it could break some complicated processes.
+# It's safer not to touch it.
+roles/sf/openshift/install-cert-manager-openshift-routes/
+# k8s manifests
+roles/sf/openshift/observability-stack/minio/files/minio-post-config.yaml
+roles/sf/openshift/observability-stack/minio/files/minio-deployment.yaml
+# False positive: not an ansible file
+roles/rdo/quay/defaults/main.yml

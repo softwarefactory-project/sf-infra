@@ -1,7 +1,7 @@
 ---
 - name: Install required packages if needed
   become: true
-  yum:
+  ansible.builtin.yum:
     name:
       - zip
       - unzip
