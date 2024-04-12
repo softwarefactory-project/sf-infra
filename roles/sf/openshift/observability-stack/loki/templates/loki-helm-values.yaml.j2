@@ -302,7 +302,8 @@ loki:
       signatureVersion: null
       s3ForcePathStyle: ${S3_FORCEPATHSTYLE}
       insecure: ${S3_INSECURE}
-      http_config: {}
+      http_config:
+        insecure_skip_verify: ${S3_INSECURE}
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       backoff_config: {}
 
