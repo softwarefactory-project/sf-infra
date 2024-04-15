@@ -9,7 +9,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: minio
+      app: observability
+      run: minio
   replicas: 1
   template:
     metadata:
