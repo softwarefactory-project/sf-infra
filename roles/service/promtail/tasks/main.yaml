@@ -53,7 +53,8 @@
 
 - name: ensure promtail service is started
   ansible.builtin.systemd_service:
-    state: reloaded
+    state: restarted
     name: promtail
     enabled: true
+    daemon_reload: true
   become: true
