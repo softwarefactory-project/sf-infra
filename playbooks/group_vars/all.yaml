@@ -256,3 +256,4 @@ rhel_pool_ids: !vault |
 zookeeper_instance:
   host: zk01.softwarefactory-project.io
   ip: 192.168.242.215
+  public_ip: 38.102.83.232

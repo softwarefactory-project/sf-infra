@@ -196,3 +196,23 @@
 - hosts: ibm-instance
   roles:
     - sf/hostname
+  tasks:
+    - name: Ensure zookeeper host is on /etc/hosts
+      ansible.builtin.lineinfile:
+        dest: "/etc/hosts"
+        regexp: "^{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}.*"
+        line: "{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}"
+        state: present
+      become: yes
+      register: hosts_updated
+
+    # - name: Get running services which need zk
+    #   shell: systemctl | grep -E 'zuul|nodepool'
+    #   register: _service
+
+    # - name: Restart services if /etc/hosts is updated
+    #   ansible.builtin.systemd:
+    #     state: restarted
+    #     name: "{{ _service.stdout }}"
+    #   become: yes
+    #   when: hosts_updated.changed

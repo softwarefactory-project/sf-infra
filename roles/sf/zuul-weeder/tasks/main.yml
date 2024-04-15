@@ -1,6 +1,4 @@
 ---
-# TODO: ensure /etc/zuul is available
-
 - name: Ensure zookeeper host is on /etc/hosts
   ansible.builtin.lineinfile:
     dest: "/etc/hosts"
