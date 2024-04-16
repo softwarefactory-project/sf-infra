@@ -3,9 +3,13 @@
     name: service/container
   vars:
     pod_name: logjuicer
+    # TODO: when container-selinux >= 219, remove the --security-opt disabling argument
+    # and enable sebool container_read_certs
+    # see: https://github.com/containers/container-selinux/pull/255
     pod_param: >
       --publish {{ host_port }}:{{ container_port }}
       --volume /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem:/etc/pki/tls/certs/ca-bundle.crt:ro
       --volume logjuicer:/data
+      --security-opt label=disable
       --env LOGJUICER_BASE_URL=/logjuicer/
       ghcr.io/logjuicer/logjuicer
