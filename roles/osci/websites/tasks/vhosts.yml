@@ -28,6 +28,14 @@
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/bobcat/1.el9s/noarch/rdo-release-bobcat-1.el9s.noarch.rpm
       - src: /repos/rdo-release.el9s.rpm
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/bobcat/1.el9s/noarch/rdo-release-bobcat-1.el9s.noarch.rpm
+      - src: /repos/openstack-caracal/rdo-release-caracal.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
+      - src: /repos/openstack-2024.1/rdo-release-2024.1.el9.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
+      - src: /repos/openstack-caracal/rdo-release-caracal.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
+      - src: /repos/openstack-2024.1/rdo-release-2024.1.el9s.rpm
+        target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
       - src: /repos/openstack-bobcat/rdo-release-bobcat.el9.rpm
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/bobcat/1.el9s/noarch/rdo-release-bobcat-1.el9s.noarch.rpm
       - src: /repos/openstack-2023.2/rdo-release-2023.2.el9.rpm
@@ -58,14 +66,8 @@
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/xena/2.el8/noarch/rdo-release-xena-2.el8.noarch.rpm
       - src: /repos/openstack-wallaby/rdo-release-wallaby.el8.rpm
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/wallaby/2.el8/noarch/rdo-release-wallaby-2.el8.noarch.rpm
-      - src: /repos/openstack-victoria/rdo-release-victoria.el8.rpm
-        target: https://cbs.centos.org/kojifiles/packages/rdo-release/victoria/4.el8/noarch/rdo-release-victoria-4.el8.noarch.rpm
-      - src: /repos/openstack-ussuri/rdo-release-ussuri.el8.rpm
-        target: https://cbs.centos.org/kojifiles/packages/rdo-release/ussuri/4.el8/noarch/rdo-release-ussuri-4.el8.noarch.rpm
       - src: /repos/openstack-train/rdo-release-train.rpm
         target: https://cbs.centos.org/kojifiles/packages/rdo-release/train/1/noarch/rdo-release-train-1.noarch.rpm
-      - src: /repos/openstack-train/rdo-release-train.el8.rpm
-        target: https://cbs.centos.org/kojifiles/packages/rdo-release/train/4.el8/noarch/rdo-release-train-4.el8.noarch.rpm
     use_mod_speling: True
     # TODO: investigate why unsafe-eval is needed
     content_security_policy: "default-src 'none'; connect-src 'self'; font-src 'self' https://themes.googleusercontent.com; frame-src https://platform.twitter.com https://syndication.twitter.com; img-src 'self' data: https://pbs.twimg.com https://platform.twitter.com https://s1795.t.eloqua.com https://smtrcs.redhat.com https://syndication.twitter.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.syndication.twimg.com https://img.en25.com https://platform.twitter.com https://secure.eloqua.com https://secure.p01.eloqua.com https://static.redhat.com https://www.redhat.com; style-src 'self' 'unsafe-inline' https://platform.twitter.com"
