@@ -38,3 +38,9 @@ spec:
       mode: "console"
     auth:
       disable_login_form: "false"
+    server:
+      root_url: https://{{ grafana_public_HTTP_endpoint }}{{ grafana_public_path }}
+      domain: {{ grafana_public_HTTP_endpoint }}
+{% if grafana_public_path is defined and grafana_public_path != "/" %}
+      serve_from_sub_path: "true"
+{% endif %}

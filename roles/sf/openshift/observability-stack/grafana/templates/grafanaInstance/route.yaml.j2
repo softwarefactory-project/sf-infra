@@ -3,10 +3,9 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: grafana
-  namespace: sf-observability
 spec:
   host: {{ grafana_public_HTTP_endpoint }}
-  path: {{ grafana_public_route }}
+  path: {{ grafana_public_path }}
   port:
     targetPort: grafana
   tls:
