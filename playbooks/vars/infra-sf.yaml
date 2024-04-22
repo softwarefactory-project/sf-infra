@@ -192,11 +192,6 @@ security_groups:
     rules:
       - port: 25
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-  - name: pushprox-proxy
-    rules:
-      - port: 8080
-        protocol: tcp
-        remote_ip_prefix: "8.43.84.248/32"
   - name: elk
     rules:
       - port: 4731
@@ -240,7 +235,6 @@ servers:
       - monitoring
       - internal
       - web
-      - pushprox-proxy
       - prometheus
       - apache_exporter
     state: present

@@ -12,7 +12,6 @@ prometheus_monitored_services:
   # monitoring
   - blackbox-exporter
   - prometheus
-  - pushprox-proxy
   - statsd_exporter
   - udp-multiplexer
   # sf.io

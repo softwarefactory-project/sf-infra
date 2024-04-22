@@ -36,7 +36,6 @@ let security_groups =
               }
             ]
           }
-        , { name = "pushprox-proxy", rules = ./rules/push-prox.dhall }
         , { name = "elk"
           , rules =
             [ Infra.Rule::{ port = +4731 }

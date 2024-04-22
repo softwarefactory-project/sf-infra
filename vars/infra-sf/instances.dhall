@@ -73,8 +73,7 @@ let instances =
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
-          , security_groups =
-            [ "web", "pushprox-proxy", "prometheus", "apache_exporter" ]
+          , security_groups = [ "web", "prometheus", "apache_exporter" ]
           }
         }
       , Instance::{

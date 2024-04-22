@@ -5,7 +5,6 @@ let Common = ../../vars/common.dhall
 let security_group_rules =
         Common.web-rules
       # ../../vars/infra-sf/rules/prometheus.dhall
-      # ../../vars/infra-sf/rules/push-prox.dhall
       # ../../vars/infra-sf/rules/prometheus-statsd.dhall
 
 let container_images =
@@ -56,10 +55,9 @@ in  { certbot_plugin = "--apache"
     , prometheus_configuration_dir =
         "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
     , prometheus_public_url = "https://{{ fqdn }}/prometheus"
-    , pushprox_proxy_listen = ":8080"
-    , pushprox_type = "proxy"
     , manage_ssh_config = False
-    , ssl_cert_options.cert1 =
+    , ssl_cert_options.cert1
+      =
       { domain = "{{ fqdn }}"
       , email = "softwarefactory-operations-team@redhat.com"
       , webroot = "/var/www/html"
