@@ -3,7 +3,7 @@ FROM golang:1.17
 
 WORKDIR /app
 
-COPY jsonnetfile.json .
+COPY jsonnet/jsonnetfile.json .
 COPY generate_json.sh .
 
 RUN go install github.com/google/go-jsonnet/cmd/jsonnet@latest
