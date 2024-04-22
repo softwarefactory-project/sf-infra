@@ -17,10 +17,11 @@
         get_checksum: yes
       become: yes
       register: _zuul_weeder_checksum
+      ignore_errors: yes
       delegate_to: "{{ zuul_weeder }}"
 
     - name: "Sync data between {{ scheduler }} and {{ zuul_weeder }}"
-      when: _scheduler_checksum.stat.checksum != _zuul_weeder_checksum.stat.checksum
+      when: (not _zuul_weeder_checksum.stat.exists) or (_scheduler_checksum.stat.checksum != _zuul_weeder_checksum.stat.checksum)
       block:
         - name: "Ensure data on {{ scheduler }} are accessible"
           block:
