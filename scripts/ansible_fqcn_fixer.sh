@@ -257,14 +257,45 @@ function build_patterns()
 }
 
 
-function main()
-{
+function main() {
     build_patterns
 
-    # Find YAML files in 'playbooks' and 'roles' directories and
-    # iterate over each file to apply the sed patterns and replacements
-    find playbooks roles \( -name "*.yml" -o -name "*.yaml" \) -print0 |
+    # Define the path to the directory containing the script
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+    # Define the path to the file containing exclusion patterns
+    local exclude_patterns_file="$script_dir/fqcn_fixer_exclude_patterns.txt"
+
+    # Check if the exclude patterns file exists
+    if [ -f "${exclude_patterns_file}" ]; then
+        # Read exclusion patterns from the file into an array
+        mapfile -t exclude_patterns < "${exclude_patterns_file}"
+    else
+        echo "Exclude patterns file not found: ${exclude_patterns_file}"
+        return 1
+    fi
+    # Find YAML files only within paths matching roles/.+/tasks/
+    find roles -regex ".+/tasks/.+\.\(yaml\|yml\)" -print0 |
         while IFS= read -r -d '' file; do
-            sed -E -i "${patterns_replacements[@]}" "${file}"
+            if ! should_exclude "${file}" "${exclude_patterns[@]}"; then
+                sed -E -i "${patterns_replacements[@]}" "${file}"
+            else
+                echo "Skipping ${file}..."
+            fi
         done
+}
+
+
+# Function to check if a file should be excluded based on patterns
+function should_exclude() {
+    local file="$1"
+    shift
+    local patterns=("$@")
+    for pattern in "${patterns[@]}"; do
+        if [[ "${file}" == *"${pattern}"* ]]; then
+            return 0 # File matches exclude pattern
+        fi
+    done
+    return 1 # File does not match any exclude pattern
 }

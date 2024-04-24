@@ -7,7 +7,7 @@
       - zip
 
 - name: Check for logcli
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/logcli
   register: logcli_stat
 

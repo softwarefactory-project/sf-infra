@@ -17,7 +17,7 @@
   become: true
 
 - name: Check for kustomize
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/kustomize
   register: kustomize_stat
 
