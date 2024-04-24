@@ -2,7 +2,7 @@
 - name: Enable newer nodejs module
   become: true
   ansible.builtin.shell: |
-    dnf module enable -y nodejs:16
+    dnf module enable -y nodejs:20
 
 - name: Ensure requirements are installed
   become: true

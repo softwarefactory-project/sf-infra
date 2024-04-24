@@ -7,9 +7,9 @@
 #              the sf-infra-configure-hosts role
 - hosts: container
   tasks:
-    - name: Deploy centos-release-openstack-victoria
+    - name: Instal epel-release for future installing openstacksdk package
       ansible.builtin.package:
-        name: centos-release-openstack-victoria
+        name: epel-release
         state: present
 
     - name: Deploy python3-openstacksdk

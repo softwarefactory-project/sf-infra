@@ -45,7 +45,7 @@
       # This special job needs to run from a container
       nodes:
         - name: container
-          label: pod-centos-8-stream
+          label: pod-centos-9-stream
 
 - job:
     name: sf-infra-configure-tenants
@@ -340,7 +340,7 @@
     nodeset:
       nodes:
         - name: primary
-          label: cloud-centos-8-stream
+          label: cloud-centos-9-stream
     files:
       - "^roles/sf/grafana/.*$"
       - "^roles/tests/grafana/.*$"
@@ -362,7 +362,7 @@
     nodeset:
       nodes:
         - name: quay.dev
-          label: cloud-centos-8-stream
+          label: cloud-centos-9-stream
 
 - project:
     check:
