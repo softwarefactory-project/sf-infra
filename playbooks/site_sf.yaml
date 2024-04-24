@@ -204,13 +204,14 @@
       become: yes
       register: hosts_updated
 
-    # - name: Get running services which need zk
-    #   shell: systemctl | grep -E 'zuul|nodepool'
-    #   register: _service
+    - name: Get running services which need zk
+      shell: systemctl | grep -E 'zuul|nodepool'
+      become: yes
+      register: _service
 
-    # - name: Restart services if /etc/hosts is updated
-    #   ansible.builtin.systemd:
-    #     state: restarted
-    #     name: "{{ _service.stdout }}"
-    #   become: yes
-    #   when: hosts_updated.changed
+    - name: Restart services if /etc/hosts is updated
+      ansible.builtin.systemd:
+        state: restarted
+        name: "{{ _service.stdout }}"
+      become: yes
+      when: hosts_updated.changed
