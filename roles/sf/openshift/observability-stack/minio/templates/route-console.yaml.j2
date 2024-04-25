@@ -4,8 +4,9 @@ kind: Route
 metadata:
   labels:
     app: minio
-    # TODO: this is specific to gpc. This should be set as extra vars
-    shard: internal
+{% for key, value in minio_extra_route_labels.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}
   name: minio-route-console
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
