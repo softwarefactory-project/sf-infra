@@ -27,8 +27,6 @@ partitions:
 container_images:
   opensearch: quay.io/software-factory/opensearch:2.11.1
   opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.11.1
-  # v1.6.0
-  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:e56e84e870fdd751a5d560405e56552f0dbbe58ee695d3ae219af1e564b8febf
 
 setup_ssl: true
 ssl_cert_options:
