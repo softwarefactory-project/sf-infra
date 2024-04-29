@@ -55,7 +55,7 @@ Host dlrn-db.rdoproject.org
     Port 22
 
 Host opensearch.rdoproject.org
-    User centos
+    User cloud-user
     Port 22
     Hostname 38.102.83.14
 Host backup.rdoproject.org

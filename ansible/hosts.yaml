@@ -119,6 +119,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
     sf:
       hosts:
@@ -318,8 +319,8 @@ all:
     opensearch.rdoproject.org:
       ansible_host: '38.102.83.14'
       ansible_port: 22
-      ansible_python_interpreter: /usr/libexec/platform-python
-      ansible_user: centos
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     prometheus.monitoring.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto

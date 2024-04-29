@@ -11,7 +11,7 @@ This project manages:
 * logserver.rdoproject.org centos-7-1907 v1-standard-2
 * www.rdoproject.org centos-8.1-1911 v1-standard-1
 * dlrn-db.rdoproject.org centos-8.1-1911 v1-standard-2
-* opensearch.rdoproject.org centos-8-stream 4vcpus_8gb
+* opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * backup.rdoproject.org 
 * trunk.rdoproject.org 
 * rdo-web-builder.int.osci.io 
