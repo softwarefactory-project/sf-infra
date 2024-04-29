@@ -1,6 +1,10 @@
 ---
 - ansible.builtin.import_playbook: site_bridge.yaml
 
+- hosts: rhel
+  roles:
+    - system/rhel-subscription
+
 - hosts: rdo
   roles:
     - system/tune-dnf

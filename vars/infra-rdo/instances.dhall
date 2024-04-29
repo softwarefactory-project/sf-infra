@@ -175,12 +175,11 @@ let instances =
         }
       , Instance::{
         , name = "opensearch"
-        , groups = [ "opensearch", "rdo" ]
+        , groups = [ "opensearch", "rdo", "rhel" ]
         , connection =
-                OS.CentOS.`8-stream`.connection
-            //  { ansible_host = Some "38.102.83.14" }
+            OS.RHEL.`9.3`.connection // { ansible_host = Some "38.102.83.14" }
         , server = Some Infra.Server::{
-          , image = OS.CentOS.`8-stream`.image.name
+          , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`4vcpus_8gb`
           , floating_ip = Some True
           , security_groups =

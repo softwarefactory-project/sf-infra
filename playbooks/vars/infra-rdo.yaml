@@ -115,6 +115,10 @@ security_groups:
         remote_ip_prefix: "38.102.83.136/32"
       - port: 9200
         remote_ip_prefix: "38.102.83.124/32"
+      - port: 9200
+        remote_ip_prefix: "38.102.83.14/32"
+      - port: 5601
+        remote_ip_prefix: "38.102.83.14/32"
       - port: 9114
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9200
@@ -294,7 +298,7 @@ servers:
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true
-    image: centos-8-stream
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: opensearch.rdoproject.org
     network: private-network
