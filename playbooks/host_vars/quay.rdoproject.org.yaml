@@ -316,3 +316,5 @@ quay_pruner_extended_keeplist:
   - component-ci-testing
   - previous-current-tripleo
   - current-ceph
+  - current-podified
+  - podified-ci-testing
