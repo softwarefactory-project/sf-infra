@@ -39,6 +39,11 @@ all:
         dlrn-db.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
         trunk.rdoproject.org: {}
+    dlrn-centos9:
+      hosts:
+        dlrn-db-centos9.rdoproject.org: {}
+        trunk-builder-centos9.rdoproject.org: {}
+        trunk-server-centos9.rdoproject.org: {}
     epel:
       hosts:
         k1s03.softwarefactory-project.io: {}
@@ -116,11 +121,14 @@ all:
         quay.rdoproject.org: {}
     rhel:
       hosts:
+        dlrn-db-centos9.rdoproject.org: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
+        trunk-builder-centos9.rdoproject.org: {}
+        trunk-server-centos9.rdoproject.org: {}
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
@@ -204,6 +212,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    dlrn-db-centos9.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     dlrn-db.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
@@ -340,7 +352,15 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: sf
+    trunk-builder-centos9.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     trunk-centos8.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    trunk-server-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

@@ -36,6 +36,9 @@ scrape_configs:
           - www.rdoproject.org:9100
           - dlrn-db.rdoproject.org:9100
           - opensearch.rdoproject.org:9100
+          - dlrn-db-centos9.rdoproject.org:9100
+          - trunk-server-centos9.rdoproject.org:9100
+          - trunk-builder-centos9.rdoproject.org:9100
           - backup.rdoproject.org:9100
           - trunk.rdoproject.org:9100
           - baremetal03.rdoproject.org:9100

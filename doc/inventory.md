@@ -12,6 +12,9 @@ This project manages:
 * www.rdoproject.org centos-8.1-1911 v1-standard-1
 * dlrn-db.rdoproject.org centos-8.1-1911 v1-standard-2
 * opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
+* dlrn-db-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
+* trunk-server-centos9.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
+* trunk-builder-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * backup.rdoproject.org 
 * trunk.rdoproject.org 
 * rdo-web-builder.int.osci.io 

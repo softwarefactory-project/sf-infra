@@ -195,6 +195,58 @@ let instances =
           ]
         , monitoring_urls = [ "https://opensearch.rdoproject.org/" ]
         }
+      , Instance::{
+        , name = "dlrn-db-centos9"
+        , groups = [ "dlrn-centos9", "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`2vcpus_8gb`
+          , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 60
+          }
+        }
+      , Instance::{
+        , name = "trunk-server-centos9"
+        , groups = [ "dlrn-centos9", "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`4vcpus_8gb`
+          , floating_ip = Some True
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
+          , boot_from_volume = "yes"
+          , volume_size = Some 60
+          }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "trunk-server-centos9-swap"
+            , size = 8
+            , device = "/dev/vdb"
+            }
+          ]
+        }
+      , Instance::{
+        , name = "trunk-builder-centos9"
+        , groups = [ "dlrn-centos9", "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
+          , floating_ip = Some True
+          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
+          , boot_from_volume = "yes"
+          , volume_size = Some 512
+          }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "trunk-builder-centos9-swap"
+            , size = 16
+            , device = "/dev/vdb"
+            }
+          ]
+        }
       ]
 
 let extra =
