@@ -340,8 +340,13 @@
         - name: primary
           label: cloud-centos-8-stream
     files:
-      - ^roles/sf/grafana/.*$
-      - ^roles/tests-service/grafana/.*$
+      - "^roles/sf/grafana/.*$"
+      - "^roles/tests/grafana/.*$"
+      - "^roles/sf/grafana/.*$"
+      - "^tests/grafana-dash.yml$"
+      - "^tests/post-grafana-dash.yml$"
+      - "^tests/pre-grafana-dash.yml$"
+      - "^tests/templates/grafana-screenshots.js.j2$"
 
 - job:
     name: sf-infra-quay-check
@@ -378,13 +383,7 @@
         - prometheus-lint
         # this job should be fixed
         # - sf-infra-molecule
-        - sf-infra-grafana-dashboards:
-            files:
-              - "^roles/sf/grafana/.*$"
-              - "^tests/grafana-dash.yml$"
-              - "^tests/post-grafana-dash.yml$"
-              - "^tests/pre-grafana-dash.yml$"
-              - "^tests/templates/grafana-screenshots.js.j2$"
+        - sf-infra-grafana-dashboards
         - sf-infra-quay-check
     gate:
       jobs:

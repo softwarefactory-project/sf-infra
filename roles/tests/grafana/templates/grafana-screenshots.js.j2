@@ -4,26 +4,10 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setViewport({width: 1920, height: 1080 })
-  // NOTE: First time toggle is needed to open the General dashboards dir,
-  // later dashboards would be available
-  await page.goto('http://localhost:3000/dashboards',  {waitUntil: 'networkidle0'});
-  await page.click("[data-testid='data-testid Search section']")
-  // open {{ dashboard_dir }} dir
-  const elements = await page.$$('span[id*="section-header-label-"]');
-  for (const element of elements) {
-    const text = await element.evaluate(el => el.textContent);
-    if (text.includes('{{ dashboard_dir }}')) {
-      await element.click();
-      break;
-    }
-  }
-{% for board in dashboards %}
-  await page.goto('http://localhost:3000/dashboards',  {waitUntil: 'networkidle0'});
-  await page.click("[data-testid='data-testid Dashboard search item {{ board }}']")
-  await page.waitForNavigation({waitUntil: 'networkidle0'})
-  await page.waitForTimeout(5000)
-  await page.screenshot({path: 'log/example-{{ board }}.png'});
-{% endfor %}
+
+  {% for item in _dashboards.stdout_lines -%}
+  await page.goto('http://localhost:3000{{ item.split("|")[1] | trim }}', { waitUntil: 'networkidle0' });
+  await page.screenshot({ fullPage: true, path: "/tmp/log/{{ item.split('|')[0] | replace(' ','') | trim }}.png" });
+  {% endfor %}
   await browser.close();
 })();
-
