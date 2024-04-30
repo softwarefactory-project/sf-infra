@@ -203,6 +203,7 @@ let instances =
           , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`2vcpus_8gb`
           , floating_ip = Some True
+          , security_groups = [ "dlrn-db-centos9" ]
           , boot_from_volume = "yes"
           , volume_size = Some 60
           }
@@ -235,7 +236,7 @@ let instances =
           , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
           , floating_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
+          , security_groups = [ "web", "rdo-trunk", "nfs-trunk-centos9", "apache_exporter" ]
           , boot_from_volume = "yes"
           , volume_size = Some 512
           }

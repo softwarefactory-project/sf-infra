@@ -168,6 +168,19 @@ security_groups:
       - port: 3306
         protocol: tcp
         remote_ip_prefix: "52.71.149.221/32"
+  - name: dlrn-db-centos9
+    rules:
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: "38.129.56.237/32"
+      - port: 3306
+        protocol: tcp
+        remote_ip_prefix: "38.129.56.180/32"
+  - name: nfs-trunk-centos9
+    rules:
+      - port: 2049
+        protocol: tcp
+        remote_ip_prefix: "38.129.56.180/32"
   - name: mta
     rules:
       - port: 25
@@ -321,6 +334,7 @@ servers:
     security_groups:
       - common
       - monitoring
+      - dlrn-db-centos9
     state: present
     volume_size: 60
   - boot_from_volume: yes
@@ -350,6 +364,7 @@ servers:
       - monitoring
       - web
       - rdo-trunk
+      - nfs-trunk-centos9
       - apache_exporter
     state: present
     volume_size: 512
