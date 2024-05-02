@@ -1,0 +1,36 @@
+{
+   "description": "Dashboards developed by the OSP CI team.",
+   "panels": [
+      {
+         "datasource": {
+            "type": "datasource",
+            "uid": "-- Mixed --"
+         },
+         "description": "OSP CI Upstream Dashboards",
+         "gridPos": {
+            "h": 24,
+            "w": 24,
+            "x": 0,
+            "y": 0
+         },
+         "id": 1,
+         "options": {
+            "content": "<img src=\"https://dfg-cre-sandbox.usersys.redhat.com/eodweb/static/img/OSP-DevOps.png\" width=\"75\" height=\"75\" />\n\n<hr class=\"dashed\">\n\nHey there 👋. We have some dashboards that can be useful for monitoring several pipelines under the Upstream Zuul CI.\n\nWe are covering:\n\n<b><a href=\"https://prometheus.monitoring.softwarefactory-project.io/grafana/d/7ff52dc9be88f4f31afce921e6556212/\">Periodic Integration & Container Per Release</a></b>\n\n<ul>\n    <li>openstack-periodic-container-master-centos9</li>\n    <li>openstack-periodic-container-antelope-centos9</li>\n    <li>openstack-operators-periodic-integration-antelope-centos9</li>\n</ul>\n\n<b><a href=\"https://prometheus.monitoring.softwarefactory-project.io/grafana/d/3833bc9e39633bbf2454305849213f0b/\">openstack-k8s-operators GitHub Image Builder Workflows</a></b>\n\n<ul>\n    <li>cinder-operator</li>\n    <li>dataplane-operator</li>\n    <li>glance-operator</li>\n    <li>horizon-operator</li>\n    <li>infra-operator</li>\n    <li>ironic-operator</li>\n    <li>keystone-operator</li>\n    <li>manila-operator</li>\n    <li>mariadb-operator</li>\n    <li>neutron-operator</li>\n    <li>nova-operator</li>\n    <li>octavia-operator</li>\n    <li>openstack-ansibleee-operator</li>\n    <li>openstack-baremetal-operator</li>\n    <li>openstack-operator</li>\n    <li>osp-director-operator</li>\n    <li>ovn-operator</li>\n    <li>placement-operator</li>\n    <li>telemetry-operator</li>\n</ul>\n\n<hr class=\"dashed\">\n\n<p>👀 Dashboards developed by the CI Operations team.</p>\n\n<p>Note: The data rendered in the dashboards depends of the Opensearch instance and the pattern name of the jobs. If a new job doesn't follow the same pattern name then it won't be available.</p>\n"
+         },
+         "pluginVersion": "v10.4.0",
+         "title": "OSP CI Dashboards",
+         "type": "text"
+      }
+   ],
+   "schemaVersion": 36,
+   "tags": [
+      "ci-ops-overview-dashboard"
+   ],
+   "time": {
+      "from": "now-6h",
+      "to": "now"
+   },
+   "timezone": "utc",
+   "title": "CI Ops Overview Dashboard",
+   "uid": "cec747244576920f3e371e4a4cf95109"
+}

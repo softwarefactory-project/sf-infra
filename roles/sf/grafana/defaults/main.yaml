@@ -10,6 +10,8 @@ grafana_dashboard_directories:
   - infra
   ####### NG CI DASHBOARD ########
   - ng-ci-dashboard
+  ####### CI Ops Team Dashboards ########
+  - osp-ci
   ####### Opendev dashboards #########
   - opendev
   ####### Cloud provider #########
