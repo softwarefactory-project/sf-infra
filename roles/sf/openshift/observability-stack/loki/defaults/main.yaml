@@ -26,3 +26,8 @@ loki_expire_days: "28"
 loki_tenant: upstream
 
 kustomize_dir: "~/deployments/observability-stack"
+
+loki_tls_config: {}
+  # key: XXX
+  # certificate: XXX
+  # caCertificate: XXX

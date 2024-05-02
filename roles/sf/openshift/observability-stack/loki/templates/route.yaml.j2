@@ -13,6 +13,20 @@ spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
+{% if loki_tls_config is defined %}
+{% if loki_tls_config.key is defined %}
+    key: |-
+{{ loki_tls_config.key | indent(6, True)}}
+{% endif %}
+{% if loki_tls_config.certificate is defined %}
+    certificate: |-
+{{ loki_tls_config.certificate | indent(6, True)}}
+{% endif %}
+{% if loki_tls_config.caCertificate is defined %}
+    caCertificate: |-
+{{ loki_tls_config.certificate | indent(6, True)}}
+{% endif %}
+{% endif %}
   host: {{ loki_public_HTTP_endpoint }}
   path: {{ loki_public_path }}
   port:
