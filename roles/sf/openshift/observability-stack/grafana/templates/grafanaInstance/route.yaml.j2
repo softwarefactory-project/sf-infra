@@ -11,6 +11,20 @@ spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
+{% if grafana_tls_config is defined %}
+{% if grafana_tls_config.key is defined %}
+    key: |-
+{{ grafana_tls_config.key | indent(6, True)}}
+{% endif %}
+{% if grafana_tls_config.certificate is defined %}
+    certificate: |-
+{{ grafana_tls_config.certificate | indent(6, True)}}
+{% endif %}
+{% if grafana_tls_config.caCertificate is defined %}
+    caCertificate: |-
+{{ grafana_tls_config.certificate | indent(6, True)}}
+{% endif %}
+{% endif %}
   to:
     kind: Service
     name: grafana-service

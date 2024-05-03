@@ -4,3 +4,7 @@ grafana_admin_password: secret
 grafana_public_HTTP_endpoint: grafana.sfop.me
 grafana_public_path: "/"
 grafana_namespace: sf-observability
+grafana_tls_config: {}
+  # key: XXX
+  # certificate: XXX
+  # caCertificate: XXX
