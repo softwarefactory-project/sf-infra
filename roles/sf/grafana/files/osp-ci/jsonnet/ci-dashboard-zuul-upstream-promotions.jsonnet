@@ -13,7 +13,7 @@ local common = import 'common.jsonnet';
 local zuulCommon = import 'zuul-common.jsonnet';
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['zuul-openstack-upstream-promotions'],
+  uid: common.dashboardUniqueIds()['osp-ci-zuul-openstack-upstream-promotions'],
 };
 
 local pipelines = [

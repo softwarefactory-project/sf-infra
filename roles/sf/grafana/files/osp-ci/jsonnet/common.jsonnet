@@ -6,14 +6,9 @@ local transform = grafonnet.panel.table.transformation;
 {
   dashboardUniqueIds():
     {
-      'gh-workflows': std.md5('gh-workflows'),
-      'overview': std.md5('overview'),
-      'prow-detail': std.md5('prow-detail'),
-      'prow-success': std.md5('prow-success'),
-      'openstack-k8s-operators-zuul-jobs': std.md5('openstack-k8s-operators-zuul-jobs'),
-      'podified-promotion-zuul-jobs': std.md5('podified-promotion-zuul-jobs'),
-      'osp-ci-overview': std.md5('osp-ci-overview'),
-      'zuul-openstack-upstream-promotions': std.md5('zuul-openstack-upstream-promotions'),
+      'osp-ci-dashboard-overview': std.md5('osp-ci-dashboard-overview'),
+      'osp-ci-zuul-openstack-upstream-promotions': std.md5('osp-ci-zuul-openstack-upstream-promotions'),
+      'osp-ci-gh-workflows': std.md5('osp-ci-gh-workflows'),
     },
 
   operators():

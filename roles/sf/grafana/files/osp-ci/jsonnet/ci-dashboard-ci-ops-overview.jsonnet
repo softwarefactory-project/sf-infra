@@ -6,12 +6,12 @@ local textPanel = grafonnet.panel.text;
 local common = import 'common.jsonnet';
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['osp-ci-overview'],
+  uid: common.dashboardUniqueIds()['osp-ci-dashboard-overview'],
 };
 
 
 local panelTextDescription = |||
-  <img src="https://dfg-cre-sandbox.usersys.redhat.com/eodweb/static/img/OSP-DevOps.png" width="75" height="75" />
+  <img src="https://avatars.githubusercontent.com/u/146325164?s=200&v=4" width="75" height="75" />
 
   <hr class="dashed">
 
@@ -19,7 +19,7 @@ local panelTextDescription = |||
 
   We are covering:
 
-  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/7ff52dc9be88f4f31afce921e6556212/">Periodic Integration & Container Per Release</a></b>
+  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/83994099fbc361b1b048cecf9f34bf42/">Periodic Integration & Container Per Release</a></b>
 
   <ul>
       <li>openstack-periodic-container-master-centos9</li>
@@ -27,7 +27,7 @@ local panelTextDescription = |||
       <li>openstack-operators-periodic-integration-antelope-centos9</li>
   </ul>
 
-  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/3833bc9e39633bbf2454305849213f0b/">openstack-k8s-operators GitHub Image Builder Workflows</a></b>
+  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/104667f749fba75ba18647bb2e310d3d/">openstack-k8s-operators GitHub Image Builder Workflows</a></b>
 
   <ul>
       <li>cinder-operator</li>

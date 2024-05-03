@@ -1,4 +1,4 @@
-local grafonnet = import 'grafonnet-v9.4.0/main.libsonnet';
+local grafonnet = import 'grafonnet-v10.4.0/main.libsonnet';
 local dashboard = grafonnet.dashboard;
 local panel = grafonnet.panel;
 local txtPanel = panel.text;
@@ -10,7 +10,7 @@ local linkOverview = common.dashboardLinkTag(
 );
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['gh-workflows']
+  uid: common.dashboardUniqueIds()['osp-ci-gh-workflows']
 };
 
 local workflowUrlTemplate = |||
