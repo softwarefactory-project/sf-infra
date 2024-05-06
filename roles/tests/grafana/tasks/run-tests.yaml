@@ -1,21 +1,23 @@
 ---
-- name: "Find all {{ dashboard_dir }} dashboards"
-  ansible.builtin.shell:
-    cmd: |
-      find /etc/grafana/provisioning/dashboards/{{ dashboard_dir }}/ -type f -name '*.json' -print0 | xargs -0 -I {} jq -r .title {}
-  register: dashboard_names
+- name: Get available dashboards
+  ansible.builtin.shell: |
+    curl --silent -XGET http://localhost:3000/api/search | jq -r '.[] | select(.type != "dash-folder") | "\(.title) | \(.url)"'
+  register: _dashboards
 
-- ansible.builtin.set_fact:
-    dashboards: "{{ dashboard_names.stdout.split('\n') }}"
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /tmp/puppeteer
+    - /tmp/log
 
-- name: "Deploy puppeteer script for {{ dashboard_dir }}"
+- name: Create puppeteer scripts
   ansible.builtin.template:
     src: grafana-screenshots.js.j2
-    dest: /tmp/test.js
+    dest: /tmp/puppeteer/grafana-screenshots.js
     mode: 0755
 
-- name: "Run puppeteer script for {{ dashboard_dir }}"
-  ansible.builtin.shell:
-    cmd: |
-      node test.js
-    chdir: /tmp
+- name: "Run puppeteer scripts"
+  ansible.builtin.shell: |
+    node /tmp/puppeteer/grafana-screenshots.js
