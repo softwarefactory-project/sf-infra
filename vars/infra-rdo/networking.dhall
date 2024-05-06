@@ -125,6 +125,21 @@ let security_groups =
                 , "52.71.149.221/32"
                 ]
           }
+        , { name = "dlrn-db-centos9"
+          , rules =
+              Infra.Rule.textMap
+                (Infra.Rule.createTcpPort +3306)
+                [ "38.129.56.237/32"
+                , "38.129.56.180/32"
+                ]
+          }
+        , { name = "nfs-trunk-centos9"
+          , rules =
+              Infra.Rule.textMap
+                (Infra.Rule.createTcpPort +2049)
+                [ "38.129.56.180/32"
+                ]
+          }
         , { name = "mta", rules = [ Infra.Rule::{ port = +25 } ] }
         , { name = "mda"
           , rules = [ Infra.Rule::{ port = +143 }, Infra.Rule::{ port = +993 } ]
