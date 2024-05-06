@@ -4,7 +4,7 @@
 This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org centos-7-1907 v1-standard-2
-* quay.rdoproject.org centos-8-stream 4vcpus_8gb
+* quay.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * trunk-centos8.rdoproject.org centos-8.0-1905 v1-standard-4
 * managesf.review.rdoproject.org centos-7-1907 v1-standard-2
 * elk.review.rdoproject.org centos-7-1907 v1-standard-2

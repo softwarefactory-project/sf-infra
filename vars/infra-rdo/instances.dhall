@@ -24,13 +24,12 @@ let instances =
         }
       , Instance::{
         , name = "quay"
-        , groups = [ "quay", "rdo" ]
+        , groups = [ "quay", "rdo", "rhel" ]
         , connection =
-                OS.CentOS.`8-stream`.connection
-            //  { ansible_host = Some "38.129.56.158" }
+            OS.RHEL.`9.3`.connection // { ansible_host = Some "38.129.56.158" }
         , server = Some Infra.Server::{
-          , image = OS.CentOS.`8-stream`.image.name
-          , flavor = Some Flavors.`4vcpus_8gb`
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
           , floating_ip = Some True
           , security_groups = [ "web" ]
           , volume_size = Some 50

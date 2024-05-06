@@ -209,9 +209,9 @@ servers:
     state: present
     volume_size: 200
   - boot_from_volume: yes
-    flavor: "4vcpus_8gb"
+    flavor: v1-standard-4
     floating_ip: true
-    image: centos-8-stream
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: quay.rdoproject.org
     network: private-network

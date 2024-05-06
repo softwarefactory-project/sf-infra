@@ -130,6 +130,7 @@ all:
         k1s05.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
+        quay.rdoproject.org: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
     sf:
@@ -343,8 +344,8 @@ all:
     quay.rdoproject.org:
       ansible_host: '38.129.56.158'
       ansible_port: 22
-      ansible_python_interpreter: /usr/libexec/platform-python
-      ansible_user: centos
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     rdo-web-builder.int.osci.io:
       ansible_port: 22
       ansible_python_interpreter: auto

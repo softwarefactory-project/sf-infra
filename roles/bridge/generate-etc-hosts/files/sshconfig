@@ -27,7 +27,7 @@ Host mirror.regionone.vexxhost.rdoproject.org
     Port 22
 
 Host quay.rdoproject.org
-    User centos
+    User cloud-user
     Port 22
     Hostname 38.129.56.158
 Host trunk-centos8.rdoproject.org
