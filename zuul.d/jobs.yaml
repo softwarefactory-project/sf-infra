@@ -209,6 +209,7 @@
       - playbooks/group_vars/osci_internal_zone
       - playbooks/group_vars/osci_zone
       - playbooks/group_vars/rdo.yaml
+      - vars/infra-rdo/instances.dhall
       - "^roles/infra/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"

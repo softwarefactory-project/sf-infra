@@ -113,12 +113,15 @@ all:
     rdo:
       hosts:
         backup.rdoproject.org: {}
+        dlrn-db-centos9.rdoproject.org: {}
         elk.review.rdoproject.org: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
+        trunk-builder-centos9.rdoproject.org: {}
+        trunk-server-centos9.rdoproject.org: {}
     rhel:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
