@@ -4,6 +4,9 @@ hide_sensitive_logs: true
 self_signed_certs: true
 initial_config: false
 
+podman_quay_network_name: podman-quay
+podman_quay_network_mtu: 1300
+
 quay_debug: false
 
 postgresql_user: 'quayuser'

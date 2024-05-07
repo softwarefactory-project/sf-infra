@@ -1,0 +1,16 @@
+---
+- name: Check if there is already defined network
+  become: true
+  ansible.builtin.shell: |
+    podman network exists {{ podman_quay_network_name }}
+  register: _podman_network
+  failed_when: _podman_network.rc not in [0,1]
+
+# NOTE: Default 'podman' network has disabled DNS plugin.
+- name: Create network if not exists
+  become: true
+  when: _podman_network.rc == 1
+  ansible.builtin.shell: >
+    podman network create {{ podman_quay_network_name }}
+    --opt mtu={{ podman_quay_network_mtu }}
+    --disable-dns

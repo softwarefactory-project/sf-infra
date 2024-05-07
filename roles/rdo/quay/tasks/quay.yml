@@ -49,6 +49,7 @@
           -p 80:8080 \
           -p 443:8443 \
           --name quay_config \
+          --network {{ podman_quay_network_name }} \
           -e GODEBUG=x509ignoreCN=0 \
           {% if quay_debug %}
           -e DEBUGLOG=true \
@@ -70,6 +71,7 @@
           -p 80:8080
           -p 443:8443
           --name quay_config \
+          --network {{ podman_quay_network_name }} \
           {% if quay_debug %}
           -e DEBUGLOG=true \
           {% endif %}
@@ -118,6 +120,7 @@
           -p 443:8443
           --restart=always
           --privileged=true
+          --network {{ podman_quay_network_name }}
           {% if quay_debug %}
           -e DEBUGLOG=true
           {% endif %}
@@ -136,6 +139,7 @@
           -p 443:8443
           --restart=always
           --privileged=true
+          --network {{ podman_quay_network_name }}
           -e GODEBUG=x509ignoreCN=0
           {% if quay_debug %}
           -e DEBUGLOG=true

@@ -33,6 +33,9 @@
   ansible.builtin.include_tasks: mirror.yml
   when: enable_mirror
 
+- name: Setup dedicated network
+  ansible.builtin.include_tasks: network.yml
+
 - name: Setup quay
   ansible.builtin.include_tasks: quay.yml
 
