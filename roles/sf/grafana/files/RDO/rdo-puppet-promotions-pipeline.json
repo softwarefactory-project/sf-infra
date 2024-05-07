@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 146,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -180,6 +179,291 @@
         "y": 0
       },
       "id": 1,
+      "interval": "1m",
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "9.2.6",
+      "targets": [
+        {
+          "bucketAggs": [],
+          "datasource": "opensearch-rdoproject-logstash",
+          "hide": false,
+          "metrics": [
+            {
+              "settings": {
+                "order": "desc",
+                "size": "9000",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*dalmatian* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "timeFrom": "5d"
+        }
+      ],
+      "title": "Dalmatian promotions",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status",
+                "build_uuid",
+                "log_url"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "build_uuid": false
+            },
+            "indexByName": {
+              "@timestamp": 0,
+              "build_name": 1,
+              "build_status": 2,
+              "build_uuid": 3,
+              "log_url": 4
+            },
+            "renameByName": {
+              "@timestamp": "Time",
+              "branch": "Branch",
+              "build_name": "Job",
+              "build_status": "Status",
+              "build_uuid": "build UUID",
+              "change_url": "",
+              "end_time": "",
+              "job_name": "Job",
+              "log_url": "Log URL",
+              "message": "Message",
+              "project": "Project",
+              "result": "Status",
+              "start_time": "",
+              "tenant": "Tenant"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Log URL": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "TIme": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "Time": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build UUID": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_name": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_uuid": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "description": "Description",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "displayMode": "color-text",
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "pattern": "SUCCESS",
+                "result": {
+                  "color": "dark-green",
+                  "index": 0
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "FAILURE",
+                "result": {
+                  "color": "dark-red",
+                  "index": 1
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "POST_FAILURE",
+                "result": {
+                  "color": "dark-orange",
+                  "index": 2
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "RETRY_LIMIT",
+                "result": {
+                  "color": "dark-yellow",
+                  "index": 3
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "TIMED_OUT",
+                "result": {
+                  "color": "dark-purple",
+                  "index": 4
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 474
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 125
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 188
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Log URL"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "${__value.text}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "build UUID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 311
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 23,
+        "x": 0,
+        "y": 11
+      },
+      "id": 9,
       "interval": "1m",
       "options": {
         "footer": {
@@ -462,7 +746,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 11
+        "y": 22
       },
       "id": 4,
       "interval": "1m",
@@ -746,7 +1030,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 22
+        "y": 33
       },
       "id": 3,
       "interval": "1m",
@@ -1020,7 +1304,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 33
+        "y": 44
       },
       "id": 2,
       "interval": "1m",
@@ -1304,7 +1588,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 44
+        "y": 55
       },
       "id": 5,
       "interval": "1m",
@@ -1588,7 +1872,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 55
+        "y": 66
       },
       "id": 6,
       "interval": "1m",
@@ -1872,7 +2156,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 66
+        "y": 77
       },
       "id": 7,
       "interval": "1m",
@@ -2156,7 +2440,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 77
+        "y": 88
       },
       "id": 8,
       "interval": "1m",
@@ -2308,6 +2592,6 @@
   "timezone": "",
   "title": "RDO Puppet Promotions Pipeline",
   "uid": "1cbR4SISz",
-  "version": 14,
+  "version": 1,
   "weekStart": ""
 }
