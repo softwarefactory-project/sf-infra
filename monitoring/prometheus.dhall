@@ -29,7 +29,7 @@ let elasticsearch_exporter_list = [ "opensearch.rdoproject.org:9114" ]
 
 let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
 
-let logscraper_server_list = [ "logscraper01.openstack.org:9128" ]
+let logscraper_server_list = [ "logscraper02.openstack.org:9128" ]
 
 let dlrnapi_target_list =
       [ "api-centos9-master-uc"

@@ -47,6 +47,6 @@ prometheus_monitored_services:
   - zuul-merger
   - zuul-scheduler
   - zuul-web
-  # logscraper01.openstack.org
+  # logscraper02.openstack.org
   - logscraper-openstack
   - logsender-openstack

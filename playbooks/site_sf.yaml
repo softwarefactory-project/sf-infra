@@ -182,7 +182,7 @@
     - service/acme-tiny
     - service/apache-exporter
 
-- hosts: logscraper01.openstack.org
+- hosts: logscraper02.openstack.org
   roles:
     - service/node-exporter
 
