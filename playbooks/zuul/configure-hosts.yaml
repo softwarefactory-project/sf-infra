@@ -135,11 +135,26 @@
           no_log: yes
           when: sshkey is defined
 
-        - name: Fetch galaxy Roles
-          ansible.builtin.command: ansible-galaxy install --force-with-deps -r requirements.yml
+        - name: Ensure community general module is installed
+          ansible.builtin.shell: |
+            ansible-galaxy collection install --force-with-deps community.general
+          register: install_result
+          until: install_result.rc == 0
+          retries: 30
+          delay: 5
+
+        - name: Fetch galaxy roles
+          when: fetch_galaxy_role | default(False) | bool
+          community.general.ansible_galaxy_install:
+            type: both
+            requirements_file: requirements.yml
+            force: true
           args:
             chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-          when: fetch_galaxy_role | default(False) | bool
+          register: install_result
+          until: "install_result is not failed"
+          retries: 30
+          delay: 5
 
         # Perform one shot actions
         - name: Check for updated actions
