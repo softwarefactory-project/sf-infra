@@ -147,10 +147,8 @@
           when: fetch_galaxy_role | default(False) | bool
           community.general.ansible_galaxy_install:
             type: both
-            requirements_file: requirements.yml
+            requirements_file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/requirements.yml"
             force: true
-          args:
-            chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
           register: install_result
           until: "install_result is not failed"
           retries: 30
