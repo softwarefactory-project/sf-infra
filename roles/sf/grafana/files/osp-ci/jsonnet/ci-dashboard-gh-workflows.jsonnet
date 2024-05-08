@@ -10,7 +10,7 @@ local linkOverview = common.dashboardLinkTag(
 );
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['osp-ci-gh-workflows']
+  uid: common.dashboardUniqueIds()['osp-ci-upstream-gh-workflows']
 };
 
 local workflowUrlTemplate = |||

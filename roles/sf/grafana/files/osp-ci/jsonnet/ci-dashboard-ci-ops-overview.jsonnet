@@ -6,7 +6,7 @@ local textPanel = grafonnet.panel.text;
 local common = import 'common.jsonnet';
 
 local dashboardUid = {
-  uid: common.dashboardUniqueIds()['osp-ci-dashboard-overview'],
+  uid: common.dashboardUniqueIds()['osp-ci-upstream-dashboard-overview'],
 };
 
 

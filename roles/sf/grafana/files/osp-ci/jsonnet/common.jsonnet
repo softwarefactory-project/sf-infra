@@ -6,9 +6,9 @@ local transform = grafonnet.panel.table.transformation;
 {
   dashboardUniqueIds():
     {
-      'osp-ci-dashboard-overview': std.md5('osp-ci-dashboard-overview'),
+      'osp-ci-upstream-dashboard-overview': std.md5('osp-ci-upstream-dashboard-overview'),
       'osp-ci-zuul-openstack-upstream-promotions': std.md5('osp-ci-zuul-openstack-upstream-promotions'),
-      'osp-ci-gh-workflows': std.md5('osp-ci-gh-workflows'),
+      'osp-ci-upstream-gh-workflows': std.md5('osp-ci-upstream-gh-workflows'),
     },
 
   operators():
