@@ -15,7 +15,8 @@ let -- | A function to create logscraper0{}.openstack.org
 let -- | These machines are hosted in Openstack infrastructure.
     -- please contact Jeremy Stanley <fungi@yuggoth.org> or
     -- Clark Boylan <cboylan@sapwetik.org>
+    -- Tony Breeds <tony@bakeyournoodle.com>
     logscraper-openstack =
-      [ mkLogscraper 1 ]
+      [ mkLogscraper 2 ]
 
 in  logscraper-openstack

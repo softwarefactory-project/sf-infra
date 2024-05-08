@@ -88,7 +88,7 @@ all:
         opensearch.rdoproject.org: {}
     openstack:
       hosts:
-        logscraper01.openstack.org: {}
+        logscraper02.openstack.org: {}
     osci:
       hosts:
         lists.rdoproject.org: {}
@@ -290,7 +290,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: root
-    logscraper01.openstack.org:
+    logscraper02.openstack.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: sf

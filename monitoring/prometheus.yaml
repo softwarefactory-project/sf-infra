@@ -76,7 +76,7 @@ scrape_configs:
           - zm07.softwarefactory-project.io:9100
           - zm08.softwarefactory-project.io:9100
           - sf-container-worker-1.softwarefactory-project.io:9100
-          - logscraper01.openstack.org:9100
+          - logscraper02.openstack.org:9100
   - job_name: blackbox
     metrics_path: /probe
     params:
@@ -244,7 +244,7 @@ scrape_configs:
   - job_name: logscraper
     static_configs:
       - targets:
-          - logscraper01.openstack.org:9128
+          - logscraper02.openstack.org:9128
   - job_name: elasticsearch
     static_configs:
       - targets:

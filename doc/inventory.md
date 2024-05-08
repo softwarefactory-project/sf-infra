@@ -62,5 +62,5 @@ This project manages:
 * zm07.softwarefactory-project.io centos-7-1907 1vcpu_1gb
 * zm08.softwarefactory-project.io centos-7-1907 1vcpu_1gb
 * sf-container-worker-1.softwarefactory-project.io 
-* logscraper01.openstack.org 
+* logscraper02.openstack.org 
 
