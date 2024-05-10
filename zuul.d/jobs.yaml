@@ -229,6 +229,7 @@
       - playbooks/group_vars/k1s.yaml
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
+      - playbooks/vars/infra-sf.yaml
       - "^monitoring/.*yaml$"
       - "^roles/infra/.*$"
       - "^roles/service/.*$"

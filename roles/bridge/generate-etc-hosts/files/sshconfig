@@ -179,7 +179,7 @@ Host koji.softwarefactory-project.io
     Port 22
 
 Host image-builder.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host microshift.softwarefactory-project.io

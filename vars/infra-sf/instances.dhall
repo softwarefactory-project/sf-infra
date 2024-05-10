@@ -223,12 +223,14 @@ let instances =
         }
       , Instance::{
         , name = "image-builder"
-        , groups = [ "sf" ]
-        , connection = OS.CentOS.`8.3`.connection
+        , groups = [ "sf", "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.3`.image.name
+          , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
           , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 50
           , security_groups =
             [ "zuul-console"
             , let note =

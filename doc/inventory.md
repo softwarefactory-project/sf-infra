@@ -40,7 +40,7 @@ This project manages:
 * zk01.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * zs.softwarefactory-project.io centos-7-1907 v1-standard-2
 * koji.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* image-builder.softwarefactory-project.io centos-8.3-2011 1vcpu_2gb
+* image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * fedora.softwarefactory-project.io centos-7-1907 v1-standard-2

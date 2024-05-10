@@ -125,6 +125,7 @@ all:
     rhel:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
+        image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
@@ -269,7 +270,7 @@ all:
     image-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     k1s03.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
