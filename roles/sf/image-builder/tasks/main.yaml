@@ -19,48 +19,20 @@
     line: 'mount_program = "/usr/bin/fuse-overlayfs"'
   become: true
 
-- name: Create account
+- name: Create user
+  become: true
   ansible.builtin.user:
     name: "{{ item }}"
-    home: "/home/{{ item }}"
+    state: present
     shell: /bin/bash
-  become: true
   loop:
     - "{{ zuul_container_user }}"
-
-- name: Create home dir
-  ansible.builtin.file:
-    path: "/home/{{ item }}"
-    state: directory
-    owner: "{{ item }}"
-  become: true
-  loop:
-    - "{{ zuul_container_user }}"
-
-- name: Download container-update project key
-  ansible.builtin.get_url:
-    url: "{{ zuul_container_update_key }}"
-    dest: "/home/{{ zuul_container_user }}/container_update_key.pub"
-    force: true
-    timeout: 60
-  register: dl_result
-  until: dl_result is succeeded
-  retries: 20
-  delay: 1
-  become: true
-
-- name: get key contents
-  ansible.builtin.command: "cat /home/{{ zuul_container_user }}/container_update_key.pub"
-  register: cu_pubkey
-  become: true
-
-- name: debug key
-  ansible.builtin.debug:
-    msg: "{{ cu_pubkey }}"
 
 - name: "Authorized {{ zuul_container_user }} executor"
   become: true
   ansible.posix.authorized_key:
-    user: "{{ zuul_container_user }}"
+    user: "{{ item }}"
     state: present
-    key: "{{ cu_pubkey.stdout }}"
+    key: "{{ zuul_container_update_key }}"
+  loop:
+    - "{{ zuul_container_user }}"
