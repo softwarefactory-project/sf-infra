@@ -229,13 +229,14 @@ let instances =
         }
       , Instance::{
         , name = "trunk-builder-centos9"
-        , groups = [ "dlrn-centos9", "rhel", "rdo" ]
+        , groups = [ "dlrn-centos9", "rdo", "rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
           , floating_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "nfs-trunk-centos9", "apache_exporter" ]
+          , security_groups =
+            [ "web", "rdo-trunk", "nfs-trunk-centos9", "apache_exporter" ]
           , boot_from_volume = "yes"
           , volume_size = Some 512
           }
