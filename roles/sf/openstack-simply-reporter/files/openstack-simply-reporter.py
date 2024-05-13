@@ -30,6 +30,8 @@ def get_arguments():
                         help='Write stack statuses into the collector')
     parser.add_argument('--check-network', action='store_true', default=True,
                         help='Take informations about network usage')
+    parser.add_argument("--debug", help="Print more information",
+                        action="store_true")
 
     args = parser.parse_args()
 
@@ -88,13 +90,16 @@ def get_stack_status(cloud, metrics):
     return metrics
 
 
-def get_ports_status(cloud, metrics, timezone):
+def get_ports_status(cloud, metrics, timezone, debug):
     base_metric_name = "port"
 
     for port in cloud.list_ports():
         old_port = _check_port_time(port, timezone)
         port_status = port.status.lower().replace('/', '')
         if port.status.lower() in PORT_REPORT_STATE:
+            if debug:
+                print("Type: %s - id: %s - port state: %s - is old: %s" % (
+                    base_metric_name, port.id, port_status, str(old_port)))
             metric_name = "%s_%s{cloud=%s, is_old=%s}" % (
                 base_metric_name, port_status, _quote(
                     cloud.name), _quote(str(old_port)))
@@ -103,7 +108,7 @@ def get_ports_status(cloud, metrics, timezone):
     return metrics
 
 
-def _get_subnet_info(network_info, cloud):
+def _get_subnet_info(network_info):
     # TBD: here we are able to add more information about subnet.
     # For now it will just return list of subnets.
     return network_info.subnets
@@ -125,12 +130,15 @@ def _count_ports_with_subnet(subnets, cloud):
     return count
 
 
-def get_network_info(cloud, metrics):
+def get_network_info(cloud, metrics, debug):
     base_metric_name = "network"
     for network in cloud.list_networks():
-        related_subnets = _get_subnet_info(network, cloud)
+        related_subnets = _get_subnet_info(network)
         count_ports = _count_ports_with_subnet(related_subnets, cloud)
         for s_uuid, s_count in count_ports.items():
+            if debug:
+                print("Type: %s - id: %s - subnet: %s" % (
+                    base_metric_name, network.id, s_uuid))
             metric_name = "%s{cloud=%s, subnet_uuid=%s}" % (
                 base_metric_name, _quote(cloud.name), _quote(s_uuid))
             count_metric(metric_name, metrics, counted=s_count)
@@ -160,8 +168,8 @@ if __name__ == '__main__':
         cloud = openstack.connect(cloud=os_cloud)
         metrics = get_stack_status(cloud, metrics)
         if args.check_network:
-            metrics = get_ports_status(cloud, metrics, timezone)
-            metrics = get_network_info(cloud, metrics)
+            metrics = get_ports_status(cloud, metrics, timezone, args.debug)
+            metrics = get_network_info(cloud, metrics, args.debug)
             metrics = get_floating_ips(cloud, metrics)
 
     metrics = convert_dict_to_string(metrics)
