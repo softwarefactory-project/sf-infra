@@ -1,0 +1,9 @@
+---
+swap_device: /dev/vdb
+dlrn_server_type: 'builder'
+dlrn_enable_https: true
+dlrn_manage_letsencrypt: true
+enable_worker_cronjobs: true
+enable_purge_cronjobs: true
+web_domain: 'trunk-builder-centos9.rdoproject.org'
+rhel_release: 9.4

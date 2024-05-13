@@ -13,3 +13,261 @@ ip_trunk_server: 38.129.56.180
 ip_trunk_builder: 38.129.56.237
 ip_db_master: 38.102.83.62
 
+cert_mail: softwarefactory-operations-team@redhat.com
+
+nfs_shared_repos: true
+
+api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
+
+dlrn_workers:
+  centos9-master-uc:
+    distro: 'centos9'
+    target: 'centos9-master-uc'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '2'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
+    release: 'dalmatian-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos9-master'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-masteruc:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    # enable after sync from current production
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1020
+    gid: 1020
+  centos9-master:
+    distro: 'centos9'
+    target: 'centos9-master'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '2'
+    purge_minute: '7'
+    cron_env: '--head-only'
+    cron_hour: '*/6'
+    cron_minute: '5'
+    symlinks: ['/var/www/html/centos9-head', '/var/www/html/centos9-master-head']
+    release: 'dalmatian'
+    baseurl: 'https://trunk.rdoproject.org/centos9-master-head'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-master:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_master?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1021
+    gid: 1021
+  centos9-caracal:
+    distro: 'centos9'
+    target: 'centos9-caracal'
+    distgit_branch: 'caracal-rdo'
+    distro_branch: 'stable/2024.1'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '2'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-caracal', '/var/www/html/caracal/centos9']
+    release: 'caracal'
+    baseurl: 'https://trunk.rdoproject.org/centos9-caracal'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-caracal:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_caracal?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-caracal-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1022
+    gid: 1022
+  centos9-bobcat:
+    distro: 'centos9'
+    target: 'centos9-bobcat'
+    distgit_branch: 'bobcat-rdo'
+    distro_branch: 'stable/2023.2'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '3'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-bobcat', '/var/www/html/bobcat/centos9']
+    release: 'bobcat'
+    baseurl: 'https://trunk.rdoproject.org/centos9-bobcat'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-bobcat:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_bobcat?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    # enable after sync from current production
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-bobcat-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1023
+    gid: 1023
+  centos9-antelope:
+    distro: 'centos9'
+    target: 'centos9-antelope'
+    distgit_branch: 'antelope-rdo'
+    distro_branch: 'stable/2023.1'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '3'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-antelope', '/var/www/html/antelope/centos9']
+    release: 'antelope'
+    baseurl: 'https://trunk.rdoproject.org/centos9-antelope'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-antelope:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_antelope?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    # enable after sync from current production
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-antelope-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1024
+    gid: 1024
+  centos9-zed:
+    distro: 'centos9'
+    target: 'centos9-zed'
+    distgit_branch: 'zed-rdo'
+    distro_branch: 'stable/zed'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '3'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-zed', '/var/www/html/zed/centos9']
+    release: 'zed'
+    baseurl: 'https://trunk.rdoproject.org/centos9-zed'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-zed:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_zed?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    # enable after sync from current production
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-zed-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1025
+    gid: 1025
+  centos9-yoga:
+    distro: 'centos9'
+    target: 'centos9-yoga'
+    distgit_branch: 'yoga-rdo'
+    distro_branch: 'stable/yoga'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '2'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-yoga', '/var/www/html/yoga/centos9']
+    release: 'yoga'
+    baseurl: 'https://trunk.rdoproject.org/centos9-yoga'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-yoga:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_yoga?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-yoga-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1026
+    gid: 1026
+  centos9-wallaby:
+    distro: 'centos9'
+    target: 'centos9-wallaby'
+    distgit_branch: 'wallaby-rdo'
+    distro_branch: 'stable/wallaby'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '4'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-wallaby', '/var/www/html/wallaby/centos9']
+    release: 'wallaby'
+    baseurl: 'https://trunk.rdoproject.org/centos9-wallaby'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-wallaby:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_wallaby?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-wallaby-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1027
+    gid: 1027
+  centos9-xena:
+    distro: 'centos9'
+    target: 'centos9-xena'
+    distgit_branch: 'xena-rdo'
+    distro_branch: 'stable/xena'
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
+    purge_hour: '4'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-xena', '/var/www/html/xena/centos9']
+    release: 'xena'
+    baseurl: 'https://trunk.rdoproject.org/centos9-xena'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-xena:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_xena?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-xena-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1028
+    gid: 1028
+
