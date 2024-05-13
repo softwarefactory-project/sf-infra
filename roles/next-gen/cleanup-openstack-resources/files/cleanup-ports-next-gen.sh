@@ -22,8 +22,10 @@ for router in $(openstack router list | grep "$ZUUL_PREFFIX-subnet" | awk '{prin
     if [ "$DAY_AGO" -gt "$ROUTER_DATE" ]; then
         echo "Doing router: $router";
         router_port=$(openstack port list --router "$router" -f value -c id)
-        echo "Removing router port: $router_port from router: $router";
-        openstack router remove port "$router" "$router_port";
+        for r_port in $router_port; do
+            echo "Removing router port: $r_port from router: $router";
+            openstack router remove port "$router" "$r_port";
+        done
         echo "Removing router: $router"
         openstack router delete "$router";
     fi
