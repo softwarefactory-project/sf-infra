@@ -53,6 +53,7 @@
 
 - hosts: image-builder.softwarefactory-project.io
   roles:
+    - system/swap
     - sf/image-builder
     - sf/podman-pruner
     # Keep in sync with zuul-weeder security group and prometheus dhall configuration
