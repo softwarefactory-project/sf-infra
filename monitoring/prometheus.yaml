@@ -159,6 +159,7 @@ scrape_configs:
   - job_name: mysqld
     static_configs:
       - targets:
+          - dlrn-db-centos9.rdoproject.org:9104
           - dlrn-db.rdoproject.org:9104
           - backup.rdoproject.org:9104
   - job_name: apache
@@ -175,6 +176,8 @@ scrape_configs:
           - opensearch.rdoproject.org:9117
           - centos.softwarefactory-project.io:9117
           - prometheus.monitoring.softwarefactory-project.io:9117
+          - trunk-server-centos9.rdoproject.org:9117
+          - trunk-builder-centos9.rdoproject.org:9117
   - job_name: zookeeper
     static_configs:
       - targets:

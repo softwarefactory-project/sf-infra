@@ -9,7 +9,7 @@ let PrometheusConfig = ./prometheus-config.dhall
 let ScrapeConfigs = ./scrape-configs.dhall
 
 let db_server_list =
-      [ "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
+      [ "dlrn-db-centos9.rdoproject.org:9104", "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
 
 let apache_server_list =
       [ "trunk.rdoproject.org:9117"
@@ -23,6 +23,8 @@ let apache_server_list =
       , "opensearch.rdoproject.org:9117"
       , "centos.softwarefactory-project.io:9117"
       , "prometheus.monitoring.softwarefactory-project.io:9117"
+      , "trunk-server-centos9.rdoproject.org:9117"
+      , "trunk-builder-centos9.rdoproject.org:9117"
       ]
 
 let elasticsearch_exporter_list = [ "opensearch.rdoproject.org:9114" ]
