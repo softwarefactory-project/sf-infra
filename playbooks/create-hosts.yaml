@@ -1,6 +1,6 @@
 ---
 - hosts: bridge.softwarefactory-project.io
-  gather_facts: true
+  gather_facts: yes
   vars:
     clouds:
       - {name: 'vexxhost-rdo', tenant: 'infra-rdo'}

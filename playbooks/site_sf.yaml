@@ -52,6 +52,16 @@
     - system/users
 
 - hosts: image-builder.softwarefactory-project.io
+  pre_tasks:
+    - name: Setup image builder data partition
+      vars:
+        lvm: "{{ partitions['imagebuilder']['lvm'] | default('') }}"
+        devices: "{{ partitions['imagebuilder']['devices'] | list | default('') }}"
+        mountpoint: "{{ partitions['imagebuilder']['mountpoint'] | default('') }}"
+        vg_name: "{{ partitions['imagebuilder']['vg_name'] | default('') }}"
+        lv_name: "{{ partitions['imagebuilder']['lv_name'] | default('') }}"
+      ansible.builtin.include_role:
+        name: system/volume
   roles:
     - system/swap
     - sf/image-builder

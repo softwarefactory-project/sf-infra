@@ -6,3 +6,12 @@ cloud_image_builder_users:
 
 swap_file: /swap
 swap_size: 8192
+
+partitions:
+  imagebuilder:
+    lvm: True
+    vg_name: 'vgimagebuilder'
+    lv_name: 'imagebuilder'
+    devices:
+      - /dev/vdb
+    mountpoint: '/home/zuul'

@@ -8,6 +8,12 @@
   become: yes
   register: hosts_updated
 
+- name: Ensure that required dir exists
+  become: true
+  ansible.builtin.file:
+    path: /etc/zuul
+    state: directory
+
 - name: Create container
   ansible.builtin.include_role:
     name: service/container
