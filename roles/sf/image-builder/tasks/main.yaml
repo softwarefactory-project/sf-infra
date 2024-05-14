@@ -28,6 +28,18 @@
   loop:
     - "{{ zuul_container_user }}"
 
+- name: Add user into sudoers
+  become: true
+  ansible.builtin.lineinfile:
+    dest: "/etc/sudoers.d/90-{{ item }}-user"
+    state: present
+    regexp: "^{{ item }}"
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+    create: true
+  loop:
+    - "{{ zuul_container_user }}"
+
 - name: "Authorized {{ zuul_container_user }} executor"
   become: true
   ansible.posix.authorized_key:
