@@ -62,6 +62,13 @@
         lv_name: "{{ partitions['imagebuilder']['lv_name'] | default('') }}"
       ansible.builtin.include_role:
         name: system/volume
+      register: _img_builder_volume
+
+    - name: Reset SELinux security context
+      when: _img_builder_volume.changed
+      become: true
+      ansible.builtin.command: "restorecon -R {{ partitions['imagebuilder']['mountpoint'] | default('') }}"
+
   roles:
     - system/swap
     - sf/image-builder
