@@ -6,18 +6,20 @@
   become: true
 
 - name: Ensure that storage driver is overlay
+  become: true
   ansible.builtin.lineinfile:
     path: "/etc/containers/storage.conf"
     regexp: '^driver\ =\ \"\w+\"$'
     line: 'driver = "overlay"'
-  become: true
+  register: _overlay
 
 - name: Change mount program to fuse-overlays
+  become: true
   ansible.builtin.lineinfile:
     path: /etc/containers/storage.conf
     regexp: "^#mount_program"
     line: 'mount_program = "/usr/bin/fuse-overlayfs"'
-  become: true
+  register: _fuse
 
 - name: Create user
   become: true
@@ -48,3 +50,8 @@
     key: "{{ zuul_container_update_key }}"
   loop:
     - "{{ zuul_container_user }}"
+
+- name: Reboot host when changes for storage overlay were done
+  when: _fuse.changed or _overlay.changed
+  become: true
+  ansible.builtin.reboot:
