@@ -1,3 +1,4 @@
+---
 backup_packages:
   - gcc
   - python3-devel
@@ -8,4 +9,16 @@ backup_packages:
   - git
 
 bup_version: 0.32
+
+# Example:
+# servers:
+#   - dir: /var/lib/backup/bup/review.rdoproject.org
+#     domain: review.rdoproject.org
+#     filename: review.rdoproject.org.yaml
+#     hour: 0
+#     instances:
+#       - review.rdoproject.org
+#     month_subdir: 1
+#     run_sf_backup: true
 servers: []
+email: root@localhost

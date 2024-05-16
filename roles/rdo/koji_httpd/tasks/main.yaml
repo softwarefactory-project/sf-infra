@@ -1,0 +1,13 @@
+---
+- name: Install epel-release
+  ansible.builtin.include_role:
+    name: system/epel-release
+
+- name: Install packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - certbot
+
+- name: Setup httpd for koji
+  ansible.builtin.include_tasks: httpd_koji.yaml

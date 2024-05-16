@@ -11,7 +11,6 @@ in  { mysqld_exporter_user = "root"
     , servers =
         Infra.Backup.mkServers
           (Infra.Backup.mkCron (indexed Infra.Backup.Type Configs))
-    , bup_backup_locations = Infra.Backup.mkLocations Configs
     , devices = [ "/dev/nvme1n1" ]
     , lvm = True
     , vg_name = "data"

@@ -78,6 +78,9 @@ let instances =
           , run_sf_backup = True
           , real_name = Some "review.rdoproject.org"
           , instances = Some [ "review.rdoproject.org" ]
+          , dir = Some "/var/lib/backup/bup/review.rdoproject.org"
+          , domain = Some "review.rdoproject.org"
+          , month_subdir = Some 1
           }
         , monitoring_urls =
             let note = "TODO: move urls to relevant instance"

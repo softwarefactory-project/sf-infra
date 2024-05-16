@@ -3,7 +3,7 @@
   block:
     - name: Dump the configurations
       ansible.builtin.copy:
-        content: "{{ bup_backup_locations | to_json }}"
+        content: "{{ servers | to_json }}"
         dest: /var/lib/bup-backup-locations.json
 
     - name: Deploy check-bup-backups.py

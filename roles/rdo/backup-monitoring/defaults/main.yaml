@@ -1,1 +1,7 @@
-bup_backup_locations: []
+---
+# Example:
+# servers:
+#  - dir: /var/lib/backup/bup/review.rdoproject.org
+#    domain: review.rdoproject.org
+#    month_subdir: 1
+servers: []

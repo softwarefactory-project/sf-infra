@@ -4,25 +4,6 @@ bind_mounts:
     source: "{{ mountpoint }}/backup"
   - dest: /var/www/html/sfkoji
     source: "{{ mountpoint }}/sfkoji"
-bup_backup_locations:
-  - dir: /var/lib/backup/bup/review.rdoproject.org
-    domain: review.rdoproject.org
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/softwarefactory-project.io
-    domain: softwarefactory-project.io
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
-    domain: koji.softwarefactory-project.io
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/fedora.softwarefactory-project.io
-    domain: fedora.softwarefactory-project.io
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
-    domain: centos.softwarefactory-project.io
-    month_subdir: 1
-  - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
-    domain: ansible.softwarefactory-project.io
-    month_subdir: 1
 db_repl_user: dlrn_repl
 devices:
   - /dev/nvme1n1
@@ -37,20 +18,29 @@ mysqld_exporter_ssl_certs: "{{ db_ssl_certs }}"
 mysqld_exporter_use_ssl: true
 mysqld_exporter_user: root
 servers:
-  - filename: review.rdoproject.org.yaml
+  - dir: /var/lib/backup/bup/review.rdoproject.org
+    domain: review.rdoproject.org
+    filename: review.rdoproject.org.yaml
     hour: 0
     instances:
       - review.rdoproject.org
+    month_subdir: 1
     run_sf_backup: true
-  - filename: softwarefactory-project.io.yaml
+  - dir: /var/lib/backup/bup/softwarefactory-project.io
+    domain: softwarefactory-project.io
+    filename: softwarefactory-project.io.yaml
     hour: 1
     instances:
       - softwarefactory-project.io
+    month_subdir: 1
     run_sf_backup: true
-  - filename: koji.softwarefactory-project.io.yaml
+  - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
+    domain: koji.softwarefactory-project.io
+    filename: koji.softwarefactory-project.io.yaml
     hour: 2
     instances:
       - koji.softwarefactory-project.io
+    month_subdir: 1
     playbook: backup-koji.yaml
     run_sf_backup: true
     sf_releases:
@@ -63,14 +53,20 @@ servers:
     instances:
       - fedora.softwarefactory-project.io
     run_sf_backup: true
-  - filename: centos.softwarefactory-project.io.yaml
+  - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
+    domain: centos.softwarefactory-project.io
+    filename: centos.softwarefactory-project.io.yaml
     hour: 4
     instances:
       - centos.softwarefactory-project.io
+    month_subdir: 1
     run_sf_backup: true
-  - filename: ansible.softwarefactory-project.io.yaml
+  - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
+    domain: ansible.softwarefactory-project.io
+    filename: ansible.softwarefactory-project.io.yaml
     hour: 5
     instances:
       - ansible.softwarefactory-project.io
+    month_subdir: 1
     run_sf_backup: true
 vg_name: data
