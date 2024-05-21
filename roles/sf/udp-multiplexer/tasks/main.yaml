@@ -1,59 +1,12 @@
-- name: Create udp-multiplexer directory
+- name: Remove udp-multiplexer directory
   become: true
   ansible.builtin.file:
     path: /opt/udp-multiplexer
-    state: directory
-    mode: '0755'
+    state: absent
 
-- name: Copy the source
-  become: true
-  ansible.builtin.copy:
-    src: udp-multiplexer.hs
-    dest: /opt/udp-multiplexer/udp-multiplexer.hs
-  register: _src
-
-- name: Setup script
-  become: true
-  vars:
-    build_image: quay.io/software-factory/zuul-worker-haskell-ghc9
-    build_command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -package network -o /opt/udp-multiplexer/udp-multiplexer /opt/udp-multiplexer/udp-multiplexer.hs
-  ansible.builtin.command: >
-    podman run -it --rm
-      --volume /opt/udp-multiplexer:/opt/udp-multiplexer:Z
-      {{ build_image }} {{ build_command }}
-  when: _src is changed
-
-- name: Create a symbolic link to udp-multiplexer bin
-  become: true
-  ansible.builtin.file:
-    src: /opt/udp-multiplexer/udp-multiplexer
-    dest: /usr/local/bin/udp-multiplexer
-    state: link
-
-- name: Setup service
-  become: true
-  ansible.builtin.copy:
-    content: |
-      [Unit]
-      Description=UDP Multiplexer service
-      After=syslogp.target network.target
-
-      [Service]
-      Type=simple
-      SyslogIdentifier=udp-multiplexer
-      ExecStart=/usr/local/bin/udp-multiplexer {{ udp_mp_listen_port }} {% for dest in udp_mp_dests %} {{ dest.hostname }} {{ dest.port }} {% endfor %}
-
-      Restart=always
-      RestartSec=3s
-
-      [Install]
-      WantedBy=multi-user.target
-    dest: /etc/systemd/system/udp-multiplexer.service
-
-- name: Start service
+- name: Remove service
   become: true
   ansible.builtin.systemd:
     name: udp-multiplexer
-    daemon-reload: true
-    state: started
-    enabled: true
+    state: stopped
+    enabled: false
