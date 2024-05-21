@@ -1,17 +1,15 @@
 #!/usr/bin/env stack
--- stack script --package network --package bytestring
---
--- Install stack using:
--- sudo dnf copr enable -y petersen/stack2 && sudo dnf install -y stack && sudo stack upgrade
+-- Install toolchain:
+-- curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 --
 -- Start a REPL using:
--- stack repl --package network --package bytestring
+-- $ ghci
 -- Prelude> :load udp-multiplexer
 -- [1 of 1] Compiling Main             ( udp-multiplexer.hs, interpreted )
 -- Main> :type ...
 --
 -- Build a binary using:
--- stack ghc --package network --package bytestring -- -Wall -O2 -threaded ./udp-multiplexer.hs
+-- ghc -package network -Wall -O2 -threaded ./udp-multiplexer.hs
 
 import Control.Exception (SomeException, handle)
 import Control.Monad (forever, forM)
