@@ -29,6 +29,11 @@
       ansible.builtin.command: >
         tar xafv {{ _crcbundle_name.stdout }} -C "{{ crc_bundle_dir }}" --strip-components 1
 
+    - name: Remove bundle file after extract
+      ansible.builtin.file:
+        path: "{{ _crcbundle_name.stdout }}"
+        state: absent
+
 # NOTE: The solution below is from time to time not working (kubelet service
 # does not want to start) on the our CI, where it pass normally during my tests.
 - name: Use direct commands
