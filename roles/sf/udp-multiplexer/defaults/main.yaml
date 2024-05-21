@@ -1,6 +1,0 @@
-udp_mp_listen_port: 7000
-udp_mp_dests:
-  - hostname: elk.example.com
-    port: 8125
-  - hostname: prometheus.example.com
-    port: 9125
