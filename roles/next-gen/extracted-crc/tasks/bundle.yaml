@@ -16,9 +16,27 @@
             oc get mc $mc -o yaml > {{ crc_bundle_dir }}/machineconfigpool/$mc.yaml
         done
 
+    - name: Synchronize cache before run bundle
+      ansible.builtin.command: sync
+
     - name: Generate bundle
       ansible.builtin.shell: |
-        crc bundle generate --log-level debug | tee {{ ansible_user_dir }}/bundle-generate-log
+        crc bundle generate --log-level debug
+      register: _bundle_log
+
+    - name: Write stdout to file
+      ansible.builtin.copy:
+        content: |
+          {{ _bundle_log.stdout }}
+        dest: "{{ ansible_user_dir }}/bundle-generate-log"
+
+    - name: Synchronize cache after run bundle
+      ansible.builtin.command: sync
+
+    - name: Remove main crc dir to get more space
+      ansible.builtin.file:
+        path: "{{ ansible_user_dir }}/.crc"
+        state: absent
 
     - name: Get bundle name
       ansible.builtin.shell: |
