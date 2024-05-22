@@ -1,0 +1,15 @@
+---
+- name: Run qemu-img convert with compression
+  ansible.builtin.shell: >
+    qemu-img convert
+    -c -o compression_type=zstd
+    -O qcow2
+    {{ crc_bundle_dir }}/crc.qcow2
+    {{ crc_bundle_dir }}/shrink.qcow2
+
+- name: Rename qcow2 image
+  ansible.builtin.command: |
+    mv {{ crc_bundle_dir }}/shrink.qcow2 {{ crc_bundle_dir }}/crc.qcow2
+
+- name: Flush write cache after compress
+  ansible.builtin.command: sync
