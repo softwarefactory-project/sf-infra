@@ -94,12 +94,13 @@
   ansible.builtin.shell: >
     podman create
     --name test
+    --network host
     -v "$(realpath {{ ansible_user_dir }}/.kube/):/root/.kube:z"
     -v "$(realpath {{ ansible_user_dir }}/oc):/usr/bin/oc:z"
     -v "$(realpath {{ ansible_user_dir }}/install_yamls):/root/install_yamls:z"
     -v "$(realpath {{ ansible_user_dir }}/rdo-config):/root/rdo-config:z"
     -v "$(realpath {{ ansible_user_dir }}/.ssh/id_ed25519):/root/.ssh/id_ed25519:z"
-    fedora:38
+    fedora:40
     sleep inf
 
 - name: Start the container
