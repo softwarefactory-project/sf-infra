@@ -22,3 +22,4 @@ bup_version: 0.32
 #     run_sf_backup: true
 servers: []
 email: root@localhost
+trunkbackup_pub_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2GfMG4lE40bkt3UVGBwgldp/qSPQswaxBK0FxRlAch"
