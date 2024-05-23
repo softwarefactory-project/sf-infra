@@ -7,3 +7,10 @@ crc_use_crc_bundle: true
 # upload to the OpenStack cloud
 sync_extracted_qcow2_dir: "~{{ ansible_user | default(ansible_user_id) }}/crc_image_bundle"
 mount_point: /mnt/extracted
+
+# Should the image be compressed? It can change size from 30GB to 10GB.
+compress_qcow2: true
+# What type of compression should be used: zlib|zstd
+# NOTE: Some hypervisors might have issues on starting VMs when
+# compression type is set to zstd.
+compress_qcow2_type: zlib

@@ -2,7 +2,7 @@
 - name: Run qemu-img convert with compression
   ansible.builtin.shell: >
     qemu-img convert
-    -c -o compression_type=zstd
+    -c -o compression_type={{ compress_qcow2_type }}
     -O qcow2
     {{ crc_bundle_dir }}/crc.qcow2
     {{ crc_bundle_dir }}/shrink.qcow2
