@@ -38,7 +38,8 @@
     state: present
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
-    pool_ids: 2c94c3df880c49780188292012db67a2
+    ## Temporary disable setting pool_ids
+    # pool_ids: 2c94c3df880c49780188292012db67a2
     force_register: yes
   no_log: yes
 

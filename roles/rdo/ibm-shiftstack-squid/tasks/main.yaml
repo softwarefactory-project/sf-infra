@@ -15,9 +15,10 @@
 
     - name: Add htpasswd for squid
       ansible.builtin.copy:
-        src: "~/.squid_htpasswd"
+        src: "/home/stack/.squid_htpasswd"
         dest: "{{ squid_directory }}/htpasswd"
         mode: 0600
+        remote_src: true
       no_log: yes
   become: yes
   become_user: stack
