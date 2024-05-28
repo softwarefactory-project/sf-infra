@@ -11,7 +11,6 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , backup = Some Infra.Backup::{ run_sf_backup = True }
       , groups = [ "sf", "backup-sf" ]
       , connection = OS.CentOS.`7.0`.connection
       }
@@ -27,6 +26,7 @@ let tenant-server =
 let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
+            , backup = Some Infra.Backup::{ run_sf_backup = True }
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "elk", "apache_exporter" ]
@@ -42,6 +42,13 @@ let tenant-instances =
             }
       ,     tenant-instance
         //  { name = "centos"
+            , backup = Some Infra.Backup::{
+              , run_sf_backup = True
+              , dir = Some
+                  "/var/lib/backup/bup/centos.softwarefactory-project.io"
+              , domain = Some "centos.softwarefactory-project.io"
+              , month_subdir = Some 1
+              }
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "apache_exporter" ]
@@ -55,7 +62,17 @@ let tenant-instances =
                 }
               ]
             }
-      , tenant-instance // { name = "ansible", server = Some tenant-server }
+      ,     tenant-instance
+        //  { name = "ansible"
+            , backup = Some Infra.Backup::{
+              , run_sf_backup = True
+              , dir = Some
+                  "/var/lib/backup/bup/ansible.softwarefactory-project.io"
+              , domain = Some "ansible.softwarefactory-project.io"
+              , month_subdir = Some 1
+              }
+            , server = Some tenant-server
+            }
       ]
 
 let instances =
@@ -100,6 +117,9 @@ let instances =
         , backup = Some Infra.Backup::{
           , run_sf_backup = True
           , real_name = Some "softwarefactory-project.io"
+          , dir = Some "/var/lib/backup/bup/softwarefactory-project.io"
+          , domain = Some "softwarefactory-project.io"
+          , month_subdir = Some 1
           }
         , monitoring_urls =
             let note = "TODO: move urls to relevant instance"
@@ -210,6 +230,9 @@ let instances =
           , run_sf_backup = True
           , sf_releases = Some
             [ "sf-master-el7", "sf-3.6-el7-release", "sf-3.5-el7-release" ]
+          , dir = Some "/var/lib/backup/bup/koji.softwarefactory-project.io"
+          , domain = Some "koji.softwarefactory-project.io"
+          , month_subdir = Some 1
           }
         , connection = OS.CentOS.`7.0`.connection
         , server = Some Infra.Server::{

@@ -37,6 +37,9 @@ let mkServers =
                   , www_dir = getOptional Text server.www_dir
                   , playbook = getOptional Text server.playbook
                   , sf_releases = getOptional (List Text) server.sf_releases
+                  , dir = getOptional Text server.dir
+                  , domain = getOptional Text server.domain
+                  , month_subdir = getOptional Natural server.month_subdir
                   }
           )
           Configs

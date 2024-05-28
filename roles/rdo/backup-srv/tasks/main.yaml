@@ -1,20 +1,12 @@
 ---
-- name: Install epel-release
-  ansible.builtin.include_role:
-    name: system/epel-release
-
 - name: Install packages
   become: yes
   ansible.builtin.package:
     name:
       - ansible-core
-      - certbot
 
 - name: Install bup
   ansible.builtin.include_tasks: install.yaml
-
-- name: Setup httpd for koji
-  ansible.builtin.include_tasks: httpd_koji.yaml
 
 - name: Setup jobs
   become: yes
@@ -24,7 +16,7 @@
         name: MAILTO
         user: root
         env: yes
-        value: softwarefactory-operations-team@redhat.com
+        value: "{{ email }}"
 
     - name: Install playbooks
       ansible.builtin.copy:

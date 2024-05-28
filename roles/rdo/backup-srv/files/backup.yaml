@@ -2,26 +2,32 @@
   connection: local
   tasks:
     - name: "Add {{ item }} to the inventory"
-      add_host:
+      ansible.builtin.add_host:
         name: "{{ item }}"
         groups: "sf"
       loop: "{{ sf_hosts }}"
+
     - name: "Set current_bup_dir"
-      set_fact:
+      ansible.builtin.set_fact:
         current_bup_dir: "{{ bup_dir }}/{{ ansible_date_time.year }}-{{ ansible_date_time.month }}"
+
     - name: "Create local backup directory {{ local_dir }}"
-      file:
+      ansible.builtin.file:
         path: "{{ local_dir }}"
         state: directory
         mode: 0700
+
     - name: "Create local bup directory {{ current_bup_dir }}"
-      file:
+      ansible.builtin.file:
         path: "{{ current_bup_dir }}"
         state: directory
         mode: 0700
-    - stat:
-        path: "{{ current_bup_dir }}/HEAD"
+
+    - name: Check if HEAD file exists
+      ansible.builtin.stat:
+        path: "{{ current_bup_dir }}/HEAD"
       register: bd
+
     - name: "Bup init"
       command: "bup init"
       environment:
@@ -41,11 +47,13 @@
     - name: "Rsync remote hosts to localhost {{ local_dir }}"
       command: "rsync --delete-delay -r {{ item }}:{{ remote_dir }} {{ local_dir }}/{{ item }}"
       loop: "{{ sf_hosts }}"
+
     - name: "Bup index"
       command: "bup index {{ local_dir }}"
       environment:
         BUP_DIR: "{{ current_bup_dir }}"
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+
     - name: "Bup save"
       command: "bup save -n {{ sf_hosts[0] }} {{ local_dir }}"
       environment:
