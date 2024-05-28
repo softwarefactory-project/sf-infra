@@ -15,8 +15,8 @@
 - name: Setup script
   become: true
   vars:
-    build_image: quay.io/software-factory/haskell-epel7
-    build_command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -o /opt/udp-multiplexer/udp-multiplexer /opt/udp-multiplexer/udp-multiplexer.hs
+    build_image: quay.io/software-factory/zuul-worker-haskell-ghc9
+    build_command: ghc -threaded -rtsopts -with-rtsopts=-N -O2 -package network -o /opt/udp-multiplexer/udp-multiplexer /opt/udp-multiplexer/udp-multiplexer.hs
   ansible.builtin.command: >
     podman run -it --rm
       --volume /opt/udp-multiplexer:/opt/udp-multiplexer:Z
