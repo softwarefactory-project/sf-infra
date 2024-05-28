@@ -75,8 +75,3 @@ ssl_cert_options:
     domain: "{{ fqdn }}"
     email: "softwarefactory-operations-team@redhat.com"
     webroot: /var/www/html
-udp_mp_dests:
-  - hostname: "{{ fqdn }}"
-    port: 9125
-  - hostname: elk.softwarefactory-project.io
-    port: 8125

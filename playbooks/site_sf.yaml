@@ -162,7 +162,6 @@
     - sf/monitoring-gateway
     - sf/prometheus
     - sf/statsd-exporter
-    - sf/udp-multiplexer
     - service/node-exporter
     - service/apache-exporter
 

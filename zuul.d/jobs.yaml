@@ -350,7 +350,6 @@
 - project:
     check:
       jobs:
-        - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - sf-infra-test-fqcn-fixer-script
         - sf-infra-ensure-fqcn
@@ -372,7 +371,6 @@
         - sf-infra-quay-check
     gate:
       jobs:
-        - sf-infra-test-udp-multiplexer
         - sf-infra-test-custom-exporter
         - sf-infra-test-fqcn-fixer-script
         - sf-infra-ensure-fqcn

@@ -13,7 +13,6 @@ prometheus_monitored_services:
   - blackbox-exporter
   - prometheus
   - statsd_exporter
-  - udp-multiplexer
   # sf.io
   - crio
   - elasticsearch-exporter

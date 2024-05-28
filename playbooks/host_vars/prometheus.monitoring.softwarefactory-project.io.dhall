@@ -62,9 +62,5 @@ in  { certbot_plugin = "--apache"
       , email = "softwarefactory-operations-team@redhat.com"
       , webroot = "/var/www/html"
       }
-    , udp_mp_dests =
-      [ { hostname = "{{ fqdn }}", port = 9125 }
-      , { hostname = "elk.softwarefactory-project.io", port = 8125 }
-      ]
     , container_images
     }
