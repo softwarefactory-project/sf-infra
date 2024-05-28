@@ -9,15 +9,13 @@ let PrometheusConfig = ./prometheus-config.dhall
 let ScrapeConfigs = ./scrape-configs.dhall
 
 let db_server_list =
-      [ "dlrn-db-centos9.rdoproject.org:9104", "dlrn-db.rdoproject.org:9104", "backup.rdoproject.org:9104" ]
+      [ "dlrn-db-centos9.rdoproject.org:9104" ]
 
 let apache_server_list =
-      [ "trunk.rdoproject.org:9117"
-      , "managesf.softwarefactory-project.io:9117"
+      [ "managesf.softwarefactory-project.io:9117"
       , "managesf.review.rdoproject.org:9117"
       , "fedora.softwarefactory-project.io:9117"
       , "mirror.regionone.vexxhost.rdoproject.org:9117"
-      , "trunk-centos8.rdoproject.org:9117"
       , "www.rdoproject.org:9117"
       , "logserver.rdoproject.org:9117"
       , "opensearch.rdoproject.org:9117"

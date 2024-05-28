@@ -38,7 +38,6 @@ all:
       hosts:
         dlrn-db.rdoproject.org: {}
         trunk-centos8.rdoproject.org: {}
-        trunk.rdoproject.org: {}
     dlrn-centos9:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
@@ -365,14 +364,15 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
+    trunk-old.rdoproject.org:
+      ansible_host: '3.87.151.16'
+      ansible_port: 3300
+      ansible_python_interpreter: python2
+      ansible_user: centos
     trunk-server-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    trunk.rdoproject.org:
-      ansible_port: 3300
-      ansible_python_interpreter: python2
-      ansible_user: centos
     www.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python3

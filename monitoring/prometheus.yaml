@@ -40,7 +40,7 @@ scrape_configs:
           - trunk-server-centos9.rdoproject.org:9100
           - trunk-builder-centos9.rdoproject.org:9100
           - backup.rdoproject.org:9100
-          - trunk.rdoproject.org:9100
+          - trunk-old.rdoproject.org:9100
           - baremetal03.rdoproject.org:9100
           - baremetal04.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
@@ -160,17 +160,13 @@ scrape_configs:
     static_configs:
       - targets:
           - dlrn-db-centos9.rdoproject.org:9104
-          - dlrn-db.rdoproject.org:9104
-          - backup.rdoproject.org:9104
   - job_name: apache
     static_configs:
       - targets:
-          - trunk.rdoproject.org:9117
           - managesf.softwarefactory-project.io:9117
           - managesf.review.rdoproject.org:9117
           - fedora.softwarefactory-project.io:9117
           - mirror.regionone.vexxhost.rdoproject.org:9117
-          - trunk-centos8.rdoproject.org:9117
           - www.rdoproject.org:9117
           - logserver.rdoproject.org:9117
           - opensearch.rdoproject.org:9117

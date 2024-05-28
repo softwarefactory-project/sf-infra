@@ -264,9 +264,11 @@ let extra =
                 }
         }
       , Instance::{
-        , name = "trunk"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`7.0`.connection // { ansible_port = 3300 }
+        , name = "trunk-old"
+        , connection =
+                OS.CentOS.`7.0`.connection
+             // { ansible_host = Some "3.87.151.16"
+                , ansible_port = 3300 }
         }
       ]
 

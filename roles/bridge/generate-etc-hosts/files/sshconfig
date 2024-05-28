@@ -74,10 +74,10 @@ Host backup.rdoproject.org
     User centos
     Port 22
     Hostname 52.71.149.221
-Host trunk.rdoproject.org
+Host trunk-old.rdoproject.org
     User centos
     Port 3300
-
+    Hostname 3.87.151.16
 Host rdo-web-builder.int.osci.io
     User root
     Port 22
