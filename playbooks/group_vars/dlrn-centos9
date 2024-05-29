@@ -1,0 +1,15 @@
+---
+firewall_rules:
+    - port: '9100/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled
+    - port: '9117/tcp'
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+ip_trunk_server: 38.129.56.180
+ip_trunk_builder: 38.129.56.237
+ip_db_master: 38.102.83.62
+

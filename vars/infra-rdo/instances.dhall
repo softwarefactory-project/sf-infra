@@ -165,7 +165,7 @@ let instances =
         }
       , Instance::{
         , name = "dlrn-db"
-        , groups = [ "dlrn", "db_master" ]
+        , groups = [ "dlrn" ]
         , connection = OS.CentOS.`8.1`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
@@ -199,7 +199,7 @@ let instances =
         }
       , Instance::{
         , name = "dlrn-db-centos9"
-        , groups = [ "dlrn-centos9", "rhel", "rdo" ]
+        , groups = [ "dlrn-centos9", "rhel", "rdo", "db_master" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name

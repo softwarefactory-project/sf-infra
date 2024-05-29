@@ -160,6 +160,23 @@
       - "^roles/system/.*$"
 
 - job:
+    name: sf-infra-configure-hosts-dlrn-centos9
+    parent: sf-infra-configure
+    description: Configure the DLRN hosts
+    vars:
+      sf_infra_play_name: site_dlrn_centos9
+    files:
+      - playbooks/site_dlrn_centos9.yaml
+      - playbooks/host_vars/dlrn-db-centos9.rdoproject.org.yaml
+      - ^playbooks/host_vars/trunk.*centos9.*.yaml$
+      - playbooks/group_vars/all
+      - playbooks/group_vars/dlrn-centos9
+      - "^roles/infra/.*$"
+      - "^roles/service/.*$"
+      - "^roles/system/.*$"
+      - "^roles/infra-dlrn/.*$"
+
+- job:
     name: sf-infra-configure-hosts-osci
     parent: sf-infra-configure
     description: Configure the OSCI hosts
@@ -400,6 +417,11 @@
               - name: sf-infra-create-hosts
                 soft: true
         - sf-infra-configure-hosts-rdo:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-configure-hosts-dlrn-centos9:
             dependencies:
               - dhall-diff
               - name: sf-infra-create-hosts

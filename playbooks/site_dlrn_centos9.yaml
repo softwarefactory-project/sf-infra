@@ -1,0 +1,43 @@
+---
+- ansible.builtin.import_playbook: site_bridge.yaml
+
+#- hosts: dlrn-centos9:!dlrn-db-centos9.rdoproject.org
+#  vars_files:
+#    - vars/dlrn.yaml
+#  roles:
+#    - service/firewalld
+#    - infra-dlrn/dlrn-server
+#    - system/journald
+#
+#- hosts: trunk-centos8.rdoproject.org
+#  roles:
+#    - system/swap
+#    - service/apache-exporter
+#    - service/node-exporter
+#    - system/journald
+#  tasks:
+#    - name: Executing check-dlrn role
+#      ansible.builtin.include_role:
+#        name: sf/check-dlrn
+#        apply:
+#          become: yes
+
+# Deploy database server
+- hosts: dlrn-db-centos9.rdoproject.org
+  vars_files:
+    - vars/dlrn-db.yaml
+  roles:
+    - service/firewalld
+    - service/hostname
+    - service/mysqld-exporter
+    - system/journald
+  tasks:
+    - ansible.builtin.include_role:
+        name: infra-dlrn/mariadb-replicated
+        tasks_from: common.yml
+        apply:
+          become: true
+    - ansible.builtin.include_role:
+        name: infra-dlrn/mariadb-replicated
+        tasks_from: backup-mariadb.yml
+

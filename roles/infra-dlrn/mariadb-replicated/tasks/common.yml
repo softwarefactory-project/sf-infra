@@ -1,28 +1,13 @@
-- name: Install required packages (CentOS 8)
+- name: Fail if running in non EL9
+  ansible.builtin.fail:
+    msg: "OS major release is {{ ansible_facts.distribution_major_version }}"
+  when: ansible_facts.distribution_major_version != '9'
+
+- name: Install required packages
   ansible.builtin.package:
     name:
       - mariadb-server
       - python3-PyMySQL
-  when:
-    - ansible_distribution == "CentOS"
-    - ansible_distribution_major_version == '8'
-
-- name: Install required packages (CentOS 7) - part 1
-  ansible.builtin.package:
-    name:
-      - centos-release-openstack-train
-  when:
-    - ansible_distribution == "CentOS"
-    - ansible_distribution_major_version == '7'
-
-- name: Install required packages (CentOS 7) - part 2
-  ansible.builtin.package:
-    name:
-      - mariadb-server
-      - python2-PyMySQL
-  when:
-    - ansible_distribution == "CentOS"
-    - ansible_distribution_major_version == '7'
 
 - name: Create systemd directory for limits.conf file
   ansible.builtin.file:
@@ -43,14 +28,17 @@
     enabled: yes
     state: started
 
-- name: Secure MariaDB installation
-  ansible.builtin.include_tasks: secure-mariadb.yml
-
 - name: Deploy my.cnf
   ansible.builtin.template:
     src: my.cnf.j2
     dest: /root/.my.cnf
     mode: '0600'
+
+- name: Secure MariaDB installation
+  ansible.builtin.include_tasks: secure-mariadb.yml
+
+- name: Create mariadb firewall zone
+  ansible.builtin.include_tasks: firewalld-mariadb.yml
 
 - name: Create directories for MariaDB SSL certs
   ansible.builtin.file:

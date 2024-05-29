@@ -36,21 +36,20 @@
     - name: Ensure MariaDB is reloaded if needed
       ansible.builtin.meta: flush_handlers
 
-    # TODO find which ansible module should be used now
     - name: Fetch replica status
       mysql_replication:
-        mode: getslave
+        mode: getreplica
       register: replica_status
 
     - name: Stop replication for reconfiguration
       mysql_replication:
-        mode: stopslave
-      when: replica_status.Is_Slave and replica_status.Slave_SQL_Running == "Yes"
+        mode: stopreplica
+      when: replica_status.Is_Replica and replica_status.Slave_SQL_Running == "Yes"
 
     - name: Configure replication
       mysql_replication:
-        mode: changemaster
-        master_host: "{{ master_host }}"
+        mode: changeprimary
+        master_host: "{{ ip_db_master }}"
         master_log_file: "{{ master_db['master_status']['File'] }}"
         master_ssl: yes
         master_user: "{{ db_repl_user }}"
@@ -59,5 +58,5 @@
 
     - name: Start replication
       mysql_replication:
-        mode: startslave
+        mode: startreplica
   become: yes

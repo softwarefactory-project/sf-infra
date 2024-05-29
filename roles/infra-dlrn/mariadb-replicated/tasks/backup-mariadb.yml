@@ -1,0 +1,49 @@
+---
+- name: Create mariabackup db user
+  community.mysql.mysql_user:
+    login_user: root
+    login_password: ''
+    name: mariabackup
+    password: "{{ db_password }}"
+    priv: '*.*:SELECT,SHOW VIEW,LOCK TABLES,RELOAD,REPLICATION CLIENT,PROCESS,CONNECTION ADMIN'
+    host: "{{ item }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  become: true
+
+- name: Create config file for mariabackup
+  ansible.builtin.template:
+    src: mariabackup.cnf.j2
+    dest: /etc/my.cnf.d/mariabackup.cnf
+    group: mysql
+    mode: '0640'
+  become: true
+
+- name: Copy backup script to /usr/local/bin
+  ansible.builtin.copy:
+    dest: /usr/local/bin/run-xtrabackup.sh
+    src: run-xtrabackup.sh
+    mode: '0755'
+  become: true
+
+- become: true
+  when: enable_backup_cron | default(false) | bool
+  block:
+  - name: Create logs directory
+    ansible.builtin.file:
+      path: /data/mysql_backup/logs
+      state: directory
+      mode: '0755'
+
+  - name: Create cron job to run mariabackup
+    ansible.builtin.cron:
+      name: Backup mariadb database
+      minute: "0"
+      hour: "1,9,17"
+      job: '/usr/local/bin/run-xtrabackup.sh > /data/mysql_backup/logs/backup-$(date +\%F_\%H-\%M-\%S).log 2>&1'
+      user: root
+

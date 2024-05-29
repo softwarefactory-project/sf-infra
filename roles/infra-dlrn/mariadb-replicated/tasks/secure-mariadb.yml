@@ -2,12 +2,14 @@
   community.mysql.mysql_db:
     name: test
     state: absent
+    login_unix_socket: /var/lib/mysql/mysql.sock
 
 - name: anonymous users are absent
   community.mysql.mysql_user:
     name: ''
     state: absent
     host_all: yes
+    login_unix_socket: /var/lib/mysql/mysql.sock
 
 # 'localhost' needs to be the last item for idempotency, see
 # http://ansible.cc/docs/modules.html#mysql-user
@@ -19,6 +21,7 @@
     password: "{{ db_password }}"
     priv: '*.*:ALL,GRANT'
     host: "{{ item }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
   with_items:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
