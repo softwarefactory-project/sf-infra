@@ -103,7 +103,7 @@ let tenant-instances =
 let instances =
       [ Instance::{
         , name = "bridge"
-        , groups = [ "bridge" ]
+        , groups = [ "bridge", "promtail" ]
         , connection = OS.Fedora.`39`.connection
         }
       , Instance::{
@@ -165,7 +165,7 @@ let instances =
                 , "https://trunk.rdoproject.org"
                 , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
-        , groups = [ "rhel", "sf", "install-server", "backup-sf" ]
+        , groups = [ "rhel", "sf", "install-server", "backup-sf", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -294,6 +294,7 @@ let instances =
         }
       , Instance::{
         , name = "microshift"
+        , groups = [ "promtail-openshift" ]
         , connection = OS.CentOS.`9-stream`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`9-stream`.image.name
@@ -312,6 +313,7 @@ let instances =
         }
       , Instance::{
         , name = "microshift-infra"
+        , groups = [ "promtail-openshift" ]
         , connection = OS.CentOS.`9-stream`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`9-stream`.image.name

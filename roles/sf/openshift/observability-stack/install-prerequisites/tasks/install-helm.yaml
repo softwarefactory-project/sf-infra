@@ -1,0 +1,19 @@
+---
+- name: Check for helm
+  ansible.builtin.stat:
+    path: /usr/local/bin/helm
+  register: helm_stat
+
+- name: Install helm
+  when: not helm_stat.stat.exists
+  ansible.builtin.include_tasks: download-helm.yaml
+
+- name: Ensure helm is at proper version
+  when: helm_stat.stat.exists
+  ansible.builtin.command:
+    helm version
+  register: helm_current_version
+
+- name: Get binary at expected version
+  when: helm_stat.stat.exists and helm_version not in helm_current_version.stdout
+  ansible.builtin.include_tasks: download-helm.yaml

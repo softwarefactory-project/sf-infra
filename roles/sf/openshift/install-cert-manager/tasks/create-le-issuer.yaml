@@ -6,13 +6,13 @@
       apiVersion: cert-manager.io/v1
       kind: Issuer
       metadata:
-        name: {{ issuer_name }}
-        namespace: {{ issuer_namespace }}
+        name: "{{ issuer_name }}"
+        namespace: "{{ issuer_namespace }}"
       spec:
         acme:
           privateKeySecretRef:
-            name: {{ issuer_name }}
-          server: {{ issuer_server }}
+            name: "{{ issuer_name }}"
+          server: "{{ issuer_server }}"
           solvers:
             - http01:
                 ingress: {}

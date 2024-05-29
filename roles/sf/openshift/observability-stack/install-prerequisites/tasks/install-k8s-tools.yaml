@@ -1,19 +1,22 @@
 ---
 - name: Install package requirements
   block:
-    - name: Install epel for rhel system
+    - name: Install epel
       ansible.builtin.include_role:
         name: system/epel-release
       when:
-        - ansible_distribution == "RedHat"
+        - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
         - ansible_distribution_major_version == "9"
+    - name: Remove helm package if installed
+      ansible.builtin.package:
+        name: helm
+        state: absent
     - name: Install requirements
       ansible.builtin.package:
         name:
           - python3
           - python3-kubernetes
           - jq
-          - helm
   become: true
 
 - name: Check for kustomize

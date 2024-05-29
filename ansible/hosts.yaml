@@ -102,6 +102,14 @@ all:
       hosts:
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
+    promtail:
+      hosts:
+        bridge.softwarefactory-project.io: {}
+        managesf.softwarefactory-project.io: {}
+    promtail-openshift:
+      hosts:
+        microshift-infra.softwarefactory-project.io: {}
+        microshift.softwarefactory-project.io: {}
     quay:
       hosts:
         quay.rdoproject.org: {}

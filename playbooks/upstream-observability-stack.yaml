@@ -1,0 +1,102 @@
+---
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+  # Prerequisites
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-logCLI
+
+# Components deployed on microshift-infra
+- hosts: microshift-infra.softwarefactory-project.io
+  environment:
+    KUBECONFIG: "{{ ansible_user_dir }}/.kube/config"
+  tasks:
+    - ansible.builtin.include_vars: vars/observability-stack.yaml
+    # Prerequisites
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-k8s-tools
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-helm
+    # vexxhost S3 config
+    - name: Create aws config dir if needed
+      ansible.builtin.file:
+        path: ~/.aws
+        state: directory
+    - name: Create S3 credentials config
+      ansible.builtin.template:
+        src: files/aws_credentials.j2
+        dest: ~/.aws/credentials
+      no_log: true
+    # re-initialize manifest dir
+    - name: Clean manifests directory if needed
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}"
+        state: absent
+    - name: Create manifests directory
+      ansible.builtin.file:
+        path: "{{ kustomize_dir }}"
+        state: directory
+    # ensure prometheus-operator is present
+    - name: Prepare prometheus-operator service account privileges
+      ansible.builtin.command: oc adm policy add-scc-to-user privileged system:serviceaccount:operators:prometheus-operator
+    - name: Ensure prometheus operator is installed
+      block:
+        - name: Apply prometheus-operator subscription
+          ansible.builtin.command: kubectl apply -f https://raw.githubusercontent.com/softwarefactory-project/sf-operator/master/olm-deps/prometheus/prometheus-subscription.yaml
+        - name: Wait for pod to be ready
+          ansible.builtin.command: >
+            kubectl wait --for=condition=Ready --timeout 5s pods
+            -l app.kubernetes.io/name=prometheus-operator -n operators
+          register: ready_po
+          until:
+            - '"condition met" in ready_po.stdout'
+            - ready_po.rc == 0
+          retries: 60
+          delay: 5
+    # deploy Loki
+    - name: Ensure loki namespace exists
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          kind: namespace
+          metadata:
+            name: "{{ loki_namespace }}"
+          labels:
+            name: "{{ loki_namespace }}"
+    - name: Check if S3 bucket exists
+      ansible.builtin.shell: |
+        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api list-buckets
+      register: s3_buckets
+    - name: Create bucket if needed
+      ansible.builtin.shell: |
+        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api create-bucket --bucket {{ s3_config.bucketnames }}
+      when: 's3_config.bucketnames not in s3_buckets.stdout'
+    - name: Generate and deploy Loki manifests
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/loki
+        tasks_from: deploy-loki.yaml
+    - ansible.builtin.include_role:
+        name: sf/openshift/install-cert-manager
+        tasks_from: create-le-issuer.yaml
+    - name: Annotate loki's route for cert-manager/openshift-routes operator
+      ansible.builtin.command: oc -n {{ loki_namespace }} annotate route loki-gateway --overwrite cert-manager.io/issuer-name={{ issuer_name }} cert-manager.io/issuer-kind=Issuer
+
+- hosts: promtail
+  tasks:
+    - ansible.builtin.include_vars: vars/observability-stack.yaml
+    - name: Enable promtail service (regular nodes)
+      ansible.builtin.include_role:
+        name: service/promtail
+      vars:
+        is_openshift_node: false
+
+- hosts: promtail-openshift
+  tasks:
+    - ansible.builtin.include_vars: vars/observability-stack.yaml
+    - name: Enable promtail service (k8s nodes)
+      ansible.builtin.include_role:
+        name: service/promtail
+      vars:
+        is_openshift_node: true

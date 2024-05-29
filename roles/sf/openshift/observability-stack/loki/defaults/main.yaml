@@ -1,5 +1,6 @@
 ---
 loki_namespace: sf-observability
+loki_chart_version: 5.48.0
 loki:
   write_storage: 2Gi
   backend_storage: 2Gi
