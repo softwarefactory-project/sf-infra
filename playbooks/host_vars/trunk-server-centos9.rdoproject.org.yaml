@@ -1,0 +1,10 @@
+---
+swap_device: /dev/vdb
+dlrn_server_type: 'server'
+dlrn_enable_https: true
+dlrn_manage_letsencrypt: true
+enable_worker_cronjobs: false
+enable_purge_cronjobs: false
+web_domain: 'trunk.rdoproject.org'
+rhel_release: 9.4
+
