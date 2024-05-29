@@ -33,7 +33,7 @@ scrape_configs:
       - localhost
     labels:
       job: openshift_pod
-      host: {{ ansible_host }}
+      host: {{ ansible_fqdn }}
       # /var/log/pods/<namespace>_<pod_name>_<pod_uid>/<container>/*
       __path__: /var/log/pods/*/*/*log
   pipeline_stages:
@@ -55,7 +55,10 @@ scrape_configs:
     max_age: 12h
     labels:
       job: systemd-journal
-      host: {{ ansible_host }}
+      host: {{ ansible_fqdn }}
   relabel_configs:
+    - action: drop
+      source_labels: ['__journal__systemd_unit']
+      regex: .+scope$
     - source_labels: ['__journal__systemd_unit']
       target_label: 'unit'
