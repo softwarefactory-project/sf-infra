@@ -1,0 +1,31 @@
+---
+- name: Prepare for RDO Trunk services backup
+  become: yes
+  block:
+  - name: create trunkbackup user
+    ansible.builtin.user:
+      name: trunkbackup
+      comment: 'trunkbackup user'
+      home: '/home/trunkbackup'
+      create_home: true
+
+  - name: Create .ssh directory for trunkbackup user
+    ansible.builtin.file:
+      path: /home/trunkbackup/.ssh
+      state: directory
+      mode: 0700
+      owner: trunkbackup
+      group: trunkbackup
+
+  - name: Add required ssh key for Trunk backup
+    ansible.posix.authorized_key:
+      user: trunkbackup
+      key: "{{ trunkbackup_pub_key }}"
+
+  - name: Create backup directory
+    ansible.builtin.file:
+      path: /mnt/data_backup/trunk_backup
+      state: directory
+      mode: 0755
+      owner: trunkbackup
+      group: trunkbackup

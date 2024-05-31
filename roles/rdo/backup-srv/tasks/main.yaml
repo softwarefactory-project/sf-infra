@@ -8,6 +8,9 @@
 - name: Install bup
   ansible.builtin.include_tasks: install.yaml
 
+- name: Setup backup destination for RDO Trunk
+  ansible.builtin.include_tasks: trunk.yaml
+
 - name: Setup jobs
   become: yes
   block:
