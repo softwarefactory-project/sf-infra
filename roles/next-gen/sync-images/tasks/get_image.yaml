@@ -45,9 +45,9 @@
         OS_CLOUD: "{{ remote_cloud.cloud_name }}"
 
     - name: Print a debug message when images are not equal
-      when: _parent_img_md5 != _base_image_md5
+      when: _parent_img_md5.stdout != _base_image_md5.stdout
       ansible.builtin.debug:
-        msg: "Images are not the same! ({{ _parent_img_md5 }} != {{ _base_image_md5 }} )"
+        msg: "Images are not the same! ({{ _parent_img_md5.stdout }} != {{ _base_image_md5.stdout }} )"
 
     - name: Ensure dowload dir exists
       become: true
@@ -97,7 +97,7 @@
           when: _previous_img_info.images
 
         - name: Pull image if present crc.qcow2 md5sum missmatch
-          when: not _present_crc_qcow2.stat.exists or (_present_crc_md5sum.stdout != _base_image_md5)
+          when: not _present_crc_qcow2.stat.exists or (_present_crc_md5sum.stdout != _base_image_md5.stdout)
           block:
             - name: Remove old qcow2 image
               ansible.builtin.file:
