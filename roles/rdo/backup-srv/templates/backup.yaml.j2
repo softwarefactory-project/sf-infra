@@ -15,3 +15,6 @@ run_sf_backup: {{ item.run_sf_backup | default('yes') }}
 {% endif %}
 local_dir: "/var/lib/backup/hosts/{{ item.instances[0] }}/"
 bup_dir: "/var/lib/backup/bup/{{ item.instances[0] }}/"
+bup_container_image: "quay.io/software-factory/bup:{{ bup_version }}"
+bup_container_name: "bup"
+

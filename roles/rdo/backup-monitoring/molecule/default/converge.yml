@@ -12,8 +12,5 @@
       - dir: /var/lib/backup/bup/lists.rdoproject.org
         domain: lists.rdoproject.org
         month_subdir: 1
-      - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
-        domain: koji.softwarefactory-project.io
-        month_subdir: 1
   roles:
     - role: backup-monitoring
