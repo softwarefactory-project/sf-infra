@@ -48,10 +48,13 @@ servers:
       - sf-3.6-el7-release
       - sf-3.5-el7-release
     www_dir: /var/www/html/sfkoji/repos/
-  - filename: fedora.softwarefactory-project.io.yaml
+  - dir: /var/lib/backup/bup/fedora.softwarefactory-project.io
+    domain: fedora.softwarefactory-project.io
+    filename: fedora.softwarefactory-project.io.yaml
     hour: 3
     instances:
       - fedora.softwarefactory-project.io
+    month_subdir: 1
     run_sf_backup: true
   - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
     domain: centos.softwarefactory-project.io

@@ -26,7 +26,13 @@ let tenant-server =
 let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
-            , backup = Some Infra.Backup::{ run_sf_backup = True }
+            , backup = Some Infra.Backup::{
+              , run_sf_backup = True
+              , dir = Some
+                  "/var/lib/backup/bup/fedora.softwarefactory-project.io"
+              , domain = Some "fedora.softwarefactory-project.io"
+              , month_subdir = Some 1
+              }
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "elk", "apache_exporter" ]
