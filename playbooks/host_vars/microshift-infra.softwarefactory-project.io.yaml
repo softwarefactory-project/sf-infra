@@ -1,3 +1,4 @@
+---
 fqdn: microshift-infra.softwarefactory-project.io
 delete_partitions: true
 wipe_partition_table: true
@@ -9,3 +10,6 @@ setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
 k9s_version: v0.31.7
+microshift_version: 4.13
+olm_version: "v0.24.0"
+operator_sdk_version: "v1.28.0"

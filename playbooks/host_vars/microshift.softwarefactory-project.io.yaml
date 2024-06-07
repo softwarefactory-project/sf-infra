@@ -1,3 +1,4 @@
+---
 fqdn: microshift.softwarefactory-project.io
 use_copr_microshift: false
 disk_file_sparsed: true
@@ -8,6 +9,9 @@ setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
 k9s_version: v0.29.1
+microshift_version: 4.13
+olm_version: "v0.24.0"
+operator_sdk_version: "v1.28.0"
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
