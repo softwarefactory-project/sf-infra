@@ -1,0 +1,4 @@
+---
+issuer_name: letsencrypt-prod
+issuer_namespace: default
+issuer_server: https://acme-v02.api.letsencrypt.org/directory
