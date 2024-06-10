@@ -14,6 +14,7 @@
     - system/volume
     - sf/setup-microshift
     - sf/k9s
+    - sf/openshift/install-cert-manager-openshift-routes
 
 - hosts: microshift.softwarefactory-project.io
   roles:
