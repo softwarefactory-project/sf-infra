@@ -119,7 +119,7 @@
       - name: software-factory/ansible-role-elastic-recheck
       - name: opendev.org/openstack/ci-log-processing
       - name: github.com/openstack-k8s-operators/ansible-microshift-role
-        override-checkout: 172b6b2161b357ad4d364d5298b5b238732e7204
+        override-checkout: 4.13.0-1
     timeout: 3600
     vars:
       sf_infra_play_name: site
