@@ -18,6 +18,7 @@ all:
     backup-sf:
       hosts:
         ansible.softwarefactory-project.io: {}
+        centos-new.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -123,6 +124,7 @@ all:
         trunk-server-centos9.rdoproject.org: {}
     rhel:
       hosts:
+        centos-new.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
@@ -136,6 +138,7 @@ all:
     sf:
       hosts:
         ansible.softwarefactory-project.io: {}
+        centos-new.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
@@ -212,6 +215,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    centos-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     centos.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2

@@ -23,6 +23,21 @@ let tenant-server =
       , security_groups = [ "web" ]
       }
 
+let tenant-rhel-9-instance =
+      Instance::{
+      , name = "tenant"
+      , groups = [ "rhel", "sf", "backup-sf" ]
+      , connection = OS.RHEL.`9.3`.connection
+      }
+
+let tenant-rhel-9-server =
+      Infra.Server::{
+      , image = OS.RHEL.`9.3`.image.name
+      , floating_ip = Some True
+      , volume_size = Some 40
+      , security_groups = [ "web" ]
+      }
+
 let tenant-instances =
       [     tenant-instance
         //  { name = "fedora"
@@ -67,6 +82,14 @@ let tenant-instances =
                 , device = "/dev/vdb"
                 }
               ]
+            }
+      ,     tenant-rhel-9-instance
+        //  { name = "centos-new"
+            , server = Some
+                ( Infra.Server.addSecurityGroups
+                    [ "elk", "apache_exporter" ]
+                    tenant-rhel-9-server
+                )
             }
       ,     tenant-instance
         //  { name = "ansible"
