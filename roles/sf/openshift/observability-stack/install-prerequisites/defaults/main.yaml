@@ -6,3 +6,11 @@ logcli_version: "2.9.2"
 logcli_release_url: https://github.com/grafana/loki/releases/download/v{{ logcli_version }}/logcli-linux-amd64.zip
 helm_version: "3.13.2"
 helm_release_url: https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/helm/{{ helm_version }}/helm-linux-amd64
+
+# configuration of logcli aliases and helpers
+loki_addr: https://loki
+loki_username: user
+loki_password: password
+loki_tenant: XXX
+loki_tls:
+  insecure: false
