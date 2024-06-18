@@ -118,8 +118,7 @@ let security_groups =
           , rules =
               Infra.Rule.textMap
                 (Infra.Rule.createTcpPort +3306)
-                [ "3.87.151.16/32"
-                , "38.102.83.226/32"
+                [ "38.102.83.226/32"
                 , "38.102.83.175/32"
                 , "66.187.233.202/32"
                 , "52.71.149.221/32"
@@ -129,16 +128,13 @@ let security_groups =
           , rules =
               Infra.Rule.textMap
                 (Infra.Rule.createTcpPort +3306)
-                [ "38.129.56.237/32"
-                , "38.129.56.180/32"
-                ]
+                [ "38.129.56.237/32", "38.129.56.180/32" ]
           }
         , { name = "nfs-trunk-centos9"
           , rules =
               Infra.Rule.textMap
                 (Infra.Rule.createTcpPort +2049)
-                [ "38.129.56.180/32"
-                ]
+                [ "38.129.56.180/32" ]
           }
         , { name = "mta", rules = [ Infra.Rule::{ port = +25 } ] }
         , { name = "mda"

@@ -155,9 +155,6 @@ security_groups:
     rules:
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: "3.87.151.16/32"
-      - port: 3306
-        protocol: tcp
         remote_ip_prefix: "38.102.83.226/32"
       - port: 3306
         protocol: tcp

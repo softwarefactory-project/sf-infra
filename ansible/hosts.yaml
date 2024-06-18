@@ -377,11 +377,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    trunk-old.rdoproject.org:
-      ansible_host: '3.87.151.16'
-      ansible_port: 3300
-      ansible_python_interpreter: python2
-      ansible_user: centos
     trunk-server-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto

@@ -15,7 +15,6 @@ This project manages:
 * trunk-server-centos9.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * trunk-builder-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * backup.rdoproject.org 
-* trunk-old.rdoproject.org 
 * rdo-web-builder.int.osci.io 
 * lists.rdoproject.org 
 * baremetal03.rdoproject.org 
