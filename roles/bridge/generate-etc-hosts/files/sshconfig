@@ -146,12 +146,24 @@ Host elk.softwarefactory-project.io
     User centos
     Port 22
 
+Host elk-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host managesf.softwarefactory-project.io
     User centos
     Port 22
 
+Host managesf-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host nodepool-builder.softwarefactory-project.io
     User centos
+    Port 22
+
+Host nodepool-builder-new.softwarefactory-project.io
+    User cloud-user
     Port 22
 
 Host k1s05.softwarefactory-project.io
@@ -170,8 +182,16 @@ Host zk01.softwarefactory-project.io
     User centos
     Port 22
 
+Host zk01-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host zs.softwarefactory-project.io
     User centos
+    Port 22
+
+Host zs-new.softwarefactory-project.io
+    User cloud-user
     Port 22
 
 Host koji.softwarefactory-project.io
@@ -194,12 +214,20 @@ Host fedora.softwarefactory-project.io
     User centos
     Port 22
 
+Host fedora-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host centos.softwarefactory-project.io
     User cloud-user
     Port 22
 
 Host ansible.softwarefactory-project.io
     User centos
+    Port 22
+
+Host ansible-new.softwarefactory-project.io
+    User cloud-user
     Port 22
 
 Host ze01.softwarefactory-project.io
@@ -260,6 +288,38 @@ Host zm07.softwarefactory-project.io
 
 Host zm08.softwarefactory-project.io
     User centos
+    Port 22
+
+Host ze01-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host ze02-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host ze03-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host ze04-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host zm01-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host zm02-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host zm03-new.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
+Host zm04-new.softwarefactory-project.io
+    User cloud-user
     Port 22
 
 Host sf-container-worker-1.softwarefactory-project.io

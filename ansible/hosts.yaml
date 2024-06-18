@@ -17,9 +17,12 @@ all:
         backup.rdoproject.org: {}
     backup-sf:
       hosts:
+        ansible-new.softwarefactory-project.io: {}
         ansible.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
+        fedora-new.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
+        managesf-new.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
     baremetal:
       hosts:
@@ -52,6 +55,7 @@ all:
       hosts:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
+        nodepool-builder-new.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
     ibm-instance:
       hosts:
@@ -63,6 +67,7 @@ all:
         ibm-bm4-zfgw.softwarefactory-project.io: {}
     install-server:
       hosts:
+        managesf-new.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
     k1s:
@@ -123,22 +128,40 @@ all:
         trunk-server-centos9.rdoproject.org: {}
     rhel:
       hosts:
+        ansible-new.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
+        elk-new.softwarefactory-project.io: {}
+        fedora-new.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        managesf-new.softwarefactory-project.io: {}
+        nodepool-builder-new.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
         quay.rdoproject.org: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
+        ze01-new.softwarefactory-project.io: {}
+        ze02-new.softwarefactory-project.io: {}
+        ze03-new.softwarefactory-project.io: {}
+        ze04-new.softwarefactory-project.io: {}
+        zk01-new.softwarefactory-project.io: {}
+        zm01-new.softwarefactory-project.io: {}
+        zm02-new.softwarefactory-project.io: {}
+        zm03-new.softwarefactory-project.io: {}
+        zm04-new.softwarefactory-project.io: {}
+        zs-new.softwarefactory-project.io: {}
     sf:
       hosts:
+        ansible-new.softwarefactory-project.io: {}
         ansible.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
+        elk-new.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
+        fedora-new.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm3-ze.softwarefactory-project.io: {}
@@ -147,49 +170,73 @@ all:
         ibm-bm4-ze.softwarefactory-project.io: {}
         ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
+        managesf-new.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         microshift-infra.softwarefactory-project.io: {}
         microshift.softwarefactory-project.io: {}
+        nodepool-builder-new.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
+        ze01-new.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
+        ze02-new.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
+        ze03-new.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
+        ze04-new.softwarefactory-project.io: {}
         ze04.softwarefactory-project.io: {}
         ze05.softwarefactory-project.io: {}
         ze06.softwarefactory-project.io: {}
         ze07.softwarefactory-project.io: {}
+        zk01-new.softwarefactory-project.io: {}
         zk01.softwarefactory-project.io: {}
+        zm01-new.softwarefactory-project.io: {}
         zm01.softwarefactory-project.io: {}
+        zm02-new.softwarefactory-project.io: {}
         zm02.softwarefactory-project.io: {}
+        zm03-new.softwarefactory-project.io: {}
         zm03.softwarefactory-project.io: {}
+        zm04-new.softwarefactory-project.io: {}
         zm04.softwarefactory-project.io: {}
         zm05.softwarefactory-project.io: {}
         zm06.softwarefactory-project.io: {}
         zm07.softwarefactory-project.io: {}
         zm08.softwarefactory-project.io: {}
+        zs-new.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
     ze:
       hosts:
         ibm-bm3-ze.softwarefactory-project.io: {}
         ibm-bm4-ze.softwarefactory-project.io: {}
+        ze01-new.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
+        ze02-new.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
+        ze03-new.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
+        ze04-new.softwarefactory-project.io: {}
         ze04.softwarefactory-project.io: {}
         ze05.softwarefactory-project.io: {}
         ze06.softwarefactory-project.io: {}
         ze07.softwarefactory-project.io: {}
     zm:
       hosts:
+        zm01-new.softwarefactory-project.io: {}
         zm01.softwarefactory-project.io: {}
+        zm02-new.softwarefactory-project.io: {}
         zm02.softwarefactory-project.io: {}
+        zm03-new.softwarefactory-project.io: {}
         zm03.softwarefactory-project.io: {}
+        zm04-new.softwarefactory-project.io: {}
         zm04.softwarefactory-project.io: {}
         zm05.softwarefactory-project.io: {}
         zm06.softwarefactory-project.io: {}
         zm07.softwarefactory-project.io: {}
         zm08.softwarefactory-project.io: {}
   hosts:
+    ansible-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     ansible.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -225,6 +272,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: centos
+    elk-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     elk.review.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -233,6 +284,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    fedora-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     fedora.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -299,6 +354,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    managesf-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     managesf.review.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -329,6 +388,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    nodepool-builder-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     nodepool-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -378,18 +441,34 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: centos
+    ze01-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     ze01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    ze02-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     ze02.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    ze03-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     ze03.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    ze04-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     ze04.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -406,22 +485,42 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zk01-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zk01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zm01-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zm01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zm02-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zm02.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zm03-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zm03.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zm04-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zm04.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2
@@ -442,6 +541,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    zs-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     zs.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python2

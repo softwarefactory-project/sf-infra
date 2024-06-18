@@ -253,6 +253,20 @@ servers:
       - elk
     state: present
   - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: elk-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - elk
+    state: present
+    volume_size: 50
+  - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ip: true
     image: centos-7-1907
@@ -269,6 +283,22 @@ servers:
     state: present
     volume_size: 20
   - boot_from_volume: yes
+    flavor: v1-standard-4
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: managesf-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - web
+      - managesf
+      - apache_exporter
+    state: present
+    volume_size: 100
+  - boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
@@ -279,6 +309,18 @@ servers:
       - monitoring
       - internal
     state: present
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: nodepool-builder-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+    volume_size: 50
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ip: true
@@ -336,6 +378,20 @@ servers:
       - zookeeper
     state: present
   - boot_from_volume: yes
+    flavor: "4vcpus_8gb"
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zk01-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - zookeeper
+    state: present
+    volume_size: 50
+  - boot_from_volume: yes
     flavor: v1-standard-2
     image: centos-7-1907
     key_name: sf-infra-key
@@ -346,6 +402,18 @@ servers:
       - monitoring
       - internal
     state: present
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zs-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+    volume_size: 50
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true
@@ -426,6 +494,22 @@ servers:
     floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
+    name: fedora-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - elk
+      - apache_exporter
+      - web
+    state: present
+    volume_size: 40
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
     name: centos.softwarefactory-project.io
     network: private-network
     security_groups:
@@ -447,6 +531,22 @@ servers:
       - common
       - monitoring
       - internal
+      - web
+    state: present
+    volume_size: 40
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: ansible-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - elk
+      - apache_exporter
       - web
     state: present
     volume_size: 40
@@ -609,6 +709,94 @@ servers:
     image: centos-7-1907
     key_name: sf-infra-key
     name: zm08.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "4vcpus_8gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: ze01-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "4vcpus_8gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: ze02-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "4vcpus_8gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: ze03-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "4vcpus_8gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: ze04-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "1vcpu_1gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zm01-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "1vcpu_1gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zm02-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "1vcpu_1gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zm03-new.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+  - boot_from_volume: no
+    flavor: "1vcpu_1gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: zm04-new.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
