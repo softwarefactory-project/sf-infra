@@ -1,0 +1,37 @@
+---
+- name: Get sf-config bits
+  block:
+    - name: Install packages
+      ansible.builtin.package:
+        name:
+          - ansible-core
+          - git
+          - glibc-all-langpacks
+          - langpacks-en
+          - python3-pip
+
+    - name: Install requirements pip
+      ansible.builtin.pip:
+        name:
+          - git-review
+
+    - name: Install ansible collections (the process is really slow)
+      ansible.builtin.command: ansible-galaxy collection install ansible.posix community.general community.mysql
+
+    - name: Ensure packages from sf koji can be installed
+      ansible.builtin.command: update-crypto-policies --set DEFAULT:SHA1
+
+    - name: Set sfconfig_path variable
+      ansible.builtin.set_fact:
+        sfconfig_path: "/root/sf-config"
+
+    - name: Clone sf-config
+      ansible.builtin.git:
+        repo: https://softwarefactory-project.io/r/software-factory/sf-config
+        dest: "{{ sfconfig_path }}"
+
+    - name: Setup sf-config
+      ansible.builtin.command: ansible-playbook --extra-vars "sfconfig_path={{ sfconfig_path }}" ansible/setup.yaml
+      args:
+        chdir: "{{ sfconfig_path }}"
+  become: yes
