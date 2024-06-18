@@ -44,8 +44,7 @@ This project manages:
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * fedora.softwarefactory-project.io centos-7-1907 v1-standard-2
-* centos.softwarefactory-project.io centos-7-1907 v1-standard-2
-* centos-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* centos.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ansible.softwarefactory-project.io centos-7-1907 v1-standard-2
 * ze01.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * ze02.softwarefactory-project.io centos-7-1907 4vcpus_8gb

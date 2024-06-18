@@ -195,10 +195,6 @@ Host fedora.softwarefactory-project.io
     Port 22
 
 Host centos.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host centos-new.softwarefactory-project.io
     User cloud-user
     Port 22
 

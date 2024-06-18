@@ -61,7 +61,7 @@ let tenant-instances =
                 }
               ]
             }
-      ,     tenant-instance
+      ,     tenant-rhel-9-instance
         //  { name = "centos"
             , backup = Some Infra.Backup::{
               , run_sf_backup = True
@@ -73,7 +73,7 @@ let tenant-instances =
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "apache_exporter" ]
-                    tenant-server
+                    tenant-rhel-9-server
                 )
             , volumes =
               [ Infra.Volume::{
@@ -82,14 +82,6 @@ let tenant-instances =
                 , device = "/dev/vdb"
                 }
               ]
-            }
-      ,     tenant-rhel-9-instance
-        //  { name = "centos-new"
-            , server = Some
-                ( Infra.Server.addSecurityGroups
-                    [ "elk", "apache_exporter" ]
-                    tenant-rhel-9-server
-                )
             }
       ,     tenant-instance
         //  { name = "ansible"
