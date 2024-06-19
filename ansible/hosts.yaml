@@ -11,6 +11,7 @@ all:
         mirror.regionone.vexxhost.rdoproject.org: {}
     backup-rdo:
       hosts:
+        managesf.review-new.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
     backup-server:
       hosts:
@@ -68,6 +69,7 @@ all:
     install-server:
       hosts:
         managesf-new.softwarefactory-project.io: {}
+        managesf.review-new.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
     k1s:
@@ -119,7 +121,9 @@ all:
         backup.rdoproject.org: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.review.rdoproject.org: {}
+        logserver-new.rdoproject.org: {}
         logserver.rdoproject.org: {}
+        managesf.review-new.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         opensearch.rdoproject.org: {}
@@ -137,7 +141,9 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        logserver-new.rdoproject.org: {}
         managesf-new.softwarefactory-project.io: {}
+        managesf.review-new.rdoproject.org: {}
         nodepool-builder-new.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
@@ -350,11 +356,19 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: sf
+    logserver-new.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     logserver.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
     managesf-new.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    managesf.review-new.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

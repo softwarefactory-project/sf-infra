@@ -255,6 +255,21 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: managesf.review-new.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+      - managesf
+      - apache_exporter
+    state: present
+    volume_size: 100
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
     image: centos-7-1907
     key_name: sf-infra-key
     name: elk.review.rdoproject.org
@@ -281,6 +296,22 @@ servers:
       - apache_exporter
     state: present
     volume_size: 10
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: logserver-new.rdoproject.org
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - web
+      - hound
+      - internal
+      - apache_exporter
+    state: present
+    volume_size: 20
   - boot_from_volume: yes
     flavor: v1-standard-1
     floating_ip: true

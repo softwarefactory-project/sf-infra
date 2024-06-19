@@ -38,12 +38,20 @@ Host managesf.review.rdoproject.org
     User centos
     Port 22
 
+Host managesf.review-new.rdoproject.org
+    User cloud-user
+    Port 22
+
 Host elk.review.rdoproject.org
     User centos
     Port 22
 
 Host logserver.rdoproject.org
     User centos
+    Port 22
+
+Host logserver-new.rdoproject.org
+    User cloud-user
     Port 22
 
 Host www.rdoproject.org

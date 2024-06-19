@@ -103,6 +103,19 @@ let instances =
           }
         }
       , Instance::{
+        , name = "managesf.review-new"
+        , groups = [ "rhel", "rdo", "install-server", "backup-rdo" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`2vcpus_8gb`
+          , boot_from_volume = "yes"
+          , floating_ip = Some True
+          , volume_size = Some 100
+          , security_groups = [ "web", "managesf", "apache_exporter" ]
+          }
+        }
+      , Instance::{
         , name = "elk.review"
         , groups = [ "rdo" ]
         , connection = OS.CentOS.`7.0`.connection
@@ -147,6 +160,19 @@ let instances =
             , device = "/dev/vdd"
             }
           ]
+        }
+      , Instance::{
+        , name = "logserver-new"
+        , groups = [ "rhel", "rdo" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`2vcpus_8gb`
+          , boot_from_volume = "yes"
+          , volume_size = Some 20
+          , floating_ip = Some True
+          , security_groups = [ "web", "hound", "internal", "apache_exporter" ]
+          }
         }
       , Instance::{
         , name = "www"
@@ -267,8 +293,7 @@ let extra =
         , name = "trunk-old"
         , connection =
                 OS.CentOS.`7.0`.connection
-             // { ansible_host = Some "3.87.151.16"
-                , ansible_port = 3300 }
+            //  { ansible_host = Some "3.87.151.16", ansible_port = 3300 }
         }
       ]
 
