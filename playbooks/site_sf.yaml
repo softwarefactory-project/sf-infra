@@ -100,6 +100,14 @@
         name: rpm-build
       become: yes
 
+# TODO should be deleted after rhel-9 migration
+- hosts: managesf-new.softwarefactory-project.io
+  tasks:
+    - name: Install bits for sf-config
+      ansible.builtin.include_role:
+        name: infra/install-server
+        tasks_from: setup
+
 - hosts: managesf.softwarefactory-project.io
   roles:
     - infra/install-server
@@ -108,6 +116,12 @@
     - service/apache-exporter
     - service/hostname
   tasks:
+    # TODO uncomment after rhel-9 migration
+    # - name: Install bits for sf-config
+    #   ansible.builtin.include_role:
+    #     name: infra/install-server
+    #     tasks_from: setup
+
     - name: Add gitiles to disallow in robot.txt
       become: true
       ansible.builtin.lineinfile:
@@ -179,12 +193,26 @@
     - { name: "logsender", become: true }
     - system/volume
 
+# TODO should be deleted after rhel-9 migration
+- hosts: fedora-new.softwarefactory-project.io
+  tasks:
+    - name: Install bits for sf-config
+      ansible.builtin.include_role:
+        name: infra/install-server
+        tasks_from: setup
+
 - hosts: fedora.softwarefactory-project.io
   roles:
     - service/acme-tiny
     - service/apache-exporter
     - sf/fm-gateway
     - system/volume
+  # TODO uncomment after rhel-9 migration
+  # tasks:
+  #   - name: Install bits for sf-config
+  #     ansible.builtin.include_role:
+  #       name: infra/install-server
+  #       tasks_from: setup
 
 - hosts: nodepool-builder
   roles:
@@ -196,10 +224,24 @@
   roles:
     - service/firewalld
 
+# TODO should be deleted after rhel-9 migration
+- hosts: ansible-new.softwarefactory-project.io
+  tasks:
+    - name: Install bits for sf-config
+      ansible.builtin.include_role:
+        name: infra/install-server
+        tasks_from: setup
+
 - hosts: ansible.softwarefactory-project.io
   roles:
     - service/acme-tiny
     - service/apache-exporter
+  # TODO uncomment after rhel-9 migration
+  # tasks:
+  #   - name: Install bits for sf-config
+  #     ansible.builtin.include_role:
+  #       name: infra/install-server
+  #       tasks_from: setup
 
 - hosts: logscraper02.openstack.org
   roles:
