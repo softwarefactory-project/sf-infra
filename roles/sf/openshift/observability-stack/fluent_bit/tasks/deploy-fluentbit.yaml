@@ -34,7 +34,7 @@
 
 - name: Generate helm manifest
   ansible.builtin.shell: |
-    helm template fluent-bit fluent/fluent-bit --values overlay/chart-values.yaml --namespace {{ sf_namespace }} > base/fluentbit-helm-manifest.yaml
+    helm template fluent-bit fluent/fluent-bit --version {{ fluentbit_chart_version }} --values overlay/chart-values.yaml --namespace {{ sf_namespace }} > base/fluentbit-helm-manifest.yaml
   args:
     chdir: "{{ kustomize_dir }}/fluentbit"
 

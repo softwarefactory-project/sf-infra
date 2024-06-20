@@ -7,5 +7,12 @@ loki_password: observability-sf
 fluentbit_loki_tls:
   insecure: true
 sf_namespace: sf
+observability_namespace: sf-observability
+
+fluentbit_chart_version: 0.46.11
+enable_service_monitor: false
+fluentbit_job_label: "sf_fluentbit"
+# extra labels in the form of key1=value1, key2 = value2, ...
+fluentbit_extra_labels: ""
 
 kustomize_dir: "~/deployments/observability-stack"
