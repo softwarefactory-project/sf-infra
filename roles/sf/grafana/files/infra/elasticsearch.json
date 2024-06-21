@@ -26,7 +26,6 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 6483,
   "graphTooltip": 1,
-  "id": 152,
   "links": [
     {
       "asDropdown": true,
@@ -164,7 +163,6 @@
         "y": 1
       },
       "id": 53,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -178,9 +176,11 @@
           "fields": "/^__name__$/",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -259,7 +259,6 @@
         "y": 1
       },
       "id": 81,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -273,9 +272,11 @@
           "fields": "/^__name__$/",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -340,7 +341,6 @@
         "y": 1
       },
       "id": 51,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -354,9 +354,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -424,7 +426,6 @@
         "y": 1
       },
       "id": 50,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -438,9 +439,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -505,7 +508,6 @@
         "y": 1
       },
       "id": 10,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -519,9 +521,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -586,7 +590,6 @@
         "y": 1
       },
       "id": 9,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -600,9 +603,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -672,7 +677,6 @@
       },
       "hideTimeOverride": true,
       "id": 16,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -686,9 +690,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -742,7 +748,6 @@
         "y": 1
       },
       "id": 89,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -756,9 +761,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -850,7 +857,6 @@
         "y": 5
       },
       "id": 11,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -864,9 +870,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "repeat": "shard_type",
       "targets": [
         {
@@ -931,7 +939,6 @@
         "y": 5
       },
       "id": 39,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -945,9 +952,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -1011,7 +1020,6 @@
         "y": 5
       },
       "id": 40,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -1025,9 +1033,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -1091,7 +1101,6 @@
         "y": 5
       },
       "id": 41,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -1105,9 +1114,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -1171,7 +1182,6 @@
         "y": 5
       },
       "id": 42,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -1185,9 +1195,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -1251,7 +1263,6 @@
         "y": 5
       },
       "id": 82,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -1265,9 +1276,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "datasource": {
@@ -1350,13 +1363,12 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [],
       "nullPointMode": "connected",
       "options": {
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1450,13 +1462,12 @@
       },
       "lines": true,
       "linewidth": 1,
-      "links": [],
       "nullPointMode": "connected",
       "options": {
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -6984,8 +6995,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 37,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -7148,7 +7158,7 @@
         "current": {
           "selected": false,
           "text": "prometheus",
-          "value": "prometheus"
+          "value": "P1809F7CD0C75ACF3"
         },
         "hide": 2,
         "includeAll": false,
@@ -7195,6 +7205,7 @@
   },
   "timezone": "browser",
   "title": "ElasticSearch",
-  "version": 106,
-  "description": "ElasticSearch cluster stats.\r\n\r\nRevision 1 of this dashboard is the same as the Infinity Dashboard Revision 4 (https://grafana.com/dashboards/2322)\r\n\r\nThis is a cleaned up copy with all control characters removed from the dashboard file.  When downloading version 4 of the original Infinity elasticsearch dashboard via curl, the resulting file is corrupted with a missing final curly brace.\r\n"
+  "uid": "ZSV-3M-Sz",
+  "version": 1,
+  "weekStart": ""
 }

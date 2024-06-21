@@ -37,7 +37,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -181,7 +183,9 @@
       "id": 1,
       "interval": "1m",
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "enablePagination": true,
           "fields": "",
           "reducer": [
@@ -192,7 +196,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "bucketAggs": [],
@@ -322,7 +326,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -466,7 +472,9 @@
       "id": 9,
       "interval": "1m",
       "options": {
+        "cellHeight": "sm",
         "footer": {
+          "countRows": false,
           "enablePagination": true,
           "fields": "",
           "reducer": [
@@ -477,7 +485,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "9.2.6",
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "bucketAggs": [],
@@ -607,7 +615,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -667,8 +677,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "text",
-                "value": null
+                "color": "text"
               }
             ]
           }
@@ -892,7 +901,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -1176,7 +1187,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -1450,7 +1463,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -1734,7 +1749,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -2018,7 +2035,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -2302,7 +2321,9 @@
         "defaults": {
           "custom": {
             "align": "left",
-            "displayMode": "color-text",
+            "cellOptions": {
+              "type": "color-text"
+            },
             "filterable": true,
             "inspect": false
           },
@@ -2578,8 +2599,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 37,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
@@ -2592,6 +2612,6 @@
   "timezone": "",
   "title": "RDO Puppet Promotions Pipeline",
   "uid": "1cbR4SISz",
-  "version": 1,
+  "version": 6,
   "weekStart": ""
 }
