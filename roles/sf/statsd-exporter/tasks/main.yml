@@ -69,6 +69,7 @@
         pod_param: >
           --net=host
           --pid=host
+          --pull=always
           -v /etc/prometheus/statsd_mapping.yml:/tmp/statsd_mapping.yml
           -p {{ listen_address }}:9102
           -p {{ listen_udp_port }}:9125

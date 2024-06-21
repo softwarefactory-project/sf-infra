@@ -49,6 +49,7 @@
     pod_name: mysqld-exporter
     pod_param: >
       --net=host
+      --pull=always
       {{ mysqld_exporter_mounts }}
       {{ container_images['mysqld_exporter'] | default('quay.io/software-factory/mysqld-exporter:latest') }}
       --config.my-cnf /etc/.mysqld_exporter.cnf
