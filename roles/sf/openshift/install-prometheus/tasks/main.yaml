@@ -4,6 +4,6 @@
     state: present
     definition: "{{ lookup('file', 'files/microshift_prometheus.yaml') | from_yaml_all }}"
 
-# cm-le-issuer-production Issuer is created by sf-operator
+# le-issuer-prod Issuer is created earlier by sf-infra
 - name: Annotate the Prometheus Route for cert-manager/openshift-routes operator
-  ansible.builtin.command: oc -n sf annotate route prometheus --overwrite cert-manager.io/issuer-name=cm-le-issuer-production
+  ansible.builtin.command: oc -n sf annotate route prometheus --overwrite cert-manager.io/issuer-name=le-issuer-prod

@@ -1,18 +1,19 @@
 ---
 - name: Create let's encrypt-type Issuer
   kubernetes.core.k8s:
+    kubeconfig: "{{ kube_config }}"
     state: present
     definition:
       apiVersion: cert-manager.io/v1
       kind: Issuer
       metadata:
-        name: {{ issuer_name }}
-        namespace: {{ issuer_namespace }}
+        name: "{{ issuer_name }}"
+        namespace: "{{ issuer_namespace }}"
       spec:
         acme:
           privateKeySecretRef:
-            name: {{ issuer_name }}
-          server: {{ issuer_server }}
+            name: "{{ issuer_name }}"
+          server: "{{ issuer_server }}"
           solvers:
             - http01:
                 ingress: {}

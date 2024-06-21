@@ -24,6 +24,7 @@
     - sf/openshift/install-sf-operator
     - sf/openshift/install-software-factory
     - sf/openshift/install-cert-manager-openshift-routes
+    - sf/openshift/install-sf-operator-route
     - sf/openshift/install-prometheus
     - sf/openshift/install-logjuicer
 

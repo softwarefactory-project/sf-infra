@@ -1,4 +1,5 @@
 ---
+kube_config: "{{ ansible_user_dir }}/.kube/config"
 issuer_name: letsencrypt-prod
 issuer_namespace: default
 issuer_server: https://acme-v02.api.letsencrypt.org/directory

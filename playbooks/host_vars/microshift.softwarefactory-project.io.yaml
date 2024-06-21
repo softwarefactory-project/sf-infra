@@ -2,16 +2,15 @@
 fqdn: microshift.softwarefactory-project.io
 use_copr_microshift: false
 disk_file_sparsed: true
-standard_user: false
 create_pv: false
 disk_file_size: 80G
 setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
 k9s_version: v0.29.1
-microshift_version: 4.13
-olm_version: "v0.24.0"
-operator_sdk_version: "v1.28.0"
+
+route_host: "{{ fqdn }}"
+route_enable_le: true
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
@@ -25,8 +24,6 @@ software_factory:
       name: microzuul-config
       zuul-connection-name: sfio-gerrit
     fqdn: microshift.softwarefactory-project.io
-    letsEncrypt:
-      server: prod
     logserver:
       loopDelay: 3600
       retentionDays: 7

@@ -76,13 +76,20 @@
         version: "{{ sf_operator_standalone_release }}"
         force: true
 
+    - name: Ensure applied CRs location directory
+      ansible.builtin.file:
+        path: ~/sf-operator-last-applied-crs
+        state: directory
+
     - name: Copy the CR on the filesystem
       ansible.builtin.copy:
         content: "{{ software_factory }}"
-        dest: /tmp/sf_operator_cr.yaml
+        dest: ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
 
     - name: Run the standalone command
-      ansible.builtin.shell: go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }} --cr /tmp/sf_operator_cr.yaml
+      ansible.builtin.shell: >
+        go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }}
+        --cr ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
       args:
         chdir: ~/sf-operator
       environment:
