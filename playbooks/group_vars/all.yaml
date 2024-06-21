@@ -212,8 +212,8 @@ monitoring_host: 'prometheus.monitoring.softwarefactory-project.io'
 monitoring_endpoint_url: 'https://{{ monitoring_host }}'
 
 container_images:
-  # version: 1.6.1
-  node_exporter: "quay.io/prometheus/node-exporter@sha256:81f94e50ea37a88dfee849d0f4acad25b96b397061f59e5095905f6bc5829637"
+  # version: 1.8.1
+  node_exporter: "quay.io/prometheus/node-exporter@sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631"
   # v0.15.0
   mysqld_exporter: "quay.io/prometheus/mysqld-exporter@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e"
   apache_exporter: "quay.io/software-factory/apache_exporter@sha256:ab022d3d176b392057b169af6718e46e18d127c2e45c0d7972fb9f14553e6018"
