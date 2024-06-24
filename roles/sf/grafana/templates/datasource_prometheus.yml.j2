@@ -19,7 +19,7 @@ datasources:
   basicAuth: true
   basicAuthUser: '{{ vexxhost_prometheus.user }}'
   withCredentials: false
-  secureJsonFields:
+  secureJsonData:
     basicAuthPassword: "{{ vexxhost_prometheus.password }}"
   readOnly: false
   version: 1
@@ -40,9 +40,9 @@ datasources:
     maxConcurrentShardRequests: 5
     pplEnabled: true
     timeField: '@timestamp'
-    version: 2.4.0
+    version: 2.11.1
   # NOTE: Set the password also via Web interface
-  secureJsonFields:
+  secureJsonData:
     basicAuthPassword: {{ opensearch_rdo_readonly.password }}
   version: 7
   editable: true
@@ -61,9 +61,9 @@ datasources:
     maxConcurrentShardRequests: 5
     pplEnabled: true
     timeField: '@timestamp'
-    version: 2.4.0
+    version: 2.11.1
   # NOTE: Set the password also via Web interface
-  secureJsonFields:
+  secureJsonData:
     basicAuthPassword: {{ opensearch_rdo_readonly.password }}
   editable: true
 {% endif %}
@@ -85,7 +85,7 @@ datasources:
     tlsAuth: false
     tlsAuthWithCACert: false
     tlsSkipVerify: false
-  secureJsonFields:
+  secureJsonData:
     # NOTE: Set the credentials via browser, where:
     # Header: Authorization
     # value: Bearer <token>
@@ -108,9 +108,9 @@ datasources:
     maxConcurrentShardRequests: 5
     pplEnabled: true
     timeField: '@timestamp'
-    version: 2.4.0
+    version: 2.11.1
   # NOTE: Set the password also via Web interface
-  secureJsonFields:
+  secureJsonData:
     basicAuthPassword: {{ opensearch_softwarefactory_readonly.password }}
   editable: true
 {% endif %}
