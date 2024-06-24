@@ -3,16 +3,16 @@
 description: The softwarefactory-project.io architecture
 inventory:
 - name: zk01
-  ip: 192.168.242.215
+  ip: 192.168.242.188
   public_ip: 38.102.83.232
   roles:
   - zookeeper
 
 - name: managesf
+  ip: 192.168.242.202
   public_ip: 38.102.83.76
   roles:
   - install-server
-  - log-classify
   - mysql
   - gateway
   - gerrit
@@ -21,144 +21,141 @@ inventory:
   - lodgeit
   - gitweb
   - murmur
-  - keycloak
   - firehose
-  - grafana
+  - keycloak
   - cgit
 
 - name: elk
-  ip: 192.168.242.144
+  ip: 192.168.242.225
   roles:
   - logserver
-  - influxdb
   - hound
 
 - name: nodepool-builder
-  ip: 192.168.242.73
+  ip: 192.168.242.61
   roles:
   - nodepool-builder
 
 - name: zs
-  ip: 192.168.242.66
+  ip: 192.168.242.151
   roles:
   - zuul-scheduler
   - zuul-web
   - nodepool-launcher
 
-# executors
 - name: ze01
-  ip: 192.168.242.36
+  ip: 192.168.242.78
   roles:
   - zuul-executor
 
-- ip: 192.168.242.68
+- ip: 192.168.242.209
   name: ze02
   roles:
   - zuul-executor
 
-- ip: 192.168.242.90
+- ip: 192.168.242.25
   name: ze03
   roles:
   - zuul-executor
 
-- ip: 192.168.242.58
+- ip: 192.168.242.236
   name: ze04
   roles:
   - zuul-executor
 
-- ip: 192.168.242.173
+- ip: 192.168.242.120
   name: ze05
   roles:
   - zuul-executor
 
-- ip: 192.168.242.47
+- ip: 192.168.242.153
   name: ze06
   roles:
   - zuul-executor
 
-- ip: 192.168.242.136
+- ip: 192.168.242.65
   name: ze07
   roles:
   - zuul-executor
 
-- ip: 192.168.242.169
+- ip: 192.168.242.125
   name: zm01
   roles:
   - zuul-merger
 
-- ip: 192.168.242.119
+- ip: 192.168.242.24
   name: zm02
   roles:
   - zuul-merger
 
-- ip: 192.168.242.48
+- ip: 192.168.242.105
   name: zm03
   roles:
   - zuul-merger
 
-- ip: 192.168.242.22
+- ip: 192.168.242.63
   name: zm04
   roles:
   - zuul-merger
 
-- ip: 192.168.242.181
+- ip: 192.168.242.9
   name: zm05
   roles:
   - zuul-merger
 
-- ip: 192.168.242.238
+- ip: 192.168.242.205
   name: zm06
   roles:
   - zuul-merger
 
-- ip: 192.168.242.75
+- ip: 192.168.242.155
   name: zm07
   roles:
   - zuul-merger
 
-- ip: 192.168.242.172
+- ip: 192.168.242.184
   name: zm08
   roles:
   - zuul-merger
 
-- name: ibm-bm3-nodepool-launcher
-  private: true
-  use_public_ips: yes
-  ip: 192.168.25.11
-  roles:
-  - nodepool-launcher
-
-- name: ibm-bm3-ze
-  ip: 192.168.25.12
-  private: true
-  use_public_ips: yes
-  roles:
-  - zuul-executor
-
-- name: ibm-bm3-zfgw
-  ip: 192.168.24.13
-  private: true
-  use_public_ips: yes
-  roles:
-  - zuul-fingergw
-
-- name: ibm-bm4-nodepool-launcher
-  private: true
-  use_public_ips: yes
-  ip: 192.168.26.11
-  roles:
-  - nodepool-launcher
-
-- name: ibm-bm4-ze
-  ip: 192.168.26.12
-  private: true
-  use_public_ips: yes
-  roles:
-  - zuul-executor
-
-- name: ibm-bm4-zfgw
-  ip: 192.168.26.13
-  private: true
-  use_public_ips: yes
-  roles:
-  - zuul-fingergw
+# - name: ibm-bm3-nodepool-launcher
+#   private: true
+#   use_public_ips: yes
+#   ip: 192.168.25.11
+#   roles:
+#   - nodepool-launcher
+#
+# - name: ibm-bm3-ze
+#   ip: 192.168.25.12
+#   private: true
+#   use_public_ips: yes
+#   roles:
+#   - zuul-executor
+#
+# - name: ibm-bm3-zfgw
+#   ip: 192.168.24.13
+#   private: true
+#   use_public_ips: yes
+#   roles:
+#   - zuul-fingergw
+#
+# - name: ibm-bm4-nodepool-launcher
+#   private: true
+#   use_public_ips: yes
+#   ip: 192.168.26.11
+#   roles:
+#   - nodepool-launcher
+#
+# - name: ibm-bm4-ze
+#   ip: 192.168.26.12
+#   private: true
+#   use_public_ips: yes
+#   roles:
+#   - zuul-executor
+#
+# - name: ibm-bm4-zfgw
+#   ip: 192.168.26.13
+#   private: true
+#   use_public_ips: yes
+#   roles:
+#   - zuul-fingergw

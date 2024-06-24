@@ -1,7 +1,5 @@
 bind_mounts:
-  - {source: '/mnt/elasticsearch', dest: '/var/lib/elasticsearch', owner: "opensearch", group: "opensearch"}
-  - {source: '/mnt/influxdb', dest: '/var/lib/influxdb', owner: "influxdb", group: "influxdb"}
-  - {source: '/mnt/logs', dest: '/var/www/logs', owner: "loguser", group: "apache"}
+  - {source: '/mnt/logs', dest: '/var/www/logs', owner: "loguser", group: "loguser"}
 
 external_elk:
   infra_name: softwarefactory-project.io

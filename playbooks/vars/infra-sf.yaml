@@ -240,24 +240,11 @@ servers:
     state: present
     volume_size: 80
   - boot_from_volume: yes
-    flavor: v1-standard-4
-    floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: elk.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - elk
-    state: present
-  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: elk-new.softwarefactory-project.io
+    name: elk.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -269,25 +256,9 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-4
     floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: managesf.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - web
-      - managesf
-      - apache_exporter
-    state: present
-    volume_size: 20
-  - boot_from_volume: yes
-    flavor: v1-standard-4
-    floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: managesf-new.softwarefactory-project.io
+    name: managesf.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -300,20 +271,9 @@ servers:
     volume_size: 100
   - boot_from_volume: yes
     flavor: v1-standard-2
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: nodepool-builder.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: yes
-    flavor: v1-standard-2
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: nodepool-builder-new.softwarefactory-project.io
+    name: nodepool-builder.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -367,22 +327,9 @@ servers:
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: zk01.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - zookeeper
-    state: present
-  - boot_from_volume: yes
-    flavor: "4vcpus_8gb"
-    floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: zk01-new.softwarefactory-project.io
+    name: zk01.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -393,20 +340,9 @@ servers:
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-2
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: zs.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: yes
-    flavor: v1-standard-2
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: zs-new.softwarefactory-project.io
+    name: zs.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -552,7 +488,7 @@ servers:
     volume_size: 40
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
     network: private-network
@@ -563,7 +499,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze02.softwarefactory-project.io
     network: private-network
@@ -574,7 +510,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze03.softwarefactory-project.io
     network: private-network
@@ -585,7 +521,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze04.softwarefactory-project.io
     network: private-network
@@ -596,7 +532,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze05.softwarefactory-project.io
     network: private-network
@@ -607,7 +543,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze06.softwarefactory-project.io
     network: private-network
@@ -618,7 +554,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: ze07.softwarefactory-project.io
     network: private-network
@@ -629,7 +565,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
     network: private-network
@@ -640,7 +576,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm02.softwarefactory-project.io
     network: private-network
@@ -651,7 +587,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm03.softwarefactory-project.io
     network: private-network
@@ -662,7 +598,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm04.softwarefactory-project.io
     network: private-network
@@ -673,7 +609,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm05.softwarefactory-project.io
     network: private-network
@@ -684,7 +620,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm06.softwarefactory-project.io
     network: private-network
@@ -695,7 +631,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm07.softwarefactory-project.io
     network: private-network
@@ -706,97 +642,9 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "1vcpu_1gb"
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm08.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze01-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze02-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze03-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze04-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm01-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm02-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm03-new.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm04-new.softwarefactory-project.io
     network: private-network
     security_groups:
       - common
@@ -824,7 +672,11 @@ volumes:
     server: elk.softwarefactory-project.io
     size: 160
   - device: /dev/vdb
-    display_name: nodepool-builder-data-2
+    display_name: nodepool_builder_lib
+    server: nodepool-builder.softwarefactory-project.io
+    size: 200
+  - device: /dev/vdc
+    display_name: nodepool_builder_cache
     server: nodepool-builder.softwarefactory-project.io
     size: 200
   - device: /dev/vdb

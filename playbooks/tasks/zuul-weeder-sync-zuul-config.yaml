@@ -28,11 +28,11 @@
             - name: Copy zuul config for sync
               ansible.builtin.command: rsync -a /etc/zuul/ /tmp/zuul/
 
-            - name: Ensure directory is owned by centos for rsync
+            - name: Ensure directory is owned by cloud-user for rsync
               file:
                 path: /tmp/zuul
-                owner: centos
-                group: centos
+                owner: cloud-user
+                group: cloud-user
                 recurse: yes
           become: yes
           delegate_to: "{{ scheduler }}"

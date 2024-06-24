@@ -33,19 +33,14 @@ This project manages:
 * ibm-bm4-zfgw.softwarefactory-project.io 
 * bridge.softwarefactory-project.io 
 * prometheus.monitoring.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* elk.softwarefactory-project.io centos-7-1907 v1-standard-4
-* elk-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* managesf.softwarefactory-project.io centos-7-1907 v1-standard-4
-* managesf-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-4
-* nodepool-builder.softwarefactory-project.io centos-7-1907 v1-standard-2
-* nodepool-builder-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* elk.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* managesf.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-4
+* nodepool-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * k1s05.softwarefactory-project.io rhel-9.3-x86_64-kvm 8vcpu_16GB
 * k1s03.softwarefactory-project.io rhel-9.3-x86_64-kvm 8vcpu_16GB
 * k1s04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* zk01.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* zk01-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* zs.softwarefactory-project.io centos-7-1907 v1-standard-2
-* zs-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * koji.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
@@ -55,29 +50,21 @@ This project manages:
 * centos.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ansible.softwarefactory-project.io centos-7-1907 v1-standard-2
 * ansible-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* ze01.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze02.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze03.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze04.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze05.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze06.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* ze07.softwarefactory-project.io centos-7-1907 4vcpus_8gb
-* zm01.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm02.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm03.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm04.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm05.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm06.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm07.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* zm08.softwarefactory-project.io centos-7-1907 1vcpu_1gb
-* ze01-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze02-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze03-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze04-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* zm01-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm02-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm03-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm04-new.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* ze01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze02.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze03.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze05.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze06.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* ze07.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
+* zm01.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm02.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm03.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm04.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm05.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm06.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm07.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
+* zm08.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
 * sf-container-worker-1.softwarefactory-project.io 
 * logscraper02.openstack.org 
 

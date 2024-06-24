@@ -132,25 +132,6 @@ let instances =
         }
       , Instance::{
         , name = "elk"
-        , groups = [ "sf" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , floating_ip = Some True
-          , security_groups = [ "elk" ]
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "elk-data"
-            , size = 160
-            , server = "elk" ++ "." ++ fqdn
-            , device = "/dev/vdb"
-            }
-          ]
-        }
-      , Instance::{
-        , name = "elk-new"
         , groups = [ "rhel", "sf" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
@@ -160,6 +141,14 @@ let instances =
           , security_groups = [ "elk" ]
           , volume_size = Some 50
           }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "elk-data"
+            , size = 160
+            , server = "elk" ++ "." ++ fqdn
+            , device = "/dev/vdb"
+            }
+          ]
         }
       , Instance::{
         , name = "managesf"
@@ -188,19 +177,6 @@ let instances =
                 , "https://trunk.rdoproject.org"
                 , "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
                 ]
-        , groups = [ "sf", "install-server", "backup-sf" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , boot_from_volume = "yes"
-          , floating_ip = Some True
-          , volume_size = Some 20
-          , security_groups = [ "web", "managesf", "apache_exporter" ]
-          }
-        }
-      , Instance::{
-        , name = "managesf-new"
         , groups = [ "rhel", "sf", "install-server", "backup-sf" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
@@ -215,19 +191,6 @@ let instances =
       , Instance::{
         , name = "nodepool-builder"
         , groups = [ "sf", "nodepool-builder", "ibm-baremetal-nodepool" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "nodepool-builder-data-2"
-            , size = 200
-            , device = "/dev/vdb"
-            }
-          ]
-        }
-      , Instance::{
-        , name = "nodepool-builder-new"
-        , groups = [ "rhel", "sf", "ibm-baremetal-nodepool" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -235,6 +198,18 @@ let instances =
           , boot_from_volume = "yes"
           , volume_size = Some 50
           }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "nodepool_builder_lib"
+            , size = 200
+            , device = "/dev/vdb"
+            }
+          , Infra.Volume::{
+            , display_name = "nodepool_builder_cache"
+            , size = 200
+            , device = "/dev/vdc"
+            }
+          ]
         }
       , Instance::{
         , name = "k1s05"
@@ -280,17 +255,6 @@ let instances =
         }
       , Instance::{
         , name = "zk01"
-        , groups = [ "sf" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , flavor = Some Flavors.`4vcpus_8gb`
-          , image = OS.CentOS.`7.0`.image.name
-          , floating_ip = Some True
-          , security_groups = [ "zookeeper" ]
-          }
-        }
-      , Instance::{
-        , name = "zk01-new"
         , groups = [ "rhel", "sf" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
@@ -304,12 +268,6 @@ let instances =
         }
       , Instance::{
         , name = "zs"
-        , groups = [ "sf" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{ image = OS.CentOS.`7.0`.image.name }
-        }
-      , Instance::{
-        , name = "zs-new"
         , groups = [ "rhel", "sf" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
@@ -435,23 +393,6 @@ let mkServers =
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
-              , groups = [ "sf", name ]
-              , connection = OS.CentOS.`7.0`.connection
-              , server = Some Infra.Server::{
-                , image = OS.CentOS.`7.0`.image.name
-                , flavor = Some flavor
-                , boot_from_volume = "no"
-                }
-              }
-          )
-
-let mkServersNew =
-      \(name : Text) ->
-      \(flavor : Text) ->
-        Infra.Instance.generate
-          ( \(idx : Natural) ->
-              Instance::{
-              , name = "${name}0${Natural/show idx}-new"
               , groups = [ "rhel", "sf", name ]
               , connection = OS.RHEL.`9.3`.connection
               , server = Some Infra.Server::{
@@ -464,13 +405,9 @@ let mkServersNew =
 
 let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 
-let mkExecutorsNew = mkServersNew "ze" Flavors.`4vcpus_8gb`
-
 let mkMergers = mkServers "zm" Flavors.`1vcpu_1gb`
 
-let mkMergersNew = mkServersNew "zm" Flavors.`1vcpu_1gb`
-
-let zuuls = mkExecutors 7 # mkMergers 8 # mkExecutorsNew 4 # mkMergersNew 4
+let zuuls = mkExecutors 7 # mkMergers 8
 
 let default-security-groups = [ "common", "monitoring", "internal" ]
 

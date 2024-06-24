@@ -151,26 +151,14 @@ Host prometheus.monitoring.softwarefactory-project.io
     Port 22
 
 Host elk.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host elk-new.softwarefactory-project.io
     User cloud-user
     Port 22
 
 Host managesf.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host managesf-new.softwarefactory-project.io
     User cloud-user
     Port 22
 
 Host nodepool-builder.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host nodepool-builder-new.softwarefactory-project.io
     User cloud-user
     Port 22
 
@@ -187,18 +175,10 @@ Host k1s04.softwarefactory-project.io
     Port 22
 
 Host zk01.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host zk01-new.softwarefactory-project.io
     User cloud-user
     Port 22
 
 Host zs.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host zs-new.softwarefactory-project.io
     User cloud-user
     Port 22
 
@@ -239,94 +219,62 @@ Host ansible-new.softwarefactory-project.io
     Port 22
 
 Host ze01.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze02.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze03.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze04.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze05.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze06.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host ze07.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm01.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm02.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm03.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm04.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm05.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm06.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm07.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
 
 Host zm08.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host ze01-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze02-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze03-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze04-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm01-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm02-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm03-new.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm04-new.softwarefactory-project.io
     User cloud-user
     Port 22
 

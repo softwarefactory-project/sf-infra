@@ -100,19 +100,11 @@
         name: rpm-build
       become: yes
 
-# TODO should be deleted after rhel-9 migration
-#- hosts: managesf-new.softwarefactory-project.io
-#  tasks:
-#    - name: Install bits for sf-config
-#      ansible.builtin.include_role:
-#        name: infra/install-server
-#        tasks_from: setup
-
 - hosts: managesf.softwarefactory-project.io
   roles:
     - infra/install-server
     - infra/ssh
-    - service/acme-tiny
+    # - service/acme-tiny
     - service/apache-exporter
     - service/hostname
   tasks:
@@ -218,7 +210,7 @@
   roles:
     - sf/builder-cleanup
     - sf/manage-upstream-config-project
-    - system/volume
+    # - system/volume
 
 - hosts: koji.softwarefactory-project.io
   roles:

@@ -67,14 +67,6 @@
   roles:
     - infra/ssh
 
-# TODO should be deleted after rhel-9 migration
-- hosts: managesf.review-new.rdoproject.org
-  tasks:
-    - name: Install bits for sf-config
-      ansible.builtin.include_role:
-        name: infra/install-server
-        tasks_from: setup
-
 - hosts: managesf.review.rdoproject.org
   tasks:
     # TODO uncomment after rhel-9 migration
