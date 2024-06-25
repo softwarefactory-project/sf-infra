@@ -38,12 +38,10 @@ This project manages:
 * k1s04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* koji.softwarefactory-project.io centos-7-1907 4vcpus_8gb
 * image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
-* fedora.softwarefactory-project.io centos-7-1907 v1-standard-2
-* fedora-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* fedora.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * centos.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ansible.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ze01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb

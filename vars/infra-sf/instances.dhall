@@ -39,7 +39,7 @@ let tenant-rhel-9-server =
       }
 
 let tenant-instances =
-      [     tenant-instance
+      [     tenant-rhel-9-instance
         //  { name = "fedora"
             , backup = Some Infra.Backup::{
               , run_sf_backup = True
@@ -51,7 +51,7 @@ let tenant-instances =
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "elk", "apache_exporter" ]
-                    tenant-server
+                    tenant-rhel-9-server
                 )
             , volumes =
               [ Infra.Volume::{
@@ -60,14 +60,6 @@ let tenant-instances =
                 , device = "/dev/vdb"
                 }
               ]
-            }
-      ,     tenant-rhel-9-instance
-        //  { name = "fedora-new"
-            , server = Some
-                ( Infra.Server.addSecurityGroups
-                    [ "elk", "apache_exporter" ]
-                    tenant-rhel-9-server
-                )
             }
       ,     tenant-rhel-9-instance
         //  { name = "centos"
@@ -271,28 +263,6 @@ let instances =
           , flavor = Some Flavors.`2vcpus_8gb`
           , boot_from_volume = "yes"
           , volume_size = Some 50
-          }
-        }
-      , Instance::{
-        , name = "koji"
-        , backup = Some Infra.Backup::{
-          , www_dir = Some "/var/www/html/sfkoji/repos/"
-          , playbook = Some "backup-koji.yaml"
-          , run_sf_backup = True
-          , sf_releases = Some
-            [ "sf-master-el7", "sf-3.6-el7-release", "sf-3.5-el7-release" ]
-          , dir = Some "/var/lib/backup/bup/koji.softwarefactory-project.io"
-          , domain = Some "koji.softwarefactory-project.io"
-          , month_subdir = Some 1
-          }
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , boot_from_volume = "yes"
-          , floating_ip = Some True
-          , volume_size = Some 80
-          , flavor = Some Flavors.`4vcpus_8gb`
-          , security_groups = [ "web" ]
           }
         }
       , Instance::{

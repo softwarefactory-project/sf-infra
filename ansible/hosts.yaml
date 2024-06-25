@@ -19,7 +19,6 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
-        fedora-new.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
     baremetal:
@@ -127,7 +126,7 @@ all:
         centos.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
-        fedora-new.softwarefactory-project.io: {}
+        fedora.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -162,7 +161,6 @@ all:
         ansible.softwarefactory-project.io: {}
         centos.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
-        fedora-new.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm3-ze.softwarefactory-project.io: {}
@@ -253,14 +251,10 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    fedora-new.softwarefactory-project.io:
+    fedora.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    fedora.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     ibm-bm3-nodepool-launcher.softwarefactory-project.io:
       ansible_host: '192.168.25.11'
       ansible_port: 22
@@ -307,10 +301,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    koji.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     lists.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto

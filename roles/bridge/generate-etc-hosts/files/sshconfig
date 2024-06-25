@@ -170,10 +170,6 @@ Host zs.softwarefactory-project.io
     User cloud-user
     Port 22
 
-Host koji.softwarefactory-project.io
-    User centos
-    Port 22
-
 Host image-builder.softwarefactory-project.io
     User cloud-user
     Port 22
@@ -187,10 +183,6 @@ Host microshift-infra.softwarefactory-project.io
     Port 22
 
 Host fedora.softwarefactory-project.io
-    User centos
-    Port 22
-
-Host fedora-new.softwarefactory-project.io
     User cloud-user
     Port 22
 

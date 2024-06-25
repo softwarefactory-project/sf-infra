@@ -34,24 +34,10 @@ servers:
       - softwarefactory-project.io
     month_subdir: 1
     run_sf_backup: true
-  - dir: /var/lib/backup/bup/koji.softwarefactory-project.io
-    domain: koji.softwarefactory-project.io
-    filename: koji.softwarefactory-project.io.yaml
-    hour: 2
-    instances:
-      - koji.softwarefactory-project.io
-    month_subdir: 1
-    playbook: backup-koji.yaml
-    run_sf_backup: true
-    sf_releases:
-      - sf-master-el7
-      - sf-3.6-el7-release
-      - sf-3.5-el7-release
-    www_dir: /var/www/html/sfkoji/repos/
   - dir: /var/lib/backup/bup/fedora.softwarefactory-project.io
     domain: fedora.softwarefactory-project.io
     filename: fedora.softwarefactory-project.io.yaml
-    hour: 3
+    hour: 2
     instances:
       - fedora.softwarefactory-project.io
     month_subdir: 1
@@ -59,7 +45,7 @@ servers:
   - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
     domain: centos.softwarefactory-project.io
     filename: centos.softwarefactory-project.io.yaml
-    hour: 4
+    hour: 3
     instances:
       - centos.softwarefactory-project.io
     month_subdir: 1
@@ -67,7 +53,7 @@ servers:
   - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
     domain: ansible.softwarefactory-project.io
     filename: ansible.softwarefactory-project.io.yaml
-    hour: 5
+    hour: 4
     instances:
       - ansible.softwarefactory-project.io
     month_subdir: 1
