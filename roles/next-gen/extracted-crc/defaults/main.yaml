@@ -14,3 +14,12 @@ compress_qcow2: true
 # NOTE: Some hypervisors might have issues on starting VMs when
 # compression type is set to zstd.
 compress_qcow2_type: zlib
+
+# Should the image include the crc-pre service, that is responsible for
+# modyfing the dnsmasq service
+crc_configure_dnsmasq_service: true
+
+# Should the image include the configure-cloudinit-ssh service that
+# is responsible for injecting the SSH keys from the cloud-init or
+# inject SSH keys provided by config drive
+crc_cloud_init_ssh_service: true

@@ -1,0 +1,21 @@
+---
+- name: Create required service
+  become: true
+  ansible.builtin.copy:
+    src: "{{ service }}"
+    dest: "{{ guest_etc_dir }}/systemd/system/{{ service }}"
+    mode: "0644"
+
+- name: Copy script to /usr/local/bin
+  become: true
+  ansible.builtin.copy:
+    src: "{{ script_name }}"
+    dest: "{{ guest_local_dir }}/bin/{{ script_name }}"
+    mode: "0755"
+
+- name: Create symlink to service defaults
+  become: true
+  ansible.builtin.shell: |
+    ln -s ../{{ service }} .
+  args:
+    chdir: "{{ guest_etc_dir }}/systemd/system/default.target.wants"
