@@ -31,10 +31,7 @@ scrape_configs:
           - quay.rdoproject.org:9100
           - trunk-centos8.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
-          - managesf.review-new.rdoproject.org:9100
-          - elk.review.rdoproject.org:9100
           - logserver.rdoproject.org:9100
-          - logserver-new.rdoproject.org:9100
           - www.rdoproject.org:9100
           - dlrn-db.rdoproject.org:9100
           - opensearch.rdoproject.org:9100
@@ -63,7 +60,6 @@ scrape_configs:
           - fedora-new.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100
           - ansible.softwarefactory-project.io:9100
-          - ansible-new.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
           - ze02.softwarefactory-project.io:9100
           - ze03.softwarefactory-project.io:9100

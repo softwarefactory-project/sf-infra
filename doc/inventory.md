@@ -6,11 +6,8 @@ This project manages:
 * mirror.regionone.vexxhost.rdoproject.org centos-7-1907 v1-standard-2
 * quay.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * trunk-centos8.rdoproject.org centos-8.0-1905 v1-standard-4
-* managesf.review.rdoproject.org centos-7-1907 v1-standard-2
-* managesf.review-new.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
-* elk.review.rdoproject.org centos-7-1907 v1-standard-2
-* logserver.rdoproject.org centos-7-1907 v1-standard-2
-* logserver-new.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
+* managesf.review.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
+* logserver.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * www.rdoproject.org centos-8.1-1911 v1-standard-1
 * dlrn-db.rdoproject.org centos-8.1-1911 v1-standard-2
 * opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
@@ -48,8 +45,7 @@ This project manages:
 * fedora.softwarefactory-project.io centos-7-1907 v1-standard-2
 * fedora-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * centos.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* ansible.softwarefactory-project.io centos-7-1907 v1-standard-2
-* ansible-new.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* ansible.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ze01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * ze02.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * ze03.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb

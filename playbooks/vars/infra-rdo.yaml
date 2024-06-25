@@ -239,25 +239,9 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: managesf.review.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - managesf
-      - internal
-      - apache_exporter
-    state: present
-    volume_size: 40
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: managesf.review-new.rdoproject.org
+    name: managesf.review.rdoproject.org
     network: private-network
     security_groups:
       - common
@@ -270,38 +254,9 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: elk.review.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - elk
-      - internal
-    state: present
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
-    image: centos-7-1907
-    key_name: sf-infra-key
-    name: logserver.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - hound
-      - internal
-      - apache_exporter
-    state: present
-    volume_size: 10
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: logserver-new.rdoproject.org
+    name: logserver.rdoproject.org
     network: private-network
     security_groups:
       - common
@@ -424,10 +379,6 @@ volumes:
     display_name: trunk-centos8-swap
     server: trunk-centos8.rdoproject.org
     size: 16
-  - device: /dev/vdb
-    display_name: elk-data
-    server: elk.review.rdoproject.org
-    size: 1000
   - device: /dev/vdb
     display_name: logs-data
     server: logserver.rdoproject.org

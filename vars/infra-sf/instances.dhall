@@ -91,7 +91,7 @@ let tenant-instances =
                 }
               ]
             }
-      ,     tenant-instance
+      ,     tenant-rhel-9-instance
         //  { name = "ansible"
             , backup = Some Infra.Backup::{
               , run_sf_backup = True
@@ -100,10 +100,6 @@ let tenant-instances =
               , domain = Some "ansible.softwarefactory-project.io"
               , month_subdir = Some 1
               }
-            , server = Some tenant-server
-            }
-      ,     tenant-rhel-9-instance
-        //  { name = "ansible-new"
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "elk", "apache_exporter" ]

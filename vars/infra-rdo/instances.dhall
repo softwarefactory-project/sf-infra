@@ -91,19 +91,6 @@ let instances =
         , monitoring_auth_urls =
           [ "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
           ]
-        , groups = [ "rdo", "install-server", "backup-rdo" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , floating_ip = Some True
-          , volume_size = Some 40
-          , security_groups =
-            [ "web", "managesf", "internal", "apache_exporter" ]
-          }
-        }
-      , Instance::{
-        , name = "managesf.review-new"
         , groups = [ "rhel", "rdo", "install-server", "backup-rdo" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
@@ -116,32 +103,16 @@ let instances =
           }
         }
       , Instance::{
-        , name = "elk.review"
-        , groups = [ "rdo" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , security_groups = [ "elk", "internal" ]
-          , floating_ip = Some True
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "elk-data"
-            , size = 1000
-            , server = "elk" ++ "." ++ "review" ++ "." ++ fqdn
-            , device = "/dev/vdb"
-            }
-          ]
-        }
-      , Instance::{
         , name = "logserver"
-        , groups = [ "rdo" ]
-        , connection = OS.CentOS.`7.0`.connection
+        , groups = [ "rhel", "rdo" ]
+        , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`2vcpus_8gb`
+          , boot_from_volume = "yes"
+          , volume_size = Some 20
           , floating_ip = Some True
           , security_groups = [ "web", "hound", "internal", "apache_exporter" ]
-          , volume_size = Some 10
           }
         , volumes =
           [ Infra.Volume::{
@@ -160,19 +131,6 @@ let instances =
             , device = "/dev/vdd"
             }
           ]
-        }
-      , Instance::{
-        , name = "logserver-new"
-        , groups = [ "rhel", "rdo" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , boot_from_volume = "yes"
-          , volume_size = Some 20
-          , floating_ip = Some True
-          , security_groups = [ "web", "hound", "internal", "apache_exporter" ]
-          }
         }
       , Instance::{
         , name = "www"
