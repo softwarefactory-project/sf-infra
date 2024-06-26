@@ -1,13 +1,15 @@
 apiVersion: 1
 datasources:
--  access: 'proxy'
-   editable: true
-   isDefault: true
-   name: 'prometheus'
-   orgId: 1
-   type: 'prometheus'
-   url: '{{ prometheus_public_url }}'
-   version: 1
+- access: 'proxy'
+  editable: true
+  isDefault: true
+  name: 'prometheus'
+  orgId: 1
+  type: 'prometheus'
+  url: '{{ prometheus_public_url }}'
+  jsonData:
+    timeInterval: 1m
+  version: 1
 {% if vexxhost_prometheus | default(False) %}
 - access: proxy
   editable: true
@@ -21,6 +23,8 @@ datasources:
   withCredentials: false
   secureJsonData:
     basicAuthPassword: "{{ vexxhost_prometheus.password }}"
+  jsonData:
+    timeInterval: 1m
   readOnly: false
   version: 1
 {% endif %}
@@ -85,6 +89,7 @@ datasources:
     tlsAuth: false
     tlsAuthWithCACert: false
     tlsSkipVerify: false
+    timeInterval: 1m
   secureJsonData:
     # NOTE: Set the credentials via browser, where:
     # Header: Authorization
