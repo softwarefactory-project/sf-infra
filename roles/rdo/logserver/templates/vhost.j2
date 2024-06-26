@@ -18,6 +18,11 @@
         IndexOptions FancyIndexing HTMLTable NameWidth=* SuppressDescription
     </Directory>
 
+    <FilesMatch \.gz$>
+      ForceType text/plain
+      AddEncoding x-gzip gz
+    </FilesMatch>
+
     Header set Access-Control-Allow-Origin "*"
 
     SSLEngine on
