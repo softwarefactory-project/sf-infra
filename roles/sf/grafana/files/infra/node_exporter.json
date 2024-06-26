@@ -1,4 +1,53 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.4.3"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -26,6 +75,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 1860,
   "graphTooltip": 1,
+  "id": null,
   "links": [
     {
       "icon": "external link",
@@ -75,45 +125,37 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
-      "description": "Busy state of all CPU cores together",
+      "description": "Resource pressure via PSI",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "max": 100,
+          "decimals": 1,
+          "links": [],
+          "mappings": [],
+          "max": 1,
           "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "rgba(50, 172, 45, 0.97)",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 85
+                "color": "dark-yellow",
+                "value": 70
               },
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": 95
+                "color": "dark-red",
+                "value": 90
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -123,10 +165,12 @@
         "x": 0,
         "y": 1
       },
-      "id": 20,
+      "id": 323,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
@@ -135,41 +179,77 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showUnfilled": true,
+        "text": {}
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "(sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))) * 100",
-          "hide": false,
+          "exemplar": false,
+          "expr": "irate(node_pressure_cpu_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+          "format": "time_series",
+          "instant": true,
           "intervalFactor": 1,
-          "legendFormat": "",
-          "range": true,
-          "refId": "A",
+          "legendFormat": "CPU",
+          "range": false,
+          "refId": "CPU some",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(node_pressure_memory_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "Mem",
+          "range": false,
+          "refId": "Memory some",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "irate(node_pressure_io_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "I/O",
+          "range": false,
+          "refId": "I/O some",
           "step": 240
         }
       ],
-      "title": "CPU Busy",
-      "type": "gauge"
+      "title": "Pressure",
+      "type": "bargauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
-      "description": "Busy state of all CPU cores together (5 min average)",
+      "description": "Busy state of all CPU cores together",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "mappings": [
             {
               "options": {
@@ -210,11 +290,10 @@
         "x": 3,
         "y": 1
       },
-      "id": 155,
+      "id": 20,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -223,38 +302,42 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
-          "expr": "avg(node_load5{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
-          "format": "time_series",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "100 * (1 - avg(rate(node_cpu_seconds_total{mode=\"idle\", instance=\"$node\"}[$__rate_interval])))",
           "hide": false,
+          "instant": true,
           "intervalFactor": 1,
+          "legendFormat": "",
+          "range": false,
           "refId": "A",
           "step": 240
         }
       ],
-      "title": "Sys Load (5m avg)",
+      "title": "CPU Busy",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
-      "description": "Busy state of all CPU cores together (15 min average)",
+      "description": "System load  over all CPU cores together",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "mappings": [
             {
               "options": {
@@ -295,11 +378,10 @@
         "x": 6,
         "y": 1
       },
-      "id": 19,
+      "id": 155,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -308,30 +390,34 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
-          "expr": "avg(node_load15{instance=\"$node\",job=\"$job\"}) /  count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)) * 100",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "scalar(node_load1{instance=\"$node\",job=\"$job\"}) * 100 / count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
+          "format": "time_series",
           "hide": false,
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
       ],
-      "title": "Sys Load (15m avg)",
+      "title": "Sys Load",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Non available RAM memory",
       "fieldConfig": {
@@ -339,7 +425,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 0,
+          "decimals": 1,
           "mappings": [],
           "max": 100,
           "min": 0,
@@ -372,10 +458,9 @@
       },
       "hideTimeOverride": false,
       "id": 16,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -384,32 +469,39 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
-          "expr": "((node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "((node_memory_MemTotal_bytes{instance=\"$node\", job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\", job=\"$job\"}) / node_memory_MemTotal_bytes{instance=\"$node\", job=\"$job\"}) * 100",
           "format": "time_series",
           "hide": true,
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
-          "expr": "100 - ((node_memory_MemAvailable_bytes{instance=\"$node\",job=\"$job\"} * 100) / node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"})",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=\"$node\", job=\"$job\"} / node_memory_MemTotal_bytes{instance=\"$node\", job=\"$job\"})) * 100",
           "format": "time_series",
           "hide": false,
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "B",
           "step": 240
         }
@@ -420,7 +512,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Used Swap",
       "fieldConfig": {
@@ -428,6 +520,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "mappings": [
             {
               "options": {
@@ -469,10 +562,9 @@
         "y": 1
       },
       "id": 21,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -481,18 +573,21 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
-          "expr": "((node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} )) * 100",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "((node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"}) / (node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"})) * 100",
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -503,7 +598,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Used Root FS",
       "fieldConfig": {
@@ -511,6 +606,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "mappings": [
             {
               "options": {
@@ -552,10 +648,9 @@
         "y": 1
       },
       "id": 154,
+      "links": [],
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "horizontal",
+        "orientation": "auto",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -564,19 +659,22 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showThresholdMarkers": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"})",
           "format": "time_series",
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -587,7 +685,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Total number of CPU cores",
       "fieldConfig": {
@@ -630,6 +728,7 @@
         "y": 1
       },
       "id": 14,
+      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -643,23 +742,22 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu))",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A",
-          "step": 240
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
         }
       ],
       "title": "CPU Cores",
@@ -668,7 +766,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "System uptime",
       "fieldConfig": {
@@ -713,6 +811,7 @@
       },
       "hideTimeOverride": true,
       "id": 15,
+      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -726,19 +825,21 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "node_time_seconds{instance=\"$node\",job=\"$job\"} - node_boot_time_seconds{instance=\"$node\",job=\"$job\"}",
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -749,7 +850,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Total RootFS",
       "fieldConfig": {
@@ -797,6 +898,7 @@
         "y": 3
       },
       "id": 23,
+      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -810,21 +912,23 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",mountpoint=\"/\",fstype!=\"rootfs\"}",
           "format": "time_series",
           "hide": false,
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -835,7 +939,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Total RAM",
       "fieldConfig": {
@@ -879,6 +983,7 @@
         "y": 3
       },
       "id": 75,
+      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -892,19 +997,21 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -915,7 +1022,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Total SWAP",
       "fieldConfig": {
@@ -959,6 +1066,7 @@
         "y": 3
       },
       "id": 18,
+      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -972,19 +1080,21 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "textMode": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
+          "exemplar": false,
           "expr": "node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"}",
+          "instant": true,
           "intervalFactor": 1,
+          "range": false,
           "refId": "A",
           "step": 240
         }
@@ -1021,7 +1131,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Basic CPU info",
       "fieldConfig": {
@@ -1030,7 +1140,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1044,7 +1153,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "smooth",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1194,6 +1302,7 @@
         "y": 6
       },
       "id": 77,
+      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -1212,12 +1321,14 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "exemplar": false,
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Busy System",
           "range": true,
@@ -1227,10 +1338,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1242,10 +1353,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Busy Iowait",
@@ -1256,10 +1367,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=~\".*irq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=~\".*irq\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Busy IRQs",
@@ -1270,10 +1381,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq'}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\",  mode!='idle',mode!='user',mode!='system',mode!='iowait',mode!='irq',mode!='softirq'}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Busy Other",
@@ -1284,10 +1395,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+          "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Idle",
@@ -1302,7 +1413,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Basic memory usage",
       "fieldConfig": {
@@ -1311,7 +1422,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1325,7 +1435,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -1737,6 +1846,7 @@
         "y": 6
       },
       "id": 78,
+      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -1755,7 +1865,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1768,7 +1878,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - (node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -1781,7 +1891,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} + node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} + node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1793,7 +1903,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}",
           "format": "time_series",
@@ -1805,7 +1915,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "(node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"})",
           "format": "time_series",
@@ -1821,7 +1931,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Basic network info per interface",
       "fieldConfig": {
@@ -1830,7 +1940,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -1844,7 +1953,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2245,6 +2353,7 @@
         "y": 13
       },
       "id": 74,
+      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -2262,7 +2371,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "irate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -2274,7 +2383,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "irate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
           "format": "time_series",
@@ -2290,7 +2399,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${datasource}"
       },
       "description": "Disk space used of all filesystems mounted",
       "fieldConfig": {
@@ -2299,7 +2408,6 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -2313,7 +2421,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -2358,6 +2465,7 @@
         "y": 13
       },
       "id": 152,
+      "links": [],
       "options": {
         "legend": {
           "calcs": [],
@@ -2375,7 +2483,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "expr": "100 - ((node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} * 100) / node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'})",
           "format": "time_series",
@@ -2405,7 +2513,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -2587,7 +2695,7 @@
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 7
+            "y": 21
           },
           "id": 3,
           "links": [],
@@ -2614,10 +2722,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"system\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -2629,10 +2737,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "User - Normal processes executing in user mode",
@@ -2643,10 +2751,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"nice\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"nice\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "Nice - Niced processes executing in user mode",
@@ -2657,10 +2765,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"iowait\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "Iowait - Waiting for I/O to complete",
@@ -2671,10 +2779,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"irq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"irq\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "Irq - Servicing interrupts",
@@ -2685,10 +2793,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"softirq\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"softirq\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "Softirq - Servicing softirqs",
@@ -2699,10 +2807,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"steal\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"steal\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "Steal - Time spent in other operating systems when running in a virtualized environment",
@@ -2713,10 +2821,10 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum by(instance) (irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])))",
+              "expr": "sum(irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\", mode=\"idle\"}[$__rate_interval])) / scalar(count(count(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}) by (cpu)))",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 1,
@@ -2732,7 +2840,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -3094,7 +3202,7 @@
             "h": 12,
             "w": 12,
             "x": 12,
-            "y": 7
+            "y": 21
           },
           "id": 24,
           "links": [],
@@ -3121,7 +3229,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_MemTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"} - node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"} - node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3134,7 +3242,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_PageTables_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3147,7 +3255,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_SwapCached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3159,7 +3267,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Slab_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3172,7 +3280,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Cached_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3185,7 +3293,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Buffers_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3198,7 +3306,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_MemFree_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3211,7 +3319,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "(node_memory_SwapTotal_bytes{instance=\"$node\",job=\"$job\"} - node_memory_SwapFree_bytes{instance=\"$node\",job=\"$job\"})",
               "format": "time_series",
@@ -3224,7 +3332,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_HardwareCorrupted_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -3241,7 +3349,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -3373,7 +3481,7 @@
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 19
+            "y": 33
           },
           "id": 84,
           "links": [],
@@ -3399,7 +3507,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
@@ -3411,7 +3519,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])*8",
               "format": "time_series",
@@ -3427,7 +3535,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -3488,7 +3596,7 @@
             "h": 12,
             "w": 12,
             "x": 12,
-            "y": 19
+            "y": 33
           },
           "id": 156,
           "links": [],
@@ -3514,7 +3622,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'} - node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -3530,7 +3638,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -3918,7 +4026,7 @@
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 31
+            "y": 45
           },
           "id": 229,
           "links": [],
@@ -3944,7 +4052,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "intervalFactor": 4,
@@ -3955,7 +4063,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "intervalFactor": 1,
@@ -3970,7 +4078,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -4145,7 +4253,7 @@
             "h": 12,
             "w": 12,
             "x": 12,
-            "y": 31
+            "y": 45
           },
           "id": 42,
           "links": [],
@@ -4171,7 +4279,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
@@ -4184,7 +4292,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"}[$__rate_interval])",
               "format": "time_series",
@@ -4201,7 +4309,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -4290,7 +4398,7 @@
             "h": 12,
             "w": 12,
             "x": 0,
-            "y": 43
+            "y": 57
           },
           "id": 127,
           "links": [],
@@ -4316,7 +4424,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_io_time_seconds_total{instance=\"$node\",job=\"$job\",device=~\"$diskdevices\"} [$__rate_interval])",
               "format": "time_series",
@@ -4334,7 +4442,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4424,7 +4532,7 @@
             "h": 12,
             "w": 12,
             "x": 12,
-            "y": 43
+            "y": 57
           },
           "id": 319,
           "options": {
@@ -4448,7 +4556,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum by(instance) (irate(node_cpu_guest_seconds_total{instance=\"$node\",job=\"$job\", mode=\"user\"}[1m])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[1m])))",
@@ -4460,7 +4568,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum by(instance) (irate(node_cpu_guest_seconds_total{instance=\"$node\",job=\"$job\", mode=\"nice\"}[1m])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[1m])))",
@@ -4503,7 +4611,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -4819,7 +4927,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 38
+            "y": 54
           },
           "id": 136,
           "links": [],
@@ -4846,7 +4954,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Inactive_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -4858,7 +4966,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Active_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -4874,7 +4982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5209,7 +5317,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 38
+            "y": 54
           },
           "id": 135,
           "links": [],
@@ -5236,7 +5344,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Committed_AS_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5248,7 +5356,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_CommitLimit_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5264,7 +5372,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -5580,7 +5688,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 48
+            "y": 64
           },
           "id": 191,
           "links": [],
@@ -5607,7 +5715,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Inactive_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5620,7 +5728,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Inactive_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5633,7 +5741,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Active_file_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5646,7 +5754,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Active_anon_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -5663,7 +5771,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6009,7 +6117,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 48
+            "y": 64
           },
           "id": 130,
           "links": [],
@@ -6035,7 +6143,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Writeback_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6047,7 +6155,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_WritebackTmp_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6059,7 +6167,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Dirty_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6075,7 +6183,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6415,7 +6523,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 58
+            "y": 74
           },
           "id": 138,
           "links": [],
@@ -6442,7 +6550,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Mapped_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6454,7 +6562,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Shmem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6466,7 +6574,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_ShmemHugePages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6479,7 +6587,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_ShmemPmdMapped_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6496,7 +6604,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6842,7 +6950,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 58
+            "y": 74
           },
           "id": 131,
           "links": [],
@@ -6868,7 +6976,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_SUnreclaim_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6880,7 +6988,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_SReclaimable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -6896,7 +7004,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7227,7 +7335,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 68
+            "y": 84
           },
           "id": 70,
           "links": [],
@@ -7253,7 +7361,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_VmallocChunk_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -7266,7 +7374,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_VmallocTotal_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -7279,7 +7387,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_VmallocUsed_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -7296,7 +7404,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7612,7 +7720,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 68
+            "y": 84
           },
           "id": 159,
           "links": [],
@@ -7639,7 +7747,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Bounce_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -7655,7 +7763,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7998,7 +8106,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 78
+            "y": 94
           },
           "id": 129,
           "links": [],
@@ -8024,7 +8132,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_AnonHugePages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8036,7 +8144,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_AnonPages_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8052,7 +8160,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -8368,7 +8476,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 78
+            "y": 94
           },
           "id": 160,
           "links": [],
@@ -8395,7 +8503,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_KernelStack_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8407,7 +8515,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Percpu_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8424,7 +8532,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -8755,7 +8863,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 88
+            "y": 104
           },
           "id": 140,
           "links": [],
@@ -8780,7 +8888,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_HugePages_Free{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8792,7 +8900,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_HugePages_Rsvd{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8804,7 +8912,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_HugePages_Surp{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -8820,7 +8928,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -9151,7 +9259,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 88
+            "y": 104
           },
           "id": 71,
           "links": [],
@@ -9176,7 +9284,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_HugePages_Total{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9188,7 +9296,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Hugepagesize_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9204,7 +9312,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -9535,7 +9643,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 98
+            "y": 114
           },
           "id": 128,
           "links": [],
@@ -9560,7 +9668,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_DirectMap1G_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9572,7 +9680,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_DirectMap2M_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9585,7 +9693,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_DirectMap4k_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9602,7 +9710,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -9918,7 +10026,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 98
+            "y": 114
           },
           "id": 137,
           "links": [],
@@ -9945,7 +10053,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Unevictable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9957,7 +10065,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_Mlocked_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -9973,7 +10081,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10319,7 +10427,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 108
+            "y": 124
           },
           "id": 132,
           "links": [],
@@ -10345,7 +10453,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_memory_NFS_Unstable_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -10388,7 +10496,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10460,7 +10568,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 25
+            "y": 41
           },
           "id": 176,
           "links": [],
@@ -10486,7 +10594,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pgpgin{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -10498,7 +10606,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pgpgout{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -10514,7 +10622,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10586,7 +10694,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 25
+            "y": 41
           },
           "id": 22,
           "links": [],
@@ -10612,7 +10720,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pswpin{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -10624,7 +10732,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pswpout{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -10640,7 +10748,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10975,7 +11083,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 35
+            "y": 51
           },
           "id": 175,
           "links": [],
@@ -11002,7 +11110,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pgfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -11014,7 +11122,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pgmajfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -11026,7 +11134,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_pgfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])  - irate(node_vmstat_pgmajfault{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -11042,7 +11150,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11388,7 +11496,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 35
+            "y": 51
           },
           "id": 307,
           "links": [],
@@ -11414,7 +11522,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_vmstat_oom_kill{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -11458,7 +11566,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -11534,7 +11642,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 40
+            "y": 24
           },
           "id": 260,
           "links": [],
@@ -11560,7 +11668,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_estimated_error_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11574,7 +11682,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_offset_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11588,7 +11696,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_maxerror_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11606,7 +11714,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -11666,7 +11774,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 40
+            "y": 24
           },
           "id": 291,
           "links": [],
@@ -11692,7 +11800,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_loop_time_constant{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11709,7 +11817,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -11785,7 +11893,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 50
+            "y": 34
           },
           "id": 168,
           "links": [],
@@ -11811,7 +11919,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_sync_status{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11824,7 +11932,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_frequency_adjustment_ratio{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11841,7 +11949,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -11901,7 +12009,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 50
+            "y": 34
           },
           "id": 294,
           "links": [],
@@ -11927,7 +12035,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_tick_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11940,7 +12048,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_timex_tai_offset_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -11984,7 +12092,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12044,7 +12152,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 27
+            "y": 73
           },
           "id": 62,
           "links": [],
@@ -12070,7 +12178,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_procs_blocked{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12082,7 +12190,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_procs_running{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12098,8 +12206,9 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "description": "Enable with --collector.processes argument on node-exporter",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -12158,7 +12267,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 27
+            "y": 73
           },
           "id": 315,
           "links": [],
@@ -12184,7 +12293,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_processes_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12201,7 +12310,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12261,7 +12370,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 37
+            "y": 83
           },
           "id": 148,
           "links": [],
@@ -12287,7 +12396,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_forks_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -12304,7 +12413,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12377,7 +12486,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 37
+            "y": 83
           },
           "id": 149,
           "links": [],
@@ -12403,7 +12512,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(process_virtual_memory_bytes{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "hide": false,
@@ -12416,7 +12525,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "process_resident_memory_max_bytes{instance=\"$node\",job=\"$job\"}",
               "hide": false,
@@ -12429,7 +12538,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(process_virtual_memory_bytes{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "hide": false,
@@ -12442,7 +12551,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(process_virtual_memory_max_bytes{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "hide": false,
@@ -12459,8 +12568,9 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "description": "Enable with --collector.processes argument on node-exporter",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -12539,7 +12649,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 47
+            "y": 93
           },
           "id": 313,
           "links": [],
@@ -12565,7 +12675,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_processes_pids{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12578,7 +12688,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_processes_max_processes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12595,7 +12705,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12667,7 +12777,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 47
+            "y": 93
           },
           "id": 305,
           "links": [],
@@ -12693,7 +12803,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_schedstat_running_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -12706,7 +12816,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_schedstat_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -12723,8 +12833,9 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "description": "Enable with --collector.processes argument on node-exporter",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -12803,7 +12914,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 57
+            "y": 103
           },
           "id": 314,
           "links": [],
@@ -12829,7 +12940,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_processes_threads{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12842,7 +12953,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_processes_max_threads{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -12886,7 +12997,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12946,7 +13057,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 42
+            "y": 26
           },
           "id": 8,
           "links": [],
@@ -12972,7 +13083,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_context_switches_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -12984,7 +13095,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_intr_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -13001,7 +13112,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13061,7 +13172,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 42
+            "y": 26
           },
           "id": 7,
           "links": [],
@@ -13087,7 +13198,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_load1{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -13099,7 +13210,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_load5{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -13111,7 +13222,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_load15{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -13127,8 +13238,447 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "hertz"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "dash": [
+                        10,
+                        10
+                      ],
+                      "fill": "dash"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 10
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": true,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  },
+                  {
+                    "id": "custom.fillBelowTo",
+                    "value": "Min"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Min"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineStyle",
+                    "value": {
+                      "dash": [
+                        10,
+                        10
+                      ],
+                      "fill": "dash"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "blue",
+                      "mode": "fixed"
+                    }
+                  },
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": true,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 36
+          },
+          "id": 321,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "9.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "node_cpu_scaling_frequency_hertz{instance=\"$node\",job=\"$job\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "CPU {{ cpu }}",
+              "range": true,
+              "refId": "B",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "avg(node_cpu_scaling_frequency_max_hertz{instance=\"$node\",job=\"$job\"})",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Max",
+              "range": true,
+              "refId": "A",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "avg(node_cpu_scaling_frequency_min_hertz{instance=\"$node\",job=\"$job\"})",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Min",
+              "range": true,
+              "refId": "C",
+              "step": 240
+            }
+          ],
+          "title": "CPU Frequency Scaling",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "https://docs.kernel.org/accounting/psi.html",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Memory some"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "dark-red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Memory full"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "light-red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "I/O some"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "dark-blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "I/O full"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "light-blue",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 36
+          },
+          "id": 322,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "9.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "rate(node_pressure_cpu_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "legendFormat": "CPU some",
+              "range": true,
+              "refId": "CPU some",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "rate(node_pressure_memory_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "Memory some",
+              "range": true,
+              "refId": "Memory some",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "rate(node_pressure_memory_stalled_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "Memory full",
+              "range": true,
+              "refId": "Memory full",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "rate(node_pressure_io_waiting_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "I/O some",
+              "range": true,
+              "refId": "I/O some",
+              "step": 240
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "rate(node_pressure_io_stalled_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "format": "time_series",
+              "hide": false,
+              "intervalFactor": 1,
+              "legendFormat": "I/O full",
+              "range": true,
+              "refId": "I/O full",
+              "step": 240
+            }
+          ],
+          "title": "Pressure Stall Information",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "description": "Enable with --collector.interrupts argument on node-exporter",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -13226,7 +13776,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 52
+            "y": 46
           },
           "id": 259,
           "links": [],
@@ -13252,7 +13802,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_interrupts_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -13269,7 +13819,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13328,7 +13878,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 52
+            "y": 46
           },
           "id": 306,
           "links": [],
@@ -13354,7 +13904,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_schedstat_timeslices_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -13371,7 +13921,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13431,7 +13981,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 62
+            "y": 56
           },
           "id": 151,
           "links": [],
@@ -13457,7 +14007,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_entropy_available_bits{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -13473,7 +14023,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13532,7 +14082,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 62
+            "y": 56
           },
           "id": 308,
           "links": [],
@@ -13558,7 +14108,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(process_cpu_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -13575,7 +14125,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13655,7 +14205,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 72
+            "y": 66
           },
           "id": 64,
           "links": [],
@@ -13681,7 +14231,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "process_max_fds{instance=\"$node\",job=\"$job\"}",
               "interval": "",
@@ -13693,7 +14243,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "process_open_fds{instance=\"$node\",job=\"$job\"}",
               "interval": "",
@@ -13736,7 +14286,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13835,7 +14385,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 43
+            "y": 59
           },
           "id": 158,
           "links": [],
@@ -13861,68 +14411,68 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
-              "expr": "node_hwmon_temp_celsius{instance=\"$node\",job=\"$job\"}",
+              "expr": "node_hwmon_temp_celsius{instance=\"$node\",job=\"$job\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{ chip }} {{ sensor }} temp",
+              "legendFormat": "{{ chip_name }} {{ sensor }} temp",
               "refId": "A",
               "step": 240
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
-              "expr": "node_hwmon_temp_crit_alarm_celsius{instance=\"$node\",job=\"$job\"}",
+              "expr": "node_hwmon_temp_crit_alarm_celsius{instance=\"$node\",job=\"$job\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{ chip }} {{ sensor }} Critical Alarm",
+              "legendFormat": "{{ chip_name }} {{ sensor }} Critical Alarm",
               "refId": "B",
               "step": 240
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
-              "expr": "node_hwmon_temp_crit_celsius{instance=\"$node\",job=\"$job\"}",
+              "expr": "node_hwmon_temp_crit_celsius{instance=\"$node\",job=\"$job\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{ chip }} {{ sensor }} Critical",
+              "legendFormat": "{{ chip_name }} {{ sensor }} Critical",
               "refId": "C",
               "step": 240
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
-              "expr": "node_hwmon_temp_crit_hyst_celsius{instance=\"$node\",job=\"$job\"}",
+              "expr": "node_hwmon_temp_crit_hyst_celsius{instance=\"$node\",job=\"$job\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{ chip }} {{ sensor }} Critical Historical",
+              "legendFormat": "{{ chip_name }} {{ sensor }} Critical Historical",
               "refId": "D",
               "step": 240
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
-              "expr": "node_hwmon_temp_max_celsius{instance=\"$node\",job=\"$job\"}",
+              "expr": "node_hwmon_temp_max_celsius{instance=\"$node\",job=\"$job\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
               "hide": true,
               "interval": "",
               "intervalFactor": 1,
-              "legendFormat": "{{ chip }} {{ sensor }} Max",
+              "legendFormat": "{{ chip_name }} {{ sensor }} Max",
               "refId": "E",
               "step": 240
             }
@@ -13933,7 +14483,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -14012,7 +14562,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 43
+            "y": 59
           },
           "id": 300,
           "links": [],
@@ -14038,7 +14588,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_cooling_device_cur_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -14052,7 +14602,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_cooling_device_max_state{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -14069,7 +14619,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -14128,7 +14678,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 53
+            "y": 69
           },
           "id": 302,
           "links": [],
@@ -14154,7 +14704,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_power_supply_online{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -14199,7 +14749,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -14259,7 +14809,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 30
+            "y": 46
           },
           "id": 297,
           "links": [],
@@ -14285,7 +14835,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_systemd_socket_accepted_connections_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -14302,7 +14852,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -14437,7 +14987,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 30
+            "y": 46
           },
           "id": 298,
           "links": [],
@@ -14463,7 +15013,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"activating\"}",
               "format": "time_series",
@@ -14476,7 +15026,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"active\"}",
               "format": "time_series",
@@ -14489,7 +15039,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"deactivating\"}",
               "format": "time_series",
@@ -14502,7 +15052,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"failed\"}",
               "format": "time_series",
@@ -14515,7 +15065,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_systemd_units{instance=\"$node\",job=\"$job\",state=\"inactive\"}",
               "format": "time_series",
@@ -14559,7 +15109,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The number (after merges) of I/O requests completed per second for the device",
           "fieldConfig": {
@@ -14932,7 +15482,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 31
+            "y": 47
           },
           "id": 9,
           "links": [],
@@ -14958,7 +15508,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "intervalFactor": 4,
@@ -14969,7 +15519,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "intervalFactor": 1,
@@ -14984,7 +15534,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The number of bytes read from or written to the device per second",
           "fieldConfig": {
@@ -15357,7 +15907,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 31
+            "y": 47
           },
           "id": 33,
           "links": [],
@@ -15383,7 +15933,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_read_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -15395,7 +15945,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_written_bytes_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -15411,7 +15961,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The average time for requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them.",
           "fieldConfig": {
@@ -15784,7 +16334,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 41
+            "y": 57
           },
           "id": 37,
           "links": [],
@@ -15810,7 +16360,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_read_time_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]) / irate(node_disk_reads_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "hide": false,
@@ -15823,7 +16373,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_write_time_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval]) / irate(node_disk_writes_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "hide": false,
@@ -15840,7 +16390,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The average queue length of the requests that were issued to the device",
           "fieldConfig": {
@@ -16202,7 +16752,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 41
+            "y": 57
           },
           "id": 35,
           "links": [],
@@ -16228,7 +16778,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_io_time_weighted_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -16244,7 +16794,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The number of read and write requests merged per second that were queued to the device",
           "fieldConfig": {
@@ -16617,7 +17167,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 51
+            "y": 67
           },
           "id": 133,
           "links": [],
@@ -16643,7 +17193,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_reads_merged_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "intervalFactor": 1,
@@ -16654,7 +17204,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_writes_merged_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "intervalFactor": 1,
@@ -16669,7 +17219,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "Percentage of elapsed time during which I/O requests were issued to the device (bandwidth utilization for the device). Device saturation occurs when this value is close to 100% for devices serving requests serially.  But for devices  serving requests in parallel, such as RAID arrays and modern SSDs, this number does not reflect their performance limits.",
           "fieldConfig": {
@@ -17031,7 +17581,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 51
+            "y": 67
           },
           "id": 36,
           "links": [],
@@ -17057,7 +17607,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_io_time_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -17069,7 +17619,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_discard_time_seconds_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -17085,7 +17635,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "The number of outstanding requests at the instant the sample was taken. Incremented as requests are given to appropriate struct request_queue and decremented as they finish.",
           "fieldConfig": {
@@ -17447,7 +17997,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 61
+            "y": 77
           },
           "id": 34,
           "links": [],
@@ -17473,7 +18023,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_disk_io_now{instance=\"$node\",job=\"$job\"}",
               "interval": "",
@@ -17489,7 +18039,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -17850,7 +18400,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 61
+            "y": 77
           },
           "id": 301,
           "links": [],
@@ -17876,7 +18426,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_discards_completed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -17888,7 +18438,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_disk_discards_merged_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -17931,7 +18481,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -17992,7 +18542,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 46
+            "y": 62
           },
           "id": 43,
           "links": [],
@@ -18018,7 +18568,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_avail_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18032,7 +18582,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_free_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18045,7 +18595,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_size_bytes{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18062,7 +18612,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -18123,7 +18673,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 46
+            "y": 62
           },
           "id": 41,
           "links": [],
@@ -18149,7 +18699,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_files_free{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18166,7 +18716,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -18227,7 +18777,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 56
+            "y": 72
           },
           "id": 28,
           "links": [],
@@ -18253,7 +18803,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filefd_maximum{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -18265,7 +18815,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filefd_allocated{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -18281,7 +18831,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -18342,7 +18892,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 56
+            "y": 72
           },
           "id": 219,
           "links": [],
@@ -18368,7 +18918,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_files{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18385,7 +18935,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -18463,7 +19013,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 66
+            "y": 82
           },
           "id": 44,
           "links": [],
@@ -18489,7 +19039,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_readonly{instance=\"$node\",job=\"$job\",device!~'rootfs'}",
               "format": "time_series",
@@ -18501,7 +19051,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_filesystem_device_error{instance=\"$node\",job=\"$job\",device!~'rootfs',fstype!~'tmpfs'}",
               "format": "time_series",
@@ -18545,7 +19095,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -18677,7 +19227,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 31
+            "y": 47
           },
           "id": 60,
           "links": [],
@@ -18704,7 +19254,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -18717,7 +19267,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_packets_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -18734,7 +19284,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -18806,7 +19356,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 31
+            "y": 47
           },
           "id": 142,
           "links": [],
@@ -18833,7 +19383,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -18845,12 +19395,12 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_errs_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "{{device}} - Rransmit errors",
+              "legendFormat": "{{device}} - Transmit errors",
               "refId": "B",
               "step": 240
             }
@@ -18861,7 +19411,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -18933,7 +19483,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 41
+            "y": 57
           },
           "id": 143,
           "links": [],
@@ -18960,7 +19510,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_drop_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -18972,7 +19522,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_drop_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -18988,7 +19538,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19060,7 +19610,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 41
+            "y": 57
           },
           "id": 141,
           "links": [],
@@ -19087,7 +19637,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_compressed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19099,7 +19649,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_compressed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19115,7 +19665,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19187,7 +19737,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 51
+            "y": 67
           },
           "id": 146,
           "links": [],
@@ -19214,7 +19764,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_multicast_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19230,7 +19780,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19302,7 +19852,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 51
+            "y": 67
           },
           "id": 144,
           "links": [],
@@ -19329,7 +19879,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_fifo_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19341,7 +19891,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_fifo_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19357,7 +19907,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19429,7 +19979,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 61
+            "y": 77
           },
           "id": 145,
           "links": [],
@@ -19456,7 +20006,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_receive_frame_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19473,7 +20023,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19532,7 +20082,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 61
+            "y": 77
           },
           "id": 231,
           "links": [],
@@ -19559,7 +20109,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_carrier_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19575,7 +20125,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19647,7 +20197,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 71
+            "y": 87
           },
           "id": 232,
           "links": [],
@@ -19674,7 +20224,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_network_transmit_colls_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -19690,7 +20240,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19770,7 +20320,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 71
+            "y": 87
           },
           "id": 61,
           "links": [],
@@ -19796,7 +20346,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_nf_conntrack_entries{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -19808,7 +20358,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_nf_conntrack_entries_limit{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -19818,13 +20368,13 @@
               "step": 240
             }
           ],
-          "title": "NF Contrack",
+          "title": "NF Conntrack",
           "type": "timeseries"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19884,7 +20434,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 81
+            "y": 97
           },
           "id": 230,
           "links": [],
@@ -19910,7 +20460,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_arp_entries{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -19926,7 +20476,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -19987,7 +20537,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 81
+            "y": 97
           },
           "id": 288,
           "links": [],
@@ -20013,7 +20563,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_network_mtu_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20029,7 +20579,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20090,7 +20640,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 91
+            "y": 107
           },
           "id": 280,
           "links": [],
@@ -20116,7 +20666,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_network_speed_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20132,7 +20682,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20193,7 +20743,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 91
+            "y": 107
           },
           "id": 289,
           "links": [],
@@ -20219,7 +20769,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_network_transmit_queue_length{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20235,7 +20785,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20307,7 +20857,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 101
+            "y": 117
           },
           "id": 290,
           "links": [],
@@ -20334,7 +20884,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_softnet_processed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -20347,7 +20897,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_softnet_dropped_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -20364,7 +20914,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20423,7 +20973,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 101
+            "y": 117
           },
           "id": 310,
           "links": [],
@@ -20450,7 +21000,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_softnet_times_squeezed_total{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -20467,7 +21017,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20526,7 +21076,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 111
+            "y": 127
           },
           "id": 309,
           "links": [],
@@ -20553,7 +21103,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_network_up{operstate=\"up\",instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20565,7 +21115,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_network_carrier{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20607,7 +21157,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20667,7 +21217,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 32
+            "y": 48
           },
           "id": 63,
           "links": [],
@@ -20694,7 +21244,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_alloc{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20707,7 +21257,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20720,7 +21270,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_mem{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20734,7 +21284,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_orphan{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20747,7 +21297,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_tw{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20764,7 +21314,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20824,7 +21374,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 32
+            "y": 48
           },
           "id": 124,
           "links": [],
@@ -20851,7 +21401,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_UDPLITE_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20864,7 +21414,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_UDP_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20877,7 +21427,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_UDP_mem{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20894,7 +21444,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -20954,7 +21504,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 42
+            "y": 58
           },
           "id": 125,
           "links": [],
@@ -20981,7 +21531,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_FRAG_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -20994,7 +21544,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_RAW_inuse{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -21011,7 +21561,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21071,7 +21621,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 42
+            "y": 58
           },
           "id": 220,
           "links": [],
@@ -21098,7 +21648,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_TCP_mem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -21111,7 +21661,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_UDP_mem_bytes{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -21124,7 +21674,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_FRAG_memory{instance=\"$node\",job=\"$job\"}",
               "interval": "",
@@ -21139,7 +21689,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21199,7 +21749,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 52
+            "y": 68
           },
           "id": 126,
           "links": [],
@@ -21226,7 +21776,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_sockstat_sockets_used{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -21270,7 +21820,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21313,7 +21863,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21369,7 +21920,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_IpExt_InOctets{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21382,7 +21933,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_IpExt_OutOctets{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21398,7 +21949,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21442,7 +21993,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21485,7 +22037,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Ip_Forwarding{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21502,7 +22054,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21545,7 +22097,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21600,7 +22153,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Icmp_InMsgs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21613,7 +22166,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Icmp_OutMsgs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21630,7 +22183,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21673,7 +22226,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21728,7 +22282,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Icmp_InErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21745,7 +22299,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21788,7 +22342,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21855,7 +22410,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_InDatagrams{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21868,7 +22423,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_OutDatagrams{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21885,7 +22440,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -21928,7 +22483,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -21970,7 +22526,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_InErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21983,7 +22539,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_NoPorts{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -21996,7 +22552,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_UdpLite_InErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -22006,7 +22562,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_RcvbufErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22019,7 +22575,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Udp_SndbufErrors{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22036,7 +22592,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -22079,7 +22635,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -22146,7 +22703,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_InSegs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22160,7 +22717,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_OutSegs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22177,7 +22734,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -22222,7 +22779,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -22264,7 +22822,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_ListenOverflows{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22278,7 +22836,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_ListenDrops{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22292,7 +22850,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_TCPSynRetrans{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22305,7 +22863,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_RetransSegs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -22315,7 +22873,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_InErrs{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
@@ -22325,12 +22883,38 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_OutRsts{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "interval": "",
               "legendFormat": "OutRsts - Segments sent with RST flag",
               "refId": "F"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "irate(node_netstat_TcpExt_TCPRcvQDrop{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "TCPRcvQDrop - Packets meant to be queued in rcv queue but dropped because socket rcvbuf limit hit",
+              "range": true,
+              "refId": "G"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "editorMode": "code",
+              "expr": "irate(node_netstat_TcpExt_TCPOFOQueue{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "TCPOFOQueue - TCP layer receives an out of order packet and has enough memory to queue it",
+              "range": true,
+              "refId": "H"
             }
           ],
           "title": "TCP Errors",
@@ -22339,7 +22923,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -22383,7 +22967,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -22445,7 +23030,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_netstat_Tcp_CurrEstab{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -22459,7 +23044,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_netstat_Tcp_MaxConn{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -22477,7 +23062,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -22521,7 +23106,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -22576,7 +23162,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_SyncookiesFailed{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22590,7 +23176,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_SyncookiesRecv{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22604,7 +23190,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_TcpExt_SyncookiesSent{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22622,7 +23208,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -22666,7 +23252,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -22708,7 +23295,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_ActiveOpens{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22721,7 +23308,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "irate(node_netstat_Tcp_PassiveOpens{instance=\"$node\",job=\"$job\"}[$__rate_interval])",
               "format": "time_series",
@@ -22738,7 +23325,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "Enable with --collector.tcpstat argument on node-exporter",
           "fieldConfig": {
@@ -22783,7 +23370,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -22821,7 +23409,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "node_tcp_connection_states{state=\"established\",instance=\"$node\",job=\"$job\"}",
@@ -22836,7 +23424,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "node_tcp_connection_states{state=\"fin_wait2\",instance=\"$node\",job=\"$job\"}",
@@ -22852,7 +23440,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "node_tcp_connection_states{state=\"listen\",instance=\"$node\",job=\"$job\"}",
@@ -22868,7 +23456,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "node_tcp_connection_states{state=\"time_wait\",instance=\"$node\",job=\"$job\"}",
@@ -22915,7 +23503,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -22975,7 +23563,7 @@
             "h": 10,
             "w": 12,
             "x": 0,
-            "y": 50
+            "y": 66
           },
           "id": 40,
           "links": [],
@@ -23001,7 +23589,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_scrape_collector_duration_seconds{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -23019,7 +23607,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${datasource}"
           },
           "description": "",
           "fieldConfig": {
@@ -23102,7 +23690,7 @@
             "h": 10,
             "w": 12,
             "x": 12,
-            "y": 50
+            "y": 66
           },
           "id": 157,
           "links": [],
@@ -23128,7 +23716,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_scrape_collector_success{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -23142,7 +23730,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "P1809F7CD0C75ACF3"
+                "uid": "${datasource}"
               },
               "expr": "node_textfile_scrape_error{instance=\"$node\",job=\"$job\"}",
               "format": "time_series",
@@ -23171,9 +23759,10 @@
       "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": "1m",
   "revision": 1,
-  "schemaVersion": 39,
+  "schemaVersion": 38,
+  "style": "dark",
   "tags": [
     "linux"
   ],
@@ -23182,30 +23771,27 @@
       {
         "current": {
           "selected": false,
-          "text": "prometheus",
-          "value": "P1809F7CD0C75ACF3"
+          "text": "default",
+          "value": "default"
         },
         "hide": 0,
         "includeAll": false,
-        "label": "datasource",
+        "label": "Datasource",
         "multi": false,
-        "name": "DS_PROMETHEUS",
+        "name": "datasource",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
-        "regex": "prometheus",
+        "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "node",
-          "value": "node"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
+          "uid": "${datasource}"
         },
         "definition": "",
         "hide": 0,
@@ -23228,19 +23814,15 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "ansible.softwarefactory-project.io:9100",
-          "value": "ansible.softwarefactory-project.io:9100"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
+          "uid": "${datasource}"
         },
         "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
         "hide": 0,
         "includeAll": false,
-        "label": "Host:",
+        "label": "Host",
         "multi": false,
         "name": "node",
         "options": [],
@@ -23312,6 +23894,6 @@
   "timezone": "browser",
   "title": "Node Exporter Full",
   "uid": "rYdddlPWk",
-  "version": 1,
+  "version": 92,
   "weekStart": ""
 }
