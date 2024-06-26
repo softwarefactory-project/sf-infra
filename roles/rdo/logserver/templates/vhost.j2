@@ -3,11 +3,6 @@
     HostnameLookups On
     RewriteEngine On
     DocumentRoot /var/www/logs
-
-    <LocationMatch "/.*/ara-report(?!/ansible.sqlite)/>
-        ProxyPassMatch    http://localhost:20003
-        ProxyPassReverse  http://localhost:20003
-    </LocationMatch>
 </VirtualHost>
 {% if _tls_cert.stat.exists %}
 
@@ -17,10 +12,11 @@
     RewriteEngine On
     DocumentRoot /var/www/logs
 
-    <LocationMatch "/.*/ara-report(?!/ansible.sqlite)/>
-        ProxyPassMatch    http://localhost:20003
-        ProxyPassReverse  http://localhost:20003
-    </LocationMatch>
+    <Directory "/var/www/logs/">
+        Options Indexes SymLinksIfOwnerMatch
+        Require all granted
+        IndexOptions FancyIndexing HTMLTable NameWidth=* SuppressDescription
+    </Directory>
 
     Header set Access-Control-Allow-Origin "*"
 
