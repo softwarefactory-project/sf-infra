@@ -121,6 +121,9 @@
           --restart=always
           --privileged=true
           --network {{ podman_quay_network_name }}
+          -e WORKER_COUNT_REGISTRY={{ quay_worker_count_registry }}
+          -e WORKER_COUNT_WEB={{ quay_worker_count_web }}
+          -e WORKER_COUNT_SECSCAN={{ quay_worker_count_secscan }}
           {% if quay_debug %}
           -e DEBUGLOG=true
           {% endif %}
@@ -140,6 +143,9 @@
           --restart=always
           --privileged=true
           --network {{ podman_quay_network_name }}
+          -e WORKER_COUNT_REGISTRY={{ quay_worker_count_registry }}
+          -e WORKER_COUNT_WEB={{ quay_worker_count_web }}
+          -e WORKER_COUNT_SECSCAN={{ quay_worker_count_secscan }}
           -e GODEBUG=x509ignoreCN=0
           {% if quay_debug %}
           -e DEBUGLOG=true

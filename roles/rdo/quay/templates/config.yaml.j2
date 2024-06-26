@@ -31,6 +31,7 @@ SECRET_KEY: {%if secret_key|default(false) %}{{ secret_key }}{% else %}{{ 999999
 DB_CONNECTION_ARGS:
     autorollback: true
     threadlocals: true
+    max_connections: {{ quay_db_max_connections }}
 DB_URI: postgresql://{{ postgresql_user }}:{{ postgresql_password }}@{{ postgresql_host | default(ansible_default_ipv4.address) }}/{{ postgresql_db_name }}
 DEFAULT_TAG_EXPIRATION: 2w
 DISTRIBUTED_STORAGE_CONFIG:
