@@ -1,4 +1,12 @@
 ---
+- name: Install packages
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - httpd
+      - mod_ssl
+      - mod_wsgi
+
 - name: check for tls cert
   become: yes
   ansible.builtin.stat:
