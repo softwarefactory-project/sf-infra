@@ -5,7 +5,7 @@ self_signed_certs: true
 initial_config: false
 
 podman_quay_network_name: podman-quay
-podman_quay_network_mtu: 1300
+podman_quay_network_mtu: 1500
 
 quay_debug: false
 
@@ -15,6 +15,16 @@ postgresql_db_name: 'quay'
 postgresql_admin_password: 'adminpass'
 postgresql_partition: ''
 postgresql_additional_parameters: "-c shared_buffers=256MB -c max_connections=2000"
+quay_db_max_connections: 20
+
+# From https://docs.redhat.com/en/documentation/red_hat_quay/3.5/html-single/manage_red_hat_quay/index#dynamic_process_counts
+# default count:
+#   quay_worker_count_registry: {{ ansible_processor_vcpus * 4 | int }}
+#   quay_worker_count_web: "{{ ansible_processor_vcpus * 2 | int }}"
+#   quay_worker_count_secscan: "{{ ansible_processor_vcpus * 2 | int }}"
+quay_worker_count_registry: "{{ ansible_processor_vcpus * 6 | int }}"
+quay_worker_count_web: "{{ ansible_processor_vcpus * 4 | int }}"
+quay_worker_count_secscan: "{{ ansible_processor_vcpus * 2 | int }}"
 
 redis_password: 'strongpassword'
 
