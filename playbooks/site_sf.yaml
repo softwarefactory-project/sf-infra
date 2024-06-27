@@ -32,6 +32,7 @@
   roles:
     - sf/k1s
     - service/node-exporter
+    - system/psi
 
 - hosts: sf
   roles:
@@ -40,6 +41,7 @@
     - infra/base
     - infra/ssh
     - service/node-exporter
+    - system/psi
     - system/update-host
     - system/podman
     - system/journald
@@ -173,6 +175,7 @@
     - sf/prometheus
     - sf/statsd-exporter
     - service/node-exporter
+    - system/psi
     - service/apache-exporter
 
 - hosts: zs.softwarefactory-project.io
@@ -224,6 +227,7 @@
 - hosts: logscraper02.openstack.org
   roles:
     - service/node-exporter
+    - system/psi
 
 - hosts: ibm-baremetal-nodepool
   roles:

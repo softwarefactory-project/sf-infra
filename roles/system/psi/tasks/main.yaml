@@ -1,0 +1,32 @@
+---
+# based on https://access.redhat.com/solutions/5211481
+
+- name: Check if psi parameter already set
+  become: true
+  ansible.builtin.shell: |
+    grep "psi=1" /etc/default/grub
+  register: _psi_present
+  failed_when: _psi_present.rc not in [0,1]
+
+- name: Set the PSI argument to the bootloader
+  become: true
+  when: _psi_present.stdout | length < 1
+  block:
+    - name: Check if UEFI base system
+      ansible.builtin.stat:
+        path: /boot/efi/EFI/redhat/grub.cfg
+      register: _uefi_base_system
+
+    - name: Set the psi argment to grub default
+      ansible.builtin.command: |
+        grubby --update-kernel=ALL --args="psi=1"
+
+    - name: Reconfigure Grub2 - UEFI
+      when: _uefi_base_system.stat.exists
+      ansible.builtin.command: |
+        grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+
+    - name: Reconfigure Grub2 - BIOS
+      when: not _uefi_base_system.stat.exists
+      ansible.builtin.command: |
+         grub2-mkconfig -o /boot/grub2/grub.cfg
