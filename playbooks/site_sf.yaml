@@ -166,7 +166,7 @@
     - sf/blackbox-exporter
     - sf/dnsmasq
     - sf/grafana
-    # sf/monitoring-gateway is included here to setup vhost on 80 + 443
+    # sf/monitoring-gateway is included here to setup vhost on 80 + 443.
     - sf/monitoring-gateway
     - sf/prometheus
     - sf/statsd-exporter
