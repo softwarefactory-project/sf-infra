@@ -131,24 +131,6 @@ scrape_configs:
       - targets:
           - https://baremetal03.rdoproject.org
           - https://baremetal04.rdoproject.org
-  - job_name: blackbox-auth
-    metrics_path: /probe
-    params:
-      module:
-        - http_4xx
-    relabel_configs:
-      - source_labels:
-          - "__address__"
-        target_label: "__param_target"
-      - source_labels:
-          - "__param_target"
-        target_label: instance
-      - replacement: "127.0.0.1:9115"
-        target_label: "__address__"
-    scrape_interval: "5m"
-    static_configs:
-      - targets:
-          - "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
   - job_name: statsd_exporter
     scrape_interval: "5m"
     static_configs:

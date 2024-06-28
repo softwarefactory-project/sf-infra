@@ -88,9 +88,6 @@ let instances =
             in  [ "https://review.rdoproject.org/zuul/api/info"
                 , "https://review.rdoproject.org"
                 ]
-        , monitoring_auth_urls =
-          [ "https://review.rdoproject.org/elasticsearch/_cluster/health?wait_for_status=green&timeout=50s"
-          ]
         , groups = [ "rhel", "rdo", "install-server", "backup-rdo" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
