@@ -45,6 +45,13 @@ let firewall_rules =
               "rule family=ipv4 source address=38.102.83.250/32 port port=9102 protocol=tcp accept"
           , state = "enabled"
           }
+        , { immediate = "yes"
+          , permanent = "yes"
+          , port = None Text
+          , rich_rule = Some
+              "rule family=ipv4 source address=38.102.83.114/32 port port=9125 protocol=udp accept"
+          , state = "enabled"
+          }
         ]
 
 in  { certbot_plugin = "--apache"
