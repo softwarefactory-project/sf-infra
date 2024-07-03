@@ -5,11 +5,9 @@ This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org centos-7-1907 v1-standard-2
 * quay.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
-* trunk-centos8.rdoproject.org centos-8.0-1905 v1-standard-4
 * managesf.review.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * logserver.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * www.rdoproject.org centos-8.1-1911 v1-standard-1
-* dlrn-db.rdoproject.org centos-8.1-1911 v1-standard-2
 * opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * dlrn-db-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * trunk-server-centos9.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb

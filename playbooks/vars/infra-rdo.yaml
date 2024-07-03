@@ -158,9 +158,6 @@ security_groups:
         remote_ip_prefix: "38.102.83.226/32"
       - port: 3306
         protocol: tcp
-        remote_ip_prefix: "38.102.83.175/32"
-      - port: 3306
-        protocol: tcp
         remote_ip_prefix: "66.187.233.202/32"
       - port: 3306
         protocol: tcp
@@ -219,21 +216,6 @@ servers:
     state: present
     volume_size: 50
   - boot_from_volume: yes
-    flavor: v1-standard-4
-    floating_ip: true
-    image: centos-8.0-1905
-    key_name: sf-infra-key
-    name: trunk-centos8.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - web
-      - rdo-trunk
-      - apache_exporter
-    state: absent
-    volume_size: 512
-  - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
     image: rhel-9.3-x86_64-kvm
@@ -278,19 +260,6 @@ servers:
       - apache_exporter
     state: present
     volume_size: 10
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
-    image: centos-8.1-1911
-    key_name: sf-infra-key
-    name: dlrn-db.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - dlrn-db
-    state: absent
-    volume_size: 60
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true

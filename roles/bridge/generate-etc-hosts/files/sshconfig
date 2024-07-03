@@ -30,10 +30,6 @@ Host quay.rdoproject.org
     User cloud-user
     Port 22
     Hostname 38.129.56.158
-Host trunk-centos8.rdoproject.org
-    User cloud-user
-    Port 22
-
 Host managesf.review.rdoproject.org
     User cloud-user
     Port 22
@@ -43,10 +39,6 @@ Host logserver.rdoproject.org
     Port 22
 
 Host www.rdoproject.org
-    User centos
-    Port 22
-
-Host dlrn-db.rdoproject.org
     User centos
     Port 22
 
