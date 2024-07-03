@@ -170,8 +170,6 @@ all:
         ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-        microshift-infra.softwarefactory-project.io: {}
-        microshift.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}

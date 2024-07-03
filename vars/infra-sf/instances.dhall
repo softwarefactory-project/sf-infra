@@ -294,7 +294,6 @@ let instances =
         }
       , Instance::{
         , name = "microshift"
-        , groups = [ "sf" ]
         , connection = OS.CentOS.`9-stream`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`9-stream`.image.name
@@ -313,7 +312,6 @@ let instances =
         }
       , Instance::{
         , name = "microshift-infra"
-        , groups = [ "sf" ]
         , connection = OS.CentOS.`9-stream`.connection
         , server = Some Infra.Server::{
           , image = OS.CentOS.`9-stream`.image.name
