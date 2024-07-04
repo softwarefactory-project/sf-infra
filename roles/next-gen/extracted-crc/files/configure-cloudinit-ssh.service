@@ -1,0 +1,17 @@
+[Unit]
+Description=Configure SSH keys provided by the 169.254.169.254
+DefaultDependencies=no
+ConditionPathExists=/usr/local/bin/configure-cloudinit-ssh.sh
+Before=kubelet.service crc-dnsmasq.service
+After=NetworkManager.service network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=bash /usr/local/bin/configure-cloudinit-ssh.sh
+SELinuxContext=system_u:system_r:unconfined_service_t:s0
+Type=oneshot
+TimeoutSec=60
+RemainAfterExit=yes
+
+[Install]
+WantedBy=kubelet.service

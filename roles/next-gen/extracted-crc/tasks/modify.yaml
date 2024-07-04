@@ -12,25 +12,19 @@
     guest_home_dir: "{{ mount_point }}/ostree/deploy/rhcos/var/home/core"
     guest_var_dir: "{{ mount_point }}/ostree/deploy/rhcos/var/lib"
 
-- name: Create crc-pre service
-  become: true
-  ansible.builtin.copy:
-    src: crc-pre.service
-    dest: "{{ guest_etc_dir }}/systemd/system/crc-pre.service"
-    mode: "0644"
+- name: Add service to configure dnsmasq
+  when: crc_configure_dnsmasq_service
+  vars:
+    service: crc-pre.service
+    script_name: configure-pre-crc.sh
+  ansible.builtin.include_tasks: service.yaml
 
-- name: Create configure-pre-crc.sh
-  become: true
-  ansible.builtin.copy:
-    src: configure-pre-crc.sh
-    dest: "{{ guest_local_dir }}/bin/configure-pre-crc.sh"
-    mode: "0755"
-
-- name: Create symlink to service defaults
-  become: true
-  ansible.builtin.shell: |
-    cd {{ guest_etc_dir }}/systemd/system/default.target.wants
-    ln -s ../crc-pre.service .
+- name: Add service to configure cloud-init ssh keys
+  when: crc_cloud_init_ssh_service
+  vars:
+    service: configure-cloudinit-ssh.service
+    script_name: configure-cloudinit-ssh.sh
+  ansible.builtin.include_tasks: service.yaml
 
 - name: Create temp file with ssh keys
   ansible.builtin.copy:
@@ -80,8 +74,14 @@
       {"data":{".dockerconfigjson":"e30K"}}
     dest: "{{ guest_var_dir }}/kubelet/config.json"
 
+- name: Check if machineconfigpool dir exists
+  ansible.builtin.stat:
+    path: "{{ crc_bundle_dir }}/machineconfigpool"
+  register: _mcp_manifests_dir
+
 - name: Copy machineconfigpool dir
   become: true
+  when: _mcp_manifests_dir.stat.exists
   ansible.builtin.copy:
     src: "{{ crc_bundle_dir }}/machineconfigpool"
     dest: "{{ guest_home_dir }}/"
