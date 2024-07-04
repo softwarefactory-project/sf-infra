@@ -63,14 +63,8 @@ let instances =
           , floating_ip = Some True
           , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
           , volume_size = Some 512
+          , state = Infra.Server.State.absent
           }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "trunk-centos8-swap"
-            , size = 16
-            , device = "/dev/vdb"
-            }
-          ]
         }
       , Instance::{
         , name = "managesf.review"
@@ -154,6 +148,7 @@ let instances =
           , floating_ip = Some True
           , security_groups = [ "dlrn-db" ]
           , volume_size = Some 60
+          , state = Infra.Server.State.absent
           }
         }
       , Instance::{

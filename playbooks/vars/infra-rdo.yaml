@@ -231,7 +231,7 @@ servers:
       - web
       - rdo-trunk
       - apache_exporter
-    state: present
+    state: absent
     volume_size: 512
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -289,7 +289,7 @@ servers:
       - common
       - monitoring
       - dlrn-db
-    state: present
+    state: absent
     volume_size: 60
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
@@ -372,10 +372,6 @@ volumes:
     display_name: quay_data_2
     server: quay.rdoproject.org
     size: 512
-  - device: /dev/vdb
-    display_name: trunk-centos8-swap
-    server: trunk-centos8.rdoproject.org
-    size: 16
   - device: /dev/vdb
     display_name: logs-data
     server: logserver.rdoproject.org
