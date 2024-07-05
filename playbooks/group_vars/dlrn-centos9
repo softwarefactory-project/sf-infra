@@ -221,8 +221,8 @@ dlrn_workers:
     target: 'centos9-wallaby'
     distgit_branch: 'wallaby-rdo'
     distro_branch: 'stable/wallaby'
-    enable_cron: "{{ enable_worker_cronjobs }}"
-    enable_purge: "{{ enable_purge_cronjobs }}"
+    enable_cron: false
+    enable_purge: false
     purge_hour: '4'
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-wallaby', '/var/www/html/wallaby/centos9']
@@ -234,8 +234,8 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: true
-    enable_brs_sync: true
+    enable_deps_sync: false
+    enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
     gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-wallaby-cs9'
@@ -248,8 +248,8 @@ dlrn_workers:
     target: 'centos9-xena'
     distgit_branch: 'xena-rdo'
     distro_branch: 'stable/xena'
-    enable_cron: "{{ enable_worker_cronjobs }}"
-    enable_purge: "{{ enable_purge_cronjobs }}"
+    enable_cron: false
+    enable_purge: false
     purge_hour: '4'
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-xena', '/var/www/html/xena/centos9']
@@ -261,8 +261,8 @@ dlrn_workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: true
-    enable_brs_sync: true
+    enable_deps_sync: false
+    enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
     gerrit_email: 'amoralej+rdo-trunk@redhat.com'
     gerrit_topic: 'rdo-FTBFS-xena-cs9'
