@@ -7,6 +7,7 @@
 
 - hosts: rdo
   roles:
+    - legacy/centos7
     - system/tune-dnf
     - infra/base
     - service/node-exporter
