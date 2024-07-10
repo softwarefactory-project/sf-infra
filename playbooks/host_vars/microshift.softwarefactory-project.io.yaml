@@ -10,6 +10,7 @@ microshift_additional_addresses:
 k9s_version: v0.29.1
 
 route_host: "{{ fqdn }}"
+route_name: ssl-gateway
 route_enable_le: true
 
 software_factory:
