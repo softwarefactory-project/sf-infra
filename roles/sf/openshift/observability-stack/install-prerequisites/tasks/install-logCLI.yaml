@@ -17,7 +17,7 @@
         src: "{{ logcli_release_url }}"
         dest: /usr/local/bin
         remote_src: yes
-        mode: u+x
+        mode: a+x
     - ansible.builtin.command:
         mv logcli-linux-amd64 logcli
       args:
@@ -37,7 +37,7 @@
         src: "{{ logcli_release_url }}"
         dest: /usr/local/bin
         remote_src: yes
-        mode: u+x
+        mode: a+x
       become: true
       when: logcli_version not in logcli_current_version.stdout
     - ansible.builtin.command:

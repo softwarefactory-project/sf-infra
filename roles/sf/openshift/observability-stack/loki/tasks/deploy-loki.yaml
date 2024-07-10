@@ -48,7 +48,7 @@
 
 - name: Generate Helm manifest
   ansible.builtin.shell: |
-    helm template loki grafana/loki --values chart-values.yaml --namespace {{ loki_namespace }} > loki-helm-manifest.yaml
+    helm template loki grafana/loki --version {{ loki_chart_version }} --values chart-values.yaml --namespace {{ loki_namespace }} > loki-helm-manifest.yaml
   args:
     chdir: "{{ kustomize_dir }}/loki/base"
 
