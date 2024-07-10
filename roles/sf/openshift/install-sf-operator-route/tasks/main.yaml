@@ -20,8 +20,8 @@
         name: "{{ route_name }}"
         namespace: "{{ route_namespace }}"
         labels: "{{ route_labels }}"
-      annotations:
-        cert-manager.io/issuer-name: "{{ route_le_issuer_name }}"
+        annotations:
+          cert-manager.io/issuer-name: "{{ route_le_issuer_name }}"
       spec:
         host: "{{ route_host }}"
         path: /
