@@ -7,7 +7,7 @@ image:
   repository: cr.fluentbit.io/fluent/fluent-bit
   tag:
   digest:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 testFramework:
   enabled: false
@@ -71,10 +71,11 @@ service:
 #   prometheus.io/path: "/api/v1/metrics/prometheus"
 #   prometheus.io/port: "2020"
 #   prometheus.io/scrape: "true"
+  externalIPd: []
 
 serviceMonitor:
-  enabled: true
-  namespace: sf-observability
+  enabled: {{ enable_serviceMonitor }}
+  namespace: {{ observability_namespace }}
   interval: 10s
   scrapeTimeout: 10s
   selector:
@@ -83,6 +84,9 @@ serviceMonitor:
       run: fluentbit
 
 dashboards:
+  enabled: false
+
+prometheusRule:
   enabled: false
 
 lifecycle: {}
@@ -192,6 +196,11 @@ config:
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
     [OUTPUT]
+        name    stdout
+        match   *
+        format  json_lines
+
+    [OUTPUT]
         name        loki
         match       *
         host        {{ fluentbit_loki_endpoint }}
@@ -201,10 +210,16 @@ config:
         http_passwd ${GATEWAY_PASSWORD}
         tenant_id   ${LOKI_TENANT}
 
-        labels      namespace=$namespace, host=$nodename, application=$component, pod=$podname, job=sf_fluentbit, container=$container
+        labels      namespace=$namespace, host=$nodename, application=$component, pod=$podname, job={{ fluentbit_job_label }}, container=$container{% if fluentbit_extra_labels != "" %}, {{ fluentbit_extra_labels }}{% endif %}
 
   ## https://docs.fluentbit.io/manual/pipeline/parsers
   customParsers: ""
 
+  extraFiles: {}
 
 logLevel: info
+
+initContainers: []
+
+hotReload:
+  enabled: false
