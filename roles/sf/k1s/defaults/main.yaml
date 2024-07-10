@@ -2,3 +2,4 @@
 k1s_user: fedora
 k1s_port: 9023
 swap_size: 16384
+systemd_OOMPolicy: continue
