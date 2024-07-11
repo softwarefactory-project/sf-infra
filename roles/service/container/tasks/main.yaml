@@ -52,6 +52,9 @@
           StartLimitBurst=5
 
           [Service]
+          {% if systemd_OOMPolicy is defined %}
+          OOMPolicy={{ systemd_OOMPolicy }}
+          {% endif %}
           Type=simple
           SyslogIdentifier={{ pod_name }}
           {# '-a' attach the container stdout to syslog #}
