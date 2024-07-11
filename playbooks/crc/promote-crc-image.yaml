@@ -78,6 +78,11 @@
           {{ openshift_pull_secret }}
         dest: /var/lib/kubelet/config.json
 
+    - name: Configure dnsmasq
+      ansible.builtin.include_role:
+        name: next-gen/promote-image
+        tasks_from: configure_dnsmasq.yaml
+
     - name: Install basic packages and run tests
       ansible.builtin.include_role:
         name: next-gen/promote-image
