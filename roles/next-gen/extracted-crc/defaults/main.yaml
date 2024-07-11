@@ -17,7 +17,7 @@ compress_qcow2_type: zlib
 
 # Should the image include the crc-pre service, that is responsible for
 # modyfing the dnsmasq service
-crc_configure_dnsmasq_service: true
+crc_configure_dnsmasq_service: false
 
 # Should the image include the configure-cloudinit-ssh service that
 # is responsible for injecting the SSH keys from the cloud-init or

@@ -3,10 +3,9 @@
 set -x
 
 HOST_IP=$(ip route get 1.2.3.4 | awk '{print $7}' | head -n1)
-HOST_DEF_INT=$(ip -br -4 a sh | grep $HOST_IP | awk '{print $1}')
-ALL_DNS=$(nmcli -g IP4.DNS connection show $(nmcli connection show | grep $HOST_DEF_INT | awk -F '  ' '{print $2}'))
-DNS1=$(echo $ALL_DNS| cut -f1 -d'|')
-DNS2=$(echo $ALL_DNS| cut -f2 -d'|')
+ALL_DNS=$(nmcli dev show | grep 'IP4.DNS'| awk '{print $2}')
+DNS1=$(echo $ALL_DNS | sed -n '1 p')
+DNS2=$(echo $ALL_DNS | sed -n '2 p')
 
 if [ -z $DNS1 ]; then
     echo "DNS1 is empty. Setting 1.1.1.1"
