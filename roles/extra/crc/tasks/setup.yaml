@@ -1,8 +1,4 @@
 ---
-- name: Configure crc - disable telemetry
-  ansible.builtin.shell: |
-    /usr/local/bin/crc config set consent-telemetry no
-
 - name: Configure crc - set password
   ansible.builtin.shell: |
     /usr/local/bin/crc config set kubeadmin-password "{{ openshift_admin_password }}"
@@ -15,6 +11,7 @@
 - name: Set additional parameters for crc - telemetry
   ansible.builtin.shell: |
     /usr/local/bin/crc config set consent-telemetry {{ crc_config_consent_telemetry }}
+  when: not crc_config_consent_telemetry | bool
 
 - name: Set additional parameters for crc - monitoring
   ansible.builtin.shell: |
@@ -30,6 +27,11 @@
   ansible.builtin.shell: |
     /usr/local/bin/crc config set preset microshift
   when: crc_config_microshift_preset
+
+- name: Set custom bundle
+  ansible.builtin.shell: |
+    /usr/local/bin/crc config set bundle {{ crc_config_custom_bundle_url }}
+  when: crc_config_custom_bundle_url | length > 0
 
 - name: Execute setup
   block:
