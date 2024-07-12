@@ -7,12 +7,6 @@ CLOUD_INIT_KEYS_URL=${CLOUD_INIT_KEYS_URL:-'http://169.254.169.254/latest/meta-d
 USERDATA_DIR=${USERDATA_DIR:-'/tmp/openstack-config-drive'}
 USERDATA_KEY_DIR=${USERDATA_KEY_DIR:-'/tmp/ssh-pub-keys'}
 
-# NOTE: In new CRC version, the authorized_keys file path has been changed
-# to "$HOME/.ssh/authorized_keys.d/ignition".
-if [ -f "${USER_DIR}/.ssh/authorized_keys.d/ignition" ]; then
-    ln -s "$USER_DIR/.ssh/authorized_keys.d/ignition" "$USER_DIR/.ssh/authorized_keys"
-fi
-
 # inject alternative SSH keys
 mkdir -p "$USERDATA_KEY_DIR" && \
     chmod 0755 "$USERDATA_KEY_DIR" && \
@@ -39,7 +33,7 @@ if [ -n "$CDROM" ]; then
     if [ -f "$USERDATA_DIR/openstack/latest/user_data" ]; then
         grep -E "^\s*- (ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_DIR/openstack/latest/user_data" | sed 's/^\s*-\s*//' > "$USERDATA_KEY_DIR/userdata"
         if ssh-keygen -l -f "$USERDATA_KEY_DIR/userdata"; then
-            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys.d/zuul"
         fi
     fi
 
@@ -47,7 +41,7 @@ if [ -n "$CDROM" ]; then
         cat "$USERDATA_DIR/openstack/latest/meta_data.json" | jq --raw-output '.public_keys[]'  > $USERDATA_KEY_DIR/userdata.raw
         grep -E "^(ssh-rsa|ssh-ed25519|ecdsa-sha2-nistp256|ssh-dss)" "$USERDATA_KEY_DIR/userdata.raw" > "$USERDATA_KEY_DIR/userdata"
         if ssh-keygen -l -f "$USERDATA_KEY_DIR/userdata"; then
-            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+            cat "$USERDATA_KEY_DIR/userdata" | tee -a "${USER_DIR}/.ssh/authorized_keys.d/zuul"
         fi
     fi
 fi
@@ -62,7 +56,7 @@ if [ -n "$CLOUD_INIT_KEYS" ]; then
 
         if [ -f "$USERDATA_KEY_DIR/openssh-key" ]; then
             if ssh-keygen -l -f "$USERDATA_KEY_DIR/openssh-key"; then
-                cat "$USERDATA_KEY_DIR/openssh-key" | tee -a "${USER_DIR}/.ssh/authorized_keys"
+                cat "$USERDATA_KEY_DIR/openssh-key" | tee -a "${USER_DIR}/.ssh/authorized_keys.d/zuul"
             fi
         fi
     done
