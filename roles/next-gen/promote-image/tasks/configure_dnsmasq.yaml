@@ -1,0 +1,23 @@
+---
+- name: Ensure that the host ip address is in /etc/resolv.conf
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    insertbefore: '^nameserver'
+    line: 'nameserver {{ ansible_default_ipv4.address }}'
+    firstmatch: true
+
+- name: Set host ip address for crc.testing
+  become: true
+  ansible.builtin.replace:
+    path: /etc/dnsmasq.d/crc-dnsmasq.conf
+    regexp: "192.168.130.11"
+    replace: "{{ ansible_default_ipv4.address }}"
+  register: _dnsmasq_conf
+
+- name: Restart dnsmasq when changed
+  when: _dnsmasq_conf.changed
+  become: true
+  ansible.builtin.service:
+    name: dnsmasq
+    state: restarted
