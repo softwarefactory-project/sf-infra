@@ -79,6 +79,7 @@
         dest: /var/lib/kubelet/config.json
 
     - name: Configure dnsmasq
+      when: _kubelet_config.stat.exists
       ansible.builtin.include_role:
         name: next-gen/promote-image
         tasks_from: configure_dnsmasq.yaml
