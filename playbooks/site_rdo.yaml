@@ -59,7 +59,6 @@
 
 - hosts: private-afs-mirror
   roles:
-    - system/rhel-subscription
     - rdo/setup-ssl-self-signed
     - rdo/afs-mirror
     - service/node-exporter

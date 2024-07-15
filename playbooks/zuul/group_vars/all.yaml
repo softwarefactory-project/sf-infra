@@ -14,12 +14,15 @@ standalone_deployments:
       - name: ibm-bm3-nodepool-launcher.softwarefactory-project.io
         flavor: m1.medium
         ip: 192.168.25.11
+        image: rhel-9.3
       - name: ibm-bm3-ze.softwarefactory-project.io
         flavor: m1.large
         ip: 192.168.25.12
+        image: rhel-9.3
       - name: ibm-bm3-zfgw.softwarefactory-project.io
         flavor: m1.small
         ip: 192.168.25.13
+        image: rhel-9.3
   - baremetal_name: ibm-bm4
     baremetal_ip: 169.60.49.233
     cloud: ibm-bm4-nodepool
@@ -32,9 +35,12 @@ standalone_deployments:
       - name: ibm-bm4-nodepool-launcher.softwarefactory-project.io
         flavor: m1.medium
         ip: 192.168.26.11
+        image: rhel-9.3
       - name: ibm-bm4-ze.softwarefactory-project.io
         flavor: m1.large
         ip: 192.168.26.12
+        image: rhel-9.3
       - name: ibm-bm4-zfgw.softwarefactory-project.io
         flavor: m1.small
         ip: 192.168.26.13
+        image: rhel-9.3

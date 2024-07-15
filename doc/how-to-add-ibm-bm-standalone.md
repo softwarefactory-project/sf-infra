@@ -104,7 +104,7 @@ devices:
 ibm_bm3_ip: 169.60.49.226
 `
 
-6. add deployment data on standalone_deployments field on playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml
+6. add deployment data on standalone_deployments field on playbooks/zuul/group_vars/all.yaml
 
 `
 standalone_deployments:

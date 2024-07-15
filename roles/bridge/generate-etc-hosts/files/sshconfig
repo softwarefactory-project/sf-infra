@@ -88,17 +88,17 @@ Host mirror.regionone.ibm-bm3-nodepool.rdoproject.org
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.10
 Host ibm-bm3-nodepool-launcher.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.11
 Host ibm-bm3-ze.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.12
 Host ibm-bm3-zfgw.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal03.rdoproject.org
     Hostname 192.168.25.13
@@ -112,17 +112,17 @@ Host mirror.regionone.ibm-bm4-nodepool.rdoproject.org
     ProxyJump baremetal04.rdoproject.org
     Hostname 192.168.26.10
 Host ibm-bm4-nodepool-launcher.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal04.rdoproject.org
     Hostname 192.168.26.11
 Host ibm-bm4-ze.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal04.rdoproject.org
     Hostname 192.168.26.12
 Host ibm-bm4-zfgw.softwarefactory-project.io
-    User centos
+    User cloud-user
     Port 22
     ProxyJump baremetal04.rdoproject.org
     Hostname 192.168.26.13

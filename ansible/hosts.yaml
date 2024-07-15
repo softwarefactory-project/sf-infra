@@ -131,6 +131,12 @@ all:
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
+        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-bm3-ze.softwarefactory-project.io: {}
+        ibm-bm3-zfgw.softwarefactory-project.io: {}
+        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-bm4-ze.softwarefactory-project.io: {}
+        ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -138,6 +144,8 @@ all:
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
+        mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
+        mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
         quay.rdoproject.org: {}
@@ -257,32 +265,32 @@ all:
       ansible_host: '192.168.25.11'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     ibm-bm3-ze.softwarefactory-project.io:
       ansible_host: '192.168.25.12'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     ibm-bm3-zfgw.softwarefactory-project.io:
       ansible_host: '192.168.25.13'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     ibm-bm4-nodepool-launcher.softwarefactory-project.io:
       ansible_host: '192.168.26.11'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     ibm-bm4-ze.softwarefactory-project.io:
       ansible_host: '192.168.26.12'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     ibm-bm4-zfgw.softwarefactory-project.io:
       ansible_host: '192.168.26.13'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: centos
+      ansible_user: cloud-user
     image-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
