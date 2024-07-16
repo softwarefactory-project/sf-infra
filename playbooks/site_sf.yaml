@@ -234,17 +234,27 @@
   roles:
     - sf/hostname
   tasks:
-    - name: Ensure zookeeper host is on /etc/hosts
-      ansible.builtin.lineinfile:
-        dest: "/etc/hosts"
-        regexp: "^{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}.*"
-        line: "{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}"
-        state: present
+    - name: Ensure zookeeper and ansible_host hosts are on /etc/hosts
+      block:
+        - name: Ensure zookeeper host is on /etc/hosts
+          ansible.builtin.lineinfile:
+            dest: "/etc/hosts"
+            regexp: "^{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}.*"
+            line: "{{ zookeeper_instance.public_ip }} {{ zookeeper_instance.host }}"
+            state: present
+          register: hosts_updated_zk
+
+        - name: Ensure ansible_fqdn host is on /etc/hosts
+          ansible.builtin.lineinfile:
+            dest: "/etc/hosts"
+            regexp: "^{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}.*"
+            line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
+            state: present
+          register: hosts_updated_fqdn
       become: yes
-      register: hosts_updated
 
     - name: Get running services which need zk
-      shell: systemctl | grep -E 'zuul|nodepool'
+      shell: systemctl | awk '/zuul|nodepool/ {print $1}'
       become: yes
       register: _service
 
@@ -253,4 +263,4 @@
         state: restarted
         name: "{{ _service.stdout }}"
       become: yes
-      when: hosts_updated.changed
+      when: hosts_updated_fqdn.changed or hosts_updated_zk.changed
