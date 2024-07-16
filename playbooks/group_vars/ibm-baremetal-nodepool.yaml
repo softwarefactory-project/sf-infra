@@ -32,7 +32,7 @@ self_signed_certs:
       -----END CERTIFICATE-----
   - ca_cert_name: ibm-bm4-nodepool.crt
     ca_cert: |
-      ----BEGIN CERTIFICATE-----
+      -----BEGIN CERTIFICATE-----
       MIIE+DCCAuCgAwIBAgIUZj/c6QCYZLBdPNX/Np3qCyKqJJYwDQYJKoZIhvcNAQEL
       BQAwEzERMA8GA1UEAwwIc2ltcGxlY2EwHhcNMjMxMTIwMTgzMTM1WhcNMzMxMTE3
       MTgzMTM1WjATMREwDwYDVQQDDAhzaW1wbGVjYTCCAiIwDQYJKoZIhvcNAQEBBQAD
