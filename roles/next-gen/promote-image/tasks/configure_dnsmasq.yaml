@@ -30,30 +30,68 @@
           nameserver {{ ansible_default_ipv4.address }}
         firstmatch: true
 
-    - name: Set host ip address for crc.testing
+    - name: Check if dnsmasq config exists
       become: true
+      ansible.builtin.stat:
+        path: /var/srv/dnsmasq.conf
+      register: _legacy_dnsmasq_config
+
+    - name: Set host ip address for crc.testing when legacy
+      become: true
+      when: _legacy_dnsmasq_config.stat.exists
       ansible.builtin.replace:
-        path: /etc/dnsmasq.d/crc-dnsmasq.conf
+        path: /var/srv/dnsmasq.conf
         regexp: "192.168.130.11"
         replace: "{{ ansible_default_ipv4.address }}"
-      register: _dnsmasq_conf
 
-    - name: Ensure that bind-interfaces is set in dnsmasq
-      become: true
-      ansible.builtin.lineinfile:
-        path: /etc/dnsmasq.d/crc-dnsmasq.conf
-        insertbefore: '^server'
-        line: 'bind-interfaces'
-        firstmatch: true
+    - name: Configure dnsmasq when not legacy
+      when: not _legacy_dnsmasq_config.stat.exists
+      block:
+        - name: Set host ip address for crc.testing
+          become: true
+          ansible.builtin.replace:
+            path: /etc/dnsmasq.d/crc-dnsmasq.conf
+            regexp: "192.168.130.11"
+            replace: "{{ ansible_default_ipv4.address }}"
+          register: _dnsmasq_conf
 
-    - name: Set DNS nameservers provided by cloud provider
-      become: true
-      ansible.builtin.lineinfile:
-        path: /etc/dnsmasq.d/crc-dnsmasq.conf
-        line: "server={{ item }}"
-      loop: "{{ ansible_dns.nameservers }}"
+        - name: Ensure that bind-interfaces is set in dnsmasq
+          become: true
+          ansible.builtin.lineinfile:
+            path: /etc/dnsmasq.d/crc-dnsmasq.conf
+            insertbefore: '^server'
+            line: 'bind-interfaces'
+            firstmatch: true
+
+        - name: Set DNS nameservers provided by cloud provider
+          become: true
+          ansible.builtin.lineinfile:
+            path: /etc/dnsmasq.d/crc-dnsmasq.conf
+            line: "server={{ item }}"
+          loop: "{{ ansible_dns.nameservers }}"
 
     - name: Reboot host after apply changes
       when: _nm_state.changed or _dnsmasq_conf.changed
       become: true
       ansible.builtin.reboot:
+
+    - name: Get running services
+      ansible.builtin.service_facts:
+
+    - name: Ensure dnsmasq is running
+      when: >
+        'crc-dnsmasq.service' not in ansible_facts.services or
+        ansible_facts.services['crc-dnsmasq.service'].status != 'enabled'
+      become: true
+      ansible.builtin.service:
+        name: dnsmasq
+        state: started
+
+    - name: Ensure crc-dnsmasq is running when legacy
+      when: >
+        'crc-dnsmasq.service' in ansible_facts.services and
+        ansible_facts.services['crc-dnsmasq.service'].status == 'enabled'
+      become: true
+      ansible.builtin.service:
+        name: crc-dnsmasq
+        state: restarted
