@@ -44,6 +44,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        sf-container-worker-1.softwarefactory-project.io: {}
     ibm-baremetal-nodepool:
       hosts:
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
@@ -72,6 +73,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        sf-container-worker-1.softwarefactory-project.io: {}
     monitoring:
       hosts:
         prometheus.monitoring.softwarefactory-project.io: {}
@@ -149,6 +151,7 @@ all:
         opensearch.rdoproject.org: {}
         prometheus.monitoring.softwarefactory-project.io: {}
         quay.rdoproject.org: {}
+        sf-container-worker-1.softwarefactory-project.io: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
         ze01.softwarefactory-project.io: {}
@@ -373,10 +376,10 @@ all:
       ansible_ssh_common_args: "-o ProxyCommand=\"ssh -q rdo@soeru.osci.io -W %h:%p\""
       ansible_user: root
     sf-container-worker-1.softwarefactory-project.io:
-      ansible_host: '38.129.16.183'
+      ansible_host: '38.129.16.117'
       ansible_port: 22
       ansible_python_interpreter: auto
-      ansible_user: sf
+      ansible_user: cloud-user
     trunk-builder-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
