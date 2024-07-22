@@ -339,18 +339,18 @@ let -- | A function to create external k1s worker
       \(ip : Text) ->
         Instance::{
         , name = "sf-container-worker-${Natural/show idx}"
-        , groups = [ "k1s" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
         , connection = Infra.Connection::{
-          , ansible_user = "sf"
+          , ansible_user = "cloud-user"
           , ansible_python_interpreter = "auto"
           , ansible_host = Some ip
           }
         }
 
 let -- | These machines are hosted in the ansible org tenant
-    -- please contact Goneri Le Bouder <gleboude@redhat.com>
+    -- please contact jrouleau@redhat.com or mgraves@redhat.com
     k1s-workers =
-      [ mkK1sWorker 1 "38.129.16.183" ]
+      [ mkK1sWorker 1 "38.129.16.117" ]
 
 let mkServers =
       \(name : Text) ->

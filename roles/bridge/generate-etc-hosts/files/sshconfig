@@ -251,9 +251,9 @@ Host zm08.softwarefactory-project.io
     Port 22
 
 Host sf-container-worker-1.softwarefactory-project.io
-    User sf
+    User cloud-user
     Port 22
-    Hostname 38.129.16.183
+    Hostname 38.129.16.117
 Host logscraper02.openstack.org
     User sf
     Port 22
