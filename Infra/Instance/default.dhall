@@ -1,4 +1,5 @@
 { backup = None ../Backup/Type.dhall
+, connection = (../Connection/package.dhall)::{=}
 , groups = [] : List Text
 , monitoring_auth_urls = [] : List Text
 , monitoring_urls = [] : List Text

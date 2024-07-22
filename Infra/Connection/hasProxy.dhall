@@ -8,7 +8,6 @@ let hasProxy
           { None = False, Some = \(proxy : Text) -> True }
           conn.proxy_command
 
-let example0 =
-      assert : hasProxy Connection::{ ansible_user = "fedora" } === False
+let example0 = assert : hasProxy Connection::{=} === False
 
 in  hasProxy

@@ -3,7 +3,7 @@ let Infra = ../Infra/package.dhall
 let TestInstance =
       Infra.Instance::{
       , name = "Test"
-      , connection = Infra.Connection::{ ansible_user = "centos" }
+      , connection = Infra.Connection::{ ansible_user = Some "centos" }
       , server = Some Infra.Server::{ image = "unused" }
       }
 

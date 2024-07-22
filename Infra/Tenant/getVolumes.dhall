@@ -24,16 +24,9 @@ let getVolumes
           )
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     getVolumes
-                  [ Instance::{
-                    , connection = Connection::{ ansible_user = "centos" }
-                    , name = "www"
-                    }
-                  ]
-            ===  Prelude.List.empty Volume.Type
+        assert
+      :     getVolumes [ Instance::{ name = "www" } ]
+        ===  Prelude.List.empty Volume.Type
 
 let -- TODO: add example of instance with volume
     example1 =

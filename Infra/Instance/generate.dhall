@@ -15,29 +15,14 @@ let generate
           (\(idx : Natural) -> f (idx + 1))
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
       let createInstance =
-            \(idx : Natural) ->
-              Instance::{
-              , name = "www-${Natural/show idx}"
-              , connection = Connection::{ ansible_user = "centos" }
-              }
+            \(idx : Natural) -> Instance::{ name = "www-${Natural/show idx}" }
 
       in    assert
           :     generate createInstance 3
-            ===  [ Instance::{
-                   , name = "www-1"
-                   , connection = Connection::{ ansible_user = "centos" }
-                   }
-                 , Instance::{
-                   , name = "www-2"
-                   , connection = Connection::{ ansible_user = "centos" }
-                   }
-                 , Instance::{
-                   , name = "www-3"
-                   , connection = Connection::{ ansible_user = "centos" }
-                   }
+            ===  [ Instance::{ name = "www-1" }
+                 , Instance::{ name = "www-2" }
+                 , Instance::{ name = "www-3" }
                  ]
 
 in  generate

@@ -8,18 +8,8 @@ let setFqdn
         instance // { name = instance.name ++ "." ++ fqdn }
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     setFqdn
-                  "softwarefactory-project.io"
-                  Instance::{
-                  , name = "www"
-                  , connection = Connection::{ ansible_user = "centos" }
-                  }
-            ===  Instance::{
-                 , name = "www.softwarefactory-project.io"
-                 , connection = Connection::{ ansible_user = "centos" }
-                 }
+        assert
+      :     setFqdn "softwarefactory-project.io" Instance::{ name = "www" }
+        ===  Instance::{ name = "www.softwarefactory-project.io" }
 
 in  setFqdn

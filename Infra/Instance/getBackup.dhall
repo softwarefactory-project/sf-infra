@@ -15,15 +15,12 @@ let getBackup
           instance.backup
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     getBackup
-                  Instance::{
-                  , name = "www"
-                  , connection = Connection::{ ansible_user = "centos" }
-                  , backup = Some Backup::{ run_sf_backup = True }
-                  }
-            ===  Some Backup::{ run_sf_backup = True, hostname = "www" }
+        assert
+      :     getBackup
+              Instance::{
+              , name = "www"
+              , backup = Some Backup::{ run_sf_backup = True }
+              }
+        ===  Some Backup::{ run_sf_backup = True, hostname = "www" }
 
 in  getBackup

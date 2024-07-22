@@ -12,10 +12,15 @@ let createHosts
         ( \(instance : Instance.Type) ->
             { mapKey = instance.name
             , mapValue =
-                  toMap
-                    { ansible_user =
-                        Prelude.JSON.string instance.connection.ansible_user
-                    , ansible_python_interpreter =
+                  merge
+                    { None = AnsibleInventory.Host.empty
+                    , Some =
+                        \(user : Text) ->
+                          toMap { ansible_user = Prelude.JSON.string user }
+                    }
+                    instance.connection.ansible_user
+                # toMap
+                    { ansible_python_interpreter =
                         Prelude.JSON.string
                           instance.connection.ansible_python_interpreter
                     , ansible_port =

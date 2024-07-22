@@ -9,16 +9,13 @@ let getServers
         Instance.getServers (Instance.filter Instance.isCreated instances)
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     getServers
-                  [ Instance::{
-                    , connection = Connection::{ ansible_user = "centos" }
-                    , name = "www"
-                    , server = Some Server::{ image = "centos" }
-                    }
-                  ]
-            ===  [ Server::{ name = "www", image = "centos" } ]
+        assert
+      :     getServers
+              [ Instance::{
+                , name = "www"
+                , server = Some Server::{ image = "centos" }
+                }
+              ]
+        ===  [ Server::{ name = "www", image = "centos" } ]
 
 in  getServers

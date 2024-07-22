@@ -47,7 +47,7 @@ Instance::{
 , name = "my_external_instance"
 , groups = [ "my_ansible_group" ]
 , connection = Infra.Connection::{
-  , ansible_user = "my_user"
+  , ansible_user = Some "my_user"
   }
 }
  ```

@@ -45,9 +45,15 @@ let sshconfig =
                           )
                       )
 
+              let user =
+                    merge
+                      { None = ""
+                      , Some = \(user : Text) -> "\n" ++ "    User ${user}"
+                      }
+                      instance.connection.ansible_user
+
               in  ''
-                  Host ${instance.name}
-                      User ${instance.connection.ansible_user}
+                  Host ${instance.name}${user}
                       Port ${Natural/show instance.connection.ansible_port}
                   ${extra}
                   ''

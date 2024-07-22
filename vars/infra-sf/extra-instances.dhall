@@ -7,7 +7,7 @@ let -- | A function to create logscraper0{}.openstack.org
         , name = "logscraper0${Natural/show idx}.openstack.org"
         , groups = [ "openstack" ]
         , connection = Infra.Connection::{
-          , ansible_user = "sf"
+          , ansible_user = Some "sf"
           , ansible_python_interpreter = "auto"
           }
         }

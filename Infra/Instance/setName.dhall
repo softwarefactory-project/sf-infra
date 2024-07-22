@@ -6,18 +6,7 @@ let setName
     = \(instance : Instance.Type) -> \(name : Text) -> instance // { name }
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     setName
-                  Instance::{
-                  , name = "old"
-                  , connection = Connection::{ ansible_user = "centos" }
-                  }
-                  "new"
-            ===  Instance::{
-                 , name = "new"
-                 , connection = Connection::{ ansible_user = "centos" }
-                 }
+        assert
+      : setName Instance::{ name = "old" } "new" === Instance::{ name = "new" }
 
 in  setName

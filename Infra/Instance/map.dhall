@@ -18,14 +18,7 @@ let example0 =
       let Connection = ../Connection/package.dhall
 
       in    assert
-          :     map
-                  Text
-                  Instance.getName
-                  [ Instance::{
-                    , name = "www"
-                    , connection = Connection::{ ansible_user = "centos" }
-                    }
-                  ]
+          :     map Text Instance.getName [ Instance::{ name = "www" } ]
             ===  [ "www" ]
 
 in  map

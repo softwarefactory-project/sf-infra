@@ -91,7 +91,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
         let PyAuto = { ansible_python_interpreter = "auto" }
 
         in  { CentOS =
-                let CentOS = { ansible_user = "centos" }
+                let CentOS = { ansible_user = Some "centos" }
 
                 in  { `7.0` =
                       { connection = Infra.Connection::(CentOS // Py2)
@@ -110,7 +110,8 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                                                                  let comment =
                                                                        "For some reason, this image uses a cloud-user"
 
-                                                                 in  "cloud-user"
+                                                                 in  Some
+                                                                       "cloud-user"
                                                              }
                                                        )
                       , image = Infra.Image::{
@@ -158,7 +159,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                     , `9-stream` =
                       { connection = Infra.Connection::(     CentOS
                                                          //  PyAuto
-                                                         //  { ansible_user =
+                                                         //  { ansible_user = Some
                                                                  "cloud-user"
                                                              }
                                                        )
@@ -172,7 +173,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       }
                     }
             , Fedora =
-                let Fedora = Py3 // { ansible_user = "fedora" }
+                let Fedora = Py3 // { ansible_user = Some "fedora" }
 
                 let url =
                       "https://download.fedoraproject.org/pub/fedora/linux/releases/"
@@ -272,7 +273,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       }
                     }
             , RHEL =
-                let RHEL = { ansible_user = "cloud-user" }
+                let RHEL = { ansible_user = Some "cloud-user" }
 
                 in  { -- the url is hidden. Image has been pushed manually.
                       `9.3` =

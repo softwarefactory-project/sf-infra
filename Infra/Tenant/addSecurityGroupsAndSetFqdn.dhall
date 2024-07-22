@@ -16,26 +16,22 @@ let addSecurityGroupsAndSetFqdn
           (Instance.mapInstance (Instance.setFqdn fqdn) instances)
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     addSecurityGroupsAndSetFqdn
-                  [ "monitoring" ]
-                  "softwarefactory-project.io"
-                  [ Instance::{
-                    , connection = Connection::{ ansible_user = "centos" }
-                    , name = "www"
-                    , server = Some Server::{ image = "centos" }
-                    }
-                  ]
-            ===  [ Instance::{
-                   , connection = Connection::{ ansible_user = "centos" }
-                   , name = "www.softwarefactory-project.io"
-                   , server = Some Server::{
-                     , image = "centos"
-                     , security_groups = [ "monitoring" ]
-                     }
-                   }
-                 ]
+        assert
+      :     addSecurityGroupsAndSetFqdn
+              [ "monitoring" ]
+              "softwarefactory-project.io"
+              [ Instance::{
+                , name = "www"
+                , server = Some Server::{ image = "centos" }
+                }
+              ]
+        ===  [ Instance::{
+               , name = "www.softwarefactory-project.io"
+               , server = Some Server::{
+                 , image = "centos"
+                 , security_groups = [ "monitoring" ]
+                 }
+               }
+             ]
 
 in  addSecurityGroupsAndSetFqdn

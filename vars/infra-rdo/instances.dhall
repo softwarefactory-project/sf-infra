@@ -256,7 +256,7 @@ let defaultOSPOInternalInstance =
       , name = "default"
       , groups = [ "osci_zone", "osci_internal_zone", "osci" ]
       , connection = Infra.Connection::{
-        , ansible_user = "root"
+        , ansible_user = Some "root"
         , proxy_command = Some "ssh -q rdo@soeru.osci.io -W %h:%p"
         }
       }
@@ -266,7 +266,7 @@ let defaultOSPOExternalInstance =
       , name = "default"
       , groups = [ "osci_zone", "osci" ]
       , node-exporter = False
-      , connection = Infra.Connection::{ ansible_user = "root" }
+      , connection = Infra.Connection::{ ansible_user = Some "root" }
       }
 
 let ospo-instances =

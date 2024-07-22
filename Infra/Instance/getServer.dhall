@@ -15,15 +15,12 @@ let getServer
           instance.server
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     getServer
-                  Instance::{
-                  , name = "www"
-                  , connection = Connection::{ ansible_user = "centos" }
-                  , server = Some Server::{ image = "centos" }
-                  }
-            ===  Some Server::{ image = "centos", name = "www" }
+        assert
+      :     getServer
+              Instance::{
+              , name = "www"
+              , server = Some Server::{ image = "centos" }
+              }
+        ===  Some Server::{ image = "centos", name = "www" }
 
 in  getServer

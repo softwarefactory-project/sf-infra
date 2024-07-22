@@ -17,30 +17,26 @@ let getBackups
           )
 
 let example0 =
-      let Connection = ../Connection/package.dhall
-
-      in    assert
-          :     getBackups
-                  [ Instance::{
-                    , name = "centos"
-                    , connection = Connection::{ ansible_user = "centos" }
-                    , backup = Some Backup::{ run_sf_backup = True }
-                    }
-                  , Instance::{
-                    , name = "fedora"
-                    , connection = Connection::{ ansible_user = "fedora" }
-                    , backup = Some Backup::{
-                      , run_sf_backup = False
-                      , playbook = Some "myplay.yaml"
-                      }
-                    }
-                  ]
-            ===  [ Backup::{ hostname = "centos", run_sf_backup = True }
-                 , Backup::{
-                   , hostname = "fedora"
-                   , run_sf_backup = False
-                   , playbook = Some "myplay.yaml"
-                   }
-                 ]
+        assert
+      :     getBackups
+              [ Instance::{
+                , name = "centos"
+                , backup = Some Backup::{ run_sf_backup = True }
+                }
+              , Instance::{
+                , name = "fedora"
+                , backup = Some Backup::{
+                  , run_sf_backup = False
+                  , playbook = Some "myplay.yaml"
+                  }
+                }
+              ]
+        ===  [ Backup::{ hostname = "centos", run_sf_backup = True }
+             , Backup::{
+               , hostname = "fedora"
+               , run_sf_backup = False
+               , playbook = Some "myplay.yaml"
+               }
+             ]
 
 in  getBackups

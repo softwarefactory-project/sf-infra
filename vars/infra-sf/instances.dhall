@@ -341,7 +341,7 @@ let -- | A function to create external k1s worker
         , name = "sf-container-worker-${Natural/show idx}"
         , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
         , connection = Infra.Connection::{
-          , ansible_user = "cloud-user"
+          , ansible_user = Some "cloud-user"
           , ansible_python_interpreter = "auto"
           , ansible_host = Some ip
           }

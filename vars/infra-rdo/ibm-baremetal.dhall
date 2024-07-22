@@ -24,7 +24,7 @@ let mkInstances =
               , groups = instance.groups
               , node-exporter = False
               , connection = Infra.Connection::{
-                , ansible_user = instance.ansible_user
+                , ansible_user = Some instance.ansible_user
                 , ansible_host = Some instance.ip
                 , ansible_python_interpreter = "auto"
                 , proxy_jump = instance.proxy_jump
@@ -39,7 +39,7 @@ let mkBaremetal =
         , name = baremetal.name
         , groups = [ "baremetal" ]
         , connection = Infra.Connection::{
-          , ansible_user = "root"
+          , ansible_user = Some "root"
           , ansible_host = Some baremetal.ip
           , ansible_python_interpreter = "auto"
           }
