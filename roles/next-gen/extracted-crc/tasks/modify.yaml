@@ -37,6 +37,7 @@
     path: "{{ guest_home_dir }}/.ssh/authorized_keys.d/ignition"
   register: _authorized_keys_ignition
 
+# NOTE: That task is for CRC 2.19.
 # NOTE: It is a workaround to provide SSH key to the extracted CRC image.
 # There was an atempt with lineinfile, but after spawning VM, there was
 # no key there, where the crc.qcow2 image have it.
@@ -46,11 +47,22 @@
   ansible.builtin.shell: |
     cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys
 
+# NOTE: For newer CRC > 2.19
 - name: Copy temp ssh keys into guestmount location when ignition file available
   when: _authorized_keys_ignition.stat.exists
   become: true
   ansible.builtin.shell: |
     cat /tmp/ssh-auth-keys >> {{ guest_home_dir }}/.ssh/authorized_keys.d/ignition
+
+- name: Create another authorized keys just in case
+  when: _authorized_keys_ignition.stat.exists
+  become: true
+  ansible.builtin.copy:
+    src: ssh-auth-keys
+    dest: "{{ guest_home_dir }}/.ssh/authorized_keys.d/zuul"
+    owner: 1000
+    group: 1000
+    mode: "0600"
 
 - name: Create a file with current build date
   become: true

@@ -12,6 +12,11 @@ mkdir -p "$USERDATA_KEY_DIR" && \
     chmod 0755 "$USERDATA_KEY_DIR" && \
     sudo chown core:core "$USERDATA_KEY_DIR"
 
+# if there is already a zuul authorized key, change the SELinux label
+if [ -f "${USER_DIR}/.ssh/authorized_keys.d/zuul" ]; then
+    chcon system_u:object_r:ssh_home_t:s0 "${USER_DIR}/.ssh/authorized_keys.d/zuul"
+fi
+
 cd "$USERDATA_KEY_DIR"
 
 # that will take ssh keys when openstack server create is spawned with:
