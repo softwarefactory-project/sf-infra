@@ -20,6 +20,7 @@
 
 - name: Enable OpenShift Web Console
   ansible.builtin.include_tasks: console.yaml
+  when: crc_console
 
 - name: Add welcome information
   ansible.builtin.include_tasks: welcome.yaml
