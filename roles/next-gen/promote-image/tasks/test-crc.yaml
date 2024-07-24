@@ -77,12 +77,6 @@
   retries: 60
   delay: 10
 
-- name: Replace OpenShift domain with ip address
-  ansible.builtin.replace:
-    path: "{{ ansible_user_dir }}/.kube/config"
-    regexp: "api.crc.testing:6443"
-    replace: "{{ ansible_default_ipv4.address }}:6443"
-
 - name: Ensure there is no already running test container
   ansible.builtin.command: "{{ item }}"
   loop:
