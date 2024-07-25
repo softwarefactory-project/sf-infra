@@ -11,7 +11,7 @@ let Flavors = (../common.dhall).Flavors
 let tenant-instance =
       Instance::{
       , name = "tenant"
-      , groups = [ "sf", "backup-sf" ]
+      , groups = [ "sf", "backup-sf", "promtail" ]
       , connection = OS.CentOS.`7.0`.connection
       }
 
@@ -120,7 +120,7 @@ let instances =
         }
       , Instance::{
         , name = "elk"
-        , groups = [ "rhel", "sf" ]
+        , groups = [ "rhel", "sf", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -178,7 +178,8 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups = [ "sf", "nodepool-builder", "ibm-baremetal-nodepool" ]
+        , groups =
+          [ "sf", "nodepool-builder", "ibm-baremetal-nodepool", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -201,7 +202,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s05"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -215,7 +216,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -229,7 +230,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s04"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -243,7 +244,7 @@ let instances =
         }
       , Instance::{
         , name = "zk01"
-        , groups = [ "rhel", "sf" ]
+        , groups = [ "rhel", "sf", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , flavor = Some Flavors.`4vcpus_8gb`
@@ -256,7 +257,7 @@ let instances =
         }
       , Instance::{
         , name = "zs"
-        , groups = [ "rhel", "sf" ]
+        , groups = [ "rhel", "sf", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -267,7 +268,7 @@ let instances =
         }
       , Instance::{
         , name = "image-builder"
-        , groups = [ "sf", "rhel" ]
+        , groups = [ "sf", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -339,7 +340,7 @@ let -- | A function to create external k1s worker
       \(ip : Text) ->
         Instance::{
         , name = "sf-container-worker-${Natural/show idx}"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel" ]
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
         , connection = Infra.Connection::{
           , ansible_user = Some "cloud-user"
           , ansible_python_interpreter = "auto"
@@ -359,7 +360,7 @@ let mkServers =
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
-              , groups = [ "rhel", "sf", name ]
+              , groups = [ "rhel", "sf", name, "promtail" ]
               , connection = OS.RHEL.`9.3`.connection
               , server = Some Infra.Server::{
                 , image = OS.RHEL.`9.3`.image.name

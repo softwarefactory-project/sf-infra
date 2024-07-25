@@ -107,7 +107,37 @@ all:
     promtail:
       hosts:
         bridge.softwarefactory-project.io: {}
+        elk.softwarefactory-project.io: {}
+        ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-bm3-ze.softwarefactory-project.io: {}
+        ibm-bm3-zfgw.softwarefactory-project.io: {}
+        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
+        ibm-bm4-ze.softwarefactory-project.io: {}
+        ibm-bm4-zfgw.softwarefactory-project.io: {}
+        image-builder.softwarefactory-project.io: {}
+        k1s03.softwarefactory-project.io: {}
+        k1s04.softwarefactory-project.io: {}
+        k1s05.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
+        nodepool-builder.softwarefactory-project.io: {}
+        sf-container-worker-1.softwarefactory-project.io: {}
+        ze01.softwarefactory-project.io: {}
+        ze02.softwarefactory-project.io: {}
+        ze03.softwarefactory-project.io: {}
+        ze04.softwarefactory-project.io: {}
+        ze05.softwarefactory-project.io: {}
+        ze06.softwarefactory-project.io: {}
+        ze07.softwarefactory-project.io: {}
+        zk01.softwarefactory-project.io: {}
+        zm01.softwarefactory-project.io: {}
+        zm02.softwarefactory-project.io: {}
+        zm03.softwarefactory-project.io: {}
+        zm04.softwarefactory-project.io: {}
+        zm05.softwarefactory-project.io: {}
+        zm06.softwarefactory-project.io: {}
+        zm07.softwarefactory-project.io: {}
+        zm08.softwarefactory-project.io: {}
+        zs.softwarefactory-project.io: {}
     promtail-openshift:
       hosts:
         microshift-infra.softwarefactory-project.io: {}

@@ -13,19 +13,20 @@ in  \(baremetal : Text) ->
         }
       , { name = "${prefix}-nodepool-launcher.${sf_domain}"
         , ip = "${subnet}.11"
-        , groups = [ "rhel", "sf", "ibm-baremetal-nodepool", "ibm-instance" ]
+        , groups =
+          [ "rhel", "sf", "ibm-baremetal-nodepool", "ibm-instance", "promtail" ]
         , proxy_jump = Some baremetal
         , ansible_user = "cloud-user"
         }
       , { name = "${prefix}-ze.${sf_domain}"
         , ip = "${subnet}.12"
-        , groups = [ "rhel", "sf", "ze", "ibm-instance" ]
+        , groups = [ "rhel", "sf", "ze", "ibm-instance", "promtail" ]
         , proxy_jump = Some baremetal
         , ansible_user = "cloud-user"
         }
       , { name = "${prefix}-zfgw.${sf_domain}"
         , ip = "${subnet}.13"
-        , groups = [ "rhel", "sf", "ibm-instance" ]
+        , groups = [ "rhel", "sf", "ibm-instance", "promtail" ]
         , proxy_jump = Some baremetal
         , ansible_user = "cloud-user"
         }
