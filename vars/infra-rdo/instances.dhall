@@ -54,19 +54,6 @@ let instances =
         , monitoring_urls = [ "https://quay.rdoproject.org/" ]
         }
       , Instance::{
-        , name = "trunk-centos8"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`8.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.0`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , floating_ip = Some True
-          , security_groups = [ "web", "rdo-trunk", "apache_exporter" ]
-          , volume_size = Some 512
-          , state = Infra.Server.State.absent
-          }
-        }
-      , Instance::{
         , name = "managesf.review"
         , backup = Some Infra.Backup::{
           , run_sf_backup = True
@@ -137,19 +124,6 @@ let instances =
           , volume_size = Some 10
           }
         , monitoring_urls = [ "https://www.rdoproject.org/" ]
-        }
-      , Instance::{
-        , name = "dlrn-db"
-        , groups = [ "dlrn" ]
-        , connection = OS.CentOS.`8.1`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`8.1`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , floating_ip = Some True
-          , security_groups = [ "dlrn-db" ]
-          , volume_size = Some 60
-          , state = Infra.Server.State.absent
-          }
         }
       , Instance::{
         , name = "opensearch"

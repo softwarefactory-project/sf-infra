@@ -119,7 +119,6 @@ let security_groups =
               Infra.Rule.textMap
                 (Infra.Rule.createTcpPort +3306)
                 [ "38.102.83.226/32"
-                , "38.102.83.175/32"
                 , "66.187.233.202/32"
                 , "52.71.149.221/32"
                 ]

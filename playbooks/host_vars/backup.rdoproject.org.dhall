@@ -4,11 +4,7 @@ let Configs = Infra.Instance.getBackups ../../vars/instances.dhall
 
 let indexed = (../../Infra/Prelude.dhall).List.indexed
 
-in  { mysqld_exporter_user = "root"
-    , mysqld_exporter_password = "{{ db_password }}"
-    , mysqld_exporter_use_ssl = True
-    , mysqld_exporter_ssl_certs = "{{ db_ssl_certs }}"
-    , servers =
+in  { servers =
         Infra.Backup.mkServers
           (Infra.Backup.mkCron (indexed Infra.Backup.Type Configs))
     , devices = [ "/dev/nvme1n1" ]
@@ -18,8 +14,6 @@ in  { mysqld_exporter_user = "root"
     , mountpoint = "/mnt/{{ vg_name }}_{{ lv_name }}"
     , fqdn = "backup.rdoproject.org"
     , email = "softwarefactory-operations-team@redhat.com"
-    , master_host = "38.102.83.214"
-    , db_repl_user = "dlrn_repl"
     , bind_mounts =
       [ { source = "{{ mountpoint }}/backup", dest = "/var/lib/backup" }
       , { source = "{{ mountpoint }}/sfkoji", dest = "/var/www/html/sfkoji" }

@@ -4,19 +4,13 @@ bind_mounts:
     source: "{{ mountpoint }}/backup"
   - dest: /var/www/html/sfkoji
     source: "{{ mountpoint }}/sfkoji"
-db_repl_user: dlrn_repl
 devices:
   - /dev/nvme1n1
 email: "softwarefactory-operations-team@redhat.com"
 fqdn: backup.rdoproject.org
 lv_name: backup
 lvm: true
-master_host: '38.102.83.214'
 mountpoint: "/mnt/{{ vg_name }}_{{ lv_name }}"
-mysqld_exporter_password: "{{ db_password }}"
-mysqld_exporter_ssl_certs: "{{ db_ssl_certs }}"
-mysqld_exporter_use_ssl: true
-mysqld_exporter_user: root
 servers:
   - dir: /var/lib/backup/bup/review.rdoproject.org
     domain: review.rdoproject.org
