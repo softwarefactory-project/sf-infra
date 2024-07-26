@@ -114,7 +114,7 @@ let instances =
         , name = "www"
         , groups = [ "osci" ]
         , connection =
-                OS.CentOS.`8.1`.connection
+                OS.CentOS.`8.1`.connection // { ansible_host = Some "38.102.83.227" }
             //  { ansible_python_interpreter = "python3" }
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name

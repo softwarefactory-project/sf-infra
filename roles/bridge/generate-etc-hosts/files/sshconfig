@@ -41,7 +41,7 @@ Host logserver.rdoproject.org
 Host www.rdoproject.org
     User centos
     Port 22
-
+    Hostname 38.102.83.227
 Host opensearch.rdoproject.org
     User cloud-user
     Port 22
