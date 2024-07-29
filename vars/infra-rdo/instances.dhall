@@ -114,7 +114,8 @@ let instances =
         , name = "www"
         , groups = [ "osci" ]
         , connection =
-                OS.CentOS.`8.1`.connection // { ansible_host = Some "38.102.83.227" }
+                OS.CentOS.`8.1`.connection
+            //  { ansible_host = Some "38.102.83.227" }
             //  { ansible_python_interpreter = "python3" }
         , server = Some Infra.Server::{
           , image = OS.CentOS.`8.1`.image.name
@@ -206,11 +207,11 @@ let instances =
 let extra =
       [ Instance::{
         , name = "backup"
-        , groups = [ "backup-server", "rdo", "db_replica" ]
+        , groups = [ "backup-server", "rdo", "rhel" ]
         , connection =
-                OS.CentOS.`7.0`.connection
+                OS.RHEL.`9.3`.connection
             //  { ansible_host = Some "52.71.149.221"
-                , ansible_python_interpreter = "python3"
+                , ansible_user = Some "ec2-user"
                 }
         }
       ]

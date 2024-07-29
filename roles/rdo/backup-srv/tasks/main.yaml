@@ -27,7 +27,6 @@
         dest: "/var/lib/backup/{{ item }}"
       loop:
         - backup.yaml
-        - backup-koji.yaml
 
     - name: Generate variables files
       ansible.builtin.template:

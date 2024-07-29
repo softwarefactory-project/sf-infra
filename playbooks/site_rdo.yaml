@@ -23,7 +23,6 @@
   roles:
     - system/volume
     - rdo/backup-monitoring
-    - rdo/koji_httpd
     - rdo/backup-srv
 
 - hosts: baremetal

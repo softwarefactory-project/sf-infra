@@ -59,7 +59,7 @@ Host trunk-builder-centos9.rdoproject.org
     Port 22
 
 Host backup.rdoproject.org
-    User centos
+    User ec2-user
     Port 22
     Hostname 52.71.149.221
 Host rdo-web-builder.int.osci.io

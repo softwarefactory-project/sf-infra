@@ -1,7 +1,0 @@
-<VirtualHost *:443>
-ServerName {{ inventory_hostname }}
-SSLCertificateFile /etc/letsencrypt/live/{{ inventory_hostname }}/cert.pem
-SSLCertificateKeyFile /etc/letsencrypt/live/{{ inventory_hostname }}/privkey.pem
-Include /etc/letsencrypt/options-ssl-apache.conf
-SSLCertificateChainFile /etc/letsencrypt/live/{{ inventory_hostname }}/chain.pem
-</VirtualHost>

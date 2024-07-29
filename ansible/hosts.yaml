@@ -31,9 +31,6 @@ all:
     db_master:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
-    db_replica:
-      hosts:
-        backup.rdoproject.org: {}
     dlrn-centos9:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
@@ -159,6 +156,7 @@ all:
     rhel:
       hosts:
         ansible.softwarefactory-project.io: {}
+        backup.rdoproject.org: {}
         centos.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
@@ -262,8 +260,8 @@ all:
     backup.rdoproject.org:
       ansible_host: '52.71.149.221'
       ansible_port: 22
-      ansible_python_interpreter: python3
-      ansible_user: centos
+      ansible_python_interpreter: auto
+      ansible_user: ec2-user
     baremetal03.rdoproject.org:
       ansible_host: '169.60.49.226'
       ansible_port: 22

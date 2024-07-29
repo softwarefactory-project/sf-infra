@@ -6,11 +6,10 @@
       name: "{{ backup_packages }}"
       state: installed
 
-  - name: Install python3-pyxattr
+  - name: Install python3-xattr
     ansible.builtin.dnf:
-      name: python3-pyxattr
+      name: python3-xattr
       state: installed
-      enablerepo: powertools
 
   - name: Check for existing bup binary
     ansible.builtin.stat:
