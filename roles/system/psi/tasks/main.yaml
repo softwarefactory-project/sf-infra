@@ -12,9 +12,12 @@
   become: true
   when: _psi_present.stdout | length < 1
   block:
+    - name: Ensure host facts are available
+      ansible.builtin.setup:
+
     - name: Check if UEFI base system
       ansible.builtin.stat:
-        path: /boot/efi/EFI/redhat/grub.cfg
+        path: /boot/efi/EFI/{{ ansible_distribution | lower }}/grub.cfg
       register: _uefi_base_system
 
     - name: Set the psi argment to grub default
@@ -24,7 +27,7 @@
     - name: Reconfigure Grub2 - UEFI
       when: _uefi_base_system.stat.exists
       ansible.builtin.command: |
-        grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+        grub2-mkconfig -o /boot/efi/EFI/{{ ansible_distribution | lower }}/grub.cfg
 
     - name: Reconfigure Grub2 - BIOS
       when: not _uefi_base_system.stat.exists
