@@ -59,6 +59,7 @@ in  PrometheusConfig
       , "rules-node_proxy.yaml"
       , "rules-http.yaml"
       , "rules-backup.yaml"
+      , "rules-dlrn.yaml"
       , "rules-afs.yaml"
       , "rules-systemd.yaml"
       , "rules-nodepool.yaml"
