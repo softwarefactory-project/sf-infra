@@ -12,6 +12,7 @@
     - system/swap
     - service/apache-exporter
     - service/node-exporter
+    - system/psi
     - system/journald
   tasks:
     - name: Executing check-dlrn role
@@ -31,6 +32,7 @@
     - system/swap
     - service/apache-exporter
     - service/node-exporter
+    - system/psi
     - system/journald
 
 # Deploy database server

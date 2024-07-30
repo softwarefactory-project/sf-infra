@@ -6,6 +6,7 @@
     - legacy/centos7
     - system/tune-dnf
     - service/node-exporter
+    - system/psi
     - system/update-host
 
 - hosts: www.rdoproject.org

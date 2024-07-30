@@ -11,6 +11,7 @@
     - bridge/generate-etc-hosts
     - service/manage-accounts
     - service/node-exporter
+    - system/psi
     - system/update-host
     - system/journald
 

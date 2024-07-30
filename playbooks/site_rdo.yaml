@@ -11,6 +11,7 @@
     - system/tune-dnf
     - infra/base
     - service/node-exporter
+    - system/psi
     - system/update-host
     - system/podman
     - system/journald
@@ -48,6 +49,7 @@
         - infra/ssh
         - system/volume
         - service/node-exporter
+        - system/psi
 
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
@@ -61,6 +63,7 @@
     - rdo/setup-ssl-self-signed
     - rdo/afs-mirror
     - service/node-exporter
+    - system/psi
 
 - hosts: rdo
   roles:
