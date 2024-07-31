@@ -14,20 +14,14 @@
         state: present
         activationkey: "{{ rhel_activationkey }}"
         org_id: "{{ rhel_org_id }}"
-        ## Temporary disable setting pool_ids
-        # pool_ids: "{{ rhel_pool_ids }}"
-        force_register: yes
-        release: "{{ rhel_release | default(omit) }}"
+        release: "{{ ansible_distribution_version }}"
       no_log: yes
 
-    - name: Disable 9.2 eus when system is not rhel-9.2
+    - name: Ensure Extended Update Support repos are disabled
       ansible.builtin.command: "subscription-manager repos --disable {{ item }}"
       loop:
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
-      when:
-        - rhel_release is defined
-        - rhel_release != "9.2"
 
     - name: Upgrade all packages
       ansible.builtin.dnf:
