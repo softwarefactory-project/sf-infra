@@ -8,3 +8,4 @@ grafana_tls_config: {}
   # key: XXX
   # certificate: XXX
   # caCertificate: XXX
+grafana_version: 11.1.3
