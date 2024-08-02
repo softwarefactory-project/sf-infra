@@ -55,7 +55,7 @@ let blackbox-scrape-config =
           [ Prometheus.StaticConfig::{ targets = Some urls } ]
         , scrape_interval = Some "5m"
         , metrics_path = Some "/probe"
-        , params = Some Prometheus.Params::{ module = Some modules }
+        , params = Some [ { mapKey = "module", mapValue = modules } ]
         , relabel_configs = Some
           [ Prometheus.RelabelConfig::{
             , source_labels = Some [ "__address__" ]

@@ -2,8 +2,8 @@
    The DHALL_PROMETHEUS environment variables is used in the CI to use a cached version.
 -}
 let Prometheus =
-      https://raw.githubusercontent.com/TristanCacqueray/dhall-prometheus/470281423034126e6f7eb532a02fa92684bb9758/package.dhall
-        sha256:64144c1a298c0aeeb2591cd30da24e0ab4b15e33269c9174211f73d3076bc983
+      https://raw.githubusercontent.com/softwarefactory-project/dhall-prometheus/74945e08098dc8125fe125c1759cdf5f88e4fdb2/package.dhall
+        sha256:fd646de2e18372de0704d2a8f037cf6abab0fcabff087aa62e7c24f7a6b66883
 
 let -- | Prometheus labels are free form JSON, here is how to define one:
     defaultCriticalLabel
