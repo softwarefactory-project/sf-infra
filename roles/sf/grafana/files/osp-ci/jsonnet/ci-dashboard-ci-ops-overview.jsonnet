@@ -19,7 +19,7 @@ local panelTextDescription = |||
 
   We are covering:
 
-  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/83994099fbc361b1b048cecf9f34bf42/">Periodic Integration & Container Per Release</a></b>
+  <b><a href="https://monitoring.softwarefactory-project.io/grafana/d/83994099fbc361b1b048cecf9f34bf42/">Periodic Integration & Container Per Release</a></b>
 
   <ul>
       <li>openstack-periodic-container-master-centos9</li>
@@ -27,7 +27,7 @@ local panelTextDescription = |||
       <li>openstack-operators-periodic-integration-antelope-centos9</li>
   </ul>
 
-  <b><a href="https://prometheus.monitoring.softwarefactory-project.io/grafana/d/104667f749fba75ba18647bb2e310d3d/">openstack-k8s-operators GitHub Image Builder Workflows</a></b>
+  <b><a href="https://monitoring.softwarefactory-project.io/grafana/d/104667f749fba75ba18647bb2e310d3d/">openstack-k8s-operators GitHub Image Builder Workflows</a></b>
 
   <ul>
       <li>cinder-operator</li>

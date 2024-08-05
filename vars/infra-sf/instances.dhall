@@ -108,7 +108,7 @@ let instances =
         }
       , Instance::{
         , groups = [ "monitoring", "rhel" ]
-        , name = "prometheus.monitoring"
+        , name = "monitoring"
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name

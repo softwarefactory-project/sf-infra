@@ -20,7 +20,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-openstack-check.yaml \
 	  monitoring/rules-es-check.yaml \
 	  monitoring/rules-system-updates.yaml \
-	  playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml \
+	  playbooks/host_vars/monitoring.softwarefactory-project.io.yaml \
 	  playbooks/host_vars/backup.rdoproject.org.yaml
 
 DASHBOARDS = roles/sf/grafana/files/infra/DLRN.json \

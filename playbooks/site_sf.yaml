@@ -146,7 +146,7 @@
         - sf/zuul-weeder
         - sf/logjuicer
 
-- hosts: prometheus.monitoring.softwarefactory-project.io
+- hosts: monitoring.softwarefactory-project.io
   pre_tasks:
     - name: Install requirements
       ansible.builtin.package:

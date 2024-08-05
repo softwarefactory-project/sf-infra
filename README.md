@@ -12,7 +12,7 @@ External instances could also be managed by the project.
 
 Monitoring is configured for all the hosts define on the project using
 prometheus, the monitoring is located at
-https://prometheus.monitoring.softwarefactory-project.io
+https://monitoring.softwarefactory-project.io
 
 ## How
 

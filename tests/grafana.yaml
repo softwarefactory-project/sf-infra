@@ -7,12 +7,12 @@
       block:
         - name: Read monitoring host variables to get Grafana container_images value
           ansible.builtin.include_vars:
-            file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml"
+            file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/playbooks/host_vars/monitoring.softwarefactory-project.io.yaml"
 
         - name: Setup Grafana
           vars:
             grafana_server_root_url: http://localhost
-            prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+            prometheus_public_url: "http://monitoring.rdoproject.org/prometheus"
           ansible.builtin.include_role:
             name: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/roles/sf/grafana"
 
@@ -25,12 +25,12 @@
       block:
         - name: Read monitoring host variables to get Grafana container_images value
           ansible.builtin.include_vars:
-            file: playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml
+            file: playbooks/host_vars/monitoring.softwarefactory-project.io.yaml
 
         - name: Setup Grafana
           vars:
             grafana_server_root_url: http://localhost
-            prometheus_public_url: "http://prometheus.monitoring.rdoproject.org/prometheus"
+            prometheus_public_url: "http://monitoring.rdoproject.org/prometheus"
           ansible.builtin.include_role:
             name: sf/grafana
 

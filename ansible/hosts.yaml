@@ -73,7 +73,7 @@ all:
         sf-container-worker-1.softwarefactory-project.io: {}
     monitoring:
       hosts:
-        prometheus.monitoring.softwarefactory-project.io: {}
+        monitoring.softwarefactory-project.io: {}
     nodepool-builder:
       hosts:
         nodepool-builder.softwarefactory-project.io: {}
@@ -176,8 +176,8 @@ all:
         managesf.softwarefactory-project.io: {}
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
+        monitoring.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
-        prometheus.monitoring.softwarefactory-project.io: {}
         quay.rdoproject.org: {}
         sf-container-worker-1.softwarefactory-project.io: {}
         trunk-builder-centos9.rdoproject.org: {}
@@ -380,16 +380,16 @@ all:
       ansible_port: 22
       ansible_python_interpreter: python2
       ansible_user: centos
+    monitoring.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     nodepool-builder.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     opensearch.rdoproject.org:
       ansible_host: '38.102.83.14'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    prometheus.monitoring.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

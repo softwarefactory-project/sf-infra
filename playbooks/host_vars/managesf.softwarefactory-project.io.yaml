@@ -9,6 +9,6 @@ acme_domains:
     sf_gateway: true
     vhost_skip: true
 
-monitoring_host_url: https://prometheus.monitoring.softwarefactory-project.io
+monitoring_host_url: https://monitoring.softwarefactory-project.io
 weeder_host: image-builder.softwarefactory-project.io
 logjuicer_host: microshift.softwarefactory-project.io
