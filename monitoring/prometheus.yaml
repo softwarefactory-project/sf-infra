@@ -93,7 +93,8 @@ scrape_configs:
           - https://quay.rdoproject.org/
           - https://review.rdoproject.org/zuul/api/info
           - https://review.rdoproject.org
-          - https://www.rdoproject.org/
+          - https://dashboards.rdoproject.org
+          - www.rdoproject.org
           - https://opensearch.rdoproject.org/
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/r/config/server/version

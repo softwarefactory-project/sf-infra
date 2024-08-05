@@ -124,7 +124,10 @@ let instances =
           , security_groups = [ "web", "apache_exporter" ]
           , volume_size = Some 10
           }
-        , monitoring_urls = [ "https://www.rdoproject.org/" ]
+        , monitoring_urls =
+            -- The www.rdoproject.org has been moved to the
+            --  Github mkdocs, but we still want to have eye on it
+            [ "https://dashboards.rdoproject.org", "www.rdoproject.org" ]
         }
       , Instance::{
         , name = "opensearch"
