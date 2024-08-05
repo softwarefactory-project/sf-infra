@@ -108,13 +108,6 @@
     - system/volume
     - service/apache-exporter
 
-- hosts: elk.review.rdoproject.org
-  roles:
-    - system/volume
-    - {name: 'logscraper', become: true}
-    - {name: 'logsender', become: true}
-    - next-gen/logscraper-config
-
 - hosts: quay.rdoproject.org
   pre_tasks:
     - name: Setup Quay partition

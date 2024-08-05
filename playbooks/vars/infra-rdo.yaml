@@ -95,20 +95,6 @@ security_groups:
   - name: hound
     rules:
       - port: 6080
-  - name: elk
-    rules:
-      - port: 4731
-      - port: 4732
-      - port: 9200
-        remote_ip_prefix: "192.168.240.0/24"
-      - port: 9200
-        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-      - port: 9200
-        remote_ip_prefix: "38.102.83.141/32"
-      - port: 5601
-        remote_ip_prefix: "38.102.83.141/32"
-      - port: 9114
-        remote_ip_prefix: "{{ prometheus_public_ip }}/32"
   - name: opensearch
     rules:
       - port: 9200

@@ -28,32 +28,6 @@ let security_groups =
           }
         , { name = "rdo-trunk", rules = [ Infra.Rule::{ port = +3300 } ] }
         , { name = "hound", rules = [ Infra.Rule::{ port = +6080 } ] }
-        , { name = "elk"
-          , rules =
-            [ Infra.Rule::{ port = +4731 }
-            , Infra.Rule::{ port = +4732 }
-            , Infra.Rule::{
-              , port = +9200
-              , remote_ip_prefix = Some "${rdo_network.network_prefix}.0/24"
-              }
-            , Infra.Rule::{
-              , port = +9200
-              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +9200
-              , remote_ip_prefix = Some "38.102.83.141/32"
-              }
-            , Infra.Rule::{
-              , port = +5601
-              , remote_ip_prefix = Some "38.102.83.141/32"
-              }
-            , Infra.Rule::{
-              , port = +9114
-              , remote_ip_prefix = Some "{{ prometheus_public_ip }}/32"
-              }
-            ]
-          }
         , { name = "opensearch"
           , rules =
             [ Infra.Rule::{
@@ -118,10 +92,7 @@ let security_groups =
           , rules =
               Infra.Rule.textMap
                 (Infra.Rule.createTcpPort +3306)
-                [ "38.102.83.226/32"
-                , "66.187.233.202/32"
-                , "52.71.149.221/32"
-                ]
+                [ "38.102.83.226/32", "66.187.233.202/32", "52.71.149.221/32" ]
           }
         , { name = "dlrn-db-centos9"
           , rules =
