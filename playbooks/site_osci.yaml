@@ -9,7 +9,7 @@
     - system/psi
     - system/update-host
 
-- hosts: www.rdoproject.org
+- hosts: dashboards.rdoproject.org
   roles:
     - service/hostname
     - service/apache-exporter
@@ -30,7 +30,7 @@
         enabled: true
       become: yes
 
-# After www.rdoproject.org
+# After dashboards.rdoproject.org
 - hosts: rdo-web-builder.int.osci.io
   roles:
     - service/hostname

@@ -111,7 +111,7 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "www"
+        , name = "dashboards"
         , groups = [ "osci" ]
         , connection =
                 OS.CentOS.`8.1`.connection
@@ -125,9 +125,9 @@ let instances =
           , volume_size = Some 10
           }
         , monitoring_urls =
-            -- The www.rdoproject.org has been moved to the
+            -- The dashboards.rdoproject.org has been moved to the
             --  Github mkdocs, but we still want to have eye on it
-            [ "https://dashboards.rdoproject.org", "www.rdoproject.org" ]
+            [ "https://dashboards.rdoproject.org", "dashboards.rdoproject.org" ]
         }
       , Instance::{
         , name = "opensearch"

@@ -85,9 +85,9 @@ all:
         logscraper02.openstack.org: {}
     osci:
       hosts:
+        dashboards.rdoproject.org: {}
         lists.rdoproject.org: {}
         rdo-web-builder.int.osci.io: {}
-        www.rdoproject.org: {}
     osci_internal_zone:
       hosts:
         rdo-web-builder.int.osci.io: {}
@@ -280,6 +280,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
+    dashboards.rdoproject.org:
+      ansible_host: '38.102.83.227'
+      ansible_port: 22
+      ansible_python_interpreter: python3
+      ansible_user: centos
     dlrn-db-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
@@ -416,11 +421,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    www.rdoproject.org:
-      ansible_host: '38.102.83.227'
-      ansible_port: 22
-      ansible_python_interpreter: python3
-      ansible_user: centos
     ze01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto

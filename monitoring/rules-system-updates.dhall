@@ -28,7 +28,7 @@ let OSCI =
       { name = "OSCI"
       , rule =
           ''
-          system_package_update{instance="www.rdoproject.org:9100"} > 0
+          system_package_update{instance="dashboards.rdoproject.org:9100"} > 0
           ''
       }
 
