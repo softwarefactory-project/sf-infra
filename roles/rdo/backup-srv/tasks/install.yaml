@@ -9,7 +9,7 @@
 
     - name: Delete bup binaries
       ansible.builtin.file:
-        path: "{item}"
+        path: "{{item}}"
         state: absent
       loop:
         - "/usr/local/lib/bup"
@@ -27,7 +27,7 @@
       ansible.builtin.copy:
         content: |
           #!/bin/sh -e
-          exec podman run --rm -it -v=/var/lib/backup/:/var/lib/backup/:Z {{ bup_container_image }} bup $*
+          exec podman run --rm -it -v=/var/lib/backup/:/var/lib/backup/ {{ bup_container_image }} bup $*
         dest: /usr/bin/bup
         owner: root
         group: root
