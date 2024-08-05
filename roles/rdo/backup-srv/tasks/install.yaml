@@ -27,7 +27,7 @@
       ansible.builtin.copy:
         content: |
           #!/bin/sh -e
-          exec podman run --rm -it -v=/var/lib/backup/:/var/lib/backup/ {{ bup_container_image }} bup $*
+          exec podman run --rm -it --network=none --security-opt=label=disable -v=/var/lib/backup/:/var/lib/backup/ {{ bup_container_image }} bup $*
         dest: /usr/bin/bup
         owner: root
         group: root
