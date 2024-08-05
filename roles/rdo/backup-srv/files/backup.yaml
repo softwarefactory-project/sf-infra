@@ -29,10 +29,7 @@
       register: bd
 
     - name: "Bup init"
-      command: "bup init"
-      environment:
-        BUP_DIR: "{{ current_bup_dir }}"
-        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+      command: "bup -d {{ current_bup_dir }} init"
       when: not bd.stat.exists
 
 - hosts: sf
@@ -49,13 +46,7 @@
       loop: "{{ sf_hosts }}"
 
     - name: "Bup index"
-      command: "bup index {{ local_dir }}"
-      environment:
-        BUP_DIR: "{{ current_bup_dir }}"
-        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+      command: "bup -d {{ current_bup_dir }} index {{ local_dir }}"
 
     - name: "Bup save"
-      command: "bup save -n {{ sf_hosts[0] }} {{ local_dir }}"
-      environment:
-        BUP_DIR: "{{ current_bup_dir }}"
-        PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+      command: "bup -d {{ current_bup_dir }} save -n {{ sf_hosts[0] }} {{ local_dir }}"

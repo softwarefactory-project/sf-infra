@@ -1,41 +1,34 @@
 ---
-- name: Install bup
+- name: Uninstall bup package
+  become: true
   block:
-  - name: Install required packages
-    ansible.builtin.package:
-      name: "{{ backup_packages }}"
-      state: installed
+    - name: Delete required packages
+      ansible.builtin.package:
+        name: "{{ backup_packages + ['python3-pyxattr'] }}"
+        state: absent
 
-  - name: Install python3-xattr
-    ansible.builtin.dnf:
-      name: python3-xattr
-      state: installed
+    - name: Delete bup binaries
+      ansible.builtin.file:
+        path: "{item}"
+        state: absent
+      loop:
+        - "/usr/local/lib/bup"
+        - "/usr/local/bin/bup"
 
-  - name: Check for existing bup binary
-    ansible.builtin.stat:
-      path: "/usr/local/bin/bup"
-    register: bup_exists
+- name: Install bup container
+  become: true
+  block:
+    - name: Ensure Podman is installed
+      ansible.builtin.dnf:
+        name: podman
+        state: present
 
-  - name: Create temporary directory for bup
-    ansible.builtin.tempfile:
-      state: directory
-      suffix: bup
-    register: bup_path
-    when: not bup_exists.stat.exists
-
-  - name: Fetch and uncompress bup tarball
-    ansible.builtin.unarchive:
-      src: "https://github.com/bup/bup/archive/{{ bup_version }}.tar.gz"
-      dest: "{{ bup_path.path }}"
-      remote_src: yes
-    when: not bup_exists.stat.exists
-
-  - name: Compile and install bup
-    ansible.builtin.shell:
-      cmd: |
-        ./configure
-        make
-        make install
-      chdir: "{{ bup_path.path }}/bup-{{ bup_version }}"
-    when: not bup_exists.stat.exists
-  become: yes
+    - name: Add bup alias
+      ansible.builtin.copy:
+        content: |
+          #!/bin/sh -e
+          exec podman run --rm -it -v=/var/lib/backup/:/var/lib/backup/:Z {{ bup_container_image }} bup $*
+        dest: /usr/bin/bup
+        owner: root
+        group: root
+        mode: "0755"

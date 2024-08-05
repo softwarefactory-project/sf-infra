@@ -15,7 +15,5 @@ in  { servers =
     , fqdn = "backup.rdoproject.org"
     , email = "softwarefactory-operations-team@redhat.com"
     , bind_mounts =
-      [ { source = "{{ mountpoint }}/backup", dest = "/var/lib/backup" }
-      , { source = "{{ mountpoint }}/sfkoji", dest = "/var/www/html/sfkoji" }
-      ]
+      [ { source = "{{ mountpoint }}/backup", dest = "/var/lib/backup" } ]
     }

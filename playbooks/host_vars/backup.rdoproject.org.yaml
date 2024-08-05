@@ -2,8 +2,6 @@
 bind_mounts:
   - dest: /var/lib/backup
     source: "{{ mountpoint }}/backup"
-  - dest: /var/www/html/sfkoji
-    source: "{{ mountpoint }}/sfkoji"
 devices:
   - /dev/nvme1n1
 email: "softwarefactory-operations-team@redhat.com"

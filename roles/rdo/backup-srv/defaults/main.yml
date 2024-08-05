@@ -8,8 +8,9 @@ backup_packages:
   - lvm2
   - git
 
-bup_version: 0.32
+bup_version: 0.32.2-ubi8
 
+bup_container_name: bup
 # Example:
 # servers:
 #   - dir: /var/lib/backup/bup/review.rdoproject.org
@@ -23,3 +24,4 @@ bup_version: 0.32
 servers: []
 email: root@localhost
 trunkbackup_pub_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2GfMG4lE40bkt3UVGBwgldp/qSPQswaxBK0FxRlAch"
+bup_container_image: "quay.io/software-factory/bup:{{ bup_version }}"
