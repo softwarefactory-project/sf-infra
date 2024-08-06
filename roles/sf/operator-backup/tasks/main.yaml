@@ -1,0 +1,35 @@
+---
+- name: Create a Backup directory if it does not exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ backup_dir }}"
+    state: directory
+    mode: "0755"
+    owner: cloud-user
+    group: cloud-user
+
+- name: Create script for backing up sf-operator
+  become: true
+  ansible.builtin.copy:
+    dest: /usr/local/bin/sf-operator-backup
+    state: present
+    mode: "0755"
+    owner: root
+    group: root
+    content: |
+      #!/bin/bash
+
+      NAMESPACE=$1
+      KUBECFG=/etc/run-infra-ng/${NAMESPACE}.kubeconfig
+      BCKDIR={{ backup_dir }}/${NAMESPACE}
+
+      KUBECONFIG=${KUBECFG} sf-operator SF backup --namespace ${NAMESPACE} --backup_dir ${BCKDIR}
+
+- name: Adding SF-Operator Cluster backup cronjob
+  ansible.builtin.cron:
+    name: Backup SF-Operator's GCP {{ item.namespace }}
+    special_time: daily
+    user: cloud-user
+    job: /usr/local/bin/sf-operator-backup {{ item.namespace }}
+    state: present
+  loop: "{{ kube_config_cluster }}"
