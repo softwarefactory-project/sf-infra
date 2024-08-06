@@ -189,6 +189,7 @@
     - { name: "logscraper", become: true }
     - { name: "logsender", become: true }
     - system/volume
+    - next-gen/logscraper-config
 
 - hosts: fedora.softwarefactory-project.io
   roles:
