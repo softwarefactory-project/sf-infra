@@ -251,7 +251,7 @@ servers:
     floating_ip: true
     image: centos-8.1-1911
     key_name: sf-infra-key
-    name: www.rdoproject.org
+    name: dashboards.rdoproject.org
     network: private-network
     security_groups:
       - common

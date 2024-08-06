@@ -38,7 +38,7 @@ quay_superusers:
   - admin
 
 quay_contact_info:
-  webpage: https://www.rdoproject.org/
+  webpage: https://dashboards.rdoproject.org/
   logo_url: ''
 
 # NOTE: password needs to be at least 8 chars for admin

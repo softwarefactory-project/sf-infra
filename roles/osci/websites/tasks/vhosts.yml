@@ -5,12 +5,12 @@
     name: "{{ websync_user }}"
     comment: "Web Builder User"
 
-- name: Create vhost for www.rdoproject.org
+- name: Create vhost for dashboards.rdoproject.org
   ansible.builtin.include_role:
     name: httpd
     tasks_from: vhost
   vars:
-    website_domain: www.rdoproject.org
+    website_domain: dashboards.rdoproject.org
     document_root: "{{ websync_path }}"
     document_root_group: "{{ websync_user }}"
     server_aliases:
@@ -75,7 +75,7 @@
 - name: "Add RDO-specific mod_speling config"
   ansible.builtin.copy:
     content: "CheckCaseOnly on\n"
-    dest: /etc/httpd/conf.d/www.rdoproject.org.conf.d/mod_speling_rdo.conf
+    dest: /etc/httpd/conf.d/dashboards.rdoproject.org.conf.d/mod_speling_rdo.conf
   notify: reload httpd
 
 - name: Create vhost for docs.rdoproject.org
@@ -84,7 +84,7 @@
     tasks_from: vhost
   vars:
     website_domain: docs.rdoproject.org
-    redirect: https://www.rdoproject.org/documentation/books/
+    redirect: https://dashboards.rdoproject.org/documentation/books/
 
 - name: Install RDO Dashboards
   ansible.builtin.include_role:

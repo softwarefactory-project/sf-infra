@@ -24,7 +24,7 @@ groups:
         annotations:
           summary: "There are some packages to update in the OSCI infra!"
         expr: |
-          system_package_update{instance="www.rdoproject.org:9100"} > 0
+          system_package_update{instance="dashboards.rdoproject.org:9100"} > 0
         for: "7d"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
