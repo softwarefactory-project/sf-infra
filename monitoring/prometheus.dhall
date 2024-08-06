@@ -20,7 +20,7 @@ let apache_server_list =
       , "logserver.rdoproject.org:9117"
       , "opensearch.rdoproject.org:9117"
       , "centos.softwarefactory-project.io:9117"
-      , "prometheus.monitoring.softwarefactory-project.io:9117"
+      , "monitoring.softwarefactory-project.io:9117"
       , "trunk-server-centos9.rdoproject.org:9117"
       , "trunk-builder-centos9.rdoproject.org:9117"
       ]

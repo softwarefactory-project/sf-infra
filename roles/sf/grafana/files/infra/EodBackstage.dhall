@@ -3,7 +3,7 @@
 -- Run the following to auto-update on change: watchexec -e dhall "make ./roles/sf/grafana/files/infra/EodBackstage.json && grafdhall ./roles/sf/grafana/files/infra/EodBackstage.dhall"
 --
 -- Use the following dashboard to get an overview of the platform:
--- <https://prometheus.monitoring.softwarefactory-project.io/grafana/d/9FFVq15Ik/eod-backstage?orgId=1>
+-- <https://monitoring.softwarefactory-project.io/grafana/d/9FFVq15Ik/eod-backstage?orgId=1>
 let Panels = ./Panels.dhall
 
 let -- |            Application metrics            | --

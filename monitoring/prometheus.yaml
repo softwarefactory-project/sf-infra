@@ -41,7 +41,7 @@ scrape_configs:
           - baremetal03.rdoproject.org:9100
           - baremetal04.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
-          - prometheus.monitoring.softwarefactory-project.io:9100
+          - monitoring.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100
@@ -150,7 +150,7 @@ scrape_configs:
           - logserver.rdoproject.org:9117
           - opensearch.rdoproject.org:9117
           - centos.softwarefactory-project.io:9117
-          - prometheus.monitoring.softwarefactory-project.io:9117
+          - monitoring.softwarefactory-project.io:9117
           - trunk-server-centos9.rdoproject.org:9117
           - trunk-builder-centos9.rdoproject.org:9117
   - job_name: zookeeper

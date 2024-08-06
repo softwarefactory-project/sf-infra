@@ -350,7 +350,7 @@
       - "^tests/post-grafana-dash.yml$"
       - "^tests/pre-grafana-dash.yml$"
       - "^tests/templates/grafana-screenshots.js.j2$"
-      - "playbooks/host_vars/prometheus.monitoring.softwarefactory-project.io.yaml"
+      - "playbooks/host_vars/monitoring.softwarefactory-project.io.yaml"
 
 - job:
     name: sf-infra-quay-check

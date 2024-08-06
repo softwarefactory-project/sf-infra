@@ -122,7 +122,7 @@ Host bridge.softwarefactory-project.io
     User fedora
     Port 22
 
-Host prometheus.monitoring.softwarefactory-project.io
+Host monitoring.softwarefactory-project.io
     User cloud-user
     Port 22
 

@@ -208,7 +208,7 @@ install_server_rdo_key: !vault |
 
 smtp_host: 'bridge.softwarefactory-project.io'
 smtp_domain: 'softwarefactory-project.io'
-monitoring_host: 'prometheus.monitoring.softwarefactory-project.io'
+monitoring_host: 'monitoring.softwarefactory-project.io'
 monitoring_endpoint_url: 'https://{{ monitoring_host }}'
 
 container_images:

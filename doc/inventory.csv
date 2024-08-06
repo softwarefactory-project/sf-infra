@@ -8,7 +8,7 @@ logserver.rdoproject.org,2,8
 dashboards.rdoproject.org,1,4
 dlrn-db.rdoproject.org,2,8
 opensearch.rdoproject.org,4,8
-prometheus.monitoring.softwarefactory-project.io,2,8
+monitoring.softwarefactory-project.io,2,8
 elk.softwarefactory-project.io,4,16
 managesf.softwarefactory-project.io,4,16
 nodepool-builder.softwarefactory-project.io,2,8

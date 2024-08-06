@@ -67,7 +67,7 @@ firewall_rules:
     permanent: yes
     rich_rule: rule family=ipv4 source address=38.102.83.114/32 port port=9125 protocol=udp accept
     state: enabled
-fqdn: prometheus.monitoring.softwarefactory-project.io
+fqdn: monitoring.softwarefactory-project.io
 grafana_server_root_url: "https://{{ fqdn }}/grafana/"
 manage_ssh_config: false
 podman_gw_ip: '10.88.0.1'

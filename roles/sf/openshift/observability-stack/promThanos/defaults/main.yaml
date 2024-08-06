@@ -24,7 +24,7 @@ prometheus_monitor_namespaces:
 prometheus_federation:
   - name: prometheus-oldgen-upstream-static-config
     targets:
-    - prometheus.monitoring.softwarefactory-project.io
+    - monitoring.softwarefactory-project.io
     metrics_path: prometheus/federate
     scheme: HTTPS
     insecure: "false"
