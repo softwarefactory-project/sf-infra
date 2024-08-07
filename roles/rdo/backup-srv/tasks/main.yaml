@@ -5,6 +5,13 @@
     name:
       - ansible-core
 
+- name: Copy backup ssh priv key
+  ansible.builtin.copy:
+    content: "{{ backup_ssh_priv_key }}"
+    dest: /root/.ssh/id_ed25519
+    mode: 0400
+  become: yes
+
 - name: Install bup
   ansible.builtin.include_tasks: install.yaml
 
