@@ -22,8 +22,6 @@ import datetime
 def usage():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--container", help="The bup container name")
-    parser.add_argument(
         "--config", required=True, help="The bup locations configuration")
     parser.add_argument(
         "--test", action="store_true", help="Test with a fake bup")
@@ -82,20 +80,15 @@ def fake_location():
     return [dict(dir="/var/lib/bup", domain="test", month_subdir="1")]
 
 
-def get_metrics(locations, bup_container_name, pread):
+def get_metrics(locations, pread):
     def get_timestamp(location):
-        if bup_container_name:
-            prefix = ["podman", "exec", "-it", bup_container_name]
-        else:
-            prefix = ["sudo"]
         if int(location["month_subdir"]):
             bup_dir = location["dir"] + "/" + month_subdir()
         else:
             bup_dir = location["dir"]
 
-        env = ["env", "PATH=/usr/local/bin:/usr/bin", "BUP_DIR=%s" % bup_dir]
-        cmd = ["bup", "ls", "-l", location["domain"]]
-        all_timestamps = pread(prefix + env + cmd)
+        cmd = ["bup", "-d", "%s" % bup_dir, "ls", "-l", location["domain"]]
+        all_timestamps = pread(cmd)
         try:
             return all_timestamps.split("\n")[-3].split()[5]
         except Exception:
@@ -119,7 +112,7 @@ def main():
     else:
         locations = json.load(open(args.config))
         pread = process_read
-    metrics = "\n".join(get_metrics(locations, args.container, pread))
+    metrics = "\n".join(get_metrics(locations, pread))
     if args.test:
         print(metrics)
     else:
