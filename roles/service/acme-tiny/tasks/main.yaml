@@ -124,26 +124,3 @@
     job: /usr/local/bin/acme-tiny-refresh.sh no-reload > /dev/null
     name: Run acme tiny refresh script
     special_time: weekly
-
-- name: Check if cert exists
-  become: true
-  loop: "{{ acme_domains }}"
-  register: "_cert_files"
-  ansible.builtin.stat:
-    path: "{{ acme_certs_dir }}/{{ item.domain }}.pem"
-
-- name: Install vhost configuration
-  become: true
-  loop: "{{ acme_domains }}"
-  register: "_vhost_conf"
-  ansible.builtin.template:
-    dest: "/etc/httpd/conf.d/{% if item.sf_gateway is defined and item.sf_gateway %}gateway{% else %}{{ item.domain }}{% endif %}.conf"
-    src: vhost.conf
-  when: not item.vhost_skip|default(false)
-
-- name: Reload apache
-  when: "_vhost_conf is changed"
-  become: true
-  ansible.builtin.service:
-    name: httpd
-    state: reloaded
