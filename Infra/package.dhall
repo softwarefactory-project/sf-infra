@@ -72,4 +72,5 @@ and a future change will remove it from the Infra package.
 , Subnet = ./Subnet/package.dhall
 , Tenant = ./Tenant/package.dhall
 , Volume = ./Volume/package.dhall
+, Panels = ../roles/sf/grafana/files/infra/Panels.dhall
 }

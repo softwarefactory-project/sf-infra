@@ -400,30 +400,97 @@ let mkPrometheusHelper =
           , type = "timeseries"
           }
 
+let mkPrometheus =
+      \(title : Text) ->
+      \(expr : Text) ->
+        mkPrometheusHelper
+          (Some 0)
+          "{{instance}}"
+          ([] : List Text)
+          title
+          [ expr ]
+
+let mkPrometheusAppErr =
+      \(title : Text) ->
+      \(exprs : List Text) ->
+      \(err_exprs : List Text) ->
+        mkPrometheusHelper (Some 0) "{{job}}" err_exprs title exprs
+
+let mkPrometheusApp =
+      \(title : Text) ->
+      \(exprs : List Text) ->
+        mkPrometheusHelper (Some 0) "{{job}}" ([] : List Text) title exprs
+
+let mkPrometheusMulti =
+      mkPrometheusHelper (Some 0) "{{instance}}" ([] : List Text)
+
+let mkPrometheusZeroCentered =
+      mkPrometheusHelper (None Natural) "{{instance}}" ([] : List Text)
+
+let nodeMetrics =
+      \(hostList : List Text) ->
+        let hosts = Prelude.Text.concatSep "|" hostList
+
+        let -- | Memory usage
+            -- - What: the amount of available memory
+            -- - Why: watchout for out of memory errors
+            mem =
+              mkPrometheus
+                "Available Memory"
+                "avg by (instance) (node_memory_MemFree_bytes{instance=~\"${hosts}\"})"
+                "decbytes"
+
+        let -- | Disk usage
+            -- - What: The amount of available disk space clamped
+            -- - Why: watchout for out of disk errors
+            disk =
+              let maxGB = 10
+
+              let maxStr = Natural/show (maxGB * 1024 * 1024 * 1024)
+
+              let mkQuery =
+                    \(filter : Text) ->
+                      "clamp_max(avg by(instance) (node_filesystem_avail_bytes{${filter}}), ${maxStr})"
+
+              in  mkPrometheusMulti
+                    "Available Disk (max ${Natural/show maxGB} GB)"
+                    [ mkQuery "instance=~\"${hosts}\", mountpoint=\"/\""
+                    , mkQuery
+                        "instance=\"logserver.rdoproject.org:9100\", mountpoint=\"/var/www/logs\""
+                    , mkQuery
+                        "instance=\"elk.softwarefactory-project.io:9100\", mountpoint=\"/mnt\""
+                    ]
+                    "decbytes"
+
+        let -- | Network usage
+            -- - What: the amount of data send/recv
+            -- - Why: watchout for DDOS
+            net =
+              mkPrometheusZeroCentered
+                "Network Load (recv are positive, sent are negative)"
+                [ "irate(node_network_receive_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*8"
+                , "irate(node_network_transmit_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*(-8)"
+                ]
+                "bps"
+
+        let -- | CPU usage
+            -- - What: the load average
+            -- - Why: watchout for fork bomb
+            cpu =
+              mkPrometheus
+                "CPU Load"
+                "avg by (instance) (rate(node_cpu_seconds_total{mode=~\"system|user\",instance=~\"${hosts}\"}[1h]))"
+                "percentunit"
+
+        in  [ mkSep "Systems", mem, disk, net, cpu ]
+
 in  { mkSep
     , mkLucene
-    , mkPrometheus =
-        \(title : Text) ->
-        \(expr : Text) ->
-          mkPrometheusHelper
-            (Some 0)
-            "{{instance}}"
-            ([] : List Text)
-            title
-            [ expr ]
-    , mkPrometheusAppErr =
-        \(title : Text) ->
-        \(exprs : List Text) ->
-        \(err_exprs : List Text) ->
-          mkPrometheusHelper (Some 0) "{{job}}" err_exprs title exprs
-    , mkPrometheusApp =
-        \(title : Text) ->
-        \(exprs : List Text) ->
-          mkPrometheusHelper (Some 0) "{{job}}" ([] : List Text) title exprs
-    , mkPrometheusMulti =
-        mkPrometheusHelper (Some 0) "{{instance}}" ([] : List Text)
-    , mkPrometheusZeroCentered =
-        mkPrometheusHelper (None Natural) "{{instance}}" ([] : List Text)
+    , mkPrometheus
+    , mkPrometheusAppErr
+    , mkPrometheusApp
+    , mkPrometheusMulti
+    , mkPrometheusZeroCentered
     , mkDashboard
-    , mkHosts = Prelude.Text.concatSep "|"
+    , nodeMetrics
     }
