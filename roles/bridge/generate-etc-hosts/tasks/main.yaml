@@ -10,6 +10,10 @@
       127.0.0.1   localhost {{ ansible_hostname }} {{ inventory_hostname }}
       ::1         localhost {{ ansible_hostname }} {{ inventory_hostname }}
 
+      {% for host in static_hosts %}
+      {{ host.ip }} {{ host.name }}
+      {% endfor %}
+
       {% for host in _infra_instances.stdout_lines %}
       {{ host }}
       {% endfor %}
