@@ -22,32 +22,12 @@
         name: system/epel-release
       when: ansible_distribution != "Fedora"
 
-    - name: Enable PowerTools repo in Centos 8 stream
-      block:
-        - name: Remove Centos 8 PowerTools repo
-          ansible.builtin.file:
-            path: /etc/yum.repos.d/CentOS-PowerTools.repo
-            state: absent
-
-        - name: Install required packages
-          ansible.builtin.package:
-            name: dnf-plugins-core
-            state: present
-
-        - name: Enable Centos 8 PowerTools stream repository
-          ansible.builtin.shell: |
-            yum config-manager --set-enabled powertools
-
-      when:
-        - ansible_distribution != "Fedora"
-        - ansible_distribution_major_version == "8"
-
     - name: Install certbot
       ansible.builtin.package:
         name:
           - certbot
         state: present
-        enablerepo: "{{ (ansible_distribution == 'Centos') | ternary('epel', 'updates,fedora') }}"
+        enablerepo: "{{ (ansible_distribution == 'Centos' or ansible_distribution == 'RedHat') | ternary('epel', 'updates,fedora') }}"
 
     - name: Install python certboot library
       ansible.builtin.package:

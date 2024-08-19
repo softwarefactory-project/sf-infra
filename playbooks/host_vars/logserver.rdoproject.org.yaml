@@ -8,7 +8,7 @@ mount_group: 'apache'
 lvm: True
 vg_name: 'vglog'
 lv_name: 'log'
-certbot_install: false
+certbot_install: true
 certbot_plugin: "--apache"
 fqdn: "logserver.rdoproject.org"
 ssl_cert_options:
