@@ -198,18 +198,6 @@ Host ze04.softwarefactory-project.io
     User cloud-user
     Port 22
 
-Host ze05.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze06.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze07.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
 Host zm01.softwarefactory-project.io
     User cloud-user
     Port 22
@@ -223,22 +211,6 @@ Host zm03.softwarefactory-project.io
     Port 22
 
 Host zm04.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm05.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm06.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm07.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm08.softwarefactory-project.io
     User cloud-user
     Port 22
 

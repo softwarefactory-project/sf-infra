@@ -487,39 +487,6 @@ servers:
       - internal
     state: present
   - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze05.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze06.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: ze07.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
     flavor: "1vcpu_1gb"
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
@@ -557,50 +524,6 @@ servers:
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: zm04.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm05.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm06.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm07.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
-  - boot_from_volume: no
-    flavor: "1vcpu_1gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: zm08.softwarefactory-project.io
     network: private-network
     security_groups:
       - common

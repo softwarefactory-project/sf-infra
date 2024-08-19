@@ -45,17 +45,10 @@ This project manages:
 * ze02.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * ze03.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * ze04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze05.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze06.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze07.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zm01.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
 * zm02.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
 * zm03.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
 * zm04.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm05.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm06.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm07.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
-* zm08.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_1gb
 * sf-container-worker-1.softwarefactory-project.io 
 * logscraper02.openstack.org 
 
