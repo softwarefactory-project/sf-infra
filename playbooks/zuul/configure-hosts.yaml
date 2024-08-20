@@ -125,7 +125,7 @@
         - name: Add ssh host key for soeru.osci.io
           ansible.builtin.known_hosts:
             name: 'soeru.osci.io'
-            key: 'soeru.osci.io ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJfiTRjM1ZtRX1QVUtrtZAJZM/sJnvTi7jXYclf4spcX'
+            key: 'soeru.osci.io ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINMRZuLy7ZC+tBdofLNX+rufNDpQfS6jAbrnIUhX5n1g'
 
         - name: Ensure sf-infra SSH key is deployed
           ansible.builtin.copy:
