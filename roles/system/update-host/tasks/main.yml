@@ -1,8 +1,17 @@
 ---
+- name: Check if crontab file exists
+  become: true
+  ansible.builtin.stat:
+    path: /etc/cron.d/update-packages
+  register: _update_package_cron
+
 - name: Create crontab for periodical yum refresh
   become: true
+  when: not _update_package_cron.stat.exists
   ansible.builtin.cron:
     name: Check for new updates
     minute: "{{ 59|random }}"
-    hour: "{{ 23 | random }}"
+    hour: "{{ 3 | random }}"
+    cron_file: update-packages
+    user: root
     job: echo "system_package_update{count=\"counted_update_packages\"} $(yum clean dbcache --quiet && yum check-update --quiet | wc -l)" > /var/lib/node_exporter/textfile_collector/update_packages.prom 2> /dev/null
