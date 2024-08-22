@@ -32,7 +32,4 @@ let mkLabel =
 
 in      Prometheus
     //  extra
-    //  { warningLabel = mkLabel "warning"
-        , urgentLabel = mkLabel "urgent"
-        , infoLabel = mkLabel "info"
-        }
+    //  { warningLabel = mkLabel "warning", infoLabel = mkLabel "info" }

@@ -30,4 +30,4 @@ groups:
         expr: "(sum(increase(zuul_nodepool_requests_total{state='failed'}[1h])) or sum(up) * 0) / (sum(increase(zuul_nodepool_requests_total{state='requested'}[1h])) or sum(up) * 0) > 0.1"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: urgent
+          severity: critical

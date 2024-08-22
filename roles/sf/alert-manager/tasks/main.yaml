@@ -26,7 +26,7 @@
 
       route:
         repeat_interval: 12h
-        group_interval: 10m
+        group_interval: 12h
         group_by: [Alertname]
         receiver: softwarefactory-operations-team
         routes:
@@ -35,7 +35,7 @@
             receiver: softwarefactory-operations-team
           {% if slack_api_url is defined and slack_api_url -%}
           - match:
-              severity: urgent
+              severity: critical
             receiver: slack-notifications
           {% endif %}
 
