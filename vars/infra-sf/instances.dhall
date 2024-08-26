@@ -374,7 +374,7 @@ let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 
 let mkMergers = mkServers "zm" Flavors.`1vcpu_1gb`
 
-let zuuls = mkExecutors 7 # mkMergers 8
+let zuuls = mkExecutors 4 # mkMergers 4
 
 let default-security-groups = [ "common", "monitoring", "internal" ]
 
