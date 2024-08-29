@@ -14,17 +14,18 @@
         - kustomization.yaml
         - minio-deployment.yaml
         - minio-post-config.yaml
-        - minio-pv.yaml
         - minio-service.yaml
         # - minio-scrapeconfig.yaml
         # - minio-prometheusrule.yaml
-    - name: Copy routes
+    - name: Copy template manifests
       ansible.builtin.template:
         dest: "{{ kustomize_dir }}/minio/base/{{ item }}"
         src: "{{ item }}.j2"
       loop:
         - route-api.yaml
         - route-console.yaml
+        - minio-pv.yaml
+
 
 - name: Prepare kustomize overlay
   block:

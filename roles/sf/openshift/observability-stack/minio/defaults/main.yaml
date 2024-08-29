@@ -25,3 +25,4 @@ minio_public_HTTP_console_endpoint: minio.microshift.dev
 minio_public_console_path: /console
 
 minio_extra_route_labels: {}
+# minio_storageClassName: xxx

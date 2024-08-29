@@ -12,3 +12,6 @@ spec:
   resources:
     requests:
       storage: 4Gi
+{% if minio_storageClassName is defined %}
+  storageClassName: {{ minio_storageClassName }}
+{% endif %}
