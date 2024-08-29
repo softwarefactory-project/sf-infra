@@ -17,7 +17,7 @@ cert_mail: softwarefactory-operations-team@redhat.com
 
 nfs_shared_repos: true
 
-api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
+api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-dalmatian', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
 
 dlrn_workers:
   centos9-master-uc:
@@ -78,6 +78,36 @@ dlrn_workers:
     mock_config: 'centos9stream.cfg.j2'
     uid: 1021
     gid: 1021
+  centos9-dalmatian:
+    distro: 'centos9'
+    target: 'centos9-dalmatian'
+    distgit_branch: 'dalmatian-rdo'
+    distro_branch: 'stable/2024.2'
+    #FIXME: set to *enable_cron and *enable_purge after the initial bootstrap
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '17'
+    symlinks: ['/var/www/html/centos9-dalmatian', '/var/www/html/dalmatian/centos9']
+    #FIXME: set to 'dalmatian' once the tag has been created in rdoinfo
+    release: 'dalmatian-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos9-dalmatian'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-dalmatian:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_dalmatian?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    #gerrit_user: 'rdo-trunk'
+    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    #FIXME: : enable when the bootstrap is completed
+    #gerrit_topic: 'rdo-FTBFS-dalmatian-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1038
+    gid: 1038
   centos9-caracal:
     distro: 'centos9'
     target: 'centos9-caracal'
