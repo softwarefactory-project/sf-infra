@@ -7,9 +7,15 @@ metadata:
 {% for key, value in minio_extra_route_labels.items() %}
     {{ key }}: {{ value }}
 {% endfor %}
+{% for key, value in minio_extra_labels.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}
   name: minio-route-console
   annotations:
     haproxy.router.openshift.io/rewrite-target: /
+{% for key, value in minio_extra_annotations.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect

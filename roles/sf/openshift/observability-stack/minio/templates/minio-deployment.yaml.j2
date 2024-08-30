@@ -6,17 +6,38 @@ metadata:
   labels:
     app: observability
     run: minio
+{% for key, value in minio_extra_labels.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}
+{% if minio_extra_annotations is defined %}
+  annotations:
+{% endif %}
+{% for key, value in minio_extra_annotations.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}
 spec:
   selector:
     matchLabels:
       app: observability
       run: minio
+{% for key, value in minio_extra_labels.items() %}
+      {{ key }}: {{ value }}
+{% endfor %}
   replicas: 1
   template:
     metadata:
       labels:
         app: observability
         run: minio
+{% for key, value in minio_extra_labels.items() %}
+        {{ key }}: {{ value }}
+{% endfor %}
+{% if minio_extra_annotations is defined %}
+      annotations:
+{% endif %}
+{% for key, value in minio_extra_annotations.items() %}
+        {{ key }}: {{ value }}
+{% endfor %}
     spec:
       containers:
       - name: minio

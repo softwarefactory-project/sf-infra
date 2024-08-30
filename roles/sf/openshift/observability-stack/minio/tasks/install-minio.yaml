@@ -12,9 +12,6 @@
         src: "{{ item }}"
       loop:
         - kustomization.yaml
-        - minio-deployment.yaml
-        - minio-post-config.yaml
-        - minio-service.yaml
         # - minio-scrapeconfig.yaml
         # - minio-prometheusrule.yaml
     - name: Copy template manifests
@@ -25,7 +22,9 @@
         - route-api.yaml
         - route-console.yaml
         - minio-pv.yaml
-
+        - minio-deployment.yaml
+        - minio-post-config.yaml
+        - minio-service.yaml
 
 - name: Prepare kustomize overlay
   block:

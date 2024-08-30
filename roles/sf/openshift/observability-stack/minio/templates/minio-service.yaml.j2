@@ -1,8 +1,8 @@
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: Service
 metadata:
-  name: minio-pvc
+  name: minio
   labels:
     app: observability
     run: minio
@@ -16,11 +16,16 @@ metadata:
     {{ key }}: {{ value }}
 {% endfor %}
 spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 4Gi
-{% if minio_storageClassName is defined %}
-  storageClassName: {{ minio_storageClassName }}
-{% endif %}
+  ports:
+    - name: minio-console
+      port: 9090
+      targetPort: 9090
+    - name: minio-api
+      port: 9000
+      targetPort: 9000
+  selector:
+    app: observability
+    run: minio
+{% for key, value in minio_extra_labels.items() %}
+    {{ key }}: {{ value }}
+{% endfor %}

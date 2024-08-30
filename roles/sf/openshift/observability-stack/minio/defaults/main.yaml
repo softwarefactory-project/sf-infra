@@ -1,5 +1,5 @@
 ---
-minio_version: RELEASE.2024-02-06T21-36-22Z
+minio_version: RELEASE.2024-08-29T01-40-52Z
 minio_capacity: 50Gi
 minio_root_user: root
 minio_user: backend
@@ -26,3 +26,5 @@ minio_public_console_path: /console
 
 minio_extra_route_labels: {}
 # minio_storageClassName: xxx
+# minio_extra_labels: {}
+# minio_extra_annotations: {}
