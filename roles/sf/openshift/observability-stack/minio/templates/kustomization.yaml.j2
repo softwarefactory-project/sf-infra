@@ -41,5 +41,5 @@ patches:
   path: job.yaml
 - target:
     kind: PersistentVolumeClaim
-    name: minio-pvc
+    name: {{ minio_pvc_name }}
   path: pvc.yaml

@@ -1,5 +1,6 @@
 ---
 minio_version: RELEASE.2024-08-29T01-40-52Z
+minio_pvc_name: minio-pvc
 minio_capacity: 50Gi
 minio_root_user: root
 minio_user: backend
