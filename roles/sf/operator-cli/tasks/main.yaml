@@ -1,6 +1,6 @@
 ---
 - name: Setting the latest tag version if sf_operator_standalone_release is not defined
-  when: sf_operator_version is not defined
+  when: sf_operator_standalone_release is not defined
   block:
     - name: Cloning SF-Operator's project
       ansible.builtin.git:
@@ -16,6 +16,7 @@
 
 - name: Compiling SF-Operator
   become: true
+  become_flags: "-i"
   ansible.builtin.command: go install github.com/softwarefactory-project/sf-operator@{{ sf_operator_standalone_release | default(git_tag) }}
   environment:
     GOBIN: /usr/local/bin
