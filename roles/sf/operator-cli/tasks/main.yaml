@@ -15,6 +15,7 @@
       register: git_tag
 
 - name: Compiling SF-Operator
+  become: true
   ansible.builtin.command: go install github.com/softwarefactory-project/sf-operator@{{ sf_operator_standalone_release | default(git_tag) }}
   environment:
     GOBIN: /usr/local/bin
