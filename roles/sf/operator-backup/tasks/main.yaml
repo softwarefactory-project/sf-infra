@@ -12,7 +12,6 @@
   become: true
   ansible.builtin.copy:
     dest: /usr/local/bin/sf-operator-backup
-    state: present
     mode: "0755"
     owner: root
     group: root
