@@ -18,18 +18,20 @@
     content: |
       #!/bin/bash
 
-      NAMESPACE=$1
-      KUBECFG=/etc/run-infra-ng/${NAMESPACE}.kubeconfig
-      BCKDIR={{ backup_dir }}/${NAMESPACE}
+      {% for cluster in kube_config_cluster %}
+      KUBECONFIG=/etc/run-infra-ng/{{ cluster.namespace }}.kubeconfig sf-operator \
+        SF backup --namespace {{ cluster.namespace }}                             \
+                  --backup_dir {{ backup_dir }}/{{ cluster.namespace }}
+      {% endfor %}
 
-      KUBECONFIG=${KUBECFG} sf-operator SF backup --namespace ${NAMESPACE} --backup_dir ${BCKDIR}
+      cd {{ backup_dir }}
+      # TODO: run bup save command
 
 - name: Adding SF-Operator Cluster backup cronjob
   become: true
   ansible.builtin.cron:
-    name: Backup SF-Operator's GCP {{ item.namespace }}
+    name: Backup SF-Operator's GCP
     special_time: daily
     user: cloud-user
-    job: /usr/local/bin/sf-operator-backup {{ item.namespace }}
+    job: /usr/local/bin/sf-operator-backup
     state: present
-  loop: "{{ kube_config_cluster }}"
