@@ -49,6 +49,7 @@ scrape_configs:
           pod:
           pod_uid:
           container:
+{{ promtail_openshift_node_extra_pipeline_stages | to_yaml | indent(2, True) }}
 {% endif %}
 - job_name: journal
   journal:
@@ -62,3 +63,5 @@ scrape_configs:
       regex: .+scope$
     - source_labels: ['__journal__systemd_unit']
       target_label: 'unit'
+  pipeline_stages:
+{{ promtail_journal_extra_pipeline_stages | to_yaml | indent(2, True) }}

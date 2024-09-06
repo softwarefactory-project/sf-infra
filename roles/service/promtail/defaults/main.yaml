@@ -9,3 +9,6 @@ loki_password: observability-sf
 loki_tls:
   insecure: true
 is_openshift_node: false
+
+promtail_openshift_node_extra_pipeline_stages: []
+promtail_journal_extra_pipeline_stages: []

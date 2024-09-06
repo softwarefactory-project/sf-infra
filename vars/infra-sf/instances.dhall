@@ -295,7 +295,7 @@ let instances =
         }
       , Instance::{
         , name = "microshift"
-        , groups = [ "promtail", "promtail-openshift" ]
+        , groups = [ "promtail", "promtail-openshift", "microshift-sf" ]
         , connection = OS.CentOS.`9-stream`.connection
         , node-exporter
           {- disable node-export until host in reinstalled on rhel-}

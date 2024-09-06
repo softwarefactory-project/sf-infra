@@ -2,3 +2,7 @@ sf_ssh_pub_key: "{{ install_server_sf_pub }}"
 package_list:
   - {name: "ca-certificates"}
   - {name: "chrony", service: "chronyd", config_template: "chrony.conf", dest: "/etc/chrony.conf" }
+
+promtail_journal_extra_pipeline_stages:
+  - labels:
+      softwarefactory: upstream
