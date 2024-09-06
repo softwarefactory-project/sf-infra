@@ -3,6 +3,8 @@ Description=Promtail service
 After=network.target
 [Service]
 Type=simple
+Restart=on-failure
+RestartSec=10s
 {% if is_openshift_node %}
 # TODO access to /var/log/pods/* is restricted to root, belonging to the "adm" group isn't enough
 # Until this can be fixed, run promtail as root.
