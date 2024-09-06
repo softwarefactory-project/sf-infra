@@ -25,6 +25,9 @@
       {% endfor %}
 
       cd {{ backup_dir }}
+      # ensure files are readable by every bridge user
+      find . -type f -exec chmod 0644 {} \;
+      find . -type d -exec chmod 0755 {} \;
       # TODO: run bup save command
 
 - name: Adding SF-Operator Cluster backup cronjob
