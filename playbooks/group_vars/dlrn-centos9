@@ -83,9 +83,8 @@ dlrn_workers:
     target: 'centos9-dalmatian'
     distgit_branch: 'dalmatian-rdo'
     distro_branch: 'stable/2024.2'
-    #FIXME: set to *enable_cron and *enable_purge after the initial bootstrap
-    enable_cron: false
-    enable_purge: false
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
     symlinks: ['/var/www/html/centos9-dalmatian', '/var/www/html/dalmatian/centos9']
@@ -100,10 +99,9 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    #gerrit_user: 'rdo-trunk'
+    gerrit_user: 'rdo-trunk'
     gerrit_email: 'amoralej+rdo-trunk@redhat.com'
-    #FIXME: : enable when the bootstrap is completed
-    #gerrit_topic: 'rdo-FTBFS-dalmatian-cs9'
+    gerrit_topic: 'rdo-FTBFS-dalmatian-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
     uid: 1038
