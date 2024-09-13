@@ -1,4 +1,11 @@
 ---
+- name: Remove helm package if installed
+  become: true
+  ignore_errors: true
+  ansible.builtin.package:
+    name: helm
+    state: absent
+
 - name: Check for helm
   ansible.builtin.stat:
     path: /usr/local/bin/helm

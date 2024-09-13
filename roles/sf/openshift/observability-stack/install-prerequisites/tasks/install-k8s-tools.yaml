@@ -7,10 +7,6 @@
       when:
         - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
         - ansible_distribution_major_version == "9"
-    - name: Remove helm package if installed
-      ansible.builtin.package:
-        name: helm
-        state: absent
     - name: Install requirements
       ansible.builtin.package:
         name:
@@ -48,7 +44,3 @@
         mode: u+x
       become: true
       when: kustomize_current_version.stdout != kustomize_version
-
-- name: Ensure we can communicate with the cluster
-  ansible.builtin.command: >
-    kubectl get all
