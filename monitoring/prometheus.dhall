@@ -8,8 +8,7 @@ let PrometheusConfig = ./prometheus-config.dhall
 
 let ScrapeConfigs = ./scrape-configs.dhall
 
-let db_server_list =
-      [ "dlrn-db-centos9.rdoproject.org:9104" ]
+let db_server_list = [ "dlrn-db-centos9.rdoproject.org:9104" ]
 
 let apache_server_list =
       [ "managesf.softwarefactory-project.io:9117"
@@ -33,15 +32,12 @@ let logscraper_server_list = [ "logscraper02.openstack.org:9128" ]
 
 let dlrnapi_target_list =
       [ "api-centos9-master-uc"
+      , "api-centos9-caracal"
       , "api-centos9-bobcat"
       , "api-centos9-antelope"
       , "api-centos9-zed"
       , "api-centos9-yoga"
-      , "api-centos9-xena"
       , "api-centos9-wallaby"
-      , "api-centos8-yoga"
-      , "api-centos8-xena"
-      , "api-centos8-wallaby"
       ]
 
 in  PrometheusConfig
