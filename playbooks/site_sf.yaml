@@ -108,7 +108,7 @@
   roles:
     - infra/install-server
     - infra/ssh
-    # - service/acme-tiny
+    - service/acme-tiny
     - service/apache-exporter
     - service/hostname
   tasks:
