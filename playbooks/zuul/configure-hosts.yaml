@@ -26,12 +26,13 @@
       - cronie
       - dnsmasq
       - python3-cryptography
-      - python3-netaddr
-      - python3-lxml
-      - python3-passlib
-      - python3-pyOpenSSL
       - python3-kubernetes
+      - python3-lxml
+      - python3-netaddr
       - python3-openshift
+      - python3-passlib
+      - python3-pip
+      - python3-pyOpenSSL
       - qemu-img
       - vim-enhanced
       - tmux
@@ -103,6 +104,12 @@
             dest: ~/.ansible.cfg
             state: link
 
+        - name: Ensure packages are installed
+          become: yes
+          ansible.builtin.package:
+            name: "{{ bridge_packages }}"
+            state: present
+
         - name: Ensure  openstackclient and openstacksdk via pip
           become: true
           ansible.builtin.pip:
@@ -110,12 +117,6 @@
               - openstacksdk
               - python-openstackclient
             state: latest
-
-        - name: Ensure packages are installed
-          become: yes
-          ansible.builtin.package:
-            name: "{{ bridge_packages }}"
-            state: present
 
         - name: Add ssh host key for jump.ci.centos.org
           ansible.builtin.known_hosts:
@@ -143,32 +144,32 @@
           retries: 30
           delay: 5
 
-        - name: Fetch galaxy roles
-          when: fetch_galaxy_role | default(False) | bool
-          community.general.ansible_galaxy_install:
-            type: both
-            requirements_file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/requirements.yml"
-            force: true
-          register: install_result
-          until: "install_result is not failed"
-          retries: 30
-          delay: 5
+        # - name: Fetch galaxy roles
+        #   when: fetch_galaxy_role | default(False) | bool
+        #   community.general.ansible_galaxy_install:
+        #     type: both
+        #     requirements_file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/requirements.yml"
+        #     force: true
+        #   register: install_result
+        #   until: "install_result is not failed"
+        #   retries: 30
+        #   delay: 5
 
         # Perform one shot actions
-        - name: Check for updated actions
-          ansible.builtin.shell: git diff-tree --no-commit-id --name-only -r HEAD | grep '^actions/.*yaml$' | sort
-          args:
-            chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-          register: _actions_files
+        # - name: Check for updated actions
+        #   ansible.builtin.shell: git diff-tree --no-commit-id --name-only -r HEAD | grep '^actions/.*yaml$' | sort
+        #   args:
+        #     chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+        #   register: _actions_files
 
-        - block:
-            - name: Execute actions
-              args:
-                chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-              command: "ansible-playbook -v {{ item }}"
-              loop: "{{ _actions_files.stdout_lines }}"
+        # - block:
+        #     - name: Execute actions
+        #       args:
+        #         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+        #       command: "ansible-playbook -v {{ item }}"
+        #       loop: "{{ _actions_files.stdout_lines }}"
 
-            - name: Run configuration playbook
-              args:
-                chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-              command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"
+        #     - name: Run configuration playbook
+        #       args:
+        #         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+        #       command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"

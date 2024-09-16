@@ -1,4 +1,5 @@
 ---
+
 - ansible.builtin.import_playbook: site_bridge.yaml
 
 - hosts: rhel
