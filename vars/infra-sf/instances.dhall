@@ -297,6 +297,9 @@ let instances =
         , name = "microshift"
         , groups = [ "promtail-openshift" ]
         , connection = OS.CentOS.`9-stream`.connection
+        , node-exporter
+          {- disable node-export until host in reinstalled on rhel-}
+          = False
         , server = Some Infra.Server::{
           , image = OS.CentOS.`9-stream`.image.name
           , flavor = Some Flavors.`8vcpu_16GB`

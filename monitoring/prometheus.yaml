@@ -51,7 +51,6 @@ scrape_configs:
           - zk01.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
-          - microshift.softwarefactory-project.io:9100
           - microshift-infra.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100
@@ -100,10 +99,6 @@ scrape_configs:
           - https://mirror.regionone.vexxhost.rdoproject.org
           - https://trunk.rdoproject.org
           - "https://dashboard.rdo.mtl2.vexxhost.net/auth/login/?next=/"
-          - https://microshift.softwarefactory-project.io/zuul/
-          - https://microshift.softwarefactory-project.io/nodepool/builds/
-          - https://microshift.softwarefactory-project.io/nodepool/api/image-list
-          - https://microshift.softwarefactory-project.io/logs/
   - job_name: blackbox-skip-cert
     metrics_path: /probe
     params:
