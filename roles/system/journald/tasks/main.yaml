@@ -1,8 +1,26 @@
 ---
+- name: Check location of journald.conf
+  block:
+    - ansible.builtin.stat:
+        path: /usr/lib/systemd/journald.conf
+      register: _usr
+
+    - ansible.builtin.set_fact:
+        journald_config: /usr/lib/systemd/journald.conf
+      when: _usr.stat.exists
+
+    - ansible.builtin.stat:
+        path: /etc/systemd/journald.conf
+      register: _etc
+
+    - ansible.builtin.set_fact:
+        journald_config: /etc/systemd/journald.conf
+      when: _etc.stat.exists
+
 - name: Change journald size
   become: true
   ansible.builtin.lineinfile:
-    dest: /etc/systemd/journald.conf
+    dest: "{{ journald_config }}"
     regexp: "{{ item.regex }}"
     line: "{{ item.line }}"
   loop:

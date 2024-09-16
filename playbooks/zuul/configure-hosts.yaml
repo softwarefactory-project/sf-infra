@@ -144,32 +144,18 @@
           retries: 30
           delay: 5
 
-        # - name: Fetch galaxy roles
-        #   when: fetch_galaxy_role | default(False) | bool
-        #   community.general.ansible_galaxy_install:
-        #     type: both
-        #     requirements_file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/requirements.yml"
-        #     force: true
-        #   register: install_result
-        #   until: "install_result is not failed"
-        #   retries: 30
-        #   delay: 5
+        - name: Fetch galaxy roles
+          when: fetch_galaxy_role | default(False) | bool
+          community.general.ansible_galaxy_install:
+            type: both
+            requirements_file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/requirements.yml"
+            force: true
+          register: install_result
+          until: "install_result is not failed"
+          retries: 30
+          delay: 5
 
-        # Perform one shot actions
-        # - name: Check for updated actions
-        #   ansible.builtin.shell: git diff-tree --no-commit-id --name-only -r HEAD | grep '^actions/.*yaml$' | sort
-        #   args:
-        #     chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-        #   register: _actions_files
-
-        # - block:
-        #     - name: Execute actions
-        #       args:
-        #         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-        #       command: "ansible-playbook -v {{ item }}"
-        #       loop: "{{ _actions_files.stdout_lines }}"
-
-        #     - name: Run configuration playbook
-        #       args:
-        #         chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-        #       command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"
+        - name: Run configuration playbook
+          args:
+            chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
+          command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"
