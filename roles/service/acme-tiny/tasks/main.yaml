@@ -6,13 +6,6 @@
       - certbot
     state: absent
 
-- name: Remove crontab jobs if available
-  ansible.builtin.cron:
-    name: "{{ item }}"
-    state: absent
-  loop:
-    - "Renew let's encrypt with lecm"
-
 - name: Install acme-tiny
   become: true
   ansible.builtin.package:
@@ -90,13 +83,6 @@
     src: vhost.conf
   when: not item.vhost_skip|default(false)
 
-- name: Reload apache
-  when: "_vhost_conf is changed"
-  become: true
-  ansible.builtin.service:
-    name: httpd
-    state: reloaded
-
 # NOTE(dpawlik): We don't care how many domains are set to refresh.
 # We just need to know if the script should be executed now or it
 # can wait for crontab.
@@ -121,6 +107,15 @@
 - name: Create cronjob for refreshing certs
   become: true
   ansible.builtin.cron:
-    job: /usr/local/bin/acme-tiny-refresh.sh no-reload > /dev/null
+    job: /usr/local/bin/acme-tiny-refresh.sh > /dev/null
     name: Run acme tiny refresh script
-    special_time: weekly
+    minute: "30"
+    hour: "1"
+    weekday: "6"
+
+- name: Reload apache
+  when: "_vhost_conf is changed"
+  become: true
+  ansible.builtin.service:
+    name: httpd
+    state: reloaded
