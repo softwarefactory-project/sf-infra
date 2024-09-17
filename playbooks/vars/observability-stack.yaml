@@ -59,3 +59,5 @@ loki_url: https://microshift-infra.softwarefactory-project.io/loki/loki/api/v1/p
 loki_tenant: upstream_infra
 loki_tls:
   insecure: false
+
+loki_addr: https://microshift-infra.softwarefactory-project.io/loki/

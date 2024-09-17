@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export LOKI_ADDR={{ loki_addr }}
+export LOKI_USERNAME={{ loki_username }}
+export LOKI_PASSWORD={{ loki_password }}
+
+alias lokicli='logcli --org-id={{ loki_tenant }}{% if loki_tls.insecure %} --tls-skip-verify{% endif %}'

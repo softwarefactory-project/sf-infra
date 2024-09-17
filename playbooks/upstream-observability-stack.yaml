@@ -5,6 +5,11 @@
     - ansible.builtin.include_role:
         name: sf/openshift/observability-stack/install-prerequisites
         tasks_from: install-logCLI
+  # Install logcli alias and shortcuts on the bridge
+    - ansible.builtin.include_vars: vars/observability-stack.yaml
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: logCLI-postinstall
 
 # Components deployed on microshift-infra
 - hosts: microshift-infra.softwarefactory-project.io
