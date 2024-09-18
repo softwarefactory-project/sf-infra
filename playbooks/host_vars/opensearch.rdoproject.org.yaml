@@ -25,8 +25,8 @@ partitions:
     mountpoint: '/mnt/opensearch'
 
 container_images:
-  opensearch: quay.io/software-factory/opensearch:2.11.1
-  opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.11.1
+  opensearch: quay.io/software-factory/opensearch:2.15.0
+  opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.15.0
 
 setup_ssl: true
 ssl_cert_options:
