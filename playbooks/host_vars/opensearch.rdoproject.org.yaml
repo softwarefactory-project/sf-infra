@@ -1,6 +1,5 @@
 ---
 fqdn: opensearch.rdoproject.org
-setup_logstash: false
 
 opensearch_minimum_heap_size: 2g
 opensearch_maximum_heap_size: 2g
