@@ -3,13 +3,8 @@
   become: true
   block:
     - name: Download Helm
-      ansible.builtin.unarchive:
-        src: "{{ helm_release_url }}"
-        dest: /usr/local/bin
-        remote_src: yes
+      ansible.builtin.get_url:
+        url: "{{ helm_release_url }}"
+        dest: /usr/local/bin/helm
         mode: a+x
-    - name: Move binary to /usr/local/bin
-      ansible.builtin.command:
-        mv helm-linux-amd64 helm
-      args:
-        chdir: /usr/local/bin
+
