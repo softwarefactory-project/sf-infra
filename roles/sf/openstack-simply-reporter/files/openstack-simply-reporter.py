@@ -81,10 +81,10 @@ def get_stack_status(cloud, metrics):
     base_metric_name = "stack"
 
     for stack in cloud.list_stacks():
-        if stack.stack_status.lower() in STACK_REPORT_STATE:
-            metric_name = "%s_%s{cloud=%s}" % (base_metric_name,
-                                               stack.stack_status.lower(),
-                                               _quote(stack.location.cloud))
+        if stack['stack_status'].lower() in STACK_REPORT_STATE:
+            metric_name = "%s_%s{cloud=%s}" % (
+                base_metric_name, stack['stack_status'].lower(),
+                _quote(stack['location']['cloud']))
             count_metric(metric_name, metrics)
 
     return metrics
@@ -111,7 +111,7 @@ def get_ports_status(cloud, metrics, timezone, debug):
 def _get_subnet_info(network_info):
     # TBD: here we are able to add more information about subnet.
     # For now it will just return list of subnets.
-    return network_info.subnets
+    return network_info['subnets']
 
 
 def _do_counting(f_ip, subnets, count):
