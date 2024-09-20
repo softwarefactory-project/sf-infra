@@ -1,7 +1,8 @@
 ---
 - name: Setup virtual env on Centos 8
   ansible.builtin.yum:
-    name: python3-openstacksdk
+    name:
+      - python3-openstacksdk
   become: true
 
 - name: Copy openstack simply reporter
