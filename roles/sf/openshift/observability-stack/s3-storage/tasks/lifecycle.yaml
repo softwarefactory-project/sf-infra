@@ -1,0 +1,13 @@
+---
+- name: create lifecycle policy config file
+  ansible.builtin.copy:
+    content: "{{ s3_lifecycle_rules | to_json }}"
+    dest: /tmp/lifecycle-policy.json
+- name: Apply lifecycle config
+  ansible.builtin.shell: |
+    podman run --rm -it -v ~/.aws:/root/.aws:Z -v /tmp/lifecycle-policy.json:/root/lifecycle-policy.json:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ s3_cli_config.endpoint }} --profile={{ s3_cli_config.profile }} s3api put-bucket-lifecycle-configuration --bucket {{ s3_bucket }} --lifecycle-configuration file:///root/lifecycle-policy.json
+- name: Delete config file
+  when: not s3_debug
+  ansible.builtin.file:
+    path: "/tmp/lifecycle-policy.json"
+    state: absent

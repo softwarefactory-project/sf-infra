@@ -1,0 +1,13 @@
+s3_lifecycle_rules:
+  Rules:
+    - ID: "LokiIndex"
+      Filter:
+        Prefix: "index/"
+      Status: "Enabled"
+      Expiration:
+        Days: 99
+s3_bucket: test
+s3_cli_config:
+  endpoint: XXX
+  profile: YYY
+s3_debug: false

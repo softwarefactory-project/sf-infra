@@ -1,0 +1,10 @@
+---
+- name: Check if S3 bucket exists
+  register: s3_buckets
+  ansible.builtin.shell: |
+    podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ s3_cli_config.endpoint }} --profile={{ s3_cli_config.profile }} s3api list-buckets
+
+- name: Create bucket if needed
+  when: 's3_bucket not in s3_buckets.stdout'
+  ansible.builtin.shell: |
+    podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ s3_cli_config.endpoint }} --profile={{ s3_cli_config.profile }} s3api create-bucket --bucket {{ s3_bucket }}
