@@ -206,16 +206,6 @@ quay_organizations:
              66306133303866336539616431616132306230326435643864646537396662366436633165346632
              3434643939343035636532653633333130393664633534306637
       prune_days: 7
-    - name: tripleotraincentos8
-      token: !vault |
-             $ANSIBLE_VAULT;1.1;AES256
-             64386461363064336536396362656132623736353534613237323131343130323231383931616139
-             3533656330306462616236306433336439346630396361620a636131323537633064356133303961
-             30633734656662303333303536393966333033373666303261346237386561306631346232613535
-             6536636565313536300a383363346561633230356662613938326230376365653835653330383434
-             65373733303266666333386435656665336336386365666665643830326263633464363463373564
-             6636623936316336636533333939313966313839336662656164
-      prune_days: 7
     - name: tripleowallabycentos9
       token: !vault |
              $ANSIBLE_VAULT;1.1;AES256
@@ -225,16 +215,6 @@ quay_organizations:
              3630313631353239370a656234363465336461646438656366346364323432613636663139373165
              62646163336233363636633063653536373639626661306661316465623562326239613933613035
              3731643533316235616532323462386330643932646536613431
-      prune_days: 7
-    - name: tripleowallabycentos8
-      token: !vault |
-             $ANSIBLE_VAULT;1.1;AES256
-             32376331353763663230346232386134303538646537643861643332656634663833663337353831
-             6239326666653439346636616536643738626535323262610a656364333464666137643639353636
-             34313539373431356362323661643364656530363062613832366633303631313637336361336330
-             3738303361316233330a656166613961313633653039633533343763306237643236323236353962
-             66633130316562343566633931353330303636323336396433336438666564646537336231376264
-             3061396435643231326630616134313135653265643832343839
       prune_days: 7
     - name: tripleozedcentos9
       token: !vault |
@@ -297,24 +277,29 @@ quay_organizations:
              6135623366363965633765663166333230393432656635643134
       prune_days: 7
 
+# List comes from: https://github.com/rdo-infra/rdo-dashboards/blob/master/feed-dashboard-dlrnapi.py#L62
 quay_pruner_dlrn_endpoints:
-  - api-centos9-antelope
-  - api-centos9-bobcat
   - api-centos9-master-uc
-  - api-centos8-wallaby
-  - api-centos9-wallaby
-  - api-centos8-yoga
-  - api-centos9-yoga
+  - api-centos9-caracal
+  - api-centos9-bobcat
+  - api-centos9-antelope
   - api-centos9-zed
+  - api-centos9-yoga
+  - api-centos9-wallaby
 
+# List comes from: https://github.com/rdo-infra/ansible-role-dlrn/blob/master/files/run-purge.sh#L30
 quay_pruner_extended_keeplist:
+  - consistent
+  - current-passed-ci
   - current-tripleo
+  - previous-current-tripleo
   - current-tripleo-rdo
+  - previous-current-tripleo-rdo
+  - puppet-passed-ci
   - current-tripleo-rdo-internal
   - tripleo-ci-testing
   - promoted-components
   - component-ci-testing
-  - previous-current-tripleo
-  - current-ceph
-  - current-podified
   - podified-ci-testing
+  - current-podified
+  - current-ceph
