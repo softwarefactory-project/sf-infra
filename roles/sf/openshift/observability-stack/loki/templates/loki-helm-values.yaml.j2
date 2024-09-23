@@ -171,6 +171,13 @@ loki:
           index:
             prefix: loki_index_
             period: 24h
+        - from: 2024-09-24
+          store: tsdb
+          object_store: {{ .Values.loki.storage.type }}
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
     {{- end }}
 
     {{ include "loki.rulerConfig" . }}
@@ -325,7 +332,8 @@ loki:
   # -- Structured loki configuration, takes precedence over `loki.config`, `loki.schemaConfig`, `loki.storageConfig`
   structuredConfig: {}
   # -- Additional query scheduler config
-  query_scheduler: {}
+  query_scheduler:
+    max_outstanding_requests_per_tenant: 32768
   # -- Additional storage config
   storage_config:
     hedging:
