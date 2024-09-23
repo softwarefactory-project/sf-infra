@@ -367,6 +367,19 @@
         - name: quay.dev
           label: cloud-centos-9-stream
 
+- job:
+    name: sf-infra-observability-stack
+    parent: sf-infra-configure
+    description: Deploy upstream's observability stack components
+    vars:
+      sf_infra_play_name: upstream-observability-stack
+    files:
+      - "^playbooks/upstream-observability-stack.yaml$"
+      - "^playbooks/group_vars/promtail.yaml$"
+      - "^playbooks/group_vars/observability-stack.yaml$"
+      - "^roles/sf/openshift/observability-stack/.*$"
+
+
 - project:
     check:
       jobs:
@@ -445,6 +458,11 @@
               - name: sf-infra-create-tripleo-standalone
                 soft: true
         - sf-infra-configure-quay:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-observability-stack:
             dependencies:
               - dhall-diff
               - name: sf-infra-create-hosts

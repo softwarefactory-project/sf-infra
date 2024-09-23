@@ -1,0 +1,13 @@
+---
+loki_public_HTTP_endpoint: microshift-infra.softwarefactory-project.io
+loki_public_path: "/loki"
+loki_expire_days: 7
+
+loki_username: "{{ loki_auth_config.gateway_user }}"
+loki_password: "{{ loki_auth_config.gateway_password }}"
+loki_url: https://microshift-infra.softwarefactory-project.io/loki/loki/api/v1/push
+loki_tenant: upstream_infra
+loki_tls:
+  insecure: false
+
+loki_addr: https://microshift-infra.softwarefactory-project.io/loki/

@@ -77,6 +77,9 @@ all:
     nodepool-builder:
       hosts:
         nodepool-builder.softwarefactory-project.io: {}
+    observability-stack:
+      hosts:
+        bridge.softwarefactory-project.io: {}
     opensearch:
       hosts:
         opensearch.rdoproject.org: {}
@@ -116,6 +119,8 @@ all:
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
+        microshift-infra.softwarefactory-project.io: {}
+        microshift.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}

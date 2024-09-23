@@ -3,6 +3,10 @@
   ansible.builtin.shell: |
     helm repo add fluent https://fluent.github.io/helm-charts
 
+- name: Ensure helm repos are up to date
+  ansible.builtin.shell: |
+    helm repo update
+
 - name: Prepare kustomize base
   block:
     - name: create base dir

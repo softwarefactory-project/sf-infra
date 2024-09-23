@@ -1,39 +1,7 @@
 ---
-- hosts: bridge.softwarefactory-project.io
+# Setup and facts gathering
+- hosts: observability-stack
   tasks:
-  # Prerequisites
-    - ansible.builtin.include_role:
-        name: sf/openshift/observability-stack/install-prerequisites
-        tasks_from: install-logCLI
-  # Install logcli alias and shortcuts on the bridge
-    - ansible.builtin.include_vars: vars/observability-stack.yaml
-    - ansible.builtin.include_role:
-        name: sf/openshift/observability-stack/install-prerequisites
-        tasks_from: logCLI-postinstall
-
-# Components deployed on microshift-infra
-- hosts: microshift-infra.softwarefactory-project.io
-  environment:
-    KUBECONFIG: "{{ ansible_user_dir }}/.kube/config"
-  tasks:
-    - ansible.builtin.include_vars: vars/observability-stack.yaml
-    # Prerequisites
-    - ansible.builtin.include_role:
-        name: sf/openshift/observability-stack/install-prerequisites
-        tasks_from: install-k8s-tools
-    - ansible.builtin.include_role:
-        name: sf/openshift/observability-stack/install-prerequisites
-        tasks_from: install-helm
-    # vexxhost S3 config
-    - name: Create aws config dir if needed
-      ansible.builtin.file:
-        path: ~/.aws
-        state: directory
-    - name: Create S3 credentials config
-      ansible.builtin.template:
-        src: files/aws_credentials.j2
-        dest: ~/.aws/credentials
-      no_log: true
     # re-initialize manifest dir
     - name: Clean manifests directory if needed
       ansible.builtin.file:
@@ -43,6 +11,53 @@
       ansible.builtin.file:
         path: "{{ kustomize_dir }}"
         state: directory
+  # Prerequisites
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-k8s-tools
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-helm
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: install-logCLI
+  # Install logcli alias and shortcuts on the bridge
+    - ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/install-prerequisites
+        tasks_from: logCLI-postinstall
+  # Configure Ceph S3 storage
+    - name: Create aws config dir if needed
+      ansible.builtin.file:
+        path: ~/.aws
+        state: directory
+    - name: Create S3 credentials config
+      no_log: true
+      ansible.builtin.template:
+        src: files/aws_credentials.j2
+        dest: ~/.aws/credentials
+    - name: Check if S3 bucket exists
+      ansible.builtin.shell: |
+        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api list-buckets
+      register: s3_buckets
+    - name: Create bucket if needed
+      ansible.builtin.shell: |
+        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api create-bucket --bucket {{ s3_config.bucketnames }}
+      when: 's3_config.bucketnames not in s3_buckets.stdout'
+
+# Fetch latest microshift-infra kubeconfig
+- hosts: microshift-infra.softwarefactory-project.io
+  tasks:
+    - become: true
+      ansible.builtin.fetch:
+        src: /var/lib/microshift/resources/kubeadmin/microshift-infra.softwarefactory-project.io/kubeconfig
+        dest: "~/.kube/microshift-infra.softwarefactory-project.io"
+        flat: true
+
+# Components deployed on microshift-infra
+- hosts: observability-stack
+  environment:
+    KUBECONFIG: "/home/fedora/.kube/microshift-infra.softwarefactory-project.io"
+  tasks:
     # ensure prometheus-operator is present
     - name: Prepare prometheus-operator service account privileges
       ansible.builtin.command: oc adm policy add-scc-to-user privileged system:serviceaccount:operators:prometheus-operator
@@ -70,27 +85,21 @@
             name: "{{ loki_namespace }}"
           labels:
             name: "{{ loki_namespace }}"
-    - name: Check if S3 bucket exists
-      ansible.builtin.shell: |
-        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api list-buckets
-      register: s3_buckets
-    - name: Create bucket if needed
-      ansible.builtin.shell: |
-        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api create-bucket --bucket {{ s3_config.bucketnames }}
-      when: 's3_config.bucketnames not in s3_buckets.stdout'
     - name: Generate and deploy Loki manifests
       ansible.builtin.include_role:
         name: sf/openshift/observability-stack/loki
         tasks_from: deploy-loki.yaml
-    - ansible.builtin.include_role:
+    - name: Ensure cert-manager is installed on the cluster
+      vars:
+        kube_config: "/home/fedora/.kube/microshift-infra.softwarefactory-project.io"
+      ansible.builtin.include_role:
         name: sf/openshift/install-cert-manager
         tasks_from: create-le-issuer.yaml
     - name: Annotate loki's route for cert-manager/openshift-routes operator
       ansible.builtin.command: oc -n {{ loki_namespace }} annotate route loki-gateway --overwrite cert-manager.io/issuer-name={{ issuer_name }} cert-manager.io/issuer-kind=Issuer
 
-- hosts: promtail
+- hosts: promtail:!promtail-openshift
   tasks:
-    - ansible.builtin.include_vars: vars/observability-stack.yaml
     - name: Enable promtail service (regular nodes)
       ansible.builtin.include_role:
         name: service/promtail
@@ -99,7 +108,6 @@
 
 - hosts: promtail-openshift
   tasks:
-    - ansible.builtin.include_vars: vars/observability-stack.yaml
     - name: Enable promtail service (k8s nodes)
       ansible.builtin.include_role:
         name: service/promtail

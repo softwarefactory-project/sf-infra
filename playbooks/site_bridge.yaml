@@ -27,3 +27,10 @@
         myorigin: "{{ smtp_host }}"
         mynetworks:
           - "{{ prometheus_public_ip }}/32"
+
+    - name: Install kubectl and oc
+      become: true
+      ansible.builtin.unarchive:
+        src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes

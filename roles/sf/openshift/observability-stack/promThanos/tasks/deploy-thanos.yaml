@@ -3,6 +3,10 @@
   ansible.builtin.shell: |
     helm repo add bitnami https://charts.bitnami.com/bitnami
 
+- name: Ensure helm repos are up to date
+  ansible.builtin.shell: |
+    helm repo update
+
 - name: create base directory
   ansible.builtin.file:
     path: "{{ kustomize_dir }}/thanos/"
