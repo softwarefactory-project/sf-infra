@@ -234,12 +234,15 @@ config:
         uri         {{ fluentbit_loki_path }}
         port        {{ fluentbit_loki_port }}
         tls         on
+{% if fluentbit_debug %}
+        tls.debug   4
+{% endif %}
 {% if fluentbit_loki_tls.insecure %}
         tls.verify  off
 {% else %}
         tls.verify  on
 {% if fluentbit_CA_configmap is defined %}
-        tls.ca_path /CAs/
+        tls.ca_file /CAs/{{ fluentbit_CA_file }}
 {% endif %}
 {% endif %}
         http_user   ${GATEWAY_USER}
