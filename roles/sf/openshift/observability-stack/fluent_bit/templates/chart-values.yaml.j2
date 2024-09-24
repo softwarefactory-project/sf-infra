@@ -178,12 +178,12 @@ extraPorts:
 
 {% if fluentbit_CA_configmap is defined %}
 extraVolumes:
-  - name: ca_volume
+  - name: ca-volume
     configMap:
       name: {{ fluentbit_CA_configmap }}
 
 extraVolumeMounts:
-  - name: ca_volume
+  - name: ca-volume
     mountPath: /CAs
 
 {% endif %}
