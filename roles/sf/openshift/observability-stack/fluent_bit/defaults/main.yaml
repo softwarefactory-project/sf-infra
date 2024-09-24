@@ -1,15 +1,19 @@
 ---
 fluentbit_loki_endpoint: loki.microshift-infra.softwarefactory-project.io
 fluentbit_loki_port: "443"
+fluentbit_loki_path: "/loki/api/v1/push"
 loki_tenant: upstream
 loki_username: sf-observability
 loki_password: observability-sf
 fluentbit_loki_tls:
   insecure: true
-sf_namespace: sf
-observability_namespace: sf-observability
+fluentbit_namespace: sf
+fluentbit_observability_namespace: sf-observability
 
 fluentbit_chart_version: 0.46.11
+fluentbit_replica_count: 1
+fluentbit_tag: 3.0.7
+fluentbit_debug: false
 enable_service_monitor: false
 fluentbit_job_label: "sf_fluentbit"
 # extra labels in the form of key1=value1, key2 = value2, ...

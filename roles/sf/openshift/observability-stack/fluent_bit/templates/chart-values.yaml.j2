@@ -1,11 +1,15 @@
 kind: Deployment
 
 # replicaCount -- Only applicable if kind=Deployment
-replicaCount: 1
+replicaCount: {{ fluentbit_replica_count }}
 
 image:
   repository: cr.fluentbit.io/fluent/fluent-bit
-  tag:
+{% if fluentbit_debug %}
+  tag: {{ fluentbit_tag }}-debug
+{% else %}
+  tag: {{ fluentbit_tag }}
+{% endif %}
   digest:
   pullPolicy: IfNotPresent
 
@@ -74,8 +78,8 @@ service:
   externalIPd: []
 
 serviceMonitor:
-  enabled: {{ enable_serviceMonitor }}
-  namespace: {{ observability_namespace }}
+  enabled: {{ enable_service_monitor }}
+  namespace: {{ fluentbit_observability_namespace }}
   interval: 10s
   scrapeTimeout: 10s
   selector:
@@ -167,6 +171,10 @@ extraPorts:
     containerPort: 5140
     protocol: TCP
     name: fb-http-input
+  - port: 24224
+    containerPort: 24224
+    protocol: TCP
+    name: fb-fwd-input
 
 luaScripts: {}
 
@@ -190,22 +198,35 @@ config:
         Name http
         Port 5140
 
+    [INPUT]
+        Name forward
+        Port 24224
+{% if fluentbit_forward_shared_key is defined %}
+        Shared_Key {{ fluentbit_forward_shared_key }}
+{% endif %}
+
   ## https://docs.fluentbit.io/manual/pipeline/filters
   filters: ""
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
+{% if fluentbit_debug %}
     [OUTPUT]
         name    stdout
         match   *
         format  json_lines
-
+{% endif %}
     [OUTPUT]
         name        loki
         match       *
         host        {{ fluentbit_loki_endpoint }}
+        uri         {{ fluentbit_loki_path }}
         port        {{ fluentbit_loki_port }}
-        tls         "{% if fluentbit_loki_tls.insecure %}off{% else %}on{% endif %}"
+{% if fluentbit_loki_tls.insecure %}
+        tls         off
+{% else %}
+        tls         on
+{% endif %}
         http_user   ${GATEWAY_USER}
         http_passwd ${GATEWAY_PASSWORD}
         tenant_id   ${LOKI_TENANT}

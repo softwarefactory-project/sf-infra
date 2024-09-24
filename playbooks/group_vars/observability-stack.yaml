@@ -51,6 +51,7 @@ s3_config:
 
 loki_public_HTTP_endpoint: microshift-infra.softwarefactory-project.io
 loki_public_path: "/loki"
+loki_addr: "https://{{ loki_public_HTTP_endpoint}}{{ loki_public_path }}"
 loki_expire_days: 7
 
 # used by s3 roles
@@ -70,9 +71,15 @@ s3_debug: false
 
 loki_username: "{{ gateway_user }}"
 loki_password: "{{ gateway_password }}"
-loki_url: https://microshift-infra.softwarefactory-project.io/loki/loki/api/v1/push
+loki_url: "{{ loki_addr }}/loki/api/v1/push"
 loki_tenant: upstream_infra
 loki_tls:
   insecure: false
 
-loki_addr: https://microshift-infra.softwarefactory-project.io/loki/
+# fluent bit
+fluentbit_loki_endpoint: "{{ loki_public_HTTP_endpoint }}"
+fluentbit_loki_path: "{{ loki_public_path }}/loki/api/v1/push"
+fluentbit_loki_tls:
+  insecure: "{{ loki_tls.insecure }}"
+fluentbit_observability_namespace: "{{ msinfra_observability_namespace }}"
+fluentbit_replica_count: 2

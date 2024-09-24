@@ -98,6 +98,29 @@
     - name: Annotate loki's route for cert-manager/openshift-routes operator
       ansible.builtin.command: oc -n {{ loki_namespace }} annotate route loki-gateway --overwrite cert-manager.io/issuer-name={{ issuer_name }} cert-manager.io/issuer-kind=Issuer
 
+# Fetch latest microshift.sf.io kubeconfig
+- hosts: microshift.softwarefactory-project.io
+  tasks:
+    - become: true
+      ansible.builtin.fetch:
+        src: /var/lib/microshift/resources/kubeadmin/microshift.softwarefactory-project.io/kubeconfig
+        dest: "~/.kube/microshift.softwarefactory-project.io"
+        flat: true
+
+# Components deployed on microshift.sf.io
+- hosts: observability-stack
+  environment:
+    KUBECONFIG: "/home/fedora/.kube/microshift.softwarefactory-project.io"
+  tasks:
+    - name: Deploy Fluent Bit log forwarder
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/fluent_bit
+        tasks_from: deploy-fluentbit.yaml
+      vars:
+        fluentbit_namespace: sf
+        fluentbit_extra_labels: "softwarefactory=microshift.softwarefactory-project.io"
+        fluentbit_debug: true
+
 - hosts: promtail:!promtail-openshift
   tasks:
     - name: Enable promtail service (regular nodes)

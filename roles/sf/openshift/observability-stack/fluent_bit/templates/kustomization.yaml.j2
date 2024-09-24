@@ -10,6 +10,6 @@ secretGenerator:
     - GATEWAY_USER={{ loki_username }}
     - GATEWAY_PASSWORD={{ loki_password }}
     - LOKI_TENANT={{ loki_tenant }}
-  namespace: sf
+  namespace: {{ fluentbit_namespace }}
 
 patches: []
