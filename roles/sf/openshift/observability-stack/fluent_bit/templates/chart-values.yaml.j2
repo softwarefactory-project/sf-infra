@@ -176,6 +176,17 @@ extraPorts:
     protocol: TCP
     name: fb-fwd-input
 
+{% if fluentbit_CA_configmap is defined %}
+extraVolumes:
+  - name: ca_volume
+    mountPath: /CAs
+
+extraVolumeMounts:
+  - name: ca_volume
+    configMap:
+      name: {{ fluentbit_CA_configmap }}
+
+{% endif %}
 luaScripts: {}
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
@@ -222,10 +233,14 @@ config:
         host        {{ fluentbit_loki_endpoint }}
         uri         {{ fluentbit_loki_path }}
         port        {{ fluentbit_loki_port }}
-{% if fluentbit_loki_tls.insecure %}
-        tls         off
-{% else %}
         tls         on
+{% if fluentbit_loki_tls.insecure %}
+        tls.verify  off
+{% else %}
+        tls.verify  on
+{% if fluentbit_CA_configmap is defined %}
+        tls.ca_path /CAs/
+{% endif %}
 {% endif %}
         http_user   ${GATEWAY_USER}
         http_passwd ${GATEWAY_PASSWORD}

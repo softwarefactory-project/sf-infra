@@ -10,12 +10,15 @@ fluentbit_loki_tls:
 fluentbit_namespace: sf
 fluentbit_observability_namespace: sf-observability
 
+# fluentbit_CA_configmap: "redhat-ca-bundle"
+
 fluentbit_chart_version: 0.46.11
 fluentbit_replica_count: 1
 fluentbit_tag: 3.0.7
 fluentbit_debug: false
 enable_service_monitor: false
 fluentbit_job_label: "sf_fluentbit"
+
 # extra labels in the form of key1=value1, key2 = value2, ...
 fluentbit_extra_labels: ""
 
