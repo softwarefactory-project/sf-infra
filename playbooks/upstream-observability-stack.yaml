@@ -35,14 +35,14 @@
       ansible.builtin.template:
         src: files/aws_credentials.j2
         dest: ~/.aws/credentials
-    - name: Check if S3 bucket exists
-      ansible.builtin.shell: |
-        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api list-buckets
-      register: s3_buckets
     - name: Create bucket if needed
-      ansible.builtin.shell: |
-        podman run --rm -it -v ~/.aws:/root/.aws:Z public.ecr.aws/aws-cli/aws-cli --endpoint={{ vexxhost_ceph_s3.endpoint }} --profile=vexxhost-s3 s3api create-bucket --bucket {{ s3_config.bucketnames }}
-      when: 's3_config.bucketnames not in s3_buckets.stdout'
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/s3-storage
+        tasks_from: create-bucket
+    - name: Configure data lifecycle
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/s3-storage
+        tasks_from: lifecycle
 
 # Fetch latest microshift-infra kubeconfig
 - hosts: microshift-infra.softwarefactory-project.io

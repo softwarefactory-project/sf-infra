@@ -53,6 +53,21 @@ loki_public_HTTP_endpoint: microshift-infra.softwarefactory-project.io
 loki_public_path: "/loki"
 loki_expire_days: 7
 
+# used by s3 roles
+s3_lifecycle_rules:
+  Rules:
+    - ID: "LokiIndex"
+      Filter:
+        Prefix: "index/"
+      Status: "Enabled"
+      Expiration:
+        Days: "{{ loki_expire_days }}"
+s3_bucket: "{{ s3_config. bucketnames }}"
+s3_cli_config:
+  endpoint: "{{ s3_config.endpoint }}"
+  profile: "vexxhost-s3"
+s3_debug: false
+
 loki_username: "{{ gateway_user }}"
 loki_password: "{{ gateway_password }}"
 loki_url: https://microshift-infra.softwarefactory-project.io/loki/loki/api/v1/push
