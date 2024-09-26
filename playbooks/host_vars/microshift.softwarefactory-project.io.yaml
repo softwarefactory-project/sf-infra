@@ -7,7 +7,6 @@ disk_file_size: 80G
 setup_olm: true
 microshift_additional_addresses:
   - "{{ fqdn }}"
-k9s_version: v0.29.1
 
 route_host: "{{ fqdn }}"
 route_name: ssl-gateway

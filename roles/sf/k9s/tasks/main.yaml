@@ -1,14 +1,36 @@
 ---
-- name: Install k9s in ~/go/bin
-  ansible.builtin.command: go install github.com/derailed/k9s@{{ k9s_version}}
+- name: Download release from GitHub
+  ansible.builtin.get_url:
+    url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+    dest: /tmp/k9s_Linux_amd64.tar.gz
 
-- name: Ensure user .local/bin
-  ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.local/bin"
-    state: directory
+- name: Unarchive k9s binary
+  ansible.builtin.unarchive:
+    src: /tmp/k9s_Linux_amd64.tar.gz
+    dest: /tmp/
+    remote_src: yes
 
-- name: Create k9s link in ~/.local/bin
+- name: Move k9s binary to /usr/local/bin
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/k9s
+    dest: /usr/local/bin/k9s
+    mode: a+x
+    remote_src: yes
+
+- name: Clean up temp files
+  loop:
+    - k9s
+    - k9s_Linux_amd64.tar.gz
   ansible.builtin.file:
-    src: "{{ ansible_user_dir }}/go/bin/k9s"
-    dest: "{{ ansible_user_dir }}/.local/bin/k9s"
-    state: link
+    path: "/tmp/{{ item }}"
+    state: absent
+
+- name: Remove k9s from ~/.local/bin if present
+  block:
+  - ansible.builtin.file:
+      path: "{{ ansible_user_dir }}/.local/bin/k9s"
+      state: absent
+  - ansible.builtin.file:
+      path: "{{ ansible_user_dir }}/go/bin/k9s"
+      state: absent
