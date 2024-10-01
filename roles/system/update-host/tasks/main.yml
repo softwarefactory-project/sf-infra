@@ -5,6 +5,11 @@
     path: /etc/cron.d/update-packages
   register: _update_package_cron
 
+- name: Set fact to remove crontab when system is rhel
+  ansible.builtin.set_fact:
+    install_crontab: absent
+  when: ansible_distribution == "RedHat"
+
 - name: Create crontab for periodical yum refresh
   become: true
   when: not _update_package_cron.stat.exists
@@ -14,4 +19,11 @@
     hour: "{{ 3 | random }}"
     cron_file: update-packages
     user: root
+    state: "{{ install_crontab | default('present') }}"
     job: echo "system_package_update{count=\"counted_update_packages\"} $(yum clean dbcache --quiet && yum check-update --quiet | wc -l)" > /var/lib/node_exporter/textfile_collector/update_packages.prom 2> /dev/null
+
+- name: Remove packages.prom file when system is rhel
+  ansible.builtin.file:
+    path: /var/lib/node_exporter/textfile_collector/update_packages.prom
+    state: absent
+  when: ansible_distribution == "RedHat"

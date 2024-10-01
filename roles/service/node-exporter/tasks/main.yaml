@@ -1,4 +1,16 @@
 ---
+- name: Set fact for rhel systems
+  ansible.builtin.set_fact:
+    textfile_state: absent
+    recurse: false
+  when: ansible_distribution == "RedHat"
+
+- name: Set fact for non rhel systems
+  ansible.builtin.set_fact:
+    textfile_collector: "--collector.textfile.directory /var/lib/node_exporter/textfile_collector"
+    textfile_volume: "-v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z"
+  when: ansible_distribution != "RedHat"
+
 - name: Ensure node_exporter user exists
   become: yes
   ansible.builtin.user:
@@ -9,8 +21,8 @@
 - name: Create directory for textfile exporter
   ansible.builtin.file:
     path: /var/lib/node_exporter/textfile_collector
-    state: directory
-    recurse: yes
+    state: "{{ textfile_state | default('directory') }}"
+    recurse: "{{ recurse | default(True) }}"
     owner: node_exporter
     group: root
     mode: '0775'
@@ -37,14 +49,14 @@
       --net=host
       --pid=host
       -v /:/host:ro,rslave
-      -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
+      {{ textfile_volume | default("") }}
       -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:ro
       {{ container_images['node_exporter'] | default('quay.io/prometheus/node-exporter:latest') }}
       --path.rootfs=/host
       --collector.netstat.fields='(.*)'
       --collector.vmstat.fields='(.*)'
       --collector.interrupts
-      --collector.textfile.directory /var/lib/node_exporter/textfile_collector
+      {{ textfile_collector | default("") }}
       --collector.systemd
       --collector.systemd.unit-include="{{ prometheus_monitored_services | join('|') }}"
       --collector.netdev.device-exclude='^(tap.*)$'
