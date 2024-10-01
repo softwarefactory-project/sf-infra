@@ -16,6 +16,14 @@ dlrn_redirect_rules:
     target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
   - src: /rdo_release/rdo-release.el9s.rpm
     target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
+  - src: /rdo_release/openstack-dalmatian/rdo-release-dalmatian.el9.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
+  - src: /rdo_release/openstack-2024.2/rdo-release-2024.2.el9.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
+  - src: /rdo_release/openstack-caracal/rdo-release-dalmatian.el9s.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
+  - src: /rdo_release/openstack-2024.2/rdo-release-2024.2.el9s.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
   - src: /rdo_release/openstack-caracal/rdo-release-caracal.el9.rpm
     target: https://cbs.centos.org/kojifiles/packages/rdo-release/caracal/1.el9s/noarch/rdo-release-caracal-1.el9s.noarch.rpm
   - src: /rdo_release/openstack-2024.1/rdo-release-2024.1.el9.rpm
