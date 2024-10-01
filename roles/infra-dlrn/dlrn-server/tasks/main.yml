@@ -8,6 +8,7 @@
       vars:
         enable_https: "{{ dlrn_enable_https }}"
         sshd_port: "{{ dlrn_sshd_port | default(22) }}"
+        redirect_rules: "{{ dlrn_redirect_rules | default({}) }}"
 
     - name: Apply override files, if needed
       ansible.builtin.copy:
