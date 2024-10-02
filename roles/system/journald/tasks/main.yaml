@@ -17,7 +17,7 @@
         journald_config: /etc/systemd/journald.conf
       when: _etc.stat.exists
 
-- name: Change journald size
+- name: Change journald size and set storage persistent
   become: true
   ansible.builtin.lineinfile:
     dest: "{{ journald_config }}"
@@ -28,6 +28,8 @@
       line: "SystemMaxUse={{ systemMaxUse }}"
     - regex: "^#SystemMaxFileSize="
       line: "SystemMaxFileSize={{ systemMaxFileSize }}"
+    - regex: "^#Storage="
+      line: "Storage=persistent"
   register: _journal_conf
 
 - name: Restart systemd-journald if needed
