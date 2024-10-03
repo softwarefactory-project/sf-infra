@@ -87,7 +87,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
-    symlinks: ['/var/www/html/centos9-dalmatian', '/var/www/html/dalmatian/centos9']
+    symlinks: ['/var/www/html/centos9-dalmatian', '/var/www/html/dalmatian/centos9', '/var/www/html/centos9-2024.2', '/var/www/html/2024.2/centos9']
     release: 'dalmatian'
     baseurl: 'https://trunk.rdoproject.org/centos9-dalmatian'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -114,7 +114,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
-    symlinks: ['/var/www/html/centos9-caracal', '/var/www/html/caracal/centos9']
+    symlinks: ['/var/www/html/centos9-caracal', '/var/www/html/caracal/centos9', '/var/www/html/centos9-2024.1', '/var/www/html/2024.1/centos9']
     release: 'caracal'
     baseurl: 'https://trunk.rdoproject.org/centos9-caracal'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -141,7 +141,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '3'
     purge_minute: '17'
-    symlinks: ['/var/www/html/centos9-bobcat', '/var/www/html/bobcat/centos9']
+    symlinks: ['/var/www/html/centos9-bobcat', '/var/www/html/bobcat/centos9', '/var/www/html/centos9-2023.2', '/var/www/html/2023.2/centos9']
     release: 'bobcat'
     baseurl: 'https://trunk.rdoproject.org/centos9-bobcat'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -169,7 +169,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '3'
     purge_minute: '17'
-    symlinks: ['/var/www/html/centos9-antelope', '/var/www/html/antelope/centos9']
+    symlinks: ['/var/www/html/centos9-antelope', '/var/www/html/antelope/centos9', '/var/www/html/centos9-2023.1', '/var/www/html/2023.1/centos9']
     release: 'antelope'
     baseurl: 'https://trunk.rdoproject.org/centos9-antelope'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
