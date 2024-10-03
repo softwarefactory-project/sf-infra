@@ -7,6 +7,8 @@
 
    ```
    $ export DHALL_PRELUDE='https://prelude.dhall-lang.org/package.dhall sha256:...'
+   # or you can use direct url for Github, for example for master branch:
+   $ export DHALL_PRELUDE='https://raw.githubusercontent.com/dhall-lang/dhall-lang/refs/heads/master/Prelude/package.dhall sha256:...'
    ```
 
    Note that overriding the Prelude in this way only works if this repository
@@ -24,4 +26,5 @@
    * https://github.com/dhall-lang/dhall-nethack/blob/master/Prelude.dhall
 -}
   env:DHALL_PRELUDE
-? https://prelude.dhall-lang.org/v17.0.0/package.dhall sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
+? https://raw.githubusercontent.com/dhall-lang/dhall-lang/refs/tags/v17.0.0/Prelude/package.dhall
+    sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e

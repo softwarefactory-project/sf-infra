@@ -1,5 +1,5 @@
 let Prelude =
-      https://prelude.dhall-lang.org/v17.0.0/package.dhall
+      https://raw.githubusercontent.com/dhall-lang/dhall-lang/refs/tags/v17.0.0/Prelude/package.dhall
         sha256:10db3c919c25e9046833df897a8ffe2701dc390fa0893d958c3430524be5a43e
 
 let partition =
