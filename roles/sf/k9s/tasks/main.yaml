@@ -1,22 +1,30 @@
 ---
-- name: Download release from GitHub
-  ansible.builtin.get_url:
-    url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
-    dest: /tmp/k9s_Linux_amd64.tar.gz
+- name: Check if k9s is already there
+  ansible.builtin.stat:
+    path: /usr/local/bin/k9s
+  register: _k9s_exists
 
-- name: Unarchive k9s binary
-  ansible.builtin.unarchive:
-    src: /tmp/k9s_Linux_amd64.tar.gz
-    dest: /tmp/
-    remote_src: yes
+- name: Get k9s if not available
+  when: not _k9s_exists.stat.exists
+  block:
+    - name: Download release from GitHub
+      ansible.builtin.get_url:
+        url: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_amd64.tar.gz"
+        dest: /tmp/k9s_Linux_amd64.tar.gz
 
-- name: Move k9s binary to /usr/local/bin
-  become: true
-  ansible.builtin.copy:
-    src: /tmp/k9s
-    dest: /usr/local/bin/k9s
-    mode: a+x
-    remote_src: yes
+    - name: Unarchive k9s binary
+      ansible.builtin.unarchive:
+        src: /tmp/k9s_Linux_amd64.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Move k9s binary to /usr/local/bin
+      become: true
+      ansible.builtin.copy:
+        src: /tmp/k9s
+        dest: /usr/local/bin/k9s
+        mode: a+x
+        remote_src: yes
 
 - name: Clean up temp files
   loop:
@@ -26,11 +34,10 @@
     path: "/tmp/{{ item }}"
     state: absent
 
-- name: Remove k9s from ~/.local/bin if present
-  block:
-  - ansible.builtin.file:
-      path: "{{ ansible_user_dir }}/.local/bin/k9s"
-      state: absent
-  - ansible.builtin.file:
-      path: "{{ ansible_user_dir }}/go/bin/k9s"
-      state: absent
+- ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.local/bin/k9s"
+    state: absent
+
+- ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/go/bin/k9s"
+    state: absent
