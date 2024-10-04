@@ -4,6 +4,5 @@
   no_log: true
   ansible.builtin.template:
     src: 'logcli-alias.sh.j2'
-    dest: '/etc/profile.d/'
-    mode: '0700'
-
+    dest: '/etc/profile.d/logcli-alias.sh'
+    mode: '0644'
