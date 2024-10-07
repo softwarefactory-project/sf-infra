@@ -250,6 +250,7 @@ config:
         tenant_id   ${LOKI_TENANT}
 
         labels      namespace=$namespace, clusternode=$nodename, application=$component, pod=$podname, podip=$podip, job={{ fluentbit_job_label }}, container=$container{% if fluentbit_extra_labels != "" %}, {{ fluentbit_extra_labels }}{% endif %}
+
         remove_keys namespace, podname, podip, nodename, component, container
 
   ## https://docs.fluentbit.io/manual/pipeline/parsers
