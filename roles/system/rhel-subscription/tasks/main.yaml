@@ -30,3 +30,13 @@
 
     - name: Reboot after initial upgrade
       ansible.builtin.reboot:
+
+- name: Install dnf-automatic
+  ansible.builtin.dnf:
+    name: "dnf-automatic"
+  become: true
+
+- name: Enable dnf-automatic timer
+  # dnf-automatic.timer: Downloads, downloads and installs, or reports available updates.
+  ansible.builtin.command: "systemctl enable --now dnf-automatic.timer"
+  become: true
