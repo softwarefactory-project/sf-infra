@@ -32,6 +32,7 @@ let logscraper_server_list = [ "logscraper02.openstack.org:9128" ]
 
 let dlrnapi_target_list =
       [ "api-centos9-master-uc"
+      , "api-centos9-dalmatian"
       , "api-centos9-caracal"
       , "api-centos9-bobcat"
       , "api-centos9-antelope"

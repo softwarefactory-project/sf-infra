@@ -280,6 +280,7 @@ quay_organizations:
 # List comes from: https://github.com/rdo-infra/rdo-dashboards/blob/master/feed-dashboard-dlrnapi.py#L62
 quay_pruner_dlrn_endpoints:
   - api-centos9-master-uc
+  - api-centos9-dalmatian
   - api-centos9-caracal
   - api-centos9-bobcat
   - api-centos9-antelope

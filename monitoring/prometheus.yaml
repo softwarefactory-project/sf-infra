@@ -198,6 +198,7 @@ scrape_configs:
     static_configs:
       - targets:
           - api-centos9-master-uc
+          - api-centos9-dalmatian
           - api-centos9-caracal
           - api-centos9-bobcat
           - api-centos9-antelope
