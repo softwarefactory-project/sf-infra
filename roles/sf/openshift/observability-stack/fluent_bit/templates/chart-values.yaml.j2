@@ -176,17 +176,24 @@ extraPorts:
     protocol: TCP
     name: fb-fwd-input
 
-{% if fluentbit_CA_configmap is defined %}
 extraVolumes:
+  - name: fb-buffer-storage
+    emptyDir:
+      sizeLimit: {{ fluentbit_buffer_size }}
+{% if fluentbit_CA_configmap is defined %}
   - name: ca-volume
     configMap:
       name: {{ fluentbit_CA_configmap }}
+{% endif %}
 
 extraVolumeMounts:
+  - name: fb-buffer-storage
+    mountPath: /buffer-storage/
+{% if fluentbit_CA_configmap is defined %}
   - name: ca-volume
     mountPath: /CAs
-
 {% endif %}
+
 luaScripts: {}
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
@@ -202,22 +209,37 @@ config:
         HTTP_Listen 0.0.0.0
         HTTP_Port 2020
         Health_Check On
+        storage.path /buffer-storage
+        storage.sync normal
+        storage.max_chunks_up {{ fluentbit_max_storage_chunks }}
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
+{% if fluentbit_http_input %}
     [INPUT]
         Name http
         Port 5140
+        Storage.type filesystem
+{% endif %}
 
     [INPUT]
         Name forward
         Port 24224
+        Storage.type filesystem
 {% if fluentbit_forward_shared_key is defined %}
         Shared_Key {{ fluentbit_forward_shared_key }}
 {% endif %}
 
-  ## https://docs.fluentbit.io/manual/pipeline/filters
+{% if fluentbit_custom_inputs is defined %}
+{{ fluentbit_custom_inputs|indent(4) }}
+{% endif %}
+
+{% if fluentbit_custom_filters is defined %}
+  filters: |
+{{ fluentbit_custom_filters|indent(4) }}
+{% else %}
   filters: ""
+{% endif %}
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
@@ -227,9 +249,11 @@ config:
         match   *
         format  json_lines
 {% endif %}
+
     [OUTPUT]
         name        loki
         match       *
+        storage.total_limit_size    {{ fluentbit_loki_output_storage_limit }}
         host        {{ fluentbit_loki_endpoint }}
         uri         {{ fluentbit_loki_path }}
         port        {{ fluentbit_loki_port }}
@@ -253,8 +277,12 @@ config:
 
         remove_keys namespace, podname, podip, nodename, component, container
 
-  ## https://docs.fluentbit.io/manual/pipeline/parsers
+{% if fluentbit_custom_parsers is defined %}
+  customParsers: |
+{{ fluentbit_custom_parsers|indent(4) }}
+{% else %}
   customParsers: ""
+{% endif %}
 
   extraFiles: {}
 

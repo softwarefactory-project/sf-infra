@@ -10,6 +10,8 @@ fluentbit_loki_tls:
 fluentbit_namespace: sf
 fluentbit_observability_namespace: sf-observability
 
+fluentbit_http_input: true
+
 # fluentbit_CA_configmap: "redhat-ca-bundle"
 
 fluentbit_chart_version: 0.46.11
@@ -23,3 +25,22 @@ fluentbit_job_label: "sf_fluentbit"
 fluentbit_extra_labels: ""
 
 kustomize_dir: "~/deployments/observability-stack"
+fluentbit_max_storage_chunks: 32
+
+# https://docs.fluentbit.io/manual/pipeline/inputs
+# fluentbit_custom_inputs: |
+#   [INPUT]
+#       name dummy
+#       Dummy {"log": "this is an example"}
+
+# https://docs.fluentbit.io/manual/pipeline/filters
+# fluentbit_custom_filters: |
+#   [FILTER]
+#     name modify
+#     add mykey myvalue
+
+# https://docs.fluentbit.io/manual/pipeline/parsers
+# fluentbit_custom_parsers: ""
+
+fluentbit_buffer_size: "100Mi"
+fluentbit_loki_output_storage_limit: "50M"
