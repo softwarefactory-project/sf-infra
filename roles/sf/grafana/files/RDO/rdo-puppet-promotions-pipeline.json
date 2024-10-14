@@ -121,9 +121,217 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
         "x": 0,
+        "y": 1
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "first"
+          ],
+          "fields": "/^Days since last promotion$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "grafana-opensearch-datasource",
+            "uid": "PC6CD781C1494610E"
+          },
+          "format": "table",
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "order": "desc",
+                "size": "500",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:\"weirdo-epoxy-promote-puppet-ci-testing-to-puppet-passed-ci\" AND build_status:SUCCESS AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "B",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Days since last promotion - Epoxy",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_queue",
+                "build_status",
+                "message"
+              ]
+            }
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_queue",
+                "build_status",
+                "timestamp"
+              ]
+            }
+          }
+        },
+        {
+          "id": "formatTime",
+          "options": {
+            "outputFormat": "X",
+            "timeField": "@timestamp",
+            "timezone": "utc",
+            "useTimezone": true
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "diff in seconds",
+            "binary": {
+              "left": "${__to:date:seconds}",
+              "operator": "-",
+              "right": "@timestamp"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "epoch"
+              ],
+              "reducer": "diff"
+            },
+            "replaceFields": false
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Days since last promotion",
+            "binary": {
+              "left": "diff in seconds",
+              "operator": "/",
+              "right": "86400"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": false
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-green",
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": ""
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Days since last promotion"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "from": 0,
+                      "result": {
+                        "color": "dark-green",
+                        "index": 0
+                      },
+                      "to": 1
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 2,
+                      "result": {
+                        "color": "semi-dark-orange",
+                        "index": 1
+                      },
+                      "to": 3
+                    },
+                    "type": "range"
+                  },
+                  {
+                    "options": {
+                      "from": 4,
+                      "result": {
+                        "color": "dark-red",
+                        "index": 2
+                      },
+                      "to": 200
+                    },
+                    "type": "range"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
         "y": 1
       },
       "id": 25,
@@ -329,9 +537,9 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
-        "x": 4,
+        "x": 8,
         "y": 1
       },
       "id": 26,
@@ -537,9 +745,9 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
-        "x": 8,
+        "x": 12,
         "y": 1
       },
       "id": 27,
@@ -672,6 +880,666 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SUCCESS"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAILURE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 4
+      },
+      "id": 32,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "grafana-opensearch-datasource",
+            "uid": "PC6CD781C1494610E"
+          },
+          "format": "table",
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "order": "desc",
+                "size": "500",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*epoxy* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Epoxy promotion success/failure chart",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "build_name": 0,
+              "build_status": 1
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "build_name": "Job",
+              "build_status": "Status"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SUCCESS"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAILURE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 4,
+        "y": 4
+      },
+      "id": 10,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "grafana-opensearch-datasource",
+            "uid": "PC6CD781C1494610E"
+          },
+          "format": "table",
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "order": "desc",
+                "size": "500",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*dalmatian* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Dalmatian promotion success/failure chart",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "build_name": 0,
+              "build_status": 1
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "build_name": "Job",
+              "build_status": "Status"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SUCCESS"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAILURE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 8,
+        "y": 4
+      },
+      "id": 16,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "grafana-opensearch-datasource",
+            "uid": "PC6CD781C1494610E"
+          },
+          "format": "table",
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "order": "desc",
+                "size": "500",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*caracal* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Caracal promotion success/failure chart",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "build_name": 0,
+              "build_status": 1
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "build_name": "Job",
+              "build_status": "Status"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SUCCESS"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAILURE"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 4
+      },
+      "id": 11,
+      "options": {
+        "displayLabels": [
+          "name",
+          "value"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "grafana-opensearch-datasource",
+            "uid": "PC6CD781C1494610E"
+          },
+          "format": "table",
+          "hide": false,
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "order": "desc",
+                "size": "500",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*bobcat* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Bobcat promotion success/failure chart",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "build_name": 0,
+              "build_status": 1
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "build_name": "Job",
+              "build_status": "Status"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [
+                  "count"
+                ],
+                "operation": "aggregate"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "rowsToFields",
+          "options": {}
+        }
+      ],
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
             "fixedColor": "semi-dark-green",
             "mode": "thresholds"
           },
@@ -745,10 +1613,10 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
-        "x": 12,
-        "y": 1
+        "x": 0,
+        "y": 10
       },
       "id": 28,
       "options": {
@@ -953,10 +1821,10 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
-        "x": 16,
-        "y": 1
+        "x": 4,
+        "y": 10
       },
       "id": 29,
       "options": {
@@ -1161,10 +2029,10 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
-        "x": 20,
-        "y": 1
+        "x": 8,
+        "y": 10
       },
       "id": 30,
       "options": {
@@ -1344,502 +2212,7 @@
         "h": 6,
         "w": 4,
         "x": 0,
-        "y": 6
-      },
-      "id": 10,
-      "options": {
-        "displayLabels": [
-          "name",
-          "value"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "datasource": {
-            "type": "grafana-opensearch-datasource",
-            "uid": "PC6CD781C1494610E"
-          },
-          "format": "table",
-          "hide": false,
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "order": "desc",
-                "size": "500",
-                "useTimeRange": true
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*dalmatian* AND message:\"*Job console starting\"",
-          "queryType": "lucene",
-          "refId": "A",
-          "timeField": "@timestamp"
-        }
-      ],
-      "title": "Dalmatian promotion success/failure chart",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "@timestamp",
-                "build_name",
-                "build_status"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "indexByName": {
-              "build_name": 0,
-              "build_status": 1
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "renameByName": {
-              "build_name": "Job",
-              "build_status": "Status"
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Job": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-opensearch-datasource",
-        "uid": "PC6CD781C1494610E"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SUCCESS"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "FAILURE"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 4,
-        "y": 6
-      },
-      "id": 16,
-      "options": {
-        "displayLabels": [
-          "name",
-          "value"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "datasource": {
-            "type": "grafana-opensearch-datasource",
-            "uid": "PC6CD781C1494610E"
-          },
-          "format": "table",
-          "hide": false,
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "order": "desc",
-                "size": "500",
-                "useTimeRange": true
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*caracal* AND message:\"*Job console starting\"",
-          "queryType": "lucene",
-          "refId": "A",
-          "timeField": "@timestamp"
-        }
-      ],
-      "title": "Caracal promotion success/failure chart",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "@timestamp",
-                "build_name",
-                "build_status"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "indexByName": {
-              "build_name": 0,
-              "build_status": 1
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "renameByName": {
-              "build_name": "Job",
-              "build_status": "Status"
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Job": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-opensearch-datasource",
-        "uid": "PC6CD781C1494610E"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SUCCESS"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "FAILURE"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 8,
-        "y": 6
-      },
-      "id": 11,
-      "options": {
-        "displayLabels": [
-          "name",
-          "value"
-        ],
-        "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "alias": "",
-          "bucketAggs": [],
-          "datasource": {
-            "type": "grafana-opensearch-datasource",
-            "uid": "PC6CD781C1494610E"
-          },
-          "format": "table",
-          "hide": false,
-          "metrics": [
-            {
-              "id": "1",
-              "settings": {
-                "order": "desc",
-                "size": "500",
-                "useTimeRange": true
-              },
-              "type": "raw_data"
-            }
-          ],
-          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*bobcat* AND message:\"*Job console starting\"",
-          "queryType": "lucene",
-          "refId": "A",
-          "timeField": "@timestamp"
-        }
-      ],
-      "title": "Bobcat promotion success/failure chart",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "@timestamp",
-                "build_name",
-                "build_status"
-              ]
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "indexByName": {
-              "build_name": 0,
-              "build_status": 1
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "renameByName": {
-              "build_name": "Job",
-              "build_status": "Status"
-            }
-          }
-        },
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Job": {
-                "aggregations": [
-                  "count"
-                ],
-                "operation": "aggregate"
-              },
-              "Status": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "rowsToFields",
-          "options": {}
-        }
-      ],
-      "type": "piechart"
-    },
-    {
-      "datasource": {
-        "type": "grafana-opensearch-datasource",
-        "uid": "PC6CD781C1494610E"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            }
-          },
-          "mappings": []
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SUCCESS"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-green",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "FAILURE"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "semi-dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 12,
-        "y": 6
+        "y": 13
       },
       "id": 12,
       "options": {
@@ -2003,8 +2376,8 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 16,
-        "y": 6
+        "x": 4,
+        "y": 13
       },
       "id": 13,
       "options": {
@@ -2168,8 +2541,8 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 20,
-        "y": 6
+        "x": 8,
+        "y": 13
       },
       "id": 14,
       "options": {
@@ -2284,7 +2657,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 19
       },
       "id": 18,
       "panels": [],
@@ -2442,9 +2815,298 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 1,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "bucketAggs": [],
+          "datasource": "opensearch-rdoproject-logstash",
+          "hide": false,
+          "metrics": [
+            {
+              "settings": {
+                "order": "desc",
+                "size": "9000",
+                "useTimeRange": true
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "build_queue:openstack-periodic-daily AND project:rdoinfo AND build_name:*epoxy* AND message:\"*Job console starting\"",
+          "queryType": "lucene",
+          "refId": "A",
+          "timeField": "@timestamp",
+          "timeFrom": "5d"
+        }
+      ],
+      "title": "Epoxy promotions",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "@timestamp",
+                "build_name",
+                "build_status",
+                "build_uuid",
+                "log_url"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "build_uuid": false
+            },
+            "indexByName": {
+              "@timestamp": 0,
+              "build_name": 1,
+              "build_status": 2,
+              "build_uuid": 3,
+              "log_url": 4
+            },
+            "renameByName": {
+              "@timestamp": "Time",
+              "branch": "Branch",
+              "build_name": "Job",
+              "build_status": "Status",
+              "build_uuid": "build UUID",
+              "change_url": "",
+              "end_time": "",
+              "job_name": "Job",
+              "log_url": "Log URL",
+              "message": "Message",
+              "project": "Project",
+              "result": "Status",
+              "start_time": "",
+              "tenant": "Tenant"
+            }
+          }
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Job": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Log URL": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "Status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "TIme": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "Time": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build UUID": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_name": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "build_uuid": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "PC6CD781C1494610E"
+      },
+      "description": "Description",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "pattern": "SUCCESS",
+                "result": {
+                  "color": "dark-green",
+                  "index": 0
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "FAILURE",
+                "result": {
+                  "color": "dark-red",
+                  "index": 1
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "POST_FAILURE",
+                "result": {
+                  "color": "dark-orange",
+                  "index": 2
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "RETRY_LIMIT",
+                "result": {
+                  "color": "dark-yellow",
+                  "index": 3
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "TIMED_OUT",
+                "result": {
+                  "color": "dark-purple",
+                  "index": 4
+                }
+              },
+              "type": "regex"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Job"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 474
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 125
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 188
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Log URL"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "${__value.text}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "build UUID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 311
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 23,
+        "x": 0,
+        "y": 31
+      },
+      "id": 33,
       "interval": "1m",
       "options": {
         "cellHeight": "sm",
@@ -2731,7 +3393,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 24
+        "y": 42
       },
       "id": 9,
       "interval": "1m",
@@ -3020,7 +3682,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 35
+        "y": 53
       },
       "id": 4,
       "interval": "1m",
@@ -3309,7 +3971,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 46
+        "y": 64
       },
       "id": 3,
       "interval": "1m",
@@ -3588,7 +4250,7 @@
         "h": 11,
         "w": 23,
         "x": 0,
-        "y": 57
+        "y": 75
       },
       "id": 2,
       "interval": "1m",
@@ -3798,7 +4460,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "text"
+                "color": "text",
+                "value": null
               }
             ]
           }
@@ -3876,7 +4539,7 @@
         "h": 10,
         "w": 23,
         "x": 0,
-        "y": 68
+        "y": 86
       },
       "id": 5,
       "interval": "1m",
@@ -4022,13 +4685,13 @@
     "list": []
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "RDO Puppet Promotions Pipeline",
   "uid": "1cbR4SISz",
-  "version": 11,
+  "version": 12,
   "weekStart": ""
 }
