@@ -393,10 +393,11 @@
                 - flake8
                 - yamllint
         - dhall-diff: &dhall-nodeset
+            voting: false
             nodeset:
               nodes:
                 - name: container
-                  label: zuul-worker-dhall-f37
+                  label: zuul-worker-dhall
         - prometheus-lint
         # this job should be fixed
         # - sf-infra-molecule
