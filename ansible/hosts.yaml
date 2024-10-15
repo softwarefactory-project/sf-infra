@@ -71,6 +71,9 @@ all:
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
+    microshift-sf:
+      hosts:
+        microshift.softwarefactory-project.io: {}
     monitoring:
       hosts:
         monitoring.softwarefactory-project.io: {}
