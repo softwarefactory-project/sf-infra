@@ -393,7 +393,6 @@
                 - flake8
                 - yamllint
         - dhall-diff: &dhall-nodeset
-            voting: false
             nodeset:
               nodes:
                 - name: container
