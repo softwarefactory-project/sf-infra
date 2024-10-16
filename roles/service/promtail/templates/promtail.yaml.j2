@@ -53,7 +53,7 @@ scrape_configs:
           - filename
 {% if sf_operated_pipeline_config is defined %}
   - match:
-      selector: {job="openshift_pod", namespace="{{ sf_operated_pipeline_config.namespace }}"}'
+      selector: '{job="openshift_pod", namespace="{{ sf_operated_pipeline_config.namespace }}"}'
       stages:
         - static_labels:
             softwarefactory: "{{ sf_operated_pipeline_config.softwarefactory }}"
@@ -77,7 +77,7 @@ scrape_configs:
         selector: '{unit=~"zuul.+|nodepool.+|mariadb.+|zookeeper.+|httpd.+|managesf.+"}'
         stages:
         - static_labels:
-            softwarefactory: "{{ sf_pipeline_config.softwarefactory }}
+            softwarefactory: "{{ sf_pipeline_config.softwarefactory }}"
         - regex:
             source: unit
             expression: '^(?P<application>zuul|nodepool|mariadb|zookeeper|httpd|managesf).*\.service'
