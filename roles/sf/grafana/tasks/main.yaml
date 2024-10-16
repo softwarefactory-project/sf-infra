@@ -64,6 +64,9 @@
       --network host
       -v /etc/grafana:/etc/grafana:Z
       -v /var/lib/grafana/:/var/lib/grafana/:z
+      {% if grafana_cabundle_path is defined %}
+      -v {{ grafana_cabundle_path }}:/etc/ssl/certs/ca-certificates.crt:ro
+      {% endif %}
       {% if sf_grafana | default(False) %}
       -e GF_SECURITY_ADMIN_PASSWORD__FILE='/etc/grafana/secrets/admin_password'
       -e GF_SECURITY_ADMIN_USER__FILE='/etc/grafana/secrets/admin_user'
