@@ -20,3 +20,4 @@ grafana_dashboard_directories:
   - vexxhost
   ####### RDO dashboards #########
   - RDO
+# grafana_cabundle_path: /etc/ssl/certs/ca-bundle.crt
