@@ -1,7 +1,4 @@
 ---
-promtail_openshift_node_extra_pipeline_stages:
-  - match:
-    selector: '{namespace="sf"}'
-    stages:
-      - labels:
-          softwarefactory: microshift-upstream
+sf_operated_pipeline_config:
+  namespace: sf
+  softwarefactory: microshift-upstream

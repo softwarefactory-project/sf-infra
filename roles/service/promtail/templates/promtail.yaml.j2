@@ -47,9 +47,17 @@ scrape_configs:
       - labels:
           namespace:
           pod:
-          pod_uid:
+#          pod_uid:
           container:
-{{ promtail_openshift_node_extra_pipeline_stages | to_yaml | indent(2, True) }}
+      - labeldrop:
+          - filename
+{% if sf_operated_pipeline_config is defined %}
+  - match:
+      selector: {job="openshift_pod", namespace="{{ sf_operated_pipeline_config.namespace }}"}'
+      stages:
+        - static_labels:
+            softwarefactory: "{{ sf_operated_pipeline_config.softwarefactory }}"
+{% endif %}
 {% endif %}
 - job_name: journal
   journal:
@@ -64,4 +72,15 @@ scrape_configs:
     - source_labels: ['__journal__systemd_unit']
       target_label: 'unit'
   pipeline_stages:
-{{ promtail_journal_extra_pipeline_stages | to_yaml | indent(2, True) }}
+{% if sf_pipeline_config is defined %}
+    - match:
+        selector: '{unit=~"zuul.+|nodepool.+|mariadb.+|zookeeper.+|httpd.+|managesf.+"}'
+        stages:
+        - static_labels:
+            softwarefactory: "{{ sf_pipeline_config.softwarefactory }}
+        - regex:
+            source: unit
+            expression: '^(?P<application>zuul|nodepool|mariadb|zookeeper|httpd|managesf).*\.service'
+        - labels:
+            application:
+{% endif %}
