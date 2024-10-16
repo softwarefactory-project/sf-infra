@@ -1,4 +1,6 @@
 ---
+# Remove/add this comment to force a trigger of the sf-infra-observability-stack playbook
+
 # Setup and facts gathering
 - hosts: observability-stack
   tasks:

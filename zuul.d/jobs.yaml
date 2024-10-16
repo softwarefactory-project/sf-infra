@@ -378,7 +378,7 @@
       - "^playbooks/group_vars/promtail.yaml$"
       - "^playbooks/group_vars/observability-stack.yaml$"
       - "^roles/sf/openshift/observability-stack/.*$"
-
+      - "^roles/service/promtail/.*$"
 
 - project:
     check:
