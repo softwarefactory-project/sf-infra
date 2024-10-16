@@ -1,9 +1,16 @@
 ---
 - become: true
   block:
-    - name: Dump the configurations
+    - name: Dump the configurations - servers
+      when: servers is defined and servers
       ansible.builtin.copy:
         content: "{{ servers | to_json }}"
+        dest: /var/lib/bup-backup-locations.json
+
+    - name: Dump the configurations - bup_backup_locations
+      when: bup_backup_locations is defined and bup_backup_locations
+      ansible.builtin.copy:
+        content: "{{ bup_backup_locations | to_json }}"
         dest: /var/lib/bup-backup-locations.json
 
     - name: Deploy check-bup-backups.py
