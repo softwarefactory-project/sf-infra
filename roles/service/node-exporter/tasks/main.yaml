@@ -1,10 +1,4 @@
 ---
-- name: Set fact for rhel systems
-  ansible.builtin.set_fact:
-    textfile_state: absent
-    recurse: false
-  when: ansible_distribution == "RedHat"
-
 - name: Set fact for non rhel systems
   ansible.builtin.set_fact:
     textfile_collector: "--collector.textfile.directory /var/lib/node_exporter/textfile_collector"
@@ -21,8 +15,7 @@
 - name: Create directory for textfile exporter
   ansible.builtin.file:
     path: /var/lib/node_exporter/textfile_collector
-    state: "{{ textfile_state | default('directory') }}"
-    recurse: "{{ recurse | default(True) }}"
+    state: directory
     owner: node_exporter
     group: root
     mode: '0775'
