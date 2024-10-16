@@ -10,5 +10,8 @@ loki_tls:
   insecure: true
 is_openshift_node: false
 
-promtail_openshift_node_extra_pipeline_stages: []
-promtail_journal_extra_pipeline_stages: []
+# sf_operated_pipeline_config:
+#  namespace: sf
+#  softwarefactory: microshift-xxx
+# sf_pipeline_config:
+#   softwarefactory: upstream-3X
