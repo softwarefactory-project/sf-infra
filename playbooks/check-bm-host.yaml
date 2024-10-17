@@ -1,0 +1,14 @@
+---
+- name: Verify BM host VM spawning
+  hosts: testhost
+  tasks:
+    - name: Update packages
+      become: true
+      ansible.builtin.package:
+        name: '*'
+        state: latest
+
+    - name: Check connection to some site
+      ansible.builtin.get_url:
+        url: https://quay.rdoproject.org
+        dest: /tmp/test.html
