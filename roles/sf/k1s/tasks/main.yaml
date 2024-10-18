@@ -182,3 +182,6 @@
       ################################################
     dest: /etc/motd
     mode: "0644"
+
+- name: Create probe for checking old containers
+  ansible.builtin.include_tasks: probe.yaml

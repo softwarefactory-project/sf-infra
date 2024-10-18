@@ -1,0 +1,25 @@
+---
+- name: Add {{ k1s_user }} to node_exporter
+  become: true
+  ansible.builtin.user:
+    user: "{{ k1s_user }}"
+    groups: node_exporter
+    append: true
+
+- name: Copy script for checking old containers
+  become: true
+  ansible.builtin.copy:
+    src: check-old-containers.sh
+    dest: /usr/local/bin/check-old-containers.sh
+    mode: "0755"
+
+- name: Create cron job executing check old containers script
+  become: true
+  ansible.builtin.cron:
+    name: Check for old containers
+    minute: "0"
+    hour: "0"
+    cron_file: update-packages
+    user: "{{ k1s_user }}"
+    state: present
+    job: /usr/local/bin/check-old-containers.sh

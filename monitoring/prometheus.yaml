@@ -24,6 +24,7 @@ rule_files:
   - rules-openstack-check.yaml
   - rules-es-check.yaml
   - rules-system-updates.yaml
+  - rules-k1s-zombie-containers.yaml
 scrape_configs:
   - job_name: node
     static_configs:

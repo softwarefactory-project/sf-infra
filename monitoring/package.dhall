@@ -19,6 +19,7 @@ The main configuration is constructed with the *prometheus-config.dhall* .-}
 , rules-systemd = ./rules-systemd.dhall
 , rules-zuul = ./rules-zuul.dhall
 , rules-system-updates = ./rules-system-updates.dhall
+, rules-k1s-zombie-containers = ./rules-k1s-zombie-containers.dhall
 , rules = ./rules.dhall
 , scrape-configs = ./scrape-configs.dhall
 }

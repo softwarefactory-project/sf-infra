@@ -6,14 +6,21 @@
     shell: /sbin/nologin
     home: /var/lib/node_exporter
 
+- name: Set permissions that allow other users open node_exporter home dir
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/node_exporter
+    mode: "0755"
+
 - name: Create directory for textfile exporter
+  become: yes
   ansible.builtin.file:
     path: /var/lib/node_exporter/textfile_collector
     state: directory
     owner: node_exporter
-    group: root
+    group: node_exporter
+    recurse: true
     mode: '0775'
-  become: yes
 
 - name: Ensure that node-exporter package is removed
   become: yes
