@@ -380,6 +380,24 @@
       - "^roles/sf/openshift/observability-stack/.*$"
       - "^roles/service/promtail/.*$"
 
+- job:
+    name: sf-verify-bm03-host
+    description: Verify BM03 host VM spawning
+    nodeset:
+      nodes:
+        - name: testhost
+          label: cloud-centos-9-stream-tripleo-ibm3
+    run: playbooks/check-bm-host.yaml
+
+- job:
+    name: sf-verify-bm04-host
+    description: Verify BM04 host VM spawning
+    nodeset:
+      nodes:
+        - name: testhost
+          label: cloud-centos-9-stream-tripleo-ibm4
+    run: playbooks/check-bm-host.yaml
+
 - project:
     check:
       jobs:
@@ -467,3 +485,7 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
+    periodic:
+      jobs:
+        - sf-verify-bm03-host
+        - sf-verify-bm04-host
