@@ -3,7 +3,7 @@
     nodeset:
       nodes:
         - name: container
-          label: zuul-worker-f37
+          label: zuul-worker-f40
     run: playbooks/test-python.yaml
     abstract: true
 
