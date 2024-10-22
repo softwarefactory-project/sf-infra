@@ -36,6 +36,16 @@
     name: "dnf-automatic"
   become: true
 
-- name: Enable dnf-automatic-install timer
-  ansible.builtin.command: "systemctl enable --now dnf-automatic-install.timer"
+- name: Disable a timer unit for dnf-automatic
+  ansible.builtin.systemd_service:
+    name: dnf-automatic.timer
+    state: stopped
+    enabled: false
+  become: true
+
+- name: Enable a timer unit for dnf-automatic-install
+  ansible.builtin.systemd_service:
+    name: dnf-automatic-install.timer
+    state: started
+    enabled: true
   become: true
