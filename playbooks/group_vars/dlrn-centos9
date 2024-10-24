@@ -42,7 +42,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -72,7 +72,7 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -99,7 +99,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-dalmatian-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -126,7 +126,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-caracal-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -154,7 +154,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-bobcat-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -182,7 +182,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-antelope-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -210,7 +210,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-zed-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -237,7 +237,7 @@ dlrn_workers:
     enable_deps_sync: true
     enable_brs_sync: true
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-yoga-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -264,7 +264,7 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-wallaby-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
@@ -291,7 +291,7 @@ dlrn_workers:
     enable_deps_sync: false
     enable_brs_sync: false
     gerrit_user: 'rdo-trunk'
-    gerrit_email: 'amoralej+rdo-trunk@redhat.com'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
     gerrit_topic: 'rdo-FTBFS-xena-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
