@@ -59,3 +59,192 @@ graphql_dlrn_centos9_releases:
   - centos9-antelope
 
 graphql_dlrn_rhel_releases: []
+
+# To get detailed datasource info:
+#   curl -H "Accept: application/json"  -XGET http://localhost:3000/api/datasources/2 | python3 -m json.tool
+additional_datasources:
+  - id: 1
+    access: 'proxy'
+    editable: true
+    isDefault: true
+    name: 'prometheus'
+    orgId: 1
+    type: 'prometheus'
+    url: "{{ prometheus_public_url }}"
+    jsonData:
+      timeInterval: 1m
+    version: 1
+
+  - id: 2
+    access: proxy
+    editable: true
+    isDefault: false
+    name: prometheus-vexxhost
+    orgId: 1
+    type: prometheus
+    url: "{{ vexxhost_prometheus.url }}"
+    basicAuth: true
+    basicAuthUser: "{{ vexxhost_prometheus.user }}"
+    withCredentials: false
+    secureJsonData:
+      basicAuthPassword: "{{ vexxhost_prometheus.password }}"
+    jsonData:
+      timeInterval: 1m
+    readOnly: false
+    version: 1
+
+  - id: 3
+    orgId: 1
+    name: opensearch-rdoproject-zuul
+    type: grafana-opensearch-datasource
+    access: proxy
+    url: https://opensearch.rdoproject.org/opensearch
+    basicAuth: true
+    basicAuthUser: "{{ opensearch_rdo_readonly.user }}"
+    withCredentials: true
+    isDefault: false
+    jsonData:
+      database: zuul.rdoproject.org-*
+      flavor: opensearch
+      maxConcurrentShardRequests: 5
+      pplEnabled: true
+      timeField: '@timestamp'
+      version: 2.15.0
+    # NOTE: Set the password also via Web interface
+    secureJsonData:
+      basicAuthPassword: "{{ opensearch_rdo_readonly.password }}"
+    version: 7
+    editable: true
+
+  - id: 4
+    orgId: 1
+    name: opensearch-rdoproject-logstash
+    type: grafana-opensearch-datasource
+    access: proxy
+    url: https://opensearch.rdoproject.org/opensearch
+    basicAuth: true
+    basicAuthUser: "{{ opensearch_rdo_readonly.user }}"
+    withCredentials: true
+    isDefault: false
+    jsonData:
+      database: logstash-rdoproject_org-*
+      flavor: opensearch
+      maxConcurrentShardRequests: 5
+      pplEnabled: true
+      timeField: '@timestamp'
+      version: 2.15.0
+    # NOTE: Set the password also via Web interface
+    secureJsonData:
+      basicAuthPassword: "{{ opensearch_rdo_readonly.password }}"
+    editable: true
+
+  - id: 5
+    orgId: 1
+    name: Prometheus-openshift
+    type: prometheus
+    access: proxy
+    url: "{{ nextgen_openshift_prometheus.url }}"
+    basicAuth: false
+    withCredentials: false
+    isDefault: false
+    jsonData:
+      exemplarTraceIdDestinations: []
+      httpHeaderName1: Authorization
+      httpMethod: POST
+      oauthPassThru: false
+      prometheusType: Thanos
+      tlsAuth: false
+      tlsAuthWithCACert: false
+      tlsSkipVerify: false
+      timeInterval: 1m
+    secureJsonData:
+      # NOTE: Set the credentials via browser, where:
+      # Header: Authorization
+      # value: Bearer <token>
+      httpHeaderValue1: true
+    editable: true
+
+  - id: 6
+    orgId: 1
+    name: opensearch-softwarefactoryproject-logstash
+    type: grafana-opensearch-datasource
+    access: proxy
+    url: https://opensearch.rdoproject.org/opensearch
+    basicAuth: true
+    basicAuthUser: "{{ opensearch_softwarefactory_readonly.user }}"
+    withCredentials: true
+    isDefault: false
+    jsonData:
+      database: logstash-softwarefactory_project_io-*
+      flavor: opensearch
+      maxConcurrentShardRequests: 5
+      pplEnabled: true
+      timeField: '@timestamp'
+      version: 2.15.0
+    # NOTE: Set the password also via Web interface
+    secureJsonData:
+      basicAuthPassword: "{{ opensearch_softwarefactory_readonly.password }}"
+    editable: true
+
+  - id: 7
+    orgId: 1
+    name: Graphite-opendev
+    type: graphite
+    access: proxy
+    url: https://graphite.opendev.org
+    basicAuth: false
+    withCredentials: false
+    isDefault: false
+    jsonData:
+      graphiteType: default
+      graphiteVersion: "1.1"
+    version: 8
+    readOnly: false
+    editable: true
+
+  ## GraphQL Centos DLRN
+  - id: 8
+    orgId: 1
+    name: GraphQL Centos centos9-wallaby
+    type: fifemon-graphql-datasource
+    access: proxy
+    url: https://trunk.rdoproject.org/api-centos9-wallaby/api/graphql
+    basicAuth: false
+    withCredentials: false
+    isDefault: false
+    readOnly: false
+    editable: true
+
+  - id: 9
+    orgId: 1
+    name: GraphQL Centos centos9-antelope
+    type: fifemon-graphql-datasource
+    access: proxy
+    url: https://trunk.rdoproject.org/api-centos9-antelope/api/graphql
+    basicAuth: false
+    withCredentials: false
+    isDefault: false
+    readOnly: false
+    editable: true
+
+  - id: 10
+    orgId: 1
+    name: opensearch-rdoproject-ftbfs
+    type: grafana-opensearch-datasource
+    access: proxy
+    url: https://opensearch.rdoproject.org/elasticsearch
+    basicAuth: true
+    basicAuthUser: "{{ opensearch_rdo_readonly.user }}"
+    withCredentials: true
+    isDefault: false
+    jsonData:
+      database: ftbfs-rdoproject_org-*
+      flavor: opensearch
+      maxConcurrentShardRequests: 5
+      pplEnabled: true
+      timeField: '@timestamp'
+      version: 2.15.0
+    # NOTE: Set the password also via Web interface
+    secureJsonData:
+      basicAuthPassword: "{{ opensearch_rdo_readonly.password }}"
+    editable: true
