@@ -49,6 +49,7 @@
   with_dict: "{{ quay_users }}"
   loop_control:
     loop_var: user_item
+  no_log: true
 
 - name: Set up image pruning script
   ansible.builtin.include_tasks: prune.yml
