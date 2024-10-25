@@ -20,6 +20,33 @@ nfs_shared_repos: true
 api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-dalmatian', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
 
 dlrn_workers:
+  centos10-master-uc:
+    distro: 'centos10'
+    target: 'centos10-master-uc'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos10', '/var/www/html/centos10-master']
+    release: 'epoxy-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos10-master'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos10-masteruc:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos10?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+    gerrit_user: 'rdo-trunk'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
+    gerrit_topic: 'rdo-FTBFS-cs10'
+    use_components: true
+    mock_config: 'centos10stream.cfg.j2'
+    uid: 1039
+    gid: 1039
   centos9-master-uc:
     distro: 'centos9'
     target: 'centos9-master-uc'
