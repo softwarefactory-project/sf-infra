@@ -24,7 +24,7 @@
 
 - name: Adding service suffix for prometheus_monitored_services
   ansible.builtin.set_fact:
-    prometheus_monitored_services: "{{ prometheus_monitored_services | union(prometheus_monitored_services_extra|default([])) | product(['.service']) | map('join') | list }}"
+    prometheus_monitored_services: "{{ (prometheus_monitored_services | union(prometheus_monitored_services_extra | default([]))) | map('regex_replace', '^(.*?)(\\.service)?$', '\\1.service') | list }}"
   when: prometheus_monitored_services is defined
 
 # NOTE(dpawlik) All systemd services should end with '.service'.

@@ -35,6 +35,7 @@ prometheus_monitored_services:
   - managesf
   - mariadb
   - microshift
+  - microshift-etcd
   - nodepool-builder
   - nodepool-launcher
   - opensearch
