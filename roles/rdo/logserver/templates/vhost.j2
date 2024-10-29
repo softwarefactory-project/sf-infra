@@ -23,6 +23,10 @@
       AddEncoding x-gzip gz
     </FilesMatch>
 
+    <FilesMatch \.y.?ml$>
+      ForceType text/yaml
+    </FilesMatch>
+
     Header set Access-Control-Allow-Origin "*"
 
     SSLEngine on
