@@ -153,7 +153,7 @@ let instances =
         }
       , Instance::{
         , name = "dlrn-db-centos9"
-        , groups = [ "dlrn-centos9", "rhel", "rdo", "db_master" ]
+        , groups = [ "dlrn-trunk", "rhel", "rdo", "db_master" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -166,7 +166,7 @@ let instances =
         }
       , Instance::{
         , name = "trunk-server-centos9"
-        , groups = [ "dlrn-centos9", "rhel", "rdo" ]
+        , groups = [ "dlrn-trunk", "rhel", "rdo" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
@@ -186,7 +186,7 @@ let instances =
         }
       , Instance::{
         , name = "trunk-builder-centos9"
-        , groups = [ "dlrn-centos9", "rdo", "rhel" ]
+        , groups = [ "dlrn-trunk", "rdo", "rhel" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
