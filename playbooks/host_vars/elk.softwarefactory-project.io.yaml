@@ -4,10 +4,6 @@ bind_mounts:
 external_elk:
   infra_name: softwarefactory-project.io
 
-container_images:
-  logscraper: quay.io/software-factory/logscraper:latest-c8s
-  logsender: quay.io/software-factory/logscraper:latest-c8s
-
 tenant_builds:
 #### SF #####
   - tenant: softwarefactory-project.io

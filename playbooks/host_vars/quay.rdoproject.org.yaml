@@ -20,12 +20,6 @@ swap_size: 2048
 # on scanning the image content.
 enable_clair: false
 
-container_images:
-  quay: "quay.io/projectquay/quay:v3.10.6"
-  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
-  clair: "quay.io/projectquay/clair:4.7.2"
-  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
-
 ssl_cert_options:
   cert1:
     email: "softwarefactory-operations-team@redhat.com"

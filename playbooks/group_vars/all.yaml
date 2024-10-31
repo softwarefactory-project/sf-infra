@@ -223,6 +223,29 @@ container_images:
   apache_exporter: "quay.io/software-factory/apache_exporter@sha256:ab022d3d176b392057b169af6718e46e18d127c2e45c0d7972fb9f14553e6018"
   # v1.7.0
   elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:4786d49bef9ec045c155d5544abc420e6f58394170db7b6a05c5e7a5f15fb9ed
+  # v0.1.13
+  zookeeper_exporter: "docker.io/dabealu/zookeeper-exporter@sha256:86106fec315f24caccee437b59bcdbf968289ed0e4277ea27d6367944d1b01bd"
+  # alertmanager: 0.27.0
+  alertmanager: "quay.io/prometheus/alertmanager@sha256:e13b6ed5cb929eeaee733479dce55e10eb3bc2e9c4586c705a4e8da41e5eacf5"
+  # blackbox: 0.25.0
+  blackbox: "quay.io/prometheus/blackbox-exporter@sha256:b04a9fef4fa086a02fc7fcd8dcdbc4b7b35cc30cdee860fdc6a19dd8b208d63e"
+  # grafana: 10.4.2
+  grafana: "quay.io/software-factory/grafana-oss@sha256:d1c362f245aca3c1c6c7cb2100d38691c41b026aaef60768887135f6323dd890"
+  # prometheus: 2.51.2
+  prometheus: "quay.io/prometheus/prometheus@sha256:4f6c47e39a9064028766e8c95890ed15690c30f00c4ba14e7ce6ae1ded0295b1"
+  # statsd: 0.26.1
+  statsd_exporter: "quay.io/prometheus/statsd-exporter@sha256:065c4d566c4ca1f0dacdc4247c2446a2c5514d7c222972445c60d1c08482b005"
+  # log processing
+  logscraper: quay.io/software-factory/logscraper:latest-c8s
+  logsender: quay.io/software-factory/logscraper:latest-c8s
+  # opensearch rdo
+  opensearch: quay.io/software-factory/opensearch:2.15.0
+  opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.15.0
+  # Quay RDO
+  quay: "quay.io/projectquay/quay:v3.10.6"
+  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
+  clair: "quay.io/projectquay/clair:4.7.2"
+  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
 
 # by default OSPO/OSCI roles consider firewalld is present on RH systems as it is the default in non-minimal images
 manage_firewall: False
