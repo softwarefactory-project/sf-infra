@@ -75,6 +75,4 @@ in  PrometheusConfig
         //  { metrics_path = Some "/weeder/metrics" }
       ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
         //  { metrics_path = Some "/logjuicer/metrics" }
-      ,     ScrapeConfigs.static "monocle" [ "demo.changemetrics.io" ]
-        //  { metrics_path = Some "/metrics" }
       ]
