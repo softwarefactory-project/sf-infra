@@ -18,7 +18,7 @@ do
   for name in $names
   do
      echo $name
-     dlrnapi --url https://trunk.rdoproject.org/${release} promotion-get --promote-name ${name} --limit 1 | jq -r '.[0] | (.repo_hash,.aggregate_hash)' | grep -v null
+     dlrnapi --url https://{{ dlrn_api_host }}/${release} promotion-get --promote-name ${name} --limit 1 | jq -r '.[0] | (.repo_hash,.aggregate_hash)' | grep -v null
   done
 done) | sort | uniq |paste -sd ',' ;
 rm -rf /tmp/dlrnapi > /dev/null
