@@ -23,7 +23,7 @@
   ansible.builtin.cron:
     name: Cleanup {{ project.crc_cloud_name }} project OpenStack resources
     minute: "0"
-    hour: "5"
+    hour: "*/3"
     job: >
       export OS_CLOUD={{ project.crc_cloud_name }};
       export CRC_VENV_DIR={{ crc_venv_dir }};

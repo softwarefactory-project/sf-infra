@@ -13,11 +13,14 @@
   become: true
 
 # NOTE: Only root has clouds information
+# NOTE: The cleanup script: roles/next-gen/cleanup-openstack-resources/tasks/main.yaml
+# is also triggered each 3 hours, but it should finish in 50 minutes,
+# so the stats should be actual.
 - name: Create cronjob for checking OpenStack resource leftovers
   become: true
   become_user: root
   ansible.builtin.cron:
     name: Get stack status
-    hour: "6"
-    minute: "20"
+    hour: "*/3"
+    minute: "50"
     job: "/usr/local/bin/openstack-simply-reporter.py --os-clouds {{ os_clouds | join(' ') }} > /dev/null"
