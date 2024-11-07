@@ -171,7 +171,7 @@
       - playbooks/host_vars/dlrn-db-centos9.rdoproject.org.yaml
       - ^playbooks/host_vars/trunk.*centos9.*.yaml$
       - playbooks/group_vars/all
-      - playbooks/group_vars/dlrn-centos9
+      - playbooks/group_vars/dlrn-trunk.yaml
       - "^roles/infra/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"

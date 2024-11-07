@@ -31,7 +31,7 @@ all:
     db_master:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
-    dlrn-centos9:
+    dlrn-trunk:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
         trunk-builder-centos9.rdoproject.org: {}
