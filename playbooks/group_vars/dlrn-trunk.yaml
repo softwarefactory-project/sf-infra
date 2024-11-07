@@ -29,6 +29,7 @@ dlrn_workers:
     enable_purge: false
     purge_hour: '2'
     purge_minute: '7'
+    cron_minute: '*/5'
     symlinks: ['/var/www/html/centos10', '/var/www/html/centos10-master']
     release: 'epoxy-uc'
     baseurl: 'https://trunk.rdoproject.org/centos10-master'
@@ -56,6 +57,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '7'
+    cron_minute: '*/5'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
     release: 'epoxy-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
@@ -86,7 +88,7 @@ dlrn_workers:
     purge_minute: '7'
     cron_env: '--head-only'
     cron_hour: '*/6'
-    cron_minute: '5'
+    cron_minute: '9'
     symlinks: ['/var/www/html/centos9-head', '/var/www/html/centos9-master-head']
     release: 'epoxy'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-head'
@@ -114,6 +116,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
+    cron_minute: '1-59/10'
     symlinks: ['/var/www/html/centos9-dalmatian', '/var/www/html/dalmatian/centos9', '/var/www/html/centos9-2024.2', '/var/www/html/2024.2/centos9']
     release: 'dalmatian'
     baseurl: 'https://trunk.rdoproject.org/centos9-dalmatian'
@@ -141,6 +144,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
+    cron_minute: '2-59/10'
     symlinks: ['/var/www/html/centos9-caracal', '/var/www/html/caracal/centos9', '/var/www/html/centos9-2024.1', '/var/www/html/2024.1/centos9']
     release: 'caracal'
     baseurl: 'https://trunk.rdoproject.org/centos9-caracal'
@@ -168,6 +172,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '3'
     purge_minute: '17'
+    cron_minute: '3-59/10'
     symlinks: ['/var/www/html/centos9-bobcat', '/var/www/html/bobcat/centos9', '/var/www/html/centos9-2023.2', '/var/www/html/2023.2/centos9']
     release: 'bobcat'
     baseurl: 'https://trunk.rdoproject.org/centos9-bobcat'
@@ -196,6 +201,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '3'
     purge_minute: '17'
+    cron_minute: '4-59/10'
     symlinks: ['/var/www/html/centos9-antelope', '/var/www/html/antelope/centos9', '/var/www/html/centos9-2023.1', '/var/www/html/2023.1/centos9']
     release: 'antelope'
     baseurl: 'https://trunk.rdoproject.org/centos9-antelope'
@@ -224,6 +230,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '3'
     purge_minute: '17'
+    cron_minute: '6-59/10'
     symlinks: ['/var/www/html/centos9-zed', '/var/www/html/zed/centos9']
     release: 'zed'
     baseurl: 'https://trunk.rdoproject.org/centos9-zed'
@@ -252,6 +259,7 @@ dlrn_workers:
     enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
+    cron_minute: '7-59/10'
     symlinks: ['/var/www/html/centos9-yoga', '/var/www/html/yoga/centos9']
     release: 'yoga'
     baseurl: 'https://trunk.rdoproject.org/centos9-yoga'
