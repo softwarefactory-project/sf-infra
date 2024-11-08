@@ -2,7 +2,7 @@
 
 OS_CLOUD=${OS_CLOUD:-$1}
 CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
-DAY_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '1 day ago')" +%s)
+HOURS_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '12 hours ago')" +%s)
 ZUUL_PREFFIX=${ZUUL_PREFFIX:-'zuul-ci'}
 
 if [ -z "${OS_CLOUD}" ]; then
@@ -19,7 +19,7 @@ fi
 for router in $(openstack router list | grep "$ZUUL_PREFFIX-subnet" | awk '{print $2}'); do
     ROUTER_DATE=$(date -d "$(openstack router show "$router" -c created_at -f value  )" +%s);
     echo "Router: $router date is: $(date -d@$ROUTER_DATE)"
-    if [ "$DAY_AGO" -gt "$ROUTER_DATE" ]; then
+    if [ "$HOURS_AGO" -gt "$ROUTER_DATE" ]; then
         echo "Doing router: $router";
         router_port=$(openstack port list --router "$router" -f value -c id)
         for r_port in $router_port; do
@@ -35,7 +35,7 @@ done
 for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFFIX-trunk|default-trunk" | awk '{print $2}'); do
     NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c created_at -f value)" +%s);
     echo "Trunk network $trunk_network date is: $(date -d@$NETWORK_DATE)"
-    if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
+    if [ "$HOURS_AGO" -gt "$NETWORK_DATE" ]; then
         echo "Unset trunk ports for network: $trunk_network"
         for trunk_port in $(openstack network trunk show "$trunk_network" -c sub_ports -f value | grep -o "'port_id': '[^']*'" | awk -F"'" '{print $4}'); do
             openstack network trunk unset "$trunk_network" --subport "$trunk_port"
@@ -49,7 +49,7 @@ done
 for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cifmw|internal-api-cifmw|storage-cifmw|tenant-cifmw" | awk '{print $2}'); do
     NETWORK_DATE=$(date -d "$(openstack network show "$network" -c created_at -f value)" +%s);
     echo "Network date for $network is $(date -d@$NETWORK_DATE)"
-    if [ "$DAY_AGO" -gt "$NETWORK_DATE" ]; then
+    if [ "$HOURS_AGO" -gt "$NETWORK_DATE" ]; then
         # It can happen, that someone got hold node for more than 12 hours,
         # so let's skip removing those ports. Neutron will no allow to
         # remove the network later, if it is in-use.
@@ -79,7 +79,7 @@ done
 for port in $(openstack port list | grep -i down | awk '{print $2}'); do
     PORT_DATE=$(date -d "$(openstack port show -c created_at -f value $port)" +%s);
     echo "Port date $port is $(date -d@$PORT_DATE) ($OS_CLOUD)"
-    if [ "$DAY_AGO" -gt "$PORT_DATE" ]; then
+    if [ "$HOURS_AGO" -gt "$PORT_DATE" ]; then
         echo "Deleting port $port"
         ERROR=$(openstack port delete "$port" 2>&1)
         if [ "$?" -ne 0 ]; then
