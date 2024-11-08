@@ -2,8 +2,8 @@
 
 ## Main goal
 
-The main goal of that role is to create a script that will trigger
-Ansible playbook that will recreate the CRC image base on
+The main goal of this role is to create a script that will trigger
+Ansible playbook that will recreate the CRC image based on
 `cloud_names` Ansible variable (which is a list).
 
 ## Example variable output
@@ -51,7 +51,7 @@ cloud_names:
     crc_version: '2.29'
     crc_sync_extracted_qcow2_dir: ~/extracted-crc
     crc_ansible_log_dir: /var/log/crc-snapshot
-    crc_nested_crc: false
+    crc_nested_crc: true
     crc_nested_final_image_prefix: centos-9-crc-2.29-latest
     crc_nested_normal_image_prefix: centos-9-crc-2.29-[0-9-]{16}
     crc_extracted_crc: true
@@ -63,7 +63,7 @@ Where:
 
 ```sh
   crc_cloud_name                    => cloud name defined in ~/.config/openstack/clouds.yaml
-  crc_flavor_name                   => flavor to spawn VM where later CRC will be deployed
+  crc_flavor_name                   => flavor to spawn VM where CRC will later be deployed
   crc_ssh_keypair_name              => ssh keypair to connect from your host to the VM
   crc_net_id                        => network id of new VM
   crc_ssh_pub_path                  => custom defined SSH public key by injecting it via user data

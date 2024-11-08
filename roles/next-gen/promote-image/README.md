@@ -2,19 +2,24 @@
 
 ## Main goal
 
-The main goal of that role is to verify, if newest CRC image (nested and extracted)
-are valid before Zuul CI jobs will start using it. Before that role,
-we were using images with date included in the name, then we need to change
-the nodepool label to use that new image. That process needs to be repeated
-each 29 days (CA cert is expiring in 30 days), which is problematic for infra
-team - that's why we decide to make a promotion system.
-To avoid situation, that there is a broken image pushed into the OpenStack
-cloud provider, we are verifying it by:
+The purpose of this role is to ensure the latest CRC images (both
+nested and extracted) are validated before being used in Zuul CI
+jobs. Previously, we used images that included dates in their names,
+which required updating the nodepool label each time we switched to a
+new image. This process had to be repeated every 29 days due to the CA
+certificate expiring in 30 days, creating additional work for the
+infrastructure team. To streamline this, we introduced a promotion
+system.
 
-* spawning an instance from newest image
-* make tests
-* rename old "latest" image to name with date suffix
-* rename new image with date suffix to name with "latest" suffix
+To prevent broken images from being deployed to the OpenStack cloud,
+we verify the new image by:
+
+* Launching an instance from the latest image
+* Running tests
+(If the tests pass)
+* Renaming the old "latest" image to include a date suffix
+* Renaming the new image with the "latest" suffix to set it as the
+  current active image
 
 ## Example vars
 
@@ -27,10 +32,10 @@ cloud_names:
     crc_ssh_pub_path: ~/.ssh/id_ed25519.pub
     crc_nested_crc: true
     crc_nested_final_image_prefix: centos-9-crc-latest
-    crc_nested_normal_image_prefix: centos-9-crc-[0-9-]{16}
+    crc_nested_normal_image_prefix: centos-9-crc-
     crc_extracted_crc: true
     crc_extracted_final_image_prefix: coreos-crc-extracted-latest
-    crc_extracted_normal_image_prefix: coreos-crc-extracted-[0-9-]{16}
+    crc_extracted_normal_image_prefix: coreos-crc-extracted-
 
   - crc_cloud_name: some-cloud-2
     crc_flavor_name: ci.m1.xlarge
@@ -39,7 +44,7 @@ cloud_names:
     crc_ssh_pub_path: ~/.ssh/id_ed25519.pub
     crc_nested_crc: true
     crc_nested_final_image_prefix: rhel-9-crc-latest
-    crc_nested_normal_image_prefix: rhel-9-crc-[0-9-]{16}
+    crc_nested_normal_image_prefix: rhel-9-crc-
     crc_extracted_crc: false
 ```
 
