@@ -32,4 +32,5 @@
       --web.route-prefix="prometheus"
       --web.enable-admin-api
       --config.file=/etc/prometheus/prometheus.yaml
+      --storage.tsdb.retention.time={{ metrics_retention_time }}
     pod_config: "{{ _prom_config }}"
