@@ -132,18 +132,21 @@ let PrometheusTarget =
       , interval : Text
       }
 
+let ExprLeg -- A prometheus query and its legend
+            =
+      { query : Text, legend : Text }
+
 let mkPrometheusTarget =
       \(base : Natural) ->
-      \(legendFormat : Text) ->
-      \(expr : { index : Natural, value : Text }) ->
+      \(expr : { index : Natural, value : ExprLeg }) ->
         { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
         , editorMode = "code"
         , exemplar = False
-        , expr = expr.value
+        , expr = expr.value.query
         , format = "time_series"
         , hide = False
         , instant = False
-        , legendFormat
+        , legendFormat = expr.value.legend
         , interval = "10m"
         , range = True
         , refId = "Q${Natural/show (base + expr.index)}"
@@ -334,10 +337,9 @@ let mkLucene =
 
 let mkPrometheusHelper =
       \(min : Optional Natural) ->
-      \(legend : Text) ->
-      \(err_exprs : List Text) ->
+      \(err_exprs : List ExprLeg) ->
       \(title : Text) ->
-      \(ok_exprs : List Text) ->
+      \(ok_exprs : List ExprLeg) ->
       \(unit : Text) ->
         PType.Prometheus
           { datasource = { type = "prometheus", uid = "P1809F7CD0C75ACF3" }
@@ -384,48 +386,42 @@ let mkPrometheusHelper =
             }
           , targets =
                 Prelude.List.map
-                  { index : Natural, value : Text }
+                  { index : Natural, value : { query : Text, legend : Text } }
                   PrometheusTarget
-                  (mkPrometheusTarget 0 legend)
-                  (Prelude.List.indexed Text ok_exprs)
+                  (mkPrometheusTarget 0)
+                  ( Prelude.List.indexed
+                      { query : Text, legend : Text }
+                      ok_exprs
+                  )
               # Prelude.List.map
-                  { index : Natural, value : Text }
+                  { index : Natural, value : { query : Text, legend : Text } }
                   PrometheusTarget
                   ( mkPrometheusTarget
-                      (List/length Text ok_exprs)
-                      "${legend} error"
+                      (List/length { query : Text, legend : Text } ok_exprs)
                   )
-                  (Prelude.List.indexed Text err_exprs)
+                  ( Prelude.List.indexed
+                      { query : Text, legend : Text }
+                      err_exprs
+                  )
           , title
           , type = "timeseries"
           }
 
 let mkPrometheus =
       \(title : Text) ->
-      \(expr : Text) ->
-        mkPrometheusHelper
-          (Some 0)
-          "{{instance}}"
-          ([] : List Text)
-          title
-          [ expr ]
+      \(exprs : List ExprLeg) ->
+        mkPrometheusHelper (Some 0) ([] : List ExprLeg) title exprs
 
-let mkPrometheusAppErr =
+let mkPrometheusErr =
       \(title : Text) ->
-      \(exprs : List Text) ->
-      \(err_exprs : List Text) ->
-        mkPrometheusHelper (Some 0) "{{job}}" err_exprs title exprs
+      \(exprs : List ExprLeg) ->
+      \(err_exprs : List ExprLeg) ->
+        mkPrometheusHelper (Some 0) err_exprs title exprs
 
-let mkPrometheusApp =
-      \(title : Text) ->
-      \(exprs : List Text) ->
-        mkPrometheusHelper (Some 0) "{{job}}" ([] : List Text) title exprs
-
-let mkPrometheusMulti =
-      mkPrometheusHelper (Some 0) "{{instance}}" ([] : List Text)
+let mkPrometheusMulti = mkPrometheusHelper (Some 0) ([] : List ExprLeg)
 
 let mkPrometheusZeroCentered =
-      mkPrometheusHelper (None Natural) "{{instance}}" ([] : List Text)
+      mkPrometheusHelper (None Natural) ([] : List ExprLeg)
 
 let nodeMetrics =
       \(hostList : List Text) ->
@@ -437,7 +433,11 @@ let nodeMetrics =
             mem =
               mkPrometheus
                 "Available Memory"
-                "avg by (instance) (node_memory_MemFree_bytes{instance=~\"${hosts}\"})"
+                [ { query =
+                      "avg by (instance) (node_memory_MemFree_bytes{instance=~\"${hosts}\"})"
+                  , legend = "{{instance}}"
+                  }
+                ]
                 "decbytes"
 
         let -- | Disk usage
@@ -450,7 +450,10 @@ let nodeMetrics =
 
               let mkQuery =
                     \(filter : Text) ->
-                      "clamp_max(avg by(instance) (node_filesystem_avail_bytes{${filter}}), ${maxStr})"
+                      { query =
+                          "clamp_max(avg by(instance) (node_filesystem_avail_bytes{${filter}}), ${maxStr})"
+                      , legend = "{{instance}}"
+                      }
 
               in  mkPrometheusMulti
                     "Available Disk (max ${Natural/show maxGB} GB)"
@@ -468,8 +471,14 @@ let nodeMetrics =
             net =
               mkPrometheusZeroCentered
                 "Network Load (recv are positive, sent are negative)"
-                [ "irate(node_network_receive_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*8"
-                , "irate(node_network_transmit_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*(-8)"
+                [ { query =
+                      "irate(node_network_receive_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*8"
+                  , legend = "{{instance}}"
+                  }
+                , { query =
+                      "irate(node_network_transmit_bytes_total{instance=~\"${hosts}\", device=\"eth0\"}[\$__rate_interval])*(-8)"
+                  , legend = "{{instance}}"
+                  }
                 ]
                 "bps"
 
@@ -479,7 +488,11 @@ let nodeMetrics =
             cpu =
               mkPrometheus
                 "CPU Load"
-                "avg by (instance) (rate(node_cpu_seconds_total{mode=~\"system|user\",instance=~\"${hosts}\"}[1h]))"
+                [ { query =
+                      "avg by (instance) (rate(node_cpu_seconds_total{mode=~\"system|user\",instance=~\"${hosts}\"}[1h]))"
+                  , legend = "{{instance}}"
+                  }
+                ]
                 "percentunit"
 
         in  [ mkSep "Systems", mem, disk, net, cpu ]
@@ -487,8 +500,7 @@ let nodeMetrics =
 in  { mkSep
     , mkLucene
     , mkPrometheus
-    , mkPrometheusAppErr
-    , mkPrometheusApp
+    , mkPrometheusErr
     , mkPrometheusMulti
     , mkPrometheusZeroCentered
     , mkDashboard

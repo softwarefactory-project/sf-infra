@@ -39,27 +39,44 @@ let -- | Weeder / Monocle
     -- - Why: check the service is running
     apps =
       let requests =
-            Panels.mkPrometheusAppErr
+            Panels.mkPrometheusErr
               "Users Requests"
-              [ "avg by (job) (increase(http_request[10m]))"
-              , "avg by (job) (increase(query{job=\"monocle\"}[10m]))"
+              [ { query = "avg by (job) (increase(http_request[10m]))"
+                , legend = "{{job}}"
+                }
+              , { query = "avg by (job) (increase(query{job=\"monocle\"}[10m]))"
+                , legend = "{{job}}"
+                }
               ]
-              [ "avg by (job) (increase(http_request_error[10m]))" ]
+              [ { query = "avg by (job) (increase(http_request_error[10m]))"
+                , legend = "{{job}} error"
+                }
+              ]
               ""
 
       let mem =
-            Panels.mkPrometheusApp
+            Panels.mkPrometheus
               "Runtime Memory Usage"
-              [ "avg by (job) (ghc_gcdetails_live_bytes)"
-              , "avg by (job) (process_resident_memory_bytes{job=~\"logjuicer|logscraper\"})"
+              [ { query = "avg by (job) (ghc_gcdetails_live_bytes)"
+                , legend = "{{job}}"
+                }
+              , { query =
+                    "avg by (job) (process_resident_memory_bytes{job=~\"logjuicer|logscraper\"})"
+                , legend = "{{job}}"
+                }
               ]
               "decbytes"
 
       let cpu =
-            Panels.mkPrometheusApp
+            Panels.mkPrometheus
               "Runtime CPU Usage"
-              [ "avg by (job) (rate(ghc_cpu_seconds_total[10m]))"
-              , "avg by (job) (rate(process_cpu_seconds_total{job=~\"logjuicer|logscraper\"}[10m]))"
+              [ { query = "avg by (job) (rate(ghc_cpu_seconds_total[10m]))"
+                , legend = "{{job}}"
+                }
+              , { query =
+                    "avg by (job) (rate(process_cpu_seconds_total{job=~\"logjuicer|logscraper\"}[10m]))"
+                , legend = "{{job}}"
+                }
               ]
               "percentunit"
 
