@@ -4,7 +4,7 @@
 --
 -- Use the following dashboard to get an overview of the platform:
 -- <https://monitoring.softwarefactory-project.io/grafana/d/9FFVq15Ik/eod-backstage?orgId=1>
-let Panels = ./Panels.dhall
+let Panels = ./Panels.dhall "P1809F7CD0C75ACF3"
 
 let -- |            Application metrics            | --
     -- The services we maintains:
