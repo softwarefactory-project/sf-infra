@@ -39,6 +39,7 @@
     - name: grafana.ini
       path: grafana
   register: _grafana_template
+  no_log: true
 
 # NOTE: Make a workaround for Zuul secret that variable is available for
 # zuul, but condition "when: sf_grafana is defined" does not pass.

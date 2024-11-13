@@ -1,5 +1,5 @@
+{% if additional_datasources is defined and additional_datasources %}
 apiVersion: 1
 datasources:
-{% if additional_datasources is defined and additional_datasources %}
-{{ additional_datasources | to_yaml }}
+{{ additional_datasources |  selectattr('url', 'defined') | selectattr('url', '!=' , '') | to_yaml }}
 {% endif %}

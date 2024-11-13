@@ -351,6 +351,7 @@
       - "^tests/post-grafana-dash.yml$"
       - "^tests/pre-grafana-dash.yml$"
       - "^tests/templates/grafana-screenshots.js.j2$"
+      - "^tests/grafana.yaml$"
       - "playbooks/host_vars/monitoring.softwarefactory-project.io.yaml"
 
 - job:

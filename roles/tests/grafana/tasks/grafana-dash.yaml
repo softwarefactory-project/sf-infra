@@ -1,10 +1,4 @@
 ---
-- name: Install puppeteer
-  ansible.builtin.shell: |
-      npm install puppeteer@20.2.1
-  args:
-    chdir: /tmp
-
 - name: Create log directory
   ansible.builtin.file:
     path: /tmp/log
@@ -12,6 +6,7 @@
     mode: '0755'
 
 - name: Create required dirs for Grafana
+  become: true
   ansible.builtin.file:
     path: "/etc/grafana/provisioning/{{ item }}"
     state: directory
@@ -19,7 +14,6 @@
     - dashboards
     - datasources
     - plugins
-  become: true
 
 - name: Run tests for Grafana dashboards
   ansible.builtin.include_tasks:
