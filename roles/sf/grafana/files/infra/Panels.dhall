@@ -202,7 +202,122 @@
         , type : Text
         }
 
-  let PType = < Sep : Separator | Lucene : Lucene | Prometheus : Prometheus >
+  let Table =
+        { datasource : { type : Text, uid : Text }
+        , description : Text
+        , fieldConfig :
+            { defaults :
+                { color : { mode : Text }
+                , custom :
+                    { align : Text
+                    , cellOptions : { type : Text }
+                    , inspect : Bool
+                    }
+                , mappings : List <>
+                , thresholds :
+                    { mode : Text
+                    , steps : List { color : Text, value : Optional Natural }
+                    }
+                }
+            , overrides :
+                List
+                  { matcher : { id : Text, options : Text }
+                  , properties : List { id : Text, value : Text }
+                  }
+            }
+        , gridPos : { h : Natural, w : Natural, x : Natural, y : Natural }
+        , id : Natural
+        , links : List { title : Text, url : Text }
+        , options :
+            { cellHeight : Text
+            , footer :
+                { countRows : Bool
+                , enablePagination : Bool
+                , fields : List Text
+                , reducer : List Text
+                , show : Bool
+                }
+            , showHeader : Bool
+            , sortBy : List <>
+            }
+        , pluginVersion : Text
+        , targets :
+            List
+              { datasource : { type : Text, uid : Text }
+              , disableTextWrap : Bool
+              , editorMode : Text
+              , exemplar : Bool
+              , expr : Text
+              , fullMetaSearch : Bool
+              , hide : Bool
+              , includeNullMetadata : Bool
+              , instant : Bool
+              , legendFormat : Text
+              , range : Bool
+              , refId : Text
+              , useBackend : Bool
+              }
+        , title : Text
+        , transformations :
+            List
+              { filter : Optional { id : Text, options : Text }
+              , id : Text
+              , options :
+                  { byField : Optional Text
+                  , conversions :
+                      Optional
+                        ( List
+                            { destinationType : Text
+                            , enumConfig : Optional { text : List <> }
+                            , targetField : Text
+                            }
+                        )
+                  , excludeByName :
+                      Optional
+                        { `instance 1` : Bool
+                        , `instance 2` : Bool
+                        , `softwarefactory 1` : Bool
+                        , `softwarefactory 2` : Bool
+                        }
+                  , fields : Optional {}
+                  , include : Optional { names : List Text }
+                  , includeByName : Optional {}
+                  , indexByName :
+                      Optional
+                        { `All unique values 1` : Natural
+                        , `All unique values 2` : Natural
+                        , diskimage : Natural
+                        , ext : Natural
+                        , `instance 1` : Natural
+                        , `instance 2` : Natural
+                        , `softwarefactory 1` : Natural
+                        , `softwarefactory 2` : Natural
+                        }
+                  , keepTime : Optional Bool
+                  , mode : Optional Text
+                  , reducers : Optional (List Text)
+                  , renameByName :
+                      Optional
+                        { `All unique values` : Text
+                        , `All unique values 1` : Text
+                        , `All unique values 2` : Text
+                        , diskimage : Text
+                        , `softwarefactory 1` : Text
+                        }
+                  , replace : Optional Bool
+                  , source : Optional Text
+                  }
+              , topic : Optional Text
+              }
+        , type : Text
+        }
+
+  let PType =
+        < Sep : Separator
+        | Lucene : Lucene
+        | Prometheus : Prometheus
+        | TablePanel : Table
+        >
 
   let mkDashboard =
         \(title : Text) ->
@@ -422,6 +537,126 @@
   let mkPrometheusZeroCentered =
         mkPrometheusHelper (None Natural) ([] : List ExprLeg)
 
+  let mkTable =
+        \(title : Text) ->
+        \(description : Text) ->
+        \(links : List { title : Text, url : Text }) ->
+        \ ( overrides
+          : List
+              { matcher : { id : Text, options : Text }
+              , properties : List { id : Text, value : Text }
+              }
+          ) ->
+        \ ( targets
+          : List
+              { datasource : { type : Text, uid : Text }
+              , disableTextWrap : Bool
+              , editorMode : Text
+              , exemplar : Bool
+              , expr : Text
+              , fullMetaSearch : Bool
+              , hide : Bool
+              , includeNullMetadata : Bool
+              , instant : Bool
+              , legendFormat : Text
+              , range : Bool
+              , refId : Text
+              , useBackend : Bool
+              }
+          ) ->
+        \ ( transformations
+          : List
+              { filter : Optional { id : Text, options : Text }
+              , id : Text
+              , options :
+                  { byField : Optional Text
+                  , conversions :
+                      Optional
+                        ( List
+                            { destinationType : Text
+                            , enumConfig : Optional { text : List <> }
+                            , targetField : Text
+                            }
+                        )
+                  , excludeByName :
+                      Optional
+                        { `instance 1` : Bool
+                        , `instance 2` : Bool
+                        , `softwarefactory 1` : Bool
+                        , `softwarefactory 2` : Bool
+                        }
+                  , fields : Optional {}
+                  , include : Optional { names : List Text }
+                  , includeByName : Optional {}
+                  , indexByName :
+                      Optional
+                        { `All unique values 1` : Natural
+                        , `All unique values 2` : Natural
+                        , diskimage : Natural
+                        , ext : Natural
+                        , `instance 1` : Natural
+                        , `instance 2` : Natural
+                        , `softwarefactory 1` : Natural
+                        , `softwarefactory 2` : Natural
+                        }
+                  , keepTime : Optional Bool
+                  , mode : Optional Text
+                  , reducers : Optional (List Text)
+                  , renameByName :
+                      Optional
+                        { `All unique values` : Text
+                        , `All unique values 1` : Text
+                        , `All unique values 2` : Text
+                        , diskimage : Text
+                        , `softwarefactory 1` : Text
+                        }
+                  , replace : Optional Bool
+                  , source : Optional Text
+                  }
+              , topic : Optional Text
+              }
+          ) ->
+          PType.TablePanel
+            { datasource = { type = "prometheus", uid = datasourceId }
+            , description
+            , fieldConfig =
+              { defaults =
+                { color.mode = "thresholds"
+                , custom =
+                  { align = "auto", cellOptions.type = "auto", inspect = False }
+                , mappings = [] : List <>
+                , thresholds =
+                  { mode = "absolute"
+                  , steps =
+                    [ { color = "green", value = None Natural }
+                    , { color = "red", value = Some 80 }
+                    ]
+                  }
+                }
+              , overrides
+              }
+            , gridPos = { h, w, x = 0, y = 0 }
+            , id = 3
+            , links
+            , options =
+              { cellHeight = "sm"
+              , footer =
+                { countRows = False
+                , enablePagination = False
+                , fields = [ "All unique values" ]
+                , reducer = [ "sum" ]
+                , show = True
+                }
+              , showHeader = True
+              , sortBy = [] : List <>
+              }
+            , pluginVersion = "10.4.2"
+            , targets
+            , title
+            , transformations
+            , type = "table"
+            }
+
   let nodeMetrics =
         \(hostList : List Text) ->
           let hosts = Prelude.Text.concatSep "|" hostList
@@ -496,7 +731,8 @@
 
           in  [ mkSep "Systems", mem, disk, net, cpu ]
 
-  in  { mkSep
+  in  { datasourceId
+      , mkSep
       , mkLucene
       , mkPrometheus
       , mkPrometheusErr
@@ -504,4 +740,5 @@
       , mkPrometheusZeroCentered
       , mkDashboard
       , nodeMetrics
+      , mkTable
       }
