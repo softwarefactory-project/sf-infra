@@ -16,6 +16,7 @@ let -- | Zuul
     -- - Why: check that CI is running
     zuul =
       Panels.mkLucene
+        "P40D65588D5AED374"
         "Zuul Builds Activity"
         "result.keyword"
         [ { name = "SUCCESS", color = "green" }
