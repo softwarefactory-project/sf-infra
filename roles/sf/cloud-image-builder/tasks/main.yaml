@@ -26,3 +26,14 @@
     state: present
     key: "{{ item.ssh_key }}"
   loop: "{{ cloud_image_builder_users }}"
+
+- name: "Create sudoers file for user {{ item.username }}"
+  when: "{{ item.add_sudoers | default(False) | bool }}"
+  become: true
+  community.general.sudoers:
+    name: allow-nodepool-commands
+    state: present
+    user: "{{ item.username }}"
+    commands: ALL
+    nopassword: true
+  loop: "{{ cloud_image_builder_users }}"
