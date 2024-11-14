@@ -239,14 +239,13 @@
             }
 
   let mkLucene =
+        \(datasourceId : Text) ->
         \(title : Text) ->
         \(field : Text) ->
         \(colors : List ColorDef) ->
           PType.Lucene
             { datasource =
-              { type = "grafana-opensearch-datasource"
-              , uid = "P40D65588D5AED374"
-              }
+              { type = "grafana-opensearch-datasource", uid = datasourceId }
             , fieldConfig =
               { defaults =
                 { color.mode = "palette-classic"
@@ -320,9 +319,7 @@
                     }
                   ]
                 , datasource =
-                  { type = "grafana-opensearch-datasource"
-                  , uid = "P40D65588D5AED374"
-                  }
+                  { type = "grafana-opensearch-datasource", uid = datasourceId }
                 , format = "table"
                 , hide = False
                 , metrics = [ { id = "1", type = "count" } ]
