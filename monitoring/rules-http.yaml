@@ -14,3 +14,13 @@ groups:
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
+      - alert: HighHTTP503Errors
+        annotations:
+          description: |
+            The service {{ $labels.instance }} has been consistently returning HTTP 503 errors in the last 10 minutes.
+          summary: "Unresponsive service (instance {{ $labels.instance }})"
+        expr: "rate(http_requests_total{status='503'}[10m]) > 0"
+        for: "10m"
+        labels:
+          lasttime: "{{ $value | humanizeTimestamp }}"
+          severity: critical
