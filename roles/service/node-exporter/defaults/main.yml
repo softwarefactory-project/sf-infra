@@ -24,7 +24,7 @@ prometheus_monitored_services:
   - houndd
   - influxdb
   - k1s
-  - k1s-fedora
+  - k1s-cloud-user
   - kojid
   - kojira
   - logsender-rdoproject.org
