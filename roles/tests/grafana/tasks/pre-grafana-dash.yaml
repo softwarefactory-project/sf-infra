@@ -1,27 +1,36 @@
 ---
-- name: Enable newer nodejs module
-  become: true
-  ansible.builtin.shell: |
-    dnf module enable -y nodejs:20
+- name: Create grafana-image-renderer container
+  ansible.builtin.include_role:
+    name: service/container
+  vars:
+    pod_name: grafana-image-renderer
+    pod_param: >
+      --network host
+      docker.io/grafana/grafana-image-renderer:latest
 
-- name: Ensure requirements are installed
+- name: Change settings in Grafana ini - server url
   become: true
-  ansible.builtin.package:
-    name:
-      - npm
-      - jq
-      - nss
-      - atk
-      - at-spi2-atk
-      - libX11-xcb
-      - cups-libs
-      - libdrm
-      - libXcomposite
-      - libXdamage
-      - libXrandr
-      - libxshmfence
-      - libwayland-client
-      - gtk3
-      - libgbm
-      - alsa-lib
-      - ansible-core
+  community.general.ini_file:
+    path: /etc/grafana/grafana.ini
+    section: "{{ item.section }}"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+  loop:
+    - section: rendering
+      option: server_url
+      value: http://localhost:8081/render
+    - section: rendering
+      option: callback_url
+      value: http://localhost:3000/
+
+- name: Restart Grafana
+  become: true
+  ansible.builtin.systemd:
+    name: grafana
+    state: restarted
+
+- name: Start grafana-image-renderer service
+  become: true
+  ansible.builtin.systemd:
+    name: grafana-image-renderer
+    state: restarted

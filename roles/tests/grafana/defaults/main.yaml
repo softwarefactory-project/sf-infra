@@ -1,3 +1,6 @@
 ---
 test_dashboard_dirs:
   - infra
+
+screenshot_width: 1800
+screenshot_height: 1900

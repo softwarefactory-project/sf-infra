@@ -12,12 +12,9 @@
     - /tmp/puppeteer
     - /tmp/log
 
-- name: Create puppeteer scripts
-  ansible.builtin.template:
-    src: grafana-screenshots.js.j2
-    dest: /tmp/puppeteer/grafana-screenshots.js
-    mode: 0755
-
-- name: "Run puppeteer scripts"
-  ansible.builtin.shell: |
-    node /tmp/puppeteer/grafana-screenshots.js
+- name: Get screenshots
+  ansible.builtin.get_url:
+    url: |
+      http://localhost:3000/render{{ item.split('|')[1] | trim }}?orgId=1&width={{ screenshot_width }}&height={{ screenshot_height }}&kiosk=1
+    dest: "/tmp/log/{{ item.split('|')[0] | replace(' ','') | trim }}.png"
+  loop: "{{ _dashboards.stdout_lines }}"

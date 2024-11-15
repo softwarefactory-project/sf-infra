@@ -9,6 +9,10 @@
           ansible.builtin.include_vars:
             file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/playbooks/host_vars/monitoring.softwarefactory-project.io.yaml"
 
+        - name: Read group_vars monitoring file
+          ansible.builtin.include_vars:
+            file: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}/playbooks/group_vars/monitoring.yaml"
+
         - name: Setup Grafana
           vars:
             grafana_server_root_url: http://localhost
@@ -27,6 +31,10 @@
           ansible.builtin.include_vars:
             file: playbooks/host_vars/monitoring.softwarefactory-project.io.yaml
 
+        - name: Read group vars monitoring file
+          ansible.builtin.include_vars:
+            file: playbooks/group_vars/monitoring.yaml
+
         - name: Setup Grafana
           vars:
             grafana_server_root_url: http://localhost
@@ -36,4 +44,4 @@
 
         - name: Run Grafana tests
           ansible.builtin.include_role:
-            name: tests/test-grafana
+            name: tests/grafana
