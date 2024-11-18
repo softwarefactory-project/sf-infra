@@ -28,6 +28,11 @@
   loop: "{{ grafana_dashboard_directories }}"
   register: _grafana_config
 
+- name: Fail when there is no datasource
+  when: additional_datasources is not defined or additional_datasources | length < 1
+  ansible.builtin.fail:
+    msg: "The additional_datasources Ansible variable can not be empty"
+
 - name: Install config templates
   become: yes
   ansible.builtin.template:
