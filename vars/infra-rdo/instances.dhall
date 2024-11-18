@@ -13,21 +13,12 @@ let Flavors = (../common.dhall).Flavors
 let instances =
       [ Instance::{
         , name = "mirror.regionone.vexxhost"
-        , groups = [ "afs-mirror", "rdo" ]
-        , connection = OS.CentOS.`7.0`.connection
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`7.0`.image.name
-          , security_groups = [ "web", "afs", "apache_exporter" ]
-          , floating_ip = Some True
-          , volume_size = Some 200
-          }
-        }
-      , Instance::{
-        , name = "mirror.regionone.vexxhost-new"
-        , groups = [ "rhel" ]
-        , connection = OS.RHEL.`9.3`.connection
+        , groups = [ "rhel", "afs-mirror", "rdo" ]
+        , connection =
+            OS.RHEL.`9.3`.connection // { ansible_host = Some "38.102.83.237" }
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
+          , security_groups = [ "web", "afs", "apache_exporter" ]
           , floating_ip = Some True
           , volume_size = Some 200
           }

@@ -176,7 +176,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
-    image: centos-7-1907
+    image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
     network: private-network
@@ -186,18 +186,6 @@ servers:
       - web
       - afs
       - apache_exporter
-    state: present
-    volume_size: 200
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: mirror.regionone.vexxhost-new.rdoproject.org
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
     state: present
     volume_size: 200
   - boot_from_volume: yes

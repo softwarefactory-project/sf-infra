@@ -30,7 +30,6 @@ scrape_configs:
     static_configs:
       - targets:
           - mirror.regionone.vexxhost.rdoproject.org:9100
-          - mirror.regionone.vexxhost-new.rdoproject.org:9100
           - quay.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
           - logserver.rdoproject.org:9100

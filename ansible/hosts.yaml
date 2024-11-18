@@ -177,7 +177,7 @@ all:
         managesf.softwarefactory-project.io: {}
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
-        mirror.regionone.vexxhost-new.rdoproject.org: {}
+        mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
@@ -362,14 +362,11 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    mirror.regionone.vexxhost-new.rdoproject.org:
+    mirror.regionone.vexxhost.rdoproject.org:
+      ansible_host: '38.102.83.237'
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    mirror.regionone.vexxhost.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: python2
-      ansible_user: centos
     monitoring.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
