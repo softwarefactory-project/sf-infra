@@ -23,6 +23,16 @@ let instances =
           }
         }
       , Instance::{
+        , name = "mirror.regionone.vexxhost-new"
+        , groups = [ "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , floating_ip = Some True
+          , volume_size = Some 200
+          }
+        }
+      , Instance::{
         , name = "quay"
         , groups = [ "quay", "rdo", "rhel" ]
         , connection =

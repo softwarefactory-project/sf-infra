@@ -4,6 +4,7 @@
 This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org centos-7-1907 v1-standard-2
+* mirror.regionone.vexxhost-new.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * quay.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * managesf.review.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * logserver.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
