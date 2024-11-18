@@ -24,6 +24,7 @@
     pod_param: >
       --net=host
       --pid=host
+      --pull=always
       -p {{ listen_port }}:{{ listen_port }}
       {% if zookeeper_tls_enabled %}
       -v {{ zookeeper_cert }}:{{ zookeeper_cert }}:ro

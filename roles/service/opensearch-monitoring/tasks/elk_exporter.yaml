@@ -12,6 +12,7 @@
     pod_name: elasticsearch-exporter
     pod_param: >
       --net=host
+      --pull=always
       -v /etc/opensearch/certs/opensearch:/etc/opensearch/certs/opensearch:z
       {% if override_cert_perms | default(false) %}
       --user {{ elastic_exporter_container_uid }}:{{ elastic_exporter_container_gid }}
