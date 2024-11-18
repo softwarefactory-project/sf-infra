@@ -18,3 +18,7 @@
       http://localhost:3000/render{{ item.split('|')[1] | trim }}?orgId=1&width={{ screenshot_width }}&height={{ screenshot_height }}&kiosk=1
     dest: "/tmp/log/{{ item.split('|')[0] | replace(' ','') | trim }}.png"
   loop: "{{ _dashboards.stdout_lines }}"
+  register: _page_result
+  until: _page_result is succeeded
+  retries: 5
+  delay: 10
