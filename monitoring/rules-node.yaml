@@ -38,7 +38,7 @@ groups:
           description: |
             Node only has {{ $value | humanize1024 }} of free swap available.
           summary: "Out of swap (instance {{ $labels.instance }})"
-        expr: "(node_memory_SwapTotal_bytes{job='node'} > 0) and (node_memory_SwapFree_bytes{job='node'} / node_memory_SwapTotal_bytes{job='node'} * 100 < 50)"
+        expr: "(node_memory_SwapTotal_bytes{job='node'} > 0) and (node_memory_SwapFree_bytes{job='node'} / node_memory_SwapTotal_bytes{job='node'} * 100 < 50) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
         for: "30m"
       - alert: InstanceOutOfDisk
         annotations:
