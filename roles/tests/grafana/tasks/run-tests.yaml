@@ -1,7 +1,7 @@
 ---
 - name: Get available dashboards
   ansible.builtin.shell: |
-    curl --silent -XGET http://localhost:3000/api/search | jq -r '.[] | select(.type != "dash-folder") | "\(.title) | \(.url)"'
+    curl --silent -XGET http://localhost:3000/api/search | jq -r '.[] | select(.type != "dash-folder") | "\((.title | split("/") | last)) | \(.url)"'
   register: _dashboards
 
 - name: Create directories
