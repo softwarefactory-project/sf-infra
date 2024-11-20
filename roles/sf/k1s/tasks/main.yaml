@@ -183,5 +183,15 @@
     dest: /etc/motd
     mode: "0644"
 
+- name: Add crontab to remove unused containers
+  become: true
+  ansible.builtin.cron:
+    name: Remove unused containers
+    minute: "0"
+    hour: "23"
+    user: "{{ k1s_user }}"
+    state: present
+    job: /usr/bin/podman kill $(/usr/bin/podman ps -a | /usr/bin/grep -i 'sleep inf' | /usr/bin/awk '/weeks|days/ {print $1}')
+
 - name: Create probe for checking old containers
   ansible.builtin.include_tasks: probe.yaml
