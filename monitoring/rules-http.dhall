@@ -16,6 +16,17 @@ in  Prometheus.RulesConfig::{
                 "probe_ssl_earliest_cert_expiry{job='blackbox'} - time() < 86400 * 6"
             , for = Some "1d"
             }
+          , Prometheus.CriticalRule::{
+            , alert = Some "HighHTTP503Errors"
+            , expr = Some "rate(http_requests_total{status='503'}[10m]) > 0"
+            , for = Some "10m"
+            , annotations = Some Prometheus.Annotations::{
+              , summary = "Unresponsive service (instance {{ $labels.instance }})"
+              , description = Some ''
+                  The service {{ $labels.instance }} has been consistently returning HTTP 503 errors in the last 10 minutes.
+                  ''
+              }
+            }
           ]
         }
       ]
