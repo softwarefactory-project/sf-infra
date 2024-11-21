@@ -238,7 +238,7 @@
                 , show : Bool
                 }
             , showHeader : Bool
-            , sortBy : List <>
+            , sortBy : List { desc : Bool, displayName : Text }
             }
         , pluginVersion : Text
         , targets :
@@ -616,7 +616,7 @@
               , topic : Optional Text
               }
           ) ->
-        \(sortBy : List <>) ->
+        \(sortBy : List { desc : Bool, displayName : Text }) ->
           PType.TablePanel
             { datasource = { type = "prometheus", uid = datasourceId }
             , description
