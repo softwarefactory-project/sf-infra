@@ -142,3 +142,9 @@ bridge_users:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5/W4WD9nKLLmapEZEVh3PYdbeWrIs0mw5FziJbd/IL evallesp@fedora"
+  vcherkas:
+    name: "vcherkas"
+    groups:
+      - "{{ admin_group }}"
+    ssh_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJHZ4TEcbFRJsQBv8wOxeUSnsi4b4nwvn3rOzeeutbVsmFuGbuEWdp3fqDcHmnC5pZXKN9Atn9inqrFQbg36I48C+t9NBELeISyT4aM8Og7WfUHcxsMmBa3oj5GaUsMzT5t9meTnill7+06L5grq2xkWSSv6FVRi2EIn4P/DurbpXSoyXfwo9Vj9oUvpbon7HJmASfU6Q3vYANZuDAdK1UQ6Fx1Ye9Gz8Jl56mhsxKe3Tpq0VikKRZZbHs0QpCPm6MXS3LSOOUe3+FMWJR8k6jyVx+8Cvsj8mkzqUianUyU/Ez5pXlN9o7WjbkGkcqTjefzq0yFupaS9m3utcSnmDt vcherkas@redhat.com"
