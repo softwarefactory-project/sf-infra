@@ -2,11 +2,14 @@
 - name: Create a Backup directory if it does not exist
   become: true
   ansible.builtin.file:
-    path: "{{ backup_dir }}"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
     owner: cloud-user
     group: cloud-user
+  loop:
+    - "{{ backup_dir }}"
+    - "{{ backup_dir_archives }}"
 
 - name: Create script for backing up sf-operator
   become: true
@@ -17,6 +20,7 @@
     group: root
     content: |
       #!/bin/bash
+      set -e
 
       {% for cluster in kube_config_cluster %}
       KUBECONFIG=/etc/run-infra-ng/{{ cluster.namespace }}.kubeconfig sf-operator \
@@ -28,6 +32,16 @@
       # ensure files are readable by every bridge user
       find . -type f -exec chmod 0644 {} \;
       find . -type d -exec chmod 0755 {} \;
+
+      # Save in the archive directory
+      cd {{ backup_dir }}
+      now=$(date +"%s")
+      tar -czf {{ backup_dir_archives }}/$now.tgz .
+
+      # Add a metric for the node_exporter
+      echo "sf_operator_backup_last_success{} $now" > /tmp/sf_operator_backup_last_success.prom
+      sudo mv /tmp/sf_operator_backup_last_success.prom /var/lib/node_exporter/textfile_collector/
+
       # TODO: run bup save command
 
 - name: Adding SF-Operator Cluster backup cronjob
