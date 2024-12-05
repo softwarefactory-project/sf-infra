@@ -17,7 +17,7 @@
   become: true
 
 - name: Mount and bind volumes
-  ansible.builtin.mount:
+  ansible.posix.mount:
     path: '{{ item.dest }}'
     src: '{{ item.source }}'
     opts: bind

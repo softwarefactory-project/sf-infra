@@ -7,7 +7,7 @@
   become: true
 
 - name: Mount partition
-  ansible.builtin.mount:
+  ansible.posix.mount:
     fstype: '{{ filesystem | default("xfs") }}'
     src: '/dev/{{ partition }}'
     path: '{{ mountpoint }}'

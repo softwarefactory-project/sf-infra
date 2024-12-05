@@ -9,7 +9,7 @@
         dev: "{{ swap_device }}"
 
     - name: Add swap to fstab
-      ansible.builtin.mount:
+      ansible.posix.mount:
         fstype: swap
         path: swap
         src: "{{ swap_device }}"
@@ -53,7 +53,7 @@
           ansible.builtin.command: "swapon {{ swap_file }}"
 
         - name: Add swap to the fstab
-          ansible.builtin.mount:
+          ansible.posix.mount:
             fstype: swap
             src: "{{ swap_file }}"
             name: none

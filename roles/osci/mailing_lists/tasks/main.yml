@@ -10,7 +10,7 @@
         dev: "{{ data_dev }}"
 
     - name: "Mount filesystem for Mailing-Lists data"
-      ansible.builtin.mount:
+      ansible.posix.mount:
         src: "{{ data_dev }}"
         path: "{{ data_path }}"
         fstype: "{{ fs_type }}"
@@ -156,4 +156,3 @@
         dest: /etc/dovecot/users/
 
   tags: mailinglists
-
