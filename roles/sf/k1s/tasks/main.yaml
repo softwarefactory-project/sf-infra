@@ -29,24 +29,18 @@
 
 - name: Clone the software
   ansible.builtin.git:
-    repo: https://pagure.io/software-factory/k1s
+    repo: https://softwarefactory-project.io/r/software-factory/k1s
     dest: /usr/src/k1s
-    update: no
+    update: yes
+    version: "{{ k1s_version }}"
+
   become: true
 
-- name: Clone the package
-  ansible.builtin.git:
-    repo: https://softwarefactory-project.io/r/rpms/k1s
-    dest: /usr/src/k1s-distgit
-    update: no
-  become: true
-
-- name: Install the software
+# TODO revert once v1.0.0 is installed on k1s hosts currently up
+- name: Force install
   ansible.builtin.shell: |
-    if [ ! -f /usr/bin/k1s ]; then
-        cd /usr/src/k1s;
-        python3 setup.py develop --prefix /usr/ || exit 1
-    fi
+    cd /usr/src/k1s;
+    python3 setup.py develop --prefix /usr/ || exit 1
   become: true
 
 - name: Ensure mtu for default bridge
@@ -98,7 +92,7 @@
       no_log: true
     - ansible.builtin.copy:
         remote_src: true
-        src: /usr/src/k1s-distgit/k1s.service
+        src: /usr/src/k1s/k1s.service
         dest: /etc/systemd/system/k1s.service
 
 - name: Install the user service
