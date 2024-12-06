@@ -1,5 +1,5 @@
 ---
 backup_dir: "/var/lib/sf-operator-backup"
+backup_dir_archives: "/var/lib/sf-operator-backup/archives"
 # A list of namespace. The kubeconfig is loaded from /etc/run-infra-ng/{{ namespace }}.kubeconfig
 kube_config_cluster: []
-
