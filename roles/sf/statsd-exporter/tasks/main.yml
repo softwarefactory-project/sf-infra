@@ -70,7 +70,7 @@
           --net=host
           --pid=host
           --pull=always
-          -v /etc/prometheus/statsd_mapping.yml:/tmp/statsd_mapping.yml
+          -v {{ map_config_file_path }}:/tmp/statsd_mapping.yml
           -p {{ listen_address }}:9102
           -p {{ listen_udp_port }}:9125
           -p {{ listen_tcp_port }}:9125
