@@ -275,14 +275,24 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
             , RHEL =
                 let RHEL = { ansible_user = Some "cloud-user" }
 
-                in  { -- the url is hidden. Image has been pushed manually.
-                      `9.3` =
-                      { connection = Infra.Connection::(RHEL // PyAuto)
+                in  { `9.3` =
+                      { -- image from https://access.redhat.com/downloads/content/479/ver=/rhel---9/9.3/x86_64/product-software
+                        connection = Infra.Connection::(RHEL // PyAuto)
                       , image = Infra.Image::{
                         , name = "rhel-9.3-x86_64-kvm"
                         , url = "https://redhat.com"
                         , checksum =
                             "b1dd527a92721fda5469f511b5d6b4c97cfa18bbf9b002b0fcec08b4e067d28c"
+                        }
+                      }
+                    , `9.4` =
+                      { -- image from https://access.redhat.com/downloads/content/479/ver=/rhel---9/9.4/x86_64/product-software
+                        connection = Infra.Connection::(RHEL // PyAuto)
+                      , image = Infra.Image::{
+                        , name = "rhel-9.4-x86_64-kvm"
+                        , url = "https://redhat.com"
+                        , checksum =
+                            "d362e72518a2d7415d850b8177c814f6fd87f42ca1640bda17e98855e1d6baad"
                         }
                       }
                     }
