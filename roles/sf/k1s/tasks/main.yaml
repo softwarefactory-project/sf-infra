@@ -191,7 +191,7 @@
     hour: "23"
     user: "{{ k1s_user }}"
     state: present
-    job: /usr/bin/podman kill $(/usr/bin/podman ps -a | /usr/bin/grep -i 'sleep inf' | /usr/bin/awk '/weeks|days/ {print $1}')
+    job: /usr/bin/podman kill $(/usr/bin/podman ps -a | /usr/bin/grep -i 'sleep inf' | /usr/bin/awk '/weeks|days|2[4-9] hours|[3-4][0-9] hours/ {print $1}')
 
 - name: Create probe for checking old containers
   ansible.builtin.include_tasks: probe.yaml
