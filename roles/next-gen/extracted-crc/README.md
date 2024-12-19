@@ -2,7 +2,7 @@
 
 ## Main goal
 
-The main goal of that role is to:
+The main goal of this role is to:
 
 - trigger CRC bundle generate script,
 - extract the bundle file,
@@ -13,24 +13,24 @@ The main goal of that role is to:
   - set custom DNS ip address,
 
 - umount the qcow2 image,
-- pull the image on the host which have OpenStack credentials,
+- pull the image on the host which has OpenStack credentials,
 - push the image to the OpenStack cloud project,
-- remove old image and rename new one to main name*
+- remove old image and rename new one to main name (*)
 
-* We are doing that step because of the Zuul CI nodepool workflow. After
-first spawn of VM with such image, nodepool is caching the image UUID to speed-up
-future request. That might be a problem for the CI, due the image is not created
-via Nodepool, but it is cloud image, which later Nodepool is taking that name
-to spawn an instance. In other words, the Nodepool launcher keeps in cache
-old image with uuid `X` and after we upload new image, it still keeps in cache
-uuid `X` without attepting to check if there is another image with such name.
-It means, that after each upload, we should clear cache and restart Nodepool
-launcher service or remove old image and trigger service to take the new image
-to the cache (because we can not change the old image UUID to be different).
+(*) This step is necessary due to the Zuul CI nodepool workflow. When
+a VM is first spawned with an image, nodepool caches the image UUID to
+speed up future requests. The problem arises because the image is not
+created through Nodepool; it’s a cloud image. Later, Nodepool uses the
+image name to spawn instances, but it keeps the cached UUID (X) even
+after a new image is uploaded. Nodepool does not check if the image
+name corresponds to a new UUID, so after each upload, we must either
+clear the cache and restart the Nodepool launcher service, or remove
+the old image and trigger the service to cache the new
+one. Unfortunately, we cannot change the UUID of the old image.
 
 ## Basic workflow by using shell
 
-Similar result you will have after executing below sh script:
+Similar result you will have after executing below bash script:
 
 ```sh
 #!/bin/bash

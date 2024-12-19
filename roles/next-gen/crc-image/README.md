@@ -5,7 +5,7 @@
 - localhost got file "~/.ansible_crc_vars.yaml" that contains openshift_pull_secret var,
 - localhost spawns crc.dev instance
 - crc.dev is deploying crc
-- after crc is done, comming back to localhost that is executing snapshot with name {{ nested_crc_snapshot_image_name }}
+- after crc is done, coming back to localhost that is executing snapshot with name {{ nested_crc_snapshot_image_name }}
 - remove the crc VM
 
 ## To setup the venv environment
@@ -17,13 +17,13 @@ python3 -mpip install ansible ansible-core==2.13.7 openstackclient python-openst
 ansible-galaxy collection install  community.general community.crypto ansible.posix openstack.cloud
 ```
 
-## Run playbook with following command
+## Run playbook with the following command
 
 ```sh
 ansible-playbook playbooks/crc/crc-make-snapshot.yaml
 ```
 
-NOTE: Centos 8 stream CRC image will be removed soon.
+NOTE: The Centos 8 stream CRC image will be removed soon.
 
 ```sh
 ansible-playbook -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=8" playbooks/crc/crc-make-snapshot.yaml

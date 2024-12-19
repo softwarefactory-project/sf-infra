@@ -35,14 +35,14 @@ Where:
 
 ```sh
  upstream_cloud_name => a name of the cloud resource from ~/.config/openstack/clouds.yaml
-                        that is poiting to a upstream OpenStack cloud, that
+                        that is pointing to a upstream OpenStack cloud, that
                         has the image, that later will be pulled by remote_cloud_names
-                        and share between {{ remote_cloud_names.[*].child_cloud_names }}
+                        and shared between {{ remote_cloud_names.[*].child_cloud_names }}
  remote_cloud_names:
  - cloud_name        => (parent) name of the cloud resource from ~/.config/openstack/clouds.yaml
    child_cloud_names => dict, with:
         name => name of the cloud resources from ~/.config/openstack/clouds.yaml
-                that parent will share an image to. NOTE: projects needs to be in the same cluster!
+                that parent will share an image to. NOTE: projects need to be in the same cluster!
         project_id => project_id on which the child_cloud_names.name belongs to.
                       It is required to be more sure, that the image is shared
                       to that project. You can take the project_id by doing:
@@ -52,11 +52,11 @@ Where:
                       or
                       - openstack --debug server list | grep project_id
    sync_images_base_names => list with dicts, where:
-        name => the "preffix", on which task will try to determinate which
+        name => the "prefix", on which task will try to determine which
                 image is the newest one (because we have a date suffix in the
                 image name, so by sorting images we can take newest one).
                 Normally it is: "coreos-crc-extracted-latest"
-        is_upstream => boolean value - it determinate if the image is on remote
+        is_upstream => boolean value - it determines if the image is on remote
                        cloud and should be downloaded to the host, then
                        pushed to the other OpenStack cloud or the image is
                        in same OpenStack cluster. For example, it can be:
