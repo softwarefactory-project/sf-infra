@@ -19,13 +19,14 @@ fi
 containers=$(podman ps -a --format "time={{.CreatedAt }} command={{ .Command }}" | grep -i 'sleep inf')
 if [ -n "$containers" ]; then
     while IFS= read -r line; do
-        creationDate=$( echo "$line" | awk '{print $1}' | cut -f2 -d'=');
-        creationDateEpoch=$(date -d "$creationDate" +"%s");
-        delta=$(( now - creationDateEpoch)) ;
-        if [ $delta -gt "$maxTime" ]; then
-            counter=$(( counter+1 ));
-        fi;
+        # timestamp without the alphabetic time zone
+        creationDate=$(echo "$line" | awk -F'=' '{print $2}' | awk '{print $1, $2, $3}')
+        creationDateEpoch=$(date -d "$creationDate" +"%s")
+        delta=$((now - creationDateEpoch))
+        if [ $delta -gt $maxTime ]; then
+            ((counter++))
+        fi
     done <<< "$containers"
-fi;
+fi
 
 echo "k1s_old_containers{count=\"counted_old_containers\", hostname=\"$thisHost\"} $counter" > "$textCollectorFile"
