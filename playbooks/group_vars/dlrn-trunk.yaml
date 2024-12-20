@@ -287,6 +287,8 @@ dlrn_workers:
     enable_purge: "{{ enable_worker_cronjobs }}"
     purge_hour: '4'
     purge_minute: '17'
+    cron_hour: '*/1'
+    cron_minute: '8'
     symlinks: ['/var/www/html/centos9-wallaby', '/var/www/html/wallaby/centos9']
     release: 'wallaby'
     baseurl: 'https://trunk.rdoproject.org/centos9-wallaby'
