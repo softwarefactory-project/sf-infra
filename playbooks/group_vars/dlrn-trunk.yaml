@@ -226,8 +226,8 @@ dlrn_workers:
     target: 'centos9-zed'
     distgit_branch: 'zed-rdo'
     distro_branch: 'stable/zed'
-    enable_cron: "{{ enable_worker_cronjobs }}"
-    enable_purge: "{{ enable_purge_cronjobs }}"
+    enable_cron: false
+    enable_purge: false
     purge_hour: '3'
     purge_minute: '17'
     cron_minute: '6-59/10'
@@ -255,8 +255,8 @@ dlrn_workers:
     target: 'centos9-yoga'
     distgit_branch: 'yoga-rdo'
     distro_branch: 'stable/yoga'
-    enable_cron: "{{ enable_worker_cronjobs }}"
-    enable_purge: "{{ enable_purge_cronjobs }}"
+    enable_cron: false
+    enable_purge: false
     purge_hour: '2'
     purge_minute: '17'
     cron_minute: '7-59/10'
