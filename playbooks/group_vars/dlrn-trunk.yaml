@@ -18,6 +18,7 @@ cert_mail: softwarefactory-operations-team@redhat.com
 nfs_shared_repos: true
 
 api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-dalmatian', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
+exclude_monitor_list: ['centos9-zed', 'centos9-yoga']
 
 dlrn_workers:
   centos10-master-uc:
