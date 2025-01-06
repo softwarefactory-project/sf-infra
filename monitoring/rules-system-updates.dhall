@@ -4,7 +4,7 @@ let SF =
       { name = "SoftwareFactory"
       , rule =
           ''
-          (system_package_update{instance=~".*.softwarefactory-project.io:9100"} and system_package_update{instance!~"(koji|centos).softwarefactory-project.io:9100"}) > 0
+          (system_package_update{instance=~".*.softwarefactory-project.io:9100"}) > 0
           ''
       }
 
@@ -12,23 +12,7 @@ let RDO =
       { name = "RDO"
       , rule =
           ''
-          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):(9100|9110|9111|9112|9113)"} and system_package_update{instance!~"(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
-          ''
-      }
-
-let DLRN =
-      { name = "DLRN"
-      , rule =
-          ''
-          system_package_update{instance=~"(trunk.+|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"} > 0
-          ''
-      }
-
-let OSCI =
-      { name = "OSCI"
-      , rule =
-          ''
-          system_package_update{instance="dashboards.rdoproject.org:9100"} > 0
+          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):(9100|9110|9111|9112|9113)"} and system_package_update{instance!~"(dashboards|trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
           ''
       }
 
@@ -51,10 +35,7 @@ in  Prometheus.RulesConfig::{
       [ Prometheus.Group::{
         , name = Some "system-package-update-sf.rules"
         , rules = Some
-          [ createRule SF.name SF.rule
-          , createRule RDO.name RDO.rule
-          , createRule OSCI.name OSCI.rule
-          ]
+          [ createRule SF.name SF.rule, createRule RDO.name RDO.rule ]
         }
       ]
     }
