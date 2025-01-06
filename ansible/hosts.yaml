@@ -179,6 +179,7 @@ all:
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
+        nodepool-builder.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
         sf-container-worker-1.softwarefactory-project.io: {}
