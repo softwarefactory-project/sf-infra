@@ -1,4 +1,0 @@
----
-prometheus_monitored_services_extra:
-  - rdo_dashboards
-

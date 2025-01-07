@@ -29,13 +29,8 @@
     state: absent
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
 
-- name: Adding service suffix for prometheus_monitored_services
-  ansible.builtin.set_fact:
-    prometheus_monitored_services: "{{ (prometheus_monitored_services | union(prometheus_monitored_services_extra | default([]))) | map('regex_replace', '^(.*?)(\\.service)?$', '\\1.service') | list }}"
-  when: prometheus_monitored_services is defined
-
-# NOTE(dpawlik) All systemd services should end with '.service'.
-- ansible.builtin.include_role:
+- name: Create container
+  ansible.builtin.include_role:
     name: service/container
   vars:
     pod_name: node-exporter
@@ -54,7 +49,6 @@
       --collector.interrupts
       --collector.textfile.directory /var/lib/node_exporter/textfile_collector
       --collector.systemd
-      --collector.systemd.unit-include="{{ prometheus_monitored_services | join('|') }}"
       --collector.netdev.device-exclude='^(tap.*)$'
       --collector.netclass.ignored-devices='^(tap.*)$'
       --collector.filesystem.ignored-mount-points='^/(dev|proc|sys|var/lib/containers/.+|var/lib/kubelet/pods/.+|run/netns/.+)($|/)'
