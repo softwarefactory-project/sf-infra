@@ -6,7 +6,7 @@ groups:
         annotations:
           summary: "There are some packages to update in the SoftwareFactory infra!"
         expr: |
-          (system_package_update{instance=~".*.softwarefactory-project.io:9100"} and system_package_update{instance!~"(koji|centos).softwarefactory-project.io:9100"}) > 0
+          (system_package_update{instance=~".*.softwarefactory-project.io:9100"}) > 0
         for: "7d"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
@@ -15,16 +15,7 @@ groups:
         annotations:
           summary: "There are some packages to update in the RDO infra!"
         expr: |
-          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):(9100|9110|9111|9112|9113)"} and system_package_update{instance!~"(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
-        for: "7d"
-        labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
-          severity: info
-      - alert: SystemOutdatedPackagesOSCI
-        annotations:
-          summary: "There are some packages to update in the OSCI infra!"
-        expr: |
-          system_package_update{instance="dashboards.rdoproject.org:9100"} > 0
+          (system_package_update{instance=~".*.(openstack.org|rdoproject.org):(9100|9110|9111|9112|9113)"} and system_package_update{instance!~"(dashboards|trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100"}) > 0
         for: "7d"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
