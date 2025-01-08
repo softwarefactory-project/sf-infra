@@ -74,6 +74,11 @@ crda_url: ''
 quay_api_url: "https://quay.rdoproject.org/api/v1"
 quay_enable_prune: false
 
+# quay_pruner_auth requires, eg.:
+#   auth_method: kerberosAuth
+#   server_principal: HTTP/somehost.com@IPA.HOST.COM
+quay_pruner_auth: {}
+
 dlrn_api_host: trunk.rdoproject.org
 quay_pruner_log_directory: /var/log/quay_tag_pruner
 
