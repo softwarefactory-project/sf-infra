@@ -1,0 +1,31 @@
+---
+- name: Ensure rhel services and base config
+  become: true
+  block:
+    - name: Install dnf-automatic
+      ansible.builtin.dnf:
+        name: "dnf-automatic"
+
+    - name: Disable a timer unit for dnf-automatic
+      ansible.builtin.systemd_service:
+        name: dnf-automatic.timer
+        state: stopped
+        enabled: false
+
+    - name: Enable a timer unit for dnf-automatic-install
+      ansible.builtin.systemd_service:
+        name: dnf-automatic-install.timer
+        state: started
+        enabled: true
+
+    - name: Disable grub menu_auto_hide
+      ansible.builtin.command: grub2-editenv - unset menu_auto_hide
+
+    - name: Set GRUB_TIMEOUT to 5s
+      ansible.builtin.lineinfile:
+        dest: /etc/default/grub
+        regexp: "^GRUB_TIMEOUT="
+        line: "GRUB_TIMEOUT=5"
+
+    - name: Update grub config
+      ansible.builtin.command: grub2-mkconfig -o /boot/grub2/grub.cfg
