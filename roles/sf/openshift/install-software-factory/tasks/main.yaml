@@ -52,6 +52,7 @@
     definition: "{{ item }}"
   no_log: true
   loop: "{{ zuul_connections_secrets }}"
+  when: zuul_connections_secrets is defined
 
 - name: Apply the SF Custom Resource
   kubernetes.core.k8s:
