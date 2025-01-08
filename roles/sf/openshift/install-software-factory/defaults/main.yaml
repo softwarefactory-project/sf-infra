@@ -14,17 +14,6 @@ software_factory:
 
 zuul_connections_secrets: []
 #
-# sf_ssl_cert_secret:
-#   kind: Secret
-#   apiVersion: v1
-#   metadata:
-#     namespace: sf
-#   type: Opaque
-#   data:
-#     CA: ""
-#     crt: ""
-#     key: ""
-#
 # corporate_ca_certs:
 #   kind: ConfigMap
 #   apiVersion: v1

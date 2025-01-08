@@ -17,16 +17,6 @@
       environment:
         KUBECONFIG: "{{ kube_config }}"
 
-# When this Secret 'sf-ssl-cert' is set then sf-operator uses its content to setup Routes' TLS.
-- name: Install TLS Secret for the Route
-  kubernetes.core.k8s:
-    kubeconfig: "{{ kube_config }}"
-    state: present
-    name: sf-ssl-cert
-    definition: "{{ sf_ssl_cert_secret }}"
-  no_log: true
-  when: sf_ssl_cert_secret is defined
-
 # When this ConfigMap 'corporate-ca-certs' is set then sf-operator adds the CA Cert(s) to the
 # containers CA Trust chains
 - name: Install corporate-ca-certs for CA Trust Chains
