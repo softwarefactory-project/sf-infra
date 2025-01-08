@@ -54,12 +54,6 @@
 - name: Apply the SF Custom Resource (standalone)
   when: sf_operator_standalone | bool
   block:
-    - name: Ensure system packages
-      become: true
-      ansible.builtin.package:
-        name:
-          - golang-bin
-
     - name: Ensure sf-operator repository
       ansible.builtin.git:
         repo: "https://softwarefactory-project.io/r/software-factory/sf-operator"
