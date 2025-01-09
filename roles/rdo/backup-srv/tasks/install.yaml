@@ -4,7 +4,11 @@
   block:
     - name: Delete required packages
       ansible.builtin.package:
-        name: "{{ backup_packages + ['python3-pyxattr'] }}"
+        name:
+          - gcc
+          - make
+          - python3-devel
+          - python3-pyxattr
         state: absent
 
     - name: Delete bup binaries

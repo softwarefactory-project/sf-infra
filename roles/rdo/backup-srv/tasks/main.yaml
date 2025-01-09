@@ -2,8 +2,7 @@
 - name: Install packages
   become: yes
   ansible.builtin.package:
-    name:
-      - ansible-core
+    name: "{{ backup_packages }}"
 
 - name: Copy backup ssh priv key
   ansible.builtin.copy:
