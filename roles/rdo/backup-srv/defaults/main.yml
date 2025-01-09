@@ -1,12 +1,10 @@
 ---
 backup_packages:
-  - gcc
-  - python3-devel
-  - make
-  - httpd
-  - mod_ssl
-  - lvm2
+  - ansible-core
   - git
+  - httpd
+  - lvm2
+  - mod_ssl
 
 bup_version: 0.32.2-ubi8-1
 
