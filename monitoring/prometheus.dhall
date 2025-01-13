@@ -15,7 +15,6 @@ let apache_server_list =
       , "managesf.review.rdoproject.org:9117"
       , "fedora.softwarefactory-project.io:9117"
       , "mirror.regionone.vexxhost.rdoproject.org:9117"
-      , "dashboards.rdoproject.org:9117"
       , "logserver.rdoproject.org:9117"
       , "opensearch.rdoproject.org:9117"
       , "centos.softwarefactory-project.io:9117"

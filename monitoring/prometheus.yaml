@@ -33,7 +33,6 @@ scrape_configs:
           - quay.rdoproject.org:9100
           - managesf.review.rdoproject.org:9100
           - logserver.rdoproject.org:9100
-          - dashboards.rdoproject.org:9100
           - opensearch.rdoproject.org:9100
           - dlrn-db-centos9.rdoproject.org:9100
           - trunk-server-centos9.rdoproject.org:9100
@@ -86,8 +85,6 @@ scrape_configs:
           - https://quay.rdoproject.org/
           - https://review.rdoproject.org/zuul/api/info
           - https://review.rdoproject.org
-          - https://dashboards.rdoproject.org
-          - dashboards.rdoproject.org
           - https://opensearch.rdoproject.org/
           - https://softwarefactory-project.io
           - https://softwarefactory-project.io/r/config/server/version
@@ -135,7 +132,6 @@ scrape_configs:
           - managesf.review.rdoproject.org:9117
           - fedora.softwarefactory-project.io:9117
           - mirror.regionone.vexxhost.rdoproject.org:9117
-          - dashboards.rdoproject.org:9117
           - logserver.rdoproject.org:9117
           - opensearch.rdoproject.org:9117
           - centos.softwarefactory-project.io:9117

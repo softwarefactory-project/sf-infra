@@ -114,6 +114,7 @@ let instances =
       , Instance::{
         , name = "dashboards"
         , groups = [ "osci" ]
+        , node-exporter = False
         , connection =
                 OS.CentOS.`8.1`.connection
             //  { ansible_host = Some "38.102.83.227" }
@@ -125,10 +126,6 @@ let instances =
           , security_groups = [ "web", "apache_exporter" ]
           , volume_size = Some 10
           }
-        , monitoring_urls =
-            -- The dashboards.rdoproject.org has been moved to the
-            --  Github mkdocs, but we still want to have eye on it
-            [ "https://dashboards.rdoproject.org", "dashboards.rdoproject.org" ]
         }
       , Instance::{
         , name = "opensearch"
