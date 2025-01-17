@@ -6,6 +6,15 @@
       - python3-requests
     state: present
 
+- name: Install required packages when GSSAPI enabled
+  become: true
+  when: quay_pruner_auth
+  ansible.builtin.package:
+    name:
+      - python3-gssapi
+      - python3-ipaclient
+    state: present
+
 - name: Install image tag pruner
   become: true
   ansible.builtin.copy:
