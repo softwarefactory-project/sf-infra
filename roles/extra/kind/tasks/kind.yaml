@@ -1,0 +1,59 @@
+---
+- name: Get user {{ ansible_user }} home directory path
+  ansible.builtin.shell: |
+    getent passwd "{{ ansible_user }}" | cut -d: -f6
+  register: _user_homedir
+
+- name: Create kind config directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/kind
+    state: directory
+
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ _user_homedir.stdout }}/{{ item }}"
+    state: directory
+  loop:
+    - src
+    - .kube
+
+- name: Download kind
+  become: true
+  ansible.builtin.get_url:
+    url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64
+    dest: /bin/kind
+    mode: '0755'
+    checksum: "{{ kind_checksum }}"
+
+- name: Copy kind-config
+  become: true
+  ansible.builtin.template:
+    src: kind-config.yaml
+    dest: /etc/kind/kind-config.yaml
+
+- name: Check if cluster already exists
+  become: true
+  ansible.builtin.command: |
+    kind get clusters
+  register: _current_cluster
+
+- name: Create cluster
+  become: true
+  ansible.builtin.command: kind create cluster --config /etc/kind/kind-config.yaml
+  when: not _current_cluster.stdout_lines
+
+- name: Create initial kubeconfig file
+  become: true
+  ansible.builtin.shell: |
+    kind get kubeconfig > "{{ _user_homedir.stdout }}/.kube/config"
+
+- name: Copy create-kubeconfig script
+  become: true
+  ansible.builtin.copy:
+    src: create-kubeconfig
+    dest: /usr/bin/create-kubeconfig
+    mode: '0755'
+
+- name: Setup ingress controller
+  ansible.builtin.command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
