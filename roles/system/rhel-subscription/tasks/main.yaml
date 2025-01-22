@@ -18,7 +18,9 @@
       no_log: yes
 
     - name: Ensure Extended Update Support repos are disabled
-      ansible.builtin.command: "subscription-manager repos --disable {{ item }}"
+      community.general.rhsm_repository:
+        name: "{{ item }}"
+        state: disabled
       loop:
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
