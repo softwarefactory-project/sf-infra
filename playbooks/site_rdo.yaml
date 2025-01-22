@@ -4,6 +4,7 @@
 - hosts: rhel
   roles:
     - system/rhel-subscription
+    - system/rhel-setup
 
 - hosts: rdo
   roles:
