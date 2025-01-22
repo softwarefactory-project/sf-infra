@@ -1,0 +1,255 @@
+{
+  "datasource": {
+    "type": "grafana-opensearch-datasource",
+    "uid": "P21A359CBF94EAE01"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "align": "center",
+        "cellOptions": {
+          "type": "auto"
+        },
+        "inspect": false,
+        "filterable": true
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          }
+        ]
+      },
+      "color": {
+        "mode": "thresholds"
+      }
+    },
+    "overrides": [
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Status"
+        },
+        "properties": [
+          {
+            "id": "custom.cellOptions",
+            "value": {
+              "type": "color-text"
+            }
+          },
+          {
+            "id": "color",
+            "value": {
+              "mode": "fixed",
+              "fixedColor": "dark-red"
+            }
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Logs"
+        },
+        "properties": [
+          {
+            "id": "custom.align",
+            "value": "left"
+          }
+        ]
+      },
+      {
+        "matcher": {
+          "id": "byName",
+          "options": "Review"
+        },
+        "properties": []
+      }
+    ]
+  },
+  "gridPos": {
+    "h": 18,
+    "w": 24,
+    "x": 0,
+    "y": 0
+  },
+  "id": 1,
+  "options": {
+    "showHeader": true,
+    "cellHeight": "sm",
+    "footer": {
+      "show": false,
+      "reducer": [
+        "sum"
+      ],
+      "countRows": false,
+      "fields": ""
+    },
+    "sortBy": [
+      {
+        "displayName": "Date of FTBFS",
+        "desc": true
+      }
+    ]
+  },
+  "pluginVersion": "10.4.2",
+  "targets": [
+    {
+      "alias": "",
+      "bucketAggs": [],
+      "datasource": {
+        "type": "grafana-opensearch-datasource",
+        "uid": "P21A359CBF94EAE01"
+      },
+      "format": "table",
+      "hide": false,
+      "metrics": [
+        {
+          "id": "1",
+          "settings": {
+            "order": "desc",
+            "size": "500",
+            "useTimeRange": true
+          },
+          "type": "raw_data"
+        }
+      ],
+      "query": "",
+      "queryType": "lucene",
+      "refId": "A",
+      "timeField": "@timestamp"
+    }
+  ],
+  "title": "Report FTBFS",
+  "transformations": [
+    {
+      "id": "filterFieldsByName",
+      "options": {
+        "byVariable": false,
+        "include": {
+          "names": [
+            "logs",
+            "project",
+            "release",
+            "review",
+            "status",
+            "@timestamp",
+            "ftbfsdate",
+            "component"
+          ]
+        }
+      }
+    },
+    {
+      "id": "organize",
+      "options": {
+        "excludeByName": {},
+        "includeByName": {},
+        "indexByName": {
+          "@timestamp": 7,
+          "_id": 1,
+          "component": 2,
+          "logs": 5,
+          "project": 0,
+          "release": 4,
+          "review": 6,
+          "status": 3
+        },
+        "renameByName": {
+          "@timestamp": "Report date",
+          "_index": "",
+          "component": "Component",
+          "ftbfsdate": "Date of FTBFS",
+          "logs": "Logs",
+          "project": "Project",
+          "release": "Release",
+          "review": "Review",
+          "status": "Status"
+        }
+      }
+    },
+    {
+      "id": "groupBy",
+      "options": {
+        "fields": {
+          "@timestamp": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Component": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Date of FTBFS": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Logs": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Project": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Release": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Report date": {
+            "aggregations": []
+          },
+          "Review": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "Status": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "_id": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "_index": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "component": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "ftbfsdate": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "logs": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "project": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "release": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "review": {
+            "aggregations": [],
+            "operation": "groupby"
+          },
+          "status": {
+            "aggregations": [],
+            "operation": "groupby"
+          }
+        }
+      }
+    }
+  ],
+  "type": "table",
+  "description": "Showing all currently failing package build attempts"
+}
