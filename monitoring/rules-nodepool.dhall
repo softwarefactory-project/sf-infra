@@ -37,7 +37,8 @@ in  Prometheus.RulesConfig::{
             , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = None Text
-              , summary = "Nodepool failed to spawn instance"
+              , summary =
+                  "Nodepool failed to spawn instance in {{ \$labels.provider }}"
               }
             }
           , Prometheus.AlertingRule::{
