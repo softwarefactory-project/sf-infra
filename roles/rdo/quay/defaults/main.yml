@@ -77,6 +77,8 @@ quay_enable_prune: false
 # quay_pruner_auth requires, eg.:
 #   auth_method: kerberosAuth
 #   server_principal: HTTP/somehost.com@IPA.HOST.COM
+#   sso_username: test
+#   sso_password: test
 quay_pruner_auth: {}
 
 dlrn_api_host: trunk.rdoproject.org

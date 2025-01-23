@@ -7,11 +7,20 @@ releases="{{ quay_pruner_dlrn_endpoints | join(' ') }}"
 names="{{ quay_pruner_extended_keeplist | join(' ') }}"
 
 if [ ! -d /tmp/dlrnapi ]; then
+    {% if quay_pruner_auth -%}
+    python3 -mvenv --system-site-packages /tmp/dlrnapi >/dev/null
+    {% else %}
     python3 -mvenv /tmp/dlrnapi >/dev/null
+    {% endif %}
 fi
 source /tmp/dlrnapi/bin/activate
 pip install setuptools --upgrade >/dev/null
 pip install dlrnapi_client >/dev/null
+
+{% if quay_pruner_auth -%}
+kdestroy
+echo -n "{{ quay_pruner_auth.sso_password }}" | kinit "{{ quay_pruner_auth.sso_username }}"
+{% endif -%}
 
 (for release in $releases
 do
@@ -42,3 +51,7 @@ do
   done
 done) | sort | uniq |paste -sd ',' ;
 rm -rf /tmp/dlrnapi > /dev/null
+
+{% if quay_pruner_auth -%}
+kdestroy
+{% endif -%}
