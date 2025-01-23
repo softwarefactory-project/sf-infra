@@ -79,6 +79,7 @@ quay_enable_prune: false
 #   server_principal: HTTP/somehost.com@IPA.HOST.COM
 #   sso_username: test
 #   sso_password: test
+#   ca_cert: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 quay_pruner_auth: {}
 
 dlrn_api_host: trunk.rdoproject.org

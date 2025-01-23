@@ -16,6 +16,7 @@ pip install pip --upgrade >/dev/null
 
 {% if quay_pruner_auth -%}
 pip install "dlrnapi_client[kerberos] @ git+https://github.com/softwarefactory-project/dlrnapi_client.git"
+export SSL_CA_BUNDLE={{ quay_pruner_auth.ca_cert | default('/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem') }}
 {% else %}
 pip install git+https://github.com/softwarefactory-project/dlrnapi_client.git >/dev/null
 {% endif %}
@@ -41,8 +42,9 @@ do
        --limit 1)
 
      if [ $? -ne 0 ]; then
-       echo "Can not continue. DLRN API returns exit code other than 0"
-       exit 1
+        echo -e "Can not continue. DLRN API returns exit code other than 0 in \n\n"
+        echo -e "name: $name and release $release\n\n"
+        exit 1
      fi
 
      echo "$response" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null
