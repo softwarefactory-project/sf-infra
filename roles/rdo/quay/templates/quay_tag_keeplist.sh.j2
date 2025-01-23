@@ -7,20 +7,23 @@ releases="{{ quay_pruner_dlrn_endpoints | join(' ') }}"
 names="{{ quay_pruner_extended_keeplist | join(' ') }}"
 
 if [ ! -d /tmp/dlrnapi ]; then
-    {% if quay_pruner_auth -%}
-    python3 -mvenv --system-site-packages /tmp/dlrnapi >/dev/null
-    {% else %}
     python3 -mvenv /tmp/dlrnapi >/dev/null
-    {% endif %}
 fi
+
 source /tmp/dlrnapi/bin/activate
 pip install setuptools --upgrade >/dev/null
-pip install dlrnapi_client >/dev/null
+pip install pip --upgrade >/dev/null
+
+{% if quay_pruner_auth -%}
+pip install "dlrnapi_client[kerberos] @ git+https://github.com/softwarefactory-project/dlrnapi_client.git"
+{% else %}
+pip install git+https://github.com/softwarefactory-project/dlrnapi_client.git >/dev/null
+{% endif %}
 
 {% if quay_pruner_auth -%}
 kdestroy
 echo -n "{{ quay_pruner_auth.sso_password }}" | kinit "{{ quay_pruner_auth.sso_username }}"
-{% endif -%}
+{% endif %}
 
 (for release in $releases
 do
@@ -28,24 +31,34 @@ do
   do
      echo $name
      {% if quay_pruner_auth -%}
-     dlrnapi \
+     result=$(dlrnapi \
        --auth-method {{ quay_pruner_auth.auth_method }} \
        --server-principal {{ quay_pruner_auth.server_principal }} \
        --force-auth \
        --url https://{{ dlrn_api_host }}/${release} \
        promotion-get \
        --promote-name ${name} \
-       --limit 1 | \
-       jq -r '.[0] | (.repo_hash,.aggregate_hash)' | \
-       grep -v null
+       --limit 1)
+
+     if [ $? -ne 0 ]; then
+       echo "Can not continue. DLRN API returns exit code other than 0"
+       exit 1
+     fi
+
+     echo "$response" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null
+
      {% else -%}
-     dlrnapi \
+     result=$(dlrnapi \
        --url https://{{ dlrn_api_host }}/${release} \
        promotion-get \
        --promote-name ${name} \
-       --limit 1 | \
-       jq -r '.[0] | (.repo_hash,.aggregate_hash)' | \
-       grep -v null
+       --limit 1)
+     if [ $? -ne 0 ]; then
+       echo "Can not continue. DLRN API returns exit code other than 0"
+       exit 1
+     fi
+
+     echo "$response" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null
      {% endif -%}
 
   done

@@ -13,6 +13,8 @@
     name:
       - python3-gssapi
       - python3-ipaclient
+      - gcc
+      - krb5-devel
     state: present
 
 - name: Install image tag pruner
