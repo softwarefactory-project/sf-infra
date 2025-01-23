@@ -26,13 +26,16 @@ kdestroy
 echo -n "{{ quay_pruner_auth.sso_password }}" | kinit "{{ quay_pruner_auth.sso_username }}"
 {% endif %}
 
-(for release in $releases
+output=()
+
+for release in $releases
 do
   for name in $names
   do
-     echo $name
+     output+=("$name")
+
      {% if quay_pruner_auth -%}
-     result=$(dlrnapi \
+     dlrn_result=$(dlrnapi \
        --auth-method {{ quay_pruner_auth.auth_method }} \
        --server-principal {{ quay_pruner_auth.server_principal }} \
        --force-auth \
@@ -40,6 +43,13 @@ do
        promotion-get \
        --promote-name ${name} \
        --limit 1)
+     {% else -%}
+     dlrn_result=$(dlrnapi \
+       --url https://{{ dlrn_api_host }}/${release} \
+       promotion-get \
+       --promote-name ${name} \
+       --limit 1)
+     {% endif -%}
 
      if [ $? -ne 0 ]; then
         echo -e "Can not continue. DLRN API returns exit code other than 0 in \n\n"
@@ -47,25 +57,19 @@ do
         exit 1
      fi
 
-     echo "$response" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null
-
-     {% else -%}
-     result=$(dlrnapi \
-       --url https://{{ dlrn_api_host }}/${release} \
-       promotion-get \
-       --promote-name ${name} \
-       --limit 1)
-     if [ $? -ne 0 ]; then
-       echo "Can not continue. DLRN API returns exit code other than 0"
-       exit 1
+     parsed_result=$(echo "$dlrn_result" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null)
+     if [ -n "$parsed_result" ]; then
+       output+=("$parsed_result")
      fi
 
-     echo "$response" | jq -r '.[0] | (.repo_hash, .aggregate_hash)' | grep -v null
-     {% endif -%}
+   done
+done
 
-  done
-done) | sort | uniq |paste -sd ',' ;
-rm -rf /tmp/dlrnapi > /dev/null
+{% raw %}
+if [ "${#output[@]}" -ne 0 ]; then
+  echo "${output[@]}" | tr ' ' '\n' | sort | uniq | paste -sd ',' -
+fi
+{% endraw %}
 
 {% if quay_pruner_auth -%}
 kdestroy
