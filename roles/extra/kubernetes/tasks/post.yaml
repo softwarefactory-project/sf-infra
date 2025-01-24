@@ -7,3 +7,15 @@
     remote_src: true
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
+
+- name: Check if completion dir exists
+  become: true
+  ansible.builtin.stat:
+    path: /etc/bash_completion.d
+  register: _bash_completion
+
+- name: Add completion
+  become: true
+  when: _bash_completion.stat.exists
+  ansible.builtin.shell: |
+    kubectl completion bash > /etc/bash_completion.d/kubernetes

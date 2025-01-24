@@ -1,0 +1,27 @@
+---
+- name: Create namespace for topolvm
+  become: true
+  ansible.builtin.shell: |
+    kubectl create namespace topolvm-system
+
+- name: Create topolvm helm repository
+  become: true
+  ansible.builtin.shell: |
+    /usr/local/bin/helm repo add topolvm https://topolvm.github.io/topolvm
+    /usr/local/bin/helm repo update
+
+- name: Set webhooks
+  become: true
+  ansible.builtin.shell: |
+    kubectl label namespace topolvm-system topolvm.io/webhook=ignore
+    kubectl label namespace kube-system topolvm.io/webhook=ignore
+
+- name: Install topolvm
+  become: true
+  ansible.builtin.shell: >
+    /usr/local/bin/helm install \
+    --namespace=topolvm-system
+    topolvm
+    topolvm/topolvm
+    --set cert-manager.enabled=true
+    --set controller.replicaCount=1

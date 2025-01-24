@@ -20,12 +20,20 @@
 - name: Untaint node
   ansible.builtin.include_tasks: untaint.yaml
 
-- name: Setup Calico
-  ansible.builtin.include_tasks: calico.yaml
+- name: Setup flannel
+  ansible.builtin.include_tasks: flannel.yaml
 
-- name: Create persistent volume
-  ansible.builtin.include_tasks: pv.yaml
-  when: create_pv
+- name: Setup helm - required for topolvm
+  ansible.builtin.include_tasks: helm.yaml
+
+- name: Create volume group
+  ansible.builtin.include_tasks: lvm.yaml
+
+- name: Deploy certmanager
+  ansible.builtin.include_tasks: certmanager.yaml
+
+- name: Deploy topolvm
+  ansible.builtin.include_tasks: topolvm.yaml
 
 - name: Setup ingress
   ansible.builtin.include_tasks: ingress.yaml

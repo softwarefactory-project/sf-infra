@@ -1,31 +1,23 @@
 ---
-- name: Add cri-o stable repo
+# https://github.com/cri-o/packaging/blob/main/README.md#distributions-using-rpm-packages
+- name: Create crio repository file
   become: true
-  ansible.builtin.shell: |
-    yum -y install 'dnf-command(copr)'
-    yum -y copr enable rhcontainerbot/container-selinux
-    curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_8/devel:kubic:libcontainers:stable.repo
-    curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/CentOS_8/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}.repo
+  ansible.builtin.copy:
+    content: |
+      [cri-o]
+      name=CRI-O
+      baseurl=https://pkgs.k8s.io/addons:/cri-o:/stable:/v{{ crio_version }}/rpm/
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://pkgs.k8s.io/addons:/cri-o:/stable:/v{{ crio_version }}/rpm/repodata/repomd.xml.key
+    dest: /etc/yum.repos.d/cri-o.repo
 
 - name: Install required system packages
   become: true
   ansible.builtin.yum:
     name:
       - cri-o
-      - cri-tools
     state: present
-
-- name: Comment ipv6 value for etc hosts
-  become: true
-  ansible.builtin.shell: |
-    sed -i '/::1/d' /etc/hosts
-
-- name: Use only ipv4
-  become: true
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/cri-o/cri-o/v{{ crio_version }}.3/contrib/cni/11-crio-ipv4-bridge.conf
-    dest: /etc/cni/net.d/100-crio-bridge.conf
-    mode: "0644"
 
 - name: Enable containerd
   become: true

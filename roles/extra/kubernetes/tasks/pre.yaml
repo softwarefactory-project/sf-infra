@@ -1,4 +1,5 @@
 ---
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 - name: Set hostname
   become: true
   ansible.builtin.hostname:
@@ -10,6 +11,15 @@
     dest: /etc/hosts
     regexp: ".*{{ fqdn }}$"
     line: "{{ ansible_default_ipv4.address }} {{ fqdn }}"
+    state: present
+
+- name: Install required system packages
+  become: true
+  ansible.builtin.yum:
+    name:
+      - iproute-tc
+      - git
+      - lvm2
     state: present
 
 - name: Add modules to be loaded
@@ -26,6 +36,7 @@
     modprobe br_netfilter
     modprobe overlay
 
+# To avoid error:  [ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1
 - name: Update sysctl
   become: true
   ansible.builtin.copy:
@@ -33,8 +44,6 @@
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables  = 1
       net.ipv4.ip_forward                 = 1
-      net.ipv6.conf.all.disable_ipv6      = 1
-      net.ipv6.conf.default.disable_ipv6  = 1
     dest: /etc/sysctl.d/10-k8s.conf
   register: _k8s_sysctl
 
@@ -45,6 +54,10 @@
     state: restarted
   when: _k8s_sysctl.changed
 
+# Disable swap
+# ERROR: [WARNING Swap]: swap is supported for cgroup v2 only.
+# The kubelet must be properly configured to use swap.
+# Please refer to https://kubernetes.io/docs/concepts/architecture/nodes/#swap-memory, or disable swap on the node
 - name: Stop and disable zram0 device
   become: true
   ansible.builtin.systemd:
@@ -89,11 +102,3 @@
 - name: Check current memory state
   ansible.builtin.shell: |
     free -m
-
-- name: Install required system packages
-  become: true
-  ansible.builtin.yum:
-    name:
-      - iproute-tc
-      - git
-    state: present

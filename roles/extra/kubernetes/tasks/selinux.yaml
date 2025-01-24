@@ -1,4 +1,5 @@
 ---
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 - name: Disable selinux
   become: true
   ansible.posix.selinux:
