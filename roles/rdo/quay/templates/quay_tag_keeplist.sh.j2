@@ -71,6 +71,8 @@ if [ "${#output[@]}" -ne 0 ]; then
 fi
 {% endraw %}
 
+rm -rf /tmp/dlrnapi > /dev/null
+
 {% if quay_pruner_auth -%}
 kdestroy
 {% endif -%}
