@@ -1,0 +1,53 @@
+---
+# based on:
+# - https://github.com/gpillon/k4all/blob/main/scripts/setup-topolvm.sh
+# - https://github.com/topolvm/topolvm/blob/main/example/Makefile
+- name: Install required packages for topolvm
+  become: true
+  ansible.builtin.package:
+    name:
+      - lvm2
+    state: present
+
+- name: Create temp dir for topolvm need
+  become: true
+  ansible.builtin.file:
+    path: "{{ topolvm_tmp_dir }}/{{ item }}"
+    state: directory
+  loop:
+    - worker
+    - controller
+
+- name: Create directory for topolvm
+  become: true
+  ansible.builtin.file:
+    path: /etc/topolvm
+    state: directory
+
+- name: Create lvm-values.yaml
+  become: true
+  ansible.builtin.template:
+    src: lvmd.yaml.j2
+    dest: /etc/topolvm/lvmd.yaml
+    mode: "0644"
+
+- name: Unpack lvmd binary
+  become: true
+  ansible.builtin.unarchive:
+    src: https://github.com/topolvm/topolvm/releases/download/v{{ topolvm_lvmd_version }}/lvmd-{{ topolvm_lvmd_version }}.tar.gz
+    dest: /bin/
+    remote_src: true
+
+- name: Add lvmd service
+  become: true
+  ansible.builtin.template:
+    src: lvmd.service
+    dest: /etc/systemd/system/lvmd.service
+
+- name: Start lvmd
+  become: true
+  ansible.builtin.systemd_service:
+    name: lvmd
+    state: started
+    enabled: true
+    daemon_reload: true

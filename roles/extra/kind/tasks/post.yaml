@@ -20,3 +20,14 @@
     regexp: "^pids_limit"
     line: "pids_limit=0"
     insertafter: "[containers]"
+
+- name: Add kubernetes completion
+  become: true
+  ansible.builtin.shell: |
+    kubectl completion bash | tee /etc/bash_completion.d/kubernetes
+
+- name: Make sure bashcomletion is enabled in bashrc
+  ansible.builtin.lineinfile:
+    path: .bashrc
+    regexp: '^source /etc/profile.d/bash_completion.sh'
+    line: 'source /etc/profile.d/bash_completion.sh'

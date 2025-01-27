@@ -9,9 +9,10 @@
   become: true
   ansible.builtin.package:
     name:
+      - lvm2
       - python3
-      - podman
       - curl
+      - bash-completion
     state: present
 
 # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/

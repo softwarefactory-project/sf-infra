@@ -1,0 +1,20 @@
+[Unit]
+Description=Setup loopback device
+DefaultDependencies=no
+Conflicts=umount.target
+ConditionPathExists={{ disk_file_path }}
+Before=local-fs.target
+After=systemd-udevd.service lvm2-monitor.service
+
+[Service]
+ExecStartPre=/sbin/modprobe loop
+ExecStart=/sbin/losetup {{ loop_device.stdout }} {{ disk_file_path }}
+ExecStartPost=/usr/local/bin/start-lvm.sh
+ExecStop=/sbin/losetup -d {{ loop_device.stdout }}
+Type=oneshot
+TimeoutSec=60
+RemainAfterExit=yes
+
+[Install]
+WantedBy=local-fs-pre.target
+Also=systemd-udevd.service
