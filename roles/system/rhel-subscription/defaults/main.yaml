@@ -1,0 +1,2 @@
+# rhel_release is empty to allow to control when we want to update hosts
+rhel_release: ""

@@ -1,23 +1,40 @@
 ---
-- name: Check rhel version
+- name: Get 'subscription-manager release' output
   become: true
   ansible.builtin.command: subscription-manager release
-  register: _rhel_version
-  ignore_errors: yes
+  register: _subscription_manager_release
+  failed_when: _subscription_manager_release.rc not in [0, 1]
 
-- name: Register, update  and reboot system
+- name: Get minor release for EUS activation when rhel_release is set
+  when: rhel_release
+  block:
+    - name: Ensure rhel_release is a string
+      ansible.builtin.set_fact:
+        rhel_release: "{{ rhel_release | string }}"
+
+    - name: Get minor release for EUS activation when rhel_release is set
+      ansible.builtin.set_fact:
+        rhel_minor_release: "{{ rhel_release.split('.')[1] }}"
+
+- name: Get minor release for EUS activation when rhel_release is not set
+  when: not rhel_release
+  ansible.builtin.set_fact:
+    rhel_minor_release: "{{ ansible_distribution_version.split('.')[1] }}"
+
+- name: Initial registration, update and reboot
   become: true
-  when: "'This system is not yet registered' in _rhel_version.stderr"
+  when: "'This system is not yet registered' in _subscription_manager_release.stderr"
   block:
     - name: Register system
       community.general.redhat_subscription:
         state: present
         activationkey: "{{ rhel_activationkey }}"
         org_id: "{{ rhel_org_id }}"
-        release: "{{ ansible_distribution_version }}"
+        release: "{{ rhel_release | default(ansible_distribution_version) }}"
       no_log: yes
 
-    - name: Ensure Extended Update Support repos are disabled
+    - name: Ensure Extended Update Support repos are disabled for rhel odd minor versions
+      when: (rhel_minor_release | int) % 2 != 0
       community.general.rhsm_repository:
         name: "{{ item }}"
         state: disabled
@@ -32,3 +49,31 @@
 
     - name: Reboot after initial upgrade
       ansible.builtin.reboot:
+
+- name: Upgrade rhel version if needed
+  become: true
+  when: rhel_release != _subscription_manager_release.stdout.split(' ')[1]
+  block:
+    - name: Register system
+      community.general.redhat_subscription:
+        state: present
+        activationkey: "{{ rhel_activationkey }}"
+        org_id: "{{ rhel_org_id }}"
+        release: "{{ rhel_release }}"
+        # force_register is needed when "release" is bumped
+        force_register: yes
+      no_log: yes
+
+    - name: Ensure Extended Update Support repos are enabled for rhel even minor versions
+      when: (rhel_minor_release | int) % 2 == 0
+      community.general.rhsm_repository:
+        name: "{{ item }}"
+        state: enabled
+      loop:
+        - rhel-9-for-x86_64-baseos-eus-rpms
+        - rhel-9-for-x86_64-appstream-eus-rpms
+
+    - name: Upgrade all packages
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
