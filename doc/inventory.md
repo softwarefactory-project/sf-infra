@@ -35,6 +35,7 @@ This project manages:
 * k1s04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* test-rhel-upgrade.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
 * image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
 * microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
