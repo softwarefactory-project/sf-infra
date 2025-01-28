@@ -102,11 +102,19 @@ install_server_rdo_pub: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTymcS8y5uL4eqyDn
 # dashboards.rdoproject.org should not be present on /etc/hosts but I don't know why
 infra_rdo_public_instances: >-
   openstack --os-cloud infra-rdo server list
-  | grep -v 'dashboards.rdoproject.org'
+  | grep 'public='
+  | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
+infra_rdo_fip_instances: >-
+  openstack --os-cloud infra-rdo server list
+  | grep -Ev 'dashboards.rdoproject.org|public'
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 infra_sf_public_instances: >-
   openstack --os-cloud infra-sf server list
-  | grep -vE 'zs|zm0?|ze0?|nodepool-builder'
+  | grep 'public='
+  | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
+infra_sf_fip_instances: >-
+  openstack --os-cloud infra-sf server list
+  | grep -vE 'public|zs|zm0?|ze0?|nodepool-builder'
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 # $8 is 'private-network=$private_ip' and should be splited
 infra_sf_private_instances: >-
@@ -115,7 +123,9 @@ infra_sf_private_instances: >-
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
 managed_instances: >-
   {{ infra_rdo_public_instances }}
+  && {{ infra_rdo_fip_instances }}
   && {{ infra_sf_public_instances }}
+  && {{ infra_sf_fip_instances }}
   && {{ infra_sf_private_instances }}
 
 install_server_rdo_key: !vault |
