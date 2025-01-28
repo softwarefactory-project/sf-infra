@@ -216,25 +216,26 @@ monitoring_host: 'monitoring.softwarefactory-project.io'
 monitoring_endpoint_url: 'https://{{ monitoring_host }}'
 
 container_images:
-  # version: 1.8.1
-  node_exporter: "quay.io/prometheus/node-exporter@sha256:fa7fa12a57eff607176d5c363d8bb08dfbf636b36ac3cb5613a202f3c61a6631"
-  # v0.15.0
-  mysqld_exporter: "quay.io/prometheus/mysqld-exporter@sha256:6b693c6c003bf51ffc2305f3d1a35d16da678bf421bfccca48ecc6077073634e"
-  apache_exporter: "quay.io/software-factory/apache_exporter@sha256:ab022d3d176b392057b169af6718e46e18d127c2e45c0d7972fb9f14553e6018"
-  # v1.7.0
-  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:4786d49bef9ec045c155d5544abc420e6f58394170db7b6a05c5e7a5f15fb9ed
+  # version: 1.8.2
+  node_exporter: "quay.io/prometheus/node-exporter@sha256:4032c6d5bfd752342c3e631c2f1de93ba6b86c41db6b167b9a35372c139e7706"
+  # v0.16.0
+  mysqld_exporter: "quay.io/prometheus/mysqld-exporter@sha256:617b7244a31922c30eeddb0e3b39b4c125e890d46179be4a30561b20f111ca6c"
+  # v1.0.9
+  apache_exporter: "docker.io/lusotycoon/apache-exporter:v1.0.9@sha256:1949b707dff2ad7710e8060dff55d8267838eec4c1a49ff38eaca2c8d9062df3"
+  # v1.8.0
+  elasticsearch_exporter: quay.io/prometheuscommunity/elasticsearch-exporter@sha256:073dd360de2c9d2a13b00e22793b2d2b06f5245e029bdce76d8f80da731a2faa
   # v0.1.13
   zookeeper_exporter: "docker.io/dabealu/zookeeper-exporter@sha256:86106fec315f24caccee437b59bcdbf968289ed0e4277ea27d6367944d1b01bd"
-  # alertmanager: 0.27.0
-  alertmanager: "quay.io/prometheus/alertmanager@sha256:e13b6ed5cb929eeaee733479dce55e10eb3bc2e9c4586c705a4e8da41e5eacf5"
+  # alertmanager: 0.28.0
+  alertmanager: "quay.io/prometheus/alertmanager@sha256:d5155cfac40a6d9250ffc97c19db2c5e190c7bc57c6b67125c94903358f8c7d8"
   # blackbox: 0.25.0
   blackbox: "quay.io/prometheus/blackbox-exporter@sha256:b04a9fef4fa086a02fc7fcd8dcdbc4b7b35cc30cdee860fdc6a19dd8b208d63e"
   # grafana: 10.4.2
   grafana: "quay.io/software-factory/grafana-oss@sha256:d1c362f245aca3c1c6c7cb2100d38691c41b026aaef60768887135f6323dd890"
-  # prometheus: 2.51.2
-  prometheus: "quay.io/prometheus/prometheus@sha256:4f6c47e39a9064028766e8c95890ed15690c30f00c4ba14e7ce6ae1ded0295b1"
-  # statsd: 0.26.1
-  statsd_exporter: "quay.io/prometheus/statsd-exporter@sha256:065c4d566c4ca1f0dacdc4247c2446a2c5514d7c222972445c60d1c08482b005"
+  # prometheus: 3.1.0
+  prometheus: "quay.io/prometheus/prometheus@sha256:6559acbd5d770b15bb3c954629ce190ac3cbbdb2b7f1c30f0385c4e05104e218"
+  # statsd: 0.28.0
+  statsd_exporter: "quay.io/prometheus/statsd-exporter@sha256:4e7a1f00b9b23ef0c5b4fdbb7f4748bdc218cfdff04acc8033bc5b9f7c15009d"
   # log processing
   logscraper: quay.io/software-factory/logscraper:latest-c8s
   logsender: quay.io/software-factory/logscraper:latest-c8s
