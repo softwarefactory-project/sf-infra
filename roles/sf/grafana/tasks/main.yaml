@@ -24,9 +24,25 @@
   become: yes
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "/etc/grafana/provisioning/dashboards/{{ item }}"
+    dest: "/etc/grafana/provisioning/dashboards/"
   loop: "{{ grafana_dashboard_directories }}"
   register: _grafana_config
+
+- name: Find jsonnetfile.json files
+  become: true
+  ansible.builtin.find:
+    paths: "/etc/grafana/provisioning/dashboards/"
+    patterns: "jsonnetfile.json"
+    recurse: true
+  register: _jsonnet_files
+
+- name: Remove jsonnetfile.json
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ _jsonnet_files.files }}"
+  when: _jsonnet_files.matched > 0
 
 - name: Fail when there is no datasource
   when: additional_datasources is not defined or additional_datasources | length < 1
