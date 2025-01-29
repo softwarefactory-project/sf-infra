@@ -195,3 +195,10 @@
 
 - name: Create probe for checking old containers
   ansible.builtin.include_tasks: probe.yaml
+
+# More info: https://access.redhat.com/solutions/7011470
+# To check if enabled: loginctl user-status | grep -m1 Linger
+- name: Enable linger
+  become: true
+  ansible.builtin.shell: |
+    loginctl enable-linger {{ ansible_user }}
