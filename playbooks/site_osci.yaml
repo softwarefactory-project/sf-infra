@@ -9,39 +9,39 @@
     - system/psi
     - system/update-host
 
-- hosts: dashboards.rdoproject.org
-  roles:
-    - service/hostname
-    - service/apache-exporter
-    - system/epel-release
-    - service/firewalld
-  tasks:
-    - name: "Deploy websites"
-      ansible.builtin.include_role:
-        name: osci/websites
-        tasks_from: vhosts
-        apply:
-          become: yes
+# - hosts: dashboards.rdoproject.org
+#   roles:
+#     - service/hostname
+#     - service/apache-exporter
+#     - system/epel-release
+#     - service/firewalld
+#   tasks:
+#     - name: "Deploy websites"
+#       ansible.builtin.include_role:
+#         name: osci/websites
+#         tasks_from: vhosts
+#         apply:
+#           become: yes
 
-    - name: Enable firewalld
-      ansible.builtin.systemd_service:
-        name: firewalld
-        state: started
-        enabled: true
-      become: yes
+#     - name: Enable firewalld
+#       ansible.builtin.systemd_service:
+#         name: firewalld
+#         state: started
+#         enabled: true
+#       become: yes
 
 # After dashboards.rdoproject.org
 - hosts: rdo-web-builder.int.osci.io
   roles:
     - service/hostname
     - system/epel-release
-  tasks:
-    - name: "Deploy websites"
-      ansible.builtin.include_role:
-        name: osci/websites
-        tasks_from: builders
-        apply:
-          become: yes
+#   tasks:
+#     - name: "Deploy websites"
+#       ansible.builtin.include_role:
+#         name: osci/websites
+#         tasks_from: builders
+#         apply:
+#           become: yes
 
 - hosts: lists.rdoproject.org
   become: yes

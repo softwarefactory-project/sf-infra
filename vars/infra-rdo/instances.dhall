@@ -113,7 +113,6 @@ let instances =
         }
       , Instance::{
         , name = "dashboards"
-        , groups = [ "osci" ]
         , node-exporter = False
         , connection =
                 OS.CentOS.`8.1`.connection
