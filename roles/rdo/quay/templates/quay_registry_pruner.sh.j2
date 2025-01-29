@@ -11,6 +11,8 @@ if [ -z "$KEEPLIST" ]; then
     exit 1
 fi
 
+echo -e "Current keeplist:\n$KEEPLIST"
+
 {% for user, organizations in quay_organizations.items() %}
 {% for org in organizations %}
 {% if 'prune_days' in org %}
