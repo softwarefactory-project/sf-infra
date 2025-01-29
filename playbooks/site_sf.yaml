@@ -37,7 +37,6 @@
 
 - hosts: sf
   roles:
-    - legacy/centos7
     - system/tune-dnf
     - infra/base
     - infra/ssh

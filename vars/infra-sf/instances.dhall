@@ -273,7 +273,7 @@ let instances =
         }
       , Instance::{
         , name = "test-rhel-upgrade"
-        , groups = [ "rhel" ]
+        , groups = [ "rhel", "sf" ]
         , connection = OS.RHEL.`9.3`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
