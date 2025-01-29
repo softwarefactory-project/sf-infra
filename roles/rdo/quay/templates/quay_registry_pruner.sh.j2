@@ -1,5 +1,15 @@
 #!/bin/bash
-# This script wraps around quay_tag_pruner and quay_tag_keeplist.
+
+KEEPLIST="$(/usr/local/bin/quay_tag_keeplist)"
+if [ $? -ne 0 ]; then
+    echo "The quay_tag_keeplist failed. Exiting."
+    exit 1
+fi
+
+if [ -z "$KEEPLIST" ]; then
+    echo "The quay_tag_keeplist is empty. Exiting."
+    exit 1
+fi
 
 {% for user, organizations in quay_organizations.items() %}
 {% for org in organizations %}
@@ -7,7 +17,7 @@
 
 /usr/local/bin/quay_tag_pruner --api-url "{{ quay_api_url }}" \
                                --days {{ org.prune_days }} \
-                               --keeplist "$(/usr/local/bin/quay_tag_keeplist)" \
+                               --keeplist "$KEEPLIST" \
                                --allow-empty-keeplist={{ quay_allow_empty_extended_keeplist }} \
                                --token "{{ org.token }}" {{ org.name }} \
                                --confirm
