@@ -158,6 +158,10 @@ Host zs.softwarefactory-project.io
     User cloud-user
     Port 22
 
+Host test-rhel-upgrade.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host image-builder.softwarefactory-project.io
     User cloud-user
     Port 22

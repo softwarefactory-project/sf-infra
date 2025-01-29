@@ -195,7 +195,7 @@ let instances =
         , volumes =
           [ Infra.Volume::{
             , display_name = "nodepool_builder_lib"
-            , size = 200
+            , size = 400
             , device = "/dev/vdb"
             }
           , Infra.Volume::{
@@ -269,6 +269,17 @@ let instances =
           , flavor = Some Flavors.`2vcpus_8gb`
           , boot_from_volume = "yes"
           , volume_size = Some 50
+          }
+        }
+      , Instance::{
+        , name = "test-rhel-upgrade"
+        , groups = [ "rhel" ]
+        , connection = OS.RHEL.`9.3`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.3`.image.name
+          , flavor = Some Flavors.`1vcpu_2gb`
+          , network = "public"
+          , boot_from_volume = "no"
           }
         }
       , Instance::{
