@@ -91,7 +91,6 @@ all:
         logscraper02.openstack.org: {}
     osci:
       hosts:
-        dashboards.rdoproject.org: {}
         lists.rdoproject.org: {}
         rdo-web-builder.int.osci.io: {}
     osci_internal_zone:
