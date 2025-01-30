@@ -52,7 +52,7 @@
 
 - name: Upgrade rhel version if needed
   become: true
-  when: rhel_release != _subscription_manager_release.stdout.split(' ')[1]
+  when: rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1]
   block:
     - name: Register system
       community.general.redhat_subscription:
