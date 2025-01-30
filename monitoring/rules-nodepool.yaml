@@ -21,7 +21,7 @@ groups:
     rules:
       - alert: NodepoolNodes
         annotations:
-          summary: Nodepool failed to spawn instance
+          summary: "Nodepool failed to spawn instance in {{ $labels.provider }}"
         expr: "nodepool_nodes{state='failed'} > 0"
         labels:
           lasttime: "{{ $value | humanizeTimestamp }}"
