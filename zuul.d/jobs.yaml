@@ -241,6 +241,18 @@
       - "^vars/infra-sf/.*.yaml$"
 
 - job:
+    name: sf-infra-configure-centOS-Infra
+    parent: sf-infra-configure
+    description: Configure the services running on CentOS Infra
+    timeout: 7200
+    vars:
+      sf_infra_play_name: site_centOSInfra
+    files:
+      - playbooks/site_centOSInfra.yaml
+      - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
+
+
+- job:
     name: sf-infra-create-tripleo-standalone
     parent: sf-infra-base
     description: Install tripleo-standalone on ibm baremetal
@@ -445,6 +457,11 @@
             dependencies:
               - dhall-diff
               - name: sf-infra-create-hosts
+                soft: true
+        - sf-infra-configure-centOS-Infra:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-create-bridge
                 soft: true
         - sf-infra-configure-hosts-sf:
             dependencies:
