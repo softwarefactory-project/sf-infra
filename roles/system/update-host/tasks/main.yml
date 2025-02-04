@@ -1,30 +1,38 @@
 ---
-- name: Check if crontab file exists
-  become: true
-  ansible.builtin.stat:
-    path: /etc/cron.d/update-packages
-  register: _update_package_cron
+- name: Setup crontabs for packages update and reboot alerts
+  become: yes
+  block:
+    - name: Ensure dnf-utils package
+      # contains needs-restarting
+      ansible.builtin.dnf:
+        name: dnf-utils
 
-- name: Set fact to remove crontab when system is rhel
-  ansible.builtin.set_fact:
-    install_crontab: absent
-  when: ansible_distribution == "RedHat"
+    - name: Check if dnf-automatic-install is present
+      ansible.builtin.command: systemctl list-unit-files  dnf-automatic-install.timer
+      register: _dnf_automatic
+      failed_when: _dnf_automatic.rc not in [0, 1]
 
-- name: Create crontab for periodical yum refresh
-  become: true
-  when: not _update_package_cron.stat.exists
-  ansible.builtin.cron:
-    name: Check for new updates
-    minute: "{{ 59|random }}"
-    hour: "{{ 3 | random }}"
-    cron_file: update-packages
-    user: root
-    state: "{{ install_crontab | default('present') }}"
-    job: echo "system_package_update{count=\"counted_update_packages\"} $(yum clean dbcache --quiet && yum check-update --quiet | wc -l)" > /var/lib/node_exporter/textfile_collector/update_packages.prom 2> /dev/null
+    # check-update returns 0 if no package need to be updated
+    - name: Create crontab for periodical dnf check-update
+      ansible.builtin.cron:
+        name: Check if package need update
+        minute: "{{ 59 | random }}"
+        hour: "{{ 3 | random }}"
+        job: echo "system_package_update $(/usr/bin/dnf check-update > /dev/null && echo 0 || echo 1)" > /var/lib/node_exporter/textfile_collector/system_package_update.prom
+      when: _dnf_automatic.rc == 1
 
-- name: Remove packages.prom file when system is rhel
-  become: true
-  when: ansible_distribution | lower == "redhat"
-  ansible.builtin.file:
-    path: /var/lib/node_exporter/textfile_collector/update_packages.prom
-    state: absent
+    # needs-restarting return 0 if reboot is not needed
+    - name: Create crontab for periodical check if reboot is needed
+      ansible.builtin.cron:
+        name: Check if reboot is needed
+        minute: "{{ 59 | random }}"
+        hour: "{{ 3 | random }}"
+        job: echo "system_reboot $(/bin/needs-restarting --reboothint > /dev/null && echo 0 || echo 1)" > /var/lib/node_exporter/textfile_collector/system_reboot.prom
+
+    - name: Remove unused files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/node_exporter/textfile_collector/update_packages.prom
+        - /etc/cron.d/update-packages

@@ -7,7 +7,6 @@
     - system/tune-dnf
     - service/node-exporter
     - system/psi
-    - system/update-host
 
 # - hosts: dashboards.rdoproject.org
 #   roles:
