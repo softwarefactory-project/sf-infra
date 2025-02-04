@@ -36,12 +36,22 @@
 
   become: true
 
-# TODO revert once v1.0.0 is installed on k1s hosts currently up
-- name: Force install
+- name: Install the software if missing
   ansible.builtin.shell: |
-    cd /usr/src/k1s;
-    python3 setup.py develop --prefix /usr/ || exit 1
+    if [ ! -f /usr/bin/k1s ]; then
+        cd /usr/src/k1s;
+        python3 setup.py develop --prefix /usr/ || exit 1
+    fi
   become: true
+
+- name: Upgrade k1s if version changed
+  ansible.builtin.shell: |
+    if [[ $(/usr/bin/k1s version) != {{ k1s_version }} ]]; then
+      cd /usr/src/k1s;
+      python3 setup.py develop --prefix /usr/ || exit 1
+    fi
+  become: true
+
 
 - name: Ensure mtu for default bridge
   ansible.builtin.lineinfile:
