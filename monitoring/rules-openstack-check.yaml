@@ -7,7 +7,6 @@ groups:
           summary: There are at least 3 stacks in deleted_failed state
         expr: "stack_delete_failed > 3"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
   - name: neutron-undeleted-ports.rules
     rules:
@@ -17,5 +16,4 @@ groups:
         expr: |
           port_down{is_old="True"} > 3
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning

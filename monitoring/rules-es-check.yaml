@@ -7,5 +7,4 @@ groups:
           summary: "OpenSearch did not receive any new metrics since 3 days!"
         expr: "time() - opensearch_last_update > 259200"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning

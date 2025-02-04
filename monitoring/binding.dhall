@@ -8,12 +8,7 @@ let Prometheus =
 let -- | Prometheus labels are free form JSON, here is how to define one:
     defaultCriticalLabel
     : Prometheus.Labels.Type
-    = Prometheus.Labels.mapText
-        ( toMap
-            { severity = "critical"
-            , lasttime = "{{ \$value | humanizeTimestamp }}"
-            }
-        )
+    = Prometheus.Labels.mapText (toMap { severity = "critical" })
 
 let -- | An extra schema for critical rules that sends email
     extra =
@@ -26,9 +21,7 @@ let -- | An extra schema for critical rules that sends email
       }
 
 let mkLabel =
-      \(severity : Text) ->
-        Prometheus.Labels.mapText
-          (toMap { severity, lasttime = "{{ \$value | humanizeTimestamp }}" })
+      \(severity : Text) -> Prometheus.Labels.mapText (toMap { severity })
 
 in      Prometheus
     //  extra

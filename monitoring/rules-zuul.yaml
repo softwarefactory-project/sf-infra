@@ -8,26 +8,22 @@ groups:
         expr: "zuul_blocked_change_total{job='journal'} > 0"
         for: "1h"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
       - alert: zuul_nodepool_requests_failed
         annotations:
           summary: Nodepool failed to provide instance to Zuul
         expr: "increase(zuul_nodepool_requests{state='failed'}[1m])"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
       - alert: zuul_nodepool_requests_failed
         annotations:
           summary: "Nodepool failed to provide {{ $labels.label }} to Zuul"
         expr: "increase(zuul_nodepool_requests_state_by_label{state='failed'}[1m])"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
       - alert: nodepool_high_failure_rate
         annotations:
           summary: "More than 10% of node requests have ended in failure in the last hour. Please check zuul's scheduler logs for NODE_FAILUREs."
         expr: "(sum(increase(zuul_nodepool_requests_total{state='failed'}[1h])) or sum(up) * 0) / (sum(increase(zuul_nodepool_requests_total{state='requested'}[1h])) or sum(up) * 0) > 0.1"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical

@@ -8,7 +8,6 @@ groups:
         expr: "mysql_up{job='mysqld'} == 0"
         for: "10m"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
       - alert: MariaDBReplicationFailed
         annotations:
@@ -16,5 +15,4 @@ groups:
         expr: "(mysql_slave_status_slave_io_running{job='mysqld'} == 0) or (mysql_slave_status_slave_sql_running{job='mysqld'} == 0)"
         for: "10m"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical

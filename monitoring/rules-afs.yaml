@@ -7,5 +7,4 @@ groups:
           summary: "Last AFS mirror sync for {{ $labels.target }} dates back to {{ $value | humanizeTimestamp }}"
         expr: "afs_mirror_sync_time{job='node'} < (time() - 86400)"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
