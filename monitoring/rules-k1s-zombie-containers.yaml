@@ -9,5 +9,4 @@ groups:
           k1s_old_containers > 0
         for: "3d"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: info

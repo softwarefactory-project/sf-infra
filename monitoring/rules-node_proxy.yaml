@@ -6,7 +6,6 @@ groups:
         expr: "up{job='node_proxy'} == 0"
         for: "10m"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
       - alert: WillRunOutOfDiskInThreeDays
         annotations:
@@ -31,7 +30,6 @@ groups:
         expr: "(node_memory_MemAvailable_bytes{job='node_proxy'} + node_memory_SwapFree_bytes{job='node_proxy'}) / node_memory_MemTotal_bytes{job='node_proxy'} * 100 < 10"
         for: "30m"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
       - alert: InstanceOutOfSwap
         annotations:
@@ -48,7 +46,6 @@ groups:
         expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs',job='node_proxy'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: critical
       - alert: OOMKillerDetected
         annotations:

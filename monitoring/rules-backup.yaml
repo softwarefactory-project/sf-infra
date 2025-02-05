@@ -7,5 +7,4 @@ groups:
           summary: "Backup for {{ $labels.dir }} has not been updated since {{ $value | humanizeTimestamp }}"
         expr: "bup_last_backup{job='node'} < (time() - 259200)"
         labels:
-          lasttime: "{{ $value | humanizeTimestamp }}"
           severity: warning
