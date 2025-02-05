@@ -261,11 +261,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    dashboards.rdoproject.org:
-      ansible_host: '38.102.83.227'
-      ansible_port: 22
-      ansible_python_interpreter: python3
-      ansible_user: centos
     dlrn-db-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto

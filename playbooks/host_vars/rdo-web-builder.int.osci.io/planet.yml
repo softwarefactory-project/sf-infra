@@ -1,5 +1,4 @@
 ---
 ###
 planet_name: rdo_planet
-planet_sync_server: dashboards.rdoproject.org
 planet_repo_url: https://github.com/redhat-openstack/website.git

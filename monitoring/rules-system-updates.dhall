@@ -1,7 +1,7 @@
 let Prometheus = ./binding.dhall
 
 let unmonitored_instances =
-      "instance!~'(dashboards|trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'"
+      "instance!~'(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'"
 
 let system_package_update =
       { alert = "SystemPackageUpdate"

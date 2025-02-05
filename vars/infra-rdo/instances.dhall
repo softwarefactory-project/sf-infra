@@ -124,6 +124,7 @@ let instances =
           , floating_ip = Some True
           , security_groups = [ "web", "apache_exporter" ]
           , volume_size = Some 10
+          , state = Infra.Server.State.absent
           }
         }
       , Instance::{

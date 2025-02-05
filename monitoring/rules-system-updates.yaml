@@ -5,12 +5,12 @@ groups:
       - alert: SystemPackageUpdate
         annotations:
           summary: packages need to be updated
-        expr: "(system_package_update{instance=~'.*'} and system_package_update{instance!~'(dashboards|trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'}) != 0"
+        expr: "(system_package_update{instance=~'.*'} and system_package_update{instance!~'(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'}) != 0"
         labels:
           severity: info
       - alert: SystemReboot
         annotations:
           summary: host needs to be rebooted
-        expr: "(system_reboot{instance=~'.*'} and system_reboot{instance!~'(dashboards|trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'}) != 0"
+        expr: "(system_reboot{instance=~'.*'} and system_reboot{instance!~'(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'}) != 0"
         labels:
           severity: info

@@ -37,6 +37,8 @@ container_images:
 quay_superusers:
   - admin
 
+# FIXME: Change from dashboards.rdoproject.org to rdoproject.org when Quay update
+# is performed.
 quay_contact_info:
   webpage: https://dashboards.rdoproject.org/
   logo_url: ''
