@@ -350,17 +350,6 @@ servers:
       - internal
     state: present
     volume_size: 50
-  - boot_from_volume: no
-    flavor: "1vcpu_2gb"
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: test-rhel-upgrade.softwarefactory-project.io
-    network: public
-    security_groups:
-      - common
-      - monitoring
-      - internal
-    state: present
   - boot_from_volume: yes
     flavor: "1vcpu_2gb"
     floating_ip: true

@@ -182,7 +182,6 @@ all:
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-        test-rhel-upgrade.softwarefactory-project.io: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
         ze01.softwarefactory-project.io: {}
@@ -210,7 +209,6 @@ all:
         image-builder.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
-        test-rhel-upgrade.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
@@ -394,10 +392,6 @@ all:
       ansible_user: root
     sf-container-worker-1.softwarefactory-project.io:
       ansible_host: '38.129.16.117'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    test-rhel-upgrade.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

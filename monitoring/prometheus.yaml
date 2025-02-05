@@ -50,7 +50,6 @@ scrape_configs:
           - k1s04.softwarefactory-project.io:9100
           - zk01.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
-          - test-rhel-upgrade.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
           - microshift-infra.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100

@@ -272,17 +272,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "test-rhel-upgrade"
-        , groups = [ "rhel", "sf" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
-          , flavor = Some Flavors.`1vcpu_2gb`
-          , network = "public"
-          , boot_from_volume = "no"
-          }
-        }
-      , Instance::{
         , name = "image-builder"
         , groups = [ "sf", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection
