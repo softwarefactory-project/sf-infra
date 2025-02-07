@@ -19,7 +19,6 @@
     name: Check for old containers
     minute: "0"
     hour: "0"
-    cron_file: update-packages
     user: "{{ k1s_user }}"
     state: present
     job: /usr/local/bin/check-old-containers.sh

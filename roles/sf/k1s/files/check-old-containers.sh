@@ -24,7 +24,7 @@ if [ -n "$containers" ]; then
         creationDateEpoch=$(date -d "$creationDate" +"%s")
         delta=$((now - creationDateEpoch))
         if [ $delta -gt $maxTime ]; then
-            ((counter++))
+            counter=$(( counter+1 ));
         fi
     done <<< "$containers"
 fi
