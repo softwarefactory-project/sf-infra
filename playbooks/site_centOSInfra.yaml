@@ -1,0 +1,19 @@
+---
+- ansible.builtin.import_playbook: site_bridge.yaml
+
+- hosts: bridge.softwarefactory-project.io
+  gather_facts: yes
+  become: true
+  become_user: fedora
+
+  tasks:
+  - name: Create ~/.kube if it does not exist
+    ansible.builtin.file:
+      path: "~/.kube"
+      state: directory
+
+  - name: Setup centOS Infra kube config file
+    ansible.builtin.copy:
+      content: "{{ centOSInfra_kube_config }}"
+      dest: "~/.kube/centosInfra.config"
+    no_log: true
