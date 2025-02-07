@@ -36,7 +36,7 @@ dlrn_workers:
     baseurl: 'https://trunk.rdoproject.org/centos10-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'mysql+pymysql://centos10-masteruc:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos10?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    db_connection: 'mysql+pymysql://centos10-masteruc:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos10_master_uc?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
