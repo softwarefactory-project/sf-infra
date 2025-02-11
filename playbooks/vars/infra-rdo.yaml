@@ -244,7 +244,7 @@ servers:
       - monitoring
       - web
       - apache_exporter
-    state: present
+    state: absent
     volume_size: 10
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"

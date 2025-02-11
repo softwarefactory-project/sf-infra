@@ -99,14 +99,13 @@ install_server_rdo_pub: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTymcS8y5uL4eqyDn
 
 # INFO: nhicher
 # theses variables are used by tasks/create-hosts.yaml
-# dashboards.rdoproject.org should not be present on /etc/hosts but I don't know why
 infra_rdo_public_instances: >-
   openstack --os-cloud infra-rdo server list
   | grep 'public='
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
 infra_rdo_fip_instances: >-
   openstack --os-cloud infra-rdo server list
-  | grep -Ev 'dashboards.rdoproject.org|public'
+  | grep -v 'public'
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 infra_sf_public_instances: >-
   openstack --os-cloud infra-sf server list

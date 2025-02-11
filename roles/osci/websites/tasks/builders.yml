@@ -1,36 +1,42 @@
 ---
+- name: Create builder
+  when: >
+    planet_name is defined and
+    planet_name and
+    'planet_sync_server' in hostvars and
+    hostvars['planet_sync_server']
+  block:
+    - name: Create builder for the website
+      ansible.builtin.include_role:
+        name: web_builder
+      vars:
+        builder_name: "{{ website_name }}"
+        builder: "{{ website_builder | default('middleman') }}"
+        builder_username: "{{ website_username }}"
+        git_url: "{{ website_repo_url }}"
+        git_version: master
+        # until it is stable enough to spam the team :-)
+        cron_error_email: "{{ builder_error_email }}"
 
-- name: Create builder for the website
-  ansible.builtin.include_role:
-    name: web_builder
-  vars:
-    builder_name: "{{ website_name }}"
-    builder: "{{ website_builder | default('middleman') }}"
-    builder_username: "{{ website_username }}"
-    git_url: "{{ website_repo_url }}"
-    git_version: master
-    # until it is stable enough to spam the team :-)
-    cron_error_email: "{{ builder_error_email }}"
+    - name: Create builder for the planet
+      ansible.builtin.include_role:
+        name: web_builder
+      vars:
+        builder_name: "{{ planet_name }}"
+        builder: planet
+        builder_username: web_builder
+        git_url: "{{ planet_repo_url }}"
+        git_version: master
+        rebuild_interval: 1
+        # until it is stable enough to spam the team :-)
+        cron_error_email: "{{ builder_error_email }}"
+        rsync_server: "{{ planet_sync_server }}"
+        rsync_user: "{{ hostvars[planet_sync_server]['planet_sync_user'] }}"
+        rsync_location: "{{ hostvars[planet_sync_server]['planet_sync_path'] }}"
 
-- name: Create builder for the planet
-  ansible.builtin.include_role:
-    name: web_builder
-  vars:
-    builder_name: "{{ planet_name }}"
-    builder: planet
-    builder_username: web_builder
-    git_url: "{{ planet_repo_url }}"
-    git_version: master
-    rebuild_interval: 1
-    # until it is stable enough to spam the team :-)
-    cron_error_email: "{{ builder_error_email }}"
-    rsync_server: "{{ planet_sync_server }}"
-    rsync_user: "{{ hostvars[planet_sync_server]['planet_sync_user'] }}"
-    rsync_location: "{{ hostvars[planet_sync_server]['planet_sync_path'] }}"
-
-- name: Install SMTP forwarding
-  ansible.builtin.include_role:
-    name: msmtp
-  vars:
-    smart_host: "{{ osci.mail_forwarder }}"
-    disable_freeipa: true
+    - name: Install SMTP forwarding
+      ansible.builtin.include_role:
+        name: msmtp
+      vars:
+        smart_host: "{{ osci.mail_forwarder }}"
+        disable_freeipa: true
