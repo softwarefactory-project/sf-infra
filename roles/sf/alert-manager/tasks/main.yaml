@@ -27,7 +27,7 @@
       route:
         repeat_interval: 12h
         group_interval: 12h
-        group_by: [Alertname]
+        group_by: [alertname]
         receiver: softwarefactory-operations-team
         routes:
           - match:
@@ -37,16 +37,24 @@
           - match:
               severity: critical
             receiver: slack-notifications
-          {% endif %}
+          {% endif -%}
+          - match:
+              severity: "warning"
+            receiver: blackhole
+          - match:
+              severity: "info"
+            receiver: blackhole
 
       receivers:
+        # Adding a receiver without config ensure we won't receive email
+        - name: blackhole
         - name: softwarefactory-operations-team
           email_configs:
             - to: softwarefactory-operations-team@redhat.com
         {% if slack_api_url is defined and slack_api_url -%}
         - name: slack-notifications
           slack_configs:
-          - channel: '#rhos-ops'
+          - channel: '#team-rhos-dfg-pcinfra'
             send_resolved: true
         {% endif %}
 
