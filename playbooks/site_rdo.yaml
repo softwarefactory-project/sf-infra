@@ -80,21 +80,39 @@
 
     - name: Add gitiles to disallow in robot.txt
       become: true
-      ansible.builtin.lineinfile:
-        path: /var/www/robots.txt
-        insertafter: '^Disallow: /r/gitweb/*'
-        line: 'Disallow: /r/plugins/gitiles'
+      copy:
+        dest: /var/www/robots.txt
+        mode: "0644"
+        content: |
+          User-agent: *
+          Crawl-delay: 2
+          Disallow: /logs
+          Disallow: /zuul
+          Disallow: /nodepool-log
+          Disallow: /nodepool-launcher
+          Disallow: /paste
+          Disallow: /etherpad
+          Disallow: /analytics
+          Disallow: /cgit/*
+          Disallow: /kojifiles/*
+          Disallow: /r/gitweb/*
+          Disallow: /r/plugins/gitiles
 
-    - name: Add more user-agents to disallow in robot.txt
-      become: true
-      ansible.builtin.lineinfile:
-        path: /var/www/robots.txt
-        insertafter: '^User-agent: PetalBot'
-        line: |
+          User-agent: ImagesiftBot
+          User-agent: HTTrack
+          User-agent: puf
+          User-agent: MSIECrawler
+          User-agent: Nutch
+          User-agent: SemrushBot
+          User-agent: MJ12bot
+          User-agent: mj12bot
+          User-agent: dotbot
+          User-agent: PetalBot
           User-agent: Amazonbot
           User-agent: Yandex
           User-agent: EtaoSpider
           User-Agent: Bytespider
+          Disallow: /
   roles:
     - infra/install-server
     - service/acme-tiny
