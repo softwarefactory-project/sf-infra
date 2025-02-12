@@ -24,7 +24,7 @@
       --security-opt label=disable
       -v /etc/zuul:/etc/zuul:ro
       -e "WEEDER_ROOT_URL=/weeder/"
-      quay.io/software-factory/zuul-weeder:latest
+      ghcr.io/softwarefactory-project/zuul-weeder:latest
 
 - name: Restart service if /etc/hosts is updated
   ansible.builtin.systemd:
