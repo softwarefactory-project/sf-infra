@@ -37,7 +37,7 @@
     pod_param: >
       --net=host
       --pid=host
-      --pull={{ node_exporter_pull_behavior }}
+      --pull={{ node_exporter_pull_behavior | default('always') }}
       -v /:/host:ro,rslave
       -v /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector:ro,rslave,Z
       {{ textfile_volume | default("") }}
