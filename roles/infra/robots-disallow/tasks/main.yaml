@@ -1,0 +1,52 @@
+---
+# NOTE: Before you add new robot or option, please verify that in
+# some tool, eg.: https://www.generaterobotstxt.com/validator
+- name: Add gitiles to disallow in robot.txt
+  become: true
+  ansible.builtin.copy:
+    dest: "{{ robots_txt_path }}"
+    mode: "0644"
+    content: |
+      User-agent: *
+      Disallow: /logs
+      Disallow: /zuul
+      Disallow: /nodepool-log
+      Disallow: /nodepool-launcher
+      Disallow: /paste
+      Disallow: /etherpad
+      Disallow: /analytics
+      Disallow: /cgit/*
+      Disallow: /kojifiles/*
+      Disallow: /r/gitweb/*
+      Disallow: /r/plugins/gitiles
+
+      User-agent: ImagesiftBot
+      Disallow: /
+      User-agent: HTTrack
+      Disallow: /
+      User-agent: puf
+      Disallow: /
+      User-agent: MSIECrawler
+      Disallow: /
+      User-agent: Nutch
+      Disallow: /
+      User-agent: SemrushBot
+      Disallow: /
+      User-agent: MJ12bot
+      Disallow: /
+      User-agent: mj12bot
+      Disallow: /
+      User-agent: dotbot
+      Disallow: /
+      User-agent: PetalBot
+      Disallow: /
+      User-agent: Amazonbot
+      Disallow: /
+      User-agent: Yandex
+      Disallow: /
+      User-agent: EtaoSpider
+      Disallow: /
+      User-Agent: Bytespider
+      Disallow: /
+      User-Agent: AhrefsBot
+      Disallow: /
