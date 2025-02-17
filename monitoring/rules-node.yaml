@@ -53,17 +53,3 @@ groups:
           summary: "OOM Killer detected on (instance {{ $labels.instance }})"
         expr: "increase(node_vmstat_oom_kill[10m]) > 0"
         for: "5m"
-      - alert: RhelEolOsVersions
-        annotations:
-          description: System use an outated OS version
-          summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='rhel', version_id !~ '9.2|9.4|9.5'}"
-        labels:
-          severity: info
-      - alert: FedoraEolOsVersions
-        annotations:
-          description: System use an outated OS version
-          summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='fedora', version_id !~ '40|41'}"
-        labels:
-          severity: info

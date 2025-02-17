@@ -15,6 +15,10 @@ let system_reboot =
       , summary = "host needs to be rebooted"
       }
 
+let rhel_supported_versions = "9.2|9.4|9.5"
+
+let fedora_supported_versions = "40|41"
+
 let createRule =
       \(alert : Text) ->
       \(name : Text) ->
@@ -30,7 +34,7 @@ let createRule =
 in  Prometheus.RulesConfig::{
     , groups = Some
       [ Prometheus.Group::{
-        , name = Some "system-update rules"
+        , name = Some "Info Alerts rules"
         , rules = Some
           [ createRule
               system_package_update.alert
@@ -40,6 +44,28 @@ in  Prometheus.RulesConfig::{
               system_reboot.alert
               system_reboot.name
               system_reboot.summary
+          , Prometheus.AlertingRule::{
+            , alert = Some "RhelEolOsVersions"
+            , expr = Some
+                "node_os_info{id='rhel', version_id !~ '${rhel_supported_versions}'}"
+            , labels = Some Prometheus.infoLabel
+            , annotations = Some Prometheus.Annotations::{
+              , summary =
+                  "System use an outated OS version (instance {{ \$labels.instance }})"
+              , description = Some "System use an outated OS version"
+              }
+            }
+          , Prometheus.AlertingRule::{
+            , alert = Some "FedoraEolOsVersions"
+            , expr = Some
+                "node_os_info{id='fedora', version_id !~ '${fedora_supported_versions}'}"
+            , labels = Some Prometheus.infoLabel
+            , annotations = Some Prometheus.Annotations::{
+              , summary =
+                  "System use an outated OS version (instance {{ \$labels.instance }})"
+              , description = Some "System use an outated OS version"
+              }
+            }
           ]
         }
       ]
