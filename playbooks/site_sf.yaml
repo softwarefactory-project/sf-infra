@@ -111,32 +111,13 @@
     - service/acme-tiny
     - service/apache-exporter
     - service/hostname
+    - infra/robots-disallow
   tasks:
     # TODO uncomment after rhel-9 migration
     # - name: Install bits for sf-config
     #   ansible.builtin.include_role:
     #     name: infra/install-server
     #     tasks_from: setup
-
-    - name: Add gitiles to disallow in robot.txt
-      become: true
-      ansible.builtin.lineinfile:
-        path: /var/www/robots.txt
-        insertafter: "^Disallow: /r/gitweb/*"
-        line: "Disallow: /r/plugins/gitiles"
-
-    - name: Add more user-agents to disallow in robot.txt
-      become: true
-      ansible.builtin.lineinfile:
-        path: /var/www/robots.txt
-        insertafter: "^User-agent: PetalBot"
-        line: |
-          User-agent: Amazonbot
-          User-agent: Yandex
-          User-agent: EtaoSpider
-          User-Agent: Bytespider
-          User-Agent: AhrefsBot
-
     - name: Add vhosts
       ansible.builtin.include_role:
         name: "{{ item }}"
