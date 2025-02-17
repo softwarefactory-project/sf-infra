@@ -10,6 +10,10 @@ let gigabyte = "1024^3"
 
 let megabyte = "1024^2"
 
+let rhel_supported_versions = "9.2|9.4|9.5"
+
+let fedora_supported_versions = "40|41"
+
 in  \(job-name : Text) ->
       Prometheus.RulesConfig::{
       , groups = Some
@@ -150,6 +154,28 @@ in  \(job-name : Text) ->
                     OOM kill detected
                       VALUE = {{ $value }}
                       LABELS: {{ $labels }}''
+                }
+              }
+            , Prometheus.AlertingRule::{
+              , alert = Some "RhelEolOsVersions"
+              , expr = Some
+                  "node_os_info{id='rhel', version_id !~ '${rhel_supported_versions}'}"
+              , labels = Some Prometheus.infoLabel
+              , annotations = Some Prometheus.Annotations::{
+                , summary =
+                    "System use an outated OS version (instance {{ \$labels.instance }})"
+                , description = Some "System use an outated OS version"
+                }
+              }
+            , Prometheus.AlertingRule::{
+              , alert = Some "FedoraEolOsVersions"
+              , expr = Some
+                  "node_os_info{id='fedora', version_id !~ '${fedora_supported_versions}'}"
+              , labels = Some Prometheus.infoLabel
+              , annotations = Some Prometheus.Annotations::{
+                , summary =
+                    "System use an outated OS version (instance {{ \$labels.instance }})"
+                , description = Some "System use an outated OS version"
                 }
               }
             ]
