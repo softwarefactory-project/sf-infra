@@ -1,1 +1,0 @@
-./rules.dhall "ibm-instances"
