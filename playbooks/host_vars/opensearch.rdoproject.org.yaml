@@ -163,5 +163,19 @@ users:
 tenant_configuration:
   rdoproject.org:
     kibana_autologin: "basic"
+    ism:
+      retention_time: 14d
+      name: RDO
+      indexes:
+        - logstash-rdoproject_org-*
+        - ftbfs-rdoproject_org-*
+        - performance-rdoproject_org-*
+        - subunit-rdoproject_org-*
+        - zuul.rdoproject.org-*
   softwarefactory_project_io:
     kibana_autologin: "basic"
+    ism:
+      retention_time: 14d
+      name: SF
+      indexes:
+        - logstash-softwarefactory_project_io-*
