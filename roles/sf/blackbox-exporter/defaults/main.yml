@@ -3,3 +3,4 @@
 # blackbox exporter own ca cert, so it will not raise an
 # error when page uses self signed cert.
 additional_cert_path: ""
+blackbox_exporter_pull_behavior: always
