@@ -2,7 +2,7 @@
 
 OS_CLOUD=${OS_CLOUD:-$1}
 CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
-HOURS_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '12 hours ago')" +%s)
+HOURS_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '32 hours ago')" +%s)
 ZUUL_PREFFIX=${ZUUL_PREFFIX:-'zuul-ci'}
 
 if [ -z "${OS_CLOUD}" ]; then
