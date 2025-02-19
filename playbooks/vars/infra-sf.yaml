@@ -284,21 +284,7 @@ servers:
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ip: true
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
-    name: k1s05.softwarefactory-project.io
-    network: oci-private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - hypervisor-oci
-    state: present
-    volume_size: 100
-  - boot_from_volume: yes
-    flavor: "8vcpu_16GB"
-    floating_ip: true
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: k1s03.softwarefactory-project.io
     network: oci-private-network
@@ -312,7 +298,7 @@ servers:
   - boot_from_volume: yes
     flavor: "4vcpus_8gb"
     floating_ip: true
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: k1s04.softwarefactory-project.io
     network: oci-private-network
@@ -322,6 +308,20 @@ servers:
       - internal
       - hypervisor-oci
       - cs-k1s
+    state: present
+    volume_size: 100
+  - boot_from_volume: yes
+    flavor: "8vcpu_16GB"
+    floating_ip: true
+    image: rhel-9.4-x86_64-kvm
+    key_name: sf-infra-key
+    name: k1s05.softwarefactory-project.io
+    network: oci-private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - hypervisor-oci
     state: present
     volume_size: 100
   - boot_from_volume: yes

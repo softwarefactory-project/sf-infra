@@ -206,25 +206,11 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "k1s05"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
-          , network = "oci-private-network"
-          , floating_ip = Some True
-          , security_groups = [ "hypervisor-oci" ]
-          , flavor = Some Flavors.`8vcpu_16GB`
-          , boot_from_volume = "yes"
-          , volume_size = Some 100
-          }
-        }
-      , Instance::{
         , name = "k1s03"
         , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
+        , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
           , security_groups = [ "hypervisor-oci" ]
@@ -236,13 +222,27 @@ let instances =
       , Instance::{
         , name = "k1s04"
         , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
+        , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
           , security_groups = [ "hypervisor-oci", "cs-k1s" ]
           , flavor = Some Flavors.`4vcpus_8gb`
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          }
+        }
+      , Instance::{
+        , name = "k1s05"
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , connection = OS.RHEL.`9.4`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.4`.image.name
+          , network = "oci-private-network"
+          , floating_ip = Some True
+          , security_groups = [ "hypervisor-oci" ]
+          , flavor = Some Flavors.`8vcpu_16GB`
           , boot_from_volume = "yes"
           , volume_size = Some 100
           }
