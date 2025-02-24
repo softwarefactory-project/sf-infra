@@ -5,7 +5,14 @@ groups:
       - alert: systemd_unit_failed
         annotations:
           summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} failed"
-        expr: "node_systemd_unit_state{state='failed'} > 0"
+        expr: "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name!='dnf-makecache.service'} and node_systemd_unit_state{exported_name!='dnf-makecache.service'})"
+        labels:
+          severity: critical
+      - alert: systemd_unit_failed
+        annotations:
+          summary: "Instance {{ $labels.instance }}: Service {{ $labels.name }} failed"
+        expr: "node_systemd_unit_state{state='failed'} > 0 or (node_systemd_unit_state{name='dnf-makecache.service'} and node_systemd_unit_state{exported_name='dnf-makecache.service'})"
+        for: "1d"
         labels:
           severity: critical
       - alert: systemd_unit_flapping

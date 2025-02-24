@@ -7,7 +7,19 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ Prometheus.CriticalRule::{
             , alert = Some "systemd_unit_failed"
-            , expr = Some "node_systemd_unit_state{state='failed'} > 0"
+            , expr = Some
+                "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name!='dnf-makecache.service'} and node_systemd_unit_state{exported_name!='dnf-makecache.service'})"
+            , annotations = Some
+              { description = None Text
+              , summary =
+                  "Instance {{ \$labels.instance }}: Service {{ \$labels.name }} failed"
+              }
+            }
+          , Prometheus.CriticalRule::{
+            , alert = Some "systemd_unit_failed"
+            , expr = Some
+                "node_systemd_unit_state{state='failed'} > 0 or (node_systemd_unit_state{name='dnf-makecache.service'} and node_systemd_unit_state{exported_name='dnf-makecache.service'})"
+            , for = Some "1d"
             , annotations = Some
               { description = None Text
               , summary =
