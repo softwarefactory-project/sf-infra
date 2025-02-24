@@ -7,8 +7,12 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ Prometheus.CriticalRule::{
             , alert = Some "systemd_unit_failed"
-            , expr = Some
-                "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name!='dnf-makecache.service'} and node_systemd_unit_state{exported_name!='dnf-makecache.service'})"
+            , expr =
+                let comment =
+                      "instances use name but ibm-instances use exported_name instead"
+
+                in  Some
+                      "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name!='dnf-makecache.service'} and node_systemd_unit_state{exported_name!='dnf-makecache.service'})"
             , annotations = Some
               { description = None Text
               , summary =
@@ -17,8 +21,12 @@ in  Prometheus.RulesConfig::{
             }
           , Prometheus.CriticalRule::{
             , alert = Some "systemd_unit_failed"
-            , expr = Some
-                "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name='dnf-makecache.service'} or node_systemd_unit_state{exported_name='dnf-makecache.service'})"
+            , expr =
+                let comment =
+                      "instances use name but ibm-instances use exported_name instead for name"
+
+                in  Some
+                      "node_systemd_unit_state{state='failed'} > 0 and (node_systemd_unit_state{name='dnf-makecache.service'} or node_systemd_unit_state{exported_name='dnf-makecache.service'})"
             , for = Some "1d"
             , annotations = Some
               { description = None Text
