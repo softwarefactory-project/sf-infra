@@ -1,3 +1,13 @@
 ---
 kind_version: 0.26.0
 kind_checksum: "sha256:https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64.sha256sum"
+
+disk_file_path: /mnt/storage-file
+disk_file_size: 20G
+disk_file_sparsed: false
+vg_name: myvg1
+vg_create: true
+topolvm_tmp_dir: /mnt/topolvm-tmp
+topolvm_lvmd_version: 0.36.2
+
+cert_manager_version: 1.16.3

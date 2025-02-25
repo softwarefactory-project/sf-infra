@@ -1,0 +1,18 @@
+controller:
+  replicaCount: 1
+
+#### !!! important to set lvmd.managed to false on kind !!!####
+# more info: https://github.com/topolvm/topolvm/blob/main/docs/advanced-setup.md#lvmd
+lvmd:
+  managed: false
+
+cert-manager:
+  enabled: true
+
+storageClasses:
+  - name: topolvm-provisioner
+    storageClass:
+      fsType: xfs
+      isDefaultClass: true
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true

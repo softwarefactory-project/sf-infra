@@ -2,8 +2,23 @@
 - name: Prepare for kind
   ansible.builtin.include_tasks: pre.yaml
 
+- name: Create volume group
+  ansible.builtin.include_tasks: lvm.yaml
+
+- name: Prepare for topolvm
+  ansible.builtin.include_tasks: pre-topolvm.yaml
+
 - name: Setup kind
   ansible.builtin.include_tasks: kind.yaml
+
+- name: Setup helm - required for topolvm
+  ansible.builtin.include_tasks: helm.yaml
+
+- name: Deploy certmanager
+  ansible.builtin.include_tasks: certmanager.yaml
+
+- name: Deploy topolvm
+  ansible.builtin.include_tasks: topolvm.yaml
 
 - name: Post jobs
   ansible.builtin.include_tasks: post.yaml

@@ -1,3 +1,4 @@
+# https://github.com/topolvm/topolvm/blob/main/example/kind/topolvm-cluster.yaml
 kind: Cluster
 apiVersion:  kind.x-k8s.io/v1alpha4
 networking:
@@ -8,6 +9,13 @@ nodes:
   extraMounts:  # Share the host filesystem
   - hostPath: /home/{{ ansible_user }}/src
     containerPath: /src
+  - containerPath: /run/topolvm
+    hostPath: "/run/topolvm"
+  - containerPath: /var/lib/kubelet
+    hostPath: "{{ topolvm_tmp_dir }}/worker"
+    propagation: Bidirectional
+  - containerPath: /dev
+    hostPath: /dev
 
 - role: control-plane
   kubeadmConfigPatches:  # Enable the creation of ingress controller
@@ -16,6 +24,14 @@ nodes:
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "ingress-ready=true"
+  extraMounts:
+  - containerPath: /run/topolvm
+    hostPath: "/run/topolvm"
+  - containerPath: /var/lib/kubelet
+    hostPath: "{{ topolvm_tmp_dir }}/controller"
+    propagation: Bidirectional
+  - containerPath: /dev
+    hostPath: /dev
 
   extraPortMappings:
   - containerPort: 80
