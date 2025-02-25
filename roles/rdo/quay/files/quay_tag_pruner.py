@@ -166,10 +166,10 @@ def main():
     NOW = datetime.utcnow()
     TOMORROW = NOW + timedelta(days=1)
 
-    keeplist = []
+    keeplist = set()
     if args.keeplist is not None:
         if len(args.keeplist) != 0:
-            keeplist = args.keeplist.split(',')
+            keeplist = set(args.keeplist.split(','))
         elif not args.allow_empty_keeplist:
             log.critical('An empty keeplist has been provided.'
                          ' Consider using --allow-empty-keeplist=True')
