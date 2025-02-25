@@ -1,9 +1,0 @@
----
-- name: Untaint nodes
-  become: true
-  ansible.builtin.shell: |
-    kubectl taint nodes --all {{ item }}
-  ignore_errors: true
-  loop:
-    - "node-role.kubernetes.io/control-plane-"
-    - "node-role.kubernetes.io/master-"

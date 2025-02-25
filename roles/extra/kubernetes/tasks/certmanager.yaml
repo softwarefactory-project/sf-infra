@@ -1,5 +1,0 @@
----
-- name: Install cert manager required by topolvm
-  become: true
-  ansible.builtin.shell: |
-    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v{{ cert_manager_version }}/cert-manager.crds.yaml
