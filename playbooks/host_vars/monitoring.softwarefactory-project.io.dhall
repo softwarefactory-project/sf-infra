@@ -38,6 +38,7 @@ let firewall_rules =
 in  { certbot_plugin = "--apache"
     , firewall_rules
     , fqdn = "monitoring.softwarefactory-project.io"
+    , rhel_release = "9.4"
     , grafana_server_root_url = "https://{{ fqdn }}/grafana/"
     , podman_gw_ip = "10.88.0.1"
     , podman_network = "10.88.0.0/16"
