@@ -50,3 +50,5 @@
       Disallow: /
       User-Agent: AhrefsBot
       Disallow: /
+      User-Agent: GPTBot
+      Disallow: /
