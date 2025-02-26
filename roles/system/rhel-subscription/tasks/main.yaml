@@ -62,7 +62,6 @@
         release: "{{ rhel_release }}"
         # force_register is needed when "release" is bumped
         force_register: yes
-      no_log: yes
 
     - name: Ensure Extended Update Support repos are enabled for rhel even minor versions
       when: (rhel_minor_release | int) % 2 == 0
