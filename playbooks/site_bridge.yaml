@@ -34,3 +34,29 @@
         src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
         dest: /usr/local/bin
         remote_src: yes
+
+    - name: Create ansible registry renew log directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: fedora
+        group: fedora
+      loop:
+        - /var/log/quay-cert-renew
+        - /var/lib/sf-infra
+
+    - name: Copy renew certificate script
+      ansible.builtin.copy:
+        content: |
+          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra;
+          export ANSIBLE_CONFIG=ansible/ansible.cfg;
+          export ANSIBLE_LOG_PATH=/var/log/quay-cert-renew/ansible-$(date '+%Y-%m-%d').log;
+          /usr/bin/ansible-playbook playbooks/quay-renew-certificates.yml -i ansible/hosts.yaml
+        dest: /var/lib/sf-infra/quay-renew.sh
+
+    - name: Create cron job for renewing certificate
+      ansible.builtin.cron:
+        name: Renew registry certificate - Quay
+        special_time: weekly
+        job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null

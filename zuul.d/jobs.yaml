@@ -159,6 +159,8 @@
       - "^roles/bridge/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"
+      - ^playbooks/quay-renew-certificates.yml$
+      - ^playbooks/zuul/configure-quay-host.yaml$
 
 - job:
     name: sf-infra-configure-hosts-dlrn-centos9
@@ -295,27 +297,6 @@
         secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
-
-- job:
-    name: sf-infra-configure-quay
-    parent: sf-infra-base
-    description: Configure the Quay host
-    semaphore: sf-infra
-    run: playbooks/zuul/configure-quay-host.yaml
-    required-projects:
-      - name: software-factory/sf-infra
-    files:
-      - ^playbooks/quay-renew-certificates.yml$
-      - ^playbooks/zuul/configure-quay-host.yaml$
-    secrets:
-      - name: vexxhost_rdo
-        secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
-      - name: vault
-        secret: ansible-vault
 
 - job:
     name: sf-infra-molecule
@@ -491,11 +472,6 @@
             dependencies:
               - dhall-diff
               - name: sf-infra-create-tripleo-standalone
-                soft: true
-        - sf-infra-configure-quay:
-            dependencies:
-              - dhall-diff
-              - name: sf-infra-create-hosts
                 soft: true
         - sf-infra-observability-stack:
             dependencies:
