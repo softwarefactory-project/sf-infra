@@ -52,4 +52,10 @@ in  { certbot_plugin = "--apache"
       , email = "softwarefactory-operations-team@redhat.com"
       , webroot = "/var/www/html"
       }
+    , routes =
+      [ { matchers = [ "severity='critical'" ]
+        , receiver = "softwarefactory-operations-team"
+        }
+      , { matchers = [ "severity=~'warning|info'" ], receiver = "blackhole" }
+      ]
     }

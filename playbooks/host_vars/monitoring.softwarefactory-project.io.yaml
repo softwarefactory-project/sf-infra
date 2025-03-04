@@ -69,6 +69,13 @@ podman_network: "10.88.0.0/16"
 prometheus_configuration_dir: "~/src/softwarefactory-project.io/software-factory/sf-infra/monitoring"
 prometheus_public_url: "https://{{ fqdn }}/prometheus"
 rhel_release: '9.4'
+routes:
+  - matchers:
+      - "severity='critical'"
+    receiver: softwarefactory-operations-team
+  - matchers:
+      - "severity=~'warning|info'"
+    receiver: blackhole
 ssl_cert_options:
   cert1:
     domain: "{{ fqdn }}"

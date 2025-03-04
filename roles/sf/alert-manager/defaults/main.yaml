@@ -1,0 +1,16 @@
+slack_api_url:
+receivers: []
+# receivers:
+#   - name: other_team
+#     email: other_team@redhat.com
+routes: []
+# https://prometheus.io/docs/alerting/latest/configuration/#matcher
+# routes:
+#   - matchers:
+#       - severity="critical"
+#       - jobs!~"other_team_jobs"
+#     receiver: my_team
+#   - matchers:
+#       - severity="critical"
+#       - jobs=~"other_team_jobs"
+#     receiver: other_team
