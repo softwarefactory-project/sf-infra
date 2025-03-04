@@ -122,10 +122,17 @@ def _do_counting(f_ip, subnets, count):
     return count
 
 
-def _count_ports_with_subnet(subnets, cloud):
+def _count_ports_with_subnet(subnets, cloud, network_id, debug):
     count = {}
-    for port in cloud.list_ports():
-        for f_ip in port.fixed_ips:
+    if network_id:
+        ports = cloud.list_ports(filters={"network_id": network_id})
+    else:
+        if debug:
+            print("No network set, taking all...")
+        ports = cloud.list_ports()
+
+    for port in ports:
+        for f_ip in port.get('fixed_ips', []):
             count = _do_counting(f_ip, subnets, count)
     return count
 
@@ -134,7 +141,17 @@ def get_network_info(cloud, metrics, debug):
     base_metric_name = "network"
     for network in cloud.list_networks():
         related_subnets = _get_subnet_info(network)
-        count_ports = _count_ports_with_subnet(related_subnets, cloud)
+        if not related_subnets:
+            continue
+        if debug:
+            print("Related subnets: %s for network %s" % (related_subnets,
+                                                          network['id']))
+
+        count_ports = _count_ports_with_subnet(related_subnets, cloud,
+                                               network.get('id'), debug)
+        if not count_ports:
+            continue
+
         for s_uuid, s_count in count_ports.items():
             if debug:
                 print("Type: %s - id: %s - subnet: %s" % (
