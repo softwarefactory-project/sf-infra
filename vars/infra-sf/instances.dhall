@@ -103,7 +103,8 @@ let tenant-instances =
 let instances =
       [ Instance::{
         , name = "bridge"
-        , groups = [ "bridge", "promtail", "observability-stack" ]
+        , groups =
+          [ "bridge", "promtail", "observability-stack", "sf-operator" ]
         , connection = OS.Fedora.`39`.connection
         }
       , Instance::{
@@ -300,7 +301,8 @@ let instances =
         }
       , Instance::{
         , name = "microshift"
-        , groups = [ "promtail", "promtail-openshift", "microshift-sf" ]
+        , groups =
+          [ "promtail", "promtail-openshift", "microshift-sf", "sf-operator" ]
         , connection = OS.CentOS.`9-stream`.connection
         , node-exporter
           {- disable node-export until host in reinstalled on rhel-}

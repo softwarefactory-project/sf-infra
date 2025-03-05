@@ -3,9 +3,6 @@
 
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
-  become: true
-  become_user: fedora
-
   tasks:
   - name: Create ~/.kube if it does not exist
     ansible.builtin.file:
@@ -18,6 +15,69 @@
       dest: "~/.kube/centosInfra.config"
     no_log: true
 
-  - name: Install go-lang
-    ansible.builtin.include_role:
-      name: install-golang
+#  - name: Install go-lang
+#    ansible.builtin.include_role:
+#      name: install-golang
+
+  - name: Install Zuul SSH secrets
+    kubernetes.core.k8s:
+      kubeconfig: "{{ kube_config }}"
+      state: present
+      definition:
+        kind: Secret
+        apiVersion: v1
+        metadata:
+          name: zuul-sf-ssh-secret
+          namespace: cloud-softwarefactory
+        type: Opaque
+        data:
+          pub: "{{ centOSInfra_zuul_ssh_pub | b64encode }}"
+          priv: "{{ centOSInfra_zuul_ssh_priv | b64encode }}"
+    no_log: true
+
+  # TODO Remove this task once sf-operator v0.0.56 is released.
+  # We don't want to release right away for reasons, but we need
+  # to use a version of sf-operator where the dependency to cert-manager
+  # is completely removed.
+  - name: Set deployment hash
+    ansible.builtin.set_fact:
+      sf_operator_standalone_release: 829227c22ea8f7d037f5341a3c32f5e57b6d44de
+
+  - name: Deploy software factory
+    include_role:
+      name: sf/openshift/install-software-factory
+
+  - name: Delete networking resources if needed
+    # Some fields of a route cannot be updated once created. Delete and recreate the route if needed
+    when: false
+    ansible.builtin.command: >-
+      kubectl delete -f ../playbooks/files/centos-infra/networking.yaml
+    environment:
+      KUBECONFIG: "{{ kube_config }}"
+
+  - name: Deploy networking resources if needed
+    when: true
+    ansible.builtin.command: >-
+      kubectl apply -f ../playbooks/files/centos-infra/networking.yaml
+    environment:
+      KUBECONFIG: "{{ kube_config }}"
+
+  - name: Get nodepool builder key
+    ansible.builtin.command: >-
+      kubectl get secret nodepool-builder-ssh-key -o jsonpath={.data.pub}
+    register: builder_pubkey
+    environment:
+      KUBECONFIG: "{{ kube_config }}"
+
+- hosts: image-builder.softwarefactory-project.io
+  gather_facts: yes
+  become: true
+  tasks:
+    - ansible.builtin.set_fact:
+        builder_pubkey: "{{ hostvars['bridge.softwarefactory-project.io']['builder_pubkey'] }}"
+
+    - name: Add builder key to image-builder
+      ansible.posix.authorized_key:
+        user: nodepool
+        state: present
+        key: "{{ builder_pubkey.stdout | b64decode }}"

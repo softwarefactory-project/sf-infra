@@ -73,7 +73,10 @@
 
     - name: Run the standalone command
       ansible.builtin.shell: >
-        env OPENSHIFT_USER=true KUBECONFIG={{ kube_config }} go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }}
+        go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }}
         --cr ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
       args:
         chdir: ~/sf-operator
+      environment:
+        KUBECONFIG: "{{ kube_config }}"
+        OPENSHIFT_USER: true

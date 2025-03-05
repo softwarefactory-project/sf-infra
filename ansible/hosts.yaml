@@ -221,7 +221,9 @@ all:
         zs.softwarefactory-project.io: {}
     sf-operator:
       hosts:
+        bridge.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
+        microshift.softwarefactory-project.io: {}
     ze:
       hosts:
         ibm-bm3-ze.softwarefactory-project.io: {}
