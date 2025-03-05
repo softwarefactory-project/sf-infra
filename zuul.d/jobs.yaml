@@ -248,6 +248,8 @@
     timeout: 7200
     vars:
       sf_infra_play_name: site_centOSInfra
+    required-projects:
+      - name: software-factory/sf-operator
     files:
       - playbooks/site_centOSInfra.yaml
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$

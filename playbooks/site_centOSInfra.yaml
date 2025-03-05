@@ -17,3 +17,7 @@
       content: "{{ centOSInfra_kube_config }}"
       dest: "~/.kube/centosInfra.config"
     no_log: true
+
+  - name: Install go-lang
+    ansible.builtin.include_role:
+      name: install-golang
