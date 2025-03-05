@@ -24,8 +24,10 @@
       ansible.builtin.command: |
         grubby --update-kernel=ALL --args="psi=1"
 
-    - name: Reconfigure Grub2 - UEFI
-      when: _uefi_base_system.stat.exists
+    - name: Reconfigure Grub2 Rhel and CentOs - UEFI
+      when:
+        - ansible_distribution != "Fedora"
+        - _uefi_base_system.stat.exists
       ansible.builtin.command: |
         grub2-mkconfig -o /boot/efi/EFI/{{ ansible_distribution | lower }}/grub.cfg
 
