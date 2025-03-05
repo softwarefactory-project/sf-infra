@@ -49,6 +49,7 @@ scrape_configs:
           - zk01.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
+          - microshift-ze01.softwarefactory-project.io:9100
           - microshift-infra.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
           - centos.softwarefactory-project.io:9100
