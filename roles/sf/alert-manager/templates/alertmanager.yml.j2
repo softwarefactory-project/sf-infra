@@ -1,0 +1,51 @@
+#jinja2: lstrip_blocks: "True"
+---
+global:
+  resolve_timeout: 5m
+  smtp_require_tls: false
+  smtp_smarthost: '{{ smtp_host }}:25'
+  smtp_from: 'prometheus@{{ monitoring_host }}'
+  {% if slack_api_url -%}
+  slack_api_url: '{{ slack_api_url }}'
+  {% endif %}
+
+route:
+  repeat_interval: 12h
+  group_interval: 12h
+  group_by: [alertname]
+  receiver: softwarefactory-operations-team
+  routes:
+    {% if routes %}
+    {% for route in routes %}
+    - matchers:
+        {% for matcher in route.matchers %}
+        - {{ matcher }}
+        {% endfor %}
+      receiver: {{ route.receiver }}
+    {% endfor %}
+    {% endif %}
+    {% if slack_api_url %}
+    - matchers:
+        - severity="critical"
+      receiver: slack-notifications
+    {% endif %}
+
+receivers:
+  # Adding a receiver without config ensure we will not receive email
+  - name: blackhole
+  - name: softwarefactory-operations-team
+    email_configs:
+      - to: softwarefactory-operations-team@redhat.com
+  {% if receivers is defined and receivers -%}
+  {% for receiver in receivers %}
+  - name: {{ receiver.name }}
+    email_configs:
+      - to: {{ receiver.email }}
+  {% endfor %}
+  {% endif %}
+  {% if slack_api_url is defined and slack_api_url %}
+  - name: slack-notifications
+    slack_configs:
+    - channel: '#team-rhos-dfg-pcinfra'
+      send_resolved: true
+  {% endif %}
