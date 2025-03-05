@@ -74,7 +74,10 @@ routes:
       - "severity='critical'"
     receiver: softwarefactory-operations-team
   - matchers:
-      - "severity=~'warning|info'"
+      - "severity='info'"
+    receiver: blackhole
+  - matchers:
+      - "severity='warning'"
     receiver: blackhole
 ssl_cert_options:
   cert1:

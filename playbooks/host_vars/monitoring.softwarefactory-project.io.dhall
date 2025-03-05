@@ -56,6 +56,7 @@ in  { certbot_plugin = "--apache"
       [ { matchers = [ "severity='critical'" ]
         , receiver = "softwarefactory-operations-team"
         }
-      , { matchers = [ "severity=~'warning|info'" ], receiver = "blackhole" }
+      , { matchers = [ "severity='info'" ], receiver = "blackhole" }
+      , { matchers = [ "severity='warning'" ], receiver = "blackhole" }
       ]
     }

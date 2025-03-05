@@ -5,7 +5,7 @@ global:
   smtp_require_tls: false
   smtp_smarthost: '{{ smtp_host }}:25'
   smtp_from: 'prometheus@{{ monitoring_host }}'
-  {% if slack_api_url -%}
+  {% if slack_api_url %}
   slack_api_url: '{{ slack_api_url }}'
   {% endif %}
 

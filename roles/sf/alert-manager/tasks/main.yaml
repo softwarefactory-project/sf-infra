@@ -1,33 +1,32 @@
 ---
-# - name: Create host directories
-#   become: yes
-#   ansible.builtin.file:
-#     path: "{{ item.path }}"
-#     state: directory
-#     mode: "{{ item.mode|default(omit) }}"
-#   loop:
-#     - path: /etc/alertmanager
-#     - path: /var/lib/alertmanager
-#       mode: "0777"
+- name: Create host directories
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /etc/alertmanager
+    - path: /var/lib/alertmanager
+      mode: "0777"
 
 - name: Create configuration file
   become: yes
   ansible.builtin.template:
     src: alertmanager.yml.j2
-    dest: /tmp/alertmanager.yml
-    # dest: /etc/alertmanager/alertmanager.yml
+    dest: /etc/alertmanager/alertmanager.yml
   register: _am_config
 
-# - ansible.builtin.include_role:
-#     name: service/container
-#   vars:
-#     pod_name: alertmanager
-#     pod_param: >
-#       --network host
-#       -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-#       -v /var/lib/alertmanager:/alertmanager:Z
-#       {{ container_images['alertmanager'] | default('quay.io/prometheus/alertmanager:latest') }}
-#       --web.external-url={{ monitoring_endpoint_url }}/alertmanager/
-#       --web.route-prefix="alertmanager"
-#       --config.file=/etc/alertmanager/alertmanager.yml
-#     pod_config: "{{ _am_config }}"
+- ansible.builtin.include_role:
+    name: service/container
+  vars:
+    pod_name: alertmanager
+    pod_param: >
+      --network host
+      -v /etc/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      -v /var/lib/alertmanager:/alertmanager:Z
+      {{ container_images['alertmanager'] | default('quay.io/prometheus/alertmanager:latest') }}
+      --web.external-url={{ monitoring_endpoint_url }}/alertmanager/
+      --web.route-prefix="alertmanager"
+      --config.file=/etc/alertmanager/alertmanager.yml
+    pod_config: "{{ _am_config }}"
