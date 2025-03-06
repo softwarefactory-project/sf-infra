@@ -28,6 +28,11 @@
     /usr/local/bin/crc config set preset microshift
   when: crc_config_microshift_preset
 
+- name: Set network-mode to system as it was before
+  ansible.builtin.shell: |
+    /usr/local/bin/crc config set network-mode system
+  when: crc_config_old_network_mode
+
 - name: Set custom bundle
   ansible.builtin.shell: |
     /usr/local/bin/crc config set bundle {{ crc_config_custom_bundle_url }}

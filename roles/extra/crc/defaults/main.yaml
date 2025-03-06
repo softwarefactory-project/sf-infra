@@ -13,6 +13,11 @@ crc_config_podman_runtime: false
 crc_config_consent_telemetry: "no"
 crc_config_cluster_monitoring: false
 crc_config_microshift_preset: false
+# NOTE: Since CRC 2.47, there are different network types.
+# To have same network as earlier (dnsmasq would be deployed
+# and you can reach the crc.testing domains from the host) set
+# crc_config_old_network_mode to true.
+crc_config_old_network_mode: true
 crc_config_custom_bundle_url: ""
 # NOTE(dpawlik): We will use <stable>-1 release because of the images
 # that are required after deploying the CRC.

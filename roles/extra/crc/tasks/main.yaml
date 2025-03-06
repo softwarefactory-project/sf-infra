@@ -28,6 +28,3 @@
 - name: Modify kubelet systemd service options
   ansible.builtin.include_tasks: kubelet.yaml
   when: modify_kubelet_systemd
-
-- name: Run workarounds tasks
-  ansible.builtin.include_tasks: workarounds.yaml
