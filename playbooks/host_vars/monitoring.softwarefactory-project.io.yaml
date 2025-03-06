@@ -71,13 +71,10 @@ prometheus_public_url: "https://{{ fqdn }}/prometheus"
 rhel_release: '9.4'
 routes:
   - matchers:
-      - "severity='critical'"
+      - "severity=\"critical\""
     receiver: softwarefactory-operations-team
   - matchers:
-      - "severity='info'"
-    receiver: blackhole
-  - matchers:
-      - "severity='warning'"
+      - "severity=~\"info|warning\""
     receiver: blackhole
 ssl_cert_options:
   cert1:
