@@ -11,15 +11,10 @@
     dest: crc-creds
   no_log: "{{ hide_sensitive_logs }}"
 
-- name: Get crc client path
-  ansible.builtin.shell: |
-    eval $(crc oc-env); whereis oc | awk '{print $2}'
-  register: _oc_bin
-
 - name: Copy oc binary
   become: true
   ansible.builtin.copy:
-    src: "{{ _oc_bin.stdout }}"
+    src: "{{ ansible_user_dir }}/.crc/bin/oc/oc"
     dest: "/usr/local/bin/oc"
     mode: "0755"
     remote_src: true
