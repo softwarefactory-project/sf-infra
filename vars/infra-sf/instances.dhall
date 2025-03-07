@@ -300,29 +300,6 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "microshift"
-        , groups =
-          [ "promtail", "promtail-openshift", "microshift-sf", "sf-operator" ]
-        , connection = OS.CentOS.`9-stream`.connection
-        , node-exporter
-          {- disable node-export until host in reinstalled on rhel-}
-          = False
-        , server = Some Infra.Server::{
-          , image = OS.CentOS.`9-stream`.image.name
-          , flavor = Some Flavors.`8vcpu_16GB`
-          , floating_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 100
-          , security_groups = [ "web", "k8s-client" ]
-          }
-        , monitoring_urls =
-          [ "https://microshift.softwarefactory-project.io/zuul/"
-          , "https://microshift.softwarefactory-project.io/nodepool/builds/"
-          , "https://microshift.softwarefactory-project.io/nodepool/api/image-list"
-          , "https://microshift.softwarefactory-project.io/logs/"
-          ]
-        }
-      , Instance::{
         , name = "microshift-ze01"
         , groups =
           [ "sf-operator", "centos-infra-zuul-executors", "rhel", "promtail" ]

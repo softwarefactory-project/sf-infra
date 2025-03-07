@@ -36,7 +36,6 @@ This project manages:
 * zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
-* microshift.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * microshift-ze01.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * fedora.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2

@@ -18,17 +18,6 @@
     - sf/openshift/install-cert-manager
     - sf/openshift/install-cert-manager-openshift-routes
 
-- hosts: microshift.softwarefactory-project.io
-  roles:
-    - sf/setup-microshift
-    - sf/k9s
-    - sf/openshift/install-sf-operator
-    - sf/openshift/install-software-factory
-    - sf/openshift/install-cert-manager-openshift-routes
-    - sf/openshift/install-sf-operator-route
-    - sf/openshift/install-prometheus
-    - sf/openshift/install-logjuicer
-
 - hosts: k1s
   roles:
     - sf/k1s

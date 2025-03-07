@@ -95,7 +95,6 @@ let -- |               System metrics              | --
     hosts =
       [ "zs.softwarefactory-project.io:9100"
       , "managesf.softwarefactory-project.io:9100"
-      , "microshift.softwarefactory-project.io:9100"
       , "managesf.review.rdoproject.org:9100"
       ]
 
