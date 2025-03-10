@@ -77,10 +77,14 @@ def _check_port_time(port, timezone):
     return port_date < past_date
 
 
-def get_stack_status(cloud, metrics):
+def get_stack_status(cloud, metrics, debug):
     base_metric_name = "stack"
 
-    for stack in cloud.list_stacks():
+    stacks = cloud.list_stacks()
+    if debug:
+        print("Available stacks: %s" % stacks)
+
+    for stack in stacks:
         if stack['stack_status'].lower() in STACK_REPORT_STATE:
             metric_name = "%s_%s{cloud=%s}" % (
                 base_metric_name, stack['stack_status'].lower(),
@@ -93,7 +97,10 @@ def get_stack_status(cloud, metrics):
 def get_ports_status(cloud, metrics, timezone, debug):
     base_metric_name = "port"
 
-    for port in cloud.list_ports():
+    ports = cloud.list_ports()
+    if debug:
+        print("Available ports: %s" % ports)
+    for port in ports:
         old_port = _check_port_time(port, timezone)
         port_status = port.status.lower().replace('/', '')
         if port.status.lower() in PORT_REPORT_STATE:
@@ -139,7 +146,10 @@ def _count_ports_with_subnet(subnets, cloud, network_id, debug):
 
 def get_network_info(cloud, metrics, debug):
     base_metric_name = "network"
-    for network in cloud.list_networks():
+    networks = cloud.list_networks()
+    if debug:
+        print("Available networks: %s" % networks)
+    for network in networks:
         related_subnets = _get_subnet_info(network)
         if not related_subnets:
             continue
@@ -183,7 +193,7 @@ if __name__ == '__main__':
     remove_collector_file(args.collector_path)
     for os_cloud in set(clouds):
         cloud = openstack.connect(cloud=os_cloud)
-        metrics = get_stack_status(cloud, metrics)
+        metrics = get_stack_status(cloud, metrics, args.debug)
         if args.check_network:
             metrics = get_ports_status(cloud, metrics, timezone, args.debug)
             metrics = get_network_info(cloud, metrics, args.debug)
