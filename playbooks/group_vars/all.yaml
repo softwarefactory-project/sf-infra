@@ -113,12 +113,12 @@ infra_sf_public_instances: >-
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
 infra_sf_fip_instances: >-
   openstack --os-cloud infra-sf server list
-  | grep -vE 'public|zs|zm0?|ze0?|nodepool-builder'
+  | grep -vE 'public|zs|zm0?|[[:space:]]ze0?|nodepool-builder'
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ {print $9,$4}'
 # $8 is 'private-network=$private_ip' and should be splited
 infra_sf_private_instances: >-
   openstack --os-cloud infra-sf server list
-  | grep -E 'zs|zm0?|ze0?|nodepool-builder'
+  | grep -E 'zs|zm0?|[[:space:]]ze0?|nodepool-builder'
   | awk '/ACTIVE|SHUTDOWN|MIGRATING|REBOOTING/ { split($8, ip, "="); print ip[2],$4}'
 managed_instances: >-
   {{ infra_rdo_public_instances }}
