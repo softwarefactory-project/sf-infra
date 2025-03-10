@@ -60,3 +60,6 @@
         name: Renew registry certificate - Quay
         special_time: weekly
         job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null
+
+    - name: Clear facts cache
+      ansible.builtin.meta: clear_facts

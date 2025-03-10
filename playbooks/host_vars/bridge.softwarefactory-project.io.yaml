@@ -109,7 +109,7 @@ centOSInfra_kube_config: |
 
 # TODO move this section to group_vars/sf-operator.yaml when microshift.sf.io is decommissioned
 # --8<--
-kube_config: "/home/fedora/.kube/centosInfra.config"
+kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
