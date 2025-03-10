@@ -17,7 +17,7 @@ cert_mail: softwarefactory-operations-team@redhat.com
 
 nfs_shared_repos: true
 
-api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-dalmatian', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
+api_workers: ['centos9-master-uc', 'centos9-master', 'centos9-epoxy', 'centos9-dalmatian', 'centos9-caracal', 'centos9-bobcat', 'centos9-antelope', 'centos9-zed', 'centos9-yoga','centos9-wallaby', 'centos9-xena']
 exclude_monitor_list: ['centos9-zed', 'centos9-yoga']
 
 dlrn_workers:
@@ -108,6 +108,36 @@ dlrn_workers:
     mock_config: 'centos9stream.cfg.j2'
     uid: 1021
     gid: 1021
+  centos9-epoxy:
+    distro: 'centos9'
+    target: 'centos9-epoxy'
+    distgit_branch: 'epoxy-rdo'
+    distro_branch: 'stable/2025.1'
+    enable_cron: false
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '17'
+    cron_minute: '9-59/10'
+    symlinks: ['/var/www/html/centos9-epoxy', '/var/www/html/epoxy/centos9', '/var/www/html/centos9-2025.1', '/var/www/html/2025.1/centos9']
+    # FIXME(jcapitao): set to 'epoxy' once the tag has been created in rdoinfo
+    release: 'epoxy-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos9-epoxy'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'mysql+pymysql://centos9-epoxy:{{ dlrn_db_password }}@{{ ip_db_master }}/dlrn_centos9_epoxy?ssl_cert=/etc/mysql/ssl/client-cert.pem&ssl_key=/etc/mysql/ssl/client-key.pem'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+    #gerrit_user: 'rdo-trunk'
+    gerrit_email: 'rhos-role-rdo-admin@redhat.com'
+    # FIXME(jcapitao): enable when the bootstrap is completed
+    #gerrit_topic: 'rdo-FTBFS-epoxy-cs9'
+    use_components: true
+    mock_config: 'centos9stream.cfg.j2'
+    uid: 1040
+    gid: 1040
   centos9-dalmatian:
     distro: 'centos9'
     target: 'centos9-dalmatian'
