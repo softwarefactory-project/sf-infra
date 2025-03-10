@@ -321,6 +321,18 @@ let instances =
           ]
         }
       , Instance::{
+        , name = "microshift-ze01"
+        , groups = [ "sf-operator" ]
+        , connection = OS.RHEL.`9.4`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.4`.image.name
+          , flavor = Some Flavors.`8vcpu_16GB`
+          , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          }
+        }
+      , Instance::{
         , name = "microshift-infra"
         , groups = [ "promtail", "promtail-openshift" ]
         , connection = OS.CentOS.`9-stream`.connection
