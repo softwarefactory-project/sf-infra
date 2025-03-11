@@ -52,3 +52,5 @@
       Disallow: /
       User-Agent: GPTBot
       Disallow: /
+      User-Agent: BLEXBot
+      Disallow: /
