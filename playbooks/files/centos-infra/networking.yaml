@@ -19,3 +19,37 @@ spec:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sf
+    run: zookeeper
+  name: zookeeper-lb
+spec:
+  ports:
+    - name: zookeeper-2281
+      port: 2281
+      protocol: TCP
+      targetPort: 2281
+  selector:
+    statefulset.kubernetes.io/pod-name: zookeeper-0
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sf
+    run: git-server
+  name: git-server-ro-lb
+spec:
+  ports:
+    - name: git-server-port-9418
+      port: 9418
+      protocol: TCP
+      targetPort: 9418
+  selector:
+    statefulset.kubernetes.io/pod-name: git-server-0
+  type: LoadBalancer

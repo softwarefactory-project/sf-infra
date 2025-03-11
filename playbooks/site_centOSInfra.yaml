@@ -66,6 +66,38 @@
     environment:
       KUBECONFIG: "{{ kube_config }}"
 
+  - name: Get load balancer public IP (zookeeper)
+    block:
+      - register: zk_lb
+        ansible.builtin.command: >-
+          kubectl get service zookeeper-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+        environment:
+          KUBECONFIG: "{{ kube_config }}"
+      - set_fact:
+          _zk_public_hostname: "{{ zk_lb.stdout|from_json }}"
+      - set_fact:
+          zk_public_hostname: "{{ _zk_public_hostname.ip }}"
+        when: _zk_public_hostname.ip is defined
+      - set_fact:
+          zk_public_hostname: "{{ _zk_public_hostname.hostname }}"
+        when: _zk_public_hostname.hostname is defined
+
+  - name: Get load balancer public IP (gitserver)
+    block:
+      - register: gs_lb
+        ansible.builtin.command: >-
+          kubectl get service git-server-ro-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+        environment:
+          KUBECONFIG: "{{ kube_config }}"
+      - set_fact:
+          _gitserver_public_hostname: "{{ gs_lb.stdout|from_json }}"
+      - set_fact:
+          gitserver_public_hostname: "{{ _gitserver_public_hostname.ip }}"
+        when: _gitserver_public_hostname.ip is defined
+      - set_fact:
+          gitserver_public_hostname: "{{ _gitserver_public_hostname.hostname }}"
+        when: _gitserver_public_hostname.hostname is defined
+
   - name: Get nodepool builder key
     ansible.builtin.command: >-
       kubectl get secret nodepool-builder-ssh-key -o jsonpath={.data.pub}
