@@ -174,6 +174,7 @@ all:
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
+        microshift-ze01.softwarefactory-project.io: {}
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}

@@ -324,7 +324,7 @@ let instances =
         }
       , Instance::{
         , name = "microshift-ze01"
-        , groups = [ "sf-operator" ]
+        , groups = [ "rhel", "sf-operator" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
