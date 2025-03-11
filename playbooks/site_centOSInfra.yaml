@@ -1,4 +1,10 @@
 ---
+# Hack to prevent ansible_user_dir to be /root on the bridge
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+    - name: Clear facts cache
+      ansible.builtin.meta: clear_facts
+
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   tasks:
