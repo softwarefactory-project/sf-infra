@@ -576,6 +576,10 @@ volumes:
     server: image-builder.softwarefactory-project.io
     size: 1000
   - device: /dev/vdb
+    display_name: ze01-lvm
+    server: microshift-ze01.softwarefactory-project.io
+    size: 512
+  - device: /dev/vdb
     display_name: microshift-infra-data
     server: microshift-infra.softwarefactory-project.io
     size: 200

@@ -333,6 +333,13 @@ let instances =
           , boot_from_volume = "yes"
           , volume_size = Some 100
           }
+        , volumes =
+          [ Infra.Volume::{
+            , display_name = "ze01-lvm"
+            , size = 512
+            , device = "/dev/vdb"
+            }
+          ]
         }
       , Instance::{
         , name = "microshift-infra"
