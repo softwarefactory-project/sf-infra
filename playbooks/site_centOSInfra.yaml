@@ -1,6 +1,4 @@
 ---
-- ansible.builtin.import_playbook: site_bridge.yaml
-
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   tasks:
