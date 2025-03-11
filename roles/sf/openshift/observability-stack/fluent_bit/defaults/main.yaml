@@ -44,3 +44,5 @@ fluentbit_max_storage_chunks: 32
 
 fluentbit_buffer_size: "100Mi"
 fluentbit_loki_output_storage_limit: "50M"
+
+kubeconfig: "~/.kube/config"

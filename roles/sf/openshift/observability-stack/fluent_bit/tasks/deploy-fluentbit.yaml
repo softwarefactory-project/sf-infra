@@ -50,6 +50,6 @@
 
 - name: Apply fluentbit manifest
   ansible.builtin.command: >
-    kubectl apply -f manifest.yaml --namespace {{ fluentbit_namespace }}
+    env KUBECONFIG={{ kubeconfig }} kubectl apply -f manifest.yaml --namespace {{ fluentbit_namespace }}
   args:
     chdir: "{{ kustomize_dir }}/fluentbit/"

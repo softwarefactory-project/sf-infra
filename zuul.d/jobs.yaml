@@ -457,6 +457,8 @@
                 soft: true
               - name: sf-infra-create-bridge
                 soft: true
+              - name: sf-infra-observability-stack
+                soft: true
         - sf-infra-configure-hosts-sf:
             dependencies:
               - dhall-diff

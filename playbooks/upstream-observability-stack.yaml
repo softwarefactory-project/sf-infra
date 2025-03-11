@@ -100,6 +100,48 @@
     - name: Annotate loki's route for cert-manager/openshift-routes operator
       ansible.builtin.command: oc -n {{ loki_namespace }} annotate route loki-gateway --overwrite cert-manager.io/issuer-name={{ issuer_name }} cert-manager.io/issuer-kind=Issuer
 
+# Components deployed on centos Infra
+- hosts: bridge.softwarefactory-project.io
+  tasks:
+  # Fluent Bit Forwarder
+    - ansible.builtin.set_fact:
+        tmp_kustomize_dir: "{{ kustomize_dir }}/centosinfra-prod"
+    - name: Create manifests subdirs (control pane)
+      block:
+        - ansible.builtin.file:
+            path: "{{ tmp_kustomize_dir }}/cloud-softwarefactory"
+            state: directory
+        - loop: "{{ groups['centos-infra-zuul-executors'] }}"
+          loop_control:
+            loop_var: msze
+          ansible.builtin.file:
+            path: "{{ tmp_kustomize_dir }}/{{ msze }}"
+            state: directory
+
+    - name: Deploy Fluent Bit log forwarder (control plane)
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/fluent_bit
+        tasks_from: deploy-fluentbit.yaml
+      vars:
+        kubeconfig: "/home/fedora/.kube/centosInfra.config"
+        kustomize_dir: "{{ tmp_kustomize_dir }}/cloud-softwarefactory"
+        fluentbit_namespace: cloud-softwarefactory
+        fluentbit_extra_labels: "softwarefactory=centosinfra-prod"
+        fluentbit_debug: true
+    - name: Deploy Fluent Bit log forwarder (executors)
+      loop: "{{ groups['centos-infra-zuul-executors'] }}"
+      loop_control:
+        loop_var: msze
+      ansible.builtin.include_role:
+        name: sf/openshift/observability-stack/fluent_bit
+        tasks_from: deploy-fluentbit.yaml
+      vars:
+        kubeconfig: "/home/fedora/.kube/{{ msze }}"
+        kustomize_dir: "{{ tmp_kustomize_dir }}/{{ msze }}"
+        fluentbit_namespace: sf
+        fluentbit_extra_labels: "softwarefactory=centosinfra-prod"
+        fluentbit_debug: true
+
 - hosts: promtail:!promtail-openshift
   tasks:
     - name: Enable promtail service (regular nodes)
