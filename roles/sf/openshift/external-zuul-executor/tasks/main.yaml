@@ -1,0 +1,122 @@
+---
+- name: Install the prometheus operator
+  ansible.builtin.include_role:
+    name: install-prometheus-operator
+  vars:
+    kube_config: "{{ executor_plane.kubeconfig }}"
+  when: executor_plane.install_prometheus_operator | default(False)
+
+- name: Expose the prometheus port
+  when: executor_plane.install_prometheus_operator | default(False)
+  kubernetes.core.k8s:
+    kubeconfig: "{{ executor_plane.kubeconfig }}"
+    state: present
+    namespace: "{{ executor_plane.namespace }}"
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: zuul-executor-prom-lb
+      spec:
+        ports:
+          - name: zuul-executor-9100
+            port: 9101
+            protocol: TCP
+            targetPort: 9100
+        selector:
+          app: sf
+          run: zuul-executor
+        type: LoadBalancer
+
+- name: Create a namespace
+  ansible.builtin.shell: |
+    oc create namespace {{ executor_plane.namespace }}
+    oc adm policy add-scc-to-user privileged system:serviceaccount:{{ executor_plane.namespace }}:default
+  environment:
+    KUBECONFIG: "{{ executor_plane.kubeconfig }}"
+
+- name: Synchronize default secrets from the control plane
+  ansible.builtin.shell: |
+    KUBECONFIG={{ control_plane.kubeconfig }} oc get secrets {{ item }} -o json | \
+    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
+  loop:
+    - ca-cert
+    - zookeeper-client-tls
+    - zuul-ssh-key
+    - zuul-keystore-password
+
+- name: Synchronize extra secrets from the SF control plane
+  ansible.builtin.shell: |
+    KUBECONFIG={{ control_plane.kubeconfig }} oc get secrets {{ item }} -o json | \
+    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
+  loop: "{{ control_plane.extra_secrets }}"
+
+- name: Synchronize config-maps from the SF control plane
+  ansible.builtin.shell: |
+    KUBECONFIG={{ control_plane.kubeconfig }} oc get cm {{ item }} -o json | \
+    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
+  loop: "{{ control_plane.extra_configmaps }}"
+
+- name: Expose the finger port
+  kubernetes.core.k8s:
+    kubeconfig: "{{ executor_plane.kubeconfig }}"
+    state: present
+    namespace: "{{ executor_plane.namespace }}"
+    definition:
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: zuul-executor-lb
+      spec:
+        ports:
+          - name: zuul-executor-7900
+            port: 7900
+            protocol: TCP
+            targetPort: 7900
+        selector:
+          app: sf
+          run: zuul-executor
+        type: LoadBalancer
+
+- name: Set the SoftwareFactory executor CR fact
+  ansible.builtin.set_fact:
+    executor_cr:
+      apiVersion: sf.softwarefactory-project.io/v1
+      kind: SoftwareFactory
+      metadata:
+        name: ext-sf-comps
+      spec:
+        fqdn: "{{ control_plane.fqdn }}"
+        prometheusMonitorsDisabled: "{{ not executor_plane.install_prometheus_operator }}"
+        # FluentBitLogForwarding:
+        #   forwardInputHost: fluent-bit
+        #   forwardInputPort: 24224
+        zuul:
+          executor:
+            limits:
+              cpu: 6000m
+              memory: 16Gi
+            storage:
+              size: 30Gi
+            diskLimitPerJob: 8096
+            logLevel: DEBUG
+            standalone:
+              controlPlanePublicZKHostname: "{{ control_plane.public_zookeeper_hostname }}"
+              controlPlanePublicGSHostname: "{{ control_plane.public_gitserver_hostname }}"
+              publicHostname: "{{ hostvars[ansible_host]['ansible_facts']['default_ipv4']['address'] }}"
+
+- name: Run the standalone deployment of Sofware Factory from the sf-operator
+  ansible.builtin.include_role:
+    name: sf/openshift/install-software-factory
+  vars:
+    kube_config: "{{ executor_plane.kubeconfig }}"
+    sf_namespace: "{{ executor_plane.namespace }}"
+    software_factory: "{{ executor_cr }}"
+    zuul_connections: "{{ control_plane.zuul_connections }}"
+    # ensure those paramaters are empty as we already copy the data from the control plane
+    corporate_ca_certs: "{{ undef() }}"
+    zuul_connections_secrets: []
+    nodepool_providers_secrets: "{{ undef() }}"
