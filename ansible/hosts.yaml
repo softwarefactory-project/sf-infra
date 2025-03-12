@@ -28,6 +28,9 @@ all:
     bridge:
       hosts:
         bridge.softwarefactory-project.io: {}
+    centos-infra-zuul-executors:
+      hosts:
+        microshift-ze01.softwarefactory-project.io: {}
     db_master:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
@@ -122,6 +125,7 @@ all:
         k1s05.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         microshift-infra.softwarefactory-project.io: {}
+        microshift-ze01.softwarefactory-project.io: {}
         microshift.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}

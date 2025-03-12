@@ -1,0 +1,22 @@
+---
+microshift_version: 4.16
+
+fqdn: "{{ inventory_hostname }}"
+# Common option for ansible-microshift-role and system/volume role
+vg_name: "rhel"
+
+# Options for ansible-microshift-role
+microshift_additional_addresses:
+  - "{{ fqdn }}"
+public_dns:
+  - 1.1.1.1
+  - 8.8.8.8
+setup_olm: false
+repo_dir: "{{ ansible_user_dir }}/repo"
+
+# Options for system/volume role
+delete_partitions: true
+wipe_partition_table: true
+create_lv: false
+create_partition: false
+lvm: true

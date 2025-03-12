@@ -7,6 +7,6 @@
   no_log: true
   delegate_to: localhost
 
-- name: Install microshift
+- name: "Install microshift on {{ ansible_host }}"
   ansible.builtin.include_role:
     name: "{{ ansible_microshift_role_dir }}"

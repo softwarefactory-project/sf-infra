@@ -252,6 +252,8 @@
       - sf-infra-configure-bridge
     required-projects:
       - name: software-factory/sf-operator
+      - name: github.com/openstack-k8s-operators/ansible-microshift-role
+        override-checkout: 4.16.0-4
     files:
       - playbooks/site_centOSInfra.yaml
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
@@ -445,6 +447,8 @@
         - sf-infra-configure-centOS-Infra:
             dependencies:
               - dhall-diff
+              - name: sf-infra-configure-hosts-sf
+                soft: true
               - name: sf-infra-create-bridge
                 soft: true
         - sf-infra-configure-hosts-sf:

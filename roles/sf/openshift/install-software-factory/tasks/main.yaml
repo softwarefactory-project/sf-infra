@@ -44,11 +44,16 @@
   loop: "{{ zuul_connections_secrets }}"
   when: zuul_connections_secrets is defined
 
+- name: Prepare the SF manifest
+  no_log: true
+  ansible.builtin.set_fact:
+    sf_manifest: "{{ software_factory | combine(zuul_connections, recursive=true) | to_nice_yaml }}"
+
 - name: Apply the SF Custom Resource
   kubernetes.core.k8s:
     kubeconfig: "{{ kube_config }}"
     state: present
-    definition: "{{ software_factory }}"
+    definition: "{{ sf_manifest }}"
   when: not (sf_operator_standalone | bool)
 
 - name: Apply the SF Custom Resource (standalone)
@@ -68,7 +73,7 @@
 
     - name: Copy the CR on the filesystem
       ansible.builtin.copy:
-        content: "{{ software_factory }}"
+        content: "{{ sf_manifest }}"
         dest: ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
 
     - name: Run the standalone command

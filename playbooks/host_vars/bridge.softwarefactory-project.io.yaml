@@ -115,6 +115,22 @@ sf_setup_namespace: false
 sf_operator_standalone: true
 sf_operator_standalone_release: v0.0.55
 
+zuul_connections:
+  spec:
+    zuul:
+      gerritconns:
+        - name: sfio-gerrit
+          username: microzuul
+          hostname: softwarefactory-project.io
+          puburl: "https://softwarefactory-project.io/r"
+          sshkey: "zuul-sf-ssh-secret"
+      githubconns:
+        - name: github.com
+          appID: 846254
+          server: github.com
+          verify_ssl: True
+          secrets: zuul-github-com-connection
+
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
@@ -126,7 +142,7 @@ software_factory:
     # FIXME above is the expected FQDN under which we want to expose this software factory
     # but we can't use it until we have a valid certificate for it.
     # can we change FQDNs after an initial deployment?
-    fqdn: "sf-gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
+    fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
     prometheusMonitorsDisabled: true
     FluentBitLogForwarding: {}
     # TODO Enable when cutoff is ready
@@ -153,18 +169,6 @@ software_factory:
         size: 300Gi
     zuul:
       oidcAuthenticators: []
-      gerritconns:
-        - name: sfio-gerrit
-          username: microzuul
-          hostname: softwarefactory-project.io
-          puburl: "https://softwarefactory-project.io/r"
-          sshkey: "zuul-sf-ssh-secret"
-      githubconns:
-        - name: github.com
-          appID: 846254
-          server: github.com
-          verify_ssl: True
-          secrets: zuul-github-com-connection
       scheduler:
         logLevel: DEBUG
         storage:

@@ -12,6 +12,7 @@ software_factory:
     namespace: "{{ sf_namespace }}"
   spec: {}
 
+zuul_connections: {}
 zuul_connections_secrets: []
 #
 # corporate_ca_certs:
