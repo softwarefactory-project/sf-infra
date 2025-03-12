@@ -391,6 +391,7 @@ servers:
       - common
       - monitoring
       - internal
+      - k8s-client
     state: present
     volume_size: 100
   - boot_from_volume: yes

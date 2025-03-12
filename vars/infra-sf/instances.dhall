@@ -333,6 +333,7 @@ let instances =
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 100
+          , security_groups = [ "k8s-client" ]
           }
         , volumes =
           [ Infra.Volume::{
