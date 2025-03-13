@@ -113,8 +113,8 @@ dlrn_workers:
     target: 'centos9-epoxy'
     distgit_branch: 'epoxy-rdo'
     distro_branch: 'stable/2025.1'
-    enable_cron: false
-    enable_purge: false
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '17'
     cron_minute: '9-59/10'
@@ -130,10 +130,9 @@ dlrn_workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
-    #gerrit_user: 'rdo-trunk'
+    gerrit_user: 'rdo-trunk'
     gerrit_email: 'rhos-role-rdo-admin@redhat.com'
-    # FIXME(jcapitao): enable when the bootstrap is completed
-    #gerrit_topic: 'rdo-FTBFS-epoxy-cs9'
+    gerrit_topic: 'rdo-FTBFS-epoxy-cs9'
     use_components: true
     mock_config: 'centos9stream.cfg.j2'
     uid: 1040
