@@ -1,0 +1,6 @@
+packages: .
+-- Fixes for latest openssl on fedora, remove when new HsOpenSSL is released
+source-repository-package
+    type: git
+    location: https://github.com/haskell-cryptography/HsOpenSSL
+    tag: 35f6c043b928feef3ade34b7908919912ded66c7

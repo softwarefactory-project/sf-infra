@@ -1,0 +1,31 @@
+cabal-version: 3.0
+name: correlate-build-failure
+version: 0.1
+license: Apache-2.0
+author: Tristan Cacqueray
+maintainer: tdecacqu@redhat.com
+category: System
+build-type: Simple
+
+common warnings
+  ghc-options: -Wall -Wunused-packages
+
+executable correlate-build-failure
+  import: warnings
+  ghc-options: -threaded
+  main-is: Main.hs
+  build-depends:
+    aeson,
+    base,
+    bytestring,
+    containers,
+    text,
+    with-utf8,
+    gerrit,
+    http-client,
+    http-client-tls,
+    cached-json-file,
+    yaml,
+    vector
+  hs-source-dirs: .
+  default-language: GHC2021
