@@ -126,6 +126,32 @@
           gitserver_public_hostname: "{{ _gitserver_public_hostname.hostname }}"
         when: _gitserver_public_hostname.hostname is defined
 
+# Configure external executors
+  - ansible.builtin.set_fact:
+      control_plane:
+          kubeconfig: "{{ kube_config }}"
+          extra_secrets:
+          - zuul-sf-ssh-secret
+          # Append Zuul Connection Secrets when they are defined
+          - zuul-github-com-connection
+          extra_configmaps: []
+          fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
+          zuul_connections: "{{ hostvars['bridge.softwarefactory-project.io']['zuul_connections'] }}"
+          public_zookeeper_hostname: "{{ hostvars['bridge.softwarefactory-project.io']['zk_public_hostname'] }}"
+          public_gitserver_hostname: "{{ hostvars['bridge.softwarefactory-project.io']['gitserver_public_hostname'] }}"
+
+  - name: Setup external executors
+    include_role:
+      name: sf/openshift/external-zuul-executor
+    vars:
+      executor_plane:
+          kubeconfig: "/home/fedora/.kube/{{ msze }}"
+          install_prometheus_operator: false
+          namespace: sf
+    loop: "{{ groups['centos-infra-zuul-executors'] }}"
+    loop_control:
+      loop_var: msze
+
 # Enable builder connection
   - name: Get nodepool builder key
     ansible.builtin.command: >-

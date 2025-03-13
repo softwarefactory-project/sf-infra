@@ -1,0 +1,14 @@
+---
+executor_plane:
+  kubeconfig: "{{ ansible_user_dir }}/.kube/config"
+  install_prometheus_operator: false
+  namespace: sf
+
+control_plane:
+  kubeconfig: "{{ ansible_user_dir }}/.kube/control_plane"
+  extra_secrets: []
+  extra_configmaps: []
+  zuul_connections: {}
+  public_zookeeper_hostname: 1.2.3.4
+  public_gitserver_hostname: 5.6.7.8
+  fqdn: sfop.me
