@@ -149,6 +149,8 @@ software_factory:
       base-url: https://softwarefactory-project.io/r
       name: microzuul-config
       zuul-connection-name: sfio-gerrit
+      k8s-api-url: https://api.ocp.cloud.ci.centos.org:6443
+      logserver-host: "{{ logserver_public_hostname }}"
     extraLabels: {}
     # storage is provided beforehand by centos infra.
     # below are the allotted PVs' storage values; DO NOT EDIT THEM.

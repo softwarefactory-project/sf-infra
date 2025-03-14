@@ -53,3 +53,20 @@ spec:
   selector:
     statefulset.kubernetes.io/pod-name: git-server-0
   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sf
+    run: logserver
+  name: logserver-lb
+spec:
+  ports:
+    - name: logserver-2222
+      port: 2222
+      protocol: TCP
+      targetPort: 2222
+  selector:
+    statefulset.kubernetes.io/pod-name: logserver-0
+  type: LoadBalancer

@@ -75,10 +75,6 @@
     ansible.builtin.set_fact:
       sf_operator_standalone_release: 829227c22ea8f7d037f5341a3c32f5e57b6d44de
 
-  - name: Deploy software factory
-    include_role:
-      name: sf/openshift/install-software-factory
-
   - name: Delete networking resources if needed
     # Some fields of a route cannot be updated once created. Delete and recreate the route if needed
     when: false
@@ -125,6 +121,26 @@
       - set_fact:
           gitserver_public_hostname: "{{ _gitserver_public_hostname.hostname }}"
         when: _gitserver_public_hostname.hostname is defined
+
+  - name: Get load balancer public IP (logserver)
+    block:
+      - register: ls_lb
+        ansible.builtin.command: >-
+          kubectl get service logserver-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+        environment:
+          KUBECONFIG: "{{ kube_config }}"
+      - set_fact:
+          _logserver_public_hostname: "{{ ls_lb.stdout|from_json }}"
+      - set_fact:
+          logserver_public_hostname: "{{ _logserver_public_hostname.ip }}"
+        when: _logserver_public_hostname.ip is defined
+      - set_fact:
+          logserver_public_hostname: "{{ _logserver_public_hostname.hostname }}"
+        when: _logserver_public_hostname.hostname is defined
+
+  - name: Deploy software factory
+    include_role:
+      name: sf/openshift/install-software-factory
 
 # Configure external executors
   - ansible.builtin.set_fact:
