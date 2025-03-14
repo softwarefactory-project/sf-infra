@@ -231,6 +231,7 @@
       - playbooks/group_vars/k1s.yaml
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
+      - playbooks/group_vars/sf-operator.yaml
       - playbooks/vars/infra-sf.yaml
       - playbooks/zuul/configure-hosts.yaml
       - "^monitoring/.*yaml$"

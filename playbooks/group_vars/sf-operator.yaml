@@ -77,6 +77,10 @@ clouds_yaml: |
       identity_api_version: '3'
       region_name: regionOne
       volume_api_version: '3'
+      # FIXME: Replace that with 'cacert' when such functionality is
+      # available in sf-operator.
+      # cacert: /path/to/ca.cert
+      insecure: true
     ibm-bm4-nodepool:
       auth:
         auth_url: {{ ibm_bm4_url }}
@@ -88,6 +92,10 @@ clouds_yaml: |
       identity_api_version: '3'
       region_name: regionOne
       volume_api_version: '3'
+      # FIXME: Replace that with 'cacert' when such functionality is
+      # available in sf-operator.
+      # cacert: /path/to/ca.cert
+      insecure: true
 
 nodepool_providers_secrets:
   kind: Secret
