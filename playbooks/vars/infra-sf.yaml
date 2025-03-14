@@ -222,6 +222,9 @@ security_groups:
     rules:
       - port: 6443
       - port: 30000
+  - name: zuul-finger
+    rules:
+      - port: 7900
 servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -392,6 +395,7 @@ servers:
       - monitoring
       - internal
       - k8s-client
+      - zuul-finger
     state: present
     volume_size: 100
   - boot_from_volume: yes
