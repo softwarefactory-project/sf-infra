@@ -94,6 +94,7 @@ let security_groups =
                   , Infra.Rule::{ port = logreduce_service }
                   ]
           }
+        , { name = "zuul-finger", rules = [ Infra.Rule::{ port = +7900 } ] }
         ]
 
 in  { networks = Some
