@@ -106,7 +106,7 @@
             standalone:
               controlPlanePublicZKHostname: "{{ control_plane.public_zookeeper_hostname }}"
               controlPlanePublicGSHostname: "{{ control_plane.public_gitserver_hostname }}"
-              publicHostname: "{{ hostvars[ansible_host]['ansible_facts']['default_ipv4']['address'] }}"
+              publicHostname: "{{ hostvars[ansible_host]['public_ip'] }}"
 
 - name: Run the standalone deployment of Sofware Factory from the sf-operator
   ansible.builtin.include_role:
