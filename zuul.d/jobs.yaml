@@ -258,6 +258,11 @@
     files:
       - playbooks/site_centOSInfra.yaml
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
+      - ^playbooks/host_vars/microshift-ze.*.softwarefactory-project.io.yaml$
+      - ^roles/sf/openshift/external-zuul-executor/.*$
+      - ^roles/sf/openshift/install-software-factory/.*$
+      - ^playbooks/group_vars/sf-operator.yaml$
+      - ^playbooks/group_vars/centos-infra-zuul-executors.yaml$
 
 
 - job:

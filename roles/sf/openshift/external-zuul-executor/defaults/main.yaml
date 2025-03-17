@@ -3,6 +3,7 @@ executor_plane:
   kubeconfig: "{{ ansible_user_dir }}/.kube/config"
   install_prometheus_operator: false
   namespace: sf
+  public_ip: 1.2.3.4
 
 control_plane:
   kubeconfig: "{{ ansible_user_dir }}/.kube/control_plane"

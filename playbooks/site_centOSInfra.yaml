@@ -148,6 +148,7 @@
           kubeconfig: "/home/fedora/.kube/{{ msze }}"
           install_prometheus_operator: false
           namespace: sf
+          public_ip: "{{ hostvars[msze]['public_ip'] }}"
     loop: "{{ groups['centos-infra-zuul-executors'] }}"
     loop_control:
       loop_var: msze
