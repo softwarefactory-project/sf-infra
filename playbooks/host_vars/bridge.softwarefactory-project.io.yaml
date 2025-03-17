@@ -169,7 +169,12 @@ software_factory:
       storage:
         size: 300Gi
     zuul:
-      oidcAuthenticators: []
+      oidcAuthenticators:
+        - name: keycloak_sfio
+          clientID: zuul-microshift
+          issuerID: https://softwarefactory-project.io/auth/realms/SF
+          realm: SF
+      defaultAuthenticator: keycloak_sfio
       scheduler:
         logLevel: DEBUG
         storage:
