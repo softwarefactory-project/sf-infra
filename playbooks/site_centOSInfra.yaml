@@ -186,6 +186,6 @@
 
     - name: Add builder key to image-builder
       ansible.posix.authorized_key:
-        user: nodepool
+        user: zuul
         state: present
         key: "{{ builder_pubkey.stdout | b64decode }}"
