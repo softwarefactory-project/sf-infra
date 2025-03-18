@@ -14,6 +14,8 @@ executable correlate-build-failure
   import: warnings
   ghc-options: -threaded
   main-is: Main.hs
+  other-modules: JobOutput
+  default-extensions: DerivingStrategies
   build-depends:
     aeson,
     base,
@@ -25,7 +27,6 @@ executable correlate-build-failure
     http-client,
     http-client-tls,
     cached-json-file,
-    yaml,
-    vector
+    yaml
   hs-source-dirs: .
   default-language: GHC2021
