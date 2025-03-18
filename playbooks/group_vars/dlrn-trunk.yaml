@@ -26,8 +26,8 @@ dlrn_workers:
     target: 'centos10-master-uc'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
-    enable_cron: false
-    enable_purge: false
+    enable_cron: "{{ enable_worker_cronjobs }}"
+    enable_purge: "{{ enable_purge_cronjobs }}"
     purge_hour: '2'
     purge_minute: '7'
     cron_minute: '*/5'
