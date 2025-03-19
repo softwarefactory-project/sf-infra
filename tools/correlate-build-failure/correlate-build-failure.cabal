@@ -14,7 +14,7 @@ executable correlate-build-failure
   import: warnings
   ghc-options: -threaded
   main-is: Main.hs
-  other-modules: JobOutput
+  other-modules: JobOutput, ZuulInventory
   default-extensions: DerivingStrategies
   build-depends:
     aeson,
