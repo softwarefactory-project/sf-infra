@@ -73,7 +73,7 @@
   # is completely removed.
   - name: Set deployment hash
     ansible.builtin.set_fact:
-      sf_operator_standalone_release: 7e1458c530603c2c4ae458716117c2018e3ebb55
+      sf_operator_standalone_release: v0.0.56
 
   - name: Delete networking resources if needed
     # Some fields of a route cannot be updated once created. Delete and recreate the route if needed
