@@ -23,6 +23,7 @@
     - install-golang
     - sf/setup-microshift
     - sf/k9s
+    - service/node-exporter
   post_tasks:
     - name: Fetch kubeconfig on the controller
       ansible.builtin.fetch:
