@@ -403,7 +403,7 @@ let mkServers =
 
 let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
 
-let mkMergers = mkServers "zm" Flavors.`1vcpu_1gb`
+let mkMergers = mkServers "zm" Flavors.`1vcpu_4gb`
 
 let zuuls = mkExecutors 4 # mkMergers 4
 
