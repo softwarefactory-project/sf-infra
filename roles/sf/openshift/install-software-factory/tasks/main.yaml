@@ -78,8 +78,8 @@
 
     - name: Run the standalone command
       ansible.builtin.shell: >
-        go run ./main.go dev create standalone-sf --namespace {{ sf_namespace }}
-        --cr ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
+        go run ./main.go deploy --namespace {{ sf_namespace }}
+        ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
       args:
         chdir: ~/sf-operator
       environment:
