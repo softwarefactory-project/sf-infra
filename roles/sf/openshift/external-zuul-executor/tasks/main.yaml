@@ -91,9 +91,6 @@
       spec:
         fqdn: "{{ control_plane.fqdn }}"
         prometheusMonitorsDisabled: "{{ not executor_plane.install_prometheus_operator }}"
-        # FluentBitLogForwarding:
-        #   forwardInputHost: fluent-bit
-        #   forwardInputPort: 24224
         zuul:
           executor:
             limits:
@@ -108,13 +105,28 @@
               controlPlanePublicGSHostname: "{{ control_plane.public_gitserver_hostname }}"
               publicHostname: "{{ executor_plane.public_ip }}"
 
+- name: Enable Log Forwarding
+  when: executor_plane.log_forwarding is defined
+  ansible.builtin.set_fact:
+    log_forwarding_config:
+      spec:
+        FluentBitLogForwarding:
+          forwardInputHost: fluent-bit
+          forwardInputPort: 24224
+
+- name: Do not enable Log Forwarding
+  when: executor_plane.log_forwarding is not defined
+  ansible.builtin.set_fact:
+    log_forwarding_config:
+      spec: {}
+
 - name: Run the standalone deployment of Sofware Factory from the sf-operator
   ansible.builtin.include_role:
     name: sf/openshift/install-software-factory
   vars:
     kube_config: "{{ executor_plane.kubeconfig }}"
     sf_namespace: "{{ executor_plane.namespace }}"
-    software_factory: "{{ executor_cr }}"
+    software_factory: "{{ executor_cr | combine(log_forwarding_config, recursive=true) }}"
     zuul_connections: "{{ control_plane.zuul_connections }}"
     # ensure those paramaters are empty as we already copy the data from the control plane
     corporate_ca_certs: "{{ undef() }}"
