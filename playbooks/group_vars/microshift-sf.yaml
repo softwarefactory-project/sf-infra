@@ -1,4 +1,0 @@
----
-sf_operated_pipeline_config:
-  namespace: sf
-  softwarefactory: microshift-upstream

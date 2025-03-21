@@ -11,4 +11,4 @@ acme_domains:
 
 monitoring_host_url: https://monitoring.softwarefactory-project.io
 weeder_host: image-builder.softwarefactory-project.io
-logjuicer_host: microshift.softwarefactory-project.io
+logjuicer_host: sf-gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org

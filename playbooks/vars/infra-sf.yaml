@@ -371,21 +371,6 @@ servers:
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
     floating_ip: true
-    image: centos-9-stream
-    key_name: sf-infra-key
-    name: microshift.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - web
-      - k8s-client
-    state: present
-    volume_size: 100
-  - boot_from_volume: yes
-    flavor: "8vcpu_16GB"
-    floating_ip: true
     image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: microshift-ze01.softwarefactory-project.io

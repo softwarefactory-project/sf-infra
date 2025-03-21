@@ -74,9 +74,6 @@ all:
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-    microshift-sf:
-      hosts:
-        microshift.softwarefactory-project.io: {}
     monitoring:
       hosts:
         monitoring.softwarefactory-project.io: {}
@@ -126,7 +123,6 @@ all:
         managesf.softwarefactory-project.io: {}
         microshift-infra.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
-        microshift.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
@@ -142,7 +138,6 @@ all:
     promtail-openshift:
       hosts:
         microshift-infra.softwarefactory-project.io: {}
-        microshift.softwarefactory-project.io: {}
     quay:
       hosts:
         quay.rdoproject.org: {}
@@ -228,7 +223,6 @@ all:
       hosts:
         bridge.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
-        microshift.softwarefactory-project.io: {}
     ze:
       hosts:
         ibm-bm3-ze.softwarefactory-project.io: {}
@@ -354,10 +348,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     microshift-ze01.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    microshift.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

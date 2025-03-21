@@ -38,14 +38,11 @@ prometheus_federation:
     insecure: "true"
     labels: []
   - name: prometheus-microshift-sfio-static-config
-    targets:
-    - prometheus.microshift.softwarefactory-project.io
+    targets: []
     metrics_path: federate
     scheme: HTTPS
     insecure: "false"
-    labels:
-      - key: cluster
-        value: microshift.softwarefactory-project.io
+    labels: []
 thanos:
   retention_raw: 15d
   retention_5m: 30d

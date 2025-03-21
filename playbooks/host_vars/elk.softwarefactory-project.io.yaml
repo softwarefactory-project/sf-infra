@@ -9,7 +9,7 @@ tenant_builds:
   - tenant: softwarefactory-project.io
     zuul_api_url:
       - https://softwarefactory-project.io/zuul/api/tenant/local
-      - https://microshift.softwarefactory-project.io/zuul/api/tenant/sf
+      - https://gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org/zuul/api/tenant/sf
     download: true
     download_dir: /mnt/logscraper/sf
     es_username: logstash_softwarefactory_project_io
