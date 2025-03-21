@@ -13,10 +13,18 @@ import Data.List (intercalate)
 import Data.Text (Text, unpack)
 import Dhall (auto, input)
 import qualified Dhall.TH
+import Dhall.TH(GenerateOptions(constructorModifier))
 
--- | Generate Haskell Type from Dhall Type, see: https://hackage.haskell.org/package/dhall-1.38.0/docs/Dhall-TH.html
-Dhall.TH.makeHaskellTypes
-  [ Dhall.TH.SingleConstructor "Server" "Server" "./Infra/Server/Type.dhall"
+-- | Generate Haskell Type from Dhall Type, see: https://hackage.haskell.org/package/dhall-1.42.2/docs/Dhall-TH.html
+Dhall.TH.makeHaskellTypesWith (Dhall.TH.defaultGenerateOptions
+                               {constructorModifier = \case
+                                   -- Adapt the Server State constructor to be valid names
+                                   "absent" -> "Absent"
+                                   "present" -> "Present"
+                                   x -> x
+                               })
+  [ Dhall.TH.MultipleConstructors "ServerType" "./Infra/Server/State.dhall"
+  , Dhall.TH.SingleConstructor "Server" "Server" "./Infra/Server/Type.dhall"
   ]
 
 -- | Convert a flavor name into a (cpu, mem) tuple
