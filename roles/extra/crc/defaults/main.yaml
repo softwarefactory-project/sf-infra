@@ -24,7 +24,7 @@ crc_config_custom_bundle_url: ""
 # NOTE: using "latest" might require to keep the pull-secret.txt after
 # creating the VM snapshot. Also the daily VM snapshot might not help
 # if the related CRC container image services would be updated.
-crc_version: "2.19.0"
+crc_version: "2.48.0"
 crc_console: false
 
 modify_kubelet_systemd: false
@@ -34,3 +34,7 @@ sf_infra_repo_alt: /tmp/sf-infra
 # workarounds
 ensure_images: true
 kubernetes_repo_version: 1.29
+
+# set etcd to low profile to avoid CI flakyness
+# https://www.redhat.com/en/blog/introducing-selectable-profiles-for-etcd
+crc_etcd_slow_profile: true

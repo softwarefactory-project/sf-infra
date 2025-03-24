@@ -5,7 +5,7 @@
 # ansible-playbook playbooks/crc/crc-make-snapshot.yaml
 #
 # More controled usage:
-# ansible-playbook -e "crc_version=2.19.0" -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc/crc-make-snapshot.yaml
+# ansible-playbook -e "crc_version=2.48.0" -e "ansible_host_key_checking=False" -e "system_distro=centos" -e "system_release=9" playbooks/crc/crc-make-snapshot.yaml
 # More info: roles/next-gen/crc-image/README.md
 #
 # Just create extracted CRC version, add variables:
@@ -43,6 +43,7 @@
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
         crc_nested_custom_packages: "{{ crc_nested_custom_packages | default([]) }}"
         crc_nested_custom_packages_disable_gpg: "{{ crc_nested_custom_packages_disable_gpg | default(false) }}"
+        crc_etcd_slow_profile: true
 
     - name: Set facts for image naming
       ansible.builtin.set_fact:
@@ -94,7 +95,8 @@
 - name: Deploy CRC
   hosts: crc.dev
   vars:
-    crc_version: "{{ crc_version | default('2.19') }}"
+    crc_version: "{{ crc_version | default('2.48') }}"
+    crc_etcd_slow_profile: "{{ crc_etcd_slow_profile | default(true) }}"
   tasks:
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:

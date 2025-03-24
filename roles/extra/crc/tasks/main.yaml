@@ -28,3 +28,7 @@
 - name: Modify kubelet systemd service options
   ansible.builtin.include_tasks: kubelet.yaml
   when: modify_kubelet_systemd
+
+- name: Set low profile to etcd to avoid flakyness
+  ansible.builtin.include_tasks: slow_etcd.yaml
+  when: crc_etcd_slow_profile
