@@ -139,7 +139,7 @@
         kubeconfig: "/home/fedora/.kube/{{ msze }}"
         kustomize_dir: "{{ tmp_kustomize_dir }}/{{ msze }}"
         fluentbit_namespace: sf
-        fluentbit_extra_labels: "softwarefactory=centosinfra-prod"
+        fluentbit_extra_labels: "softwarefactory=centosinfra-prod, executor={{ msze }}"
         fluentbit_debug: true
 
 - hosts: promtail:!promtail-openshift
