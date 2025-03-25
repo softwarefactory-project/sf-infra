@@ -34,12 +34,14 @@ main = withUtf8 $ do
     results <- Gerrit.withClient "https://softwarefactory-project.io/r/" Nothing $ getBuildResultFromGerrit changeNR
     -- Collect build log_url
     builds <- traverse getBuild results
+    -- Collect kernel versions (TODO: adapt this for non minikube jobs)
+    kernels <- traverse getKernelVersion builds
     -- Collect hostids
     nodeIDs <- traverse getNodeIDS builds
     -- Collect failed task name
     tasks <- traverse getFailedTasks builds
     -- Make summary
-    let infos = zipWith3 BuildInfo results nodeIDs tasks
+    let infos = zipWith3 BuildInfo results (zip nodeIDs kernels) tasks
     mapM_ (Text.putStrLn . formatResult) infos
     Text.putStrLn $ summaryPerHost infos
 
@@ -85,6 +87,22 @@ instance Aeson.FromJSON NodeIDs where
             node <- n .: "nodepool"
             node .: "host_id"
 
+getKernelVersion :: Build -> IO (Maybe KernelVersion)
+getKernelVersion (Build (Just log_url) uuid _) = Cache.getCachedJSONQuery cacheName name (readKernelVersion <$> getText url) 1_000_000
+  where
+    name = Text.unpack $ "kernel-" <> uuid
+    url = Text.unpack $ log_url <> "minikube.logs"
+getKernelVersion _ = pure Nothing
+
+newtype KernelVersion = KernelVersion Text deriving newtype (Show, Eq, Aeson.ToJSON, Aeson.FromJSON)
+readKernelVersion :: Text -> Maybe KernelVersion
+readKernelVersion = go . Text.lines
+  where
+    go [] = Nothing
+    go (x : rest)
+        | "  Kernel Version:" `Text.isPrefixOf` x = Just $ KernelVersion $ last $ Text.words x
+        | otherwise = go rest
+
 getNodeIDS :: Build -> IO NodeIDs
 getNodeIDS (Build (Just log_url) uuid _) = Cache.getCachedJSONQuery cacheName name (getYAML url) 1_000_000
   where
@@ -120,35 +138,42 @@ getFailedTasks (Build (Just log_url) uuid result)
 getFailedTasks _ = pure []
 
 formatResult :: BuildInfo -> Text
-formatResult (BuildInfo br (NodeIDs nodeIDs) tasks) = Text.unwords [br.url, br.status, encode nodeIDs, encode shortTasks]
+formatResult (BuildInfo br (NodeIDs nodeIDs, kernel) tasks) =
+    Text.unwords [br.url, br.status, encode kernel, encode nodeIDs, encode shortTasks]
   where
     shortTasks = map (\ft -> ft{output = lastLines 20 <$> ft.output}) tasks
     lastLines count = Text.unlines . reverse . take count . reverse . Text.lines
     encode :: (Aeson.ToJSON a) => a -> Text
     encode = LText.toStrict . LText.decodeUtf8 . Aeson.encode
 
-getYAML :: (Aeson.FromJSON a) => String -> IO a
-getYAML url = do
+getRAW :: String -> IO LBS.ByteString
+getRAW url = do
     manager <- HTTP.newManager HTTP.tlsManagerSettings
     request <- HTTP.parseRequest url
     response <- HTTP.httpLbs request manager
-    YAML.decodeThrow $ LBS.toStrict response.responseBody
+    pure response.responseBody
 
-data BuildInfo = BuildInfo BuildResult NodeIDs [FailedTask]
+getText :: String -> IO Text
+getText url = LText.toStrict . LText.decodeUtf8 <$> getRAW url
+
+getYAML :: (Aeson.FromJSON a) => String -> IO a
+getYAML url = YAML.decodeThrow . LBS.toStrict =<< getRAW url
+
+data BuildInfo = BuildInfo BuildResult (NodeIDs, Maybe KernelVersion) [FailedTask]
 
 summaryPerHost :: [BuildInfo] -> Text
 summaryPerHost xs = Text.unlines $ map perHost hosts
   where
     perHost h = Text.unwords [h, "success:" <> tshow successCount, "failed:" <> tshow failedCount, tshow $ Map.toList tasksNames]
       where
-        builds = filter (\(BuildInfo _ (NodeIDs nodes) _) -> Just h `elem` Map.elems nodes) xs
+        builds = filter (\(BuildInfo _ (NodeIDs nodes, _) _) -> Just h `elem` Map.elems nodes) xs
         successCount = length $ filter (\(BuildInfo br _ _) -> br.status == "SUCCESS") builds
         failedTasks = concatMap (\(BuildInfo _ _ ts) -> ts) builds
         failedCount = length builds - successCount
         tasksNames = foldl' (\x task -> Map.insertWith (+) task.name (1 :: Int) x) Map.empty failedTasks
     hosts = Set.toList $ Set.fromList $ concatMap (catMaybes . getHost) xs
       where
-        getHost (BuildInfo _ (NodeIDs nodes) _) = snd <$> Map.toList nodes
+        getHost (BuildInfo _ (NodeIDs nodes, _) _) = snd <$> Map.toList nodes
 
 tshow :: (Show a) => a -> Text
 tshow = Text.pack . show
