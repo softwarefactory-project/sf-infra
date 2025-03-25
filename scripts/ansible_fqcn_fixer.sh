@@ -73,7 +73,6 @@ function build_patterns()
         reboot
         replace
         rpm_key
-        seport
         service
         service_facts
         set_fact
@@ -199,6 +198,7 @@ function build_patterns()
         [openssl_privatekey]="community.crypto.openssl_privatekey"
         [postgresql_db]="community.postgresql.postgresql_db"
         [postgresql_query]="community.postgresql.postgresql_query"
+        [seport]="community.general.seport"
         [x509_certificate]="community.crypto.x509_certificate"
     )
 
