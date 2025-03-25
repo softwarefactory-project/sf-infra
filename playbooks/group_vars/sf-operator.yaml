@@ -49,6 +49,7 @@ clouds_yaml: |
       server: 5
       port: 5
       floating-ip: 5
+      image.images: 5
   clouds:
     vexxhost-nodepool-rdo:
       metrics:
