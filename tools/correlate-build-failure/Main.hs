@@ -4,7 +4,6 @@
 module Main where
 
 import Control.Applicative ((<|>))
-import Data.Aeson ((.:), (.=))
 import Data.Aeson qualified as Aeson
 import Data.ByteString.Lazy qualified as LBS
 import Data.Foldable (foldl')
@@ -20,12 +19,14 @@ import Data.Yaml qualified as YAML
 import GHC.Generics (Generic)
 import Gerrit qualified
 import Gerrit.Data.Change qualified as Gerrit
-import JobOutput
 import Main.Utf8 (withUtf8)
 import Network.HTTP.Client qualified as HTTP
 import Network.HTTP.Client.TLS qualified as HTTP
 import System.Cached.JSON qualified as Cache
 import System.Environment (getEnv)
+
+import JobOutput
+import ZuulInventory
 
 main :: IO ()
 main = withUtf8 $ do
@@ -71,22 +72,6 @@ getBuild br = Cache.getCachedJSON cacheName name url 1_000_000
     name = Text.unpack $ "build-" <> Text.takeWhileEnd (/= '/') br.url
     url = Text.unpack $ Text.replace "/t/" "/api/tenant/" br.url
 
-newtype NodeIDs = NodeIDs (Map.Map Text (Maybe Text)) deriving (Show)
-instance Aeson.ToJSON NodeIDs where
-    toJSON (NodeIDs m) = Aeson.object ["all" .= Aeson.object ["hosts" .= fmap toNode m]]
-      where
-        toNode n = Aeson.object ["nodepool" .= Aeson.object ["host_id" .= n]]
-instance Aeson.FromJSON NodeIDs where
-    parseJSON = Aeson.withObject "Inventory" $ \v -> do
-        all' <- v .: "all"
-        (hosts :: Map.Map Text Aeson.Object) <- all' .: "hosts"
-        nodes <- mapM getNodeIDs hosts
-        pure $ NodeIDs nodes
-      where
-        getNodeIDs n = do
-            node <- n .: "nodepool"
-            node .: "host_id"
-
 getKernelVersion :: Build -> IO (Maybe KernelVersion)
 getKernelVersion (Build (Just log_url) uuid _) = Cache.getCachedJSONQuery cacheName name (readKernelVersion <$> getText url) 1_000_000
   where
@@ -103,8 +88,13 @@ readKernelVersion = go . Text.lines
         | "  Kernel Version:" `Text.isPrefixOf` x = Just $ KernelVersion $ last $ Text.words x
         | otherwise = go rest
 
+newtype NodeIDs = NodeIDs (Map.Map Hostname (Maybe Text)) deriving (Show)
+
+decodeNodeIDs :: Inventory -> NodeIDs
+decodeNodeIDs i = NodeIDs $ fmap (\h -> h.nodepool.host_id) i.all.hosts
+
 getNodeIDS :: Build -> IO NodeIDs
-getNodeIDS (Build (Just log_url) uuid _) = Cache.getCachedJSONQuery cacheName name (getYAML url) 1_000_000
+getNodeIDS (Build (Just log_url) uuid _) = decodeNodeIDs <$> Cache.getCachedJSONQuery cacheName name (getYAML url) 1_000_000
   where
     name = Text.unpack $ "inventory-" <> uuid
     url = Text.unpack $ log_url <> "zuul-info/inventory.yaml"

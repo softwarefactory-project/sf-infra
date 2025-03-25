@@ -7,9 +7,9 @@ import Data.Aeson (FromJSON, ToJSON)
 import Data.Map.Strict (Map)
 import Data.Text (Text)
 import GHC.Generics (Generic)
+import ZuulInventory (Hostname)
 
 type JobOutput = [JobPlaybook]
-type Hostname = Text
 
 data JobPlaybook = JobPlaybook
     { phase :: Text
