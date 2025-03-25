@@ -3,10 +3,9 @@
 
 module Main where
 
-import Control.Monad (filterM)
+import Control.Applicative ((<|>))
 import Data.Aeson ((.:), (.=))
 import Data.Aeson qualified as Aeson
-import Data.Aeson.Key qualified as Key
 import Data.ByteString.Lazy qualified as LBS
 import Data.Foldable (foldl')
 import Data.Map.Strict qualified as Map
@@ -17,11 +16,11 @@ import Data.Text qualified as Text
 import Data.Text.IO qualified as Text
 import Data.Text.Lazy qualified as LText
 import Data.Text.Lazy.Encoding qualified as LText
-import Data.Vector qualified as V
 import Data.Yaml qualified as YAML
 import GHC.Generics (Generic)
 import Gerrit qualified
 import Gerrit.Data.Change qualified as Gerrit
+import JobOutput
 import Main.Utf8 (withUtf8)
 import Network.HTTP.Client qualified as HTTP
 import Network.HTTP.Client.TLS qualified as HTTP
@@ -93,60 +92,37 @@ getNodeIDS (Build (Just log_url) uuid _) = Cache.getCachedJSONQuery cacheName na
     url = Text.unpack $ log_url <> "zuul-info/inventory.yaml"
 getNodeIDS _ = pure $ NodeIDs mempty
 
-data FailedTask = FailedTask {host :: Text, task :: Text, output :: Text} deriving (Show, Generic)
+data FailedTask = FailedTask {host, name :: Text, output :: Maybe Text} deriving (Show, Generic)
 instance Aeson.ToJSON FailedTask
-newtype FailedTasks = FailedTasks [FailedTask] deriving (Show)
-instance Aeson.ToJSON FailedTasks where
-    toJSON (FailedTasks v) = Aeson.toJSON $ map toPlay v
-      where
-        toPlay t = Aeson.object ["plays" .= [Aeson.object ["tasks" .= [toTask t]]]]
-        toTask t =
-            Aeson.object
-                [ "hosts" .= Aeson.object [Key.fromText t.host .= Aeson.object ["failed" .= True, "msg" .= t.output]]
-                , "task" .= Aeson.object ["name" .= t.task]
-                ]
-instance Aeson.FromJSON FailedTasks where
-    parseJSON = Aeson.withArray "Results" $ \xs ->
-        FailedTasks . concat <$> mapM getPlays (V.toList xs)
-      where
-        getPlays = Aeson.withObject "Play" $ \v -> do
-            (plays :: [Aeson.Object]) <- v .: "plays"
-            concat <$> mapM getPlayTasks plays
-        getPlayTasks p = do
-            (tasks :: [Aeson.Object]) <- p .: "tasks"
-            concat <$> mapM getTasks tasks
-        getTasks t = do
-            (mHosts :: Maybe (Map.Map Text Aeson.Object)) <- t Aeson..:? "hosts"
-            case mHosts of
-                Nothing -> pure []
-                Just hosts -> do
-                    failed <- filterM isFailed $ Map.toList hosts
-                    case failed of
-                        [] -> pure []
-                        xs -> do
-                            task <- t .: "task"
-                            name <- task .: "name"
-                            concat <$> mapM (getTasksOutput name) xs
-        isFailed (_host, obj) = fromMaybe False <$> obj Aeson..:? "failed"
-        getTasksOutput task (host, obj) = do
-            stdout <- obj Aeson..:? "stdout"
-            output <- case stdout of
-                Just s -> pure s
-                Nothing -> obj .: "msg"
-            pure [FailedTask{host, task, output}]
 
-getFailedTasks :: Build -> IO FailedTasks
+decodeFailedTasks :: [JobPlaybook] -> [FailedTask]
+decodeFailedTasks = concatMap getPlays
+  where
+    getPlays :: JobPlaybook -> [FailedTask]
+    getPlays jp = concatMap getPlayTasks jp.plays
+    getPlayTasks :: JobPlay -> [FailedTask]
+    getPlayTasks jp = concatMap getTasks jp.tasks
+    getTasks :: JobTask -> [FailedTask]
+    getTasks jt = map toFailedTask $ filter isFailed $ Map.toList jt.hosts
+      where
+        name = jt.task.name
+        toFailedTask :: (Hostname, TaskResult) -> FailedTask
+        toFailedTask (host, tr) = FailedTask host name (tr.stdout <|> tr.msg)
+
+    isFailed (_host, tr) = fromMaybe False tr.failed
+
+getFailedTasks :: Build -> IO [FailedTask]
 getFailedTasks (Build (Just log_url) uuid result)
-    | result /= "SUCCESS" = Cache.getCachedJSON cacheName name url 1_000_000
+    | result /= "SUCCESS" = decodeFailedTasks <$> Cache.getCachedJSON cacheName name url 1_000_000
   where
     name = Text.unpack $ "tasks-" <> uuid
     url = Text.unpack $ log_url <> "job-output.json"
-getFailedTasks _ = pure $ FailedTasks mempty
+getFailedTasks _ = pure []
 
 formatResult :: BuildInfo -> Text
-formatResult (BuildInfo br (NodeIDs nodeIDs) (FailedTasks tasks)) = Text.unwords [br.url, br.status, encode nodeIDs, encode shortTasks]
+formatResult (BuildInfo br (NodeIDs nodeIDs) tasks) = Text.unwords [br.url, br.status, encode nodeIDs, encode shortTasks]
   where
-    shortTasks = map (\ft -> ft{output = lastLines 20 ft.output}) tasks
+    shortTasks = map (\ft -> ft{output = lastLines 20 <$> ft.output}) tasks
     lastLines count = Text.unlines . reverse . take count . reverse . Text.lines
     encode :: (Aeson.ToJSON a) => a -> Text
     encode = LText.toStrict . LText.decodeUtf8 . Aeson.encode
@@ -158,7 +134,7 @@ getYAML url = do
     response <- HTTP.httpLbs request manager
     YAML.decodeThrow $ LBS.toStrict response.responseBody
 
-data BuildInfo = BuildInfo BuildResult NodeIDs FailedTasks
+data BuildInfo = BuildInfo BuildResult NodeIDs [FailedTask]
 
 summaryPerHost :: [BuildInfo] -> Text
 summaryPerHost xs = Text.unlines $ map perHost hosts
@@ -167,9 +143,9 @@ summaryPerHost xs = Text.unlines $ map perHost hosts
       where
         builds = filter (\(BuildInfo _ (NodeIDs nodes) _) -> Just h `elem` Map.elems nodes) xs
         successCount = length $ filter (\(BuildInfo br _ _) -> br.status == "SUCCESS") builds
-        failedTasks = concatMap (\(BuildInfo _ _ (FailedTasks ts)) -> ts) builds
+        failedTasks = concatMap (\(BuildInfo _ _ ts) -> ts) builds
         failedCount = length builds - successCount
-        tasksNames = foldl' (\x a -> Map.insertWith (+) a.task (1 :: Int) x) Map.empty failedTasks
+        tasksNames = foldl' (\x task -> Map.insertWith (+) task.name (1 :: Int) x) Map.empty failedTasks
     hosts = Set.toList $ Set.fromList $ concatMap (catMaybes . getHost) xs
       where
         getHost (BuildInfo _ (NodeIDs nodes) _) = snd <$> Map.toList nodes
