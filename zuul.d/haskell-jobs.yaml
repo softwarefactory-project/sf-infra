@@ -1,12 +1,3 @@
-- job:
-    name: sf-infra-base-haskell
-    nodeset:
-      nodes:
-        - name: container
-          label: pod-haskell-epel7
-    run: playbooks/test-haskell.yaml
-    abstract: true
-
 - project:
     check: &jobs
       jobs:
@@ -19,5 +10,5 @@
             nodeset:
               nodes:
                 - name: container
-                  label: zuul-worker-haskell
+                  label: zuul-worker-haskell-ghc9
     gate: *jobs
