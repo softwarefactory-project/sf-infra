@@ -32,7 +32,7 @@ dlrn_workers:
     purge_minute: '7'
     cron_minute: '*/5'
     symlinks: ['/var/www/html/centos10', '/var/www/html/centos10-master']
-    release: 'epoxy-uc'
+    release: 'flamingo-uc'
     baseurl: 'https://trunk.rdoproject.org/centos10-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -60,7 +60,7 @@ dlrn_workers:
     purge_minute: '7'
     cron_minute: '*/5'
     symlinks: ['/var/www/html/centos9', '/var/www/html/centos9-master']
-    release: 'epoxy-uc'
+    release: 'flamingo-uc'
     baseurl: 'https://trunk.rdoproject.org/centos9-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -91,7 +91,7 @@ dlrn_workers:
     cron_hour: '*/6'
     cron_minute: '9'
     symlinks: ['/var/www/html/centos9-head', '/var/www/html/centos9-master-head']
-    release: 'epoxy'
+    release: 'flamingo'
     baseurl: 'https://trunk.rdoproject.org/centos9-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -119,8 +119,7 @@ dlrn_workers:
     purge_minute: '17'
     cron_minute: '9-59/10'
     symlinks: ['/var/www/html/centos9-epoxy', '/var/www/html/epoxy/centos9', '/var/www/html/centos9-2025.1', '/var/www/html/2025.1/centos9']
-    # FIXME(jcapitao): set to 'epoxy' once the tag has been created in rdoinfo
-    release: 'epoxy-uc'
+    release: 'epoxy'
     baseurl: 'https://trunk.rdoproject.org/centos9-epoxy'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
