@@ -9,15 +9,14 @@ groups:
           severity: critical
       - alert: WillRunOutOfDiskInThreeDays
         annotations:
-          description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value | humanize1024 }}\n  LABELS: {{ $labels }}"
+          description: "Disk is filling up ({{ $value | humanize }}% left)\n  LABELS: {{ $labels }}"
           summary: "Out of disk space (instance {{ $labels.instance }})"
         expr: "(node_filesystem_avail_bytes{job='node'} * 100 / node_filesystem_size_bytes{job='node'} < 50) and (predict_linear(node_filesystem_avail_bytes{job='node'}[1d], 3 * 24 * 3600) < 0) and (node_filesystem_size_bytes{job='node'} <= 1e+11)"
         for: "12h"
       - alert: WillRunOutOfMemoryInThreeDays
         annotations:
           description: |
-            Node memory is filling up (< 10% left)
-              VALUE = {{ $value | humanize1024 }}
+            Node memory is filling up ({{ $value | humanize }}% left)
               LABELS: {{ $labels }}
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node'}[1d], 3 * 24 * 3600) < 0) AND {instance!~'ze.*|zm.*', job='node'}"
@@ -25,7 +24,7 @@ groups:
       - alert: InstanceOutOfMemory
         annotations:
           description: |
-            Node only has {{ $value | humanize1024 }} of free mem available.
+            Node only has {{ $value | humanize }}% of free mem available.
           summary: "Out of memory (instance {{ $labels.instance }})"
         expr: "(node_memory_MemAvailable_bytes{job='node'} + node_memory_SwapFree_bytes{job='node'}) / node_memory_MemTotal_bytes{job='node'} * 100 < 10"
         for: "30m"
@@ -36,12 +35,12 @@ groups:
           description: |
             Node only has {{ $value | humanize1024 }} of free swap available.
           summary: "Out of swap (instance {{ $labels.instance }})"
-        expr: "(node_memory_SwapTotal_bytes{job='node'} > 0) and (node_memory_SwapFree_bytes{job='node'} / node_memory_SwapTotal_bytes{job='node'} * 100 < 50) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
+        expr: "(node_memory_SwapFree_bytes{job='node'} < node_memory_SwapTotal_bytes{job='node'} * 0.5) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
         for: "30m"
       - alert: InstanceOutOfDisk
         annotations:
           description: |
-            Node only has {{ $value | humanize1024 }} of free disk available.
+            Node only has {{ $value | humanize }}% of free disk available.
           summary: "Out of disk (instance {{ $labels.instance }})"
         expr: "(node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs',job='node'} * 100 / node_filesystem_size_bytes{fstype!='tmpfs',fstype!='rootfs',job='node'} < 10) and (node_filesystem_avail_bytes{fstype!='tmpfs',fstype!='rootfs'} < 20 * 1024^3)"
         for: "30m"

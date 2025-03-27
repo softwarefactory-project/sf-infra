@@ -50,8 +50,7 @@ in  \(job-name : Text) ->
                     "Out of disk space (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Disk is almost full (< 10% left)
-                      VALUE = {{ $value | humanize1024 }}
+                    Disk is filling up ({{ $value | humanize }}% left)
                       LABELS: {{ $labels }}''
                 }
               }
@@ -74,8 +73,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node memory is filling up (< 10% left)
-                      VALUE = {{ $value | humanize1024 }}
+                    Node memory is filling up ({{ $value | humanize }}% left)
                       LABELS: {{ $labels }}
                     ''
                 }
@@ -96,7 +94,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of memory (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value | humanize1024 }} of free mem available.
+                    Node only has {{ $value | humanize }}% of free mem available.
                     ''
                 }
               }
@@ -108,7 +106,7 @@ in  \(job-name : Text) ->
                   let free = "node_memory_SwapFree_bytes{job='${job-name}'}"
 
                   in  Some
-                        "(${total} > 0) and (${free} / ${total} * 100 < 50) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
+                        "(${free} < ${total} * 0.5) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of swap (instance {{ \$labels.instance }})"
@@ -134,7 +132,7 @@ in  \(job-name : Text) ->
                 , summary = "Out of disk (instance {{ \$labels.instance }})"
                 , description = Some
                     ''
-                    Node only has {{ $value | humanize1024 }} of free disk available.
+                    Node only has {{ $value | humanize }}% of free disk available.
                     ''
                 }
               }
