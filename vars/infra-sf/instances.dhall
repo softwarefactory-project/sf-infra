@@ -383,9 +383,9 @@ let mkServers =
               Instance::{
               , name = "${name}0${Natural/show idx}"
               , groups = [ "rhel", "sf", name, "promtail" ]
-              , connection = OS.RHEL.`9.3`.connection
+              , connection = OS.RHEL.`9.4`.connection
               , server = Some Infra.Server::{
-                , image = OS.RHEL.`9.3`.image.name
+                , image = OS.RHEL.`9.4`.image.name
                 , flavor = Some flavor
                 , boot_from_volume = "no"
                 }

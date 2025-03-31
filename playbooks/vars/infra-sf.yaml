@@ -461,7 +461,7 @@ servers:
     volume_size: 40
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: ze01.softwarefactory-project.io
     network: private-network
@@ -472,7 +472,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: ze02.softwarefactory-project.io
     network: private-network
@@ -483,7 +483,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: ze03.softwarefactory-project.io
     network: private-network
@@ -494,7 +494,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: ze04.softwarefactory-project.io
     network: private-network
@@ -505,7 +505,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: v1-standard-1
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: zm01.softwarefactory-project.io
     network: private-network
@@ -516,7 +516,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: v1-standard-1
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: zm02.softwarefactory-project.io
     network: private-network
@@ -527,7 +527,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: v1-standard-1
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: zm03.softwarefactory-project.io
     network: private-network
@@ -538,7 +538,7 @@ servers:
     state: present
   - boot_from_volume: no
     flavor: v1-standard-1
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: zm04.softwarefactory-project.io
     network: private-network

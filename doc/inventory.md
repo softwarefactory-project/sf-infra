@@ -42,14 +42,14 @@ This project manages:
 * fedora.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * centos.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ansible.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* ze01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze02.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze03.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* ze04.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* zm01.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-1
-* zm02.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-1
-* zm03.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-1
-* zm04.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-1
+* ze01.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
+* ze02.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
+* ze03.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
+* ze04.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
+* zm01.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
+* zm02.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
+* zm03.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
+* zm04.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
 * sf-container-worker-1.softwarefactory-project.io 
 * logscraper02.openstack.org 
 
