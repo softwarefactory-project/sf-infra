@@ -37,4 +37,4 @@ kubernetes_repo_version: 1.29
 
 # set etcd to low profile to avoid CI flakyness
 # https://www.redhat.com/en/blog/introducing-selectable-profiles-for-etcd
-crc_etcd_slow_profile: true
+crc_etcd_slow_profile: false
