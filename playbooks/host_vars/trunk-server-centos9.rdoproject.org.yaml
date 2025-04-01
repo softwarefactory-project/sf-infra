@@ -13,9 +13,9 @@ dlrn_redirect_rules:
   - src: /rdo_release/rdo-release.el8.rpm
     target: https://cbs.centos.org/kojifiles/packages/rdo-release/yoga/1.el8/noarch/rdo-release-yoga-1.el8.noarch.rpm
   - src: /rdo_release/rdo-release.el9.rpm
-    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/epoxy/1.el9s/noarch/rdo-release-epoxy-1.el9s.noarch.rpm
   - src: /rdo_release/rdo-release.el9s.rpm
-    target: https://cbs.centos.org/kojifiles/packages/rdo-release/dalmatian/1.el9s/noarch/rdo-release-dalmatian-1.el9s.noarch.rpm
+    target: https://cbs.centos.org/kojifiles/packages/rdo-release/epoxy/1.el9s/noarch/rdo-release-epoxy-1.el9s.noarch.rpm
   - src: /rdo_release/openstack-epoxy/rdo-release-epoxy.el9.rpm
     target: https://cbs.centos.org/kojifiles/packages/rdo-release/epoxy/1.el9s/noarch/rdo-release-epoxy-1.el9s.noarch.rpm
   - src: /rdo_release/openstack-2025.1/rdo-release-2025.1.el9.rpm
