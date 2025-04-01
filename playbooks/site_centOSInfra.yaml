@@ -91,6 +91,13 @@
     environment:
       KUBECONFIG: "{{ kube_config }}"
 
+  - name: Deploy prometheus resources
+    ansible.builtin.command: >-
+      kubectl apply -f ../playbooks/files/centos-infra/prometheus-resources.yaml
+    environment:
+      KUBECONFIG: "{{ kube_config }}"
+
+
   - name: Get load balancer public IP (zookeeper)
     block:
       - register: zk_lb
@@ -164,6 +171,8 @@
       executor_plane:
           kubeconfig: "/home/fedora/.kube/{{ msze }}"
           install_prometheus_operator: false
+          # executors do not expose metrics, and node-exporter is already configured on our hosts.
+          deploy_prometheus: false
           namespace: sf
           public_ip: "{{ hostvars[msze]['public_ip'] }}"
           log_forwarding: true

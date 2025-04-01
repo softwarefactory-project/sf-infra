@@ -1,0 +1,259 @@
+# We cannot consume PodMonitors so we have to create the services to expose the metrics endpoints manually.
+# When expanding a statefulset, create a new service.
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-zuul-scheduler-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: zuul-see
+      protocol: TCP
+      port: 9102
+      targetPort: 9102
+    - name: zuul-schedul-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: zuul-scheduler
+    statefulset.kubernetes.io/pod-name: zuul-scheduler-0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-logserver-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: logserver-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: logserver
+    statefulset.kubernetes.io/pod-name: logserver-0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-nodepool-builder-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: np-see
+      protocol: TCP
+      port: 9102
+      targetPort: 9102
+    - name: nodepool-bui-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: nodepool-builder
+    statefulset.kubernetes.io/pod-name: nodepool-builder-0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-mariadb-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: mariadb-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: mariadb
+    statefulset.kubernetes.io/pod-name: mariadb-0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-zookeeper-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: zookeeper-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: zookeeper
+    statefulset.kubernetes.io/pod-name: zookeeper-0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-zuul-merger-0
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: zuul-merger-ne
+      protocol: TCP
+      port: 9100
+      targetPort: 9100
+  selector:
+    app: sf
+    run: zuul-merger
+    statefulset.kubernetes.io/pod-name: zuul-merger-0
+
+# nodepool-launcher is a Deployment, there's no easy way to target one pod if replicas >= 2
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: metrics-nodepool-launcher
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: np-see
+      protocol: TCP
+      port: 9102
+      targetPort: 9102
+  selector:
+    app: sf
+    run: nodepool-launcher
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-centosinfra-prod-config
+  labels:
+    app: observability
+    run: prometheus
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    scrape_configs:
+      - job_name: 'self-monitoring'
+        static_configs:
+          - targets: ['localhost:9090']
+        relabel_configs:
+          - action: replace
+            replacement: sf-prometheus-centosinfra-prod
+            target_label: instance
+      - job_name: 'sf-centosinfra-prod-statsd'
+        static_configs:
+          - labels:
+              softwarefactory: 'centosinfra-prod'
+            targets:
+            - 'metrics-zuul-scheduler-0:9102'
+            - 'metrics-nodepool-launcher:9102'
+            - 'metrics-nodepool-builder-0:9102'
+      - job_name: 'sf-centosinfra-prod-nodeexporter'
+        static_configs:
+          - labels:
+              softwarefactory: 'centosinfra-prod'
+            targets:
+            - 'metrics-logserver-0:9100'
+            - 'metrics-nodepool-builder-0:9100'
+            - 'metrics-mariadb-0:9100'
+            - 'metrics-zookeeper-0:9100'
+            - 'metrics-zuul-merger-0:9100'
+            - 'metrics-zuul-scheduler-0:9100'
+            - 'zuul-capacity:9100'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-centosinfra-prod
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: observability
+      run: prometheus
+  template:
+    metadata:
+      labels:
+        app: observability
+        run: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: quay.io/prometheus/prometheus:latest
+          resources:
+            requests:
+              memory: 400Mi
+              cpu: 250m
+          ports:
+            - containerPort: 9090
+              name: prometheus-web
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+            - name: prometheus-volume
+              mountPath: /prometheus
+      volumes:
+        - name: prometheus-volume
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: prometheus-centosinfra-prod-config
+            defaultMode: 420
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus-centosinfra-prod-service
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  ports:
+    - name: prometheus-web
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
+  selector:
+    app: observability
+    run: prometheus
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: prometheus-centosinfra-prod-route
+  labels:
+    app: observability
+    run: prometheus
+spec:
+  host: metrics-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
+  path: /
+  to:
+    kind: Service
+    name: prometheus-centosinfra-prod-service
+    weight: 100
+  port:
+    targetPort: 9090
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

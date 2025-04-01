@@ -73,4 +73,24 @@ in  PrometheusConfig
         //  { metrics_path = Some "/weeder/metrics" }
       ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
         //  { metrics_path = Some "/logjuicer/metrics" }
+      , Prometheus.ScrapeConfig::{
+        , job_name = Some "centosinfra-prod"
+        , honor_labels = Some True
+        , metrics_path = Some "/federate"
+        , scheme = Some "https"
+        , tls_config = Some Prometheus.TlsConfig::{
+          , insecure_skip_verify = Some False
+          }
+        , params = Some
+          [ { mapKey = "module", mapValue = [ "https_2xx", "http_503" ] }
+          , { mapKey = "match[]", mapValue = [ "{job=~'.*'}" ] }
+          ]
+        , static_configs = Some
+          [ Prometheus.StaticConfig::{
+            , targets = Some
+              [ "metrics-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org:443"
+              ]
+            }
+          ]
+        }
       ]

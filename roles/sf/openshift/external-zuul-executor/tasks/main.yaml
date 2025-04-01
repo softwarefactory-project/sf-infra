@@ -7,7 +7,7 @@
   when: executor_plane.install_prometheus_operator | default(False)
 
 - name: Expose the prometheus port
-  when: executor_plane.install_prometheus_operator | default(False)
+  when: executor_plane.deploy_prometheus | default(False)
   kubernetes.core.k8s:
     kubeconfig: "{{ executor_plane.kubeconfig }}"
     state: present
@@ -90,7 +90,7 @@
         name: ext-sf-comps
       spec:
         fqdn: "{{ control_plane.fqdn }}"
-        prometheusMonitorsDisabled: "{{ not executor_plane.install_prometheus_operator }}"
+        prometheusMonitorsDisabled: "{{ not executor_plane.deploy_prometheus }}"
         zuul:
           executor:
             limits:
