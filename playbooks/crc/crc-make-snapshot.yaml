@@ -43,7 +43,7 @@
         sync_extracted_qcow2_dir: "{{ sync_extracted_qcow2_dir | default('/tmp/extracted-crc') }}"
         crc_nested_custom_packages: "{{ crc_nested_custom_packages | default([]) }}"
         crc_nested_custom_packages_disable_gpg: "{{ crc_nested_custom_packages_disable_gpg | default(false) }}"
-        etcd_slow_profile: true
+        etcd_slow_profile: false
 
     - name: Set facts for image naming
       ansible.builtin.set_fact:
@@ -96,7 +96,7 @@
   hosts: crc.dev
   vars:
     crc_version: "{{ crc_version | default('2.48') }}"
-    crc_etcd_slow_profile: "{{ etcd_slow_profile | default(true) }}"
+    crc_etcd_slow_profile: "{{ etcd_slow_profile | default(false) }}"
   tasks:
     - name: Read file with openshift_pull_secret
       ansible.builtin.include_vars:
