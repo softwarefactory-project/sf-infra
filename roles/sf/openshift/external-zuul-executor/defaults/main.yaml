@@ -2,6 +2,7 @@
 executor_plane:
   kubeconfig: "{{ ansible_user_dir }}/.kube/config"
   install_prometheus_operator: false
+  deploy_prometheus: false
   namespace: sf
   public_ip: 1.2.3.4
 

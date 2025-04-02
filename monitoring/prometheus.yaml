@@ -219,3 +219,18 @@ scrape_configs:
     static_configs:
       - targets:
           - softwarefactory-project.io
+  - honor_labels: true
+    job_name: centosinfra-prod
+    metrics_path: /federate
+    params:
+      "match[]":
+        - "{job=~'.*'}"
+      module:
+        - https_2xx
+        - http_503
+    scheme: https
+    static_configs:
+      - targets:
+          - metrics-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org:443
+    tls_config:
+      insecure_skip_verify: false
