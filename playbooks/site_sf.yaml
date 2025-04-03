@@ -20,8 +20,10 @@
 
 - hosts: k1s
   roles:
-    - sf/k1s
+    # node-exporter should be installed first for k1s/tasks/probe.yaml
+    # needs node_exporter group
     - service/node-exporter
+    - sf/k1s
     - system/psi
 
 - hosts: sf

@@ -44,6 +44,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        k1s06.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
     ibm-baremetal-nodepool:
       hosts:
@@ -67,12 +68,14 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        k1s06.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
     k1s-rhel:
       hosts:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        k1s06.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
     monitoring:
       hosts:
@@ -120,6 +123,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        k1s06.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         microshift-infra.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
@@ -170,6 +174,7 @@ all:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
+        k1s06.softwarefactory-project.io: {}
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
@@ -320,6 +325,10 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     k1s05.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    k1s06.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

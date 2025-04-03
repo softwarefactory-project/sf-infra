@@ -33,6 +33,7 @@ This project manages:
 * k1s03.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * k1s04.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
 * k1s05.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
+* k1s06.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb

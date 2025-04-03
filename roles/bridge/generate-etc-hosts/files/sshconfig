@@ -150,6 +150,10 @@ Host k1s05.softwarefactory-project.io
     User cloud-user
     Port 22
 
+Host k1s06.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host zk01.softwarefactory-project.io
     User cloud-user
     Port 22

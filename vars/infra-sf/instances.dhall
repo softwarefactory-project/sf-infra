@@ -249,6 +249,20 @@ let instances =
           }
         }
       , Instance::{
+        , name = "k1s06"
+        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , connection = OS.RHEL.`9.4`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.4`.image.name
+          , network = "oci-private-network"
+          , floating_ip = Some True
+          , security_groups = [ "hypervisor-oci" ]
+          , flavor = Some Flavors.`8vcpu_16GB`
+          , boot_from_volume = "yes"
+          , volume_size = Some 100
+          }
+        }
+      , Instance::{
         , name = "zk01"
         , groups = [ "rhel", "sf", "promtail" ]
         , connection = OS.RHEL.`9.3`.connection

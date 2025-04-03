@@ -46,6 +46,7 @@ scrape_configs:
           - k1s03.softwarefactory-project.io:9100
           - k1s04.softwarefactory-project.io:9100
           - k1s05.softwarefactory-project.io:9100
+          - k1s06.softwarefactory-project.io:9100
           - zk01.softwarefactory-project.io:9100
           - zs.softwarefactory-project.io:9100
           - image-builder.softwarefactory-project.io:9100
