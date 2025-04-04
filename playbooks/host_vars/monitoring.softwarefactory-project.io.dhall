@@ -53,7 +53,10 @@ in  { certbot_plugin = "--apache"
       , webroot = "/var/www/html"
       }
     , routes =
-      [ { matchers = [ "severity=\"critical\"" ]
+      [ { matchers = [ "severity=~\"warning|info|critical\"", "jobs=~\"hw\"" ]
+        , receiver = "rhos-dfg-pcinfra+hwmon"
+        }
+      , { matchers = [ "severity=\"critical\"" ]
         , receiver = "softwarefactory-operations-team"
         }
       , { matchers = [ "severity=~\"info|warning\"" ], receiver = "blackhole" }
