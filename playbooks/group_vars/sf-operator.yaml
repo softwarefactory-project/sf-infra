@@ -1,5 +1,4 @@
 ---
-# parameters commonly shared by ms.sf.io and the centOS Infra deployment
 vexxhost_nodepool_rdo_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   39383239636138393162646235343862373739633836626561616635353131343764666135336235
@@ -248,6 +247,19 @@ zuul_connections:
           hostname: softwarefactory-project.io
           puburl: "https://softwarefactory-project.io/r"
           sshkey: "zuul-sf-ssh-secret"
+        - name: rdoproject.org
+          username: zuul
+          puburl: "https://review.rdoproject.org/r"
+        - name: opendev.org
+          hostname: opendev.org
+          puburl: "https://review.opendev.org"
+          user: "sf-project-io"
+        # enable when https://softwarefactory-project.io/r/c/software-factory/sf-operator/+/33507 is merged and released
+        # - name: rdoci
+        #   hostname: opendev.org
+        #   puburl: "https://review.opendev.org"
+        #   user: "rdothirdparty"
+        #  stream-events: false
       githubconns:
         - name: github.com
           appID: 846254
