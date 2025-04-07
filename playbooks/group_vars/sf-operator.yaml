@@ -219,6 +219,28 @@ zuul_github_com_connection_api_token: !vault |
   34663564346139383139386637333565346131333939613934326164373930366363653565323961
   3430
 
+zuul_pagure_io_connection_api_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  34326236633764616438666537313863353238376264363062346132343533303565613936333937
+  6531666438336330613336656433383035666265316132310a653261393264313933366436316434
+  63306563646235316466383131343630383337393738313131306636393930316363333133646466
+  6262393439643439630a393536353633656536653033353330663431373335346464633839623064
+  36303233366563316461356534346339343063316362343535643366323665316233363930663831
+  62653833316536393138653030633561633537306362656133313931313362303962396265663733
+  33623262636166376661363631323362346638656237313164343665346466356163336161656235
+  30323333343738333466
+
+zuul_src_fedoraproject_org_connection_api_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  61306464653230653530646361633536356363653963643736636561343962383039623637323864
+  3731626133613064616664623232636530653935303832620a663336613939363531306239373235
+  33356463386136353438363435623935393465346536323766623962303238396431376135363734
+  6338373661323963390a616665666661643739353733613062316235306233343231306231306661
+  65633531326166396437343831343831636362373836316234643534646263356661353730366430
+  61616536396330616565373135343432393035396430386334313830656338383362303461326566
+  37613331356362353434616635613664333761653539616437623437666132663361363365343639
+  61363430363463613638
+
 zuul_connections_secrets:
   - kind: Secret
     apiVersion: v1
@@ -230,13 +252,28 @@ zuul_connections_secrets:
       app_key: "{{ zuul_github_com_connection_app_key | b64encode }}"
       webhook_token: "{{ zuul_github_com_connection_webhook_token | b64encode }}"
       api_token: "{{ zuul_github_com_connection_api_token | b64encode }}"
-
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      namespace: "{{ sf_namespace }}"
+      name: zuul-pagure-io-connection
+    type: Opaque
+    data:
+      api_token: "{{ zuul_pagure_io_connection_api_token | b64encode }}"
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      namespace: "{{ sf_namespace }}"
+      name: zuul-src-fedoraproject-org-connection
+    type: Opaque
+    data:
+      api_token: "{{ zuul_src_fedoraproject_org_connection_api_token | b64encode }}"
 
 kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
-sf_operator_standalone_release: v0.0.55
+sf_operator_standalone_release: v0.0.56
 sf_fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
 sf_mail_domain: "softwarefactory-project.io"
 
@@ -269,6 +306,17 @@ zuul_connections:
           server: github.com
           verify_ssl: True
           secrets: zuul-github-com-connection
+      pagureconns:
+        - name: pagure.io
+          server: pagure.io
+          baseUrl: "https://pagure.io"
+          secrets: zuul-pagure-io-connection
+          sourceWhitelist: "8.43.85.75"
+        - name: src.fedoraproject.org
+          server: src.fedoraproject.org
+          secrets: zuul-src-fedoraproject-org-connection
+          baseUrl: "https://src.fedoraproject.org"
+          sourceWhitelist: "38.102.83.40"
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1

@@ -68,10 +68,6 @@
           priv: "{{ centOSInfra_zuul_ssh_priv | b64encode }}"
     no_log: true
 
-  - name: Set deployment version
-    ansible.builtin.set_fact:
-      sf_operator_standalone_release: v0.0.56
-
   - name: Delete networking resources if needed
     # Some fields of a route cannot be updated once created. Delete and recreate the route if needed
     when: false
