@@ -241,6 +241,23 @@ zuul_src_fedoraproject_org_connection_api_token: !vault |
   37613331356362353434616635613664333761653539616437623437666132663361363365343639
   61363430363463613638
 
+zuul_gitlab_com_connection_webhook_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  63636665303034656238386439366562353037363265373361353333326538313662663734323563
+  6665346331376561663163636366666264653035393565310a313936343664383561306431363634
+  61356639633063623539393638366664373166303039316637376562316536343332356362306361
+  3263346639363131660a393739663436636663383464333233306463386262316266393237663733
+  34623438306138653665306639386662323566623031653834306364303837353632383833343161
+  3062646334313139393438366336626631323936643436616464
+
+zuul_gitlab_com_connection_api_token: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  39343730326565326535636261386164376565306233616538393034356661303765333030356162
+  6236633436353463626265633635353165313065346334630a663539373761343030353336353764
+  39376139333831613762376131346336336337303961363633303337343631376163366633613463
+  6266383132323462300a623134653234313161363934333632643232613439373132633566373833
+  33623866393133643737326664303431383561393462353362666666323532366232
+
 zuul_connections_secrets:
   - kind: Secret
     apiVersion: v1
@@ -268,6 +285,15 @@ zuul_connections_secrets:
     type: Opaque
     data:
       api_token: "{{ zuul_src_fedoraproject_org_connection_api_token | b64encode }}"
+  - kind: Secret
+    apiVersion: v1
+    metadata:
+      namespace: "{{ sf_namespace }}"
+      name: zuul-gitlab-com-connection
+    type: Opaque
+    data:
+      webhook_token: "{{ zuul_gitlab_com_connection_webhook_token | b64encode }}"
+      api_token: "{{ zuul_gitlab_com_connection_api_token | b64encode }}"
 
 kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
@@ -317,6 +343,11 @@ zuul_connections:
           secrets: zuul-src-fedoraproject-org-connection
           baseUrl: "https://src.fedoraproject.org"
           sourceWhitelist: "38.102.83.40"
+      gitlabconns:
+        - name: gitlab.com
+          server: gitlab.com
+          baseUrl: "https://gitlab.com"
+          secrets: zuul-gitlab-com-connection
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
