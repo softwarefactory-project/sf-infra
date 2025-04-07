@@ -146,35 +146,6 @@
           logserver_public_hostname: "{{ _logserver_public_hostname.hostname }}"
         when: _logserver_public_hostname.hostname is defined
 
-# TODO This is a one-time thing that can be removed once the keypair is updated and no issue has been reported.
-# Updating it on the control plane will also update it on the executors when the "external-zuul-executor" role is called.
-  - name: Make a copy of the original Zuul ssh key pair from centosinfra-prod
-    no_log: true
-    ansible.builtin.shell: |
-      kubectl get secret/zuul-ssh-key -o yaml > ~/zuul-ssh-key-{{ ansible_date_time.iso8601_basic_short }}.yaml
-    environment:
-      KUBECONFIG: "{{ kube_config }}"
-
-  - name: Install the key pair used by sfio's Zuul to connect to nodes
-    kubernetes.core.k8s:
-      kubeconfig: "{{ kube_config }}"
-      state: present
-      definition:
-        kind: Secret
-        apiVersion: v1
-        metadata:
-          name: zuul-ssh-key
-          namespace: cloud-softwarefactory
-        type: Opaque
-        data:
-          pub: "{{ sfio_zuul_node_user_ssh_pub | b64encode }}"
-          priv: "{{ sfio_zuul_node_user_ssh_priv | b64encode }}"
-    no_log: true
-# If nodepool-builder, zuul and logserver pods are not restarted at the next step, do a manual rollout
-# on both control and executor planes.
-#
-# END TODO
-
   - name: Deploy software factory
     include_role:
       name: sf/openshift/install-software-factory
