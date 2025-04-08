@@ -238,6 +238,8 @@ sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
 sf_operator_standalone_release: v0.0.55
+sf_fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
+sf_mail_domain: "softwarefactory-project.io"
 
 zuul_connections:
   spec:
@@ -262,11 +264,7 @@ software_factory:
     name: sf-on-centos
     namespace: "{{ sf_namespace }}"
   spec:
-    # fqdn: "operator.softwarefactory-project.io"
-    # FIXME above is the expected FQDN under which we want to expose this software factory
-    # but we can't use it until we have a valid certificate for it.
-    # can we change FQDNs after an initial deployment?
-    fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
+    fqdn: "{{ sf_fqdn }}"
     prometheusMonitorsDisabled: true
     FluentBitLogForwarding:
       forwardInputHost: fluent-bit
@@ -295,6 +293,10 @@ software_factory:
       storage:
         size: 300Gi
     zuul:
+      smtpconns:
+        - name: smtp
+          server: smtp.ci.centos.org
+          defaultFrom: "zuul@{{ sf_mail_domain }}"
       oidcAuthenticators:
         - name: keycloak_sfio
           clientID: zuul-microshift
