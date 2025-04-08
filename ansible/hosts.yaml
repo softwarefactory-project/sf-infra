@@ -389,7 +389,7 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     quay.rdoproject.org:
-      ansible_host: '38.129.56.158'
+      ansible_host: '38.102.83.197'
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

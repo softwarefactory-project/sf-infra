@@ -52,12 +52,12 @@
         - service/node-exporter
         - system/psi
 
-- hosts: mirror.regionone.vexxhost.rdoproject.org
-  roles:
-    - service/setup-ssl
-    - rdo/afs-mirror
-    - rdo/afs-monitoring
-    - service/apache-exporter
+# - hosts: mirror.regionone.vexxhost.rdoproject.org
+#   roles:
+#     - service/setup-ssl
+#     - rdo/afs-mirror
+#     - rdo/afs-monitoring
+#     - service/apache-exporter
 
 - hosts: private-afs-mirror
   roles:
@@ -92,37 +92,37 @@
     - system/volume
     - service/apache-exporter
 
-- hosts: quay.rdoproject.org
-  pre_tasks:
-    - name: Setup Quay partition
-      # NOTE: take care: some variables are devices and some device.
-      vars:
-        lvm: "{{ partitions['quay']['lvm'] | default('') }}"
-        devices: "{{ partitions['quay']['devices'] | default('') }}"
-        mountpoint: "{{ partitions['quay']['mountpoint'] | default('') }}"
-        vg_name: "{{ partitions['quay']['vg_name'] | default('') }}"
-        lv_name: "{{ partitions['quay']['lv_name'] | default('') }}"
-      ansible.builtin.include_role:
-        name: system/volume
-    - name: Setup Postgres partition
-      vars:
-        lvm: "{{ partitions['db']['lvm'] | default('') }}"
-        device: "{{ partitions['db']['device'] | default('') }}"
-        mountpoint: "{{ partitions['db']['mountpoint'] | default('') }}"
-      ansible.builtin.include_role:
-        name: system/volume
-  roles:
-    - system/swap
-    - service/hostname
-    - service/setup-ssl
-    - rdo/quay
-    - rdo/quay-project-creation
-  vars:
-    self_signed_certs: false
-    initial_config: false
-    # Use standalone server to get SSL certs from certbot
-    additional_params: '--standalone'
-    http_service_name: 'standalone'
+# - hosts: quay.rdoproject.org
+#   pre_tasks:
+#     - name: Setup Quay partition
+#       # NOTE: take care: some variables are devices and some device.
+#       vars:
+#         lvm: "{{ partitions['quay']['lvm'] | default('') }}"
+#         devices: "{{ partitions['quay']['devices'] | default('') }}"
+#         mountpoint: "{{ partitions['quay']['mountpoint'] | default('') }}"
+#         vg_name: "{{ partitions['quay']['vg_name'] | default('') }}"
+#         lv_name: "{{ partitions['quay']['lv_name'] | default('') }}"
+#       ansible.builtin.include_role:
+#         name: system/volume
+#     - name: Setup Postgres partition
+#       vars:
+#         lvm: "{{ partitions['db']['lvm'] | default('') }}"
+#         device: "{{ partitions['db']['device'] | default('') }}"
+#         mountpoint: "{{ partitions['db']['mountpoint'] | default('') }}"
+#       ansible.builtin.include_role:
+#         name: system/volume
+#   roles:
+#     - system/swap
+#     - service/hostname
+#     - service/setup-ssl
+#     - rdo/quay
+#     - rdo/quay-project-creation
+#   vars:
+#     self_signed_certs: false
+#     initial_config: false
+#     # Use standalone server to get SSL certs from certbot
+#     additional_params: '--standalone'
+#     http_service_name: 'standalone'
 
 - hosts: opensearch.rdoproject.org
   pre_tasks:
