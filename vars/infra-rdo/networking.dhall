@@ -68,6 +68,18 @@ let security_groups =
               }
             ]
           }
+        , { name = "quay_public"
+          , rules =
+            [ Infra.Rule::{
+              , port = +6379
+              , remote_ip_prefix = Some "38.102.83.197/32"
+              }
+            , Infra.Rule::{
+              , port = +5432
+              , remote_ip_prefix = Some "38.102.83.197/32"
+              }
+            ]
+          }
         , { name = "registry"
           , rules =
             [ Infra.Rule::{ port = +53 }

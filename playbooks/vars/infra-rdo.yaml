@@ -115,6 +115,12 @@ security_groups:
         remote_ip_prefix: "38.102.83.136/32"
       - port: 9997
         remote_ip_prefix: "38.102.83.124/32"
+  - name: quay_public
+    rules:
+      - port: 6379
+        remote_ip_prefix: "38.102.83.197/32"
+      - port: 5432
+        remote_ip_prefix: "38.102.83.197/32"
   - name: registry
     rules:
       - port: 53
@@ -190,15 +196,15 @@ servers:
     volume_size: 200
   - boot_from_volume: yes
     flavor: v1-standard-4
-    floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
     name: quay.rdoproject.org
-    network: private-network
+    network: public
     security_groups:
       - common
       - monitoring
       - web
+      - quay_public
     state: present
     volume_size: 50
   - boot_from_volume: yes

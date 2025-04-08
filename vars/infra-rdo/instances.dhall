@@ -31,8 +31,8 @@ let instances =
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.3`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
-          , floating_ip = Some True
-          , security_groups = [ "web" ]
+          , network = "public"
+          , security_groups = [ "web", "quay_public" ]
           , volume_size = Some 50
           }
         , volumes =
