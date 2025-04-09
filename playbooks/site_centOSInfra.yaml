@@ -68,11 +68,7 @@
           priv: "{{ centOSInfra_zuul_ssh_priv | b64encode }}"
     no_log: true
 
-  # TODO Remove this task once sf-operator v0.0.56 is released.
-  # We don't want to release right away for reasons, but we need
-  # to use a version of sf-operator where the dependency to cert-manager
-  # is completely removed.
-  - name: Set deployment hash
+  - name: Set deployment version
     ansible.builtin.set_fact:
       sf_operator_standalone_release: v0.0.56
 
