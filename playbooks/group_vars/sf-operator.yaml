@@ -252,6 +252,7 @@ zuul_connections:
         - name: rdoproject.org
           username: zuul
           puburl: "https://review.rdoproject.org/r"
+          hostname: review.rdoproject.org
         - name: opendev.org
           hostname: opendev.org
           puburl: "https://review.opendev.org"
