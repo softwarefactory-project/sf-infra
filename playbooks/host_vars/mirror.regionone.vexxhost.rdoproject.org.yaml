@@ -1,4 +1,5 @@
 afs_mirror_fqdn: "mirror.regionone.vexxhost.rdoproject.org"
+override_timeout: true
 ssl_cert_options:
   cert1:
     email: "softwarefactory-operations-team@redhat.com"

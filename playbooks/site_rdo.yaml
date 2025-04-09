@@ -52,12 +52,12 @@
         - service/node-exporter
         - system/psi
 
-# - hosts: mirror.regionone.vexxhost.rdoproject.org
-#   roles:
-#     - service/setup-ssl
-#     - rdo/afs-mirror
-#     - rdo/afs-monitoring
-#     - service/apache-exporter
+- hosts: mirror.regionone.vexxhost.rdoproject.org
+  roles:
+    - service/setup-ssl
+    - rdo/afs-mirror
+    - rdo/afs-monitoring
+    - service/apache-exporter
 
 - hosts: private-afs-mirror
   roles:
