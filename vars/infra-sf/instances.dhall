@@ -104,7 +104,12 @@ let instances =
       [ Instance::{
         , name = "bridge"
         , groups =
-          [ "bridge", "promtail", "observability-stack", "sf-operator" ]
+          [ "bridge"
+          , "promtail"
+          , "observability-stack"
+          , "sf-operator"
+          , "k1s-secrets"
+          ]
         , connection = OS.Fedora.`39`.connection
         }
       , Instance::{
@@ -208,7 +213,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s03"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
@@ -222,7 +227,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s04"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
@@ -236,7 +241,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s05"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
@@ -250,7 +255,7 @@ let instances =
         }
       , Instance::{
         , name = "k1s06"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
@@ -362,7 +367,7 @@ let -- | A function to create external k1s worker
       \(ip : Text) ->
         Instance::{
         , name = "sf-container-worker-${Natural/show idx}"
-        , groups = [ "epel", "k1s", "k1s-rhel", "rhel", "promtail" ]
+        , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
         , connection = Infra.Connection::{
           , ansible_user = Some "cloud-user"
           , ansible_python_interpreter = "auto"

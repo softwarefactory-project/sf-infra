@@ -63,15 +63,16 @@ all:
       hosts:
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
-    k1s:
+    k1s-rhel:
       hosts:
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         k1s06.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-    k1s-rhel:
+    k1s-secrets:
       hosts:
+        bridge.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
