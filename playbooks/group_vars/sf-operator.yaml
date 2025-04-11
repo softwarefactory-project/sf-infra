@@ -348,6 +348,10 @@ zuul_connections:
           server: gitlab.com
           baseUrl: "https://gitlab.com"
           secrets: zuul-gitlab-com-connection
+      gitconns:
+        - name: github.com-git-driver
+          baseurl: "https://github.com"
+          pollDelay: 7200
 
 software_factory:
   apiVersion: sf.softwarefactory-project.io/v1
