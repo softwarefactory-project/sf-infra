@@ -97,6 +97,26 @@ clouds_yaml: |
       # cacert: /path/to/ca.cert
       insecure: true
 
+k8s_providers_kube_config: |
+  apiVersion: v1
+  clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://38.102.83.49:9023
+    name: k1s06
+  contexts:
+  - context:
+      cluster: k1s06
+      user: k1s-managed
+    name: /k1s-k1s06/
+  current-context: /k1s-k1s06/
+  kind: Config
+  preferences: {}
+  users:
+  - name: k1s-managed
+    user:
+      token: {{ k1s_token }}
+
 nodepool_providers_secrets:
   kind: Secret
   apiVersion: v1
@@ -106,6 +126,7 @@ nodepool_providers_secrets:
   type: Opaque
   data:
     clouds.yaml: "{{ clouds_yaml | b64encode }}"
+    kube.config: "{{ k8s_providers_kube_config | b64encode }}"
 
 zuul_github_com_connection_webhook_token: !vault |
   $ANSIBLE_VAULT;1.1;AES256
