@@ -71,6 +71,10 @@ prometheus_public_url: "https://{{ fqdn }}/prometheus"
 rhel_release: '9.4'
 routes:
   - matchers:
+      - "severity=~\"warning|info|critical\""
+      - "jobs=~\"hw\""
+    receiver: "rhos-dfg-pcinfra+hwmon"
+  - matchers:
       - "severity=\"critical\""
     receiver: softwarefactory-operations-team
   - matchers:

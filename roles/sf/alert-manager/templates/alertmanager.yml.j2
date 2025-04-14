@@ -33,6 +33,9 @@ route:
 receivers:
   # Adding a receiver without config ensure we will not receive email
   - name: blackhole
+  - name: rhos-dfg-pcinfra+hwmon
+    email_configs:
+      - to: rhos-dfg-pcinfra+hwmon@redhat.com
   - name: softwarefactory-operations-team
     email_configs:
       - to: softwarefactory-operations-team@redhat.com
