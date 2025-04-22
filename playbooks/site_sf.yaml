@@ -18,7 +18,7 @@
     - sf/openshift/install-cert-manager
     - sf/openshift/install-cert-manager-openshift-routes
 
-- hosts: k1s
+- hosts: k1s-rhel
   roles:
     # node-exporter should be installed first for k1s/tasks/probe.yaml
     # needs node_exporter group
