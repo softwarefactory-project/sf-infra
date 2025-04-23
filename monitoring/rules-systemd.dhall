@@ -7,7 +7,8 @@ in  Prometheus.RulesConfig::{
         , rules = Some
           [ Prometheus.CriticalRule::{
             , alert = Some "systemd_unit_failed"
-            , expr = Some "node_systemd_unit_state{state='failed'} > 0"
+            , expr = Some
+                "node_systemd_unit_state{state='failed'} > 0 and node_systemd_unit_state{name != 'dnf-makecache.service'}"
             , annotations = Some
               { description = None Text
               , summary =
