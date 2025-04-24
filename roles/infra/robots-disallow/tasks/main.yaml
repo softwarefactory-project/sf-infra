@@ -1,4 +1,17 @@
 ---
+# As of 2025/04/17 half of the requests to review.rdo's gerrit was on gitiles by crawlers
+# it has been decided to prevent connection to gitiles for all as a radical solution to avoid
+# load surges on gerrit.
+- name: Prevent access to gitiles to avoid Gerrit load surges
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/httpd/conf.d/block-paths.conf
+    mode: "0644"
+    content: |
+      <LocationMatch "^/r/plugins/gitiles/">
+        Require all denied
+      </LocationMatch>
+
 # NOTE: Before you add new robot or option, please verify that in
 # some tool, eg.: https://www.generaterobotstxt.com/validator
 - name: Add gitiles to disallow in robot.txt
