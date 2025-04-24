@@ -62,10 +62,6 @@ Host backup.rdoproject.org
     User ec2-user
     Port 22
     Hostname 52.71.149.221
-Host rdo-web-builder.int.osci.io
-    User root
-    Port 22
-    ProxyCommand ssh -q rdo@soeru.osci.io -W %h:%p
 Host lists.rdoproject.org
     User root
     Port 22

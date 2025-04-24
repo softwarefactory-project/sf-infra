@@ -188,7 +188,6 @@
     files:
       - playbooks/site_osci.yaml
       - "^playbooks/host_vars/lists.rdoproject.org/.*$"
-      - "^playbooks/host_vars/rdo-web-builder.int.osci.io/.*$"
       - "^playbooks/group_vars/osci/.*$"
       - "^playbooks/group_vars/osci_internal_zone/.*$"
       - "^playbooks/group_vars/osci_zone/.*$"
@@ -206,7 +205,6 @@
     files:
       - playbooks/site_rdo.yaml
       - ^playbooks/host_vars/.*rdoproject.org.ya?ml$
-      - playbooks/host_vars/rdo-web-builder.int.osci.io
       - playbooks/group_vars/all
       - playbooks/group_vars/osci_internal_zone
       - playbooks/group_vars/osci_zone
