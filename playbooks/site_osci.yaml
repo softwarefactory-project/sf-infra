@@ -8,18 +8,6 @@
     - service/node-exporter
     - system/psi
 
-- hosts: rdo-web-builder.int.osci.io
-  roles:
-    - service/hostname
-    - system/epel-release
-#   tasks:
-#     - name: "Deploy websites"
-#       ansible.builtin.include_role:
-#         name: osci/websites
-#         tasks_from: builders
-#         apply:
-#           become: yes
-
 - hosts: lists.rdoproject.org
   become: yes
   roles:
