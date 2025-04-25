@@ -299,7 +299,7 @@ kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
-sf_operator_standalone_release: v0.0.56
+sf_operator_standalone_release: v0.0.57
 sf_fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
 sf_mail_domain: "softwarefactory-project.io"
 
@@ -316,10 +316,10 @@ zuul_connections:
           username: zuul
           puburl: "https://review.rdoproject.org/r"
           hostname: review.rdoproject.org
-        - name: opendev.org
-          hostname: opendev.org
+        - name: opendev.org-gerrit
+          hostname: review.opendev.org
           puburl: "https://review.opendev.org"
-          user: "sf-project-io"
+          username: "sf-project-io"
         # enable when https://softwarefactory-project.io/r/c/software-factory/sf-operator/+/33507 is merged and released
         # - name: rdoci
         #   hostname: opendev.org
