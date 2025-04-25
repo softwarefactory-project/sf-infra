@@ -6,11 +6,11 @@
       ansible.builtin.dnf:
         name: "dnf-automatic"
 
-    - name: Set upgrade_type to security for dnf automatic
+    - name: Set upgrade_type to ensure all available upgrades
       ansible.builtin.lineinfile:
         path: /etc/dnf/automatic.conf
         regexp: '^upgrade_type ='
-        line: "upgrade_type = security"
+        line: "upgrade_type = default"
       register: _config
 
     - name: Enable a timer unit for dnf-automatic-install
