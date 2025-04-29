@@ -270,6 +270,9 @@ quay_organizations:
              65666234663335346265313931306366313531336530653334333135366233356433636638633961
              3335333562336535393231336136356432313631393565623331
       prune_days: 7
+    - name: podified-master-centos10
+      token: ""
+      prune_days: 7
 
 # List comes from: https://github.com/rdo-infra/rdo-dashboards/blob/master/feed-dashboard-dlrnapi.py#L62
 quay_pruner_dlrn_endpoints:
@@ -281,6 +284,7 @@ quay_pruner_dlrn_endpoints:
   - api-centos9-zed
   - api-centos9-yoga
   - api-centos9-wallaby
+  - api-centos10-master-uc
 
 # List comes from: https://github.com/rdo-infra/ansible-role-dlrn/blob/master/files/run-purge.sh#L30
 quay_pruner_extended_keeplist:
