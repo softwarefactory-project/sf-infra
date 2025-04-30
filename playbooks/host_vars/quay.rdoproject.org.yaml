@@ -1,4 +1,10 @@
 ---
+# For quay after migrating from floating ip to public network interface
+# NOTE: here is public ip address for Quay RDO.
+redis_host: 38.102.83.197
+postgresql_host: 38.102.83.197
+clair_host: 38.102.83.197
+
 partitions:
   quay:
     lvm: True
