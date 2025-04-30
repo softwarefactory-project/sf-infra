@@ -239,6 +239,8 @@
       - "^roles/sf/.*$"
       - "^roles/next-gen/.*$"
       - "^vars/infra-sf/.*.yaml$"
+    irrelevant-files:
+      - ^playbooks/host_vars/microshift-ze.*.softwarefactory-project.io.yaml$
 
 - job:
     name: sf-infra-configure-centOS-Infra

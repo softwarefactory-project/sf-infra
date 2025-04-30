@@ -384,11 +384,10 @@ servers:
     volume_size: 50
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
-    floating_ip: true
     image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
-    name: microshift-ze01.softwarefactory-project.io
-    network: private-network
+    name: microshift-ze02.softwarefactory-project.io
+    network: public
     security_groups:
       - common
       - monitoring
@@ -580,8 +579,8 @@ volumes:
     server: image-builder.softwarefactory-project.io
     size: 1000
   - device: /dev/vdb
-    display_name: ze01-lvm
-    server: microshift-ze01.softwarefactory-project.io
+    display_name: ze02-lvm
+    server: microshift-ze02.softwarefactory-project.io
     size: 512
   - device: /dev/vdb
     display_name: microshift-infra-data

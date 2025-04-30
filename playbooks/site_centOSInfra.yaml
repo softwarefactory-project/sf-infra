@@ -7,6 +7,16 @@
 
 - hosts: centos-infra-zuul-executors
   pre_tasks:
+    - name: Ensure hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+      become: yes
+  roles:
+    - system/rhel-subscription
+    - system/rhel-setup
+
+- hosts: centos-infra-zuul-executors
+  pre_tasks:
     - name: Install requirements (rpms)
       become: true
       ansible.builtin.package:

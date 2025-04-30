@@ -319,21 +319,21 @@ let instances =
           ]
         }
       , Instance::{
-        , name = "microshift-ze01"
+        , name = "microshift-ze02"
         , groups =
           [ "sf-operator", "centos-infra-zuul-executors", "rhel", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name
           , flavor = Some Flavors.`8vcpu_16GB`
-          , floating_ip = Some True
+          , network = "public"
           , boot_from_volume = "yes"
           , volume_size = Some 100
           , security_groups = [ "k8s-client", "zuul-finger" ]
           }
         , volumes =
           [ Infra.Volume::{
-            , display_name = "ze01-lvm"
+            , display_name = "ze02-lvm"
             , size = 512
             , device = "/dev/vdb"
             }
