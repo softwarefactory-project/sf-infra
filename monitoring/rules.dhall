@@ -106,7 +106,7 @@ in  \(job-name : Text) ->
                   let free = "node_memory_SwapFree_bytes{job='${job-name}'}"
 
                   in  Some
-                        "(${free} < ${total} * 0.5) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
+                        "(${free} < ${total} * 0.1) and node_memory_SwapTotal_bytes{instance!='quay.rdoproject.org:9100'}"
               , for = Some "30m"
               , annotations = Some Prometheus.Annotations::{
                 , summary = "Out of swap (instance {{ \$labels.instance }})"
