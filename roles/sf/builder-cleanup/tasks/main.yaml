@@ -3,12 +3,15 @@
   ansible.builtin.cron:
     name: "Cleanup outdated fedora rawhide images"
     special_time: daily
-    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'Fedora-Cloud-Base-Rawhide*' -mtime +5 -delete > /dev/null"
+    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'Fedora-Cloud-Base-Generic-Rawhide*' -mtime +5 -delete > /dev/null"
   become: yes
 
-- name: Cleanup outdated centos-9-stream images
+- name: Cleanup outdated CentOS Stream images (9 & 10)
   ansible.builtin.cron:
-    name: "Cleanup outdated centos-9-stream images"
+    name: "Cleanup outdated CentOS Stream images (9 & 10)"
     special_time: daily
-    job: "/bin/find /var/cache/nodepool/ -maxdepth 1 -name 'CentOS-Stream-GenericCloud-9*' -mtime +5 -delete > /dev/null"
+    job: >
+      /bin/find /var/cache/nodepool/ -maxdepth 1
+      \( -name 'CentOS-Stream-GenericCloud-9*' -o -name 'CentOS-Stream-GenericCloud-10*' \)
+      -mtime +5 -delete > /dev/null
   become: yes
