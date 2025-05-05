@@ -392,6 +392,7 @@ software_factory:
       zuul-connection-name: sfio-gerrit
       k8s-api-url: https://api.ocp.cloud.ci.centos.org:6443
       logserver-host: "{{ logserver_public_hostname }}"
+      branch: master
     extraLabels: {}
     # storage is provided beforehand by centos infra.
     # below are the allotted PVs' storage values; DO NOT EDIT THEM.
