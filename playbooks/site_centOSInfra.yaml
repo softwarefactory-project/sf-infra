@@ -6,12 +6,8 @@
       ansible.builtin.meta: clear_facts
 
 - hosts: centos-infra-zuul-executors
-  pre_tasks:
-    - name: Ensure hostname
-      ansible.builtin.hostname:
-        name: "{{ inventory_hostname }}"
-      become: yes
   roles:
+    - service/hostname
     - system/rhel-subscription
     - system/rhel-setup
 
