@@ -1,0 +1,6 @@
+- name: Update sf_infra_secret_age metrics
+  become: true
+  shell: >-
+    ~{{ ansible_user }}/src/softwarefactory-project.io/software-factory/sf-infra/tools/secret-age.py
+    {{ sf_infra_secret_age_files | join(' ') }}
+    > /var/lib/node_exporter/textfile_collector/secret_age.prom
