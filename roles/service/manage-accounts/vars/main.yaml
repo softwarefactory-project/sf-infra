@@ -63,10 +63,9 @@ bridge_users:
       - "none"
   dpawlik:
     name: "dpawlik"
-    groups:
-      - "{{ admin_group }}"
+    state: "absent"
     ssh_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDsne3wzhPRzlzaOK1a2IeMAd9w2sMFsE6Q45g3q/j6q dpawlik@redhat.com"
+      - "none"
   duck:
     name: "duck"
     groups:
