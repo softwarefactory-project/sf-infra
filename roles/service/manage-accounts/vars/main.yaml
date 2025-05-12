@@ -140,7 +140,7 @@ bridge_users:
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5/W4WD9nKLLmapEZEVh3PYdbeWrIs0mw5FziJbd/IL evallesp@fedora"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIASASQOH2BcOyLKuuDOdWZlPi2orcjcA8q4400T73DLH"
   vcherkas:
     name: "vcherkas"
     groups:
