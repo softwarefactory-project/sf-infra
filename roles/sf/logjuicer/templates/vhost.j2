@@ -1,5 +1,5 @@
 <Directory "/var/www/logjuicer">
   RewriteEngine On
-  RewriteRule ^wsapi/(.*)$ wss://{{ logjuicer_host }}/wsapi/$1 [P,L]
-  RewriteRule ^(.*)$ https://{{ logjuicer_host }}/$1 [P,L]
+  RewriteRule ^wsapi/(.*)$ wss://{{ logjuicer_host }}/wsapi/$1 [R,L]
+  RewriteRule ^(.*)$ https://{{ logjuicer_host }}/$1 [R,L]
 </Directory>
