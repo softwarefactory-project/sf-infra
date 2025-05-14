@@ -151,16 +151,6 @@
     description: Configure the bridge
     vars:
       sf_infra_play_name: site_bridge
-    files:
-      - playbooks/site_bridge.yaml
-      - playbooks/host_vars/bridge.softwarefactory-project.io.yaml
-      - playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml
-      - playbooks/group_vars/all
-      - "^roles/bridge/.*$"
-      - "^roles/service/.*$"
-      - "^roles/system/.*$"
-      - ^playbooks/quay-renew-certificates.yml$
-      - ^playbooks/zuul/configure-quay-host.yaml$
 
 - job:
     name: sf-infra-configure-hosts-dlrn-centos9
@@ -455,34 +445,32 @@
               - dhall-diff
               - name: sf-infra-configure-hosts-sf
                 soft: true
-              - name: sf-infra-create-bridge
-                soft: true
               - name: sf-infra-observability-stack
                 soft: true
         - sf-infra-configure-hosts-sf:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-hosts-rdo:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-hosts-dlrn-centos9:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-hosts-osci:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-create-tripleo-standalone:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-tripleo-standalone:
             dependencies:
@@ -492,7 +480,7 @@
         - sf-infra-observability-stack:
             dependencies:
               - dhall-diff
-              - name: sf-infra-create-hosts
+              - name: sf-infra-configure-bridge
                 soft: true
     periodic:
       jobs:

@@ -1,6 +1,4 @@
 ---
-- ansible.builtin.import_playbook: site_bridge.yaml
-
 # Deploy the builder
 - hosts: trunk-builder-centos9.rdoproject.org
   vars_files:
@@ -53,4 +51,3 @@
     - ansible.builtin.include_role:
         name: infra-dlrn/mariadb-replicated
         tasks_from: backup-mariadb.yml
-
