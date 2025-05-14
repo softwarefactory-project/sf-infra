@@ -14,6 +14,9 @@
     - system/psi
     - system/update-host
     - system/journald
+    - role: system/secrets-metric
+      vars:
+        sf_infra_secret_age_files: "{{ q('fileglob', 'host_vars/*.yaml', 'group_vars/*.yaml') }}"
 
   tasks:
     - name: "Install MTA"
