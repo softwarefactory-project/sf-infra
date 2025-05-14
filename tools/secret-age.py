@@ -10,7 +10,12 @@ def parse_secret_locations(inp):
     import yaml
 
     tokens = list(yaml.scan(inp))
+    # The names of the parent keys
     parents = []
+    # The descriptive name of the current item
+    name = None
+    # Keep track of nested structure, starts at -1 because the document begin with one
+    nested_count = -1
     while tokens:
         match tokens:
             # A new secret begin
@@ -22,24 +27,43 @@ def parse_secret_locations(inp):
                 yaml.ScalarToken(),
                 *rest,
             ]:
+                if name:
+                    value = f"{name}_{value}"
                 if parents:
                     value = f"{'_'.join(parents)}_{value}"
                 yield (value, smark.line + 1, rest[0].start_mark.line)
+                tokens = rest
+            # A relevant key is found
+            case [
+                yaml.KeyToken(),
+                yaml.ScalarToken(value="name") | yaml.ScalarToken(value="user"),
+                yaml.ValueToken(),
+                yaml.ScalarToken(value=value),
+                *rest,
+            ]:
+                name = value
                 tokens = rest
             # A new dictionary begin, collect it's parent key
             case [
                 yaml.KeyToken(),
                 yaml.ScalarToken(value=value),
                 yaml.ValueToken(),
-                yaml.BlockMappingStartToken(),
+                yaml.BlockMappingStartToken() | yaml.BlockSequenceStartToken(),
                 *rest,
             ]:
                 parents.append(value)
                 tokens = rest
+            # A new list item begin
+            case [yaml.BlockMappingStartToken(), *rest]:
+                nested_count += 1
+                tokens = rest
             # A dictionary end, pop the parent key
             case [yaml.BlockEndToken(), *rest]:
-                if parents:
+                if nested_count > 0:
+                    nested_count -= 1
+                elif parents:
                     parents.pop()
+                name = None
                 tokens = rest
             case _:
                 tokens = tokens[1:]
@@ -98,10 +122,26 @@ rdo:
     pass: !vault |
       $C$
       44
+org:
+  tenant:
+    - name: t1
+      token: !vault |
+        $D$
+        45
+    - name: t2
+      token: !vault |
+        $E$
+        46
     """
         )
     )
-    assert got == [("vexx_pass", 3, 5), ("other_auth", 7, 9), ("rdo_pass", 12, 14)]
+    assert got == [
+        ("vexx_pass", 3, 5),
+        ("other_auth", 7, 9),
+        ("rdo_pass", 12, 14),
+        ("org_tenant_t1_token", 18, 20),
+        ("org_tenant_t2_token", 22, 24),
+    ]
 
 
 if __name__ == "__main__":
