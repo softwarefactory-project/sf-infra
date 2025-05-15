@@ -102,7 +102,7 @@ def main(args):
     print("TYPE sf_infra_secret_age counter")
     for fp in args:
         for secret, age in process(fp):
-            print("""sf_infra_secret_age{name="%s"} %d""" % (secret, age))
+            print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
 
 
 def test():
