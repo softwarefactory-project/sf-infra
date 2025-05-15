@@ -12,6 +12,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  monitoring/rules-http.yaml \
 	  monitoring/rules-node.yaml \
 	  monitoring/rules-nodepool.yaml \
+	  monitoring/rules-secrets.yaml \
 	  monitoring/rules-systemd.yaml \
 	  monitoring/rules-zuul.yaml \
 	  monitoring/rules-mysqld.yaml \

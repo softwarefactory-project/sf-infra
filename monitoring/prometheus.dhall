@@ -49,6 +49,7 @@ in  PrometheusConfig
       , "rules-backup.yaml"
       , "rules-dlrn.yaml"
       , "rules-afs.yaml"
+      , "rules-secrets.yaml"
       , "rules-systemd.yaml"
       , "rules-nodepool.yaml"
       , "rules-zuul.yaml"
