@@ -98,8 +98,8 @@ def process(fp):
 
 
 def main(args):
-    print("HELP sf_infra_secret_age The UNIX time of a secret last update")
-    print("TYPE sf_infra_secret_age counter")
+    print("HELP sf_infra_secret_age_total The UNIX time of a secret last update")
+    print("TYPE sf_infra_secret_age_total counter")
     for fp in args:
         for secret, age in process(fp):
             print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
