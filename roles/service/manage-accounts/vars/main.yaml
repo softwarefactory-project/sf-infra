@@ -68,12 +68,14 @@ bridge_users:
       - "none"
   duck:
     name: "duck"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINkTw3tpP6CFVAFKCGucuJUluJbgaqBInH91e8HyK46U duck@Zushi"
   misc:
     name: "misc"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
@@ -88,6 +90,7 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDD8aivX74oe3JCjNA9LHSBXfnZzbuzibJmK57xWQGMRanKgjPeBZja3OQ+p+1LF2YINflpR2/ZvtiTxCcdzBIQvebTBOcZFawgIsg5ML4Jv/Sdpu7U473oJAjkGcWncXn8+1JOUmCHQWcLD3CZ1yrLD1AG4j4qknpZz31lAsmyJVDE/kE4JAPJVzrumSfm5oBebhkLlr6kFXguIC+5NMtmP4RLC1+naf6LxTVLnFH6BENQnyerM5a/6t+KyPuHc5MQ3HtVZ4d7SYOa0tf5ybfC6edlGW9FA+vkekF9phZ2ub59gKWnD1evKzR6CFnW1igNzK0Fu7zKrmXrBDYmGDJ/ ykarel@yatinkarel"
   amoralej:
     name: "amoralej"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
@@ -99,6 +102,7 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCs/fvCoMm/bOLehNLGEhWnMZfJndO4rK2Q8OOrYOAGKpMT5xiWZsPgxGai4vieZ2HmdyXBB2DX5g1FjwGJUWuxPRYT5vAQlseOfyTLqhkHaSmuWcpH6HuP+KvxWO9epyXP8pl7uZLsbVEr5207ER4bYLIg2bk2LRQqxnysG3t4VqbAV0V+YKrkkwwErsHDbLJyz2sqtJielpKZOCF+vFnzrUR3dmORZ4bchBnmf67CFAJqPd1zSU9Hn0fWZ5nVxJMk1o/bxqwIZ6E7a9Yw5bJl3ziGP5WfcSfati4LKGWI503SNwSWLOuL03j2LaLO3GgLSVFUo9eGT6KhN3dogWeaWXDDFvx+O0RfdZFL0+mRFl2Rz83QsJGFBm1JW2H1/W0vUxtXmZhUXFagSt75zh2AQPoatsYgUOCpC4qFSVRXFyZR0a1Q5JnqmtFrYDuIoMovdfelgKEnJ5xBNhmGLpJlRmSIiv4tRNYUvaU4fKnt/yLTtZNT+D7zM4KMUzNy8pqEbUugAGGxMlCs1YfzwOL4+OHxrDX5A5TlvTnjNBHmBWXDQJncXTewjTf1+6oLkGKHMSd8UsGjYTLWX1JepFcHUj5+SF5arVKz/gThvQlelpPzXZgK9MNUSKfU9GHQ79T14Kng9Cfx/BcUYsZmFmCgzj2M1neFD7M3kOFQ8PV2ow=="
   jcapitao:
     name: "jcapitao"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
@@ -131,6 +135,7 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQChvWGP5I66E3ZZat0D1jpTXbZN5aeM3Ky+dlM6LBESVKtxP1Ee4hbxei3mWBz/nJQcWqXZEEzBab6BsORk8+kt3RSpap08DHY5UMGaXZJzXWr6Iqj8Voz6+GxWBiBmpPrZc2cWKedmL4PsSDFX9X0Bz8bOllSnk1CFGiEISv0GNzDFGjqjAuXYFlCB4EDNnNvsexuT6DUnDPhpl8nTabI0AzU8d22QGfb2X4iUEt/rtogRpSS/ftZcYoVxmZKk/yLo8LvuohiS1IqACIyzDYtwb2oBVYV+Fd0fdkkvnyERS8oxjnQVC9XwSK8aXj+TlQn2oYtgw7CzJyvbkmSXGvq0wTL0lHhM6loGodM6yUI6W3HD17bkDlJbiIP1NroLtaDlQ6XIlH9XOs151hwHM3ED7fDLjXfkxa2NlvvuMYNkgq0seDmalcjJyPQuEOd4OCLyfhiiNkqlge9aNPgFl0H+gxnsqPzLe6eOE++8EJ91btLAe9xEzilvG8qVHIyXWaNo62PguUBMX7zUeKkLFxWxWCln10B5QIEZ70xbMv/mmD09jynduaQS/qk1tt9zq0P4EbOwB6wIbbTXUERiMC0OJN5W+YBhsaqLzUAEqjzMJ9RKfnsQifh8lgt4oh3/i5dKQn4RPHZCac1ipHcEPsL4jXLc3pCd4LP5GdksCCbhVQ== gomathiselvi@gmail.com"
   kkula:
     name: "kkula"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
