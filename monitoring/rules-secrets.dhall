@@ -1,42 +1,23 @@
-let Prelude = ../Infra/Prelude.dhall
+let Secret = ../tools/secret-age.dhall
 
-let Prometheus = ./binding.dhall
+in  Secret.renderSecretAlerts
+      [ Secret::{
+        , match = "k1s_*"
+        , description =
+            ''
+            To update the secret:
 
-let secrets = ../tools/secret-age.dhall
+            - k1s_token: Use `uuidgen`.
+            - k1s_key, k1s_crt and k1s_chain: Create a new certifcate.
 
-let secret2rule =
-      \(secret : secrets.Type) ->
-        let age = "time() - sf_infra_secret_age_total{name='${secret.match}'}"
-
-        let max-age = "${Natural/show secret.expiry} - 604800"
-
-        let desc =
-              ''
-              ${secret.description}
-
-              See the ansible-vault documentation to perform the actual update.''
-
-        in  Prometheus.AlertingRule::{
-            , alert = Some "SecretTooOld"
-            , expr = Some "(${age}) > (${max-age})"
-            , labels = Some Prometheus.warningLabel
-            , annotations = Some
-              { description = Some desc
-              , summary = "Expiring secret {{ \$labels.target }}"
-              }
-            }
-
-in  Prometheus.RulesConfig::{
-    , groups = Some
-      [ Prometheus.Group::{
-        , name = Some "secrets.rules"
-        , rules = Some
-            ( Prelude.List.map
-                secrets.Type
-                Prometheus.AlertingRule.Type
-                secret2rule
-                secrets.all
-            )
+            After merging the sf-infra change, make sure to restart nodepool-launcher service to update the client.
+            ''
+        }
+      , Secret::{
+        , match = "grafana_pass"
+        , description =
+            ''
+            To update the secret use `uuidgen`.
+            ''
         }
       ]
-    }

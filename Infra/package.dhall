@@ -73,4 +73,5 @@ and a future change will remove it from the Infra package.
 , Tenant = ./Tenant/package.dhall
 , Volume = ./Volume/package.dhall
 , Panels = ../roles/sf/grafana/files/infra/Panels.dhall
+, Secret = ../tools/secret-age.dhall
 }
