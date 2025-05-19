@@ -20,4 +20,14 @@ in  Secret.renderSecretAlerts
             To update the secret use `uuidgen`.
             ''
         }
+      , Secret::{
+        , match = "zuul_pagure_token_*"
+        , description =
+            ''
+            You need to connect as the zuul user on both pages (see password in bitwarden) and renew the API keys there.
+            Restart Zuul with the updated config once the keys have been regenerated.
+            ''
+        , -- The token are valid for 180 days
+          expiry = Secret.day * 180
+        }
       ]
