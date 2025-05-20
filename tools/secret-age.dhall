@@ -26,12 +26,12 @@ let secret2rule =
               See the ansible-vault documentation to perform the actual update.''
 
         in  Prometheus.AlertingRule::{
-            , alert = Some "SecretTooOld"
+            , alert = Some "SecretWillExpireInTwoWeeks"
             , expr = Some "(${age}) > (${max-age})"
             , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = Some desc
-              , summary = "Expiring secret {{ \$labels.target }}"
+              , summary = "Secret {{ \$labels.target }} will expire in two weeks"
               }
             }
 
