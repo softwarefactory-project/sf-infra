@@ -304,9 +304,9 @@ zuul_connections_secrets:
       name: zuul-github-com-connection
     type: Opaque
     data:
-      app_key: "{{ zuul_github_com_connection_app_key | b64encode }}"
-      webhook_token: "{{ zuul_github_com_connection_webhook_token | b64encode }}"
-      api_token: "{{ zuul_github_com_connection_api_token | b64encode }}"
+      app_key: "{{ zuul_github_com_connection_app_key | trim | b64encode }}"
+      webhook_token: "{{ zuul_github_com_connection_webhook_token | trim | b64encode }}"
+      api_token: "{{ zuul_github_com_connection_api_token | trim | b64encode }}"
   - kind: Secret
     apiVersion: v1
     metadata:
@@ -314,7 +314,7 @@ zuul_connections_secrets:
       name: zuul-pagure-io-connection
     type: Opaque
     data:
-      api_token: "{{ zuul_pagure_token.pagure_io | b64encode }}"
+      api_token: "{{ zuul_pagure_token.pagure_io | trim | b64encode }}"
   - kind: Secret
     apiVersion: v1
     metadata:
@@ -322,7 +322,7 @@ zuul_connections_secrets:
       name: zuul-src-fedoraproject-org-connection
     type: Opaque
     data:
-      api_token: "{{ zuul_pagure_token.src_fedoraproject_org | b64encode }}"
+      api_token: "{{ zuul_pagure_token.src_fedoraproject_org | trim | b64encode }}"
   - kind: Secret
     apiVersion: v1
     metadata:
@@ -330,8 +330,8 @@ zuul_connections_secrets:
       name: zuul-gitlab-com-connection
     type: Opaque
     data:
-      webhook_token: "{{ zuul_gitlab_com_connection_webhook_token | b64encode }}"
-      api_token: "{{ zuul_gitlab_com_connection_api_token | b64encode }}"
+      webhook_token: "{{ zuul_gitlab_com_connection_webhook_token | trim | b64encode }}"
+      api_token: "{{ zuul_gitlab_com_connection_api_token | trim | b64encode }}"
 
 kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
