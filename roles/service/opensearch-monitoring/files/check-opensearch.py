@@ -41,7 +41,7 @@ def do_query(es_url, user, password, index, insecure, cert, key, ca_cert):
         es_url = "%s/%s/_search" % (es_url, index)
 
     headers = {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
     }
 
     data = {
