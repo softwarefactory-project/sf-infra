@@ -33,6 +33,18 @@ def parse_secret_locations(inp):
                     value = f"{'_'.join(parents)}_{value}"
                 yield (value, smark.line + 1, rest[0].start_mark.line)
                 tokens = rest
+            # A refresh date that is hard-coded without a associated !vault
+            case [
+                yaml.KeyToken(),
+                yaml.ScalarToken(value=value, start_mark=smark),
+                yaml.ValueToken(),
+                yaml.ScalarToken(),
+                *rest,
+            ] if value.endswith("_refreshed_date"):
+                value = value[: -len("_refreshed_date")]
+                yield (value, smark.line + 1, smark.line + 1)
+                tokens = rest
+
             # A relevant key is found
             case [
                 yaml.KeyToken(),
@@ -132,6 +144,7 @@ org:
       token: !vault |
         $E$
         46
+rhn_refreshed_date: 2025-12-01
     """
         )
     )
@@ -141,6 +154,7 @@ org:
         ("rdo_pass", 12, 14),
         ("org_tenant_t1_token", 18, 20),
         ("org_tenant_t2_token", 22, 24),
+        ("rhn", 25, 25),
     ]
 
 
