@@ -90,6 +90,7 @@
   roles:
     - infra/install-server
     - infra/ssh
+    - infra/dhall-cache
     - service/acme-tiny
     - service/apache-exporter
     - service/hostname
