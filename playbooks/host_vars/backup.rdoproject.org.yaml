@@ -41,7 +41,7 @@ servers:
     instances:
       - centos.softwarefactory-project.io
     month_subdir: 1
-    run_sf_backup: true
+    run_sf_backup: false
   - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
     domain: ansible.softwarefactory-project.io
     filename: ansible.softwarefactory-project.io.yaml

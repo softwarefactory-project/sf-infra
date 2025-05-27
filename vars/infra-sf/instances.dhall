@@ -8,21 +8,6 @@ let OS = (../common.dhall).OS
 
 let Flavors = (../common.dhall).Flavors
 
-let tenant-instance =
-      Instance::{
-      , name = "tenant"
-      , groups = [ "sf", "backup-sf", "promtail" ]
-      , connection = OS.CentOS.`7.0`.connection
-      }
-
-let tenant-server =
-      Infra.Server::{
-      , image = OS.CentOS.`7.0`.image.name
-      , floating_ip = Some True
-      , volume_size = Some 40
-      , security_groups = [ "web" ]
-      }
-
 let tenant-rhel-9-instance =
       Instance::{
       , name = "tenant"
@@ -64,7 +49,7 @@ let tenant-instances =
       ,     tenant-rhel-9-instance
         //  { name = "centos"
             , backup = Some Infra.Backup::{
-              , run_sf_backup = True
+              , run_sf_backup = False
               , dir = Some
                   "/var/lib/backup/bup/centos.softwarefactory-project.io"
               , domain = Some "centos.softwarefactory-project.io"
@@ -73,13 +58,16 @@ let tenant-instances =
             , server = Some
                 ( Infra.Server.addSecurityGroups
                     [ "apache_exporter" ]
-                    tenant-rhel-9-server
+                    (     tenant-rhel-9-server
+                      //  { state = < absent | present >.absent }
+                    )
                 )
             , volumes =
               [ Infra.Volume::{
                 , display_name = "centos-logs-data"
                 , size = 250
                 , device = "/dev/vdb"
+                , state = Some "absent"
                 }
               ]
             }

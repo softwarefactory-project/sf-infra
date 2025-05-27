@@ -440,7 +440,7 @@ servers:
       - internal
       - apache_exporter
       - web
-    state: present
+    state: absent
     volume_size: 40
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -594,3 +594,4 @@ volumes:
     display_name: centos-logs-data
     server: centos.softwarefactory-project.io
     size: 250
+    state: absent

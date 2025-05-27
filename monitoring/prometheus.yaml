@@ -54,7 +54,6 @@ scrape_configs:
           - microshift-ze02.softwarefactory-project.io:9100
           - microshift-infra.softwarefactory-project.io:9100
           - fedora.softwarefactory-project.io:9100
-          - centos.softwarefactory-project.io:9100
           - ansible.softwarefactory-project.io:9100
           - ze01.softwarefactory-project.io:9100
           - ze02.softwarefactory-project.io:9100
