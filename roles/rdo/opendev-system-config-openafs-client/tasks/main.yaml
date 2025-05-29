@@ -1,5 +1,5 @@
 - name: Setup OS specific variable include
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -10,7 +10,7 @@
         - vars
 
 - name: Increase udp buffer sizes
-  copy:
+  ansible.builtin.copy:
     src: 99-afs-udp.conf
     dest: /etc/sysctl.d/99-afs-udp.conf
     owner: root
@@ -19,18 +19,18 @@
   become: yes
 
 - name: Check config path defined
-  fail:
+  ansible.builtin.fail:
     msg: "openafs_client_config_path not defined"
   when: not openafs_client_config_path
 
 - name: Create configuration directory
-  file:
+  ansible.builtin.file:
     path: '{{ openafs_client_config_path }}'
     state: directory
   become: yes
 
 - name: Install client base config files
-  template:
+  ansible.builtin.template:
     dest: '{{ openafs_client_config_path }}/{{ item }}'
     owner: root
     group: root
@@ -42,7 +42,7 @@
   become: yes
 
 - name: Install client templated config files
-  template:
+  ansible.builtin.template:
     dest: '{{ openafs_client_config_path }}/{{ item }}'
     owner: root
     group: root
@@ -54,7 +54,7 @@
   become: yes
 
 - name: Ensure cache location directory
-  file:
+  ansible.builtin.file:
     path: '{{ openafs_client_cache_directory }}'
     state: directory
     owner: root
@@ -63,7 +63,7 @@
   become: yes
 
 - name: Setup OS specific openafs-client environment
-  include_tasks: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_tasks: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -75,12 +75,40 @@
 
 - name: Ensure that openafs mod is enabled
   become: true
-  community.general.modprobe:
-    name: openafs
-    state: present
+  block:
+    - name: load openafs module
+      community.general.modprobe:
+        name: openafs
+        state: present
+  rescue:
+    - name: get openafs version
+      ansible.builtin.command: rpm -q --qf "%{version}-%{release}" dkms-openafs
+      register: _openafs_version
+      changed_when: false
+
+    - name: Set openafs version
+      ansible.builtin.set_fact:
+        openafs_version: "{{ _openafs_version.stdout }}"
+
+    - name: Ensure right value for NO_WEAK_MODULE
+      ansible.builtin.lineinfile:
+        path: "/usr/src/openafs-{{ openafs_version }}/dkms.conf"
+        regexp: "NO_WEAK_MODULES.*"
+        line: 'NO_WEAK_MODULES=yes'
+
+    - name: Build openafs module
+      ansible.builtin.command: "dkms build -m openafs -v {{ openafs_version }}"
+
+    - name: Install openafs module
+      ansible.builtin.command: "dkms install -m openafs -v {{ openafs_version }}"
+
+    - name: load openafs module
+      community.general.modprobe:
+        name: openafs
+        state: present
 
 - name: Ensure openafs-client service running
-  service:
+  ansible.builtin.service:
     name: openafs-client
     state: started
     enabled: yes
