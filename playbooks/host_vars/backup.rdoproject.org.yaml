@@ -34,18 +34,10 @@ servers:
       - fedora.softwarefactory-project.io
     month_subdir: 1
     run_sf_backup: true
-  - dir: /var/lib/backup/bup/centos.softwarefactory-project.io
-    domain: centos.softwarefactory-project.io
-    filename: centos.softwarefactory-project.io.yaml
-    hour: 3
-    instances:
-      - centos.softwarefactory-project.io
-    month_subdir: 1
-    run_sf_backup: false
   - dir: /var/lib/backup/bup/ansible.softwarefactory-project.io
     domain: ansible.softwarefactory-project.io
     filename: ansible.softwarefactory-project.io.yaml
-    hour: 4
+    hour: 3
     instances:
       - ansible.softwarefactory-project.io
     month_subdir: 1

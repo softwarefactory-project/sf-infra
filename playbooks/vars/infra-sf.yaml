@@ -432,21 +432,6 @@ servers:
     floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: centos.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - apache_exporter
-      - web
-    state: absent
-    volume_size: 40
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
     name: ansible.softwarefactory-project.io
     network: private-network
     security_groups:
@@ -590,8 +575,3 @@ volumes:
     display_name: logs-data
     server: fedora.softwarefactory-project.io
     size: 100
-  - device: /dev/vdb
-    display_name: centos-logs-data
-    server: centos.softwarefactory-project.io
-    size: 250
-    state: absent

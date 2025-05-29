@@ -41,13 +41,6 @@
   roles:
     - service/backup-client
 
-- hosts: centos.softwarefactory-project.io
-  roles:
-    - service/acme-tiny
-    - system/volume
-    - service/apache-exporter
-    - system/users
-
 - hosts: image-builder.softwarefactory-project.io
   pre_tasks:
     - name: Setup image builder data partition

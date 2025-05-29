@@ -174,10 +174,6 @@ Host fedora.softwarefactory-project.io
     User cloud-user
     Port 22
 
-Host centos.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
 Host ansible.softwarefactory-project.io
     User cloud-user
     Port 22
