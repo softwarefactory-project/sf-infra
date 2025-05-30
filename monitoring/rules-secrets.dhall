@@ -30,4 +30,14 @@ in  Secret.renderSecretAlerts
         , -- The token are valid for 180 days
           expiry = Secret.day * 180
         }
+      , Secret::{
+        , match = "zuul_gitlab_com_connection_api_token"
+        , description =
+            ''
+            You need to connect as softwarefactoryio-zuul-bot on gitlab.com (see password in bitwarden) and renew a personal access token.
+            Make sure you choose an expiry date of a year when creating the token.
+            ''
+        , -- The token are valid for 365 days (if the expiry date is properly set)
+          expiry = Secret.day * 365
+      }
       ]
