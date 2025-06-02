@@ -47,31 +47,6 @@ let tenant-instances =
               ]
             }
       ,     tenant-rhel-9-instance
-        //  { name = "centos"
-            , backup = Some Infra.Backup::{
-              , run_sf_backup = False
-              , dir = Some
-                  "/var/lib/backup/bup/centos.softwarefactory-project.io"
-              , domain = Some "centos.softwarefactory-project.io"
-              , month_subdir = Some 1
-              }
-            , server = Some
-                ( Infra.Server.addSecurityGroups
-                    [ "apache_exporter" ]
-                    (     tenant-rhel-9-server
-                      //  { state = < absent | present >.absent }
-                    )
-                )
-            , volumes =
-              [ Infra.Volume::{
-                , display_name = "centos-logs-data"
-                , size = 250
-                , device = "/dev/vdb"
-                , state = Some "absent"
-                }
-              ]
-            }
-      ,     tenant-rhel-9-instance
         //  { name = "ansible"
             , backup = Some Infra.Backup::{
               , run_sf_backup = True
