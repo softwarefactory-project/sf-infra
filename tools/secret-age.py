@@ -5,8 +5,45 @@
 # The goal of this script is to generate prometheus metrics for the secret ages.
 
 
+def collect_previous_comments(buf, pos):
+    """Extract the comment in the buffer before the pos"""
+
+    def drop_previous_line(pos):
+        while pos >= 0 and buf[pos] == " ":
+            pos -= 1
+        if pos < 0 or buf[pos] != "\n":
+            return -1
+        return pos
+
+    pos = drop_previous_line(pos) - 1
+    end_pos = pos
+    while pos >= 0 and buf[pos] not in ["#", "\n"]:
+        pos -= 1
+
+    is_comment = (
+        buf[pos] == "#"
+        if pos == 0
+        else pos > 0 and buf[pos] == "#" and buf[pos - 1] in [" ", "\n"]
+    )
+    if is_comment and (pos == 0 or drop_previous_line(pos - 1) != -1):
+        comment = buf[pos + 2 : end_pos + 1].strip()
+        if prev := collect_previous_comments(buf, pos - 1):
+            comment = f"{prev}\n{comment}"
+        return comment
+
+
+def parse_time(comment):
+    import time
+
+    for line in comment.split("\n") if comment else []:
+        match line.split(":"):
+            case ["refreshed" | "refreshed_date", s]:
+                return int(time.mktime(time.strptime(s.strip(), "%Y-%m-%d")))
+    return None
+
+
 def parse_secret_locations(inp):
-    """Generates (secret_name, start_line, end_line) from a vars YAML file content."""
+    """Generates (secret_name, start_line, end_line, optional age) from a YAML file."""
     import yaml
 
     tokens = list(yaml.scan(inp))
@@ -27,11 +64,14 @@ def parse_secret_locations(inp):
                 yaml.ScalarToken(),
                 *rest,
             ]:
+                refreshed = parse_time(
+                    collect_previous_comments(smark.buffer, smark.pointer - 1)
+                )
                 if name:
                     value = f"{name}_{value}"
                 if parents:
                     value = f"{'_'.join(parents)}_{value}"
-                yield (value, smark.line + 1, rest[0].start_mark.line)
+                yield (value, smark.line + 1, rest[0].start_mark.line, refreshed)
                 tokens = rest
             # A refresh date that is hard-coded without a associated !vault
             case [
@@ -105,8 +145,8 @@ def git_blame(fp):
 def process(fp):
     """Generate (secret_name, secret_age) for a given vars YAML file."""
     line_ages = git_blame(fp)
-    for secret, start, end in parse_secret_locations(open(fp)):
-        yield (secret, max(line_ages[start:end]))
+    for secret, start, end, age in parse_secret_locations(open(fp).read()):
+        yield (secret, age or max(line_ages[start:end]))
 
 
 def main(args):
@@ -141,6 +181,7 @@ org:
         $D$
         45
     - name: t2
+      # refreshed: 2025-05-21
       token: !vault |
         $E$
         46
@@ -149,13 +190,13 @@ rhn_refreshed_date: 2025-12-01
         )
     )
     assert got == [
-        ("vexx_pass", 3, 5),
-        ("other_auth", 7, 9),
-        ("rdo_pass", 12, 14),
-        ("org_tenant_t1_token", 18, 20),
-        ("org_tenant_t2_token", 22, 24),
-        ("rhn", 25, 25),
-    ]
+        ("vexx_pass", 3, 5, None),
+        ("other_auth", 7, 9, None),
+        ("rdo_pass", 12, 14, None),
+        ("org_tenant_t1_token", 18, 20, None),
+        ("org_tenant_t2_token", 23, 25, 1747785600),
+        ("rhn", 26, 26),
+    ], got
 
 
 if __name__ == "__main__":
