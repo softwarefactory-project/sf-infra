@@ -69,8 +69,11 @@ def parse_secret_locations(inp):
                 )
                 if name:
                     value = f"{name}_{value}"
-                if parents:
-                    value = f"{'_'.join(parents)}_{value}"
+                parents_name = list(
+                    filter(lambda n: n not in ["vars", "tasks"], parents)
+                )
+                if parents_name:
+                    value = f"{'_'.join(parents_name)}_{value}"
                 yield (value, smark.line + 1, rest[0].start_mark.line, refreshed)
                 tokens = rest
             # A refresh date that is hard-coded without a associated !vault
@@ -92,7 +95,9 @@ def parse_secret_locations(inp):
                 yaml.ValueToken(),
                 yaml.ScalarToken(value=value),
                 *rest,
-            ]:
+            ] if (
+                " " not in value
+            ):
                 name = value
                 tokens = rest
             # A new dictionary begin, collect it's parent key
@@ -186,6 +191,12 @@ org:
         $E$
         46
 rhn_refreshed_date: 2025-12-01
+tasks:
+  - name: "a task"
+    vars:
+      task_secret: !vault |
+        $F$
+        47
     """
         )
     )
@@ -196,6 +207,7 @@ rhn_refreshed_date: 2025-12-01
         ("org_tenant_t1_token", 18, 20, None),
         ("org_tenant_t2_token", 23, 25, 1747785600),
         ("rhn", 26, 26),
+        ("task_secret", 30, 32, None),
     ], got
 
 
