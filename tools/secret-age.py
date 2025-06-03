@@ -81,11 +81,16 @@ def parse_secret_locations(inp):
                 yaml.KeyToken(),
                 yaml.ScalarToken(value=value, start_mark=smark),
                 yaml.ValueToken(),
-                yaml.ScalarToken(),
+                yaml.ScalarToken(value=date),
                 *rest,
             ] if value.endswith("_refreshed_date"):
                 value = value[: -len("_refreshed_date")]
-                yield (value, smark.line + 1, smark.line + 1)
+                yield (
+                    value,
+                    smark.line,
+                    smark.line + 1,
+                    parse_time(f"refreshed: {date}"),
+                )
                 tokens = rest
 
             # A relevant key is found
@@ -206,7 +211,7 @@ tasks:
         ("rdo_pass", 12, 14, None),
         ("org_tenant_t1_token", 18, 20, None),
         ("org_tenant_t2_token", 23, 25, 1747785600),
-        ("rhn", 26, 26),
+        ("rhn", 25, 26, 1764547200),
         ("task_secret", 30, 32, None),
     ], got
 
