@@ -220,6 +220,8 @@ if __name__ == "__main__":
     import os
     import sys
 
+    # Ensure timestamps are parsed as UTC
+    os.environ["TZ"] = "UTC"
     args = sys.argv[1:]
     if not args or args == ["--help"]:
         print("usage: secret-age.py PATH...")
