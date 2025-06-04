@@ -182,7 +182,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: mirror.regionone.vexxhost.rdoproject.org
     network: private-network
