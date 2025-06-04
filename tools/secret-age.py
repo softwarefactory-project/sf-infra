@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # The goal of this script is to generate prometheus metrics for the secret ages.
-
+# The secret metric will be set to 0 when no time marker is found.
 
 def collect_previous_comments(buf, pos):
     """Extract the comment in the buffer before the pos"""
@@ -132,32 +132,10 @@ def parse_secret_locations(inp):
                 tokens = tokens[1:]
 
 
-def parse_git_blame(out):
-    """Generates the line ages from a git blame output."""
-    for line in out.split("\n")[:-1]:
-        match line.split():
-            case [_, _, _, age, *_]:
-                yield int(age)
-            case args:
-                raise RuntimeError(f"Unknown git blame output: {args}")
-
-
-def read_git_blame(fp):
-    """Returns the git blame output."""
-    import subprocess
-
-    return subprocess.check_output(["git", "blame", "--show-name", "-te", fp])
-
-
-def git_blame(fp):
-    return list(parse_git_blame(read_git_blame(fp).decode("utf-8")))
-
-
 def process(fp):
     """Generate (secret_name, secret_age) for a given vars YAML file."""
-    line_ages = git_blame(fp)
     for secret, start, end, age in parse_secret_locations(open(fp).read()):
-        yield (secret, age or max(line_ages[start:end]))
+        yield (secret, age or 0)
 
 
 def main(args):
@@ -197,6 +175,11 @@ org:
       token: !vault |
         $E$
         46
+    - name: t3
+      # refreshed_date: 2025-05-22
+      token: !vault |
+        $E$
+        48
 rhn_refreshed_date: 2025-12-01
 tasks:
   - name: "a task"
@@ -213,8 +196,9 @@ tasks:
         ('rdo_pass', 12, 14, None),
         ('org_tenant_t1_token', 18, 20, None),
         ('org_tenant_t2_token', 23, 25, 1747785600),
-        ('rhn', 25, 26, 1764547200),
-        ('task_secret', 30, 32, None)], got
+        ('org_tenant_t3_token', 28, 30, 1747872000),
+        ('rhn', 30, 31, 1764547200),
+        ('task_secret', 35, 37, None)], got
 
 
 if __name__ == "__main__":
@@ -223,6 +207,7 @@ if __name__ == "__main__":
 
     # Ensure timestamps are parsed as UTC
     os.environ["TZ"] = "UTC"
+
     args = sys.argv[1:]
     if not args or args == ["--help"]:
         print("usage: secret-age.py PATH...")
