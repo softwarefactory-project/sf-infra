@@ -4,7 +4,7 @@ sf_namespace: sf
 sf_setup_namespace: true
 sf_operator_standalone: false
 sf_operator_standalone_release: master
-software_factory:
+sf_manifest:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
   metadata:
@@ -12,7 +12,6 @@ software_factory:
     namespace: "{{ sf_namespace }}"
   spec: {}
 
-zuul_connections: {}
 zuul_connections_secrets: []
 #
 # corporate_ca_certs:

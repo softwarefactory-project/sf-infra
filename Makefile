@@ -5,6 +5,7 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/vars/nodepool-sf.yaml \
 	  playbooks/vars/nodepool-tripleo.yaml \
 	  playbooks/vars/nodepool-rdo.yaml \
+	  playbooks/files/software-factory-control-plane.yaml \
 	  monitoring/prometheus.yaml \
 	  monitoring/rules-afs.yaml \
 	  monitoring/rules-backup.yaml \

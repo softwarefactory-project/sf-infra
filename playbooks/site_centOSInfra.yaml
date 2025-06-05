@@ -144,9 +144,20 @@
           logserver_public_hostname: "{{ _logserver_public_hostname.hostname }}"
         when: _logserver_public_hostname.hostname is defined
 
+  - name: Read the software_factory_cr
+    include_vars:
+      file: files/software-factory-control-plane.yaml
+      name: sf_control_plane
+
   - name: Deploy software factory
     include_role:
       name: sf/openshift/install-software-factory
+    vars:
+      # the "executor_public_ip" variable needs to be set because it is used in the executor_cr
+      # ansible jinja variable evaluation is lazy, and the correct ip will be used below when
+      # the "executor_public_ip" is redefined.
+      executor_public_ip: ""
+      sf_manifest: "{{ sf_control_plane.software_factory_cr }}"
 
 # Configure external executors
   - ansible.builtin.set_fact:
@@ -160,23 +171,17 @@
           - zuul-src-fedoraproject-org-connection
           - zuul-gitlab-com-connection
           extra_configmaps: []
-          fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
-          zuul_connections: "{{ hostvars['bridge.softwarefactory-project.io']['zuul_connections'] }}"
-          public_zookeeper_hostname: "{{ hostvars['bridge.softwarefactory-project.io']['zk_public_hostname'] }}"
-          public_gitserver_hostname: "{{ hostvars['bridge.softwarefactory-project.io']['gitserver_public_hostname'] }}"
 
   - name: Setup external executors
     include_role:
       name: sf/openshift/external-zuul-executor
     vars:
+      executor_public_ip: "{{ hostvars[msze]['public_ip'] }}"
+      sf_manifest: "{{ sf_control_plane.executor_cr }}"
       executor_plane:
-          kubeconfig: "/home/fedora/.kube/{{ msze }}"
-          install_prometheus_operator: false
-          # executors do not expose metrics, and node-exporter is already configured on our hosts.
-          deploy_prometheus: false
-          namespace: sf
-          public_ip: "{{ hostvars[msze]['public_ip'] }}"
-          log_forwarding: true
+        kubeconfig: "/home/fedora/.kube/{{ msze }}"
+        namespace: sf
+
     loop: "{{ groups['centos-infra-zuul-executors'] }}"
     loop_control:
       loop_var: msze
