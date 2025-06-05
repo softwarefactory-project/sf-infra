@@ -15,9 +15,9 @@ let system_reboot =
       , summary = "host needs to be rebooted"
       }
 
-let rhel_supported_versions = "9.2|9.4|9.5"
+let rhel_supported_versions = "8.10|9.2|9.4|9.5"
 
-let fedora_supported_versions = "40|41"
+let fedora_supported_versions = "41|42"
 
 let createRule =
       \(alert : Text) ->

@@ -18,13 +18,13 @@ groups:
         annotations:
           description: System use an outated OS version
           summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='rhel', version_id !~ '9.2|9.4|9.5'}"
+        expr: "node_os_info{id='rhel', version_id !~ '8.10|9.2|9.4|9.5'}"
         labels:
           severity: info
       - alert: FedoraEolOsVersions
         annotations:
           description: System use an outated OS version
           summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='fedora', version_id !~ '40|41'}"
+        expr: "node_os_info{id='fedora', version_id !~ '41|42'}"
         labels:
           severity: info
