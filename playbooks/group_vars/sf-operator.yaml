@@ -368,7 +368,7 @@ zuul_connections:
         - name: github.com
           appID: 846254
           server: github.com
-          verify_ssl: True
+          verifySsl: True
           secrets: zuul-github-com-connection
       pagureconns:
         - name: pagure.io
@@ -404,7 +404,6 @@ software_factory:
       forwardInputHost: fluent-bit
       forwardInputPort: 24224
     config-location:
-      base-url: https://softwarefactory-project.io/r
       name: microzuul-config
       zuul-connection-name: sfio-gerrit
       k8s-api-url: https://api.ocp.cloud.ci.centos.org:6443
