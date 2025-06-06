@@ -3,12 +3,6 @@ let Prometheus = ./binding.dhall
 let unmonitored_instances =
       "instance!~'(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'"
 
-let system_package_update =
-      { alert = "SystemPackageUpdate"
-      , name = "system_package_update"
-      , summary = "packages need to be updated"
-      }
-
 let system_reboot =
       { alert = "SystemReboot"
       , name = "system_reboot"
@@ -37,10 +31,6 @@ in  Prometheus.RulesConfig::{
         , name = Some "Info Alerts rules"
         , rules = Some
           [ createRule
-              system_package_update.alert
-              system_package_update.name
-              system_package_update.summary
-          , createRule
               system_reboot.alert
               system_reboot.name
               system_reboot.summary
