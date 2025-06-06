@@ -117,7 +117,8 @@ k8s_providers_kube_config: |
   apiVersion: v1
   clusters:
   - cluster:
-      insecure-skip-tls-verify: true
+      tls-server-name: localhost
+      certificate-authority-data: {{ k1s_ca | trim | b64encode }}
       server: https://38.102.83.49:9023
     name: k1s06
   contexts:
