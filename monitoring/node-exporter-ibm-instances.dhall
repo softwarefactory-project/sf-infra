@@ -22,7 +22,7 @@ let mkStaticConfig =
         in  Prometheus.StaticConfig::{
             , targets = Some [ "${target.name}:91${port}" ]
             , labels = Some
-                (Prometheus.Labels.mapText (toMap { name = instance.name }))
+                (Prometheus.Labels.mapText (toMap { instance = instance.name }))
             }
 
 let mkIbmInstancesRules =
