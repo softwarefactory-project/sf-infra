@@ -140,7 +140,7 @@
   when: k1s_user == 'root'
   ansible.builtin.service:
     name: k1s
-    state: started
+    state: restarted
     enabled: yes
     daemon-reload: true
   become: true
@@ -150,7 +150,7 @@
   become: yes
   ansible.builtin.service:
     name: "k1s-{{ k1s_user }}"
-    state: started
+    state: restarted
     enabled: yes
     daemon-reload: true
 

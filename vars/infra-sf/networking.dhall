@@ -18,6 +18,17 @@ let security_groups =
           , rules =
             [ Infra.Rule::{ port = +19885 }
             , Infra.Rule::{ port = +22022, port_range_max = Some +65535 }
+            , Infra.Rule::{
+              , port = +9023
+              , remote_ip_prefix = Some "38.102.83.114/32"
+              }
+            ]
+          }
+        , { name = "hypervisor-oci-open-k1s"
+          , rules =
+            [ Infra.Rule::{ port = +19885 }
+            , Infra.Rule::{ port = +22022, port_range_max = Some +65535 }
+            , Infra.Rule::{ port = +9023 }
             ]
           }
         , { name = "cs-k1s"

@@ -184,6 +184,14 @@ security_groups:
       - port: 19885
       - port: 22022
         port_range_max: 65535
+      - port: 9023
+        remote_ip_prefix: "38.102.83.114/32"
+  - name: hypervisor-oci-open-k1s
+    rules:
+      - port: 19885
+      - port: 22022
+        port_range_max: 65535
+      - port: 9023
   - name: cs-k1s
     rules:
       - port: 9023
@@ -338,7 +346,7 @@ servers:
       - common
       - monitoring
       - internal
-      - hypervisor-oci
+      - hypervisor-oci-open-k1s
     state: present
     volume_size: 100
   - boot_from_volume: yes
