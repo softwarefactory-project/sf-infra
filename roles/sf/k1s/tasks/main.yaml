@@ -82,9 +82,13 @@
       dest: "cert"
     - content: "{{ k1s_key }}"
       dest: "key"
-    - content: "{{ k1s_chain }}"
-      dest: "chain"
   no_log: true
+  become: true
+
+- name: Remove unused chain file
+  ansible.builtin.file:
+    path: /etc/k1s/chain.pem
+    state: absent
   become: true
 
 # TODO: remove root support once sf-container-worker is migrated to userns.
