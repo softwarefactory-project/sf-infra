@@ -31,7 +31,7 @@
     - infra/ssh
     - service/node-exporter
     - system/psi
-    - system/update-host
+    - system/monitoring-needs-restarting
     - system/podman
     - system/journald
 
