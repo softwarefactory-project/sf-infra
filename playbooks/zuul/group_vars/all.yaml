@@ -1,3 +1,6 @@
+bridge_name: bridge.softwarefactory-project.io
+bridge_ip: 38.102.83.244
+bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP6xFwpXEej5SzAgx2VVCUIUr0rg4OZzwv+2LsJTKxXw"
 rhel_images:
   - { name: rhel-9.3, filename: rhel-guest-image-9.3-20231120.0.x86_64.qcow2 }
 standalone_deployments:

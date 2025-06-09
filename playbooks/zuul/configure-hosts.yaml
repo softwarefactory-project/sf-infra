@@ -1,10 +1,6 @@
 ---
 # This is the main playbook that trampoline on the bridge to run the site.yaml
 - hosts: localhost
-  vars:
-    bridge_name: bridge.softwarefactory-project.io
-    bridge_ip: 38.102.83.244
-    bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP6xFwpXEej5SzAgx2VVCUIUr0rg4OZzwv+2LsJTKxXw"
   tasks:
     - ansible.builtin.add_host:
         name: "{{ bridge_name }}"
