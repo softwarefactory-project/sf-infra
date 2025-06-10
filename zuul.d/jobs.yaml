@@ -393,6 +393,17 @@
           label: cloud-centos-9-stream-tripleo-ibm4
     run: playbooks/check-bm-host.yaml
 
+- job:
+    name: secret-age-check
+    description: Validate the secret-age tool
+    nodeset:
+      nodes:
+        - name: testhost
+          label: zuul-worker-python
+    run: playbooks/secret-age-check.yaml
+    files:
+      - "^tools/secret-age.py$"
+
 - project:
     check:
       jobs:
@@ -415,6 +426,7 @@
         # - sf-infra-molecule
         - sf-infra-grafana-dashboards
         - sf-infra-quay-check
+        - secret-age-check
     gate:
       jobs:
         - sf-infra-test-custom-exporter

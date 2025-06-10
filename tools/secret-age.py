@@ -26,7 +26,7 @@ def collect_previous_comments(buf, pos):
         else pos > 0 and buf[pos] == "#" and buf[pos - 1] in [" ", "\n"]
     )
     if is_comment and (pos == 0 or drop_previous_line(pos - 1) != -1):
-        comment = buf[pos + 2 : end_pos + 1].strip()
+        comment = buf[pos + 2: end_pos + 1].strip()
         if prev := collect_previous_comments(buf, pos - 1):
             comment = f"{prev}\n{comment}"
         return comment
@@ -96,7 +96,8 @@ def parse_secret_locations(inp):
             # A relevant key is found
             case [
                 yaml.KeyToken(),
-                yaml.ScalarToken(value="name") | yaml.ScalarToken(value="user"),
+                yaml.ScalarToken(value="name") | yaml.ScalarToken(
+                    value="user"),
                 yaml.ValueToken(),
                 yaml.ScalarToken(value=value),
                 *rest,
@@ -164,7 +165,8 @@ def main(args):
     print("# TYPE sf_infra_secret_age_total counter")
     for fp in args:
         for secret, age in process(fp):
-            print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
+            print("""sf_infra_secret_age_total{name="%s"} %d""" % (
+                secret, age))
 
 
 def test():
@@ -206,14 +208,13 @@ tasks:
         )
     )
     assert got == [
-        ("vexx_pass", 3, 5, None),
-        ("other_auth", 7, 9, None),
-        ("rdo_pass", 12, 14, None),
-        ("org_tenant_t1_token", 18, 20, None),
-        ("org_tenant_t2_token", 23, 25, 1747785600),
-        ("rhn", 25, 26, 1764547200),
-        ("task_secret", 30, 32, None),
-    ], got
+        ('vexx_pass', 3, 5, None),
+        ('other_auth', 7, 9, None),
+        ('rdo_pass', 12, 14, None),
+        ('org_tenant_t1_token', 18, 20, None),
+        ('org_tenant_t2_token', 23, 25, 1747785600),
+        ('rhn', 25, 26, 1764547200),
+        ('task_secret', 30, 32, None)], got
 
 
 if __name__ == "__main__":
