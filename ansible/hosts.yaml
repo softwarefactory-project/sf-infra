@@ -88,6 +88,7 @@ all:
         bridge.softwarefactory-project.io: {}
     opensearch:
       hosts:
+        opensearch-devel.rdoproject.org: {}
         opensearch.rdoproject.org: {}
     openstack:
       hosts:
@@ -147,6 +148,7 @@ all:
         logserver.rdoproject.org: {}
         managesf.review.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
+        opensearch-devel.rdoproject.org: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
         trunk-builder-centos9.rdoproject.org: {}
@@ -178,6 +180,7 @@ all:
         mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
+        opensearch-devel.rdoproject.org: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
         sf-container-worker-1.softwarefactory-project.io: {}
@@ -369,6 +372,10 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     nodepool-builder.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    opensearch-devel.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
