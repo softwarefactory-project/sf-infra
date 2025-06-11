@@ -2,7 +2,7 @@ let Secret = ../tools/secret-age.dhall
 
 in  Secret.renderSecretAlerts
       [ Secret::{
-        , match = "k1s_*"
+        , match = "k1s_.*"
         , description =
             ''
             To update the secret:
@@ -21,7 +21,7 @@ in  Secret.renderSecretAlerts
             ''
         }
       , Secret::{
-        , match = "zuul_pagure_token_*"
+        , match = "zuul_pagure_token_.*"
         , description =
             ''
             You need to connect as the zuul user on both pages (see password in bitwarden) and renew the API keys there.
@@ -39,5 +39,5 @@ in  Secret.renderSecretAlerts
             ''
         , -- The token are valid for 365 days (if the expiry date is properly set)
           expiry = Secret.day * 365
-      }
+        }
       ]

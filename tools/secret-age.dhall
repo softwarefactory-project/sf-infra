@@ -13,7 +13,7 @@ let Prometheus = ../monitoring/binding.dhall
 
 let secret2rule =
       \(secret : Secret.Type) ->
-        let age = "time() - sf_infra_secret_age_total{name='${secret.match}'}"
+        let age = "time() - sf_infra_secret_age_total{name=~'${secret.match}'}"
 
         let two-week = day * 14
 
