@@ -31,40 +31,25 @@ let secret2rule =
             , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = Some desc
-              , summary =
-                  "Secret {{ \$labels.target }} will expire in two weeks"
+              , summary = "Secret {{ \$labels.target }} will expire in two weeks"
               }
             }
 
 let renderSecretAlerts =
       \(secrets : List Secret.Type) ->
-        let noRefreshedMarkerAlert =
-              Prometheus.AlertingRule::{
-              , alert = Some "SecretWithNoRefreshedDateMarker"
-              , expr = Some "sf_infra_secret_age_total{} == 0"
-              , labels = Some Prometheus.warningLabel
-              , annotations = Some
-                { description = Some
-                    "This alert raises because the belonging secret does not report the date of the last refresh (see secret-age.py)."
-                , summary =
-                    "Secret {{ \$labels.name }} does not have any refreshed date"
-                }
-              }
-
-        in  Prometheus.RulesConfig::{
-            , groups = Some
-              [ Prometheus.Group::{
-                , name = Some "secrets.rules"
-                , rules = Some
-                    (   Prelude.List.map
-                          Secret.Type
-                          Prometheus.AlertingRule.Type
-                          secret2rule
-                          secrets
-                      # [ noRefreshedMarkerAlert ]
-                    )
-                }
-              ]
+        Prometheus.RulesConfig::{
+        , groups = Some
+          [ Prometheus.Group::{
+            , name = Some "secrets.rules"
+            , rules = Some
+                ( Prelude.List.map
+                    Secret.Type
+                    Prometheus.AlertingRule.Type
+                    secret2rule
+                    secrets
+                )
             }
+          ]
+        }
 
 in  Secret // { renderSecretAlerts }
