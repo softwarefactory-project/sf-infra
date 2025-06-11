@@ -268,6 +268,18 @@ servers:
       - apache_exporter
     state: present
     volume_size: 50
+  - boot_from_volume: no
+    flavor: "4vcpus_8gb"
+    image: rhel-9.3-x86_64-kvm
+    key_name: sf-infra-key
+    name: opensearch-devel.rdoproject.org
+    network: public
+    security_groups:
+      - common
+      - monitoring
+      - web
+      - opensearch
+    state: present
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true

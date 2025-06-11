@@ -139,3 +139,9 @@
     - service/setup-ssl
     - {name: ansible-role-elastic-recheck, become: true}
     - service/apache-exporter
+
+# - hosts: opensearch-devel.rdoproject.org
+#   roles:
+#     - service/hostname
+#     - rdo/setup-ssl-self-signed
+#     - {name: ansible-role-elastic-recheck, become: true}
