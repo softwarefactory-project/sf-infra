@@ -5,6 +5,11 @@
 # The goal of this script is to generate prometheus metrics for the secret ages.
 # The secret metric will be set to 0 when no time marker is found.
 
+import yaml
+import sys
+import pathlib
+
+
 def collect_previous_comments(buf, pos):
     """Extract the comment in the buffer before the pos"""
 
@@ -44,8 +49,6 @@ def parse_time(comment):
 
 def parse_secret_locations(inp):
     """Generates (secret_name, start_line, end_line, optional age) from a YAML file."""
-    import yaml
-
     tokens = list(yaml.scan(inp))
     # The names of the parent keys
     parents = []
@@ -135,16 +138,59 @@ def parse_secret_locations(inp):
 def process(fp):
     """Generate (secret_name, secret_age) for a given vars YAML file."""
     for secret, start, end, age in parse_secret_locations(open(fp).read()):
-        yield (secret, age or 0)
+        yield (secret, age)
+
+
+def read_rules_secrets(start):
+    secret_file = start.parent / "monitoring/rules-secrets.yaml"
+    if secret_file.exists():
+        return secret_file.read_text()
+    elif start.parent == "/":
+        raise RuntimeError("Couldn't find rules-secrets.yaml")
+    else:
+        return read_rules_secrets(start.parent)
+
+
+def decode_rules_secret(rules):
+    import re
+
+    m_re = re.compile(r".*sf_infra_secret_age_total{name=~'([^']+)'}.*")
+    matchers = []
+    for group in rules["groups"]:
+        for rule in group["rules"]:
+            if m := m_re.match(rule["expr"]):
+                matchers.append(re.compile("^(" + m[1] + ")$"))
+    return matchers
+
+
+def print_errors(msg, errors):
+    if errors:
+        print(f"{msg}\n{'=' * len(msg)}", file=sys.stderr)
+        for error in errors:
+            print(error, file=sys.stderr)
 
 
 def main(args):
     print("# HELP sf_infra_secret_age_total The UNIX time of a secret last update")
     print("# TYPE sf_infra_secret_age_total counter")
+    matchers = decode_rules_secret(
+        yaml.safe_load(read_rules_secrets(pathlib.Path(args[0])))
+    )
+    match_errors = []
+    expiry_errors = []
     for fp in args:
         for secret, age in process(fp):
-            print("""sf_infra_secret_age_total{name="%s"} %d""" % (
-                secret, age))
+            if not any(map(lambda matcher: matcher.match(secret), matchers)):
+                match_errors.append(f"{fp}: {secret}")
+            if not age:
+                expiry_errors.append(f"{fp}: {secret}")
+            else:
+                print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
+    if match_errors or expiry_errors:
+        print_errors("Vault variables without secret expiry or description found:",
+                     match_errors)
+        print_errors("Secret without a refresh date found:", expiry_errors)
+        exit(1)
 
 
 def test():
@@ -203,7 +249,6 @@ tasks:
 
 if __name__ == "__main__":
     import os
-    import sys
 
     # Ensure timestamps are parsed as UTC
     os.environ["TZ"] = "UTC"

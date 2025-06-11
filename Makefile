@@ -28,7 +28,7 @@ DASHBOARDS = roles/sf/grafana/files/infra/DLRN.json \
 
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-inventory $(DASHBOARDS) $(MANAGED)
+all: dhall-version-check dhall-inventory $(DASHBOARDS) $(MANAGED) check-secrets
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.json: %.dhall .FORCE
@@ -46,6 +46,9 @@ dhall-format:
 
 dhall-version-check:
 	@sh -c 'test 103199 -lt $$(dhall --version | sed "s/\./0/g") || (echo -e "You need dhall version >= 1.32.0, please update by running:\n sudo dnf install -y dhall dhall-json"; exit 1)'
+
+check-secrets: ./monitoring/rules-secrets.yaml
+	@sh -c './tools/secret-age.py playbooks/host_vars/*.yaml playbooks/group_vars/*.yaml > /dev/null'
 
 secret-age:
 	./tools/secret-age.py test
