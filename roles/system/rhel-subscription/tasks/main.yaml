@@ -3,7 +3,8 @@
   become: true
   ansible.builtin.command: subscription-manager release
   register: _subscription_manager_release
-  failed_when: _subscription_manager_release.rc not in [0, 1]
+  # 70 is for 'System certificates corrupted. Please reregister' error
+  failed_when: _subscription_manager_release.rc not in [0, 1, 70]
 
 - name: Get minor release for EUS activation when rhel_release is set
   when: rhel_release
@@ -21,9 +22,11 @@
   ansible.builtin.set_fact:
     rhel_minor_release: "{{ ansible_distribution_version.split('.')[1] }}"
 
-- name: Initial registration, update and reboot
+- name: Registration
+  when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
+        or "'This system is not yet registered' in _subscription_manager_release.stderr"
+        or "'System certificates corrupted. Please reregister' in _subscription_manager_release.stderr"
   become: true
-  when: "'This system is not yet registered' in _subscription_manager_release.stderr"
   block:
     - name: Register system
       community.general.redhat_subscription:
@@ -31,48 +34,24 @@
         activationkey: "{{ rhel_activationkey }}"
         org_id: "{{ rhel_org_id }}"
         release: "{{ rhel_release | default(ansible_distribution_version) }}"
-      no_log: yes
+        force_register: yes
 
-    - name: Ensure Extended Update Support repos are disabled for rhel odd minor versions
-      when: (rhel_minor_release | int) % 2 != 0
+    - name: Manage Extended Update Support repos
+      when: (rhel_minor_release | int) % 2 == 0
       community.general.rhsm_repository:
         name: "{{ item }}"
-        state: disabled
+        state: "{{ 'enabled' if (rhel_minor_release | int) % 2 == 0 else 'disabled' }}"
       loop:
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
 
     - name: Upgrade all packages
+      when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
+            or "'This system is not yet registered' in _subscription_manager_release.stderr"
       ansible.builtin.dnf:
         name: "*"
         state: latest
 
     - name: Reboot after initial upgrade
+      when: "'This system is not yet registered' in _subscription_manager_release.stderr"
       ansible.builtin.reboot:
-
-- name: Upgrade rhel version if needed
-  become: true
-  when: rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1]
-  block:
-    - name: Register system
-      community.general.redhat_subscription:
-        state: present
-        activationkey: "{{ rhel_activationkey }}"
-        org_id: "{{ rhel_org_id }}"
-        release: "{{ rhel_release }}"
-        # force_register is needed when "release" is bumped
-        force_register: yes
-
-    - name: Ensure Extended Update Support repos are enabled for rhel even minor versions
-      when: (rhel_minor_release | int) % 2 == 0
-      community.general.rhsm_repository:
-        name: "{{ item }}"
-        state: enabled
-      loop:
-        - rhel-9-for-x86_64-baseos-eus-rpms
-        - rhel-9-for-x86_64-appstream-eus-rpms
-
-    - name: Upgrade all packages
-      ansible.builtin.dnf:
-        name: "*"
-        state: latest
