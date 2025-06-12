@@ -21,7 +21,7 @@ let secret2rule =
 
         let desc =
               ''
-              ${secret.description}
+              {{ \$labels.file }}: ${secret.description}
 
               See the ansible-vault documentation to perform the actual update.''
 
@@ -31,7 +31,8 @@ let secret2rule =
             , labels = Some Prometheus.warningLabel
             , annotations = Some
               { description = Some desc
-              , summary = "Secret {{ \$labels.target }} will expire in two weeks"
+              , summary =
+                  "Secret {{ \$labels.target }} will expire in two weeks"
               }
             }
 
