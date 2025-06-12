@@ -176,13 +176,17 @@ def main(args):
     match_errors = []
     expiry_errors = []
     for fp in args:
+        rel_fp = fp.split("/sf-infra/", 1)[1] if "/sf-infra/" in fp else fp
         for secret, age in process(fp):
             if not any(map(lambda matcher: matcher.match(secret), matchers)):
                 match_errors.append(f"{fp}: {secret}")
             if not age:
                 expiry_errors.append(f"{fp}: {secret}")
             else:
-                print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
+                print(
+                    """sf_infra_secret_age_total{name="%s", file="%s"} %d"""
+                    % (secret, rel_fp, age)
+                )
     if match_errors or expiry_errors:
         print_errors(
             "Vault variables without secret expiry or description found:", match_errors
