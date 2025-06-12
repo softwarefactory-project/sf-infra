@@ -21,7 +21,7 @@ let secret2rule =
 
         let desc =
               ''
-              {{ \$labels.file }}: ${secret.description}
+              {{ $labels.file }}: ${secret.description}
 
               See the ansible-vault documentation to perform the actual update.''
 
