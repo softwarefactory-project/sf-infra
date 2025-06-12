@@ -31,7 +31,7 @@ def collect_previous_comments(buf, pos):
         else pos > 0 and buf[pos] == "#" and buf[pos - 1] in [" ", "\n"]
     )
     if is_comment and (pos == 0 or drop_previous_line(pos - 1) != -1):
-        comment = buf[pos + 2: end_pos + 1].strip()
+        comment = buf[pos + 2 : end_pos + 1].strip()
         if prev := collect_previous_comments(buf, pos - 1):
             comment = f"{prev}\n{comment}"
         return comment
@@ -99,14 +99,11 @@ def parse_secret_locations(inp):
             # A relevant key is found
             case [
                 yaml.KeyToken(),
-                yaml.ScalarToken(value="name") | yaml.ScalarToken(
-                    value="user"),
+                yaml.ScalarToken(value="name") | yaml.ScalarToken(value="user"),
                 yaml.ValueToken(),
                 yaml.ScalarToken(value=value),
                 *rest,
-            ] if (
-                " " not in value
-            ):
+            ] if " " not in value:
                 name = value
                 tokens = rest
             # A new dictionary begin, collect it's parent key
@@ -187,8 +184,9 @@ def main(args):
             else:
                 print("""sf_infra_secret_age_total{name="%s"} %d""" % (secret, age))
     if match_errors or expiry_errors:
-        print_errors("Vault variables without secret expiry or description found:",
-                     match_errors)
+        print_errors(
+            "Vault variables without secret expiry or description found:", match_errors
+        )
         print_errors("Secret without a refresh date found:", expiry_errors)
         exit(1)
 
@@ -237,14 +235,15 @@ tasks:
         )
     )
     assert got == [
-        ('vexx_pass', 3, 5, None),
-        ('other_auth', 7, 9, None),
-        ('rdo_pass', 12, 14, None),
-        ('org_tenant_t1_token', 18, 20, None),
-        ('org_tenant_t2_token', 23, 25, 1747785600),
-        ('org_tenant_t3_token', 28, 30, 1747872000),
-        ('rhn', 30, 31, 1764547200),
-        ('task_secret', 35, 37, None)], got
+        ("vexx_pass", 3, 5, None),
+        ("other_auth", 7, 9, None),
+        ("rdo_pass", 12, 14, None),
+        ("org_tenant_t1_token", 18, 20, None),
+        ("org_tenant_t2_token", 23, 25, 1747785600),
+        ("org_tenant_t3_token", 28, 30, 1747872000),
+        ("rhn", 30, 31, 1764547200),
+        ("task_secret", 35, 37, None),
+    ], got
 
 
 if __name__ == "__main__":
