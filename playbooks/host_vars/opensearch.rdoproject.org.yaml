@@ -1,5 +1,6 @@
 ---
 fqdn: opensearch.rdoproject.org
+rhel_release: 9.4
 
 opensearch_minimum_heap_size: 2g
 opensearch_maximum_heap_size: 2g
