@@ -13,6 +13,7 @@ partitions:
     devices:
       - /dev/vdc
       - /dev/vdd
+      - /dev/vde
     mountpoint: '/var/data/'
   db:
     lvm: False

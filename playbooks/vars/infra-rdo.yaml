@@ -345,6 +345,10 @@ volumes:
     display_name: quay_data_2
     server: quay.rdoproject.org
     size: 512
+  - device: /dev/vde
+    display_name: quay_data_3
+    server: quay.rdoproject.org
+    size: 512
   - device: /dev/vdb
     display_name: logs-data
     server: logserver.rdoproject.org
