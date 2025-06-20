@@ -1,9 +1,8 @@
 {{ quay_pruner_log_directory }}/*log {
     rotate 14
+    maxage 14
     daily
     missingok
-    dateext
     copytruncate
-    notifempty
     compress
 }
