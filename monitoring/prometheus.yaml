@@ -141,6 +141,10 @@ scrape_configs:
     static_configs:
       - targets:
           - zs.softwarefactory-project.io:9141
+  - job_name: zuul
+    static_configs:
+      - targets:
+          - zs.softwarefactory-project.io:9101
   - job_name: ibm-instances
     static_configs:
       - labels:
