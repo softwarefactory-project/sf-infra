@@ -1,4 +1,8 @@
 ---
+container_images:
+  opensearch: quay.io/software-factory/opensearch:2.19.2
+  opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.19.2
+
 fqdn: opensearch.rdoproject.org
 rhel_release: 9.4
 

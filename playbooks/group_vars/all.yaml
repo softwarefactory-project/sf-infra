@@ -250,14 +250,6 @@ container_images:
   # log processing
   logscraper: quay.io/software-factory/logscraper:latest-c8s
   logsender: quay.io/software-factory/logscraper:latest-c8s
-  # opensearch rdo
-  opensearch: quay.io/software-factory/opensearch:2.19.2
-  opensearch-dashboards: quay.io/software-factory/opensearch-dashboards:2.19.2
-  # Quay RDO
-  quay: "quay.io/projectquay/quay:v3.10.6"
-  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
-  clair: "quay.io/projectquay/clair:4.7.2"
-  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
 
 # by default OSPO/OSCI roles consider firewalld is present on RH systems as it is the default in non-minimal images
 manage_firewall: False
