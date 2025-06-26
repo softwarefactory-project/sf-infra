@@ -146,6 +146,7 @@
     - sf/openstack-simply-reporter
     - sf/zuul_cli_access
     - sf/zookeeper-exporter
+    - sf/zuul-capacity
 
 - hosts: elk.softwarefactory-project.io
   roles:

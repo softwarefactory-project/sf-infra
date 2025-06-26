@@ -1,0 +1,11 @@
+- name: Create container
+  ansible.builtin.include_role:
+    name: service/container
+  vars:
+    pod_name: zuul-capacity
+    pod_param: >
+      -p 9100:9101
+      --security-opt label=disable
+      -v /etc/nodepool:/etc/nodepool:ro
+      -v /root/.config/openstack:/.openstack:ro
+      quay.io/software-factory/zuul-capacity:0.5.0-20250602-1
