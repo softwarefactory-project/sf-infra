@@ -123,7 +123,7 @@ k8s_providers_kube_config: |
   clusters:
   - cluster:
       tls-server-name: localhost
-      certificate-authority-data: {{ k1s_ca | trim | b64encode }}
+      certificate-authority-data: {{ hostvars['k1s06.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
       server: https://38.102.83.49:9023
     name: k1s06
   contexts:
