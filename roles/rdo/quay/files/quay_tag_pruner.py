@@ -82,7 +82,7 @@ def get_args():
     return args
 
 
-def get_repos_by_namespace(namespace, api_url):
+def get_repos_by_namespace(log, namespace, api_url):
     done = False
     next_page = None
     return_repos = []
@@ -97,6 +97,8 @@ def get_repos_by_namespace(namespace, api_url):
             url = url + '&next_page=%s' % next_page
 
         r = requests.get(url)
+        if r.status_code >= 400:
+            log.critical("Couldn't get repositories %s: %s", namespace, r.text)
         r.raise_for_status()
         repos = json.loads(r.text)
         if 'repositories' in repos:
@@ -111,7 +113,7 @@ def get_repos_by_namespace(namespace, api_url):
     return return_repos
 
 
-def get_tags_by_repo(namespace, repo, api_url):
+def get_tags_by_repo(log, namespace, repo, api_url):
     done = False
     page = 1
     return_tags = []
@@ -123,6 +125,8 @@ def get_tags_by_repo(namespace, repo, api_url):
             'repository/%s/%s/tag/?onlyActiveTags=true&page=%s' %
             (namespace, repo, page))
         r = requests.get(url)
+        if r.status_code >= 400:
+            log.critical("Couldn't get tags for %s/%s: %s", namespace, repo, r.text)
         r.raise_for_status()
         tags = json.loads(r.text)
 
@@ -182,10 +186,13 @@ def main():
     log.info("Deleting tags from %s older than %s days" % (args.namespace,
                                                            args.days))
 
-    repos = get_repos_by_namespace(args.namespace, args.api_url)
+    repos = get_repos_by_namespace(log, args.namespace, args.api_url)
     for repo in repos:
         log.debug("Found repo: %s" % repo['name'])
-        tags = get_tags_by_repo(args.namespace, repo['name'], args.api_url)
+        try:
+            tags = get_tags_by_repo(log, args.namespace, repo['name'], args.api_url)
+        except Exception:
+            tags = []
         for tag in tags:
             name = tag['name']
             if name not in keeplist:
