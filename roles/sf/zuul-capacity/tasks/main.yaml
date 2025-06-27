@@ -4,7 +4,7 @@
   vars:
     pod_name: zuul-capacity
     pod_param: >
-      -p 9101:9100
+      -p 9101:8080
       -e 'OS_CLIENT_CONFIG_FILE=/.openstack/clouds.yaml'
       --security-opt label=disable
       -v /etc/nodepool:/etc/nodepool:ro
