@@ -1,4 +1,10 @@
 ---
+container_images:
+  quay: "quay.io/projectquay/quay:v3.10.6"
+  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
+  clair: "quay.io/projectquay/clair:4.7.2"
+  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
+
 # For quay after migrating from floating ip to public network interface
 # NOTE: here is public ip address for Quay RDO.
 redis_host: 38.102.83.197
