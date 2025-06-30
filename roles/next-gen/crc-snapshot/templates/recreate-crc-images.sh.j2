@@ -2,6 +2,10 @@
 
 set -x
 
+if [ -f ~/crc-venv/bin/activate ]; then
+    source ~/crc-venv/bin/activate
+fi
+
 SF_INFRA_REPO_DIR=${SF_INFRA_REPO_DIR:-$1}
 CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
 UPDATE_SF_INFRA_REPO=${UPDATE_SF_INFRA_REPO:-'true'}
