@@ -24,8 +24,7 @@
 
 - name: Registration
   when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
-        or "'This system is not yet registered' in _subscription_manager_release.stderr"
-        or "'System certificates corrupted. Please reregister' in _subscription_manager_release.stderr"
+        or _subscription_manager_release.stderr != ''
   become: true
   block:
     - name: Register system
@@ -47,7 +46,7 @@
 
     - name: Upgrade all packages
       when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
-            or "'This system is not yet registered' in _subscription_manager_release.stderr"
+            or _subscription_manager_release.stderr != ''
       ansible.builtin.dnf:
         name: "*"
         state: latest
