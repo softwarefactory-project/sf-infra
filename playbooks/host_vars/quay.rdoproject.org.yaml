@@ -1,9 +1,10 @@
 ---
+rhel_release: 9.4
 container_images:
-  quay: "quay.io/projectquay/quay:v3.10.6"
-  postgresql: "quay.io/software-factory/postgres:13.12-alpine3.18"
+  quay: "quay.io/projectquay/quay:3.10.10"
+  postgresql: "quay.io/software-factory/postgres:13.21-alpine3.22"
   clair: "quay.io/projectquay/clair:4.7.2"
-  redis: "quay.io/software-factory/redis:7.2.0-alpine3.18"
+  redis: "quay.io/software-factory/redis:7.2.9-alpine3.21"
 
 # For quay after migrating from floating ip to public network interface
 # NOTE: here is public ip address for Quay RDO.
