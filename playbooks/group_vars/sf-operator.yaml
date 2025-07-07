@@ -367,6 +367,7 @@ zuul_connections:
           puburl: "https://review.rdoproject.org/r"
           hostname: review.rdoproject.org
         - name: opendev.org-gerrit
+          canonicalhostname: opendev.org
           hostname: review.opendev.org
           puburl: "https://review.opendev.org"
           username: "sf-project-io"
