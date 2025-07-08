@@ -349,7 +349,7 @@ kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
-sf_operator_standalone_release: v0.0.57
+sf_operator_standalone_release: 08a12efa78cbc8c9449411947625022ac30c559a
 sf_fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
 sf_mail_domain: "softwarefactory-project.io"
 
@@ -357,16 +357,17 @@ zuul_connections:
   spec:
     zuul:
       gerritconns:
-        - name: sfio-gerrit
+        - name: softwarefactory-project.io
           username: microzuul
           hostname: softwarefactory-project.io
           puburl: "https://softwarefactory-project.io/r"
           sshkey: "zuul-sf-ssh-secret"
         - name: rdoproject.org
+          canonicalhostname: rdoproject.org
           username: zuul
           puburl: "https://review.rdoproject.org/r"
           hostname: review.rdoproject.org
-        - name: opendev.org-gerrit
+        - name: opendev.org
           canonicalhostname: opendev.org
           hostname: review.opendev.org
           puburl: "https://review.opendev.org"
@@ -418,7 +419,7 @@ software_factory:
       forwardInputPort: 24224
     config-location:
       name: microzuul-config
-      zuul-connection-name: sfio-gerrit
+      zuul-connection-name: softwarefactory-project.io
       k8s-api-url: https://api.ocp.cloud.ci.centos.org:6443
       logserver-host: "{{ logserver_public_hostname }}"
       branch: master
