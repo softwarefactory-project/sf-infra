@@ -1,3 +1,4 @@
+#!/bin/env python3
 # Copyright © 2025 pcinfra
 # SPDX-License-Identifier: Apache-2.0
 
@@ -7,6 +8,8 @@ Use this script to rename a project:
   zuul export-keys ./zk.dmp
   ./project-renamer.py old-conn old-proj new-conn new-proj
   zuul import-keys ./new.dmp
+
+Then restart the zuul-scheduler/zuul-web to make the change effective.
 """
 
 import json
