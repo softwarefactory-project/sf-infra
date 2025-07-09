@@ -46,10 +46,6 @@ Host opensearch.rdoproject.org
     User cloud-user
     Port 22
     Hostname 38.102.83.14
-Host opensearch-devel.rdoproject.org
-    User cloud-user
-    Port 22
-
 Host dlrn-db-centos9.rdoproject.org
     User cloud-user
     Port 22

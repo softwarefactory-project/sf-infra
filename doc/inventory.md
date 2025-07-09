@@ -9,7 +9,6 @@ This project manages:
 * logserver.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * dashboards.rdoproject.org centos-8.1-1911 v1-standard-1
 * opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
-* opensearch-devel.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * dlrn-db-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * trunk-server-centos9.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * trunk-builder-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4

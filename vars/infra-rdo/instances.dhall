@@ -155,19 +155,6 @@ let instances =
         , monitoring_urls = [ "https://opensearch.rdoproject.org/" ]
         }
       , Instance::{
-        , name = "opensearch-devel"
-        , groups = [ "opensearch", "rdo", "rhel" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , node-exporter = False
-        , server = Some Infra.Server::{
-          , boot_from_volume = "no"
-          , image = OS.RHEL.`9.3`.image.name
-          , flavor = Some Flavors.`4vcpus_8gb`
-          , network = "public"
-          , security_groups = [ "web", "opensearch" ]
-          }
-        }
-      , Instance::{
         , name = "dlrn-db-centos9"
         , groups = [ "dlrn-trunk", "rhel", "rdo", "db_master" ]
         , connection = OS.RHEL.`9.3`.connection
