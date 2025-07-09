@@ -349,7 +349,7 @@ kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
 sf_namespace: cloud-softwarefactory
 sf_setup_namespace: false
 sf_operator_standalone: true
-sf_operator_standalone_release: 08a12efa78cbc8c9449411947625022ac30c559a
+sf_operator_standalone_release: fd8475d15be64502c7c6689bf26034785f2d3c30
 sf_fqdn: "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
 sf_mail_domain: "softwarefactory-project.io"
 
