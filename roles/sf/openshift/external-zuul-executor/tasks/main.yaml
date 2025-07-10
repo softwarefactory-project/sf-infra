@@ -1,33 +1,4 @@
 ---
-- name: Install the prometheus operator
-  ansible.builtin.include_role:
-    name: install-prometheus-operator
-  vars:
-    kube_config: "{{ executor_plane.kubeconfig }}"
-  when: executor_plane.install_prometheus_operator | default(False)
-
-- name: Expose the prometheus port
-  when: executor_plane.deploy_prometheus | default(False)
-  kubernetes.core.k8s:
-    kubeconfig: "{{ executor_plane.kubeconfig }}"
-    state: present
-    namespace: "{{ executor_plane.namespace }}"
-    definition:
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: zuul-executor-prom-lb
-      spec:
-        ports:
-          - name: zuul-executor-9100
-            port: 9101
-            protocol: TCP
-            targetPort: 9100
-        selector:
-          app: sf
-          run: zuul-executor
-        type: LoadBalancer
-
 - name: Create a namespace
   ansible.builtin.shell: |
     oc create namespace {{ executor_plane.namespace }}
@@ -81,53 +52,12 @@
           run: zuul-executor
         type: LoadBalancer
 
-- name: Set the SoftwareFactory executor CR fact
-  ansible.builtin.set_fact:
-    executor_cr:
-      apiVersion: sf.softwarefactory-project.io/v1
-      kind: SoftwareFactory
-      metadata:
-        name: ext-sf-comps
-      spec:
-        fqdn: "{{ control_plane.fqdn }}"
-        prometheusMonitorsDisabled: "{{ not executor_plane.deploy_prometheus }}"
-        zuul:
-          executor:
-            limits:
-              cpu: 6000m
-              memory: 16Gi
-            storage:
-              size: 30Gi
-            diskLimitPerJob: 8096
-            logLevel: DEBUG
-            standalone:
-              controlPlanePublicZKHostname: "{{ control_plane.public_zookeeper_hostname }}"
-              controlPlanePublicGSHostname: "{{ control_plane.public_gitserver_hostname }}"
-              publicHostname: "{{ executor_plane.public_ip }}"
-
-- name: Enable Log Forwarding
-  when: executor_plane.log_forwarding is defined
-  ansible.builtin.set_fact:
-    log_forwarding_config:
-      spec:
-        FluentBitLogForwarding:
-          forwardInputHost: fluent-bit
-          forwardInputPort: 24224
-
-- name: Do not enable Log Forwarding
-  when: executor_plane.log_forwarding is not defined
-  ansible.builtin.set_fact:
-    log_forwarding_config:
-      spec: {}
-
 - name: Run the standalone deployment of Sofware Factory from the sf-operator
   ansible.builtin.include_role:
     name: sf/openshift/install-software-factory
   vars:
     kube_config: "{{ executor_plane.kubeconfig }}"
     sf_namespace: "{{ executor_plane.namespace }}"
-    software_factory: "{{ executor_cr | combine(log_forwarding_config, recursive=true) }}"
-    zuul_connections: "{{ control_plane.zuul_connections }}"
     # ensure those paramaters are empty as we already copy the data from the control plane
     corporate_ca_certs: "{{ undef() }}"
     zuul_connections_secrets: []

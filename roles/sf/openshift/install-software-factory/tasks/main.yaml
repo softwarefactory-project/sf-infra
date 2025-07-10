@@ -44,11 +44,6 @@
   loop: "{{ zuul_connections_secrets }}"
   when: zuul_connections_secrets is defined
 
-- name: Prepare the SF manifest
-  no_log: true
-  ansible.builtin.set_fact:
-    sf_manifest: "{{ software_factory | combine(zuul_connections, recursive=true) | to_nice_yaml }}"
-
 - name: Apply the SF Custom Resource
   kubernetes.core.k8s:
     kubeconfig: "{{ kube_config }}"
