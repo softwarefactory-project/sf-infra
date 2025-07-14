@@ -23,8 +23,7 @@
     rhel_minor_release: "{{ ansible_distribution_version.split('.')[1] }}"
 
 - name: Registration
-  when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
-        or _subscription_manager_release.stderr != ''
+  when: _subscription_manager_release.stderr != '' or (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
   become: true
   block:
     - name: Register system
@@ -45,8 +44,7 @@
         - rhel-9-for-x86_64-appstream-eus-rpms
 
     - name: Upgrade all packages
-      when: (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
-            or _subscription_manager_release.stderr != ''
+      when: _subscription_manager_release.stderr != '' or (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
       ansible.builtin.dnf:
         name: "*"
         state: latest
