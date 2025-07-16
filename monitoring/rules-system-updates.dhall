@@ -9,7 +9,7 @@ let system_reboot =
       , summary = "host needs to be rebooted"
       }
 
-let rhel_supported_versions = "8.10|9.2|9.4|9.5"
+let rhel_supported_versions = "8.10|9.2|9.4|9.5|9.6"
 
 let fedora_supported_versions = "41|42"
 
