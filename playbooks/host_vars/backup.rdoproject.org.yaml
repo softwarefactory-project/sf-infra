@@ -9,6 +9,7 @@ fqdn: backup.rdoproject.org
 lv_name: backup
 lvm: true
 mountpoint: "/mnt/{{ vg_name }}_{{ lv_name }}"
+rhel_release: 9.6
 servers:
   - dir: /var/lib/backup/bup/review.rdoproject.org
     domain: review.rdoproject.org

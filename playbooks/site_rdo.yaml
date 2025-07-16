@@ -22,6 +22,7 @@
 - hosts: backup-server
   roles:
     - system/volume
+    - service/hostname
     - rdo/backup-monitoring
     - rdo/backup-srv
 

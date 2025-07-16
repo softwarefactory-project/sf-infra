@@ -8,6 +8,7 @@ in  { servers =
         Infra.Backup.mkServers
           (Infra.Backup.mkCron (indexed Infra.Backup.Type Configs))
     , devices = [ "/dev/nvme1n1" ]
+    , rhel_release = 9.6
     , lvm = True
     , vg_name = "data"
     , lv_name = "backup"

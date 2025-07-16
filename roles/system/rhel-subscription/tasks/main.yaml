@@ -35,10 +35,11 @@
         force_register: yes
 
     - name: Manage Extended Update Support repos
-      when: (rhel_minor_release | int) % 2 == 0
+      # EUS for rhel-9.6 will be available after 9.7 release
+      when: (rhel_minor_release | int) % 2 == 0 and rhel_release != 9.6
       community.general.rhsm_repository:
         name: "{{ item }}"
-        state: "{{ 'enabled' if (rhel_minor_release | int) % 2 == 0 else 'disabled' }}"
+        state: "enabled"
       loop:
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
