@@ -1,5 +1,6 @@
 ---
 cloud_image_builder_users: []
+rhel_release: 9.4
 
 swap_file: /swap
 swap_size: 8192
