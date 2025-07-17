@@ -474,11 +474,11 @@
               - dhall-diff
               - name: sf-infra-configure-bridge
                 soft: true
-        # - sf-infra-configure-hosts-osci:
-        #     dependencies:
-        #       - dhall-diff
-        #       - name: sf-infra-configure-bridge
-        #         soft: true
+        - sf-infra-configure-hosts-osci:
+            dependencies:
+              - dhall-diff
+              - name: sf-infra-configure-bridge
+                soft: true
         - sf-infra-create-tripleo-standalone:
             dependencies:
               - dhall-diff
