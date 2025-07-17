@@ -1,0 +1,24 @@
+- name: Install dhall
+  ansible.builtin.package:
+    name: dhall
+    state: present
+  become: true
+
+- name: Setup cache directory
+  ansible.builtin.file:
+    path: /var/www/dhall-cache
+    owner: "{{ ansible_user }}"
+    mode: 755
+    state: directory
+  become: true
+
+- name: Cache dhall dependencies
+  ansible.builtin.shell: |
+    CACHE=/var/www/dhall-cache/{{ dhall_import.name }}-{{ dhall_import.hash[:6] }}.dhall
+    HASH="sha256:{{ dhall_import.hash }}"
+    if [ "$(dhall hash --file $CACHE)" != "$HASH" ]; then
+      dhall resolve <<< "{{ dhall_import.source }} $HASH" > $CACHE
+    fi
+  loop: "{{ dhall_imports }}"
+  loop_control:
+    loop_var: dhall_import
