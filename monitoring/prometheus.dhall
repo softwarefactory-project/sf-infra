@@ -48,14 +48,13 @@ in  PrometheusConfig
       , "rules-backup.yaml"
       , "rules-dlrn.yaml"
       , "rules-afs.yaml"
-      , "rules-secrets.yaml"
       , "rules-systemd.yaml"
       , "rules-nodepool.yaml"
       , "rules-zuul.yaml"
       , "rules-mysqld.yaml"
       , "rules-openstack-check.yaml"
       , "rules-es-check.yaml"
-      , "rules-system-updates.yaml"
+      , "rules-supported_OS.yaml"
       , "rules-k1s-zombie-containers.yaml"
       ]
       [     ScrapeConfigs.static "statsd_exporter" [ "localhost:9102" ]

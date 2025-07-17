@@ -2,17 +2,11 @@
 groups:
   - name: Info Alerts rules
     rules:
-      - alert: SystemReboot
-        annotations:
-          summary: host needs to be rebooted
-        expr: "(system_reboot{instance=~'.*'} and system_reboot{instance!~'(trunk.+|www|centos.+|dlrn.*|rpm.*).rdoproject.org:9100'}) != 0"
-        labels:
-          severity: info
       - alert: RhelEolOsVersions
         annotations:
           description: System use an outated OS version
           summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='rhel', version_id !~ '8.10|9.2|9.4|9.5|9.6'}"
+        expr: "node_os_info{id='rhel', version_id !~ '8.10|9.2|9.4|9.5|9.6', instance!~'((managesf|zs|elk|ansible|zk01|fedora).softwarefactory-project.io|(managesf|logserver).*):9100'}"
         labels:
           severity: info
       - alert: FedoraEolOsVersions
