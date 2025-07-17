@@ -237,7 +237,7 @@ servers:
   - boot_from_volume: yes
     flavor: v1-standard-2
     floating_ip: true
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: monitoring.softwarefactory-project.io
     network: private-network
@@ -282,7 +282,7 @@ servers:
     volume_size: 100
   - boot_from_volume: yes
     flavor: v1-standard-2
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: nodepool-builder.softwarefactory-project.io
     network: private-network
@@ -378,7 +378,7 @@ servers:
   - boot_from_volume: yes
     flavor: "1vcpu_2gb"
     floating_ip: true
-    image: rhel-9.3-x86_64-kvm
+    image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
     name: image-builder.softwarefactory-project.io
     network: private-network
