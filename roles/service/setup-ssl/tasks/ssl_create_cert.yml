@@ -24,9 +24,47 @@
     path: "{{ cert_item.value.webroot | default('/var/www/html') }}"
     state: directory
 
+
+- name: Create httpd config to handle certificate creation if cert_item.value.webroot is not /var/www/html
+  block:
+    - name: Create httpd config
+      ansible.builtin.copy:
+        dest: "/etc/httpd/conf.d/certbot.conf"
+        content: |
+          <VirtualHost *:80>
+              DocumentRoot "{{ cert_item.value.webroot }}"
+              ServerName {{ cert_item.value.domain }}
+          </VirtualHost>
+      register: _temp_httpd_config
+
+    - name: Restart httpd
+      ansible.builtin.systemd:
+        name: "{{ http_service_name }}"
+        state: restarted
+  when:
+    - "'webroot' in cert_item.value"
+    - cert_item.value.webroot != "/var/www/html"
+    - http_service_name == 'httpd'
+    - not cert.stat.exists
+
 - name: Generate certificate
   ansible.builtin.command: "certbot certonly {{ certbot_plugin }} -m {{ cert_item.value.email }} --agree-tos -n -d {{ cert_item.value.domain }} {{ additional_params | default('') }}"
   when: not cert.stat.exists
+
+- name: Remove httpd config when cert_item.value.webroot is not /var/www/html
+  block:
+    - name: Remove httpd config
+      ansible.builtin.file:
+        path: "/etc/httpd/conf.d/certbot.conf"
+        state: absent
+
+    - name: Restart httpd
+      ansible.builtin.systemd:
+        name: "{{ http_service_name }}"
+        state: restarted
+  when:
+    - _temp_httpd_config is defined | default(False)
+    - http_service_name == 'httpd'
 
 - name: Create cron job for automatic cert renewal
   ansible.builtin.cron:
