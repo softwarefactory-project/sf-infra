@@ -11,6 +11,7 @@
 - name: Check rhel version
   ansible.builtin.command: subscription-manager release
   register: _rhel_version
+  failed_when: false
 
 - name: Ensure we use rhsm.conf with cdn.redhat.com
   block:
@@ -38,8 +39,7 @@
     state: present
     activationkey: "{{ activationkey }}"
     org_id: "{{ org_id }}"
-    ## Temporary disable setting pool_ids
-    # pool_ids: 2c94c3df880c49780188292012db67a2
+    release: 9.2
     force_register: yes
   no_log: yes
 
