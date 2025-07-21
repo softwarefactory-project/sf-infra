@@ -78,9 +78,9 @@ let instances =
       , Instance::{
         , groups = [ "monitoring", "rhel" ]
         , name = "monitoring"
-        , connection = OS.RHEL.`9.3`.connection
+        , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 80
@@ -154,9 +154,9 @@ let instances =
           , "ibm-baremetal-nodepool"
           , "promtail"
           ]
-        , connection = OS.RHEL.`9.3`.connection
+        , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , flavor = Some Flavors.`2vcpus_8gb`
           , boot_from_volume = "yes"
           , volume_size = Some 50
@@ -257,9 +257,9 @@ let instances =
       , Instance::{
         , name = "image-builder"
         , groups = [ "sf", "rhel", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
+        , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , flavor = Some Flavors.`1vcpu_2gb`
           , floating_ip = Some True
           , boot_from_volume = "yes"

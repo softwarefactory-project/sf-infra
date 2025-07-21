@@ -27,9 +27,9 @@ let instances =
         , name = "quay"
         , groups = [ "quay", "rdo", "rhel" ]
         , connection =
-            OS.RHEL.`9.3`.connection // { ansible_host = Some "38.102.83.197" }
+            OS.RHEL.`9.4`.connection // { ansible_host = Some "38.102.83.197" }
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , flavor = Some Flavors.`4vcpus_16gb`
           , network = "public"
           , security_groups = [ "web", "quay_public" ]
@@ -136,9 +136,9 @@ let instances =
         , name = "opensearch"
         , groups = [ "opensearch", "rdo", "rhel" ]
         , connection =
-            OS.RHEL.`9.3`.connection // { ansible_host = Some "38.102.83.14" }
+            OS.RHEL.`9.4`.connection // { ansible_host = Some "38.102.83.14" }
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
+          , image = OS.RHEL.`9.4`.image.name
           , flavor = Some Flavors.`4vcpus_8gb`
           , floating_ip = Some True
           , security_groups =
@@ -215,7 +215,7 @@ let extra =
         , name = "backup"
         , groups = [ "backup-server", "rdo", "rhel" ]
         , connection =
-                OS.RHEL.`9.3`.connection
+                OS.RHEL.`9.4`.connection
             //  { ansible_host = Some "52.71.149.221"
                 , ansible_user = Some "ec2-user"
                 }

@@ -4,11 +4,11 @@
 This project manages:
 
 * mirror.regionone.vexxhost.rdoproject.org rhel-9.4-x86_64-kvm v1-standard-2
-* quay.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
+* quay.rdoproject.org rhel-9.4-x86_64-kvm v1-standard-4
 * managesf.review.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * logserver.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * dashboards.rdoproject.org centos-8.1-1911 v1-standard-1
-* opensearch.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
+* opensearch.rdoproject.org rhel-9.4-x86_64-kvm 4vcpus_8gb
 * dlrn-db-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-2
 * trunk-server-centos9.rdoproject.org rhel-9.3-x86_64-kvm 4vcpus_8gb
 * trunk-builder-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
@@ -25,17 +25,17 @@ This project manages:
 * ibm-bm4-ze.softwarefactory-project.io 
 * ibm-bm4-zfgw.softwarefactory-project.io 
 * bridge.softwarefactory-project.io 
-* monitoring.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* monitoring.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
 * elk.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * managesf.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-4
-* nodepool-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
+* nodepool-builder.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
 * k1s03.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * k1s04.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
 * k1s05.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * k1s06.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
 * zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* image-builder.softwarefactory-project.io rhel-9.3-x86_64-kvm 1vcpu_2gb
+* image-builder.softwarefactory-project.io rhel-9.4-x86_64-kvm 1vcpu_2gb
 * microshift-ze02.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * fedora.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
