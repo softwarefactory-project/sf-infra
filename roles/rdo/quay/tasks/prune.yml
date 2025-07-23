@@ -58,4 +58,4 @@
     minute: 0
     hour: 1
     user: root
-    job: '/usr/local/bin/quay_registry_pruner > {{ quay_pruner_log_directory }}/pruner-$(/usr/bin/date +\%Y-\%m-\%d).log'
+    job: '/usr/local/bin/quay_registry_pruner > {{ quay_pruner_log_directory }}/pruner.log'

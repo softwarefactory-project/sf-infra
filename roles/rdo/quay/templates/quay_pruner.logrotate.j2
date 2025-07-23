@@ -1,8 +1,9 @@
-{{ quay_pruner_log_directory }}/*log {
-    rotate 14
-    maxage 14
-    daily
-    missingok
-    copytruncate
-    compress
+{{ quay_pruner_log_directory }}/pruner.log {
+     compress
+     create
+     compress
+     daily
+     dateext
+     missingok
+     rotate 7
 }
