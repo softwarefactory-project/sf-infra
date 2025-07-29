@@ -12,7 +12,6 @@
     - service/manage-accounts
     - service/node-exporter
     - system/psi
-    - system/monitoring-needs-restarting
     - system/journald
     - role: system/secrets-metric
       vars:
