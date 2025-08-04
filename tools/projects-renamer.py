@@ -2,6 +2,33 @@
 # Copyright © 2025 Red Hat
 # SPDX-License-Identifier: Apache-2.0
 
+"""
+To rename a project:
+
+1. zuul-admin export-keys ./zk.dmp
+2. Create a JSON file with an array at root, listing all the projects to rename, like:
+```JSON
+[
+    # 1 Project
+        {
+        # Project at source
+                "source": {
+                        "connection_name" : "gerrit",
+                        "name" : "project_name"
+                },
+        # Project at target
+                "target": {
+                        "connection_name" : "gitlab",
+                        "name" : "project_name"
+                },
+        },
+        ...
+]
+```
+3. ./projects-renamer.py ./zk.dmp <path to JSON file>
+4. zuul-admin import-keys ./new-<zookeeper dump>
+"""
+
 import argparse
 import json
 import zuul.lib.keystorage as zlk
