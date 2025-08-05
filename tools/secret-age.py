@@ -169,7 +169,7 @@ def print_errors(msg, errors):
 
 def main(args):
     print("# HELP sf_infra_secret_age_total The UNIX time of a secret last update")
-    print("# TYPE sf_infra_secret_age_total counter")
+    print("# TYPE sf_infra_secret_age_total gauge")
     matchers = decode_rules_secret(
         yaml.safe_load(read_rules_secrets(pathlib.Path(args[0])))
     )
