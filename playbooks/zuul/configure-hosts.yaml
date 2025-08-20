@@ -155,4 +155,4 @@
         - name: Run configuration playbook
           args:
             chdir: "~/{{ zuul.projects['softwarefactory-project.io/software-factory/sf-infra'].src_dir }}"
-          command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml"
+          command: "ansible-playbook -vv playbooks/{{ sf_infra_play_name }}.yaml --skip-tags=upgrade-only"

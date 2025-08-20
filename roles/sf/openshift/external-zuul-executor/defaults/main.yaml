@@ -13,3 +13,7 @@ control_plane:
   public_zookeeper_hostname: 1.2.3.4
   public_gitserver_hostname: 5.6.7.8
   fqdn: sfop.me
+
+# Defaults to 2 hours
+executor_graceful_stop_retries: 720
+executor_graceful_stop_delay: 10
