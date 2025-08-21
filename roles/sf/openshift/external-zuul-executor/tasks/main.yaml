@@ -56,13 +56,13 @@
   tags:
     - upgrade-only
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc scale --replicas=0 statefulset/zuul-executor
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc -n {{ executor_plane.namespace }} scale --replicas=0 statefulset/zuul-executor
 
 - name: wait for the executor to stop
   tags:
     - upgrade-only
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc get pods
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc -n {{ executor_plane.namespace }} get pods
   register: _ze_up
   until:
     - "'zuul-executor' not in _ze_up.stdout"
@@ -75,7 +75,7 @@
     - upgrade-only
   when: "'zuul-executor' in _ze_up.stdout"
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} kubectl delete pod zuul-executor-0 --grace-period=0 --force=true
+    KUBECONFIG={{ executor_plane.kubeconfig }} kubectl -n {{ executor_plane.namespace }} delete pod zuul-executor-0 --grace-period=0 --force=true
 
 - name: Run the standalone deployment of Sofware Factory from the sf-operator
   ansible.builtin.include_role:
@@ -92,4 +92,4 @@
   tags:
     - upgrade-only
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc scale --replicas=1 statefulset/zuul-executor
+    KUBECONFIG={{ executor_plane.kubeconfig }} oc -n {{ executor_plane.namespace }} scale --replicas=1 statefulset/zuul-executor
