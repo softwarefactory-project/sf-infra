@@ -4,17 +4,6 @@
   ansible.builtin.fail:
     msg: "cloud_names variable needs to be set!"
 
-- name: Remove old script and logrotate files
-  become: true
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-    recurse: yes
-  loop:
-    - /etc/logrotate.d/cleanup-ports
-    - /usr/local/bin/cleanup-ports-next-gen.sh
-    - /var/log/next-gen-cleaner
-
 - name: Copy cleanup script
   become: true
   ansible.builtin.copy:
@@ -44,6 +33,7 @@
     loop_var: project
 
 - name: Install logrotate configuration file
+  become: yes
   ansible.builtin.copy:
     dest: "/etc/logrotate.d/cleanup-openstack-resources"
     content: |
