@@ -2,5 +2,5 @@
 # List of clouds entries defined in ~/.config/openstack/clouds.yaml to cleanup
 cloud_names: []
 
-crc_cleaner_log_dir: /var/log/next-gen-cleaner
+cleaner_log_dir: /var/log/cleanup-openstack-resources
 crc_venv_dir: ""

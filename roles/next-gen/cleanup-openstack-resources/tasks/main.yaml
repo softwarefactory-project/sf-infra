@@ -4,22 +4,33 @@
   ansible.builtin.fail:
     msg: "cloud_names variable needs to be set!"
 
+- name: Remove old script and logrotate files
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+    recurse: yes
+  loop:
+    - /etc/logrotate.d/cleanup-ports
+    - /usr/local/bin/cleanup-ports-next-gen.sh
+    - /var/log/next-gen-cleaner
+
 - name: Copy cleanup script
   become: true
   ansible.builtin.copy:
-    src: cleanup-ports-next-gen.sh
-    dest: /usr/local/bin/cleanup-ports-next-gen.sh
+    src: cleanup-openstack-resources.sh
+    dest: /usr/local/bin/cleanup-openstack-resources.sh
     mode: 0755
 
-- name: Create log directory for next-gen cleaner
+- name: Create log directory for cleanup-openstack-resources.sh
   become: true
   ansible.builtin.file:
-    path: "{{ crc_cleaner_log_dir }}"
+    path: "{{ cleaner_log_dir }}"
     state: directory
     owner: "{{ ansible_user | default(ansible_user_id) }}"
     group: "{{ ansible_user | default(ansible_user_id) }}"
 
-- name: Create crontab for cleaning leftovers
+- name: Create crontab for cleanup-openstack-resources.sh
   ansible.builtin.cron:
     name: Cleanup {{ project.crc_cloud_name }} project OpenStack resources
     minute: "0"
@@ -27,16 +38,25 @@
     job: >
       export OS_CLOUD={{ project.crc_cloud_name }};
       export CRC_VENV_DIR={{ crc_venv_dir }};
-      /usr/local/bin/cleanup-ports-next-gen.sh &> {{ crc_cleaner_log_dir }}/cleanup-$(date +\%d-\%m-\%Y-\%H_\%M_\%S)-{{ project.crc_cloud_name }}.log
+      /usr/local/bin/cleanup-openstack-resources.sh &> {{ cleaner_log_dir }}/cleanup-{{ project.crc_cloud_name }}.log
   loop: "{{ cloud_names }}"
   loop_control:
     loop_var: project
 
-- name: Add logrotate file
-  become: true
-  ansible.builtin.template:
-    src: cleanup-ports-logrotate.j2
-    dest: /etc/logrotate.d/cleanup-ports
-    mode: "0644"
-    owner: root
-    group: root
+- name: Install logrotate configuration file
+  ansible.builtin.copy:
+    dest: "/etc/logrotate.d/cleanup-openstack-resources"
+    content: |
+     {{ cleaner_log_dir }}/*.log {
+         compress
+         create
+         compress
+         daily
+         dateext
+         missingok
+         rotate 7
+     }
+    mode: "0640"
+  loop: "{{ cloud_names }}"
+  loop_control:
+    loop_var: project
