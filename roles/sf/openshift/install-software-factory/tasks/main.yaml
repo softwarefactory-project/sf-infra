@@ -63,18 +63,20 @@
 
     - name: Ensure applied CRs location directory
       ansible.builtin.file:
-        path: ~/sf-operator-last-applied-crs
+        path: /etc/run-infra-ng/sf-operator-last-applied-crs
         state: directory
+        mode: 777
 
     - name: Copy the CR on the filesystem
       ansible.builtin.copy:
         content: "{{ sf_manifest }}"
-        dest: ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
+        dest: /etc/run-infra-ng/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
+        mode: 444
 
     - name: Run the standalone command
       ansible.builtin.shell: >
         go run ./main.go deploy --namespace {{ sf_namespace }}
-        ~/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
+        /etc/run-infra-ng/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
       args:
         chdir: ~/sf-operator
       environment:
