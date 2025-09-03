@@ -40,8 +40,6 @@
 
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
-  environment:
-    OPENSHIFT_USER: true
   tasks:
   - name: Create ~/.kube if it does not exist
     ansible.builtin.file:

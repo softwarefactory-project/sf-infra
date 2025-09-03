@@ -84,4 +84,3 @@
         chdir: ~/sf-operator
       environment:
         KUBECONFIG: "{{ kube_config }}"
-        OPENSHIFT_USER: true
