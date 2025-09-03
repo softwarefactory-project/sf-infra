@@ -62,12 +62,14 @@
         force: true
 
     - name: Ensure applied CRs location directory
+      become: true
       ansible.builtin.file:
         path: /etc/run-infra-ng/sf-operator-last-applied-crs
         state: directory
         mode: 777
 
     - name: Copy the CR on the filesystem
+      become: true
       ansible.builtin.copy:
         content: "{{ sf_manifest }}"
         dest: /etc/run-infra-ng/sf-operator-last-applied-crs/{{ sf_namespace }}-sf_operator_cr.yaml
