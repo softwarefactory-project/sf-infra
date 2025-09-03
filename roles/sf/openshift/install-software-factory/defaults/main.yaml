@@ -4,6 +4,7 @@ sf_namespace: sf
 sf_setup_namespace: true
 sf_operator_standalone: false
 sf_operator_standalone_release: master
+sf_cluster_name: ""
 sf_manifest:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
