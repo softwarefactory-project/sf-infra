@@ -128,13 +128,14 @@
       files: "{{ distro_lookup_path }}"
   loop: "{{ query('first_found', params, errors='ignore') }}"
 
-# Clean apache cache once a day, keep size down to 70GiB.
+# Clean apache cache once a day, keep size down to {{ mirror_apache_cache_limit }}.
 - name: Proxy cleanup cron job
   cron:
     name: Apache cache cleanup
     state: present
     job: >
       /bin/flock -n /var/run/htcacheclean.lock
-      /sbin/htcacheclean -n -p {{ cache_root }} -t -l 70200M > /dev/null
+      /sbin/htcacheclean -n -p {{ cache_root }}
+      -t -l {{ mirror_apache_cache_limit }} > /dev/null
     minute: '0'
     hour: '2'

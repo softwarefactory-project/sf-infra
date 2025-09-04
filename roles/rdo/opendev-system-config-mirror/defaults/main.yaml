@@ -1,3 +1,4 @@
 mirror_root: '/afs/openstack.org/mirror'
 www_base: '/var/www'
 www_root: '{{ www_base }}/mirror'
+mirror_apache_cache_limit: '70200M'  # 70GiB
