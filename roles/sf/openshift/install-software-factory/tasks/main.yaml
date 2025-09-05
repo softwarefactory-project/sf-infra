@@ -61,22 +61,9 @@
         version: "{{ sf_operator_standalone_release }}"
         force: true
 
-    - name: Ensure applied CRs location directory
-      become: true
-      ansible.builtin.file:
-        path: /etc/run-infra-ng/sf-operator-last-applied-crs
-        state: directory
-        mode: "777"
-
-    - ansible.builtin.set_fact:
-        cr_path: /etc/run-infra-ng/sf-operator-last-applied-crs/{{ sf_namespace }}-{{ sf_cluster_name | default('') }}-sf_operator_cr.yaml
-
-    - name: Copy the CR on the filesystem
-      become: true
-      ansible.builtin.copy:
-        content: "{{ sf_manifest }}"
-        dest: "{{ cr_path }}"
-        mode: "444"
+    - name: serialize CRs on disk
+      ansible.builtin.include_tasks:
+        file: serialize_cr.yaml
 
     - name: Run the standalone command
       ansible.builtin.shell: go run ./main.go deploy --namespace {{ sf_namespace }} {{ cr_path }}

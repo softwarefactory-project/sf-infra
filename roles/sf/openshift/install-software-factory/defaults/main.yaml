@@ -24,3 +24,6 @@ zuul_connections_secrets: []
 #     corporate-ca.crt: |
 #       -----BEGIN CERTIFICATE-----
 #       -----END CERTIFICATE-----
+
+cr_base_path: "/etc/run-infra-ng/sf-operator-last-applied-crs"
+
