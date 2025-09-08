@@ -87,11 +87,11 @@ let main_spec =
       , prometheusMonitorsDisabled = Some True
       , FluentBitLogForwarding
       , config-location = Some SF.ConfigLocation::{
-        , name = "microzuul-config"
-        , zuul-connection-name = "softwarefactory-project.io"
+        , name = "softwarefactory-project/centosinfra-prod/config"
+        , zuul-connection-name = "gitlab.com"
         , k8s-api-url = Some "https://api.ocp.cloud.ci.centos.org:6443"
         , logserver-host = Some "{{ logserver_public_hostname }}"
-        , branch = Some "master"
+        , branch = Some "main"
         }
       , mariadb = Some SF.Mariadb::{
         , dbStorage = Some SF.Storage::{ size = "5Gi" }
