@@ -87,7 +87,7 @@ let main_spec =
       , prometheusMonitorsDisabled = Some True
       , FluentBitLogForwarding
       , config-location = Some SF.ConfigLocation::{
-        , name = "softwarefactory-project/centosinfra-prod/config"
+        , name = "softwarefactory-project/config"
         , zuul-connection-name = "gitlab.com"
         , k8s-api-url = Some "https://api.ocp.cloud.ci.centos.org:6443"
         , logserver-host = Some "{{ logserver_public_hostname }}"
