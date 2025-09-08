@@ -60,7 +60,7 @@
     # The install-golang role is available on gerrit on the sf-operator project
     # the project has been removed from sf-io's Zuul due to conflict with the
     # centos's Zuul
-    # - name: Install go-lang
+    # - name: Install golang
     #   ansible.builtin.include_role:
     #     name: install-golang
 

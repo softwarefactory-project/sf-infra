@@ -252,6 +252,7 @@
       - ^roles/sf/openshift/install-software-factory/.*$
       - ^playbooks/group_vars/sf-operator.yaml$
       - ^playbooks/group_vars/centos-infra-zuul-executors.yaml$
+      - ^playbooks/files/software-factory-control-plane.yaml$
 
 
 - job:
