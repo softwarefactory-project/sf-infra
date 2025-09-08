@@ -26,7 +26,10 @@
         name: "kubernetes"
   roles:
     - system/volume
-    - install-golang
+    # The install-golang role is available on gerrit on the sf-operator project
+    # the project has been removed from sf-io's Zuul due to conflict with the
+    # centos's Zuul
+    # - install-golang
     - sf/setup-microshift
     - sf/k9s
     - service/node-exporter
@@ -54,9 +57,12 @@
       dest: "{{ kube_config }}"
     no_log: true
 
-  - name: Install go-lang
-    ansible.builtin.include_role:
-      name: install-golang
+    # The install-golang role is available on gerrit on the sf-operator project
+    # the project has been removed from sf-io's Zuul due to conflict with the
+    # centos's Zuul
+    # - name: Install go-lang
+    #   ansible.builtin.include_role:
+    #     name: install-golang
 
   - name: Install Zuul SSH secrets
     kubernetes.core.k8s:

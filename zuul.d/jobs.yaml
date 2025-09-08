@@ -242,7 +242,6 @@
     dependencies:
       - sf-infra-configure-bridge
     required-projects:
-      - name: software-factory/sf-operator
       - name: github.com/openstack-k8s-operators/ansible-microshift-role
         override-checkout: 4.16.0-4
     files:
@@ -455,10 +454,6 @@
         - sf-infra-configure-centOS-Infra:
             dependencies:
               - dhall-diff
-              - name: sf-infra-configure-hosts-sf
-                soft: true
-              - name: sf-infra-observability-stack
-                soft: true
         - sf-infra-configure-hosts-sf:
             dependencies:
               - dhall-diff
