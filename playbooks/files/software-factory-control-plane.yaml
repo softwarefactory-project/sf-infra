@@ -140,6 +140,7 @@ software_factory_cr:
           secrets: zuul-gitlab-com-connection
           server: gitlab.com
       merger:
+        logLevel: DEBUG
         storage:
           size: "30Gi"
       oidcAuthenticators:

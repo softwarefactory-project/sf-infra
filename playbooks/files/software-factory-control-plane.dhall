@@ -128,6 +128,7 @@ let main_spec =
         , executor = Some SF.ZuulExecutor::{ enabled = Some False }
         , merger = Some SF.ZuulMerger::{
           , storage = Some SF.Storage::{ size = "30Gi" }
+          , logLevel = Some "DEBUG"
           }
         }
       , nodepool = Some SF.Nodepool::{
