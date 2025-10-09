@@ -82,7 +82,18 @@ in  Secret.renderSecretAlerts
                 To update the secret:
 
                 - k1s_token: Use `uuidgen`.
-                - k1s_key, k1s_crt and k1s_chain: Create a new certifcate.
+                - k1s_key, k1s_crt and k1s_chain: Create a new certificate with the following commands:
+                  openssl genrsa -out ca-key.pem 2048
+                  openssl req -new -x509 -subj "/C=FR" -days 730 -key ca-key.pem -out ca-cert.pem
+                  openssl req -new -newkey rsa:2048 -nodes -subj "/C=FR/O=K1S/CN=localhost" -addext "subjectAltName=DNS:localhost" -days 730 -keyout key.pem -out req.pem
+                  openssl x509 -req -days 730 -extensions v3_ca -CA ca-cert.pem -CAkey ca-key.pem -in req.pem -out cert.pem -extensions san -extfile <(printf "[san]\nsubjectAltName=DNS:localhost")
+                  cat cert.pem ca-cert.pem > chain.pem
+                  # Encrypt the secrets with ansible-vault:
+                  uuidgen | ansible-vault encrypt_string --stdin-name "k1s_token"
+                  ansible-vault encrypt_string --stdin-name "k1s_crt" < ./cert.pem
+                  ansible-vault encrypt_string --stdin-name "k1s_chain" < ./chain.pem
+                  ansible-vault encrypt_string --stdin-name "k1s_key" < ./key.pem
+                  # Remove the pem files after adding to the vault.
 
                 After merging the sf-infra change, make sure to restart nodepool-launcher service to update the client.
                 ''
