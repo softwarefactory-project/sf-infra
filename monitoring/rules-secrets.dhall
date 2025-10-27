@@ -95,6 +95,8 @@ in  Secret.renderSecretAlerts
                   ansible-vault encrypt_string --stdin-name "k1s_key" < ./key.pem
                   # Remove the pem files after adding to the vault.
 
+                Note: When rotating secrets, all k1s values (token, crt, chain, and key) must be updated together, regardless of their individual 'refreshed' dates. A partial update will cause an SSL mismatch.
+
                 After merging the sf-infra change, make sure to restart nodepool-launcher service to update the client.
                 ''
             }
