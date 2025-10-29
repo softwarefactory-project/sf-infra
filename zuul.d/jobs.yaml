@@ -381,7 +381,7 @@
     nodeset:
       nodes:
         - name: testhost
-          label: cloud-centos-9-stream-tripleo-ibm3
+          label: canary-c9s-ibm3
     run: playbooks/check-bm-host.yaml
 
 - job:
@@ -390,7 +390,7 @@
     nodeset:
       nodes:
         - name: testhost
-          label: cloud-centos-9-stream-tripleo-ibm4
+          label: canary-c9s-ibm4
     run: playbooks/check-bm-host.yaml
 
 - job:
