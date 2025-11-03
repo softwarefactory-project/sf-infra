@@ -1,0 +1,13 @@
+# Simple Anubis installer
+
+This role installs and deploys Anubis on CentOS/RHEL. The installation is done on the host where the httpd
+service is running.
+
+Anubis is installed with its default policies; the role allows the definition of a white list of
+IP ranges + a "magic header" that bypasses verification.
+
+Anubis expects the following httpd config:
+
+httpd:443 --ProxyPass--> Anubis:{{ anubis_bind_port }} ---> {{ anubis_target }}
+
+Typically "anubis_target" will point at an extra virtualhost defined in httpd's config.

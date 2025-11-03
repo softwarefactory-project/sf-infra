@@ -1,0 +1,18 @@
+[Unit]
+Description="Anubis HTTP defense proxy"
+
+[Service]
+ExecStart=/usr/bin/anubis
+Restart=always
+RestartSec=30s
+EnvironmentFile={{ anubis_env_file_name }}
+LimitNOFILE=infinity
+DynamicUser=yes
+CacheDirectory=anubis/hks3
+CacheDirectoryMode=0755
+StateDirectory=anubis/hks3
+StateDirectoryMode=0755
+ReadWritePaths=/run
+
+[Install]
+WantedBy=multi-user.target
