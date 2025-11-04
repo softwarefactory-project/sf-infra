@@ -130,6 +130,10 @@ Host managesf.softwarefactory-project.io
     User cloud-user
     Port 22
 
+Host managesf-dev.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host nodepool-builder.softwarefactory-project.io
     User cloud-user
     Port 22
