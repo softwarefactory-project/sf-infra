@@ -94,6 +94,7 @@
     - service/apache-exporter
     - service/hostname
     - infra/robots-disallow
+    - service/anubis
   tasks:
     # TODO uncomment after rhel-9 migration
     # - name: Install bits for sf-config
