@@ -15,6 +15,7 @@ logjuicer_host: gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
 
 # Anubis config
 anubis_domain: softwarefactory-project.io
+anubis_target_port: 8083
 anubis_allowed_ip_ranges:
   # Vexxhost IP ranges
   - 38.102.83.0/24
