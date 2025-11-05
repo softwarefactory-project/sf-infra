@@ -1,0 +1,47 @@
+---
+- name: install anubis rpm
+  become: true
+  ansible.builtin.dnf:
+    name: "{{ anubis_rpm_url }}"
+    state: present
+    # TODO any way we can secure this?
+    disable_gpg_check: true
+
+- name: generate random private key
+  no_log: true
+  block:
+    - register: openssl_rand
+      ansible.builtin.shell: openssl rand -hex 32
+    - ansible.builtin.set_fact:
+        anubis_private_key_hex: "{{ openssl_rand.stdout }}"
+
+- name: ensure anubis config dir
+  become: true
+  ansible.builtin.file:
+    path: "{{ anubis_etc_dir }}"
+    state: directory
+
+- name: ensure config files
+  become: true
+  notify: restart anubis service
+  no_log: true
+  block:
+    - name: anubis env file
+      ansible.builtin.template:
+        src: env.j2
+        dest: "{{ anubis_env_file_name }}"
+    - name: anubis botPolicies file
+      ansible.builtin.template:
+        src: botPolicies.yaml.j2
+        dest: "{{ anubis_policy_file_name }}"
+    - name: anubis service file
+      ansible.builtin.template:
+        src: anubis.service.j2
+        dest: /etc/systemd/system/{{ anubis_service_name }}.service
+
+- name: ensure httpd can connect to anubis locally
+  become: true
+  ansible.posix.seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true

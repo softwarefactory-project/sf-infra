@@ -1,0 +1,7 @@
+---
+- name: restart anubis service
+  become: true
+  ansible.builtin.service:
+    name: "{{ anubis_service_name }}"
+    state: restarted
+    enabled: true

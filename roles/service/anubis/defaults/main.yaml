@@ -1,0 +1,13 @@
+---
+anubis_service_name: anubis
+anubis_bind_port: 8082
+anubis_metrics_port: 29090
+anubis_difficulty: 4
+anubis_domain: example.com
+anubis_etc_dir: /etc/anubis
+anubis_policy_file_name: "{{ anubis_etc_dir }}/botPolicies.yaml"
+anubis_env_file_name: "{{ anubis_etc_dir }}/env"
+anubis_target: "http://localhost:8083"
+anubis_rpm_url: https://github.com/TecharoHQ/anubis/releases/download/v1.23.0/anubis-1.23.0-1.x86_64.rpm
+# These ranges will be allowed with a specific rule
+anubis_allowed_ip_ranges: []
