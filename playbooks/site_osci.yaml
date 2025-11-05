@@ -2,7 +2,7 @@
 - hosts: osci
   roles:
     - legacy/centos7
-    - system/tune-dnf
+    # - system/tune-dnf
     - service/node-exporter
     - system/psi
 
