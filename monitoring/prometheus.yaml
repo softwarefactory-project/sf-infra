@@ -42,6 +42,7 @@ scrape_configs:
           - monitoring.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100
+          - managesf-dev.softwarefactory-project.io:9100
           - nodepool-builder.softwarefactory-project.io:9100
           - k1s03.softwarefactory-project.io:9100
           - k1s04.softwarefactory-project.io:9100

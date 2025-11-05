@@ -60,6 +60,7 @@ all:
         ibm-bm4-zfgw.softwarefactory-project.io: {}
     install-server:
       hosts:
+        managesf-dev.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
     k1s-rhel:
@@ -170,6 +171,7 @@ all:
         k1s05.softwarefactory-project.io: {}
         k1s06.softwarefactory-project.io: {}
         logserver.rdoproject.org: {}
+        managesf-dev.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
@@ -205,6 +207,7 @@ all:
         ibm-bm4-ze.softwarefactory-project.io: {}
         ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
+        managesf-dev.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
@@ -330,6 +333,10 @@ all:
       ansible_python_interpreter: auto
       ansible_user: sf
     logserver.rdoproject.org:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    managesf-dev.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

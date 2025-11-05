@@ -76,7 +76,7 @@ let -- | A function to create k1s hosts
           , image = OS.RHEL.`9.4`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
-          , security_groups = security_groups
+          , security_groups
           , flavor = Some flavor
           , boot_from_volume = "yes"
           , volume_size = Some 100
@@ -166,6 +166,19 @@ let instances =
           }
         }
       , Instance::{
+        , name = "managesf-dev"
+        , groups = [ "rhel", "sf", "install-server" ]
+        , connection = OS.RHEL.`9.4`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.4`.image.name
+          , flavor = Some Flavors.`4vcpus_16gb`
+          , boot_from_volume = "yes"
+          , network = "public"
+          , volume_size = Some 100
+          , security_groups = [ "web", "managesf", "apache_exporter" ]
+          }
+        }
+      , Instance::{
         , name = "nodepool-builder"
         , groups =
           [ "sf"
@@ -195,10 +208,7 @@ let instances =
           ]
         }
       , mkK1sHost 3 Flavors.`8vcpu_16GB` [ "hypervisor-oci" ]
-      , mkK1sHost
-          4
-          Flavors.`4vcpus_8gb`
-          [ "hypervisor-oci", "cs-k1s" ]
+      , mkK1sHost 4 Flavors.`4vcpus_8gb` [ "hypervisor-oci", "cs-k1s" ]
       , mkK1sHost 5 Flavors.`8vcpu_16GB` [ "hypervisor-oci" ]
       , mkK1sHost 6 Flavors.`8vcpu_16GB` [ "hypervisor-oci-open-k1s" ]
       , Instance::{
