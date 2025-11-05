@@ -12,3 +12,12 @@ acme_domains:
 monitoring_host_url: https://monitoring.softwarefactory-project.io
 weeder_host: image-builder.softwarefactory-project.io
 logjuicer_host: gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
+
+# Anubis config
+anubis_domain: softwarefactory-project.io
+# TODO should not be necessary, but to be sure we're not blocking our CI,
+# we could add the following IP ranges:
+# anubis_allowed_ip_ranges:
+#   - IP range of vexxhost public IPs for our nodepool tenants
+#   - Individual IPs of centosinfra-prod
+#   - IP range of red hat public IPs (for queries coming from downstream sf)
