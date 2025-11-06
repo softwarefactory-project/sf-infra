@@ -1,11 +1,4 @@
 bots:
-  - import: (data)/meta/default-config.yaml
-  - name: allow-git
-    expression:
-      all:
-        - '"User-Agent" in headers'
-        - 'userAgent.contains("git/")'
-      action: ALLOW
 {% if anubis_allowed_ip_ranges|length > 0 %}
   - name: allowed-ip-ranges
     action: ALLOW
@@ -14,6 +7,11 @@ bots:
       - {{ ip_range }}
 {% endfor %}
 {% endif %}
-  - name: challenge-every-user-Agent
-    user_agent_regex: "."
+  - name: allow-dhall-files
+    action: ALLOW
+    path_regex: "^.*dhall$"
+  - import: (data)/clients/git.yaml
+  - import: (data)/meta/default-config.yaml
+  - name: challenge-mozilla
+    user_agent_regex: Mozilla
     action: CHALLENGE
