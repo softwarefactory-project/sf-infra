@@ -69,12 +69,6 @@
     - infra/ssh
 
 - hosts: managesf.review.rdoproject.org
-  tasks:
-    # TODO uncomment after rhel-9 migration
-    # - name: Install bits for sf-config
-    #   ansible.builtin.include_role:
-    #     name: infra/install-server
-    #     tasks_from: setup
   roles:
     - infra/install-server
     - service/acme-tiny
@@ -82,6 +76,34 @@
     - service/hostname
     - infra/robots-disallow
     - service/anubis
+  tasks:
+    - name: Overwrite sf-config gateway.conf
+      become: true
+      register: _gateway_conf
+      ansible.builtin.template:
+        src: review.rdoproject.org/gateway.conf.j2
+        dest: /etc/httpd/conf.d/gateway.conf
+    - name: Overwrite sf-config gateway.common
+      become: true
+      register: _gateway_common
+      ansible.builtin.template:
+        src: review.rdoproject.org/gateway.common.j2
+        dest: /etc/httpd/conf.d/gateway.common
+    # TODO remove in next patch
+    - name: Remove unused files
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/httpd/conf.d/cgit.conf
+        - /etc/httpd/conf.d/block-paths.conf
+    - name: Reload httpd configuration
+      become: true
+      when: _gateway_conf.changed or _gateway_common.changed
+      ansible.builtin.service:
+        name: httpd
+        state: reloaded
 
 - hosts: logserver.rdoproject.org
   roles:

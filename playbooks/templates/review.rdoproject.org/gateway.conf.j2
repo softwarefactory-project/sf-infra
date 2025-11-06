@@ -1,0 +1,71 @@
+ServerSignature Off
+ServerTokens Prod
+
+Listen {{ anubis_target_port }}
+
+<VirtualHost *:{{ anubis_target_port }}>
+
+    ServerName review.rdoproject.org
+    <IfModule mod_proxy.c>
+        ProxyPass /cgit http://managesf.review.rdoproject.org:37920/cgit
+        ProxyPassReverse /cgit http://managesf.review.rdoproject.org:37920/cgit
+    </IfModule>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName review.rdoproject.org
+    HostnameLookups On
+    RewriteEngine On
+
+    Alias /.well-known/acme-challenge /var/www/challenges/review.rdoproject.org
+    # Enforce HTTPS for non-internal requests. HostnameLookups is required,
+    # otherwise REMOTE_HOST contains only the IP address
+    RewriteCond %{HTTPS} off
+    RewriteCond %{REQUEST_URI} !=/server-status
+    RewriteCond %{REMOTE_HOST} !review.rdoproject.org$
+    RewriteCond %{REQUEST_URI} !\.well-known/acme-challenge
+    RewriteRule (.*) https://review.rdoproject.org%{REQUEST_URI} [R=301,L]
+
+    Include conf.d/gateway.common
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName review.rdoproject.org
+    HostnameLookups On
+    RewriteEngine On
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/pem/review.rdoproject.org.pem
+    SSLCertificateChainFile /etc/letsencrypt/pem/review.rdoproject.org.pem
+    SSLCertificateKeyFile /var/lib/software-factory/bootstrap-data/acme-tiny/review.rdoproject.org.key
+    Include conf.d/headers.conf
+    Include conf.d/gateway.common
+
+    OIDCOAuthRemoteUserClaim    preferred_username
+    OIDCRemoteUserClaim    preferred_username
+    OIDCOAuthClientID           managesf
+    OIDCClientID           managesf
+    # Bug in mod_auth_openidc, fixed in later versions
+    OIDCClientSecret           dummy
+    OIDCRedirectURI https://review.rdoproject.org/redirect/oauth2callback
+    OIDCCryptoPassphrase {{ lookup('password', '/dev/null chars=ascii_letters,digits') | to_uuid }}
+    OIDCResponseType        id_token
+    OIDCProviderMetadataURL     https://review.rdoproject.org/auth/realms/SF/.well-known/openid-configuration
+    OIDCOAuthVerifyJwksUri     https://review.rdoproject.org/auth/realms/SF/protocol/openid-connect/certs
+
+    # Required by Anubis
+    RequestHeader set "X-Real-Ip" expr=%{REMOTE_ADDR}
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set "X-Http-Version" "%{SERVER_PROTOCOL}s"
+
+    # Make sure Anubis URLs are redirected to Anubis
+    ProxyPass /.within.website http://localhost:8082/.within.website
+    ProxyPassReverse /.within.website http://localhost:8082/.within.website
+
+    # Anubis-protected endpoints
+    ProxyPass /cgit http://localhost:8082/cgit
+    ProxyPassReverse /cgit http://localhost:8082/cgit
+
+    # Everything else like before
+    Include conf.d/gateway.common
+</VirtualHost>

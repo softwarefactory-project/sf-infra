@@ -96,11 +96,6 @@
     - infra/robots-disallow
     - service/anubis
   tasks:
-    # TODO uncomment after rhel-9 migration
-    # - name: Install bits for sf-config
-    #   ansible.builtin.include_role:
-    #     name: infra/install-server
-    #     tasks_from: setup
     - name: Add vhosts
       ansible.builtin.include_role:
         name: "{{ item }}"
@@ -113,14 +108,22 @@
       become: true
       register: _gateway_conf
       ansible.builtin.template:
-        src: files/managesf-gateway.conf.j2
+        src: softwarefactory-project.io/gateway.conf.j2
         dest: /etc/httpd/conf.d/gateway.conf
     - name: Overwrite sf-config gateway.common
       become: true
       register: _gateway_common
       ansible.builtin.template:
-        src: files/managesf-gateway.common.j2
+        src: softwarefactory-project.io/gateway.common.j2
         dest: /etc/httpd/conf.d/gateway.common
+    # TODO remove this task in next patch
+    - name: Remove unused files
+      become: true
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/httpd/conf.d/block-paths.conf
     - name: Reload httpd configuration
       become: true
       when: _gateway_conf.changed or _gateway_common.changed
