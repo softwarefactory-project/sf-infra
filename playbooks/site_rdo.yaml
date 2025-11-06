@@ -81,6 +81,7 @@
     - service/apache-exporter
     - service/hostname
     - infra/robots-disallow
+    - service/anubis
 
 - hosts: logserver.rdoproject.org
   roles:

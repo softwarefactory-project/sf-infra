@@ -3,3 +3,14 @@ acme_domains:
   - domain: review.rdoproject.org
     sf_gateway: true
     vhost_skip: true
+
+# Anubis config
+anubis_domain: review.rdoproject.org
+anubis_target_port: 8083
+anubis_allowed_ip_ranges:
+  # Vexxhost IP ranges
+  - 38.102.83.0/24
+  - 38.129.56.0/24
+  - 2604:e100:4::/64
+  # TODO? Individual IPs of centosinfra-prod
+  # TODO? IP range of red hat public IPs (for queries coming from downstream sf)
