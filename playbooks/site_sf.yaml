@@ -116,14 +116,6 @@
       ansible.builtin.template:
         src: softwarefactory-project.io/gateway.common.j2
         dest: /etc/httpd/conf.d/gateway.common
-    # TODO remove this task in next patch
-    - name: Remove unused files
-      become: true
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - /etc/httpd/conf.d/block-paths.conf
     - name: Reload httpd configuration
       become: true
       when: _gateway_conf.changed or _gateway_common.changed

@@ -9,6 +9,9 @@ Listen {{ anubis_target_port }}
     <IfModule mod_proxy.c>
         ProxyPass /cgit http://managesf.review.rdoproject.org:37920/cgit
         ProxyPassReverse /cgit http://managesf.review.rdoproject.org:37920/cgit
+        ProxyPass /r/plugins/gitiles http://managesf.review.rdoproject.org:8000/r/plugins/gitiles nocanon retry=0
+        ProxyPassReverse /r/plugins/gitiles http://managesf.review.rdoproject.org:8000/r/plugins/gitiles
+        RewriteRule ^/r/gitweb(.*)$  /r/plugins/gitiles/$1/ [R]
     </IfModule>
 </VirtualHost>
 
@@ -65,6 +68,8 @@ Listen {{ anubis_target_port }}
     # Anubis-protected endpoints
     ProxyPass /cgit http://localhost:8082/cgit
     ProxyPassReverse /cgit http://localhost:8082/cgit
+    ProxyPass /r/plugins/gitiles http://localhost:8082/r/plugins/gitiles
+    ProxyPassReverse /r/plugins/gitiles http://localhost:8082/r/plugins/gitiles
 
     # Everything else like before
     Include conf.d/gateway.common
