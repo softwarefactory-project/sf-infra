@@ -200,6 +200,7 @@
       - playbooks/group_vars/osci_zone
       - playbooks/group_vars/rdo.yaml
       - vars/infra-rdo/instances.dhall
+      - "^playbooks/templates/review.rdoproject.org/.*$"
       - "^roles/infra/.*$"
       - "^roles/service/.*$"
       - "^roles/system/.*$"
@@ -222,6 +223,7 @@
       - playbooks/group_vars/sf-operator.yaml
       - playbooks/vars/infra-sf.yaml
       - playbooks/zuul/configure-hosts.yaml
+      - "^playbooks/templates/softwarefactory-project.io/.*$"
       - "^monitoring/.*yaml$"
       - "^roles/infra/.*$"
       - "^roles/service/.*$"
