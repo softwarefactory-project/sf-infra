@@ -42,7 +42,6 @@ Listen {{ anubis_target_port }}
     SSLCertificateChainFile /etc/letsencrypt/pem/review.rdoproject.org.pem
     SSLCertificateKeyFile /var/lib/software-factory/bootstrap-data/acme-tiny/review.rdoproject.org.key
     Include conf.d/headers.conf
-    Include conf.d/gateway.common
 
     OIDCOAuthRemoteUserClaim    preferred_username
     OIDCRemoteUserClaim    preferred_username
