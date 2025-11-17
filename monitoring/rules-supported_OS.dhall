@@ -3,9 +3,11 @@ let Prometheus = ./binding.dhall
 let unmonitored_instances =
       "instance!~'((managesf|zs|elk|ansible|zk01|fedora).softwarefactory-project.io|(managesf|logserver).*):9100'"
 
-let rhel_supported_versions = "8.10|9.2|9.4|9.5|9.6"
+let rhel_supported_versions =
+    {- https://access.redhat.com/support/policy/updates/errata#RHEL8_and_9_Life_Cycle -}
+      "8.10|9.2|9.4|9.6|9.7"
 
-let fedora_supported_versions = "41|42"
+let fedora_supported_versions = "42|43"
 
 in  Prometheus.RulesConfig::{
     , groups = Some
