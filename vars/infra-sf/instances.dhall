@@ -93,7 +93,7 @@ let instances =
           , "sf-operator"
           , "k1s-secrets"
           ]
-        , connection = OS.Fedora.`39`.connection
+        , connection = OS.Fedora.`43`.connection
         }
       , Instance::{
         , groups = [ "monitoring", "rhel" ]

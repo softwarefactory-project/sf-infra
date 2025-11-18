@@ -97,6 +97,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::(CentOS // Py2)
                       , image = Infra.Image::{
                         , name = "centos-7-1907"
+                        , state = "absent"
                         , url =
                             "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2"
                         , checksum =
@@ -116,6 +117,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                                                        )
                       , image = Infra.Image::{
                         , name = "centos-8.0-1905"
+                        , state = "absent"
                         , url =
                             "https://jpena.fedorapeople.org/CentOS-8-GenericCloud-8.0.1905-22.x86_64.qcow2"
                         , checksum =
@@ -123,19 +125,21 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                         }
                       }
                     , `8.1` =
-                      { connection = Infra.Connection::(CentOS // PyAuto)
-                      , image = Infra.Image::{
-                        , name = "centos-8.1-1911"
-                        , url =
-                            "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
-                        , checksum =
-                            "e2cf1081645b1089f574918fb808b32d247169ec4ec1a13bca9e14a74df6530e"
+                        {- used by dashboards.rdoproject.org -}
+                        { connection = Infra.Connection::(CentOS // PyAuto)
+                        , image = Infra.Image::{
+                          , name = "centos-8.1-1911"
+                          , url =
+                              "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
+                          , checksum =
+                              "e2cf1081645b1089f574918fb808b32d247169ec4ec1a13bca9e14a74df6530e"
+                          }
                         }
-                      }
                     , `8.3` =
                       { connection = Infra.Connection::(CentOS // PyAuto)
                       , image = Infra.Image::{
                         , name = "centos-8.3-2011"
+                        , state = "absent"
                         , url =
                             "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"
                         , checksum =
@@ -150,6 +154,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                                                        )
                       , image = Infra.Image::{
                         , name = "centos-8-stream"
+                        , state = "absent"
                         , url =
                             "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20201019.1.x86_64.qcow2"
                         , checksum =
@@ -178,59 +183,11 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                 let url =
                       "https://download.fedoraproject.org/pub/fedora/linux/releases/"
 
-                in  { `30` =
-                      { connection = Infra.Connection::Fedora
-                      , image = Infra.Image::{
-                        , name = "fedora-30-1.2"
-                        , state = "absent"
-                        , url =
-                                url
-                            ++  "30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2"
-                        , checksum =
-                            "72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26"
-                        }
-                      }
-                    , `31` =
-                      { connection = Infra.Connection::Fedora
-                      , image = Infra.Image::{
-                        , name = "fedora-31-1.9"
-                        , state = "absent"
-                        , url =
-                                url
-                            ++  "31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2"
-                        , checksum =
-                            "e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0"
-                        }
-                      }
-                    , `32`.connection = Infra.Connection::Fedora
-                    , `33` =
-                      { connection = Infra.Connection::Fedora
-                      , image = Infra.Image::{
-                        , name = "fedora-33-1.2"
-                        , state = "absent"
-                        , url =
-                                url
-                            ++  "33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2"
-                        , checksum =
-                            "7a2b3cc3bb3a92ce927e685d33efe8efd75577efbe207b267cb66f68afae7ce9"
-                        }
-                      }
-                    , `35` =
-                      { connection = Infra.Connection::Fedora
-                      , image = Infra.Image::{
-                        , state = "absent"
-                        , name = "fedora-35-1.2"
-                        , url =
-                                url
-                            ++  "35/Cloud/x86_64/images/Fedora-Cloud-Base-35-1.2.x86_64.qcow2"
-                        , checksum =
-                            "fe84502779b3477284a8d4c86731f642ca10dd3984d2b5eccdf82630a9ca2de6"
-                        }
-                      }
-                    , `36` =
+                in  { `36` =
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-36-1.5"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "36/Cloud/x86_64/images/Fedora-Cloud-Base-36-1.5.x86_64.qcow2"
@@ -242,6 +199,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-37-1.7"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2"
@@ -253,6 +211,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-38-1.6"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "38/Cloud/x86_64/images/Fedora-Cloud-Base-38-1.6.x86_64.qcow2"
@@ -264,11 +223,24 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       { connection = Infra.Connection::Fedora
                       , image = Infra.Image::{
                         , name = "fedora-39-1.5"
+                        , state = "absent"
                         , url =
                                 url
                             ++  "39/Cloud/x86_64/images/Fedora-Cloud-Base-39-1.5.x86_64.qcow2"
                         , checksum =
                             "ab5be5058c5c839528a7d6373934e0ce5ad6c8f80bd71ed3390032027da52f37"
+                        }
+                      }
+                    , `43` =
+                      { connection = Infra.Connection::Fedora
+                      , image = Infra.Image::{
+                        , name = "fedora-43-1.6"
+                        , state = "absent"
+                        , url =
+                                url
+                            ++  "43/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-43-1.6.x86_64.qcow2"
+                        , checksum =
+                            "846574c8a97cd2d8dc1f231062d73107cc85cbbbda56335e264a46e3a6c8ab2f"
                         }
                       }
                     }
@@ -281,6 +253,7 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                       , image = Infra.Image::{
                         , name = "rhel-9.3-x86_64-kvm"
                         , url = "https://redhat.com"
+                        , state = "absent"
                         , checksum =
                             "b1dd527a92721fda5469f511b5d6b4c97cfa18bbf9b002b0fcec08b4e067d28c"
                         }

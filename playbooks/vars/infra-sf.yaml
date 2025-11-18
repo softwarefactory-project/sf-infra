@@ -5,68 +5,50 @@ images:
     container_format: bare
     disk_format: raw
     name: centos-7-1907
-    state: present
+    state: absent
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1907.qcow2
   - checksum: "68e5d217f8777789cbe5c47cda8776f4acfefa3968b7cef751ba08f651d0cf5a"
     container_format: bare
     disk_format: raw
     name: centos-8-stream
-    state: present
+    state: absent
     url: https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20201019.1.x86_64.qcow2
   - checksum: "7ec97062618dc0a7ebf211864abf63629da1f325578868579ee70c495bed3ba0"
     container_format: bare
     disk_format: raw
     name: centos-8.3-2011
-    state: present
+    state: absent
     url: https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2
-  - checksum: "72b6ae7b4ed09a4dccd6e966e1b3ac69bd97da419de9760b410e837ba00b4e26"
-    container_format: bare
-    disk_format: raw
-    name: fedora-30-1.2
-    state: absent
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/30/Cloud/x86_64/images/Fedora-Cloud-Base-30-1.2.x86_64.qcow2
-  - checksum: e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0
-    container_format: bare
-    disk_format: raw
-    name: fedora-31-1.9
-    state: absent
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/31/Cloud/x86_64/images/Fedora-Cloud-Base-31-1.9.x86_64.qcow2
-  - checksum: "7a2b3cc3bb3a92ce927e685d33efe8efd75577efbe207b267cb66f68afae7ce9"
-    container_format: bare
-    disk_format: raw
-    name: fedora-33-1.2
-    state: absent
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/33/Cloud/x86_64/images/Fedora-Cloud-Base-33-1.2.x86_64.qcow2
-  - checksum: fe84502779b3477284a8d4c86731f642ca10dd3984d2b5eccdf82630a9ca2de6
-    container_format: bare
-    disk_format: raw
-    name: fedora-35-1.2
-    state: absent
-    url: https://download.fedoraproject.org/pub/fedora/linux/releases/35/Cloud/x86_64/images/Fedora-Cloud-Base-35-1.2.x86_64.qcow2
   - checksum: ca9e514cc2f4a7a0188e7c68af60eb4e573d2e6850cc65b464697223f46b4605
     container_format: bare
     disk_format: raw
     name: fedora-36-1.5
-    state: present
+    state: absent
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/36/Cloud/x86_64/images/Fedora-Cloud-Base-36-1.5.x86_64.qcow2
   - checksum: b5b9bec91eee65489a5745f6ee620573b23337cbb1eb4501ce200b157a01f3a0
     container_format: bare
     disk_format: raw
     name: fedora-37-1.7
-    state: present
+    state: absent
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/37/Cloud/x86_64/images/Fedora-Cloud-Base-37-1.7.x86_64.qcow2
   - checksum: d334670401ff3d5b4129fcc662cf64f5a6e568228af59076cc449a4945318482
     container_format: bare
     disk_format: raw
     name: fedora-38-1.6
-    state: present
+    state: absent
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/38/Cloud/x86_64/images/Fedora-Cloud-Base-38-1.6.x86_64.qcow2
   - checksum: ab5be5058c5c839528a7d6373934e0ce5ad6c8f80bd71ed3390032027da52f37
     container_format: bare
     disk_format: raw
     name: fedora-39-1.5
-    state: present
+    state: absent
     url: https://download.fedoraproject.org/pub/fedora/linux/releases/39/Cloud/x86_64/images/Fedora-Cloud-Base-39-1.5.x86_64.qcow2
+  - checksum: "846574c8a97cd2d8dc1f231062d73107cc85cbbbda56335e264a46e3a6c8ab2f"
+    container_format: bare
+    disk_format: raw
+    name: fedora-43-1.6
+    state: absent
+    url: https://download.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-43-1.6.x86_64.qcow2
   - checksum: "6193a49c545425f99d23f59ea792f79a7a6b2e3557fc2d3f6d42c3e5274061de"
     container_format: bare
     disk_format: raw
