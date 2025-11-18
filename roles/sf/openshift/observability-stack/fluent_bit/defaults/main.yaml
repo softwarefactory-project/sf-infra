@@ -14,9 +14,9 @@ fluentbit_http_input: true
 
 # fluentbit_CA_configmap: "redhat-ca-bundle"
 
-fluentbit_chart_version: 0.46.11
+fluentbit_chart_version: 0.54.0
 fluentbit_replica_count: 1
-fluentbit_tag: 3.0.7
+fluentbit_tag: 4.1.1
 fluentbit_debug: false
 enable_service_monitor: false
 fluentbit_job_label: "sf_fluentbit"
