@@ -7,9 +7,9 @@ bots:
       - {{ ip_range }}
 {% endfor %}
 {% endif %}
-  - name: allow-dhall-files
+  - name: allow-dhall
+    user_agent_regex: dhall
     action: ALLOW
-    path_regex: "^.*dhall$"
   - import: (data)/clients/git.yaml
   - import: (data)/meta/default-config.yaml
   - name: challenge-mozilla
