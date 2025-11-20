@@ -254,7 +254,7 @@ container_images:
 # by default OSPO/OSCI roles consider firewalld is present on RH systems as it is the default in non-minimal images
 manage_firewall: False
 
-k9s_version: v0.32.5
+k9s_version: v0.50.16
 
 # refreshed: 2025-06-10
 grafana_pass: !vault |
