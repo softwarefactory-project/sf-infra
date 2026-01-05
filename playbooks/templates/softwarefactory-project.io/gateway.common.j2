@@ -127,6 +127,8 @@
         ProxyPass /cgit http://managesf.softwarefactory-project.io:37920/cgit
         ProxyPassReverse /cgit http://managesf.softwarefactory-project.io:37920/cgit
 
+        ProxyPass /zuul-capacity http://zs.softwarefactory-project.io:9101 nocanon retry=0
+        ProxyPassReverse /zuul-capacity http://zs.softwarefactory-project.io:9101
         <Proxy *>
             Options FollowSymLinks MultiViews
             AllowOverride All
