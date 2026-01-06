@@ -76,7 +76,7 @@ software_factory_cr:
       forwardInputHost: fluent-bit
       forwardInputPort: 24224
     codesearch:
-      enabled: false
+      enabled: true
     config-location:
       branch: main
       k8s-api-url: https://api.ocp.cloud.ci.centos.org:6443

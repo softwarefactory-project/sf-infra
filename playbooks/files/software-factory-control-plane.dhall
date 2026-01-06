@@ -142,7 +142,7 @@ let main_spec =
           , storage = Some SF.Storage::{ size = "300Gi" }
           }
         }
-      , codesearch = Some SF.Codesearch::{ enabled = Some False }
+      , codesearch = Some SF.Codesearch::{ enabled = Some True }
       }
 
 let executor =
