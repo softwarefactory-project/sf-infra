@@ -1,7 +1,10 @@
 -- | This file define the SoftwareFactory resources for the sf-operator.
 let -- The generated schema from the openapi definitions
     SF =
-      https://softwarefactory-project.io/cgit/software-factory/sf-operator/plain/schemas/package.dhall?id=658d9c72c3eb1778d90636b3a696c4127e002499
+      https://softwarefactory-project.io/cgit/software-factory/sf-operator/plain/schemas/package.dhall?id=658d9c72c3eb1778d90636b3a696c4127e002499 using (toMap
+                                                                                                                                                            { User-Agent =
+                                                                                                                                                                "dhall"
+                                                                                                                                                            })
         sha256:4ac950ff976601ed4c4b7136de1e26a297611ecb9f638b659deba54fac013d76
 
 let fqdn = "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
