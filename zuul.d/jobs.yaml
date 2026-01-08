@@ -221,6 +221,7 @@
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
       - playbooks/group_vars/sf-operator.yaml
+      - playbooks/group_vars/ibm-baremetal-nodepool.yaml
       - playbooks/vars/infra-sf.yaml
       - playbooks/zuul/configure-hosts.yaml
       - "^playbooks/templates/softwarefactory-project.io/.*$"
