@@ -22,6 +22,7 @@ let instances =
           , floating_ip = Some True
           , volume_size = Some 200
           }
+        , monitoring_urls = [ "https://mirror.regionone.vexxhost.rdoproject.org/centos/" ]
         }
       , Instance::{
         , name = "quay"
