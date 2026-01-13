@@ -1,63 +1,6 @@
-self_signed_certs:
-  - ca_cert_name: ibm-bm3-nodepool.crt
-    ca_cert: |
-      -----BEGIN CERTIFICATE-----
-      MIIE+DCCAuCgAwIBAgIUB/mWEyl7v9KwXk5kdwsBSJp9BP4wDQYJKoZIhvcNAQEL
-      BQAwEzERMA8GA1UEAwwIc2ltcGxlY2EwHhcNMjMxMTIwMTUyMTMyWhcNMzMxMTE3
-      MTUyMTMyWjATMREwDwYDVQQDDAhzaW1wbGVjYTCCAiIwDQYJKoZIhvcNAQEBBQAD
-      ggIPADCCAgoCggIBAKRIswYqJpXqj8YUV3t4lmUTRYlXQ4bYL09rNR+hXONHjey4
-      ZYFl56YvKe+uBeC3frtRo+I8biVyPDCPmlpi1AVzPkXICmJgceEGbOm4koSejSYJ
-      YqO53ehTzr0m59rIqcL176lB3YAzBXm2TQ+kQwTdwWm2dpBaKSeBDqnIMyaJL9HS
-      TQoM/+AI2vrILsH1XR43lDlI7UBDyw3WMjoPzGk8vL6lMjNrBmaXh89YFfGen2+0
-      GpRWqourIL8iD/emyKxV7HO0eH9kgILjSgr73xKJItpd8cg/XZh1XEGkcpjE6DI2
-      8asKFPklGROWNmyM/wjgdUt6hrItF8Fz9DCBoyeIutPD5FuIbCsXX4a+IcPnhK7O
-      XNMuESJ7UsqZTWr/XRVSf5Y4seagsPauTe0nAJEBJIskjTU8Fqf1hzfBxKPc6YTk
-      UQ9KfisdTHiDpmXxiOJCXSmm0bbx2JjOcVxhZTOWUOwqo2jS5RcDy30sZKbYlCGZ
-      8GlLzNVJw1SrCMCy0gjlAkAeBDY3WsCIM7dziMl/Zc7U6vv9yrVv/ie1vXD91UX1
-      32HPJmAjDz07nh1dzXuuqO+wpPK7Aku6MhP8onjclpeRfxA8k2+h/VpRKuQxw7I/
-      fSkyROKEMBhzfCB2Ypsyyyb824SOnc5gvw6otPy+99kmMIIKPwL0f8WSky1XAgMB
-      AAGjRDBCMBMGA1UdEQQMMAqCCHNpbXBsZWNhMAwGA1UdEwQFMAMBAf8wHQYDVR0O
-      BBYEFJBufwPE3tOqe9HcWMGE1+BqEdDdMA0GCSqGSIb3DQEBCwUAA4ICAQAm/ZX/
-      HcWh8qof8u2jEO+86daVWQYFjOsgukNX+FwGKpZowomeZgl2y9uNtygOKMOPuPAt
-      mWVPi7rX+ZkqikM9hctbtuRZPfQuLJBawOWTRj5NLn0iDvPttoCfB9qAt7j2G6mk
-      YhM9XZDH+6KTTerJyrNjMrITrpdZLeMbX8nH6CY1kRv25LmFfxlYZGk9jrRyLkTE
-      Shxd53vCoKf5+ah3xeycIJgUW6rOvrbkPiMZAFL24CXyo6KikeSYAbKdAloLnL04
-      KRzsqdvuTIXPTHmymRAFP4TG1+fY1LaaYWim/8P1c6juSygOf81U4UqtGnw+mD2Q
-      FEhb6r0W/zSk7rjmjyBAQkuU1mCyl2cbvHhzaLQIwdtrCDJS1FlcIOsqsx8sZrbS
-      q/rwwodvPGYcQL5/qcatkXhJvOsk81Ss8rLJHKyLg3nOS2tvuBdL5u4oA2JlOLjh
-      2hPpTPETCgBSVfUknq/eMe+7zPgyigCl0FcTrbLQ2Kbnwtqjqi4Pom3vV6VkqpJ4
-      yGv5wClz7XO3obrjlBfQn+2IzogLnR4/kiqqWdw4ZW7fd6WZxtEPnkNI84NWZUOt
-      W7z0c7Zy0bOVOGMyDGa+fivh2XP8+tJPMJipf61D86LR3ArFJYmv3LKw8vrTzaXg
-      bQDkH7/oPzP4oTMpkKPtlGVmVdw6MNICjrrk7g==
-      -----END CERTIFICATE-----
-  - ca_cert_name: ibm-bm4-nodepool.crt
-    ca_cert: |
-      -----BEGIN CERTIFICATE-----
-      MIIE+DCCAuCgAwIBAgIUZj/c6QCYZLBdPNX/Np3qCyKqJJYwDQYJKoZIhvcNAQEL
-      BQAwEzERMA8GA1UEAwwIc2ltcGxlY2EwHhcNMjMxMTIwMTgzMTM1WhcNMzMxMTE3
-      MTgzMTM1WjATMREwDwYDVQQDDAhzaW1wbGVjYTCCAiIwDQYJKoZIhvcNAQEBBQAD
-      ggIPADCCAgoCggIBAO3hi4cZuAECkHYwQ61Zr/UB03vnu+e6LRJsY23HihbSKdn6
-      dAeOD3TxIv9vyGT0GYk41i7erL/b6IZnltvMyMHoDuhnLLycdOfCiAjBctndtrDc
-      cZfwdnPjR/5MgdiZTLbDSBoKd9SZ5a1hdNOlz/k9Ik5vtWqH27IWgzFO+Zv/neZ3
-      FDX2oFol91GbXPIGGZmA/Hg649Ymt9q4Zmnf8Ezq0Cz0KU/AH8T+Waf9p5dd10yT
-      85ESwWnpMEpfHI+QaBgXqyZTvQtPfYZXwf5emo2lnexRrkRSUFyMtfGB6dfpuRc2
-      IKgpyB5WYakPU/mfx1dJRODpGp9aM8dMREu3+RFa5NWR1Nl6LZuXALAJVulKfnoZ
-      qaIN2jWmDHO001zDr6IC9uBE50mg8lK4kQ/FSo+b2O+UbHeqNY5wIkWM9ZhAKZO3
-      GoOV2fJw3zxaVVUofxmnRLRbACdT64bel0UfsNJOJmb7TChcKB/642JVf5WapMe/
-      cIfAFxx0kkrQpbZF7ImoIoHj5ZEWwpXMTNGeU10ph4agpqn1nx3PYiAycQOFJ7SN
-      aGp264NHgk/FQR9FXfTBrqcDy6W9Hi+44xuKbs9EgSKX10ruHVA5WCK54Yy1hDVJ
-      tAiYNvVb9TEoE9sci+c0K7w8bbG3+7JxHpOoodAp2jk58wkaT4fiMPGNuAsnAgMB
-      AAGjRDBCMBMGA1UdEQQMMAqCCHNpbXBsZWNhMAwGA1UdEwQFMAMBAf8wHQYDVR0O
-      BBYEFCqJg9B+TRee2Ld1Pk7jerAqWi+1MA0GCSqGSIb3DQEBCwUAA4ICAQB1bM2D
-      1nPLvWQNgd8adFPdyakWg5Hc7EhRPJJbeCyeXJxUdW0CuojRy4e3vXBX4N7/uBgK
-      g3DyDhjC48AEkHZ/8EyNMZ/fFxM4H6EKGk5wmPZdKIWh0eODmr4m9DnFHqho3v2R
-      sGsZejLjo9S8IDIvr0GCn+q+Mpcy9U0Svy+zmBEMUUWNxplSurOXSS6RbYDwuBrI
-      iY3an/tVUNw5PNaJkTcB7EoQS5lz4Y7z5/AF7OlnSF/Tn/gzP7N4tkau3SFmX1Qt
-      M8RUNP7j8rtHa8DsW4mQnMEbHfvd3sEaOAI9xd4UZZWPu8nMY5H7zhG4TXtoySp5
-      MfURQc8Iz6oAXEMqDyUMr8oREagFa5j8u18T/FgAdtpL4jXTKKoro+BXWEFfwM/P
-      MOLHj5AGyi2WIY1UHeN35K+i2b4uiqj1xNw1trj/ksWEdmXwy+2AeIP0F/0Tw/co
-      2iWmzr7u9Wq/7tB/BUdncqaa6xRiynKQRh4c493Ke0TSRbGWxfco1X9CU/mB7i7r
-      1OPUV5u+DwXubACk4coVVLcR6bxOcBRwrnEegf6XB9+unU6+VDWSRihPAFtQmx1T
-      3H/gD0lI6ueZK1vOcR4sydyEXAwU78gEUQomM8JG0Uqb9xEKUzpc3c6t/l9WNokh
-      vnawxil1QgpMfY5CRb4d+g2WLnlKJA7O4vtvKw==
-      -----END CERTIFICATE-----
+---
+# This var is unused in any playbook. It can instead be used to trigger
+# the `sf-infra-configure-hosts-sf` job when changes to
+# the BM happen out-of-band (for example regenerating certs with
+# shiftstack tooling).
+__trigger_gate_job: 1

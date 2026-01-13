@@ -208,7 +208,33 @@
     - service/node-exporter
     - system/psi
 
+- hosts: baremetal
+  tasks:
+    - name: Fetch openstack certificate
+      ansible.builtin.slurp:
+        # TODO this is a default value from shiftstack, maybe it shouldn't be hardcoded
+        src: /etc/pki/ca-trust/source/anchors/simpleca.crt
+      register: simpleca_output
+    - ansible.builtin.set_fact:
+        __self_signed_certs:
+          - ca_cert_name: "{{ inventory_hostname }}-nodepool-ca.crt"
+            ca_cert: "{{ simpleca_output['content'] | b64decode }}"
+
 - hosts: ibm-baremetal-nodepool
+  pre_tasks:
+    - name: Set the certs fact required by nodepool-self-signed-crt
+      ansible.builtin.set_fact:
+        self_signed_certs: "{{ groups['baremetal'] | map('extract', hostvars, '__self_signed_certs') | flatten }}"
+      run_once: true
+      # TODO can be removed after first run
+    - name: Ensure old certificates are removed
+      become: true
+      ansible.builtin.file:
+        path: "/etc/pki/ca-trust/source/anchors/ibm-{{ item }}-nodepool.crt"
+        state: absent
+      loop:
+        - bm3
+        - bm4
   roles:
     - service/apache-exporter
     - sf/nodepool-self-signed-crt

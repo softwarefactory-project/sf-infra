@@ -144,7 +144,7 @@
       block:
         - name: Read CA certificate
           ansible.builtin.slurp:
-            src: "{{ ssl_ca_cert_path }}"
+            src: "{{ standalone['cacert'] }}"
           register: ssl_ca_cert_output
 
         - name: Set fact for CA cert
