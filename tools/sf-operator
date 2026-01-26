@@ -1,0 +1,23 @@
+#!/bin/sh -e
+# Copyright © 2026 Red Hat
+# SPDX-License-Identifier: Apache-2.0
+
+VERSION=$1
+shift
+
+if [ -z "$VERSION" ] || [ "$VERSION" == "--help" ]; then
+    echo $0 version;
+    exit 1
+fi
+
+if [ ! -f /bin/sf-operator-$VERSION ]; then
+    CACHE=~/.cache/sf-operator-$VERSION
+    test -d $CACHE && rm -Rf $CACHE && mkdir -p $CACHE
+    git clone https://softwarefactory-project.io/r/software-factory/sf-operator $CACHE
+    pushd $CACHE
+    git checkout $VERSION && go build && sudo mv sf-operator /bin/sf-operator-$VERSION
+    popd
+    rm -Rf $CACHE
+fi
+
+exec /bin/sf-operator-$VERSION $*

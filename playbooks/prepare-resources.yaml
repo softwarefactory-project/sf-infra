@@ -1,0 +1,123 @@
+# Copyright (C) 2026 Red Hat
+# SPDX-License-Identifier: Apache-2.0
+
+# The purpose of this playbook is to setup the /etc/sf file hierarchy:
+# - /etc/sf/prod-centos/kubeconfig                : control plane access
+# - /etc/sf/prod-centos/sf.yaml                   : the custom ressource
+# - /etc/sf/prod-centos/extra-resources.yaml      : api tokens, ssh keys, ...
+# - /etc/sf/prod-centos/executors/host/kubeconfig : ext-ze plane access
+#
+# Only run this playbook when ansible vault values are changed.
+#
+# This playbook is intentionally kept flat, without any external logic,
+# so that every variable is used directly, without indirection nor abstraction.
+#
+# Run this playbook standalone like this:
+#   ANSIBLE_CONFIG=./ansible/ansible.cfg ansible-playbook -i ansible/hosts.yaml playbooks/prepare-resources.yaml
+
+- name: Fetch prod executor config
+  hosts: centos-infra-zuul-executors
+  become: yes
+  tasks:
+    - ansible.builtin.fetch:
+       src: /var/lib/microshift/resources/kubeadmin/{{ inventory_hostname }}/kubeconfig
+       dest: /etc/sf/prod-centos/executors/{{ inventory_hostname }}/
+       flat: true
+       # TODO: check if this really needs no_log
+
+- name: Decrypt Ansible vault and populate /etc/sf
+  hosts: bridge.softwarefactory-project.io
+  gather_facts: false
+  become: true
+  vars:
+    # The resource file contains both the main and executor CR.
+    # When writing the main CR, ansible still wants to resolve all the jinja variable, so we set a fake executor IP here for now.
+    # TODO: fix me by spliting the CR file, one for the control plane, one for the executor, and stop using ['software_factory_cr']
+    executor_public_ip: 'FAKE'
+
+  tasks:
+    - name: copy sf-operator runner
+      copy:
+        src: ../tools/sf-operator
+        dest: /bin/sf-operator
+        mode: 0755
+
+    - name: setup prod folder hiearchy
+      file:
+        path: /etc/sf/prod-centos/executors/{{ item }}
+        state: directory
+        mode: 0777 # that's ugly, but fetch fail with Permission denied otherwise :/
+      loop: "{{ groups['centos-infra-zuul-executors'] }}"
+
+    - name: setup prod control plane kubeconfig
+      copy:
+        content: "{{ centOSInfra_kube_config }}"
+        dest: /etc/sf/prod-centos/kubeconfig
+      no_log: true
+
+    - name: Get load balancer public IP (zookeeper)
+      block:
+        - register: _kout
+          ansible.builtin.command: >-
+            kubectl get service zookeeper-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+          environment:
+            KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+        - set_fact:
+            zk_public_hostname: "{% if _json.hostname is defined %}{{ _json.hostname }}{% else %}{{ _json.ip }}{% endif %}"
+          vars:
+            _json: "{{ _kout.stdout|from_json }}"
+
+    - name: Get load balancer public IP (gitserver)
+      block:
+        - register: _kout
+          ansible.builtin.command: >-
+            kubectl get service git-server-ro-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+          environment:
+            KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+        - set_fact:
+            gitserver_public_hostname: "{% if _json.hostname is defined %}{{ _json.hostname }}{% else %}{{ _json.ip }}{% endif %}"
+          vars:
+            _json: "{{ _kout.stdout|from_json }}"
+
+    - name: Get load balancer public IP (logserver)
+      block:
+        - register: _kout
+          ansible.builtin.command: >-
+            kubectl get service logserver-lb -o jsonpath={.status.loadBalancer.ingress[0]}
+          environment:
+            KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+        - set_fact:
+            logserver_public_hostname: "{% if _json.hostname is defined %}{{ _json.hostname }}{% else %}{{ _json.ip }}{% endif %}"
+          vars:
+            _json: "{{ _kout.stdout|from_json }}"
+
+    - name: read prod software_factory_cr
+      include_vars:
+        file: files/software-factory-control-plane.yaml
+        name: prod_cr
+      no_log: true
+
+    - name: setup prod extra resources
+      template:
+        src: "files/centos-infra/extra-resources.yaml.j2"
+        dest: /etc/sf/prod-centos/extra-resources.yaml
+      no_log: true
+
+    - name: setup prod software_factory_cr
+      copy:
+        content: "{{ prod_cr['software_factory_cr'] | to_nice_yaml }}"
+        dest: /etc/sf/prod-centos/sf.yaml
+      no_log: true
+
+    - name: setup prod executor plane cr
+      copy:
+        content: "{{ prod_cr['executor_cr'] | to_nice_yaml }}"
+        dest: /etc/sf/prod-centos/executors/{{ item }}/sf.yaml
+      vars:
+        executor_public_ip: "{{ hostvars[item]['ansible_facts']['default_ipv4']['address'] }}"
+      loop: "{{ groups['centos-infra-zuul-executors'] }}"
+      no_log: true
+
+    - name: force executor kubeconfig namespace
+      shell: |
+        sed -e 's/namespace:.*/namespace: sf/' -i /etc/sf/*/executors/*/kubeconfig

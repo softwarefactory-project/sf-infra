@@ -1,4 +1,7 @@
 ---
+# This file contains the secrets needed by the sf-operator
+sf_operator_standalone_release: v0.0.64
+
 # refreshed: 2025-03-14
 vexxhost_nodepool_rdo_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
@@ -138,17 +141,6 @@ k8s_providers_kube_config: |
   - name: k1s-managed
     user:
       token: {{ k1s_token }}
-
-nodepool_providers_secrets:
-  kind: Secret
-  apiVersion: v1
-  metadata:
-    name: nodepool-providers-secrets
-    namespace: "{{ sf_namespace }}"
-  type: Opaque
-  data:
-    clouds.yaml: "{{ clouds_yaml | b64encode }}"
-    kube.config: "{{ k8s_providers_kube_config | b64encode }}"
 
 # refreshed: 2025-03-05
 zuul_github_com_connection_webhook_token: !vault |
@@ -308,49 +300,7 @@ zuul_gitlab_com_connection_api_token: !vault |
   3437653332363866650a356262373339656636623139613865653865633563646464373038363231
   38346162346163363265383866633738623632316366336636623263313736616462
 
-zuul_connections_secrets:
-  - kind: Secret
-    apiVersion: v1
-    metadata:
-      namespace: "{{ sf_namespace }}"
-      name: zuul-github-com-connection
-    type: Opaque
-    data:
-      app_key: "{{ zuul_github_com_connection_app_key | trim | b64encode }}"
-      webhook_token: "{{ zuul_github_com_connection_webhook_token | trim | b64encode }}"
-      api_token: "{{ zuul_github_com_connection_api_token | trim | b64encode }}"
-  - kind: Secret
-    apiVersion: v1
-    metadata:
-      namespace: "{{ sf_namespace }}"
-      name: zuul-pagure-io-connection
-    type: Opaque
-    data:
-      api_token: "{{ zuul_pagure_token.pagure_io | trim | b64encode }}"
-  - kind: Secret
-    apiVersion: v1
-    metadata:
-      namespace: "{{ sf_namespace }}"
-      name: zuul-src-fedoraproject-org-connection
-    type: Opaque
-    data:
-      api_token: "{{ zuul_pagure_token.src_fedoraproject_org | trim | b64encode }}"
-  - kind: Secret
-    apiVersion: v1
-    metadata:
-      namespace: "{{ sf_namespace }}"
-      name: zuul-gitlab-com-connection
-    type: Opaque
-    data:
-      webhook_token: "{{ zuul_gitlab_com_connection_webhook_token | trim | b64encode }}"
-      api_token: "{{ zuul_gitlab_com_connection_api_token | trim | b64encode }}"
-
-kube_config: "{{ ansible_user_dir }}/.kube/centosInfra.config"
-sf_namespace: cloud-softwarefactory
-sf_setup_namespace: false
-sf_operator_standalone: true
-sf_operator_standalone_release: v0.0.64
-
+# Don't forget to change that when updating centOSInfra_zuul_ssh_priv
 centOSInfra_zuul_ssh_pub: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyXz3Vd2nln7h7oEteWMZM9e6gm/kOYXDGpZy0agxvEH0zpSgDph4KceNLxsb8/zZlN2eSMzGd9VeUW9BpXlBsvo7CGBol6fwm7Jf7XsLCx0kr8rqEXLBTH4MX13nUorlXdGooIalsj6FPGmlqwH4KawgnN6a67R7Qrzi7kHvajyYxabQsyhDJPDnADJUSKOhcg/u3gVLpanK1m2OTZjBK7S6chUvJiOnmcOI9j95W7NPuh4vlzJ5fspo6yWoXMolJbezln7mS8eTGsqoXoDmwLSw5RpQpALsYeEgkSi9yXXqz6Ogje2djpNslBuPbb0OGHDsHJFOTa38FxHRD2f5QFhCee84k9tbZPztfZoBNdgJ56jhAjm6vPYLXTQ/LMya1hp44mryMhfYFL+CiO2mGcsRsQUd6FN9Y8sSGF/rl1RkERWtRNa1LteXDtPJ56wY7KukvvOVBUX945zTVpG+kihVX4z5A4ybYGTVX4jzy6iBvnr/6XhDD2h9bdh2AwmGoVCMUrqXH5/BhzMcQchJxI3o/MOlGQ/r9du4HO7yg1R2CVEGe4WDku9U6Nx4W07a0RZVAoiLeW9GcmQx6Tp4oIrbv0mem7H0auVsFI/ZED6+5A93/MSZU7NKf171FkO96dXzVuiKdC+5rvw8hIepws5wOBnqEkBHzCkvKpodwiQ==
 
 # refreshed: 2025-04-01

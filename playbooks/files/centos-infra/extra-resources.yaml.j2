@@ -1,0 +1,62 @@
+---
+# Zuul SSH secrets
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-sf-ssh-secret
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  pub: "{{ centOSInfra_zuul_ssh_pub | b64encode }}"
+  priv: "{{ centOSInfra_zuul_ssh_priv | b64encode }}"
+---
+# Nodepool providers secrets
+kind: Secret
+apiVersion: v1
+metadata:
+  name: nodepool-providers-secrets
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  clouds.yaml: "{{ clouds_yaml | b64encode }}"
+  kube.config: "{{ k8s_providers_kube_config | b64encode }}"
+---
+# Zuul Connection secrets
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-github-com-connection
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  app_key: "{{ zuul_github_com_connection_app_key | trim | b64encode }}"
+  webhook_token: "{{ zuul_github_com_connection_webhook_token | trim | b64encode }}"
+  api_token: "{{ zuul_github_com_connection_api_token | trim | b64encode }}"
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-pagure-io-connection
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  api_token: "{{ zuul_pagure_token.pagure_io | trim | b64encode }}"
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-src-fedoraproject-org-connection
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  api_token: "{{ zuul_pagure_token.src_fedoraproject_org | trim | b64encode }}"
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-gitlab-com-connection
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  webhook_token: "{{ zuul_gitlab_com_connection_webhook_token | trim | b64encode }}"
+  api_token: "{{ zuul_gitlab_com_connection_api_token | trim | b64encode }}"

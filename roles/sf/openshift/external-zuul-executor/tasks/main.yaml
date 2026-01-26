@@ -1,16 +1,17 @@
 ---
+# TODO: implement these tasks as part of the sf-operator
+# there is nothing special being done here, everything can be discovered from the main cr.
 - name: Create a namespace
   ansible.builtin.shell: |
-    oc create namespace {{ executor_plane.namespace }}
-    oc adm policy add-scc-to-user privileged system:serviceaccount:{{ executor_plane.namespace }}:default
+    oc create namespace {{ executor_namespace }}
+    oc adm policy add-scc-to-user privileged system:serviceaccount:{{ executor_namespace }}:default
   environment:
-    KUBECONFIG: "{{ executor_plane.kubeconfig }}"
+    KUBECONFIG: "{{ executor_kubeconfig }}"
 
 - name: Synchronize default secrets from the control plane
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc get secrets {{ item }} -o json | \
-    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
-    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
+    KUBECONFIG={{ kubeconfig }} oc get secrets {{ item }} -o json | jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    env KUBECONFIG={{ executor_kubeconfig }} oc apply -n {{ executor_namespace }} -f -
   loop:
     - ca-cert
     - zookeeper-client-tls
@@ -19,23 +20,21 @@
 
 - name: Synchronize extra secrets from the SF control plane
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc get secrets {{ item }} -o json | \
-    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
-    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
-  loop: "{{ control_plane.extra_secrets }}"
+    KUBECONFIG={{ kubeconfig }} oc get secrets {{ item }} -o json | jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    KUBECONFIG={{ executor_kubeconfig }} oc apply -n {{ executor_namespace }} -f -
+  loop: "{{ extra_secrets }}"
 
 - name: Synchronize config-maps from the SF control plane
   ansible.builtin.shell: |
-    KUBECONFIG={{ control_plane.kubeconfig }} oc get cm {{ item }} -o json | \
-    jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
-    KUBECONFIG={{ executor_plane.kubeconfig }} oc apply -n {{ executor_plane.namespace }} -f -
-  loop: "{{ control_plane.extra_configmaps }}"
+    KUBECONFIG={{ kubeconfig }} oc get cm {{ item }} -o json | jq --arg name {{ item }} '. + {metadata: {name: $name}}' | \
+    KUBECONFIG={{ executor_kubeconfig }} oc apply -n {{ executor_namespace }} -f -
+  loop: "{{ extra_configmaps }}"
 
 - name: Expose the finger port
   kubernetes.core.k8s:
-    kubeconfig: "{{ executor_plane.kubeconfig }}"
+    kubeconfig: "{{ executor_kubeconfig }}"
+    namespace: "{{ executor_namespace }}"
     state: present
-    namespace: "{{ executor_plane.namespace }}"
     definition:
       apiVersion: v1
       kind: Service
@@ -51,14 +50,3 @@
           app: sf
           run: zuul-executor
         type: LoadBalancer
-
-- name: Run the standalone deployment of Sofware Factory from the sf-operator
-  ansible.builtin.include_role:
-    name: sf/openshift/install-software-factory
-  vars:
-    kube_config: "{{ executor_plane.kubeconfig }}"
-    sf_namespace: "{{ executor_plane.namespace }}"
-    # ensure those paramaters are empty as we already copy the data from the control plane
-    corporate_ca_certs: "{{ undef() }}"
-    zuul_connections_secrets: []
-    nodepool_providers_secrets: "{{ undef() }}"
