@@ -163,7 +163,7 @@
       executor_public_ip: ""
       sf_manifest: "{{ sf_control_plane.software_factory_cr }}"
 
-# Configure external executors
+  # Configure external executors
   - ansible.builtin.set_fact:
       control_plane:
           kubeconfig: "{{ kube_config }}"
