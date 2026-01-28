@@ -191,6 +191,19 @@ servers:
     floating_ip: true
     image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
+    name: bridge-rhel.softwarefactory-project.io
+    network: private-network
+    security_groups:
+      - common
+      - monitoring
+      - internal
+    state: present
+    volume_size: 40
+  - boot_from_volume: yes
+    flavor: v1-standard-2
+    floating_ip: true
+    image: rhel-9.4-x86_64-kvm
+    key_name: sf-infra-key
     name: monitoring.softwarefactory-project.io
     network: private-network
     security_groups:

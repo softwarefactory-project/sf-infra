@@ -96,6 +96,23 @@ let instances =
         , connection = OS.Fedora.`43`.connection
         }
       , Instance::{
+        , name = "bridge-rhel"
+        , groups =
+          [ "bridge"
+          , "promtail"
+          , "observability-stack"
+          , "sf-operator"
+          , "k1s-secrets"
+          ]
+        , connection = OS.RHEL.`9.4`.connection
+        , server = Some Infra.Server::{
+          , image = OS.RHEL.`9.4`.image.name
+          , floating_ip = Some True
+          , boot_from_volume = "yes"
+          , volume_size = Some 40
+          }
+        }
+      , Instance::{
         , groups = [ "monitoring", "rhel" ]
         , name = "monitoring"
         , connection = OS.RHEL.`9.4`.connection
