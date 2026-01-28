@@ -160,6 +160,7 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         backup.rdoproject.org: {}
+        bridge-rhel.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}

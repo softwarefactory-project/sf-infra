@@ -99,10 +99,11 @@ let instances =
         , name = "bridge-rhel"
         , groups =
           [ "bridge"
-          , "promtail"
-          , "observability-stack"
-          , "sf-operator"
           , "k1s-secrets"
+          , "observability-stack"
+          , "promtail"
+          , "rhel"
+          , "sf-operator"
           ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
