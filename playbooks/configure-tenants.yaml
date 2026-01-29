@@ -10,6 +10,9 @@
       - {name: 'vexxhost-rdo', tenant: 'nodepool-tripleo'}
       - {name: 'vexxhost-rdo', tenant: 'nodepool-rdo'}
   tasks:
+    - name: Ensure ansible requirements
+      command: ansible-galaxy install -r ../requirements.yml
+
     - ansible.builtin.include_tasks: tasks/configure-tenant.yaml
       loop: "{{ clouds }}"
       loop_control:

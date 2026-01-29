@@ -1,0 +1,43 @@
+---
+- name: Install requirements
+  become: true
+  ansible.builtin.package:
+    name:
+      - git
+      - jq
+      - python3
+      - python3-pip
+
+- name: Install requirements (pip)
+  become: true
+  ansible.builtin.pip:
+    name: "kubernetes"
+
+- name: Setup kube config
+  become: true
+  ansible.builtin.copy:
+    content: "{{ item.kubeconfig }}"
+    dest: "/etc/run-infra-ng/{{ item.namespace }}.kubeconfig"
+    mode: 0644
+  loop: "{{ kube_config_cluster }}"
+  when: kube_config_cluster != []
+
+- name: Install openshift client
+  become: true
+  block:
+    - name: Add repo for openshift-client
+      ansible.builtin.copy:
+        dest: /etc/yum.repos.d/microshift-deps.repo
+        content: |
+          [microshift-deps-rpms]
+          name=Puddle of Microshift deps RPMs
+          baseurl=https://mirror.openshift.com/pub/openshift-v4/$basearch/dependencies/rpms/{{ microshift_client_repo }}/
+          enabled=0
+          gpgcheck=0
+          skip_if_unavailable=1
+
+    - name: Install openshift-client
+      ansible.builtin.package:
+        name:
+          - openshift-clients
+        enablerepo: microshift-deps-rpms

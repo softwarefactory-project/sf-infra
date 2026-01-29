@@ -85,7 +85,7 @@ let -- | A function to create k1s hosts
 
 let instances =
       [ Instance::{
-        , name = "bridge"
+        , name = "bridge-old"
         , groups =
           [ "bridge"
           , "promtail"
@@ -96,7 +96,7 @@ let instances =
         , connection = OS.Fedora.`43`.connection
         }
       , Instance::{
-        , name = "bridge-rhel"
+        , name = "bridge"
         , groups =
           [ "bridge"
           , "k1s-secrets"

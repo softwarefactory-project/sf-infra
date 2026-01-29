@@ -197,7 +197,7 @@ servers:
     floating_ip: true
     image: rhel-10.1-x86_64-kvm
     key_name: sf-infra-key
-    name: bridge-rhel.softwarefactory-project.io
+    name: bridge.softwarefactory-project.io
     network: private-network
     security_groups:
       - common

@@ -17,14 +17,37 @@
       ignore_errors: true
       register: _epel_package
 
-    - name: Import a key from a epel repo
-      when: _epel_package.rc != 0
-      ansible.builtin.rpm_key:
-        state: present
-        key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+    - name: Install epel for rhel < 10
+      when:
+        - ansible_distribution == "RedHat"
+        - ansible_distribution_major_version|int < 10
+        - _epel_package.rc != 0
+      block:
+        - name: Import a key from a epel repo
+          ansible.builtin.rpm_key:
+            state: present
+            key: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
 
-    - name: Install epel release
-      when: _epel_package.rc != 0
-      ansible.builtin.package:
-        name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
-        state: present
+        - name: Install epel release
+          ansible.builtin.package:
+            name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+            state: present
+
+    - name: Install epel for rhel == 10
+      # https://docs.fedoraproject.org/en-US/epel/getting-started/#_el10
+      when:
+        - ansible_distribution == "RedHat"
+        - ansible_distribution_major_version|int == 10
+        - _epel_package.rc != 0
+      block:
+        - name: Enable codeready repo
+          ansible.builtin.shell: "subscription-manager repos --enable codeready-builder-for-rhel-10-$(arch)-rpms"
+
+        - name: Import a key from a epel repo
+          # ansible.builtin.rpm_key fails on rhel-10 with
+          # fatal: [bridge.softwarefactory-project.io]: FAILED! => {"changed": false, "msg": "gpg: WARNING: no command supplied.  Trying to guess what you mean ...\ngpg: packet(6) with unknown version 6\n"}
+          ansible.builtin.shell: "rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10"
+
+        - name: Install epel-release
+          ansible.builtin.dnf:
+            name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm

@@ -8,7 +8,11 @@
       become: yes
 
   roles:
+    - system/rhel-subscription
+    - system/rhel-setup
+    - system/epel-release
     - bridge/generate-etc-hosts
+    - bridge/install_k8s_clients
     - service/manage-accounts
     - service/node-exporter
     - system/psi
@@ -18,6 +22,16 @@
         sf_infra_secret_age_files: "{{ q('fileglob', 'host_vars/*.yaml', 'group_vars/*.yaml') }}"
 
   tasks:
+    - name: Install requirements
+      ansible.builtin.dnf:
+        name:
+          - python3-openshift
+          - python3-kubernetes
+          - python3-passlib
+          - python3-passlib+bcrypt
+          - python3-pyOpenSSL
+      become: true
+
     - name: "Install MTA"
       ansible.builtin.include_role:
         name: postfix
@@ -42,8 +56,8 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: fedora
-        group: fedora
+        owner: cloud-user
+        group: cloud-user
       loop:
         - /var/log/quay-cert-renew
         - /var/lib/sf-infra
@@ -51,7 +65,7 @@
     - name: Copy renew certificate script
       ansible.builtin.copy:
         content: |
-          cd  /home/fedora/src/softwarefactory-project.io/software-factory/sf-infra;
+          cd  /home/cloud-user/src/softwarefactory-project.io/software-factory/sf-infra;
           export ANSIBLE_CONFIG=ansible/ansible.cfg;
           export ANSIBLE_LOG_PATH=/var/log/quay-cert-renew/ansible-$(date '+%Y-%m-%d').log;
           /usr/bin/ansible-playbook playbooks/quay-renew-certificates.yml -i ansible/hosts.yaml
@@ -62,34 +76,6 @@
         name: Renew registry certificate - Quay
         special_time: weekly
         job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null
-
-    - name: Install dnf-automatic
-      # https://docs.fedoraproject.org/en-US/quick-docs/autoupdates/
-      become: yes
-      block:
-        - name: Install dnf-automatic
-          ansible.builtin.dnf:
-            name: "dnf-automatic"
-
-        - name: Configure dnf-automatic
-          ansible.builtin.copy:
-            dest: /etc/dnf/automatic.conf
-            content: |
-              [commands]
-              apply_updates=True
-          register: _config
-
-        - name: Enable dnf-automatic timer
-          ansible.builtin.systemd_service:
-            name: dnf-automatic.timer
-            state: started
-            enabled: true
-
-        - name: Restart dnf-automatic timer if config is updated
-          ansible.builtin.systemd_service:
-            name: dnf-automatic.timer
-            state: restarted
-          when: _config.changed
 
     - name: Clear facts cache
       ansible.builtin.meta: clear_facts

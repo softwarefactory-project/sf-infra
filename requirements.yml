@@ -33,7 +33,10 @@ roles:
 
 collections:
   - ansible.posix
+  - ansible.utils
   - community.crypto
   - community.general
+  - community.mysql
   - community.postgresql
   - kubernetes.core
+  - openstack.cloud

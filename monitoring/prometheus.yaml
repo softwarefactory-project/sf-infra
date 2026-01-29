@@ -38,8 +38,8 @@ scrape_configs:
           - backup.rdoproject.org:9100
           - baremetal03.rdoproject.org:9100
           - baremetal04.rdoproject.org:9100
+          - bridge-old.softwarefactory-project.io:9100
           - bridge.softwarefactory-project.io:9100
-          - bridge-rhel.softwarefactory-project.io:9100
           - monitoring.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
           - managesf.softwarefactory-project.io:9100

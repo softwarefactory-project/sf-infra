@@ -26,7 +26,7 @@ all:
         baremetal04.rdoproject.org: {}
     bridge:
       hosts:
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
     centos-infra-zuul-executors:
       hosts:
@@ -73,7 +73,7 @@ all:
         sf-container-worker-1.softwarefactory-project.io: {}
     k1s-secrets:
       hosts:
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -88,7 +88,7 @@ all:
         nodepool-builder.softwarefactory-project.io: {}
     observability-stack:
       hosts:
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
     opensearch:
       hosts:
@@ -110,7 +110,7 @@ all:
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
     promtail:
       hosts:
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
@@ -160,7 +160,7 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         backup.rdoproject.org: {}
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
         fedora.softwarefactory-project.io: {}
@@ -227,7 +227,7 @@ all:
         zs.softwarefactory-project.io: {}
     sf-operator:
       hosts:
-        bridge-rhel.softwarefactory-project.io: {}
+        bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
     ze:
@@ -264,14 +264,14 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: root
-    bridge-rhel.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    bridge.softwarefactory-project.io:
+    bridge-old.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: python3
       ansible_user: fedora
+    bridge.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
     dlrn-db-centos9.rdoproject.org:
       ansible_port: 22
       ansible_python_interpreter: auto

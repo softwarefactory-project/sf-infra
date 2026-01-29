@@ -37,9 +37,9 @@
         line: "%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL"
         validate: "/usr/sbin/visudo -cf %s"
 
-    - name: Setup extra authorized_keys for the fedora account
+    - name: Setup extra authorized_keys for the cloud-user account
       ansible.posix.authorized_key:
-        user: fedora
+        user: cloud-user
         key: "{{ item }}"
       with_items: "{{ bridge_extra_ssh_keys }}"
       when: bridge_extra_ssh_keys is defined

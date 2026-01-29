@@ -114,11 +114,11 @@ Host ibm-bm4-zfgw.softwarefactory-project.io
     Port 22
     ProxyJump baremetal04.rdoproject.org
     Hostname 192.168.26.13
-Host bridge.softwarefactory-project.io
+Host bridge-old.softwarefactory-project.io
     User fedora
     Port 22
 
-Host bridge-rhel.softwarefactory-project.io
+Host bridge.softwarefactory-project.io
     User cloud-user
     Port 22
 

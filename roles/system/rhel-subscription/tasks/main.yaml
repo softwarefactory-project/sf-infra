@@ -36,7 +36,7 @@
 
     - name: Manage Extended Update Support repos
       # EUS for rhel-9.6 will be available after 9.7 release
-      when: (rhel_minor_release | int) % 2 == 0 and rhel_release != 9.6
+      when: ansible_distribution_major_version == 9 and (rhel_minor_release | int) % 2 == 0 and rhel_release != 9.6
       community.general.rhsm_repository:
         name: "{{ item }}"
         state: "enabled"

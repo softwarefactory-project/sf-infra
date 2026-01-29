@@ -6,7 +6,7 @@
         name: "{{ bridge_name }}"
         ansible_python_interpreter: python3
         ansible_host: "{{ bridge_ip }}"
-        ansible_user: fedora
+        ansible_user: "{{ bridge_user }}"
         ansible_connection: ssh
         groups: bridge
 
@@ -18,18 +18,13 @@
   gather_facts: yes
   vars:
     bridge_packages:
-      - ansible
+      - ansible-core
       - cronie
       - dnsmasq
       - python3-cryptography
-      - python3-kubernetes
       - python3-lxml
       - python3-netaddr
-      - python3-openshift
-      - python3-passlib
-      - python3-passlib+bcrypt
       - python3-pip
-      - python3-pyOpenSSL
       - qemu-img
       - vim-enhanced
       - tmux
