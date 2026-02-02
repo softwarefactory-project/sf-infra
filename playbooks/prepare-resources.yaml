@@ -19,6 +19,14 @@
   hosts: centos-infra-zuul-executors
   become: yes
   tasks:
+    - name: setup prod folder hiearchy
+      file:
+        path: /etc/sf/prod-centos/executors/{{ item }}
+        state: directory
+        mode: 0777 # that's ugly, but fetch fail with Permission denied otherwise :/
+      loop: "{{ groups['centos-infra-zuul-executors'] }}"
+      delegate_to: localhost
+
     - ansible.builtin.fetch:
        src: /var/lib/microshift/resources/kubeadmin/{{ inventory_hostname }}/kubeconfig
        dest: /etc/sf/prod-centos/executors/{{ inventory_hostname }}/
@@ -41,13 +49,6 @@
         src: ../tools/sf-operator
         dest: /bin/sf-operator
         mode: 0755
-
-    - name: setup prod folder hiearchy
-      file:
-        path: /etc/sf/prod-centos/executors/{{ item }}
-        state: directory
-        mode: 0777 # that's ugly, but fetch fail with Permission denied otherwise :/
-      loop: "{{ groups['centos-infra-zuul-executors'] }}"
 
     - name: setup prod control plane kubeconfig
       copy:
