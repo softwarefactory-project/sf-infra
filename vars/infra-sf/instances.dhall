@@ -105,9 +105,9 @@ let instances =
           , "rhel"
           , "sf-operator"
           ]
-        , connection = OS.RHEL.`9.4`.connection
+        , connection = OS.RHEL.`10.1`.connection
         , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.4`.image.name
+          , image = OS.RHEL.`10.1`.image.name
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 40

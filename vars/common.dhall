@@ -163,6 +163,16 @@ in  { sfInfraKeypair = ./files/infra_key.pub as Text
                             "d362e72518a2d7415d850b8177c814f6fd87f42ca1640bda17e98855e1d6baad"
                         }
                       }
+                    , `10.1` =
+                      { -- image from https://access.redhat.com/downloads/content/479/ver=/rhel---10/10.1/x86_64/product-software
+                        connection = Infra.Connection::(RHEL // PyAuto)
+                      , image = Infra.Image::{
+                        , name = "rhel-10.1-x86_64-kvm"
+                        , url = "https://redhat.com"
+                        , checksum =
+                            "dc74ad1a9ccd3c62a02cc29f7f4715e47fa0fdaf08a8080dd20906f885f29bae"
+                        }
+                      }
                     }
             }
     }

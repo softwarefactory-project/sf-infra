@@ -25,7 +25,7 @@ This project manages:
 * ibm-bm4-ze.softwarefactory-project.io 
 * ibm-bm4-zfgw.softwarefactory-project.io 
 * bridge.softwarefactory-project.io 
-* bridge-rhel.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
+* bridge-rhel.softwarefactory-project.io rhel-10.1-x86_64-kvm v1-standard-2
 * monitoring.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
 * elk.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * managesf.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-4
