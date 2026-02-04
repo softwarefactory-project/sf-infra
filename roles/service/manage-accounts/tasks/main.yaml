@@ -41,5 +41,16 @@
       ansible.posix.authorized_key:
         user: cloud-user
         key: "{{ item }}"
-      with_items: "{{ bridge_extra_ssh_keys }}"
-      when: bridge_extra_ssh_keys is defined
+      loop: "{{ bridge_extra_ssh_keys }}"
+      when:
+        - bridge_extra_ssh_keys is defined
+        - ansible_distribution == "RedHat"
+
+    - name: Setup extra authorized_keys for the fedora account
+      ansible.posix.authorized_key:
+        user: fedora
+        key: "{{ item }}"
+      loop: "{{ bridge_extra_ssh_keys }}"
+      when:
+        - bridge_extra_ssh_keys is defined
+        - ansible_distribution == "Fedora"
