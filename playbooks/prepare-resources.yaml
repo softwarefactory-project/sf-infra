@@ -23,7 +23,9 @@
       file:
         path: /etc/sf/prod-centos/executors/{{ item }}
         state: directory
-        mode: 0777 # that's ugly, but fetch fail with Permission denied otherwise :/
+        group: "{{ admin_group }}"
+        mode: 0770
+        recurse: yes
       loop: "{{ groups['centos-infra-zuul-executors'] }}"
       delegate_to: localhost
 

@@ -1,3 +1,4 @@
+admin_group: "sf-admin"
 static_hosts:
   - name: sf-container-worker-1.softwarefactory-project.io
     ip: 38.129.16.117

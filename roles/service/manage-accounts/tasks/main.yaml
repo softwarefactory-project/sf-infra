@@ -37,20 +37,26 @@
         line: "%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL"
         validate: "/usr/sbin/visudo -cf %s"
 
-    - name: Setup extra authorized_keys for the cloud-user account
-      ansible.posix.authorized_key:
-        user: cloud-user
-        key: "{{ item }}"
-      loop: "{{ bridge_extra_ssh_keys }}"
-      when:
-        - bridge_extra_ssh_keys is defined
-        - ansible_distribution == "RedHat"
+    - name: Set fact service_user user on RedHat
+      ansible.builtin.set_fact:
+        service_user: "cloud-user"
+      when: ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
 
-    - name: Setup extra authorized_keys for the fedora account
+    - name: Set fact service_user user on Fedora
+      ansible.builtin.set_fact:
+        service_user: "fedora"
+      when: ansible_distribution == "Fedora"
+
+    - name: Setup extra authorized_keys for the "{{ service_user }}" account
       ansible.posix.authorized_key:
-        user: fedora
+        user: "{{ service_user }}"
         key: "{{ item }}"
       loop: "{{ bridge_extra_ssh_keys }}"
       when:
         - bridge_extra_ssh_keys is defined
-        - ansible_distribution == "Fedora"
+
+    - name: Ensure sf-admin group for "{{ service_user }}"
+      ansible.builtin.user:
+        name: "{{ service_user }}"
+        append: "yes"
+        groups: "{{ admin_group }}"

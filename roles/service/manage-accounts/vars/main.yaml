@@ -22,12 +22,14 @@ bridge_users:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCwEtxKw9XCxQUsUsRDxOpSo8+9KpX8lOlL0q9owdAb3W2YHv5d4XSlkZ78h7hDORoGLbNFEILBWb3pOJ+uDn7u7EtpZlKYqlJh3diHYCZuUETpG5WBbUExfDLLolbDdiihJKD06Y6wu8vzaDZSxrRrMuRo1PjmzsHKtoV7qip5a+jnFqPtE+DHVh8GhZkY2Qhbji0+fv4JUSLvcrLEJUIE5XHLG0BniJsTQCu4R05rBzd2gfTet95B7LSw1dNObvIVb8dnJBCQ5IFKblOAZp3M0EKdjmNdSTjgLlorqMN1F0YMi6unrfimPyH5pzd1Rnf2Cr2gcT+M55hcueHp86Lh"
   abreeds:
     name: "abreeds"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
       - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/ejplbHzy0s3HZsnwru7p/M4hRdo8Kzv2M04rgTchYNNlk+lOH5yA8iQP+Dgk/Tw6WvHIfyjxBrFlSlc6ZZEyDHSNUetrLbJbkKZgf1qbmusxFFvv9oCl8wwVc9wAfV7Wtfvg/HzdOjpmhXU7ReIBHqKJtGkbzUOIrsGAVk+ADacOtry8s/Y1xeIIVZ8oDWTs7lJhoWnIIPy1w2hvrTme4dfP19UFHNf8y/gl4dLXYNB4fHwaEAiS//W1m0s/EybcSJ+TBBB8cS3rjoC11JsNjY5RCV6v6LtLs+KT12kjLM4EqAHaicWg9aKjyNXmiNde6V1EZE4aUgYSsUFVcvSh RedHat-key"
   apevec:
     name: "apevec"
+    state: "absent"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
