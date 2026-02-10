@@ -5,7 +5,7 @@ let unmonitored_instances =
 
 let rhel_supported_versions =
     {- https://access.redhat.com/support/policy/updates/errata#RHEL8_and_9_Life_Cycle -}
-      "8.10|9.2|9.4|9.6|9.7"
+      "8.10|9.2|9.4|9.6|9.7|10.1"
 
 let fedora_supported_versions = "42|43"
 

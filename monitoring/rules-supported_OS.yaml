@@ -6,7 +6,7 @@ groups:
         annotations:
           description: System use an outated OS version
           summary: "System use an outated OS version (instance {{ $labels.instance }})"
-        expr: "node_os_info{id='rhel', version_id !~ '8.10|9.2|9.4|9.6|9.7', instance!~'((managesf|zs|elk|ansible|zk01|fedora).softwarefactory-project.io|(managesf|logserver).*):9100'}"
+        expr: "node_os_info{id='rhel', version_id !~ '8.10|9.2|9.4|9.6|9.7|10.1', instance!~'((managesf|zs|elk|ansible|zk01|fedora).softwarefactory-project.io|(managesf|logserver).*):9100'}"
         labels:
           severity: info
       - alert: FedoraEolOsVersions
