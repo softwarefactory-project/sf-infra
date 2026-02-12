@@ -30,6 +30,7 @@ all:
         bridge.softwarefactory-project.io: {}
     centos-infra-zuul-executors:
       hosts:
+        microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
     db_master:
       hosts:
@@ -126,6 +127,7 @@ all:
         k1s06.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
         microshift-infra.softwarefactory-project.io: {}
+        microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
@@ -179,6 +181,7 @@ all:
         managesf-dev.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
+        microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
         mirror.regionone.ibm-bm3-nodepool.rdoproject.org: {}
         mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
@@ -229,6 +232,7 @@ all:
       hosts:
         bridge-old.softwarefactory-project.io: {}
         bridge.softwarefactory-project.io: {}
+        microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
     ze:
       hosts:
@@ -359,6 +363,10 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     microshift-infra.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    microshift-ze01.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
