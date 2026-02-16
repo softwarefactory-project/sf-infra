@@ -166,6 +166,10 @@ Host image-builder.softwarefactory-project.io
     User cloud-user
     Port 22
 
+Host microshift-ze01.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host microshift-ze02.softwarefactory-project.io
     User cloud-user
     Port 22

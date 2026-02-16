@@ -380,6 +380,20 @@ servers:
     flavor: "8vcpu_16GB"
     image: rhel-9.4-x86_64-kvm
     key_name: sf-infra-key
+    name: microshift-ze01.softwarefactory-project.io
+    network: public
+    security_groups:
+      - common
+      - monitoring
+      - internal
+      - k8s-client
+      - zuul-finger
+    state: present
+    volume_size: 100
+  - boot_from_volume: yes
+    flavor: "8vcpu_16GB"
+    image: rhel-9.4-x86_64-kvm
+    key_name: sf-infra-key
     name: microshift-ze02.softwarefactory-project.io
     network: public
     security_groups:
@@ -557,6 +571,10 @@ volumes:
     display_name: image-builder-data
     server: image-builder.softwarefactory-project.io
     size: 1000
+  - device: /dev/vdb
+    display_name: ze01-lvm
+    server: microshift-ze01.softwarefactory-project.io
+    size: 512
   - device: /dev/vdb
     display_name: ze02-lvm
     server: microshift-ze02.softwarefactory-project.io
