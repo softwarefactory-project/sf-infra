@@ -24,14 +24,20 @@
       become: true
       ansible.builtin.pip:
         name: "kubernetes"
+
+    - name: Disable ipv6
+      become: true
+      # to avoid failure like:
+      # dial tcp [::1]:6443: connect: cannot assign requested address
+      ansible.posix.sysctl:
+        name: net.ipv6.conf.all.disable_ipv6
+        value: '0'
+        sysctl_set: true
+        state: present
+        reload: true
   roles:
     - system/volume
-    # The install-golang role is available on gerrit on the sf-operator project
-    # the project has been removed from sf-io's Zuul due to conflict with the
-    # centos's Zuul
-    # - install-golang
     - sf/setup-microshift
-    - sf/k9s
     - service/node-exporter
 
 - name: Setup resources
