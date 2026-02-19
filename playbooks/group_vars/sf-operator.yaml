@@ -1,6 +1,6 @@
 ---
 # This file contains the secrets needed by the sf-operator
-sf_operator_standalone_release: v0.0.64
+sf_operator_standalone_release: v0.0.65
 
 # refreshed: 2025-03-14
 vexxhost_nodepool_rdo_password: !vault |

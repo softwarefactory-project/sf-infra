@@ -8,47 +8,30 @@
 
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
-  environment:
-    KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
   tasks:
   - name: Deploy networking resources
     ansible.builtin.command: kubectl apply -f files/centos-infra/networking.yaml
+    environment:
+      KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
 
   - name: Deploy prometheus resources
     ansible.builtin.command: kubectl apply -f files/centos-infra/prometheus-resources.yaml
+    environment:
+      KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
 
   - name: Deploy software factory control plane
     ansible.builtin.command: sf-operator {{ sf_operator_standalone_release }} deploy /etc/sf/prod-centos/sf.yaml
 
-  # TODO: remove this role by making that mechanical work automatic when running sf-operator
-  - name: Copy config from control plane to executor
-    include_role:
-      name: sf/openshift/external-zuul-executor
-    vars:
-      executor_namespace: "sf"
-      executor_kubeconfig: "/etc/sf/prod-centos/executors/{{ _ze }}/kubeconfig"
-      kubeconfig: "/etc/sf/prod-centos/kubeconfig"
-      extra_secrets:
-        - zuul-sf-ssh-secret
-        - zuul-github-com-connection
-        - zuul-pagure-io-connection
-        - zuul-src-fedoraproject-org-connection
-        - zuul-gitlab-com-connection
-      extra_configmaps: []
-    loop: "{{ groups['centos-infra-zuul-executors'] }}"
-    loop_control:
-      loop_var: _ze
-
   - name: Deploy software factory executors
-    ansible.builtin.command: sf-operator {{ sf_operator_standalone_release }} deploy /etc/sf/prod-centos/executors/{{ item }}/sf.yaml
-    environment:
-      KUBECONFIG: "/etc/sf/prod-centos/executors/{{ item }}/kubeconfig"
+    ansible.builtin.command: sf-operator {{ sf_operator_standalone_release }} deploy /etc/sf/prod-centos/sf.yaml --remote /etc/sf/prod-centos/executors/{{ item }}/sf.yaml
     loop: "{{ groups['centos-infra-zuul-executors'] }}"
 
   # Enable builder connection
   - name: Get nodepool builder key
     ansible.builtin.command: kubectl get secret nodepool-builder-ssh-key -o jsonpath={.data.pub}
     register: builder_pubkey
+    environment:
+      KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
 
 - hosts: image-builder.softwarefactory-project.io
   gather_facts: yes
