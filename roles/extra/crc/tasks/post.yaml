@@ -23,7 +23,7 @@
   ansible.builtin.shell: |
     /usr/local/bin/oc login -u kubeadmin -p "{{ openshift_admin_password }}" https://api.crc.testing:6443
   until: "'Unable to connect to the server' not in _login_user.stderr"
-  retries: 20
+  retries: 60
   delay: 10
   register: _login_user
   no_log: "{{ hide_sensitive_logs }}"
