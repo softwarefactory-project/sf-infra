@@ -27,7 +27,6 @@ executor_cr:
         - hostname: softwarefactory-project.io
           name: softwarefactory-project.io
           puburl: https://softwarefactory-project.io/r
-          sshkey: zuul-sf-ssh-secret
           username: microzuul
         - canonicalhostname: rdoproject.org
           hostname: review.rdoproject.org
@@ -112,7 +111,6 @@ software_factory_cr:
         - hostname: softwarefactory-project.io
           name: softwarefactory-project.io
           puburl: https://softwarefactory-project.io/r
-          sshkey: zuul-sf-ssh-secret
           username: microzuul
         - canonicalhostname: rdoproject.org
           hostname: review.rdoproject.org

@@ -15,7 +15,6 @@ let zuul_connections =
           , name = "softwarefactory-project.io"
           , hostname = "softwarefactory-project.io"
           , puburl = Some "https://softwarefactory-project.io/r"
-          , sshkey = Some "zuul-sf-ssh-secret"
           , username = Some "microzuul"
           }
         , SF.GerritConn::{
