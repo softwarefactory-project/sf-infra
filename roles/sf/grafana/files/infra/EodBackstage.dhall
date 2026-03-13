@@ -6,8 +6,6 @@
 -- <https://monitoring.softwarefactory-project.io/grafana/d/9FFVq15Ik/eod-backstage?orgId=1>
 let Panels = ./Panels.dhall "P1809F7CD0C75ACF3"
 
-let PanelsOC = ./Panels.dhall "de3tjez2wgq2oe"
-
 let -- |            Application metrics            | --
     -- The services we maintains:
     appSep =
@@ -93,7 +91,7 @@ let -- | NodepoolNodeRequestFulfilledDelay
 
 let mkPodCPULoadPanel =
       \(podName : Text) ->
-        PanelsOC.mkPrometheus
+        Panels.mkPrometheus
           "CPU Load by pod (1.0 means 1 CPU time)"
           [ { query =
                 "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\"${podName}\"}) by (pod)"
@@ -104,7 +102,7 @@ let mkPodCPULoadPanel =
 
 let mkPodMemUsedPanel =
       \(podName : Text) ->
-        PanelsOC.mkPrometheus
+        Panels.mkPrometheus
           "Mem Used by Pod"
           [ { query =
                 "sum(container_memory_working_set_bytes{pod=~\"${podName}\", container!=\"\"}) by (pod)"
@@ -123,19 +121,49 @@ let nodepoolLauncherPanels =
       let providersNodes =
             \(state : Text) ->
               Panels.mkPrometheus
-                "Nodes (in ${state} state) by providers"
+                "Nodes (in ${state} state) by providers only available for centosinfra-prod"
                 [ { query =
-                      "nodepool_provider_nodes{softwarefactory=\"softwarefactory-project.io\", state=\"${state}\"}"
+                      "nodepool_provider_nodes{softwarefactory=\"centosinfra-prod\", state=\"${state}\"}"
                   , legend = "{{provider}}"
                   }
                 ]
                 "none"
 
-      let providerTotalInstances =
+      let providerZcTotalInstances =
             Panels.mkPrometheus
               "Instances spawned on the provider (provided via zuul-capacity)"
               [ { query =
-                    "zuul_instances_total{softwarefactory=\"softwarefactory-project.io\"}"
+                    "zuul_instances_total{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "none"
+
+      let providerZcTotalvCPUUsed =
+            Panels.mkPrometheus
+              "Total vCPU used by providers (provided via zuul-capacity)"
+              [ { query =
+                    "zuul_instances_cpu{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "none"
+
+      let providerZcTotalMemUsed =
+            Panels.mkPrometheus
+              "Total Memory used by providers (provided via zuul-capacity)"
+              [ { query =
+                    "zuul_instances_mem{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "decmbytes"
+
+      let providerTotalInstances =
+            Panels.mkPrometheus
+              "Instances spawned on the provider"
+              [ { query =
+                    "zuul_instances_total{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -143,9 +171,9 @@ let nodepoolLauncherPanels =
 
       let providerTotalvCPUUsed =
             Panels.mkPrometheus
-              "Total vCPU used by providers (provided via zuul-capacity)"
+              "Total vCPU used by providers"
               [ { query =
-                    "zuul_instances_cpu{softwarefactory=\"softwarefactory-project.io\"}"
+                    "zuul_instances_cpu{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -153,9 +181,9 @@ let nodepoolLauncherPanels =
 
       let providerTotalMemUsed =
             Panels.mkPrometheus
-              "Total Memory used by providers (provided via zuul-capacity)"
+              "Total Memory used by providers"
               [ { query =
-                    "zuul_instances_mem{softwarefactory=\"softwarefactory-project.io\"}"
+                    "zuul_instances_mem{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -164,10 +192,7 @@ let nodepoolLauncherPanels =
       let providerAPICallErrors =
             Panels.mkPrometheus
               "Amount of API calls error by providers (provided via zuul-capacity) / There will be no data if no errors"
-              [ { query = "zuul_provider_error{softwarefactory=\"gpc-prod\"}"
-                , legend = "{{cloud}}"
-                }
-              ]
+              [ { query = "zuul_provider_error", legend = "{{cloud}}" } ]
               "none"
 
       in  [ Panels.mkSep "Nodepool Launcher"
@@ -178,6 +203,9 @@ let nodepoolLauncherPanels =
           , providerTotalInstances
           , providerTotalvCPUUsed
           , providerTotalMemUsed
+          , providerZcTotalInstances
+          , providerZcTotalvCPUUsed
+          , providerZcTotalMemUsed
           , providersNodes "failed"
           , providerAPICallErrors
           ]

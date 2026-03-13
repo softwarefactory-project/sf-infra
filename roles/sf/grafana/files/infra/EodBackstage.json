@@ -959,7 +959,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "de3tjez2wgq2oe"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "fieldConfig": {
         "defaults": {
@@ -1032,7 +1032,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "de3tjez2wgq2oe"
+            "uid": "P1809F7CD0C75ACF3"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1052,7 +1052,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "de3tjez2wgq2oe"
+        "uid": "P1809F7CD0C75ACF3"
       },
       "fieldConfig": {
         "defaults": {
@@ -1125,7 +1125,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "de3tjez2wgq2oe"
+            "uid": "P1809F7CD0C75ACF3"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1222,7 +1222,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "nodepool_provider_nodes{softwarefactory=\"softwarefactory-project.io\", state=\"in-use\"}",
+          "expr": "nodepool_provider_nodes{softwarefactory=\"centosinfra-prod\", state=\"in-use\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1232,7 +1232,7 @@
           "refId": "Q0"
         }
       ],
-      "title": "Nodes (in in-use state) by providers",
+      "title": "Nodes (in in-use state) by providers only available for centosinfra-prod",
       "type": "timeseries"
     },
     {
@@ -1315,7 +1315,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "nodepool_provider_nodes{softwarefactory=\"softwarefactory-project.io\", state=\"hold\"}",
+          "expr": "nodepool_provider_nodes{softwarefactory=\"centosinfra-prod\", state=\"hold\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1325,7 +1325,7 @@
           "refId": "Q0"
         }
       ],
-      "title": "Nodes (in hold state) by providers",
+      "title": "Nodes (in hold state) by providers only available for centosinfra-prod",
       "type": "timeseries"
     },
     {
@@ -1408,7 +1408,286 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "zuul_instances_total{softwarefactory=\"softwarefactory-project.io\"}",
+          "expr": "zuul_instances_total{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10m",
+          "legendFormat": "{{cloud}}",
+          "range": true,
+          "refId": "Q0"
+        }
+      ],
+      "title": "Instances spawned on the provider",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "axisWidth": 96,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "zuul_instances_cpu{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10m",
+          "legendFormat": "{{cloud}}",
+          "range": true,
+          "refId": "Q0"
+        }
+      ],
+      "title": "Total vCPU used by providers",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "axisWidth": 96,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "decmbytes"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "zuul_instances_mem{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "10m",
+          "legendFormat": "{{cloud}}",
+          "range": true,
+          "refId": "Q0"
+        }
+      ],
+      "title": "Total Memory used by providers",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "left",
+            "axisWidth": 96,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          },
+          "unit": "none"
+        }
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "zuul_instances_total{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1501,7 +1780,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "zuul_instances_cpu{softwarefactory=\"softwarefactory-project.io\"}",
+          "expr": "zuul_instances_cpu{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1594,7 +1873,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "zuul_instances_mem{softwarefactory=\"softwarefactory-project.io\"}",
+          "expr": "zuul_instances_mem{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1687,7 +1966,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "nodepool_provider_nodes{softwarefactory=\"softwarefactory-project.io\", state=\"failed\"}",
+          "expr": "nodepool_provider_nodes{softwarefactory=\"centosinfra-prod\", state=\"failed\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1697,7 +1976,7 @@
           "refId": "Q0"
         }
       ],
-      "title": "Nodes (in failed state) by providers",
+      "title": "Nodes (in failed state) by providers only available for centosinfra-prod",
       "type": "timeseries"
     },
     {
@@ -1780,7 +2059,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "zuul_provider_error{softwarefactory=\"gpc-prod\"}",
+          "expr": "zuul_provider_error",
           "format": "time_series",
           "hide": false,
           "instant": false,
