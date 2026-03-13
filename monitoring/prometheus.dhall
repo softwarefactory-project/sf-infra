@@ -73,6 +73,10 @@ in  PrometheusConfig
         //  { metrics_path = Some "/weeder/metrics" }
       ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
         //  { metrics_path = Some "/logjuicer/metrics" }
+      ,     ScrapeConfigs.static
+              "zuul-capacity"
+              [ "softwarefactory-project.io" ]
+        //  { metrics_path = Some "/zuul-capacity" }
       , Prometheus.ScrapeConfig::{
         , job_name = Some "centosinfra-prod"
         , honor_labels = Some True

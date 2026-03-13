@@ -225,6 +225,11 @@ scrape_configs:
     static_configs:
       - targets:
           - softwarefactory-project.io
+  - job_name: zuul-capacity
+    metrics_path: /zuul-capacity
+    static_configs:
+      - targets:
+          - softwarefactory-project.io
   - honor_labels: true
     job_name: centosinfra-prod
     metrics_path: /federate

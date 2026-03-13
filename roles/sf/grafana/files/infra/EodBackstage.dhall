@@ -6,6 +6,8 @@
 -- <https://monitoring.softwarefactory-project.io/grafana/d/9FFVq15Ik/eod-backstage?orgId=1>
 let Panels = ./Panels.dhall "P1809F7CD0C75ACF3"
 
+let PanelsOC = ./Panels.dhall "de3tjez2wgq2oe"
+
 let -- |            Application metrics            | --
     -- The services we maintains:
     appSep =
@@ -89,6 +91,97 @@ let -- | NodepoolNodeRequestFulfilledDelay
     nodepoolNodeRequestFulfilled =
       "TODO"
 
+let mkPodCPULoadPanel =
+      \(podName : Text) ->
+        PanelsOC.mkPrometheus
+          "CPU Load by pod (1.0 means 1 CPU time)"
+          [ { query =
+                "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\"${podName}\"}) by (pod)"
+            , legend = "{{pod}}"
+            }
+          ]
+          "none"
+
+let mkPodMemUsedPanel =
+      \(podName : Text) ->
+        PanelsOC.mkPrometheus
+          "Mem Used by Pod"
+          [ { query =
+                "sum(container_memory_working_set_bytes{pod=~\"${podName}\", container!=\"\"}) by (pod)"
+            , legend = "{{pod}}"
+            }
+          ]
+          "decbytes"
+
+let nodepoolLauncherPanels =
+      let podName = "nodepool-launcher-.*"
+
+      let podCPULoad = mkPodCPULoadPanel podName
+
+      let podMemUsed = mkPodMemUsedPanel podName
+
+      let providersNodes =
+            \(state : Text) ->
+              Panels.mkPrometheus
+                "Nodes (in ${state} state) by providers"
+                [ { query =
+                      "nodepool_provider_nodes{softwarefactory=\"softwarefactory-project.io\", state=\"${state}\"}"
+                  , legend = "{{provider}}"
+                  }
+                ]
+                "none"
+
+      let providerTotalInstances =
+            Panels.mkPrometheus
+              "Instances spawned on the provider (provided via zuul-capacity)"
+              [ { query =
+                    "zuul_instances_total{softwarefactory=\"softwarefactory-project.io\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "none"
+
+      let providerTotalvCPUUsed =
+            Panels.mkPrometheus
+              "Total vCPU used by providers (provided via zuul-capacity)"
+              [ { query =
+                    "zuul_instances_cpu{softwarefactory=\"softwarefactory-project.io\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "none"
+
+      let providerTotalMemUsed =
+            Panels.mkPrometheus
+              "Total Memory used by providers (provided via zuul-capacity)"
+              [ { query =
+                    "zuul_instances_mem{softwarefactory=\"softwarefactory-project.io\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "decmbytes"
+
+      let providerAPICallErrors =
+            Panels.mkPrometheus
+              "Amount of API calls error by providers (provided via zuul-capacity) / There will be no data if no errors"
+              [ { query = "zuul_provider_error{softwarefactory=\"gpc-prod\"}"
+                , legend = "{{cloud}}"
+                }
+              ]
+              "none"
+
+      in  [ Panels.mkSep "Nodepool Launcher"
+          , podCPULoad
+          , podMemUsed
+          , providersNodes "in-use"
+          , providersNodes "hold"
+          , providerTotalInstances
+          , providerTotalvCPUUsed
+          , providerTotalMemUsed
+          , providersNodes "failed"
+          , providerAPICallErrors
+          ]
+
 let -- |               System metrics              | --
     -- The main systems we operate (e.g. scheduler, logserver, databases).
     -- To keep the graph digest, replicated hosts like executor/merger are excluded
@@ -103,6 +196,10 @@ let dashBoardWIP = Panels.mkDashboard "EOD - BackStage (WIP)" apps
 let dashBoard =
       Panels.mkDashboard
         "EOD - BackStage"
-        ([ appSep, zuul ] # apps # Panels.nodeMetrics hosts)
+        (   [ appSep, zuul ]
+          # apps
+          # Panels.nodeMetrics hosts
+          # nodepoolLauncherPanels
+        )
 
 in  dashBoard
