@@ -89,34 +89,8 @@ let -- | NodepoolNodeRequestFulfilledDelay
     nodepoolNodeRequestFulfilled =
       "TODO"
 
-let mkPodCPULoadPanel =
-      \(podName : Text) ->
-        Panels.mkPrometheus
-          "CPU Load by pod (1.0 means 1 CPU time)"
-          [ { query =
-                "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{pod=~\"${podName}\"}) by (pod)"
-            , legend = "{{pod}}"
-            }
-          ]
-          "none"
-
-let mkPodMemUsedPanel =
-      \(podName : Text) ->
-        Panels.mkPrometheus
-          "Mem Used by Pod"
-          [ { query =
-                "sum(container_memory_working_set_bytes{pod=~\"${podName}\", container!=\"\"}) by (pod)"
-            , legend = "{{pod}}"
-            }
-          ]
-          "decbytes"
-
 let nodepoolLauncherPanels =
       let podName = "nodepool-launcher-.*"
-
-      let podCPULoad = mkPodCPULoadPanel podName
-
-      let podMemUsed = mkPodMemUsedPanel podName
 
       let providersNodes =
             \(state : Text) ->
@@ -129,41 +103,11 @@ let nodepoolLauncherPanels =
                 ]
                 "none"
 
-      let providerZcTotalInstances =
-            Panels.mkPrometheus
-              "Instances spawned on the provider (provided via zuul-capacity)"
-              [ { query =
-                    "zuul_instances_total{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
-                , legend = "{{cloud}}"
-                }
-              ]
-              "none"
-
-      let providerZcTotalvCPUUsed =
-            Panels.mkPrometheus
-              "Total vCPU used by providers (provided via zuul-capacity)"
-              [ { query =
-                    "zuul_instances_cpu{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
-                , legend = "{{cloud}}"
-                }
-              ]
-              "none"
-
-      let providerZcTotalMemUsed =
-            Panels.mkPrometheus
-              "Total Memory used by providers (provided via zuul-capacity)"
-              [ { query =
-                    "zuul_instances_mem{job=\"zuul-capacity\", cloud=~\"vexxhost-nodepool.*\"}"
-                , legend = "{{cloud}}"
-                }
-              ]
-              "decmbytes"
-
       let providerTotalInstances =
             Panels.mkPrometheus
               "Instances spawned on the provider"
               [ { query =
-                    "zuul_instances_total{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
+                    "zuul_instances_total{ cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -172,8 +116,7 @@ let nodepoolLauncherPanels =
       let providerTotalvCPUUsed =
             Panels.mkPrometheus
               "Total vCPU used by providers"
-              [ { query =
-                    "zuul_instances_cpu{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
+              [ { query = "zuul_instances_cpu{ cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -182,8 +125,7 @@ let nodepoolLauncherPanels =
       let providerTotalMemUsed =
             Panels.mkPrometheus
               "Total Memory used by providers"
-              [ { query =
-                    "zuul_instances_mem{job=\"zuul\", cloud=~\"vexxhost-nodepool.*\"}"
+              [ { query = "zuul_instances_mem{ cloud=~\"vexxhost-nodepool.*\"}"
                 , legend = "{{cloud}}"
                 }
               ]
@@ -196,16 +138,11 @@ let nodepoolLauncherPanels =
               "none"
 
       in  [ Panels.mkSep "Nodepool Launcher"
-          , podCPULoad
-          , podMemUsed
           , providersNodes "in-use"
           , providersNodes "hold"
           , providerTotalInstances
           , providerTotalvCPUUsed
           , providerTotalMemUsed
-          , providerZcTotalInstances
-          , providerZcTotalvCPUUsed
-          , providerZcTotalMemUsed
           , providersNodes "failed"
           , providerAPICallErrors
           ]
