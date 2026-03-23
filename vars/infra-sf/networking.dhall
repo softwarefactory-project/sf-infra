@@ -69,18 +69,6 @@ let security_groups =
               }
             ]
           }
-        , { name = "zookeeper"
-          , rules =
-            [ Infra.Rule::{
-              , port = +2281
-              , remote_ip_prefix = Some "{{ ibm_bm3_ip }}/32"
-              }
-            , Infra.Rule::{
-              , port = +2281
-              , remote_ip_prefix = Some "{{ ibm_bm4_ip }}/32"
-              }
-            ]
-          }
         , { name = "zookeeper_exporter"
           , rules =
             [ Infra.Rule::{

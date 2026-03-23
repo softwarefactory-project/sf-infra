@@ -19,9 +19,6 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-    baremetal:
-      hosts:
-        baremetal04.rdoproject.org: {}
     bridge:
       hosts:
         bridge.softwarefactory-project.io: {}
@@ -44,15 +41,6 @@ all:
         k1s05.softwarefactory-project.io: {}
         k1s06.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-    ibm-baremetal-nodepool:
-      hosts:
-        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
-        nodepool-builder.softwarefactory-project.io: {}
-    ibm-instance:
-      hosts:
-        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm4-ze.softwarefactory-project.io: {}
-        ibm-bm4-zfgw.softwarefactory-project.io: {}
     install-server:
       hosts:
         managesf-dev.softwarefactory-project.io: {}
@@ -96,16 +84,10 @@ all:
         osci_internal_zone: {}
       hosts:
         lists.rdoproject.org: {}
-    private-afs-mirror:
-      hosts:
-        mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
     promtail:
       hosts:
         bridge.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
-        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm4-ze.softwarefactory-project.io: {}
-        ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -151,9 +133,6 @@ all:
         bridge.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
-        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm4-ze.softwarefactory-project.io: {}
-        ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -165,7 +144,6 @@ all:
         managesf.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
-        mirror.regionone.ibm-bm4-nodepool.rdoproject.org: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
@@ -188,9 +166,6 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
-        ibm-bm4-nodepool-launcher.softwarefactory-project.io: {}
-        ibm-bm4-ze.softwarefactory-project.io: {}
-        ibm-bm4-zfgw.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         managesf-dev.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
@@ -212,7 +187,6 @@ all:
         microshift-ze02.softwarefactory-project.io: {}
     ze:
       hosts:
-        ibm-bm4-ze.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
         ze02.softwarefactory-project.io: {}
         ze03.softwarefactory-project.io: {}
@@ -233,11 +207,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: ec2-user
-    baremetal04.rdoproject.org:
-      ansible_host: '169.60.49.233'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: root
     bridge.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
@@ -247,21 +216,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     elk.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ibm-bm4-nodepool-launcher.softwarefactory-project.io:
-      ansible_host: '192.168.26.11'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ibm-bm4-ze.softwarefactory-project.io:
-      ansible_host: '192.168.26.12'
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ibm-bm4-zfgw.softwarefactory-project.io:
-      ansible_host: '192.168.26.13'
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
@@ -318,11 +272,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     microshift-ze02.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    mirror.regionone.ibm-bm4-nodepool.rdoproject.org:
-      ansible_host: '192.168.26.10'
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

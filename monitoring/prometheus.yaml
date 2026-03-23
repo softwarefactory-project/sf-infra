@@ -36,7 +36,6 @@ scrape_configs:
           - trunk-server-centos9.rdoproject.org:9100
           - trunk-builder-centos9.rdoproject.org:9100
           - backup.rdoproject.org:9100
-          - baremetal04.rdoproject.org:9100
           - bridge.softwarefactory-project.io:9100
           - monitoring.softwarefactory-project.io:9100
           - elk.softwarefactory-project.io:9100
@@ -112,8 +111,7 @@ scrape_configs:
         target_label: "__address__"
     scrape_interval: "5m"
     static_configs:
-      - targets:
-          - https://baremetal04.rdoproject.org
+      - targets: []
   - job_name: statsd_exporter
     scrape_interval: "5m"
     static_configs:
@@ -142,24 +140,6 @@ scrape_configs:
     static_configs:
       - targets:
           - zs.softwarefactory-project.io:9101
-  - job_name: ibm-instances
-    static_configs:
-      - labels:
-          instance: mirror.regionone.ibm-bm4-nodepool.rdoproject.org
-        targets:
-          - baremetal04.rdoproject.org:9110
-      - labels:
-          instance: ibm-bm4-nodepool-launcher.softwarefactory-project.io
-        targets:
-          - baremetal04.rdoproject.org:9111
-      - labels:
-          instance: ibm-bm4-ze.softwarefactory-project.io
-        targets:
-          - baremetal04.rdoproject.org:9112
-      - labels:
-          instance: ibm-bm4-zfgw.softwarefactory-project.io
-        targets:
-          - baremetal04.rdoproject.org:9113
   - job_name: dlrn
     metrics_path: /metrics
     relabel_configs:

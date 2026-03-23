@@ -37,8 +37,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
     nodeset:
       # This special job needs to run from a container
       nodes:
@@ -62,14 +60,8 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
       - name: crc_secret
         secret: crc-secret
-      - name: rhel_tripleo_standalone
-        secret: rhel_tripleo_standalone
-      - name: shiftstack_squid
-        secret: shiftstack_squid
       - name: slack_api_url
         secret: slack_api_url
 
@@ -88,14 +80,8 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
       - name: crc_secret
         secret: crc-secret
-      - name: rhel_tripleo_standalone
-        secret: rhel_tripleo_standalone
-      - name: shiftstack_squid
-        secret: shiftstack_squid
       - name: slack_api_url
         secret: slack_api_url
 
@@ -121,12 +107,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
-      - name: rhel_tripleo_standalone
-        secret: rhel_tripleo_standalone
-      - name: shiftstack_squid
-        secret: shiftstack_squid
       - name: vault
         secret: ansible-vault
       - name: sshkey
@@ -213,7 +193,6 @@
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
       - playbooks/group_vars/sf-operator.yaml
-      - playbooks/group_vars/ibm-baremetal-nodepool.yaml
       - playbooks/vars/infra-sf.yaml
       - playbooks/zuul/configure-hosts.yaml
       - "^playbooks/templates/softwarefactory-project.io/.*$"

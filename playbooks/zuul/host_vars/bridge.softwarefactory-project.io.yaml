@@ -9,6 +9,3 @@ projects:
   - nodepool-sf
   - nodepool-rdo
   - nodepool-tripleo
-redhat_registry_username: "{{ redhat_registry.username }}"
-redhat_registry_password: "{{ redhat_registry.password }}"
-shiftstack_openstack_password: "{{ shiftstack_openstack.password }}"

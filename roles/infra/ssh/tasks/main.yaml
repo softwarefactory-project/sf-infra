@@ -8,38 +8,3 @@
   # deploying keys on sf hosts
   ignore_errors: true
   when: ansible_fqdn != "managesf.softwarefactory-project.io"
-
-- name: Add ssh config to reach imb instances without fip
-  become: yes
-  ansible.builtin.blockinfile:
-    path: /root/.ssh/config
-    marker: "# {mark} ANSIBLE MANAGED BLOCK private network baremetal"
-    block: |
-      Host baremetal03.rdoproject.org
-          User root
-          Port 22
-          Hostname 169.60.49.226
-
-      Host 192.168.25.11 192.168.25.12 192.168.25.13
-          ProxyJump baremetal03.rdoproject.org
-
-      Host baremetal04.rdoproject.org
-          User root
-          Port 22
-          Hostname 169.60.49.233
-
-      Host 192.168.26.11 192.168.26.12 192.168.26.13
-          ProxyJump baremetal04.rdoproject.org
-
-      Host ibm-bm4-nodepool-launcher*
-          ProxyJump baremetal04.rdoproject.org
-          Hostname 192.168.26.11
-
-      Host ibm-bm4-ze*
-          ProxyJump baremetal04.rdoproject.org
-          Hostname 192.168.26.12
-
-      Host ibm-bm4-zfgw*
-          ProxyJump baremetal04.rdoproject.org
-          Hostname 192.168.26.13
-  when: ansible_fqdn == "managesf.softwarefactory-project.io"

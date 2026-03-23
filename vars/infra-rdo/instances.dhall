@@ -22,7 +22,8 @@ let instances =
           , floating_ip = Some True
           , volume_size = Some 200
           }
-        , monitoring_urls = [ "https://mirror.regionone.vexxhost.rdoproject.org/centos/" ]
+        , monitoring_urls =
+          [ "https://mirror.regionone.vexxhost.rdoproject.org/centos/" ]
         }
       , Instance::{
         , name = "quay"
@@ -259,4 +260,4 @@ let ospo-instances =
           (Instance.setName defaultOSPOExternalInstance)
           ospo-external-vhosts
 
-in  vexxhost-instances # ospo-instances # ./ibm-baremetal.dhall
+in  vexxhost-instances # ospo-instances

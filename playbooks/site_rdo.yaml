@@ -25,44 +25,12 @@
     - rdo/backup-monitoring
     - rdo/backup-srv
 
-- hosts: baremetal
-  tasks:
-    - name: Read .rhel_secrets.yaml
-      ansible.builtin.include_vars:
-        file: ~/.rhel_secrets.yaml
-      delegate_to: localhost
-      no_log: yes
-
-    - name: Register system
-      ansible.builtin.include_role:
-        name: rdo/ibm-redhat-subscription
-
-    - name: Base configuration
-      ansible.builtin.include_role:
-        name: rdo/ibm-baremetal-setup
-
-    - name: Ensure configuration roles
-      ansible.builtin.include_role:
-        name: "{{ item }}"
-      loop:
-        - infra/ssh
-        - system/volume
-        - service/node-exporter
-        - system/psi
-
 - hosts: mirror.regionone.vexxhost.rdoproject.org
   roles:
     - service/setup-ssl
     - rdo/afs-mirror
     - rdo/afs-monitoring
     - service/apache-exporter
-
-- hosts: private-afs-mirror
-  roles:
-    - rdo/setup-ssl-self-signed
-    - rdo/afs-mirror
-    - service/node-exporter
-    - system/psi
 
 - hosts: rdo
   roles:

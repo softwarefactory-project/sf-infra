@@ -3,25 +3,6 @@ Host *
     ControlMaster auto
     ControlPath ~/.ssh/control-%r@%h:%p
     PubkeyAcceptedKeyTypes +ssh-rsa
-
-Host 192.168.25.10
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.11
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.12
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.25.13
-    ProxyJump baremetal03.rdoproject.org
-Host 192.168.26.10
-    ProxyJump baremetal04.rdoproject.org
-Host 192.168.26.11
-    ProxyJump baremetal04.rdoproject.org
-Host 192.168.26.12
-    ProxyJump baremetal04.rdoproject.org
-Host 192.168.26.13
-    ProxyJump baremetal04.rdoproject.org
-
-
 Host mirror.regionone.vexxhost.rdoproject.org
     User cloud-user
     Port 22
@@ -66,30 +47,6 @@ Host lists.rdoproject.org
     User root
     Port 22
 
-Host baremetal04.rdoproject.org
-    User root
-    Port 22
-    Hostname 169.60.49.233
-Host mirror.regionone.ibm-bm4-nodepool.rdoproject.org
-    User cloud-user
-    Port 22
-    ProxyJump baremetal04.rdoproject.org
-    Hostname 192.168.26.10
-Host ibm-bm4-nodepool-launcher.softwarefactory-project.io
-    User cloud-user
-    Port 22
-    ProxyJump baremetal04.rdoproject.org
-    Hostname 192.168.26.11
-Host ibm-bm4-ze.softwarefactory-project.io
-    User cloud-user
-    Port 22
-    ProxyJump baremetal04.rdoproject.org
-    Hostname 192.168.26.12
-Host ibm-bm4-zfgw.softwarefactory-project.io
-    User cloud-user
-    Port 22
-    ProxyJump baremetal04.rdoproject.org
-    Hostname 192.168.26.13
 Host bridge.softwarefactory-project.io
     User cloud-user
     Port 22

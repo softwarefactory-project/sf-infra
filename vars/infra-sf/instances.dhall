@@ -188,13 +188,7 @@ let instances =
         }
       , Instance::{
         , name = "nodepool-builder"
-        , groups =
-          [ "sf"
-          , "rhel"
-          , "nodepool-builder"
-          , "ibm-baremetal-nodepool"
-          , "promtail"
-          ]
+        , groups = [ "sf", "rhel", "nodepool-builder", "promtail" ]
         , connection = OS.RHEL.`9.4`.connection
         , server = Some Infra.Server::{
           , image = OS.RHEL.`9.4`.image.name

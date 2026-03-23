@@ -1,6 +1,0 @@
----
-# This var is unused in any playbook. It can instead be used to trigger
-# the `sf-infra-configure-hosts-sf` job when changes to
-# the BM happen out-of-band (for example regenerating certs with
-# shiftstack tooling).
-__trigger_gate_job: 1

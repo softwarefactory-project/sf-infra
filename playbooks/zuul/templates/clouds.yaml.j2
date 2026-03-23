@@ -27,15 +27,3 @@ clouds:
       auth_url: https://identity.rdo.mtl2.vexxhost.net/
     region_name: "RegionOne"
 {% endfor %}
-  ibm-bm4-nodepool:
-    auth:
-      auth_url: https://169.60.49.233:13000
-      password: {{ ibm_bm4_nodepool.password }}
-      project_domain_name: Default
-      project_name: nodepool
-      user_domain_name: Default
-      username: nodepool
-    cacert: /home/cloud-user/.config/openstack/ibm-bm4-ca.crt
-    identity_api_version: '3'
-    region_name: regionOne
-    volume_api_version: '3'

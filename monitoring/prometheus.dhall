@@ -62,9 +62,6 @@ in  PrometheusConfig
       , ScrapeConfigs.static "apache" apache_server_list
       , ScrapeConfigs.static "zookeeper" zookeeper_server_list
       , ScrapeConfigs.static "zuul" [ "zs.softwarefactory-project.io:9101" ]
-      , ScrapeConfigs.targets
-          "ibm-instances"
-          ./node-exporter-ibm-instances.dhall
       , ScrapeConfigs.dlrn dlrnapi_target_list
       , ScrapeConfigs.static "logscraper" logscraper_server_list
       , ScrapeConfigs.static "elasticsearch" elasticsearch_exporter_list

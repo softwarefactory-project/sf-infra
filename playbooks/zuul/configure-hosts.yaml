@@ -69,24 +69,10 @@
             name: next-gen/prepare-host
             tasks_from: gen-ansible-vars.yaml
 
-        - name: Copy the rhel_secrets.yaml
-          ansible.builtin.template:
-            src: rhel_secrets.yaml.j2
-            dest: ~/.rhel_secrets.yaml
-            mode: "0400"
-          no_log: yes
-
         - name: Copy the slack webhook URL
           ansible.builtin.template:
             src: slack_api_url.yaml.j2
             dest: ~/.slack_api_url.yaml
-            mode: "0400"
-          no_log: yes
-
-        - name: Copy the squid secrets
-          ansible.builtin.copy:
-            content: "{{ shiftstack_squid.secret }}"
-            dest: "~/.squid_htpasswd"
             mode: "0400"
           no_log: yes
 

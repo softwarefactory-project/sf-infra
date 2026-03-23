@@ -131,9 +131,6 @@ security_groups:
       - port: 7000
         protocol: udp
         remote_ip_prefix: "192.168.242.0/24"
-      - port: 7000
-        protocol: udp
-        remote_ip_prefix: "169.60.49.233/32"
   - name: hypervisor-oci
     rules:
       - port: 19885
@@ -167,12 +164,6 @@ security_groups:
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
       - port: 9114
         remote_ip_prefix: "{{ prometheus_public_ip }}/32"
-  - name: zookeeper
-    rules:
-      - port: 2281
-        remote_ip_prefix: "{{ ibm_bm3_ip }}/32"
-      - port: 2281
-        remote_ip_prefix: "{{ ibm_bm4_ip }}/32"
   - name: zookeeper_exporter
     rules:
       - port: 9141

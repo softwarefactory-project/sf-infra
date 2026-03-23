@@ -35,9 +35,4 @@ let mkIbmInstancesRules =
           (\(instance : instance.Type) -> mkStaticConfig target subnet instance)
           instances
 
-let baremetal04 = ../vars/infra-rdo/baremetals/baremetal04.dhall
-
-in  mkIbmInstancesRules
-      baremetal04.baremetal
-      baremetal04.subnet
-      baremetal04.instances
+in  [] : List Prometheus.StaticConfig.Type

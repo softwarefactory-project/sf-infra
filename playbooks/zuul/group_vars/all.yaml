@@ -4,26 +4,3 @@ bridge_user: cloud-user
 bridge_key: "{{ bridge_name }},{{ bridge_ip }},bridge ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAlOxM/1L4jd1+OfLgdk5ITsM0AgIxBZlLXr+hzT+ARV"
 rhel_images:
   - { name: rhel-9.3, filename: rhel-guest-image-9.3-20231120.0.x86_64.qcow2 }
-standalone_deployments:
-  - baremetal_name: ibm-bm4
-    baremetal_ip: 169.60.49.233
-    cloud: ibm-bm4-nodepool
-    password: "{{ ibm_bm4_nodepool.password | default('') }}"
-    hostonly_cidr: 192.168.26.0/24
-    servers:
-      - name: mirror.regionone.ibm-bm4-nodepool.rdoproject.org
-        flavor: afs
-        ip: 192.168.26.10
-        image: rhel-9.4
-      - name: ibm-bm4-nodepool-launcher.softwarefactory-project.io
-        flavor: m1.medium
-        ip: 192.168.26.11
-        image: rhel-9.4
-      - name: ibm-bm4-ze.softwarefactory-project.io
-        flavor: m1.large
-        ip: 192.168.26.12
-        image: rhel-9.4
-      - name: ibm-bm4-zfgw.softwarefactory-project.io
-        flavor: m1.small
-        ip: 192.168.26.13
-        image: rhel-9.4
