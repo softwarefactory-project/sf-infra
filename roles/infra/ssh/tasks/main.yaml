@@ -23,18 +23,6 @@
       Host 192.168.25.11 192.168.25.12 192.168.25.13
           ProxyJump baremetal03.rdoproject.org
 
-      Host ibm-bm3-nodepool-launcher*
-          ProxyJump baremetal03.rdoproject.org
-          Hostname 192.168.25.11
-
-      Host ibm-bm3-ze*
-          ProxyJump baremetal03.rdoproject.org
-          Hostname 192.168.25.12
-
-      Host ibm-bm3-zfgw*
-          ProxyJump baremetal03.rdoproject.org
-          Hostname 192.168.25.13
-
       Host baremetal04.rdoproject.org
           User root
           Port 22

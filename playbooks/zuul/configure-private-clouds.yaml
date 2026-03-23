@@ -55,16 +55,6 @@
         loop_var: flavor
       register: _output
 
-- hosts: baremetal03.rdoproject.org
-  gather_facts: yes
-  tasks:
-    - name: Setup fw forward rules for node-exporter
-      ansible.builtin.include_tasks: ibm-instances-fw-rules.yaml
-      loop: "{{ standalone_deployments }}"
-      loop_control:
-        loop_var: standalone_deployment
-      when: standalone_deployment.baremetal_name == 'ibm-bm3'
-
 - hosts: baremetal04.rdoproject.org
   gather_facts: yes
   tasks:

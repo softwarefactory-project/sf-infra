@@ -37,8 +37,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
     nodeset:
@@ -64,8 +62,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
       - name: crc_secret
@@ -92,8 +88,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
       - name: crc_secret
@@ -127,8 +121,6 @@
     secrets:
       - name: vexxhost_rdo
         secret: vexxhost-rdo
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
       - name: ibm_bm4_nodepool
         secret: ibm-bm4-nodepool
       - name: rhel_tripleo_standalone
@@ -260,51 +252,6 @@
       - ^playbooks/group_vars/centos-infra-zuul-executors.yaml$
       - ^playbooks/files/software-factory-control-plane.yaml$
 
-
-- job:
-    name: sf-infra-create-tripleo-standalone
-    parent: sf-infra-base
-    description: Install tripleo-standalone on ibm baremetal
-    semaphore: sf-infra
-    run: playbooks/zuul/create-tripleo-standalone.yaml
-    timeout: 3600
-    files:
-      - ^playbooks/zuul/create-tripleo-standalone.yaml$
-      - ^playbooks/zuul/configure-private-clouds.yaml$
-      - ^playbooks/zuul/tasks/standalone-setup.*
-      - ^playbooks/zuul/templates/local-overrides.yaml.j2$
-      - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
-      - ^playbooks/zuul/group_vars/baremetal.yaml$
-      - roles/rdo/ibm-redhat-subscription
-      - roles/rdo/ibm-baremetal-setup
-    secrets:
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
-      - name: redhat_registry
-        secret: redhat_registry
-      - name: shiftstack_openstack
-        secret: shiftstack_openstack
-
-- job:
-    name: sf-infra-configure-tripleo-standalone
-    parent: sf-infra-base
-    description: Install tripleo-standalone on ibm baremetal
-    semaphore: sf-infra
-    run: playbooks/zuul/configure-tripleo-standalone.yaml
-    timeout: 3600
-    files:
-      - ^playbooks/zuul/configure-tripleo-standalone.yaml$
-      - ^playbooks/zuul/standalone-configure.yaml$
-      - ^playbooks/zuul/tasks/standalone-configure.yaml
-      - ^playbooks/zuul/host_vars/bridge.softwarefactory-project.io.yaml$
-      - roles/rdo/ibm-shiftstack-squid
-    secrets:
-      - name: ibm_bm3_nodepool
-        secret: ibm-bm3-nodepool
-      - name: ibm_bm4_nodepool
-        secret: ibm-bm4-nodepool
 
 - job:
     name: sf-infra-molecule
@@ -463,16 +410,6 @@
         #       - dhall-diff
         #       - name: sf-infra-configure-bridge
         #         soft: true
-        - sf-infra-create-tripleo-standalone:
-            dependencies:
-              - dhall-diff
-              - name: sf-infra-configure-bridge
-                soft: true
-        - sf-infra-configure-tripleo-standalone:
-            dependencies:
-              - dhall-diff
-              - name: sf-infra-create-tripleo-standalone
-                soft: true
         - sf-infra-observability-stack:
             dependencies:
               - dhall-diff

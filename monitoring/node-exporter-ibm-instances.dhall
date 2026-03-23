@@ -35,15 +35,9 @@ let mkIbmInstancesRules =
           (\(instance : instance.Type) -> mkStaticConfig target subnet instance)
           instances
 
-let baremetal03 = ../vars/infra-rdo/baremetals/baremetal03.dhall
-
 let baremetal04 = ../vars/infra-rdo/baremetals/baremetal04.dhall
 
-in    mkIbmInstancesRules
-        baremetal03.baremetal
-        baremetal03.subnet
-        baremetal03.instances
-    # mkIbmInstancesRules
-        baremetal04.baremetal
-        baremetal04.subnet
-        baremetal04.instances
+in  mkIbmInstancesRules
+      baremetal04.baremetal
+      baremetal04.subnet
+      baremetal04.instances

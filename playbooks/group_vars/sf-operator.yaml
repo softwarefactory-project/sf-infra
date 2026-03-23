@@ -90,21 +90,6 @@ clouds_yaml: |
         auth_url: https://identity.rdo.mtl2.vexxhost.net/v3
       image_format: "raw"
       identity_api_version: 3
-    ibm-bm3-nodepool:
-      auth:
-        auth_url: {{ ibm_bm3_url }}
-        password: {{ ibm_bm3_password }}
-        project_domain_name: Default
-        project_name: nodepool
-        user_domain_name: Default
-        username: nodepool
-      identity_api_version: '3'
-      region_name: regionOne
-      volume_api_version: '3'
-      # FIXME: Replace that with 'cacert' when such functionality is
-      # available in sf-operator.
-      # cacert: /path/to/ca.cert
-      insecure: true
     ibm-bm4-nodepool:
       auth:
         auth_url: {{ ibm_bm4_url }}

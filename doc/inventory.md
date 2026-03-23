@@ -14,11 +14,6 @@ This project manages:
 * trunk-builder-centos9.rdoproject.org rhel-9.3-x86_64-kvm v1-standard-4
 * backup.rdoproject.org 
 * lists.rdoproject.org 
-* baremetal03.rdoproject.org 
-* mirror.regionone.ibm-bm3-nodepool.rdoproject.org 
-* ibm-bm3-nodepool-launcher.softwarefactory-project.io 
-* ibm-bm3-ze.softwarefactory-project.io 
-* ibm-bm3-zfgw.softwarefactory-project.io 
 * baremetal04.rdoproject.org 
 * mirror.regionone.ibm-bm4-nodepool.rdoproject.org 
 * ibm-bm4-nodepool-launcher.softwarefactory-project.io 

@@ -46,7 +46,5 @@ let mkBaremetal =
         , monitoring_urls_skip_cert_verify = [ "https://${baremetal.name}" ]
         }
 
-in    [ mkBaremetal (./baremetals/baremetal03.dhall).baremetal ]
-    # mkInstances (./baremetals/baremetal03.dhall).instances
-    # [ mkBaremetal (./baremetals/baremetal04.dhall).baremetal ]
+in    [ mkBaremetal (./baremetals/baremetal04.dhall).baremetal ]
     # mkInstances (./baremetals/baremetal04.dhall).instances
