@@ -15,6 +15,7 @@ if [ ! -f /bin/sf-operator-$VERSION ]; then
     test -d $CACHE && rm -Rf $CACHE && mkdir -p $CACHE
     git clone https://softwarefactory-project.io/r/software-factory/sf-operator $CACHE
     pushd $CACHE
+    # TODO: ensure latest golang is installed
     git checkout $VERSION && go build && sudo mv sf-operator /bin/sf-operator-$VERSION
     popd
     rm -Rf $CACHE
