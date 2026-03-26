@@ -9,13 +9,8 @@
 - hosts: bridge.softwarefactory-project.io
   gather_facts: yes
   tasks:
-  - name: Deploy networking resources
-    ansible.builtin.command: kubectl apply -f files/centos-infra/networking.yaml
-    environment:
-      KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
-
-  - name: Deploy prometheus resources
-    ansible.builtin.command: kubectl apply -f files/centos-infra/prometheus-resources.yaml
+  - name: Deploy extra resources
+    ansible.builtin.command: kubectl apply -f files/centos-infra/networking.yaml -f files/centos-infra/prometheus-resources.yaml -f /etc/sf/prod-centos/extra-resources.yaml
     environment:
       KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
 
