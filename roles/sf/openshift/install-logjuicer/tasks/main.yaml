@@ -1,5 +1,0 @@
----
-- name: Install logjuicer
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('file', 'files/logjuicer_service.yaml') | from_yaml_all }}"
