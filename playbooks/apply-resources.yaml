@@ -24,7 +24,14 @@
   # Enable builder connection
   - name: Get nodepool builder key
     ansible.builtin.command: kubectl get secret nodepool-builder-ssh-key -o jsonpath={.data.pub}
-    register: builder_pubkey
+    register: nodepool_builder_pubkey
+    environment:
+      KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+
+  # Enable builder connection
+  - name: Get Zuul key
+    ansible.builtin.command: kubectl get secret zuul-ssh-key -o jsonpath={.data.pub}
+    register: zuul_pubkey
     environment:
       KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
 
@@ -32,8 +39,13 @@
   gather_facts: yes
   become: true
   tasks:
-    - name: Add builder key to image-builder
+    - name: Add nodepool builder key to image-builder
       ansible.posix.authorized_key:
         user: zuul
         state: present
-        key: "{{ hostvars['bridge.softwarefactory-project.io']['builder_pubkey'].stdout | b64decode }}"
+        key: "{{ hostvars['bridge.softwarefactory-project.io']['nodepool_builder_pubkey'].stdout | b64decode }}"
+    - name: Add zuul key to image-builder
+      ansible.posix.authorized_key:
+        user: zuul
+        state: present
+        key: "{{ hostvars['bridge.softwarefactory-project.io']['zuul_pubkey'].stdout | b64decode }}"
