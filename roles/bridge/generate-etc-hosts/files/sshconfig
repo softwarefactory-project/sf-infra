@@ -178,10 +178,6 @@ Host microshift-infra.softwarefactory-project.io
     User cloud-user
     Port 22
 
-Host fedora.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
 Host ansible.softwarefactory-project.io
     User cloud-user
     Port 22

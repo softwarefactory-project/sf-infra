@@ -91,7 +91,6 @@ scrape_configs:
           - https://softwarefactory-project.io/r/config/server/version
           - https://softwarefactory-project.io/zuul/api/info
           - https://ansible.softwarefactory-project.io/zuul/api/info
-          - https://fedora.softwarefactory-project.io/zuul/api/info
           - https://www.softwarefactory-project.io
           - https://lists.rdoproject.org
           - https://logserver.rdoproject.org
@@ -131,7 +130,6 @@ scrape_configs:
       - targets:
           - managesf.softwarefactory-project.io:9117
           - managesf.review.rdoproject.org:9117
-          - fedora.softwarefactory-project.io:9117
           - mirror.regionone.vexxhost.rdoproject.org:9117
           - logserver.rdoproject.org:9117
           - opensearch.rdoproject.org:9117

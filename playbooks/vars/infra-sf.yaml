@@ -424,22 +424,6 @@ servers:
     floating_ip: true
     image: rhel-9.3-x86_64-kvm
     key_name: sf-infra-key
-    name: fedora.softwarefactory-project.io
-    network: private-network
-    security_groups:
-      - common
-      - monitoring
-      - internal
-      - elk
-      - apache_exporter
-      - web
-    state: absent
-    volume_size: 40
-  - boot_from_volume: yes
-    flavor: v1-standard-2
-    floating_ip: true
-    image: rhel-9.3-x86_64-kvm
-    key_name: sf-infra-key
     name: ansible.softwarefactory-project.io
     network: private-network
     security_groups:
@@ -583,8 +567,3 @@ volumes:
     display_name: microshift-infra-data
     server: microshift-infra.softwarefactory-project.io
     size: 200
-  - device: /dev/vdb
-    display_name: logs-data
-    server: fedora.softwarefactory-project.io
-    size: 100
-    state: absent

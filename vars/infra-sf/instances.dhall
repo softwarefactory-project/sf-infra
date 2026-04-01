@@ -49,30 +49,6 @@ let tenant-rhel-9-server =
 
 let tenant-instances =
       [     tenant-rhel-9-instance
-        //  { name = "fedora"
-            , backup = Some Infra.Backup::{
-              , run_sf_backup = True
-              , dir = Some
-                  "/var/lib/backup/bup/fedora.softwarefactory-project.io"
-              , domain = Some "fedora.softwarefactory-project.io"
-              , month_subdir = Some 1
-              }
-            , server = Some
-                (     Infra.Server.addSecurityGroups
-                        [ "elk", "apache_exporter" ]
-                        tenant-rhel-9-server
-                  //  { state = < absent | present >.absent }
-                )
-            , volumes =
-              [ Infra.Volume::{
-                , display_name = "logs-data"
-                , size = 100
-                , state = Some "absent"
-                , device = "/dev/vdb"
-                }
-              ]
-            }
-      ,     tenant-rhel-9-instance
         //  { name = "ansible"
             , backup = Some Infra.Backup::{
               , run_sf_backup = True
@@ -179,7 +155,6 @@ let instances =
                 , "https://softwarefactory-project.io/r/config/server/version"
                 , "https://softwarefactory-project.io/zuul/api/info"
                 , "https://ansible.softwarefactory-project.io/zuul/api/info"
-                , "https://fedora.softwarefactory-project.io/zuul/api/info"
                 , "https://www.softwarefactory-project.io"
                 , "https://lists.rdoproject.org"
                 , "https://logserver.rdoproject.org"
