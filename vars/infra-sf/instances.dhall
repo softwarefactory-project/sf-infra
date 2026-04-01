@@ -58,14 +58,16 @@ let tenant-instances =
               , month_subdir = Some 1
               }
             , server = Some
-                ( Infra.Server.addSecurityGroups
-                    [ "elk", "apache_exporter" ]
-                    tenant-rhel-9-server
+                (     Infra.Server.addSecurityGroups
+                        [ "elk", "apache_exporter" ]
+                        tenant-rhel-9-server
+                  //  { state = < absent | present >.absent }
                 )
             , volumes =
               [ Infra.Volume::{
                 , display_name = "logs-data"
                 , size = 100
+                , state = Some "absent"
                 , device = "/dev/vdb"
                 }
               ]

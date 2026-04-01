@@ -169,19 +169,6 @@
     - system/volume
     - next-gen/logscraper-config
 
-- hosts: fedora.softwarefactory-project.io
-  roles:
-    - service/acme-tiny
-    - service/apache-exporter
-    - sf/fm-gateway
-    - system/volume
-  # TODO uncomment after rhel-9 migration
-  # tasks:
-  #   - name: Install bits for sf-config
-  #     ansible.builtin.include_role:
-  #       name: infra/install-server
-  #       tasks_from: setup
-
 - hosts: nodepool-builder
   roles:
     - sf/builder-cleanup

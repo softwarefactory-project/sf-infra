@@ -18,7 +18,6 @@ all:
     backup-sf:
       hosts:
         ansible.softwarefactory-project.io: {}
-        fedora.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
     baremetal:
       hosts:
@@ -161,7 +160,6 @@ all:
         bridge.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
         elk.softwarefactory-project.io: {}
-        fedora.softwarefactory-project.io: {}
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm3-ze.softwarefactory-project.io: {}
         ibm-bm3-zfgw.softwarefactory-project.io: {}
@@ -203,7 +201,6 @@ all:
       hosts:
         ansible.softwarefactory-project.io: {}
         elk.softwarefactory-project.io: {}
-        fedora.softwarefactory-project.io: {}
         ibm-bm3-nodepool-launcher.softwarefactory-project.io: {}
         ibm-bm3-ze.softwarefactory-project.io: {}
         ibm-bm3-zfgw.softwarefactory-project.io: {}
@@ -272,10 +269,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     elk.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    fedora.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
