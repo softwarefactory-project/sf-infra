@@ -13,15 +13,6 @@
   ansible.builtin.pip:
     name: "kubernetes"
 
-- name: Setup kube config
-  become: true
-  ansible.builtin.copy:
-    content: "{{ item.kubeconfig }}"
-    dest: "/etc/run-infra-ng/{{ item.namespace }}.kubeconfig"
-    mode: 0644
-  loop: "{{ kube_config_cluster }}"
-  when: kube_config_cluster != []
-
 - name: Install openshift client
   become: true
   block:

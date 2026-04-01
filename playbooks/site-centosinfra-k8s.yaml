@@ -1,0 +1,9 @@
+---
+# Populate /etc/sf/prod-centos from vault and apply Kubernetes + sf-operator on the bridge.
+# Run after site-centosinfra-vms.yaml (executors must expose kubeconfigs for prepare-resources).
+
+- name: Setup resources
+  ansible.builtin.import_playbook: prepare-resources.yaml
+
+- name: Apply resources
+  ansible.builtin.import_playbook: apply-resources.yaml
