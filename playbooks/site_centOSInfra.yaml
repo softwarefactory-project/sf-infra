@@ -1,47 +1,7 @@
 ---
-# Hack to prevent ansible_user_dir to be /root on the bridge
-- hosts: bridge.softwarefactory-project.io
-  tasks:
-    - name: Clear facts cache
-      ansible.builtin.meta: clear_facts
+# Full CentOS Infra deploy (Zuul CI and legacy): executor VMs + MicroShift, then /etc/sf + sf-operator.
+# For manual runs on the bridge, prefer ./run-centosinfra.sh {vms|k8s|all}.
 
-- hosts: centos-infra-zuul-executors
-  roles:
-    - service/hostname
-    - system/rhel-subscription
-    - system/rhel-setup
+- import_playbook: site-centosinfra-vms.yaml
 
-- hosts: centos-infra-zuul-executors
-  pre_tasks:
-    - name: Install requirements (rpms)
-      become: true
-      ansible.builtin.package:
-        name:
-          - python3
-          - python3-pip
-
-    - name: Install requirements (pip)
-      become: true
-      ansible.builtin.pip:
-        name: "kubernetes"
-
-    - name: Disable ipv6
-      become: true
-      # to avoid failure like:
-      # dial tcp [::1]:6443: connect: cannot assign requested address
-      ansible.posix.sysctl:
-        name: net.ipv6.conf.all.disable_ipv6
-        value: '0'
-        sysctl_set: true
-        state: present
-        reload: true
-  roles:
-    - system/volume
-    - sf/setup-microshift
-    - service/node-exporter
-
-- name: Setup resources
-  ansible.builtin.import_playbook: prepare-resources.yaml
-
-- name: Apply resources
-  ansible.builtin.import_playbook: apply-resources.yaml
+- import_playbook: site-centosinfra-k8s.yaml

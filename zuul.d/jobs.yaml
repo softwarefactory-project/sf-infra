@@ -249,6 +249,9 @@
         override-checkout: 4.16.0-4
     files:
       - playbooks/site_centOSInfra.yaml
+      - playbooks/site-centosinfra-vms.yaml
+      - playbooks/site-centosinfra-k8s.yaml
+      - ^run-centosinfra.sh$
       - ^playbooks/host_vars/bridge.softwarefactory-project.io.yaml$
       - ^playbooks/host_vars/microshift-ze.*.softwarefactory-project.io.yaml$
       - ^playbooks/group_vars/sf-operator.yaml$

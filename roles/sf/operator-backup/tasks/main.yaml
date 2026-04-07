@@ -22,11 +22,9 @@
       #!/bin/bash
       set -e
 
-      {% for cluster in kube_config_cluster %}
-      KUBECONFIG=/etc/run-infra-ng/{{ cluster.namespace }}.kubeconfig sf-operator \
-        SF backup --namespace {{ cluster.namespace }}                             \
-                  --backup_dir {{ backup_dir }}/{{ cluster.namespace }}
-      {% endfor %}
+      KUBECONFIG=/etc/sf/prod-centos/kubeconfig sf-operator \
+        SF backup --namespace sf                             \
+                  --backup_dir {{ backup_dir }}/control-plane
 
       cd {{ backup_dir }}
       # ensure files are readable by every bridge user
