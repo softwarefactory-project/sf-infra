@@ -1,0 +1,10 @@
+---
+# Install or upgrade the pinned Go toolchain on bridge.softwarefactory-project.io.
+# Version: bridge_go_version in playbooks/host_vars/bridge.softwarefactory-project.io.yaml
+#
+# Run on the bridge (after git pull):
+#   ./run-centosinfra.sh go
+
+- hosts: bridge.softwarefactory-project.io
+  roles:
+    - bridge/install-go

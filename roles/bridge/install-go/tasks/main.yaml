@@ -1,0 +1,36 @@
+---
+- name: Remove distribution golang package (use pinned /usr/local/go only)
+  become: true
+  ansible.builtin.package:
+    name: golang
+    state: absent
+
+- name: Download Go release tarball
+  become: true
+  ansible.builtin.get_url:
+    url: "https://go.dev/dl/go{{ bridge_go_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ bridge_go_version }}.linux-amd64.tar.gz"
+    mode: "0644"
+
+- name: Remove existing Go install
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/go
+    state: absent
+
+- name: Install Go under /usr/local
+  become: true
+  ansible.builtin.unarchive:
+    src: "/tmp/go{{ bridge_go_version }}.linux-amd64.tar.gz"
+    dest: /usr/local
+    remote_src: true
+
+- name: Ensure login shells use /usr/local/go
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/profile.d/golang-path.sh
+    content: |
+      export PATH=/usr/local/go/bin:$PATH
+    owner: root
+    group: root
+    mode: "0644"

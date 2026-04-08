@@ -8,6 +8,9 @@
 # Example:
 #   cd ~/src/softwarefactory-project.io/software-factory/sf-infra && ./run-centosinfra.sh k8s
 #
+# Go toolchain on this host (pin in playbooks/host_vars/bridge.softwarefactory-project.io.yaml):
+#   ./run-centosinfra.sh go
+#
 # site-centosinfra-vms uses role sf/setup-microshift, which include_roles the external
 # openstack-k8s-operators/ansible-microshift-role (see roles/sf/setup-microshift/defaults).
 # We clone it like run-infra-ng.sh and pass ansible_microshift_role_dir (not needed for action k8s).
@@ -31,6 +34,7 @@ Usage: $0 action
 action:
   vms   - provision centos-infra-zuul-executors (RHEL, MicroShift, node-exporter)
   k8s   - prepare /etc/sf/prod-centos and apply manifests + sf-operator (bridge + image-builder)
+  go    - install or upgrade pinned Go on this bridge (playbooks/site-centosinfra-bridge-go.yaml)
   all   - vms then k8s (equivalent to playbooks/site_centOSInfra.yaml)
 
 Environment:
@@ -84,12 +88,13 @@ fi
 case "$1" in
     vms) PLAYBOOK="playbooks/site-centosinfra-vms.yaml" ;;
     k8s) PLAYBOOK="playbooks/site-centosinfra-k8s.yaml" ;;
+    go) PLAYBOOK="playbooks/site-centosinfra-bridge-go.yaml" ;;
     all) PLAYBOOK="playbooks/site_centOSInfra.yaml" ;;
     *) usage ;;
 esac
 
-# Fetch ansible-microshift-role (required by sf/setup-microshift on executor hosts; skip for k8s-only).
-if [ "$1" != "k8s" ]; then
+# Fetch ansible-microshift-role (required by sf/setup-microshift on executor hosts; skip for k8s-only and go-only).
+if [ "$1" != "k8s" ] && [ "$1" != "go" ]; then
     # Same default as roles/sf/setup-microshift (pull_secret_path); expand leading ~ for -f test.
     _pull_secret="${PULL_SECRET_PATH:-${HOME}/.ansible_crc_vars.yaml}"
     _pull_secret="${_pull_secret/#\~/${HOME}}"

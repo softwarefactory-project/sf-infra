@@ -1,6 +1,7 @@
 ---
 # Full CentOS Infra deploy (Zuul CI and legacy): executor VMs + MicroShift, then /etc/sf + sf-operator.
-# For manual runs on the bridge, prefer ./run-centosinfra.sh {vms|k8s|all}.
+# For manual runs on the bridge, prefer ./run-centosinfra.sh {vms|k8s|go|all}.
+# To refresh only the pinned Go toolchain: ./run-centosinfra.sh go (see site-centosinfra-bridge-go.yaml).
 
 - import_playbook: site-centosinfra-vms.yaml
 

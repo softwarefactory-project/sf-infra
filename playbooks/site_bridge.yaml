@@ -12,6 +12,7 @@
     - system/rhel-setup
     - system/epel-release
     - bridge/generate-etc-hosts
+    - bridge/install-go
     - bridge/install_k8s_clients
     - service/manage-accounts
     - service/node-exporter
@@ -26,7 +27,6 @@
       ansible.builtin.dnf:
         name:
           - bind-utils
-          - golang
           - python3-openshift
           - python3-kubernetes
           - python3-passlib
@@ -79,7 +79,7 @@
         special_time: weekly
         job: bash /var/lib/sf-infra/quay-renew.sh > /dev/null
 
-    - name: Install k9s and golang
+    - name: Install k9s
       ansible.builtin.include_role:
         name: sf/k9s
 
