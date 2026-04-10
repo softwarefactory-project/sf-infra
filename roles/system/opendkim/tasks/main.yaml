@@ -1,0 +1,88 @@
+- name: Setup opendkim and postfix
+  become: yes
+  block:
+    - name: Enable codeready-builder-for-rhel-9-x86_64-rpms for libmemcached.so.11
+      ansible.builtin.command: subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
+
+    - name: Install opendkim
+      ansible.builtin.dnf:
+        name:
+          - opendkim
+          - opendkim-tools
+
+    - name: Check if /etc/opendkim/keys/default.txt exists
+      ansible.builtin.stat:
+        path: /etc/opendkim/keys/default.txt
+      register: _default_txt
+
+    - name: Generate public and private keys if needed
+      ansible.builtin.command: "opendkim-genkey --domain {{ ansible_domain }} --directory /etc/opendkim/keys/"
+      when: _default_txt.stat.exists == False
+
+    - name: Ensure opendkim owner and group for keys
+      ansible.builtin.file:
+        path: /etc/opendkim/keys
+        state: directory
+        recurse: yes
+        owner: opendkim
+        group: opendkim
+
+    - name: Get data needed to create dns record
+      # sed -z ->  -z, --null-data -> separate lines by NUL characters
+      ansible.builtin.shell: grep -oE 'v=.*;|p=.*"' /etc/opendkim/keys/default.txt | sed -z -e 's/[ ]//' -e 's/\n//g' -e 's/"//g'
+      register: _dns_data
+      changed_when: false
+
+    - name: Test the key
+      ansible.builtin.command: "opendkim-testkey -d {{ ansible_domain }} -k /etc/opendkim/keys/default.private"
+      register: _testkey
+      # 0: success
+      # 65: key doesn't exist or key exists but not match
+      # 69: query failed
+      failed_when: _testkey.rc not in [0, 65, 69]
+      changed_when: false
+
+    - name: Fail to ensure admin can configure the DNS
+      ansible.builtin.fail:
+        msg:
+          - "Create dns txt record, filename should be default._domainkey.{{ ansible_domain}}"
+          - "using update-dns-records.md on pcinfra-docs"
+          - "without any space with: {{ _dns_data.stdout }}"
+      when: _testkey.rc != 0
+
+    - name: Configure opendkim and postfix
+      block:
+        - name: Configure opendkim
+          ansible.builtin.lineinfile:
+            path: /etc/opendkim.conf
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+          loop:
+            -  { line: "Mode\tsv", regexp: "^Mode.*"}
+            -  { line: "Domain\t{{ ansible_domain }}", regexp: "^Domain.*"}
+            -  { line: "Socket\tinet:8891@localhost", regexp: "^Socket.*"}
+          register: _dkim_conf
+
+        - name: Start opendkim
+          ansible.builtin.systemd_service:
+            state: restarted
+            name: opendkim
+          when: _dkim_conf.changed
+
+        - name: Configure postfix
+          ansible.builtin.blockinfile:
+            path: /etc/postfix/main.cf
+            marker: "# <!-- {mark} ANSIBLE MANAGED BLOCK -->"
+            insertafter: inet_interfaces = loopback-only
+            block: |
+              smtpd_milters = inet:localhost:8891
+              non_smtpd_milters = inet:localhost:8891
+              milter_default_action = tempfail
+          register: _postfix_conf
+
+        - name: Start postfix
+          ansible.builtin.systemd_service:
+            state: restarted
+            name: postfix
+          when: _postfix_conf.changed
+      when: _testkey.rc == 0

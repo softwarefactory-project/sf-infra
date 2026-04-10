@@ -95,6 +95,7 @@
     - service/hostname
     - infra/robots-disallow
     - service/anubis
+    - system/opendkim
   tasks:
     - name: Add vhosts
       ansible.builtin.include_role:
