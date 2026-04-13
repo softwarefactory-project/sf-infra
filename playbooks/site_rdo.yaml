@@ -76,6 +76,7 @@
     - service/hostname
     - infra/robots-disallow
     - service/anubis
+    - system/opendkim
   tasks:
     - name: Overwrite sf-config gateway.conf
       become: true
