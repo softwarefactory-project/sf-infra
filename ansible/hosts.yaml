@@ -26,6 +26,8 @@ all:
       hosts:
         microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
+        microshift-ze03.softwarefactory-project.io: {}
+        microshift-ze04.softwarefactory-project.io: {}
     db_master:
       hosts:
         dlrn-db-centos9.rdoproject.org: {}
@@ -97,6 +99,8 @@ all:
         microshift-infra.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
+        microshift-ze03.softwarefactory-project.io: {}
+        microshift-ze04.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
         ze01.softwarefactory-project.io: {}
@@ -144,6 +148,8 @@ all:
         managesf.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
+        microshift-ze03.softwarefactory-project.io: {}
+        microshift-ze04.softwarefactory-project.io: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
         nodepool-builder.softwarefactory-project.io: {}
@@ -185,6 +191,8 @@ all:
         bridge.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
         microshift-ze02.softwarefactory-project.io: {}
+        microshift-ze03.softwarefactory-project.io: {}
+        microshift-ze04.softwarefactory-project.io: {}
     ze:
       hosts:
         ze01.softwarefactory-project.io: {}
@@ -272,6 +280,14 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     microshift-ze02.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    microshift-ze03.softwarefactory-project.io:
+      ansible_port: 22
+      ansible_python_interpreter: auto
+      ansible_user: cloud-user
+    microshift-ze04.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
