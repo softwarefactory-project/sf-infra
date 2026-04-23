@@ -31,6 +31,7 @@ This project manages:
 * microshift-ze02.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-ze03.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-ze04.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
+* microshift-ze05.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
 * ansible.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * ze01.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb

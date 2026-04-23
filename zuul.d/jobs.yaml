@@ -219,6 +219,7 @@
       - name: github.com/openstack-k8s-operators/ansible-microshift-role
         override-checkout: 4.16.0-4
     files:
+      - ansible/hosts.yaml
       - playbooks/site_centOSInfra.yaml
       - playbooks/site-centosinfra-vms.yaml
       - playbooks/site-centosinfra-k8s.yaml

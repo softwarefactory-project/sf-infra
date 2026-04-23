@@ -115,6 +115,10 @@ Host microshift-ze04.softwarefactory-project.io
     User cloud-user
     Port 22
 
+Host microshift-ze05.softwarefactory-project.io
+    User cloud-user
+    Port 22
+
 Host microshift-infra.softwarefactory-project.io
     User cloud-user
     Port 22

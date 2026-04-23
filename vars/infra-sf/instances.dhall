@@ -268,6 +268,7 @@ let instances =
       , mkMicroshiftZe "2"
       , mkMicroshiftZe "3"
       , mkMicroshiftZe "4"
+      , mkMicroshiftZe "5"
       , Instance::{
         , name = "microshift-infra"
         , groups = [ "promtail", "promtail-openshift" ]
