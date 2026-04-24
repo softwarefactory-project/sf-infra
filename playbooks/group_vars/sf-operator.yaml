@@ -11,6 +11,54 @@ vexxhost_nodepool_rdo_password: !vault |
   6361383035303931650a353833663764666233313465383337356132326339353864633235373064
   35393562316635316538383066303931386233343131373265316630633832336661
 
+# refreshed: 2025-03-14
+vexxhost_ansible_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  35313535366337393039356439333635383938363139666365376133386236386331616535656334
+  3233346637656363346635393432366361316266343633350a623331333266326238383437643137
+  39663039663965656562666562653636323831623631333130623635336165356365663136373131
+  3138316363613761350a626665353935323165303963383136653837626335646237343435343930
+  34333464353530323435396635656136653466613933663830663633663861386164336433653737
+  3839666261616166613839306336636262306563316465373064
+
+# refreshed: 2025-03-14
+vexxhost_ansible_username: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  39316162333434663439333039326462343935316165656432323239353065356238396231623430
+  3735363464623938623164326234343435313338313065380a643035356363613831323936343738
+  37356566633836373539323339303563316531636337343438373463643335666438393731616462
+  3365323937396233610a396434613265356334316531383133343430373830616364326530653463
+  66306466366239386638656331663366646134663137633466313532616562353561626264623638
+  3332373336666362643464313939333166353661366536396133
+
+# refreshed: 2025-03-14
+vexxhost_ansible_project: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  31383466636162626431333336316431386333663661383839633336306638633031666631326663
+  3761313835376235313164323839313866373038343234300a623936663936353030363732383032
+  39653235323962643435303466636163303834663334373265656132623661666231333939663036
+  3666656238373639650a373232393430363262323738383564316232383433313530613434393839
+  30373433666662613639613661363038623666353065653761353965326532333734613264393731
+  3063383332346266306131353832386630373662363061646365
+
+# refreshed: 2025-03-14
+vexxhost_nodepool_tripleo_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  34393933633561623165643630636262363530366265313264343034393035396566396339383731
+  3464356233396466396132643864306564396432373939380a396666616530376130363263313763
+  31326236656139366566333939323538373766633861363835323438353239343065656636326336
+  3934393932343037620a653538656331343864313065313936396535633164656135303465306463
+  34646366333635376164376232326564373061336636346336663334343164643161
+
+# refreshed: 2025-03-14
+vexxhost_nodepool_sf_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  63346161353834393565343639383438643362356538393931356233323334303166373336343465
+  6165386465623138666464656239383939623833396231330a323666626639613232616263373065
+  38326537353638373737306564393133353866363034623832323462623031626536303738313562
+  3161316134386435630a646137633564303938306336343031383330386364313130306130663561
+  62383062326630323761336464376635393439313339643837616363653539666462
+
 clouds_yaml: |
   ---
   cache:
@@ -45,13 +93,44 @@ clouds_yaml: |
       api_timeout: 60
       auth:
         username: nodepool
-        password: {{ vexxhost_nodepool_rdo_password }}
+        password: {{ vexxhost_nodepool_sf_password | trim }}
         project_name: nodepool-sf
         project_domain_name: default
         user_domain_name: default
         auth_url: https://identity.rdo.mtl2.vexxhost.net/v3
       image_format: "raw"
       identity_api_version: 3
+    vexxhost-nodepool-tripleo:
+      metrics:
+        statsd:
+          prefix: 'openstack.api.vexxhost_nodepool_tripleo'
+      regions:
+        - RegionOne
+      api_timeout: 60
+      auth:
+        username: nodepool
+        password: {{ vexxhost_nodepool_tripleo_password | trim }}
+        project_name: nodepool-tripleo
+        project_domain_name: default
+        user_domain_name: default
+        auth_url: https://identity.rdo.mtl2.vexxhost.net/v3
+      image_format: 'raw'
+      identity_api_version: 3
+    ansible-vexxhost:
+      metrics:
+        statsd:
+          prefix: 'openstack.api.ansible_vexxhost'
+      profile: vexxhost
+      auth:
+        password: {{ vexxhost_ansible_password | trim }}
+        username: {{ vexxhost_ansible_username | trim }}
+        project_name: {{ vexxhost_ansible_project | trim }}
+        project_domain_id: default
+        user_domain_id: default
+      regions:
+        - ams1
+        - ca-ymq-1
+        - sjc1
 
 k8s_providers_kube_config: |
   apiVersion: v1
@@ -61,11 +140,47 @@ k8s_providers_kube_config: |
       certificate-authority-data: {{ hostvars['k1s06.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
       server: https://38.102.83.49:9023
     name: k1s06
+  - cluster:
+      tls-server-name: localhost
+      certificate-authority-data: {{ hostvars['sf-container-worker-1.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
+      server: https://38.129.16.117:9023
+    name: sf-container-worker-1
+  - cluster:
+      tls-server-name: localhost
+      certificate-authority-data: {{ hostvars['k1s03.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
+      server: https://38.102.83.139:9023
+    name: k1s03
+  - cluster:
+      tls-server-name: localhost
+      certificate-authority-data: {{ hostvars['k1s04.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
+      server: https://38.102.83.54:9023
+    name: k1s04
+  - cluster:
+      tls-server-name: localhost
+      certificate-authority-data: {{ hostvars['k1s05.softwarefactory-project.io']['k1s_ca'] | trim | b64encode }}
+      server: https://38.102.83.186:9023
+    name: k1s05
   contexts:
   - context:
       cluster: k1s06
       user: k1s-managed
     name: /k1s-k1s06/
+  - context:
+      cluster: sf-container-worker-1
+      user: k1s-managed
+    name: /sf-container-worker-1/
+  - context:
+      cluster: k1s03
+      user: k1s-managed
+    name: /k1s03/
+  - context:
+      cluster: k1s04
+      user: k1s-managed
+    name: /k1s04/
+  - context:
+      cluster: k1s05
+      user: k1s-managed
+    name: /k1s05/
   current-context: /k1s-k1s06/
   kind: Config
   preferences: {}
