@@ -46,6 +46,13 @@
         mynetworks:
           - "{{ prometheus_public_ip }}/32"
 
+    - name: Ensure /usr/local/bin in $PATH
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/profile.d/usr_local_bin_path.sh
+        mode: '0644'
+        content: 'PATH=$PATH:/usr/local/bin'
+
     - name: Install kubectl and oc
       become: true
       ansible.builtin.unarchive:
