@@ -47,6 +47,13 @@ let zuul_connections =
           , server = Some "github.com"
           , verifySsl = Some True
           }
+        , SF.GithubConn::{
+          , name = "github.com-legacy"
+          , appID = Some 6924
+          , secrets = Some "zuul-github-com-legacy-connection"
+          , server = Some "github.com"
+          , verifySsl = Some True
+          }
         ]
       , gitlabconns = Some
         [ SF.GitlabConn::{

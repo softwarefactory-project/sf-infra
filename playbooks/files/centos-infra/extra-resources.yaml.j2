@@ -33,6 +33,18 @@ data:
   webhook_token: "{{ zuul_github_com_connection_webhook_token | trim | b64encode }}"
   api_token: "{{ zuul_github_com_connection_api_token | trim | b64encode }}"
 ---
+# Zuul (legacy) Connection secrets
+kind: Secret
+apiVersion: v1
+metadata:
+  name: zuul-github-com-legacy-connection
+  namespace: cloud-softwarefactory
+type: Opaque
+data:
+  app_key: "{{ zuul_github_com_legacy_connection_app_key | trim | b64encode }}"
+  webhook_token: "{{ zuul_github_com_legacy_connection_webhook_token | trim | b64encode }}"
+  api_token: "{{ zuul_github_com_legacy_connection_api_token | trim | b64encode }}"
+---
 kind: Secret
 apiVersion: v1
 metadata:
