@@ -21,6 +21,8 @@
 
 - name: Create sf namespace on microshift
   become: true
-  ansible.builtin.command:
-    cmd: kubectl --kubeconfig /var/lib/microshift/resources/kubeadmin/{{ inventory_hostname }}/kubeconfig create namespace sf
+  ansible.builtin.shell: |
+    set -e
+    kubectl --kubeconfig /var/lib/microshift/resources/kubeadmin/{{ inventory_hostname }}/kubeconfig create namespace sf
+    oc adm policy add-scc-to-user privileged system:serviceaccount:sf:default
   when: sf_namespace.rc != 0
