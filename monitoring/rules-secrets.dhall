@@ -56,6 +56,9 @@ let unmanagedSecrets =
       , "zuul_github_com_connection_webhook_token"
       , "zuul_github_com_connection_app_key"
       , "zuul_github_com_connection_api_token"
+      , "zuul_github_com_legacy_connection_webhook_token"
+      , "zuul_github_com_legacy_connection_app_key"
+      , "zuul_github_com_legacy_connection_api_token"
       , "zuul_gitlab_com_connection_webhook_token"
       , "centOSInfra_zuul_ssh_priv"
       ]
