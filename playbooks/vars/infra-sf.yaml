@@ -277,7 +277,7 @@ servers:
       - common
       - monitoring
       - internal
-      - hypervisor-oci
+      - hypervisor-oci-open-k1s
     state: present
     volume_size: 100
   - boot_from_volume: yes
@@ -291,8 +291,7 @@ servers:
       - common
       - monitoring
       - internal
-      - hypervisor-oci
-      - cs-k1s
+      - hypervisor-oci-open-k1s
     state: present
     volume_size: 100
   - boot_from_volume: yes
@@ -306,7 +305,7 @@ servers:
       - common
       - monitoring
       - internal
-      - hypervisor-oci
+      - hypervisor-oci-open-k1s
     state: present
     volume_size: 100
   - boot_from_volume: yes

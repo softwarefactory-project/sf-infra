@@ -367,9 +367,10 @@
               - dhall-diff
               - name: sf-infra-create-hosts
                 soft: true
-        - sf-infra-configure-centOS-Infra:
-            dependencies:
-              - dhall-diff
+        # job is temporarly disabled until zuul can update itself
+        # - sf-infra-configure-centOS-Infra:
+        #     dependencies:
+        #       - dhall-diff
         - sf-infra-configure-hosts-sf:
             dependencies:
               - dhall-diff

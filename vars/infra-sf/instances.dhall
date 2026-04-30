@@ -69,7 +69,6 @@ let -- | A function to create k1s hosts
     mkK1sHost =
       \(idx : Natural) ->
       \(flavor : Text) ->
-      \(security_groups : List Text) ->
         Instance::{
         , name = "k1s0${Natural/show idx}"
         , groups = [ "epel", "k1s-secrets", "k1s-rhel", "rhel", "promtail" ]
@@ -78,7 +77,7 @@ let -- | A function to create k1s hosts
           , image = OS.RHEL.`9.4`.image.name
           , network = "oci-private-network"
           , floating_ip = Some True
-          , security_groups
+          , security_groups = [ "hypervisor-oci-open-k1s" ]
           , flavor = Some flavor
           , boot_from_volume = "yes"
           , volume_size = Some 100
@@ -209,10 +208,10 @@ let instances =
             }
           ]
         }
-      , mkK1sHost 3 Flavors.`8vcpu_16GB` [ "hypervisor-oci" ]
-      , mkK1sHost 4 Flavors.`4vcpus_8gb` [ "hypervisor-oci", "cs-k1s" ]
-      , mkK1sHost 5 Flavors.`8vcpu_16GB` [ "hypervisor-oci" ]
-      , mkK1sHost 6 Flavors.`8vcpu_16GB` [ "hypervisor-oci-open-k1s" ]
+      , mkK1sHost 3 Flavors.`8vcpu_16GB`
+      , mkK1sHost 4 Flavors.`4vcpus_8gb`
+      , mkK1sHost 5 Flavors.`8vcpu_16GB`
+      , mkK1sHost 6 Flavors.`8vcpu_16GB`
       , Instance::{
         , name = "zk01"
         , groups = [ "rhel", "sf", "promtail" ]
