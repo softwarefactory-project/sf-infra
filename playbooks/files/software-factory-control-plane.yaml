@@ -28,7 +28,7 @@ executor_cr:
           name: softwarefactory-project.io
           puburl: https://softwarefactory-project.io/r
           username: microzuul
-        - canonicalhostname: rdoproject.org
+        - canonicalhostname: review.rdoproject.org
           hostname: review.rdoproject.org
           name: rdoproject.org
           puburl: https://review.rdoproject.org/r
@@ -117,7 +117,7 @@ software_factory_cr:
           name: softwarefactory-project.io
           puburl: https://softwarefactory-project.io/r
           username: microzuul
-        - canonicalhostname: rdoproject.org
+        - canonicalhostname: review.rdoproject.org
           hostname: review.rdoproject.org
           name: rdoproject.org
           puburl: https://review.rdoproject.org/r

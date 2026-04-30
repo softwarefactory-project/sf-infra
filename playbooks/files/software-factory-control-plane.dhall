@@ -20,7 +20,7 @@ let zuul_connections =
         , SF.GerritConn::{
           , name = "rdoproject.org"
           , hostname = "review.rdoproject.org"
-          , canonicalhostname = Some "rdoproject.org"
+          , canonicalhostname = Some "review.rdoproject.org"
           , puburl = Some "https://review.rdoproject.org/r"
           , username = Some "zuul"
           }
