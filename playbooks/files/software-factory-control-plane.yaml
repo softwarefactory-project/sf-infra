@@ -96,6 +96,9 @@ software_factory_cr:
     mariadb:
       dbStorage:
         size: "5Gi"
+      limits:
+        cpu: "2000m"
+        memory: "4Gi"
     nodepool:
       builder:
         storage:
@@ -103,9 +106,12 @@ software_factory_cr:
       launcher:
         limits:
           cpu: "2000m"
-          memory: "4Gi"
+          memory: "8Gi"
     prometheusMonitorsDisabled: true
     zookeeper:
+      limits:
+        cpu: "2000m"
+        memory: "4Gi"
       storage:
         size: "5Gi"
     zuul:
@@ -148,6 +154,9 @@ software_factory_cr:
           secrets: zuul-gitlab-com-connection
           server: gitlab.com
       merger:
+        limits:
+          cpu: "2000m"
+          memory: "8Gi"
         logLevel: DEBUG
         storage:
           size: "30Gi"
@@ -168,6 +177,9 @@ software_factory_cr:
           server: src.fedoraproject.org
           sourceWhitelist: '38.102.83.40'
       scheduler:
+        limits:
+          cpu: "2000m"
+          memory: "8Gi"
         logLevel: DEBUG
         storage:
           size: "1Gi"

@@ -104,9 +104,11 @@ let main_spec =
         }
       , mariadb = Some SF.Mariadb::{
         , dbStorage = Some SF.Storage::{ size = "5Gi" }
+        , limits = Some SF.Limits::{ cpu = "2000m", memory = "4Gi" }
         }
       , zookeeper = Some SF.Zookeeper::{
         , storage = Some SF.Storage::{ size = "5Gi" }
+        , limits = Some SF.Limits::{ cpu = "2000m", memory = "4Gi" }
         }
       , logserver = Some SF.Logserver::{
         , loopDelay = Some 7
@@ -133,16 +135,18 @@ let main_spec =
         , scheduler = Some SF.ZuulScheduler::{
           , logLevel = Some "DEBUG"
           , storage = Some SF.Storage::{ size = "1Gi" }
+          , limits = Some SF.Limits::{ cpu = "2000m", memory = "8Gi" }
           }
         , executor = Some SF.ZuulExecutor::{ enabled = Some False }
         , merger = Some SF.ZuulMerger::{
           , storage = Some SF.Storage::{ size = "30Gi" }
+          , limits = Some SF.Limits::{ cpu = "2000m", memory = "8Gi" }
           , logLevel = Some "DEBUG"
           }
         }
       , nodepool = Some SF.Nodepool::{
         , launcher = Some SF.NodepoolLauncher::{
-          , limits = Some SF.Limits::{ cpu = "2000m", memory = "4Gi" }
+          , limits = Some SF.Limits::{ cpu = "2000m", memory = "8Gi" }
           }
         , builder = Some SF.NodepoolBuilder::{
           , storage = Some SF.Storage::{ size = "300Gi" }
