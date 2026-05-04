@@ -52,4 +52,4 @@
             # downstream zuul
             ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1Mog8QY/46KUC3OqOjdHG/UO/fkNTD3UwRLCDaFjAuF8kdGa7zKasppyZpo3sOt5yhsS+G2M0DObPfYfBWqi39jmlEnLioaLjn/xFLXpml2CK8d32NIK+K0AzxYiI96g6s8yCK1UtlTizNwnMhaY5OtyXeW8WRUJhcwuPLrgck6kw5kMtf0SOgBqCa4qSdH8F+k0Hj28iilmDXAvCd4BfLBdUE45tTj54fXKMHC4FOmYz2n/iSWQec6x4yoec5bi5fiCt1y93bs/QcQEGgW6tJx/5OufFcwX6ufDkPGHZQRN5IxuuGwU0Rgdw19sBi2srlqIkUfmfr4aWR1PQ9ASBy8U2mEjZYb86Xsd/X7C0IqSZxawu97sVwzw5XKBHW3n9nvwegEzmzg6xoER1Q1AxHl0Zv/nb7ak5Us8YhH/Rt/Aosv9xe7lkl3obpqOty8WzRD2ghUzTrposOJ/ApEBQXtJ4YYUSk8t9jP5+d6lgw90gW1BBItUklktgPzzHjJ8TLKXU4eQzxVvtL8NHRfTLcLU/XnPyyPUb26boFOqxebhEx06cyCVRxJBLO3jOjiyPpfkp9vWkzksfRvX8UTi1r1CxjqBIKTiDamM98Znp81NgUz1pojNm+J2p9uJ8zX87ybVQXnW3ZAr8EgTeldZJBrj22geQS8kpCWAdRuwniQ== zuul@ds
             # builder key
-            ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIppNzjGx/3nYeinqak/o9UYgtC42kymxv/s3SxVXbJ3 centos@image-builder.sf.hosted.upshift.rdu2.redhat.com
+            ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIppNzjGx/3nYeinqak/o9UYgtC42kymxv/s3SxVXbJ3 centos@image-builder.sf.hosted.upshift.rdu2.redhat.com next-gen@ds
