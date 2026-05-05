@@ -67,9 +67,6 @@ all:
     monitoring:
       hosts:
         monitoring.softwarefactory-project.io: {}
-    nodepool-builder:
-      hosts:
-        nodepool-builder.softwarefactory-project.io: {}
     observability-stack:
       hosts:
         bridge.softwarefactory-project.io: {}
@@ -103,17 +100,8 @@ all:
         microshift-ze03.softwarefactory-project.io: {}
         microshift-ze04.softwarefactory-project.io: {}
         microshift-ze05.softwarefactory-project.io: {}
-        nodepool-builder.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-        ze01.softwarefactory-project.io: {}
-        ze02.softwarefactory-project.io: {}
-        ze03.softwarefactory-project.io: {}
-        ze04.softwarefactory-project.io: {}
         zk01.softwarefactory-project.io: {}
-        zm01.softwarefactory-project.io: {}
-        zm02.softwarefactory-project.io: {}
-        zm03.softwarefactory-project.io: {}
-        zm04.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
     promtail-openshift:
       hosts:
@@ -155,21 +143,12 @@ all:
         microshift-ze05.softwarefactory-project.io: {}
         mirror.regionone.vexxhost.rdoproject.org: {}
         monitoring.softwarefactory-project.io: {}
-        nodepool-builder.softwarefactory-project.io: {}
         opensearch.rdoproject.org: {}
         quay.rdoproject.org: {}
         sf-container-worker-1.softwarefactory-project.io: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
-        ze01.softwarefactory-project.io: {}
-        ze02.softwarefactory-project.io: {}
-        ze03.softwarefactory-project.io: {}
-        ze04.softwarefactory-project.io: {}
         zk01.softwarefactory-project.io: {}
-        zm01.softwarefactory-project.io: {}
-        zm02.softwarefactory-project.io: {}
-        zm03.softwarefactory-project.io: {}
-        zm04.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
     sf:
       hosts:
@@ -178,16 +157,7 @@ all:
         image-builder.softwarefactory-project.io: {}
         managesf-dev.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-        nodepool-builder.softwarefactory-project.io: {}
-        ze01.softwarefactory-project.io: {}
-        ze02.softwarefactory-project.io: {}
-        ze03.softwarefactory-project.io: {}
-        ze04.softwarefactory-project.io: {}
         zk01.softwarefactory-project.io: {}
-        zm01.softwarefactory-project.io: {}
-        zm02.softwarefactory-project.io: {}
-        zm03.softwarefactory-project.io: {}
-        zm04.softwarefactory-project.io: {}
         zs.softwarefactory-project.io: {}
     sf-operator:
       hosts:
@@ -197,18 +167,6 @@ all:
         microshift-ze03.softwarefactory-project.io: {}
         microshift-ze04.softwarefactory-project.io: {}
         microshift-ze05.softwarefactory-project.io: {}
-    ze:
-      hosts:
-        ze01.softwarefactory-project.io: {}
-        ze02.softwarefactory-project.io: {}
-        ze03.softwarefactory-project.io: {}
-        ze04.softwarefactory-project.io: {}
-    zm:
-      hosts:
-        zm01.softwarefactory-project.io: {}
-        zm02.softwarefactory-project.io: {}
-        zm03.softwarefactory-project.io: {}
-        zm04.softwarefactory-project.io: {}
   hosts:
     ansible.softwarefactory-project.io:
       ansible_port: 22
@@ -308,10 +266,6 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    nodepool-builder.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
     opensearch.rdoproject.org:
       ansible_host: '38.102.83.14'
       ansible_port: 22
@@ -335,39 +289,7 @@ all:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
-    ze01.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ze02.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ze03.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    ze04.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
     zk01.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zm01.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zm02.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zm03.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zm04.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user

@@ -78,13 +78,6 @@
     - ansible.builtin.debug:
         var: _debug_zuul_weeder.stdout_lines
 
-- hosts: ze
-  tasks:
-    - name: Install rpmspec with rpm-build for Fedora Zuul CI zob
-      ansible.builtin.yum:
-        name: rpm-build
-      become: yes
-
 - hosts: managesf.softwarefactory-project.io
   roles:
     - infra/install-server
@@ -169,16 +162,6 @@
     - { name: "logsender", become: true }
     - system/volume
     - next-gen/logscraper-config
-
-- hosts: nodepool-builder
-  roles:
-    - sf/builder-cleanup
-    - sf/manage-upstream-config-project
-    # - system/volume
-
-- hosts: koji.softwarefactory-project.io
-  roles:
-    - service/firewalld
 
 - hosts: ansible.softwarefactory-project.io
   roles:

@@ -264,7 +264,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
     volume_size: 50
   - boot_from_volume: yes
     flavor: "8vcpu_16GB"
@@ -474,7 +474,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: rhel-9.4-x86_64-kvm
@@ -485,7 +485,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: rhel-9.4-x86_64-kvm
@@ -496,7 +496,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
     image: rhel-9.4-x86_64-kvm
@@ -507,7 +507,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: v1-standard-1
     image: rhel-9.4-x86_64-kvm
@@ -518,7 +518,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: v1-standard-1
     image: rhel-9.4-x86_64-kvm
@@ -529,7 +529,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: v1-standard-1
     image: rhel-9.4-x86_64-kvm
@@ -540,7 +540,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
   - boot_from_volume: no
     flavor: v1-standard-1
     image: rhel-9.4-x86_64-kvm
@@ -551,7 +551,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
 subnets:
   - cidr: "192.168.242.0/24"
     dns_nameservers:
@@ -576,10 +576,12 @@ volumes:
     display_name: nodepool_builder_lib
     server: nodepool-builder.softwarefactory-project.io
     size: 400
+    state: absent
   - device: /dev/vdc
     display_name: nodepool_builder_cache
     server: nodepool-builder.softwarefactory-project.io
     size: 200
+    state: absent
   - device: /dev/vdb
     display_name: image-builder-data
     server: image-builder.softwarefactory-project.io

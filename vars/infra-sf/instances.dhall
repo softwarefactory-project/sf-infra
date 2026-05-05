@@ -194,17 +194,20 @@ let instances =
           , flavor = Some Flavors.`2vcpus_8gb`
           , boot_from_volume = "yes"
           , volume_size = Some 50
+          , state = < absent | present >.absent
           }
         , volumes =
           [ Infra.Volume::{
             , display_name = "nodepool_builder_lib"
             , size = 400
             , device = "/dev/vdb"
+            , state = Some "absent"
             }
           , Infra.Volume::{
             , display_name = "nodepool_builder_cache"
             , size = 200
             , device = "/dev/vdc"
+            , state = Some "absent"
             }
           ]
         }
@@ -316,12 +319,13 @@ let mkServers =
           ( \(idx : Natural) ->
               Instance::{
               , name = "${name}0${Natural/show idx}"
-              , groups = [ "rhel", "sf", name, "promtail" ]
+              , groups = [ "rhel", "promtail" ]
               , connection = OS.RHEL.`9.4`.connection
               , server = Some Infra.Server::{
                 , image = OS.RHEL.`9.4`.image.name
                 , flavor = Some flavor
                 , boot_from_volume = "no"
+                , state = < absent | present >.absent
                 }
               }
           )
