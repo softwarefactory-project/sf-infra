@@ -189,7 +189,7 @@
       - playbooks/site_sf.yaml
       - ^playbooks/host_vars/.*softwarefactory-project.io.ya?ml$
       - playbooks/group_vars/all
-      - playbooks/group_vars/k1s.yaml
+      - "^playbooks/group_vars/k1s.*$"
       - playbooks/group_vars/nodepool-builder.yaml
       - playbooks/group_vars/sf.yaml
       - playbooks/group_vars/sf-operator.yaml
