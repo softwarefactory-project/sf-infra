@@ -163,11 +163,11 @@ k8s_providers_kube_config: |
   contexts:
   - context:
       cluster: k1s06
-      user: k1s-managed
+      user: k1s
     name: /k1s-k1s06/
   - context:
       cluster: sf-container-worker-1
-      user: sf-container-worker
+      user: k1s
     name: /sf-container-worker-1/
   - context:
       cluster: k1s03
@@ -185,13 +185,7 @@ k8s_providers_kube_config: |
   kind: Config
   preferences: {}
   users:
-  - name: k1s-managed
-    user:
-      token: {{ k1s_token }}
   - name: k1s
-    user:
-      token: {{ k1s_token }}
-  - name: sf-container-worker
     user:
       token: {{ k1s_token }}
 
