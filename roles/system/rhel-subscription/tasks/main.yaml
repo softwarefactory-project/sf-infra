@@ -44,6 +44,16 @@
         - rhel-9-for-x86_64-baseos-eus-rpms
         - rhel-9-for-x86_64-appstream-eus-rpms
 
+    # EEUS is for rhel-9.4 only for now
+    # https://access.redhat.com/support/policy/updates/errata#RHEL9_Planning_Guide
+    - name: Manage Enhanced Extended Update Support repos for rhel-9.4
+      when: rhel_release == 9.4
+      community.general.rhsm_repository:
+        name: "{{ item }}"
+        state: "enabled"
+      loop:
+        - rhel-9-for-x86_64-baseos-e4s-rpms
+        - rhel-9-for-x86_64-appstream-e4s-rpms
     - name: Upgrade all packages
       when: _subscription_manager_release.stderr != '' or (rhel_release and rhel_release != _subscription_manager_release.stdout.split(' ')[1])
       ansible.builtin.dnf:
@@ -53,3 +63,13 @@
     - name: Reboot after initial upgrade
       when: "'This system is not yet registered' in _subscription_manager_release.stderr"
       ansible.builtin.reboot:
+
+# TODO: remove this task in a follow-up patch
+- name: Manage Enhanced Extended Update Support repos for rhel-9.4
+  when: rhel_release == 9.4
+  community.general.rhsm_repository:
+    name: "{{ item }}"
+    state: "enabled"
+  loop:
+    - rhel-9-for-x86_64-baseos-e4s-rpms
+    - rhel-9-for-x86_64-appstream-e4s-rpms
