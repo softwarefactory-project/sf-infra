@@ -1,5 +1,5 @@
 # File is managed by the sf-agent: main.py rotate-k1s-secrets k1s06.softwarefactory-project.io 38.102.83.49
-rhel_release: 9.4
+
 # refreshed: 2025-06-26
 k1s_ca: !vault |
           $ANSIBLE_VAULT;1.1;AES256
