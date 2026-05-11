@@ -101,6 +101,7 @@ let instances =
           , floating_ip = Some True
           , boot_from_volume = "yes"
           , volume_size = Some 40
+          , security_groups = [ "zuul-console" ]
           }
         }
       , Instance::{
