@@ -191,6 +191,7 @@ servers:
       - common
       - monitoring
       - internal
+      - zuul-console
     state: present
     volume_size: 40
   - boot_from_volume: yes
