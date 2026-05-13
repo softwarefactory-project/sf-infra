@@ -1,6 +1,6 @@
 ansible_connection: "local"
 # Pinned Go for bridge (see roles/bridge/install-go; run ./run-centosinfra.sh go to apply).
-bridge_go_version: "1.25.9"
+bridge_go_version: "1.25.10"
 bridge_public_ip: 38.102.83.244
 podman_gw_ip: 10.88.0.1
 prometheus_public_ip: 38.102.83.250
