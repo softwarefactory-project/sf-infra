@@ -60,10 +60,10 @@
         RewriteRule ^/r/gitweb(.*)$  /r/plugins/gitiles/$1/ [R]
 
 
-        ProxyPass /zuul https://softwarefactory-project.io/zuul nocanon retry=0
-        ProxyPassReverse /zuul https://softwarefactory-project.io/zuul
+        # ProxyPass /zuul https://softwarefactory-project.io/zuul nocanon retry=0
+        # ProxyPassReverse /zuul https://softwarefactory-project.io/zuul
 
-        RewriteRule ^/zuul/*$ /zuul/status [R,L]
+        RewriteRule ^/zuul(.*)$ https://gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org/zuul/t/rdoproject.org$1 [R,L]
 
         SSLProxyEngine On
         <location /zuul>
