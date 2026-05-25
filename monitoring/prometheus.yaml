@@ -20,7 +20,6 @@ rule_files:
   - rules-zuul.yaml
   - rules-mysqld.yaml
   - rules-openstack-check.yaml
-  - rules-es-check.yaml
   - rules-supported_OS.yaml
   - rules-k1s-zombie-containers.yaml
 scrape_configs:
@@ -164,10 +163,6 @@ scrape_configs:
     static_configs:
       - targets:
           - logscraper02.openstack.org:9128
-  - job_name: elasticsearch
-    static_configs:
-      - targets:
-          - opensearch.rdoproject.org:9114
   - job_name: weeder
     metrics_path: /weeder/metrics
     static_configs:

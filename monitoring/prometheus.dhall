@@ -21,8 +21,6 @@ let apache_server_list =
       , "trunk-builder-centos9.rdoproject.org:9117"
       ]
 
-let elasticsearch_exporter_list = [ "opensearch.rdoproject.org:9114" ]
-
 let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
 
 let logscraper_server_list = [ "logscraper02.openstack.org:9128" ]
@@ -52,7 +50,6 @@ in  PrometheusConfig
       , "rules-zuul.yaml"
       , "rules-mysqld.yaml"
       , "rules-openstack-check.yaml"
-      , "rules-es-check.yaml"
       , "rules-supported_OS.yaml"
       , "rules-k1s-zombie-containers.yaml"
       ]
@@ -64,7 +61,6 @@ in  PrometheusConfig
       , ScrapeConfigs.static "zuul" [ "zs.softwarefactory-project.io:9101" ]
       , ScrapeConfigs.dlrn dlrnapi_target_list
       , ScrapeConfigs.static "logscraper" logscraper_server_list
-      , ScrapeConfigs.static "elasticsearch" elasticsearch_exporter_list
       ,     ScrapeConfigs.static "weeder" [ "softwarefactory-project.io" ]
         //  { metrics_path = Some "/weeder/metrics" }
       ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
