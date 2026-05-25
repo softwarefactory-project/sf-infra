@@ -154,7 +154,6 @@ let instances =
             in  [ "https://softwarefactory-project.io"
                 , "https://softwarefactory-project.io/r/config/server/version"
                 , "https://softwarefactory-project.io/zuul/api/info"
-                , "https://ansible.softwarefactory-project.io/zuul/api/info"
                 , "https://www.softwarefactory-project.io"
                 , "https://lists.rdoproject.org"
                 , "https://logserver.rdoproject.org"

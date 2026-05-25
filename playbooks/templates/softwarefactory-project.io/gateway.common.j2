@@ -59,19 +59,10 @@
 
         RewriteRule ^/r/gitweb(.*)$  /r/plugins/gitiles/$1/ [R]
 
+        RewriteRule ^/zuul(.*)$ https://gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org/zuul/t/sf$1 [R,L]
 
-        ProxyPass /zuul http://zs.softwarefactory-project.io:9000 nocanon retry=0
-        ProxyPassReverse /zuul http://zs.softwarefactory-project.io:9000
-
-        RewriteRule ^/zuul/*$ /zuul/t/local/status [R,L]
-
-        # Rewrite api to zuul-web
-
-        RewriteRule ^/zuul/api/tenant/(.*)/console-stream$ ws://zs.softwarefactory-project.io:9000/api/tenant/$1/console-stream [P,L]
-        RewriteRule ^/zuul/api/(.*)$ http://zs.softwarefactory-project.io:9000/api/$1 [P,L]
-
-        Redirect "/docs/zuul" "https://zuul-ci.org/docs/zuul/11.0.0"
-        Redirect "/docs/nodepool" "https://zuul-ci.org/docs/nodepool/10.0.0"
+        Redirect "/docs/zuul" "https://zuul-ci.org/docs/zuul"
+        Redirect "/docs/nodepool" "https://zuul-ci.org/docs/nodepool"
 
         # SF-UI: Rewrite HTML5 url to the index.html
         <Directory /usr/share/sf-ui>
