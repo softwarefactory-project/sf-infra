@@ -19,7 +19,7 @@ groups:
             Node memory is filling up ({{ $value | humanize }}% left)
               LABELS: {{ $labels }}
           summary: "Out of memory (instance {{ $labels.instance }})"
-        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node'}[1d], 3 * 24 * 3600) < 0) AND {instance!~'ze.*|zm.*', job='node'}"
+        expr: "(node_memory_MemAvailable_bytes * 100 / node_memory_MemTotal_bytes < 50) and (predict_linear(node_memory_MemAvailable_bytes{job='node'}[1d], 3 * 24 * 3600) < 0) AND {instance!~'osp.*', job='node'}"
         for: "12h"
       - alert: InstanceOutOfMemory
         annotations:
