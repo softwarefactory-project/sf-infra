@@ -32,40 +32,6 @@ let mkMicroshiftZe =
           ]
         }
 
-let tenant-rhel-9-instance =
-      Instance::{
-      , name = "tenant"
-      , groups = [ "rhel", "sf", "backup-sf" ]
-      , connection = OS.RHEL.`9.3`.connection
-      }
-
-let tenant-rhel-9-server =
-      Infra.Server::{
-      , image = OS.RHEL.`9.3`.image.name
-      , floating_ip = Some True
-      , volume_size = Some 40
-      , security_groups = [ "web" ]
-      , state = < absent | present >.absent
-      }
-
-let tenant-instances =
-      [     tenant-rhel-9-instance
-        //  { name = "ansible"
-            , backup = Some Infra.Backup::{
-              , run_sf_backup = True
-              , dir = Some
-                  "/var/lib/backup/bup/ansible.softwarefactory-project.io"
-              , domain = Some "ansible.softwarefactory-project.io"
-              , month_subdir = Some 1
-              }
-            , server = Some
-                ( Infra.Server.addSecurityGroups
-                    [ "elk", "apache_exporter" ]
-                    tenant-rhel-9-server
-                )
-            }
-      ]
-
 let -- | A function to create k1s hosts
     mkK1sHost =
       \(idx : Natural) ->
@@ -118,28 +84,6 @@ let instances =
           }
         }
       , Instance::{
-        , name = "elk"
-        , groups = [ "rhel", "sf", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , floating_ip = Some True
-          , security_groups = [ "elk" ]
-          , volume_size = Some 50
-          , state = < absent | present >.absent
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "elk-data"
-            , size = 160
-            , server = "elk" ++ "." ++ fqdn
-            , device = "/dev/vdb"
-            , state = Some "absent"
-            }
-          ]
-        }
-      , Instance::{
         , name = "managesf"
         , backup = Some Infra.Backup::{
           , run_sf_backup = True
@@ -175,76 +119,10 @@ let instances =
           , security_groups = [ "web", "managesf", "apache_exporter" ]
           }
         }
-      , Instance::{
-        , name = "managesf-dev"
-        , groups = [ "rhel", "sf", "install-server" ]
-        , connection = OS.RHEL.`9.4`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.4`.image.name
-          , flavor = Some Flavors.`4vcpus_16gb`
-          , boot_from_volume = "yes"
-          , network = "public"
-          , volume_size = Some 100
-          , security_groups = [ "web", "managesf", "apache_exporter" ]
-          , state = < absent | present >.absent
-          }
-        }
-      , Instance::{
-        , name = "nodepool-builder"
-        , groups = [ "sf", "rhel", "nodepool-builder", "promtail" ]
-        , connection = OS.RHEL.`9.4`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.4`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , boot_from_volume = "yes"
-          , volume_size = Some 50
-          , state = < absent | present >.absent
-          }
-        , volumes =
-          [ Infra.Volume::{
-            , display_name = "nodepool_builder_lib"
-            , size = 400
-            , device = "/dev/vdb"
-            , state = Some "absent"
-            }
-          , Infra.Volume::{
-            , display_name = "nodepool_builder_cache"
-            , size = 200
-            , device = "/dev/vdc"
-            , state = Some "absent"
-            }
-          ]
-        }
       , mkK1sHost 3 Flavors.`8vcpu_16GB`
       , mkK1sHost 4 Flavors.`4vcpus_8gb`
       , mkK1sHost 5 Flavors.`8vcpu_16GB`
       , mkK1sHost 6 Flavors.`8vcpu_16GB`
-      , Instance::{
-        , name = "zk01"
-        , groups = [ "rhel", "sf", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , flavor = Some Flavors.`4vcpus_8gb`
-          , image = OS.RHEL.`9.3`.image.name
-          , floating_ip = Some True
-          , boot_from_volume = "yes"
-          , volume_size = Some 50
-          , security_groups = [ "zookeeper" ]
-          , state = < absent | present >.absent
-          }
-        }
-      , Instance::{
-        , name = "zs"
-        , groups = [ "rhel", "sf", "promtail" ]
-        , connection = OS.RHEL.`9.3`.connection
-        , server = Some Infra.Server::{
-          , image = OS.RHEL.`9.3`.image.name
-          , flavor = Some Flavors.`2vcpus_8gb`
-          , boot_from_volume = "yes"
-          , volume_size = Some 50
-          , state = < absent | present >.absent
-          }
-        }
       , Instance::{
         , name = "image-builder"
         , groups = [ "sf", "rhel", "promtail" ]
@@ -318,36 +196,12 @@ let -- | These machines are hosted in the ansible org tenant
     k1s-workers =
       [ mkK1sWorker 1 "38.129.16.117" ]
 
-let mkServers =
-      \(name : Text) ->
-      \(flavor : Text) ->
-        Infra.Instance.generate
-          ( \(idx : Natural) ->
-              Instance::{
-              , name = "${name}0${Natural/show idx}"
-              , groups = [ "rhel", "promtail" ]
-              , connection = OS.RHEL.`9.4`.connection
-              , server = Some Infra.Server::{
-                , image = OS.RHEL.`9.4`.image.name
-                , flavor = Some flavor
-                , boot_from_volume = "no"
-                , state = < absent | present >.absent
-                }
-              }
-          )
-
-let mkExecutors = mkServers "ze" Flavors.`4vcpus_8gb`
-
-let mkMergers = mkServers "zm" Flavors.`1vcpu_4gb`
-
-let zuuls = mkExecutors 4 # mkMergers 4
-
 let default-security-groups = [ "common", "monitoring", "internal" ]
 
 let all-instances =
       Infra.Tenant.addSecurityGroupsAndSetFqdn
         default-security-groups
         fqdn
-        (instances # tenant-instances # zuuls # k1s-workers)
+        (instances # k1s-workers)
 
 in  all-instances # ./extra-instances.dhall

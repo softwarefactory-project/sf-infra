@@ -16,16 +16,11 @@ This project manages:
 * lists.rdoproject.org 
 * bridge.softwarefactory-project.io rhel-10.1-x86_64-kvm v1-standard-2
 * monitoring.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
-* elk.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * managesf.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-4
-* managesf-dev.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-4
-* nodepool-builder.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-2
 * k1s03.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * k1s04.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
 * k1s05.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * k1s06.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
-* zk01.softwarefactory-project.io rhel-9.3-x86_64-kvm 4vcpus_8gb
-* zs.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
 * image-builder.softwarefactory-project.io rhel-9.4-x86_64-kvm 1vcpu_2gb
 * microshift-ze01.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-ze02.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
@@ -33,15 +28,6 @@ This project manages:
 * microshift-ze04.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-ze05.softwarefactory-project.io rhel-9.4-x86_64-kvm 8vcpu_16GB
 * microshift-infra.softwarefactory-project.io centos-9-stream 8vcpu_16GB
-* ansible.softwarefactory-project.io rhel-9.3-x86_64-kvm v1-standard-2
-* ze01.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
-* ze02.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
-* ze03.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
-* ze04.softwarefactory-project.io rhel-9.4-x86_64-kvm 4vcpus_8gb
-* zm01.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
-* zm02.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
-* zm03.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
-* zm04.softwarefactory-project.io rhel-9.4-x86_64-kvm v1-standard-1
 * sf-container-worker-1.softwarefactory-project.io 
 * logscraper02.openstack.org 
 
