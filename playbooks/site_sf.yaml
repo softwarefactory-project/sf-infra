@@ -64,20 +64,6 @@
     - sf/zuul-weeder
     - sf/cloud-image-builder
 
-- hosts: bridge.softwarefactory-project.io
-  tasks:
-    - name: Synchronize zuul config for zuul-weeder service
-      ansible.builtin.command: >
-        ansible-playbook --extra-vars 'scheduler={{ scheduler }} zuul_weeder={{ zuul_weeder }}'
-        tasks/zuul-weeder-sync-zuul-config.yaml
-      register: _debug_zuul_weeder
-      vars:
-        scheduler: zs.softwarefactory-project.io
-        zuul_weeder: image-builder.softwarefactory-project.io
-
-    - ansible.builtin.debug:
-        var: _debug_zuul_weeder.stdout_lines
-
 - hosts: managesf.softwarefactory-project.io
   roles:
     - infra/install-server
@@ -148,31 +134,6 @@
     - service/node-exporter
     - system/psi
     - service/apache-exporter
-
-- hosts: zs.softwarefactory-project.io
-  roles:
-    - sf/openstack-simply-reporter
-    - sf/zuul_cli_access
-    - sf/zookeeper-exporter
-    - sf/zuul-capacity
-
-- hosts: elk.softwarefactory-project.io
-  roles:
-    - { name: "logscraper", become: true }
-    - { name: "logsender", become: true }
-    - system/volume
-    - next-gen/logscraper-config
-
-- hosts: ansible.softwarefactory-project.io
-  roles:
-    - service/acme-tiny
-    - service/apache-exporter
-  # TODO uncomment after rhel-9 migration
-  # tasks:
-  #   - name: Install bits for sf-config
-  #     ansible.builtin.include_role:
-  #       name: infra/install-server
-  #       tasks_from: setup
 
 - hosts: logscraper02.openstack.org
   roles:
