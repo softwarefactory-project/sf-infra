@@ -55,19 +55,7 @@ Host monitoring.softwarefactory-project.io
     User cloud-user
     Port 22
 
-Host elk.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
 Host managesf.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host managesf-dev.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host nodepool-builder.softwarefactory-project.io
     User cloud-user
     Port 22
 
@@ -84,14 +72,6 @@ Host k1s05.softwarefactory-project.io
     Port 22
 
 Host k1s06.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zk01.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zs.softwarefactory-project.io
     User cloud-user
     Port 22
 
@@ -120,42 +100,6 @@ Host microshift-ze05.softwarefactory-project.io
     Port 22
 
 Host microshift-infra.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ansible.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze01.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze02.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze03.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host ze04.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm01.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm02.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm03.softwarefactory-project.io
-    User cloud-user
-    Port 22
-
-Host zm04.softwarefactory-project.io
     User cloud-user
     Port 22
 
