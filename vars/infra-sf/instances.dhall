@@ -8,13 +8,6 @@ let OS = (../common.dhall).OS
 
 let Flavors = (../common.dhall).Flavors
 
-let tenant-rhel-9-instance =
-      Instance::{
-      , name = "tenant"
-      , groups = [ "rhel", "sf", "backup-sf" ]
-      , connection = OS.RHEL.`9.3`.connection
-      }
-
 let mkMicroshiftZe =
       \(id : Text) ->
         Instance::{
@@ -39,12 +32,20 @@ let mkMicroshiftZe =
           ]
         }
 
+let tenant-rhel-9-instance =
+      Instance::{
+      , name = "tenant"
+      , groups = [ "rhel", "sf", "backup-sf" ]
+      , connection = OS.RHEL.`9.3`.connection
+      }
+
 let tenant-rhel-9-server =
       Infra.Server::{
       , image = OS.RHEL.`9.3`.image.name
       , floating_ip = Some True
       , volume_size = Some 40
       , security_groups = [ "web" ]
+      , state = < absent | present >.absent
       }
 
 let tenant-instances =
@@ -126,6 +127,7 @@ let instances =
           , floating_ip = Some True
           , security_groups = [ "elk" ]
           , volume_size = Some 50
+          , state = < absent | present >.absent
           }
         , volumes =
           [ Infra.Volume::{
@@ -133,6 +135,7 @@ let instances =
             , size = 160
             , server = "elk" ++ "." ++ fqdn
             , device = "/dev/vdb"
+            , state = Some "absent"
             }
           ]
         }
@@ -183,6 +186,7 @@ let instances =
           , network = "public"
           , volume_size = Some 100
           , security_groups = [ "web", "managesf", "apache_exporter" ]
+          , state = < absent | present >.absent
           }
         }
       , Instance::{
@@ -226,6 +230,7 @@ let instances =
           , boot_from_volume = "yes"
           , volume_size = Some 50
           , security_groups = [ "zookeeper" ]
+          , state = < absent | present >.absent
           }
         }
       , Instance::{
@@ -237,6 +242,7 @@ let instances =
           , flavor = Some Flavors.`2vcpus_8gb`
           , boot_from_volume = "yes"
           , volume_size = Some 50
+          , state = < absent | present >.absent
           }
         }
       , Instance::{

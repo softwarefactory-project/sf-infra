@@ -222,7 +222,7 @@ servers:
       - monitoring
       - internal
       - elk
-    state: present
+    state: absent
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-4
@@ -253,7 +253,7 @@ servers:
       - web
       - managesf
       - apache_exporter
-    state: present
+    state: absent
     volume_size: 100
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -335,7 +335,7 @@ servers:
       - monitoring
       - internal
       - zookeeper
-    state: present
+    state: absent
     volume_size: 50
   - boot_from_volume: yes
     flavor: v1-standard-2
@@ -347,7 +347,7 @@ servers:
       - common
       - monitoring
       - internal
-    state: present
+    state: absent
     volume_size: 50
   - boot_from_volume: yes
     flavor: "1vcpu_2gb"
@@ -463,7 +463,7 @@ servers:
       - elk
       - apache_exporter
       - web
-    state: present
+    state: absent
     volume_size: 40
   - boot_from_volume: no
     flavor: "4vcpus_8gb"
@@ -573,6 +573,7 @@ volumes:
     display_name: elk-data
     server: elk.softwarefactory-project.io
     size: 160
+    state: absent
   - device: /dev/vdb
     display_name: nodepool_builder_lib
     server: nodepool-builder.softwarefactory-project.io

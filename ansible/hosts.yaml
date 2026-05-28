@@ -17,7 +17,6 @@ all:
         backup.rdoproject.org: {}
     backup-sf:
       hosts:
-        ansible.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
     bridge:
       hosts:
@@ -46,7 +45,6 @@ all:
         sf-container-worker-1.softwarefactory-project.io: {}
     install-server:
       hosts:
-        managesf-dev.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
     k1s-rhel:
@@ -87,7 +85,6 @@ all:
     promtail:
       hosts:
         bridge.softwarefactory-project.io: {}
-        elk.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
@@ -101,8 +98,6 @@ all:
         microshift-ze04.softwarefactory-project.io: {}
         microshift-ze05.softwarefactory-project.io: {}
         sf-container-worker-1.softwarefactory-project.io: {}
-        zk01.softwarefactory-project.io: {}
-        zs.softwarefactory-project.io: {}
     promtail-openshift:
       hosts:
         microshift-infra.softwarefactory-project.io: {}
@@ -122,18 +117,15 @@ all:
         trunk-server-centos9.rdoproject.org: {}
     rhel:
       hosts:
-        ansible.softwarefactory-project.io: {}
         backup.rdoproject.org: {}
         bridge.softwarefactory-project.io: {}
         dlrn-db-centos9.rdoproject.org: {}
-        elk.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
         k1s03.softwarefactory-project.io: {}
         k1s04.softwarefactory-project.io: {}
         k1s05.softwarefactory-project.io: {}
         k1s06.softwarefactory-project.io: {}
         logserver.rdoproject.org: {}
-        managesf-dev.softwarefactory-project.io: {}
         managesf.review.rdoproject.org: {}
         managesf.softwarefactory-project.io: {}
         microshift-ze01.softwarefactory-project.io: {}
@@ -148,17 +140,10 @@ all:
         sf-container-worker-1.softwarefactory-project.io: {}
         trunk-builder-centos9.rdoproject.org: {}
         trunk-server-centos9.rdoproject.org: {}
-        zk01.softwarefactory-project.io: {}
-        zs.softwarefactory-project.io: {}
     sf:
       hosts:
-        ansible.softwarefactory-project.io: {}
-        elk.softwarefactory-project.io: {}
         image-builder.softwarefactory-project.io: {}
-        managesf-dev.softwarefactory-project.io: {}
         managesf.softwarefactory-project.io: {}
-        zk01.softwarefactory-project.io: {}
-        zs.softwarefactory-project.io: {}
     sf-operator:
       hosts:
         bridge.softwarefactory-project.io: {}
@@ -168,10 +153,6 @@ all:
         microshift-ze04.softwarefactory-project.io: {}
         microshift-ze05.softwarefactory-project.io: {}
   hosts:
-    ansible.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
     backup.rdoproject.org:
       ansible_host: '52.71.149.221'
       ansible_port: 22
@@ -182,10 +163,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     dlrn-db-centos9.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    elk.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
@@ -218,10 +195,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: sf
     logserver.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    managesf-dev.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
@@ -286,14 +259,6 @@ all:
       ansible_python_interpreter: auto
       ansible_user: cloud-user
     trunk-server-centos9.rdoproject.org:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zk01.softwarefactory-project.io:
-      ansible_port: 22
-      ansible_python_interpreter: auto
-      ansible_user: cloud-user
-    zs.softwarefactory-project.io:
       ansible_port: 22
       ansible_python_interpreter: auto
       ansible_user: cloud-user
