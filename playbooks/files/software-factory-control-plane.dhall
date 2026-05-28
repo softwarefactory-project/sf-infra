@@ -1,11 +1,11 @@
 -- | This file define the SoftwareFactory resources for the sf-operator.
-let -- The generated schema from the openapi definitions
+let -- The generated schema from the openapi definitions // get the sha: dhall hash <<< 'https://softwarefactory-project.io/cgit/software-factory/sf-operator/plain/schemas/package.dhall?id=XXX  using (toMap { User-Agent = "dhall" })'
     SF =
-      https://softwarefactory-project.io/cgit/software-factory/sf-operator/plain/schemas/package.dhall?id=658d9c72c3eb1778d90636b3a696c4127e002499 using (toMap
+      https://softwarefactory-project.io/cgit/software-factory/sf-operator/plain/schemas/package.dhall?id=011c28cbef1c6620de1a0e4b3edc5e41929751e2 using (toMap
                                                                                                                                                             { User-Agent =
                                                                                                                                                                 "dhall"
                                                                                                                                                             })
-        sha256:4ac950ff976601ed4c4b7136de1e26a297611ecb9f638b659deba54fac013d76
+        sha256:ef841ca02e94c46ba9b2bf93cce7553d3be871734967b69ccc7bd0971eaffb3c
 
 let fqdn = "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org"
 
@@ -93,7 +93,6 @@ let FluentBitLogForwarding =
 let main_spec =
       SF.Spec::{
       , fqdn
-      , prometheusMonitorsDisabled = Some True
       , FluentBitLogForwarding
       , config-location = Some SF.ConfigLocation::{
         , name = "softwarefactory-project/config"
@@ -162,8 +161,10 @@ let executor =
         , storage = Some SF.Storage::{ size = "30Gi" }
         , diskLimitPerJob = Some +8096
         , logLevel = Some "DEBUG"
+        , ansibleSetupTimeout = Some +180
         , standalone = Some
           { controlPlanePublicZKHostname = "{{ zk_public_hostname }}"
+          , controlPlanePublicZKHostnames = Some [ "{{ zk_public_hostname }}" ]
           , controlPlanePublicGSHostname = "{{ gitserver_public_hostname }}"
           , publicHostname = "{{ executor_public_ip }}"
           }
@@ -173,7 +174,6 @@ let executor_spec =
       SF.Spec::{
       , fqdn
       , FluentBitLogForwarding
-      , prometheusMonitorsDisabled = Some True
       , zuul = Some Zuul::{ executor }
       }
 
