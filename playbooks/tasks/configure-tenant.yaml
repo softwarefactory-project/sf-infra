@@ -11,7 +11,7 @@
     state: "{{ keypair.state | default('replace') }}"
     name: "{{ keypair.name }}"
     public_key: "{{ keypair.public_key }}"
-  loop: "{{ tenant_config.keypairs }}"
+  loop: "{{ tenant_config.keypairs + (zuul_keypairs | default([]) if cloud.tenant is match('nodepool-.*') else []) }}"
   loop_control:
     loop_var: keypair
 

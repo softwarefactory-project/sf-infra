@@ -13,6 +13,33 @@
     - name: Ensure ansible requirements
       command: ansible-galaxy install -r ../requirements.yml
 
+    # Retrieve Zuul SSH keys from Kubernetes secrets (if available)
+    - name: Get Zuul main SSH key
+      ansible.builtin.command: kubectl get secret zuul-ssh-key -o jsonpath={.data.pub}
+      register: zuul_main_pubkey_b64
+      environment:
+        KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+      failed_when: false
+
+    - name: Get Zuul spare SSH key
+      ansible.builtin.command: kubectl get secret zuul-spare-ssh-key -o jsonpath={.data.pub}
+      register: zuul_spare_pubkey_b64
+      environment:
+        KUBECONFIG: "/etc/sf/prod-centos/kubeconfig"
+      failed_when: false
+
+    - name: Build Zuul keypairs list
+      ansible.builtin.set_fact:
+        zuul_keypairs: "{{ zuul_keypairs | default([]) + [item] }}"
+      loop:
+        - name: "zuul-ssh-key"
+          public_key: "{{ zuul_main_pubkey_b64.stdout | b64decode }}"
+        - name: "zuul-spare-ssh-key"
+          public_key: "{{ zuul_spare_pubkey_b64.stdout | b64decode }}"
+      when:
+        - (item.name == "zuul-ssh-key" and zuul_main_pubkey_b64.rc == 0 and zuul_main_pubkey_b64.stdout != "") or
+          (item.name == "zuul-spare-ssh-key" and zuul_spare_pubkey_b64.rc == 0 and zuul_spare_pubkey_b64.stdout != "")
+
     - ansible.builtin.include_tasks: tasks/configure-tenant.yaml
       loop: "{{ clouds }}"
       loop_control:
