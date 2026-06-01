@@ -48,24 +48,6 @@ data:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: zuul-pagure-io-connection
-  namespace: cloud-softwarefactory
-type: Opaque
-data:
-  api_token: "{{ zuul_pagure_token.pagure_io | trim | b64encode }}"
----
-kind: Secret
-apiVersion: v1
-metadata:
-  name: zuul-src-fedoraproject-org-connection
-  namespace: cloud-softwarefactory
-type: Opaque
-data:
-  api_token: "{{ zuul_pagure_token.src_fedoraproject_org | trim | b64encode }}"
----
-kind: Secret
-apiVersion: v1
-metadata:
   name: zuul-gitlab-com-connection
   namespace: cloud-softwarefactory
 type: Opaque
