@@ -28,8 +28,7 @@ in  { Infra =
                             )
       }
     , Nodepool =
-      { RDO = Infra.Tenant::(./nodepool-rdo/networking.dhall)
-      , SF = Infra.Tenant::(./nodepool-sf/networking.dhall)
+      { SF = Infra.Tenant::(./nodepool-sf/networking.dhall)
       , TripleO = Infra.Tenant::(./nodepool-tripleo/networking.dhall)
       }
     }

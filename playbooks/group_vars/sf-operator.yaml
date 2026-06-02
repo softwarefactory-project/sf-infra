@@ -68,22 +68,6 @@ clouds_yaml: |
       floating-ip: 5
       image.images: 5
   clouds:
-    vexxhost-nodepool-rdo:
-      metrics:
-        statsd:
-          prefix: 'openstack.api.vexxhost_nodepool_rdo'
-      regions:
-        - RegionOne
-      api_timeout: 60
-      auth:
-        username: nodepool
-        password: {{ vexxhost_nodepool_rdo_password }}
-        project_name: nodepool-rdo
-        project_domain_name: default
-        user_domain_name: default
-        auth_url: https://identity.rdo.mtl2.vexxhost.net/v3
-      image_format: "raw"
-      identity_api_version: 3
     vexxhost-nodepool-sf:
       metrics:
         statsd:

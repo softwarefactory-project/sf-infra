@@ -7,5 +7,4 @@ projects:
   - infra-rdo
   - infra-tripleo
   - nodepool-sf
-  - nodepool-rdo
   - nodepool-tripleo
