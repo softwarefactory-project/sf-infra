@@ -60,17 +60,6 @@ executor_cr:
           name: gitlab.com
           secrets: zuul-gitlab-com-connection
           server: gitlab.com
-      pagureconns:
-        - baseUrl: https://pagure.io
-          name: pagure.io
-          secrets: zuul-pagure-io-connection
-          server: pagure.io
-          sourceWhitelist: '8.43.85.75'
-        - baseUrl: https://src.fedoraproject.org
-          name: src.fedoraproject.org
-          secrets: zuul-src-fedoraproject-org-connection
-          server: src.fedoraproject.org
-          sourceWhitelist: '38.102.83.40'
 software_factory_cr:
   apiVersion: sf.softwarefactory-project.io/v1
   kind: SoftwareFactory
@@ -166,17 +155,6 @@ software_factory_cr:
           issuerID: https://softwarefactory-project.io/auth/realms/SF
           name: keycloak_sfio
           realm: SF
-      pagureconns:
-        - baseUrl: https://pagure.io
-          name: pagure.io
-          secrets: zuul-pagure-io-connection
-          server: pagure.io
-          sourceWhitelist: '8.43.85.75'
-        - baseUrl: https://src.fedoraproject.org
-          name: src.fedoraproject.org
-          secrets: zuul-src-fedoraproject-org-connection
-          server: src.fedoraproject.org
-          sourceWhitelist: '38.102.83.40'
       scheduler:
         limits:
           cpu: "2000m"

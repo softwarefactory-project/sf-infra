@@ -63,22 +63,6 @@ let zuul_connections =
           , server = Some "gitlab.com"
           }
         ]
-      , pagureconns = Some
-        [ SF.PagureConn::{
-          , name = "pagure.io"
-          , baseUrl = Some "https://pagure.io"
-          , secrets = Some "zuul-pagure-io-connection"
-          , server = Some "pagure.io"
-          , sourceWhitelist = Some "8.43.85.75"
-          }
-        , SF.PagureConn::{
-          , name = "src.fedoraproject.org"
-          , baseUrl = Some "https://src.fedoraproject.org"
-          , secrets = Some "zuul-src-fedoraproject-org-connection"
-          , server = Some "src.fedoraproject.org"
-          , sourceWhitelist = Some "38.102.83.40"
-          }
-        ]
       }
 
 let Zuul = SF.Zuul // { default = SF.Zuul.default // zuul_connections }
@@ -171,11 +155,7 @@ let executor =
         }
 
 let executor_spec =
-      SF.Spec::{
-      , fqdn
-      , FluentBitLogForwarding
-      , zuul = Some Zuul::{ executor }
-      }
+      SF.Spec::{ fqdn, FluentBitLogForwarding, zuul = Some Zuul::{ executor } }
 
 let base =
       { apiVersion = "sf.softwarefactory-project.io/v1"
