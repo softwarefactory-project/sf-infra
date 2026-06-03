@@ -50,7 +50,6 @@ vars
 ├── files
 ├── infra-rdo
 ├── infra-sf
-├── nodepool-rdo
 ├── nodepool-sf
 ├── nodepool-tripleo
 ```
