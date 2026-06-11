@@ -13,7 +13,6 @@ The main configuration is constructed with the *prometheus-config.dhall* .-}
 , rules-http = ./rules-http.dhall
 , rules-mysqld = ./rules-mysqld.dhall
 , rules-node = ./rules-node.dhall
-, rules-node_proxy = ./rules-node_proxy.dhall
 , rules-nodepool = ./rules-nodepool.dhall
 , rules-openstack-check = ./rules-openstack-check.dhall
 , rules-systemd = ./rules-systemd.dhall

@@ -21,8 +21,6 @@ let apache_server_list =
       , "trunk-builder-centos9.rdoproject.org:9117"
       ]
 
-let zookeeper_server_list = [ "zs.softwarefactory-project.io:9141" ]
-
 let logscraper_server_list = [ "logscraper02.openstack.org:9128" ]
 
 let dlrnapi_target_list =
@@ -57,17 +55,15 @@ in  PrometheusConfig
         //  { scrape_interval = Some "5m" }
       , ScrapeConfigs.static "mysqld" db_server_list
       , ScrapeConfigs.static "apache" apache_server_list
-      , ScrapeConfigs.static "zookeeper" zookeeper_server_list
-      , ScrapeConfigs.static "zuul" [ "zs.softwarefactory-project.io:9101" ]
       , ScrapeConfigs.dlrn dlrnapi_target_list
       , ScrapeConfigs.static "logscraper" logscraper_server_list
-      ,     ScrapeConfigs.static "weeder" [ "softwarefactory-project.io" ]
+      ,     ScrapeConfigs.static "weeder" [ "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org" ]
         //  { metrics_path = Some "/weeder/metrics" }
-      ,     ScrapeConfigs.static "logjuicer" [ "softwarefactory-project.io" ]
+      ,     ScrapeConfigs.static "logjuicer" [ "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org" ]
         //  { metrics_path = Some "/logjuicer/metrics" }
       ,     ScrapeConfigs.static
               "zuul-capacity"
-              [ "softwarefactory-project.io" ]
+              [ "gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org" ]
         //  { metrics_path = Some "/zuul-capacity" }
       , Prometheus.ScrapeConfig::{
         , job_name = Some "centosinfra-prod"
