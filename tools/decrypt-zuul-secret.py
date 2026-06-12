@@ -78,7 +78,7 @@ def main():
 
     parser = zuul.configloader.SecretParser(None)
     sc = zuul.model.SourceContext(None, 'project', None, 'master',
-                                  'path', False)
+                                  'path')
 
     data = zuul.configloader.safe_load_yaml(open(args.file).read(), sc)
     for element in data:
