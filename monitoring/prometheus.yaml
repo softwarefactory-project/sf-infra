@@ -119,14 +119,6 @@ scrape_configs:
           - monitoring.softwarefactory-project.io:9117
           - trunk-server-centos9.rdoproject.org:9117
           - trunk-builder-centos9.rdoproject.org:9117
-  - job_name: zookeeper
-    static_configs:
-      - targets:
-          - zs.softwarefactory-project.io:9141
-  - job_name: zuul
-    static_configs:
-      - targets:
-          - zs.softwarefactory-project.io:9101
   - job_name: dlrn
     metrics_path: /metrics
     relabel_configs:
@@ -161,17 +153,17 @@ scrape_configs:
     metrics_path: /weeder/metrics
     static_configs:
       - targets:
-          - softwarefactory-project.io
+          - gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
   - job_name: logjuicer
     metrics_path: /logjuicer/metrics
     static_configs:
       - targets:
-          - softwarefactory-project.io
+          - gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
   - job_name: zuul-capacity
     metrics_path: /zuul-capacity
     static_configs:
       - targets:
-          - softwarefactory-project.io
+          - gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org
   - honor_labels: true
     job_name: centosinfra-prod
     metrics_path: /federate
