@@ -27,6 +27,28 @@
       nodes: []
 
 - job:
+    name: validate-secrets
+    parent: sf-infra-base
+    semaphore: sf-infra
+    description: Check that ansible-vault-encrypted secrets are valid.
+    run: playbooks/validate-ansible-secrets.yaml
+    timeout: 3600
+    files:
+      - ^playbooks/group_vars/.*
+      - ^playbooks/host_vars/.*
+      - ^playbooks/validate-ansible-secrets.yaml
+      - ^roles/rdo/backup-srv/defaults/main.yml
+      - ^tools/rotate-ansible-vault-password.py
+      - ^tools/secret-age.py
+    secrets:
+      - name: vault
+        secret: ansible-vault
+    nodeset:
+      nodes:
+        - name: container
+          label: zuul-worker-python
+
+- job:
     name: sf-infra-create-bridge
     parent: sf-infra-base
     description: Deploy the bridge
@@ -349,23 +371,32 @@
         - sf-infra-test-fqcn-fixer-script
         - sf-infra-ensure-fqcn
         - linters: *linters-job-config
+        - validate-secrets
         - dhall-diff: *dhall-nodeset
         - sf-infra-create-bridge:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
         - sf-infra-configure-tenants:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-create-bridge
                 soft: true
         - sf-infra-create-hosts:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-configure-tenants
                 soft: true
         - sf-infra-configure-bridge:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-create-hosts
                 soft: true
         # job is temporarly disabled until zuul can update itself
@@ -375,16 +406,22 @@
         - sf-infra-configure-hosts-sf:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-hosts-rdo:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-configure-bridge
                 soft: true
         - sf-infra-configure-hosts-dlrn-centos9:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-configure-bridge
                 soft: true
         # - sf-infra-configure-hosts-osci:
@@ -395,6 +432,8 @@
         - sf-infra-observability-stack:
             dependencies:
               - dhall-diff
+              - name: validate-secrets
+                soft: true
               - name: sf-infra-configure-bridge
                 soft: true
     periodic:
