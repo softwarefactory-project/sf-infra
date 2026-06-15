@@ -62,7 +62,7 @@ s3_lifecycle_rules:
   Rules:
     - ID: "LokiIndex"
       Filter:
-        Prefix: "index/"
+        Prefix: ""
       Status: "Enabled"
       Expiration:
         Days: "{{ loki_expire_days }}"
