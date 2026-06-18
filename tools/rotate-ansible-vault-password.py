@@ -9,15 +9,17 @@
 
 import argparse
 import glob
+import importlib
 import logging
 import os
 import sys
-import re
 import subprocess
 import secrets
 import tempfile
 import textwrap
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+secret_age = importlib.import_module("secret-age")
 
 logger = logging.getLogger('rotate-ansible-vault-password')
 logger.setLevel(logging.DEBUG)
@@ -30,89 +32,60 @@ zuul_secrets_file_path = 'zuul.d/secrets.yaml'
 
 
 def do_file(file_path, old_vault_file, new_vault_file, dry_run=False):
-    new_file_contents = []
-    vault_secret_prefix_regexp = r'^(\s*)(\S+): !vault \|\n'
-    initial_indent = ""
-    vault_secret_regexp =\
-        r'[\s\t]+(\$ANSIBLE_VAULT;1.1;AES256|[0-9a-fA-F]+)\n?$'
-    secret_contents = []
-    secret_started = False
-    line_count = 0
     with open(file_path, 'r') as f:
-        for orig_line in f.readlines():
-            line_count += 1
-            # Is it the start of a secret?
-            _secret_start = re.match(vault_secret_prefix_regexp, orig_line)
-            if _secret_start:
-                initial_indent = _secret_start.group(1)
-                secret_name = _secret_start.group(2)
-                logger.info("secret found: %s" % secret_name)
-                secret_started = True
-                new_file_contents.append(orig_line)
-                continue
-            # Is it secret data?
-            _secret_line = re.match(vault_secret_regexp, orig_line)
-            if secret_started and _secret_line:
-                secret_line = _secret_line.group(0)
-                secret_contents.append(secret_line)
-            else:
-                if secret_contents:
-                    # We have the whole secret, let's decrypt it ...
-                    clean_blob = '\n'.join(ln.strip()
-                                           for ln in secret_contents)
-                    try:
-                        decrypt_proc = subprocess.run(
-                            ['ansible-vault', 'decrypt',
-                             '--vault-password-file', old_vault_file],
-                            input=clean_blob, capture_output=True,
-                            text=True, check=True
-                        )
-                        decrypted = decrypt_proc.stdout
-                    except subprocess.CalledProcessError as e:
-                        line_no = line_count - len(secret_contents)
-                        logger.error(
-                            "Error decrypting "
-                            f"'{secret_name}' on line "
-                            f"{line_no} in {file_path}: {e.stderr}")
-                        sys.exit(1)
-                    if not dry_run:
-                        # Then re-encrypt it ...
-                        try:
-                            encrypt_proc = subprocess.run(
-                                ['ansible-vault', 'encrypt_string',
-                                 '--vault-password-file',
-                                 new_vault_file, '--stdin-name',
-                                 'dummy'],
-                                input=decrypted,
-                                capture_output=True,
-                                text=True,
-                                check=True
-                            )
-                            encrypted_output = encrypt_proc.stdout
-                            # ansible-vault calls the secret "dummy" by
-                            # default so we must strip the first line
-                            encrypted_output = encrypted_output.\
-                                split('\n')[1:]
-
-                        except subprocess.CalledProcessError as e:
-                            logger.error("Error encrypting in "
-                                         f"{file_path}: {e.stderr}")
-                            sys.exit(1)
-                        for encrypted_line in encrypted_output:
-                            stripped = encrypted_line.strip()
-                            if len(stripped) > 0:
-                                indented = (
-                                    initial_indent
-                                    + "          %s\n" % stripped)
-                                new_file_contents.append(indented)
-                    else:
-                        new_file_contents += secret_contents
-                    secret_started = False
-                    initial_indent = ""
-                    secret_contents = []
-                # in any case, append the current line
-                new_file_contents.append(orig_line)
-    return ''.join(new_file_contents)
+        file_content = f.read()
+    lines = file_content.splitlines(keepends=True)
+    secret_locations = [
+        (name, start, end)
+        for name, start, end, _age
+        in secret_age.parse_secret_locations(file_content)
+        if end - start > 1
+    ]
+    for secret_name, start_line, end_line, in reversed(secret_locations):
+        logger.info("secret found: %s" % secret_name)
+        secret_lines = lines[start_line:end_line]
+        clean_blob = '\n'.join(ln.strip() for ln in secret_lines)
+        key_line = lines[start_line]
+        initial_indent = key_line[:len(key_line) - len(key_line.lstrip())]
+        try:
+            decrypt_proc = subprocess.run(
+                ['ansible-vault', 'decrypt',
+                 '--vault-password-file', old_vault_file],
+                input=clean_blob, capture_output=True,
+                text=True, check=True
+            )
+        except subprocess.CalledProcessError as e:
+            logger.error(
+                "Error decrypting "
+                f"'{secret_name}' on line "
+                f"{start_line} in {file_path}: {e.stderr}")
+            sys.exit(1)
+        if not dry_run:
+            try:
+                encrypt_proc = subprocess.run(
+                    ['ansible-vault', 'encrypt_string',
+                     '--vault-password-file',
+                     new_vault_file, '--stdin-name',
+                     'dummy'],
+                    input=decrypt_proc.stdout,
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                encrypted_output = encrypt_proc.stdout
+                encrypted_output = encrypted_output.split('\n')[1:]
+            except subprocess.CalledProcessError as e:
+                logger.error("Error encrypting in "
+                             f"{file_path}: {e.stderr}",
+                             file=sys.stderr)
+                sys.exit(1)
+            new_lines = []
+            for encrypted_line in encrypted_output:
+                stripped = encrypted_line.strip()
+                if len(stripped) > 0:
+                    new_lines.append(f"{initial_indent}{stripped}\n")
+            lines[start_line:end_line] = new_lines
+    return ''.join(lines)
 
 
 def do_zuul_secret(vault_password,
@@ -224,14 +197,7 @@ if __name__ == "__main__":
         playbooks_dir = glob.glob('playbooks/**/*.y*ml', recursive=True)
         roles_dir = glob.glob('roles/**/*.y*ml', recursive=True)
 
-        for f in playbooks_dir:
-            logger.info("Parsing %s" % f)
-            new_file = do_file(f, old_pass_file, vault_file.name, dry_run)
-            if not dry_run:
-                with open(f, 'w') as _f:
-                    _f.write(''.join(new_file))
-
-        for f in roles_dir:
+        for f in playbooks_dir + roles_dir:
             logger.info("Parsing %s" % f)
             new_file = do_file(f, old_pass_file, vault_file.name, dry_run)
             if not dry_run:

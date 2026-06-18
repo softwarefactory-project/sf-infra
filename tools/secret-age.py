@@ -64,7 +64,7 @@ def parse_secret_locations(inp):
                 yaml.ScalarToken(value=value, start_mark=smark),
                 yaml.ValueToken(),
                 yaml.TagToken(value=("!", "vault")),
-                yaml.ScalarToken(),
+                yaml.ScalarToken(value=secret_value),
                 *rest,
             ]:
                 refreshed = parse_time(
@@ -77,7 +77,8 @@ def parse_secret_locations(inp):
                 )
                 if parents_name:
                     value = f"{'_'.join(parents_name)}_{value}"
-                yield (value, smark.line + 1, rest[0].start_mark.line, refreshed)
+                secret_lines = secret_value.strip().count('\n') + 1
+                yield (value, smark.line + 1, smark.line + 1 + secret_lines, refreshed)
                 tokens = rest
             # A refresh date that is hard-coded without a associated !vault
             case [
@@ -235,6 +236,8 @@ tasks:
       task_secret: !vault |
         $F$
         47
+
+    # a comment
     """
         )
     )
