@@ -25,7 +25,7 @@
 
     - name: Download sf-infra public key
       ansible.builtin.get_url:
-        url: "https://softwarefactory-project.io/zuul/api/tenant/local/project-ssh-key/software-factory/sf-infra.pub"
+        url: "https://gateway-cloud-softwarefactory.apps.ocp.cloud.ci.centos.org/zuul/api/tenant/local/project-ssh-key/software-factory/sf-infra.pub"
         dest: "~/infra.pub"
         mode: "0440"
       register: _infra_key
