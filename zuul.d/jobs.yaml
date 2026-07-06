@@ -29,7 +29,6 @@
 - job:
     name: validate-secrets
     parent: sf-infra-base
-    semaphore: sf-infra
     description: Check that ansible-vault-encrypted secrets are valid.
     run: playbooks/validate-ansible-secrets.yaml
     timeout: 3600
