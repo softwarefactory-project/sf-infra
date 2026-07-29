@@ -3,7 +3,7 @@
 OS_CLOUD=${OS_CLOUD:-$1}
 CRC_VENV_DIR=${CRC_VENV_DIR:-$2}
 HOURS_AGO=$(date -d "$(date '+%Y-%m-%dT%H:%M:%S' -d '32 hours ago')" +%s)
-ZUUL_PREFFIX=${ZUUL_PREFFIX:-'zuul-ci'}
+ZUUL_PREFIX=${ZUUL_PREFIX:-'zuul-ci'}
 
 if [ -z "${OS_CLOUD}" ]; then
     echo "You need to specify OS_CLOUD resource name. Can not continue"
@@ -16,24 +16,24 @@ if [ -d "$CRC_VENV_DIR" ]; then
 fi
 
 # Remove port associated with router + remove router
-for router in $(openstack router list | grep "$ZUUL_PREFFIX-subnet" | awk '{print $2}'); do
-    ROUTER_DATE=$(date -d "$(openstack router show "$router" -c created_at -f value  )" +%s);
+for router in $(openstack router list | grep "$ZUUL_PREFIX-subnet" | awk '{print $2}'); do
+    ROUTER_DATE=$(date -d "$(openstack router show "$router" -c created_at -f value)" +%s)
     echo "Router: $router date is: $(date -d@$ROUTER_DATE)"
     if [ "$HOURS_AGO" -gt "$ROUTER_DATE" ]; then
-        echo "Doing router: $router";
+        echo "Doing router: $router"
         router_port=$(openstack port list --router "$router" -f value -c id)
         for r_port in $router_port; do
-            echo "Removing router port: $r_port from router: $router";
-            openstack router remove port "$router" "$r_port";
+            echo "Removing router port: $r_port from router: $router"
+            openstack router remove port "$router" "$r_port"
         done
         echo "Removing router: $router"
-        openstack router delete "$router";
+        openstack router delete "$router"
     fi
 done
 
 # Unset trunk ports networks
-for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFFIX-trunk|default-trunk" | awk '{print $2}'); do
-    NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c created_at -f value)" +%s);
+for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFIX-trunk|default-trunk" | awk '{print $2}'); do
+    NETWORK_DATE=$(date -d "$(openstack network trunk show "$trunk_network" -c created_at -f value)" +%s)
     echo "Trunk network $trunk_network date is: $(date -d@$NETWORK_DATE)"
     if [ "$HOURS_AGO" -gt "$NETWORK_DATE" ]; then
         echo "Unset trunk ports for network: $trunk_network"
@@ -46,14 +46,14 @@ for trunk_network in $(openstack network trunk list | grep -E "$ZUUL_PREFFIX-tru
 done
 
 # Remove ports connected to network, then remove subnets for network and later delete network
-for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cifmw|internal-api-cifmw|storage-cifmw|tenant-cifmw" | awk '{print $2}'); do
-    NETWORK_DATE=$(date -d "$(openstack network show "$network" -c created_at -f value)" +%s);
+for network in $(openstack network list | grep -E "$ZUUL_PREFIX-net|default-cifmw|internal-api-cifmw|storage-cifmw|tenant-cifmw" | awk '{print $2}'); do
+    NETWORK_DATE=$(date -d "$(openstack network show "$network" -c created_at -f value)" +%s)
     echo "Network date for $network is $(date -d@$NETWORK_DATE)"
     if [ "$HOURS_AGO" -gt "$NETWORK_DATE" ]; then
         # It can happen, that someone got hold node for more than 12 hours,
         # so let's skip removing those ports. Neutron will no allow to
         # remove the network later, if it is in-use.
-        echo "Removing ports in DOWN state connected to network: $network" ;
+        echo "Removing ports in DOWN state connected to network: $network"
         for port in $(openstack port list --network "$network" -c id -c status -f value | grep -i down | awk '{print $1}'); do
             # NOTE: This step might be useful, when someone remove the trunk network
             # without unseting port from it.
@@ -70,26 +70,33 @@ for network in $(openstack network list | grep -E "$ZUUL_PREFFIX-net|default-cif
         done
 
         echo "Removing subnets for network: $network"
-        openstack network list | grep "$network" | awk '{print $6}'  | xargs openstack subnet delete ;
+        openstack network list | grep "$network" | awk '{print $6}' | xargs openstack subnet delete
         echo "Removing network: $network"
         openstack network delete "$network"
     fi
 done
 
 for port in $(openstack port list | grep -i down | awk '{print $2}'); do
-    PORT_DATE=$(date -d "$(openstack port show -c created_at -f value $port)" +%s);
+    PORT_DATE=$(date -d "$(openstack port show -c created_at -f value $port)" +%s)
     echo "Port date $port is $(date -d@$PORT_DATE) ($OS_CLOUD)"
     if [ "$HOURS_AGO" -gt "$PORT_DATE" ]; then
         echo "Deleting port $port"
         ERROR=$(openstack port delete "$port" 2>&1)
         if [ "$?" -ne 0 ]; then
             if echo "$ERROR" | grep -q "is currently a parent port for trunk"; then
-                trunk_network=$(echo "$ERROR" | grep -oP "trunk \K[0-9a-fA-F-]{36}")
-                echo "Removing trunk network $trunk_network that belongs to $port"
-                openstack network trunk delete "$trunk_network"
+                trunk_id=$(echo "$ERROR" | grep -oP "trunk \K[0-9a-fA-F-]{36}")
+                echo "Unsetting subports from trunk $trunk_id before deletion"
+                for sub_port in $(openstack network trunk show "$trunk_id" -c sub_ports -f value | grep -o "'port_id': '[^']*'" | awk -F"'" '{print $4}'); do
+                    echo "Unsetting subport $sub_port from trunk $trunk_id"
+                    openstack network trunk unset "$trunk_id" --subport "$sub_port"
+                done
+                echo "Disabling parent port $port to force trunk status to DOWN"
+                openstack port set --disable "$port"
+                echo "Removing trunk $trunk_id that belongs to $port"
+                openstack network trunk delete "$trunk_id"
                 echo "Removing once again port $port"
                 openstack port delete "$port"
             fi
-        fi;
-    fi;
+        fi
+    fi
 done
