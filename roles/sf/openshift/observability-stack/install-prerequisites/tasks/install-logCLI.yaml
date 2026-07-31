@@ -45,4 +45,4 @@
       args:
         chdir: /usr/local/bin
       become: true
-      when: logcli_version not in logcli_current_version.stderr
+      when: logcli_version not in logcli_current_version.stdout
