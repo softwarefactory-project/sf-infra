@@ -267,6 +267,8 @@ loki:
   server:
     http_listen_port: 3100
     grpc_listen_port: 9095
+    grpc_server_max_recv_msg_size: 55000000
+    grpc_server_max_send_msg_size: 55000000
   # -- Limits config
   limits_config:
     reject_old_samples: true
@@ -990,6 +992,7 @@ gateway:
     initialDelaySeconds: 15
     timeoutSeconds: 1
   nginxConfig:
+    clientMaxBodySize: 32M
     # -- Enable listener for IPv6, disable on IPv4-only systems
     enableIPv6: true
     # -- NGINX log format

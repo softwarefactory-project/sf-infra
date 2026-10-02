@@ -226,6 +226,7 @@ config:
         Name forward
         Port 24224
         Storage.type filesystem
+        buffer_max_size 25M
 {% if fluentbit_forward_shared_key is defined %}
         Shared_Key {{ fluentbit_forward_shared_key }}
 {% endif %}
