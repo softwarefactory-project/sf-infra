@@ -61,8 +61,16 @@
     - sf/image-builder
     - sf/podman-pruner
     # Keep in sync with zuul-weeder security group and prometheus dhall configuration
-    - sf/zuul-weeder
     - sf/cloud-image-builder
+
+  tasks:
+    - name: Stop and disable zuul-weeder service if present
+      become: true
+      ignore_errors: true
+      ansible.builtin.systemd_service:
+         name: zuul-weeder
+         state: stopped
+         enabled: false
 
 - hosts: managesf.softwarefactory-project.io
   roles:
