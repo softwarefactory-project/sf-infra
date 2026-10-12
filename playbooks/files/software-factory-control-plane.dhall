@@ -130,6 +130,7 @@ let main_spec =
       , nodepool = Some SF.Nodepool::{
         , launcher = Some SF.NodepoolLauncher::{
           , limits = Some SF.Limits::{ cpu = "2000m", memory = "8Gi" }
+          , logLevel = Some "DEBUG"
           }
         , builder = Some SF.NodepoolBuilder::{
           , storage = Some SF.Storage::{ size = "300Gi" }

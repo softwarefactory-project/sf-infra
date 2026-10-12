@@ -98,6 +98,7 @@ software_factory_cr:
         limits:
           cpu: "2000m"
           memory: "8Gi"
+        logLevel: DEBUG
     zookeeper:
       limits:
         cpu: "2000m"
