@@ -63,8 +63,8 @@ def parse_secret_locations(inp):
                 yaml.KeyToken(),
                 yaml.ScalarToken(value=value, start_mark=smark),
                 yaml.ValueToken(),
-                yaml.TagToken(value=("!", "vault")),
-                yaml.ScalarToken(value=secret_value),
+                yaml.TagToken(value=("!", "vault"))
+                | yaml.TagToken(value=("!", "encrypted/pkcs1-oaep")),
                 *rest,
             ]:
                 refreshed = parse_time(
@@ -77,8 +77,7 @@ def parse_secret_locations(inp):
                 )
                 if parents_name:
                     value = f"{'_'.join(parents_name)}_{value}"
-                secret_lines = secret_value.strip().count('\n') + 1
-                yield (value, smark.line + 1, smark.line + 1 + secret_lines, refreshed)
+                yield (value, smark.line + 1, refreshed)
                 tokens = rest
             # A refresh date that is hard-coded without a associated !vault
             case [
@@ -92,7 +91,6 @@ def parse_secret_locations(inp):
                 yield (
                     value,
                     smark.line,
-                    smark.line + 1,
                     parse_time(f"refreshed: {date}"),
                 )
                 tokens = rest
@@ -135,7 +133,7 @@ def parse_secret_locations(inp):
 
 def process(fp):
     """Generate (secret_name, secret_age) for a given vars YAML file."""
-    for secret, start, end, age in parse_secret_locations(open(fp).read()):
+    for secret, start, age in parse_secret_locations(open(fp).read()):
         yield (secret, age)
 
 
@@ -230,6 +228,12 @@ org:
         $E$
         48
 rhn_refreshed_date: 2025-12-01
+
+zuul_test:
+  # refreshed_date: 2025-05-23
+  sec: !encrypted/pkcs1-oaep
+    - qwa4rt1+OAhf7Z30KpaDKbeoonmJf96X/ZnQ7hGItEKAFbmrblIS08trpbZ2AxJ3ClgGv
+
 tasks:
   - name: "a task"
     vars:
@@ -242,14 +246,15 @@ tasks:
         )
     )
     assert got == [
-        ("vexx_pass", 3, 5, None),
-        ("other_auth", 7, 9, None),
-        ("rdo_pass", 12, 14, None),
-        ("org_tenant_t1_token", 18, 20, None),
-        ("org_tenant_t2_token", 23, 25, 1747785600),
-        ("org_tenant_t3_token", 28, 30, 1747872000),
-        ("rhn", 30, 31, 1764547200),
-        ("task_secret", 35, 37, None),
+        ("vexx_pass", 3, None),
+        ("other_auth", 7, None),
+        ("rdo_pass", 12, None),
+        ("org_tenant_t1_token", 18, None),
+        ("org_tenant_t2_token", 23, 1747785600),
+        ("org_tenant_t3_token", 28, 1747872000),
+        ("rhn", 30, 1764547200),
+        ("zuul_test_sec", 35, 1747958400),
+        ("task_secret", 41, None),
     ], got
 
 

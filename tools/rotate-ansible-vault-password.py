@@ -31,15 +31,31 @@ logger.addHandler(handler)
 zuul_secrets_file_path = 'zuul.d/secrets.yaml'
 
 
+def find_secret_end(lines, start_line):
+    """Find the end of a block scalar containing an Ansible vault secret."""
+    key_line = lines[start_line - 1]
+    key_indent = len(key_line) - len(key_line.lstrip())
+    end_line = start_line
+    while end_line < len(lines):
+        line = lines[end_line]
+        indent = len(line) - len(line.lstrip())
+        if line.strip() and indent <= key_indent:
+            break
+        end_line += 1
+    while end_line > start_line and not lines[end_line - 1].strip():
+        end_line -= 1
+    return end_line
+
+
 def do_file(file_path, old_vault_file, new_vault_file, dry_run=False):
     with open(file_path, 'r') as f:
         file_content = f.read()
     lines = file_content.splitlines(keepends=True)
     secret_locations = [
-        (name, start, end)
-        for name, start, end, _age
+        (name, start, find_secret_end(lines, start))
+        for name, start, _age
         in secret_age.parse_secret_locations(file_content)
-        if end - start > 1
+        if start > 0 and '!vault' in lines[start - 1]
     ]
     for secret_name, start_line, end_line, in reversed(secret_locations):
         logger.info("secret found: %s" % secret_name)
