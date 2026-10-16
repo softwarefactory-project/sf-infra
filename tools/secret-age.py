@@ -138,9 +138,14 @@ def process(fp):
 
 
 def read_rules_secrets(start):
+    # The new prometheus config
+    rules = start.parent / "prometheus/runtime-alerts.yaml"
+    # Legacy monitoring rules
     secret_file = start.parent / "monitoring/rules-secrets.yaml"
     if secret_file.exists():
         return secret_file.read_text()
+    elif rules.exists():
+        return rules.read_text()
     elif start.parent == "/":
         raise RuntimeError("Couldn't find rules-secrets.yaml")
     else:
