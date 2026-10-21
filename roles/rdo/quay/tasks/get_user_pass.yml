@@ -2,12 +2,12 @@
 - name: Check if user exists in quay
   community.postgresql.postgresql_query:
     login_host: "{{ postgresql_host | default('localhost') }}"
-    db: quay
+    login_db: quay
     login_user: "{{ postgresql_user }}"
     login_password: "{{ postgresql_password }}"
     query: SELECT * FROM public.user WHERE username = %s
     positional_args:
-      - "{{ user_item.key }}"
+      - '{{ user_item.key }}'
   register: _quay_user_exist
   no_log: "{{ hide_sensitive_logs }}"
 
