@@ -1,0 +1,26 @@
+---
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+
+- name: Ensure ca-certificates is installed and up to date
+  become: true
+  ansible.builtin.dnf:
+    name: ca-certificates >= 2026.2.92
+    state: present
+  ignore_errors: true
+
+# the test URL might have been compromised, go for a direct version check
+- name: Check if system is still vulnerable
+  ansible.builtin.shell: |
+    rpm -q ca-certificates --queryformat '%{VERSION}\n'
+  register: test_emudhra
+  ignore_errors: true
+
+- name: Remove compromised certificates if needed
+  become: true
+  when: " test_emudhra.stdout < '2026.2.92'"
+  ansible.builtin.shell: |
+    d=/etc/pki/ca-trust/source/blocklist; [ -d $d ] || d=/etc/pki/ca-trust/source/blacklist &&
+    trust extract --overwrite --format=pem-bundle --filter='pkcs11:object=Comodo%20AAA%20Services%20root;type=cert' $d/Comodo_AAA_Services_root.pem &&
+    trust extract --overwrite --format=pem-bundle --filter='pkcs11:object=emSign%20ECC%20Root%20CA%20-%20G3;type=cert' $d/emSign_ECC_Root_CA_-_G3.pem &&
+    update-ca-trust
