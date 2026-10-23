@@ -5,6 +5,10 @@
     name: '*'
     state: latest
 
+- name: Ensure emudhra TLS mitigation
+  ansible.builtin.include_role:
+    name: system/emudhra-mitigation
+
 - name: Ensure CentOS runs with selinux permissive
   become: true
   when: disable_selinux | default(false)
