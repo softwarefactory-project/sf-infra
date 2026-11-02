@@ -152,3 +152,4 @@
 - hosts: all
   roles:
     - system/emudhra-mitigation
+    - system/mitigation-RHSB-2026-016

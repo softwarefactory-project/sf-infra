@@ -1,0 +1,20 @@
+- name: Copy mitigation rules
+  ansible.builtin.copy:
+    content: |
+      table inet cve_2026_98432 {
+          chain input {
+              type filter hook input priority -310; policy accept;
+              ip protocol tcp ip hdrlength > 5 counter drop
+          }
+      }
+    dest: /etc/nftables/cve-2026-98432.nft
+  become: yes
+
+- name: Apply the rules
+  ansible.builtin.shell: |
+    set -ex
+    cd /etc/nftables
+    nft --check --file cve-2026-98432.nft
+    nft --file cve-2026-98432.nft
+    nft list table inet cve_2026_98432
+  become: true
