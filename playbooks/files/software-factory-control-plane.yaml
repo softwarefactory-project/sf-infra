@@ -50,11 +50,6 @@ executor_cr:
           secrets: zuul-github-com-connection
           server: github.com
           verifySsl: true
-        - appID: 6924
-          name: github.com-legacy
-          secrets: zuul-github-com-legacy-connection
-          server: github.com
-          verifySsl: true
       gitlabconns:
         - baseUrl: https://gitlab.com
           name: gitlab.com
@@ -132,11 +127,6 @@ software_factory_cr:
         - appID: 846254
           name: github.com
           secrets: zuul-github-com-connection
-          server: github.com
-          verifySsl: true
-        - appID: 6924
-          name: github.com-legacy
-          secrets: zuul-github-com-legacy-connection
           server: github.com
           verifySsl: true
       gitlabconns:
