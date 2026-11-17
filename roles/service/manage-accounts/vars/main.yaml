@@ -11,46 +11,37 @@ bridge_users:
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDi8srMdr4EUBmEK8CGjOmUlEvC4bGZnmiATC3k5NxzcWC1pbT5JGLhAyMQr52FArWPV6qTs5cw/8JjBPv42Dhz8JxzLGVavXggzPdBWPKkGBMgZUiiolsGAPlZ0OAVGiQw61amQ0l/r7dumdlqNFpUTWwcLHYtZMG/RJWKAw9s3KhsQvPcIkzaJEDuanR426O4+qAmOBPD8veTWf3Gxdg4qqGYEBEEEvChyAFg0o83R1FsQMxtuox0CP4l5T6ecKHxJ0r9nym345KtgceavBAqraNJ2EOotAlPcDl/uXq2HzdV8kfOuxMso+AQvnKcHK6/JOsPepSwfGJabso8T+eyA8QoJ/LU2esFMjNCwUK0I4J9W0Tpy/2ZvJjZNnRfvS0ToRWcim0xSaGDsR17RpFe++oI9l+r3+kZGoyHeOqcz1WsRnBCd50OmcFWfXFA4cGZr91d9B6r3ZcGmnLci4yD6ikdd9qsacs7C1Tu0kJl8Wsp094YFt944AaaFYSAWJzw4/RW+QPeGAWKKieIdj4UzYGcn1Wi2j6odRDdWqq7Ei+Gy7PPtxaRALAdVVx4tDGkTPyEz1i/bGtec3Js06GrzPIBWitdg1uJumttZY//RVunevTkDT31cn295VWw/qe4J9fv+nUKRv+Xw+Q+nDLiP+6HkxL2q3UDjQOjYEY+Mw=="
-  nhicher:
-    name: "nhicher"
-    groups:
-      - "{{ admin_group }}"
-    ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcB2dFwG8DnJ12U3i/LFN2Llp825EK8K3j+Jht0/cBXDOQY2oNZLgqmuxGC65k6c2glSqboYMTwzfmLyZtBXKHIVSAP5m24vuBV+xwchR7GLQvtdAFz4Avu19GD8lGWszKjZN0QMlKJQd1YNtxjbZUxnApGlFhyMiwVkbOG87usIajQmRnPUhuN3lfMFXcBlbmupEWwIpueRshiypRlQBcYMfHnGpafDJfJ3vD2O2RvPfJy5FMktUdlJjBR75G2JO1alwOlfOhtYp5JBM0dUYYb5XexIMceCtemLTpQpU9lVxEdBKiweMzZS0v/JAxF3UKGCd/cabhQTZuMNZcgb2p"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPAbhAA4ZiCpNhJoQTg+FtIBzouA2rdOC2FmdjZTDDYz fboucher@redhat.com"
   mhuin:
     name: "mhuin"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvgV8CDCv+p1wyShIJoT718icR6z5PuHDiHFuQSIYI246BUyWFParuaL75qfD8Dz7+AXnX+leC63mhU4nqzzzfocGxjCtvDUI9+hgcYaJyp4JbBQreGSHKcayZ7lG9Nnsy6YkpMZpx7a6/BgLMMq434osqibj59qus0L9q/oZHy2suJGUoeBT9Ohm82HPZU6Cuc4YYgG12h9A77YKRE4bd4TDTQWskxCkSyMv26U7DgNnR6fvpIGNLjdoykVL8BJPh11blpoUU5rJIp06Jpy7fqs1EsgkPiD0fuELS2KdkVO3j37Llq1YZbRJh7Ld+lp0fP9sz6xr/4V3dIMaFHgpx"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPyyACmGm3P3BwztDYo3QXq09LdRBCSGPuw/Ooytww5A mhuin@dogman"
   tristanc:
     name: "tristanc"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINFW8lYSVF4cU/RYLHgm698ZwbF5jaVgQ549pwHD1PUg"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8oxNrpOPIHC2eLXMUTOwMktoW0UAnJ1eE7pBYOCksA tristanc@csb"
   fserucas:
     name: "fserucas"
     groups:
       - "{{ admin_group }}"
     ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGuW1BgAD3UsNOfxGdKaHZGWFl2+ez7tKQVZYGa+WrFWJchpT3fThOLciI71x0n0kUot9twuv+7w7/+1+daHksanVx8kNcsCT9OgTuBgS3pmOcxvcZTLNcSAwmENjf4HcbDrIYFvXGnQP3LASLfYJZxMBGFuB3kcXyhXO1I/+uH1EVTlFcJ/XyO5/IjXe/wHU+t26xNHddHbrZco0R6TGnwTWoqdjDM4KHg2tq58yiH6AYxMrSMk5Shgn40o6RG5XkjAf5WZRXckc1Djq5U9wdJhPt5BEu0m/hhm/0Zl2YT+RLTBfLj3AS2mio+qpDL/Unuf/irSKEZb16YY5BgRySAj/73lLfVqBWm4dE/ncB3gVraMnB9UYTPRe2yD9VPDzyXB1pZcEaTB0Xv3s59B01URksmfKTa20twZvG86+I02m7zcBVSWjz/9kIP3mp2/l92U5meCTe3pFMEbFsaQZsiohq3x+/lC3xFrHGte553QLREFrALDkB3T02jfAjwu0= fserucas@spaceship"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMyxpHidM8vd58MHhjZzKfkHu7SOobid/8OBrc+K+J8k fserucas"
   evallesp:
     name: "evallesp"
     groups:
       - "{{ admin_group }}"
-    ssh_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIASASQOH2BcOyLKuuDOdWZlPi2orcjcA8q4400T73DLH"
+    ssh_keys: []
   vcherkas:
     name: "vcherkas"
     groups:
       - "{{ admin_group }}"
-    ssh_keys:
-      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJHZ4TEcbFRJsQBv8wOxeUSnsi4b4nwvn3rOzeeutbVsmFuGbuEWdp3fqDcHmnC5pZXKN9Atn9inqrFQbg36I48C+t9NBELeISyT4aM8Og7WfUHcxsMmBa3oj5GaUsMzT5t9meTnill7+06L5grq2xkWSSv6FVRi2EIn4P/DurbpXSoyXfwo9Vj9oUvpbon7HJmASfU6Q3vYANZuDAdK1UQ6Fx1Ye9Gz8Jl56mhsxKe3Tpq0VikKRZZbHs0QpCPm6MXS3LSOOUe3+FMWJR8k6jyVx+8Cvsj8mkzqUianUyU/Ez5pXlN9o7WjbkGkcqTjefzq0yFupaS9m3utcSnmDt vcherkas@redhat.com"
+    ssh_keys: []
   autkin:
     name: "autkin"
     groups:
       - "{{ admin_group }}"
-    ssh_keys:
-      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFbDRZ3pr1ufJyYC9wd3654kjgLuC873MXzzp8GVWAf autkin@redhat.com"
+    ssh_keys: []
