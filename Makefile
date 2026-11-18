@@ -22,12 +22,9 @@ MANAGED = playbooks/vars/infra-sf.yaml \
 	  playbooks/host_vars/monitoring.softwarefactory-project.io.yaml \
 	  playbooks/host_vars/backup.rdoproject.org.yaml
 
-DASHBOARDS = roles/sf/grafana/files/infra/DLRN.json \
-	  roles/sf/grafana/files/infra/EodBackstage.json
-
 ANSIDHALL = roles/acme-tiny/tasks/main.yaml
 
-all: dhall-version-check dhall-inventory $(DASHBOARDS) $(MANAGED) check-secrets
+all: dhall-version-check dhall-inventory $(MANAGED) check-secrets
 	@dhall to-directory-tree --output . <<< ./vars/directory-tree.dhall
 
 %.json: %.dhall .FORCE
