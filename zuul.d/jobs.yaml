@@ -428,12 +428,12 @@
         #       - dhall-diff
         #       - name: sf-infra-configure-bridge
         #         soft: true
-        - sf-infra-observability-stack:
-            dependencies:
-              - dhall-diff
-              - name: validate-secrets
-                soft: true
-              - name: sf-infra-configure-bridge
-                soft: true
+        # - sf-infra-observability-stack:
+        #     dependencies:
+        #       - dhall-diff
+        #       - name: validate-secrets
+        #         soft: true
+        #       - name: sf-infra-configure-bridge
+        #         soft: true
     periodic:
       jobs: []

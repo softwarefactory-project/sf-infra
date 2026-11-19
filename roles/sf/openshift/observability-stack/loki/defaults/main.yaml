@@ -8,7 +8,7 @@ loki:
 nginx:
   registry: quay.io
   image: nginx/nginx-unprivileged
-  version: 1.25-alpine
+  version: 1.30.7-alpine
 s3_config:
   endpoint: http://minio:9000
   bucketnames: loki
